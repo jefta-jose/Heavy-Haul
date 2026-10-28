@@ -85,5 +85,15 @@
       "file": "assets/references/four-scout-trucks.png",
       "role": "painted illustration style, materials and muted swamp palette; no vehicle content"
     }
+  },
+  "bank-v2": {
+    "file": "source/bank-v2.png",
+    "edit_of": "source/bank-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: bank-v1.png. Repaint ONLY reflective surfaces to eliminate ALL reflections. Preserve exact 1774 x 887 canvas, exact transparent top alpha silhouette, horizon/ground line, camera, framing, scale, palette and premium semi-realistic painted finish. Keep all mud clods, roots, small stones, flattened reeds, grass tufts and churned drivable lane with shallow wheel ruts in their exact positions. Replace EVERY blue-grey/silver puddle with dark matte waterlogged chocolate-brown mud, nearly black in hollows, same shape and position. No sky colour, white or blue glints, specular streaks, mirror water or reflected light anywhere including clod highlights. Wetness only darker saturated brown with subtle same-brown satin texture. Even soft daylight, no cast shadows. True transparent sky area. Preserve horizontal tile continuity: left/right terrain, details and crest must connect seamlessly, same as source. Output PNG exactly 1774x887. No text."
+  },
+  "deep-mud-v2": {
+    "file": "source/deep-mud-v2.png",
+    "edit_of": "source/deep-mud-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: deep-mud-v1.png. Repaint ONLY reflections and shiny highlights. Preserve exact 1774x887 canvas, top-down texture layout, every churned ridge and rut flow, scale, framing and premium semi-realistic painted finish. Replace all light olive and grey-blue pools with thick opaque dark brown-olive slurry: dark matte chocolate-brown/olive, few small bubbles and soft ripple folds in the SAME dark colour. Remove all reflected trees, sky and cloud reflections and ALL white glints or bright specular highlights, including on ridges. No blue, grey-white or sky-coloured patches. Even diffuse soft daylight with no cast shadows. Fully opaque image. Seamlessly tile on ALL FOUR EDGES, preserving matching opposite-edge structure and flow. Output PNG exactly 1774x887. No border, text, watermark or scenery."
   }
 }

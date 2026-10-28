@@ -378,7 +378,7 @@
     },
     "bank": {
       "file": "art/bank.webp",
-      "source": "source/bank-v1.png"
+      "source": "source/bank-v2.png"
     },
     "ground": {
       "file": "art/ground.webp",
@@ -406,7 +406,7 @@
     },
     "deepMud": {
       "file": "art/deepMud.webp",
-      "source": "source/deep-mud-v1.png"
+      "source": "source/deep-mud-v2.png"
     },
     "logEnd": {
       "file": "art/logEnd.webp",
@@ -451,38 +451,6 @@
         2000
       ],
       "gain": 0.45
-    },
-    {
-      "sound": "swamp",
-      "x": [
-        70,
-        260
-      ],
-      "gain": 0.9
-    },
-    {
-      "sound": "swamp",
-      "x": [
-        530,
-        750
-      ],
-      "gain": 0.9
-    },
-    {
-      "sound": "swamp",
-      "x": [
-        1030,
-        1210
-      ],
-      "gain": 0.9
-    },
-    {
-      "sound": "swamp",
-      "x": [
-        1350,
-        1600
-      ],
-      "gain": 0.9
     },
     {
       "sound": "frogs",
