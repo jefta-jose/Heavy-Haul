@@ -1,4 +1,4 @@
-import { hashRandom, makeCanvas } from '../canvas-utils.js';
+import { makeCanvas } from '../canvas-utils.js';
 
 // Only the tire contact band follows every bump. Across the verge and foreground those bumps
 // relax into broader landforms, rather than bending the entire painting into accordion folds.
@@ -85,7 +85,7 @@ export function drawFrontLip(scene) {
 // A broad worn trail blended into its shoulders, with two irregular tire ruts. Materials remain
 // world-anchored; there is no solid dark ribbon or ruler-straight outline over the painted bank.
 export function drawLane(scene) {
-  const { ctx } = scene.view, { visH, surfAt, terrain } = scene.sim, C = scene.cache, tints = scene.season.render.lane.tints;
+  const { ctx } = scene.view, { visH, terrain } = scene.sim, C = scene.cache, tints = scene.season.render.lane.tints;
   const [lo, hi] = scene.view.viewX(), x0 = Math.floor(lo / COL) * COL, x1 = Math.ceil(hi / COL) * COL, BLEND = 2;
   const laneTop = x => (visH(x - 1) + 2 * visH(x) + visH(x + 1)) / 4 + 0.82 + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08;
   const lanePath = (a, b) => {
@@ -128,12 +128,5 @@ export function drawLane(scene) {
     line(x => rut(x, off), 0.15, 'rgba(35,27,18,0.12)');
     line(x => rut(x, off), 0.07, 'rgba(24,21,15,0.12)');
     line(x => rut(x, off) + 0.06, 0.025, 'rgba(191,171,127,0.10)');
-  }
-  // puddle glints in the wet sections
-  for (let x = Math.floor(lo / 3) * 3; x < hi; x += 3) {
-    const s = surfAt(x), r = hashRandom(x * 1.7); if ((s !== 'mud' && s !== 'creek') || r < 0.45) continue;
-    const slope = (visH(x + 0.5) - visH(x - 0.5));
-    if (Math.abs(slope) > 0.18) continue; // standing water gathers in low, nearly level patches
-    ctx.fillStyle = `rgba(153,177,179,${0.08 + r * 0.1})`; ctx.beginPath(); ctx.ellipse(x + r, visH(x) + 0.2 + r * 0.12, 0.25 + r * 0.45, 0.025, 0, 0, 7); ctx.fill();
   }
 }

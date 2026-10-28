@@ -13,7 +13,7 @@ import { createMudLayer } from './layers/mud.js';
 // Layer order (back to front):
 //   backdrop, haze, midground -> bank, road lane -> props, rocks, log bark -> exhaust ->
 //   shadows, 4x4/DIFF outline, vehicles with their loads (far tires, body, near tires, fenders),
-//   service winch cables -> front mud lip, log ends -> contact accents, reflection, water,
+//   service winch cables -> front mud lip, log ends -> contact accents, water,
 //   ripples, dust/spray/debris -> foreground props -> shade.
 
 export function createRenderer({ view, sim, content, onEvent }) {
@@ -66,7 +66,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     drawFrontLip(scene); props.drawLogEnds();
     mud.foreground(); bridges.drawFront();
     drawRefueling();
-    vehicles.contactAccents(); vehicles.reflection();
+    vehicles.contactAccents();
     drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
     props.drawFront();
     drawForegroundShade(scene);

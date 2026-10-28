@@ -77,14 +77,6 @@ export function createVehicleLayer(scene) {
       const { ctx } = view, sim = scene.sim;
       for (const v of sim.vehicles) for (const w of v.parts.wheels) { const p = w.getPosition(); ctx.fillStyle = 'rgba(30,27,18,0.13)'; ctx.beginPath(); ctx.ellipse(p.x, sim.visH(p.x) - 0.05, v.car.rig.radius * 0.62, 0.045, 0, 0, 7); ctx.fill(); }
     },
-    // faint mirrored vehicle on wet ground
-    reflection() {
-      const { ctx } = view, sim = scene.sim, v = sim.active, p = v.parts.truck.getPosition(), surf = sim.surfAt(p.x);
-      if (surf !== 'mud' && surf !== 'creek') return;
-      const gy = sim.visH(p.x), [lo, hi] = view.viewX(), s = 0.3;
-      ctx.save(); ctx.beginPath(); ctx.rect(lo, gy - 1.2, hi - lo, 1.08); ctx.clip(); ctx.globalAlpha = 0.095;
-      ctx.translate(0, (1 + s) * gy); ctx.scale(1, -s); drawVehicle(v); ctx.restore();
-    },
     get ready() { return [...caches.values()].every(c => c.loaded()); },
   };
 }

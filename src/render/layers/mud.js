@@ -91,12 +91,11 @@ export function createMudLayer(scene) {
     currentTime = time;
     const [lo, hi] = scene.view.viewX();
     cachedSurface(lo, hi);
-    // Broken, low-contrast reflections and bubbles make the deep slurry read as liquid.
+    // Slow bubbles make the deep slurry read as liquid (no reflections: the user removed them).
     for (let x = Math.floor(lo / 1.7) * 1.7; x < hi; x += 1.7) {
       const m = sim.terrain.mudAt(x); if (m.heavy < 0.12) continue;
       const y = sim.visH(x) + 0.27, slope = sim.visH(x + 0.3) - sim.visH(x - 0.3);
       if (Math.abs(slope) > 0.12) continue;
-      ctx.fillStyle = `rgba(123,135,104,${m.heavy * 0.28})`; ctx.beginPath(); ctx.ellipse(x, y, 0.6 + Math.sin(x) * 0.18, 0.065, 0, 0, 7); ctx.fill();
       const phase = (time * 0.4 + Math.abs(Math.sin(x * 7))) % 1;
       ctx.strokeStyle = `rgba(166,161,116,${m.heavy * (1 - phase) * 0.15})`; ctx.lineWidth = 0.012; ctx.beginPath(); ctx.ellipse(x + 0.3, y + 0.12, 0.04 + phase * 0.12, 0.015 + phase * 0.025, 0, 0, 7); ctx.stroke();
     }

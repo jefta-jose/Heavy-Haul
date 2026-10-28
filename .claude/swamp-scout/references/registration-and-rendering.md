@@ -79,7 +79,7 @@ The active sequence is:
 5. The 4x4/DIFF outline (only while flashing), far tires, body, near tires, then the fender overlay
    (body with `archCircles` cut out).
 6. Service winch cables, the foreground bank lip (only near the vehicle), then the log end caps.
-7. Contact accents, faint reflection, water surface, ripples, dust, spray, drops and chunks, front props.
+7. Contact accents, water surface, ripples, dust, spray, drops and chunks, front props.
 8. Mild bottom-screen shading, then the HUD.
 
 Every sprite is drawn from canvases resampled once per zoom level in `prepare()`, never from the full
@@ -130,8 +130,9 @@ lip(x) = visH(x) - 0.04 + sin(18.7*x)*0.018 + sin(7.3*x)*0.027
 That restores real mud in front of sunk tire bottoms without a straight bitmap cutoff. Extend the
 near ground with the soil tile on tall displays so no blank rectangle appears below the bank.
 Current backdrop and midground horizontal parallax factors are `0.055` and `0.24`; ground/near props
-are anchored to world coordinates. Shadows, subdued reflected vehicle art, wet glints and vegetation
-overlap provide depth without a freely rotating camera.
+are anchored to world coordinates. Shadows and vegetation overlap provide depth without a freely
+rotating camera. No reflections: the user had the vehicle reflection, puddle glints and mud sheen
+removed (2026-10-28).
 
 ## Camera and phone framing
 
