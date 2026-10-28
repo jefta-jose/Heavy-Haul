@@ -8,7 +8,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { chromium } from 'playwright';
 import { build } from '../tools/build.js';
-import { ROOT, loadContentWithArt } from '../tools/lib/content.js';
+import { ROOT, loadContentWithArt, readSoundBank } from '../tools/lib/content.js';
 import { build as bundle } from 'esbuild';
 
 const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures');
@@ -93,8 +93,18 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await capture('02-close');
     // the engine switch: off stops the truck from driving, on cranks it first; each truck has its own engine voice
     await page.waitForFunction(() => __haul.audio.mode === 'recorded');
-    assert.equal(await page.evaluate(() => __haul.audio.status().decoded), 18, 'all recorded engine clips decode offline');
+    assert.equal(await page.evaluate(() => __haul.audio.status().decoded), Object.keys(readSoundBank().clips).length, 'every recorded clip decodes offline');
     assert.equal(await page.evaluate(() => __haul.audio.status().error), null);
+    assert.deepEqual(await page.evaluate(() => __haul.audio.status().voices), ['scout'], 'the scout plays the scout engine');
+    // the handbrake: PARK holds the truck against the throttle, B releases it
+    await page.click('#handbrakeBtn');
+    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), true, 'PARK sets the handbrake');
+    assert.equal(await page.locator('#handbrakeBtn').getAttribute('aria-pressed'), 'true');
+    const heldX = await page.evaluate(() => __haul.sim.truck.getPosition().x);
+    await page.keyboard.down('ArrowRight'); await page.evaluate(() => { for (let i = 0; i < 240; i++) __haul.sim.step(1 / 120); }); await page.keyboard.up('ArrowRight');
+    assert(await page.evaluate(x => Math.abs(__haul.sim.truck.getPosition().x - x) < 0.3, heldX), 'held against the throttle');
+    await page.keyboard.press('KeyB');
+    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), false, 'B releases it');
     await page.click('#engineBtn');
     assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'off', 'ENGINE turns it off');
     assert.equal(await page.locator('#engineBtn').getAttribute('aria-pressed'), 'false');
@@ -109,6 +119,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // the sound panel from the pause menu: volumes apply and are remembered
     await page.locator('#msgBtns button', { hasText: 'Sound' }).click();
     assert(await page.locator('#soundOv').isVisible(), 'the sound panel opens');
+    assert(await page.locator('#vol-ambience').isVisible(), 'ambience has its own slider');
+    assert.match(await page.locator('#soundCredits').textContent(), /Dodge RAM 1500.*sketchy\.dog.*CC BY 4\.0/, 'the CC BY recording is credited');
     await page.locator('#vol-engine').fill('35');
     assert.equal(await page.evaluate(() => __haul.audio.volumes.engine), 0.35, 'the engine slider sets the engine volume');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_audio_volumes')).engine), 0.35, 'saved');

@@ -201,21 +201,5 @@
   "load": {
     "name": "Expedition gear",
     "massT": 0.4
-  },
-  "audio": {
-    "cylinders": 6,
-    "layout": "inline",
-    "fuel": "diesel",
-    "displacementL": 6.7,
-    "idleRpm": 760,
-    "maxRpm": 3300,
-    "pipeM": 2.2,
-    "mufflerHz": 1050,
-    "knock": 0.45,
-    "turbo": 0.7,
-    "roughness": 0.12,
-    "crankS": 1.1,
-    "backupAlarm": false,
-    "_note": "turbo inline-six pickup diesel: clatter at idle, a whoosh on boost"
   }
 }

@@ -38,7 +38,8 @@ src/
     sprite-cache.js       sprites resampled once per zoom level
     particles.js          smoke, dust, mud, splashes, rock debris
     layers/               background, ground (bank + road lane), props, vehicle, water
-  audio/vehicle-audio.js  synthesized V8, ignition, gear clunks, reverse, splash, crunch
+  audio/                  recorded sound: engine.js (class engine voices), loop-player.js (seamless
+                          beds), vehicle-audio.js (tires, water, mud, brakes, load, ambience, volumes)
   game/                   view (canvas + camera), input, hud, session (rules and flow)
 assets/                   cars (each drawn with its load), seasons, HUD (see assets/README.md)
 docs/game-design.md       cars with loads, garage, fuel, service trucks and winching

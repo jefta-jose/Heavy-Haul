@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'awdBtn', 'diffBtn', 'cameraBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'repairCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'cameraBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'repairCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -80,6 +80,7 @@ export function createHud({ sim, season }) {
   function showPedals({ gas, brake }) {
     els.gas.classList.toggle('down', gas); els.brake.classList.toggle('down', brake);
   }
+  function showHandbrake(on) { els.handbrakeBtn.classList.toggle('down', on); els.handbrakeBtn.setAttribute('aria-pressed', String(on)); }
   function showGear(g) { for (const b of document.querySelectorAll('.gear button')) b.classList.toggle('on', b.dataset.g === g); }
   function showMode(key, on) { const b = key === 'awd' ? els.awdBtn : els.diffBtn; b.setAttribute('aria-pressed', String(on)); b.classList.remove('nudge'); }
   function nudge(key, on) { (key === 'awd' ? els.awdBtn : els.diffBtn).classList.toggle('nudge', on); }
@@ -95,7 +96,7 @@ export function createHud({ sim, season }) {
   const hideMessage = () => { els.msgOv.hidden = true; };
 
   return {
-    els, toast, update, resizeGauges, showPedals, showGear, showMode, nudge, showMessage, hideMessage,
+    els, toast, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     setCar,
     get toastActive() { return toastT > 0; },
     setCardVisible(on) { els.mapcard.style.opacity = on ? 1 : 0; },

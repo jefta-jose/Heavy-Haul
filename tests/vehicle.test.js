@@ -142,3 +142,11 @@ test('the engine switch: off means no drive and no fuel burn; starting cranks fi
   s.st.fuel = 0; advance(s, 0.1); assert.equal(s.st.engine, 'off', 'an empty tank stalls it');
   assert.equal(s.startEngine(), 'off', 'and it will not start dry');
 });
+
+test('the handbrake holds the truck on a slope and against the throttle', () => {
+  const s = spawn(newSim(), 30); s.ctl.handbrake = true; s.ctl.gas = 1;
+  const x0 = s.truck.getPosition().x; advance(s, 3);
+  assert(Math.abs(s.truck.getPosition().x - x0) < 0.15, 'held against full throttle');
+  s.ctl.handbrake = false; advance(s, 3);
+  assert(s.truck.getPosition().x > x0 + 2, 'released, it drives');
+});

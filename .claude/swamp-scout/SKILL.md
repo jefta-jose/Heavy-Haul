@@ -1,6 +1,6 @@
 ---
 name: swamp-scout
-description: Generate, integrate, and refine detailed painted 2.5D off-road game art using the approved Swamp Scout workflow, including wheel-to-arch fitting, SnowRunner-style driving feel, synthesized engine and effect sounds, and smooth frame rates. Use for reference-matched vehicles, separate animated tires, layered terrain, obstacles and scenery, drivetrain or audio tuning, or performance fixes in Heavy Haul and similar fixed-camera driving scenes.
+description: Generate, integrate, and refine detailed painted 2.5D off-road game art using the approved Swamp Scout workflow, including wheel-to-arch fitting, SnowRunner-style driving feel, recorded engine sounds, and smooth frame rates. Use for reference-matched vehicles, separate animated tires, layered terrain, obstacles and scenery, drivetrain or audio tuning, or performance fixes in Heavy Haul and similar fixed-camera driving scenes.
 ---
 
 # Swamp Scout: reference art into a playable game
@@ -55,7 +55,7 @@ rules should not override the supplied scout reference or the user's current ins
    [registration and rendering](references/registration-and-rendering.md) for the exact implementation.
 7. **Tune the feel, sound and frame rate.** Aim for a brisk take-off and a smooth drive. 4x4 and DIFF
    must change mud progress clearly and show a green or red outline when toggled. Give the trail
-   obstacles that are physical. Use synthesized engine audio with no tonal whine, at a modest volume.
+   obstacles that are physical. Use the class's recorded engine from the sound bank (assets/audio), never synthesized engines.
    Keep frames steady by caching resampled sprites and avoiding per-frame filters. Read
    [feel, audio and performance](references/feel-audio-and-performance.md).
 8. **Compare gameplay captures, then refine the largest visible mismatch.** Regenerate the relevant image

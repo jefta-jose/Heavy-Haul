@@ -204,3 +204,13 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 @media (prefers-reduced-motion: reduce) { .winch.engine.cranking { animation: none; } }
 @media(max-height:520px){ .winch.engine svg{margin-bottom:-6px;} }
 @media(max-width:600px) and (min-height:521px){ .winch.engine{left:16px;bottom:112px;transform:none;} }
+
+/* handbrake: red while set */
+.winch.hbrake svg { margin-bottom: -8px; }
+.winch.hbrake.down { background: #c0392b; border-color: #ff6b5b; color: #fff; animation: none; }
+@media(max-height:520px){ .winch.hbrake svg{margin-bottom:-6px;} }
+@media(max-width:600px) and (min-height:521px){ .winch.hbrake{left:16px;bottom:164px;transform:none;} }
+.credits { margin: 0 0 12px; font-size: 12px; color: var(--ink-dim); }
+.credits summary { cursor: pointer; font-family: var(--display); font-size: 14px; color: var(--ink); }
+.credits ul { margin: 6px 0 0; padding-left: 16px; max-height: 140px; overflow-y: auto; }
+.credits a { color: var(--ink); }

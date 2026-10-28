@@ -242,25 +242,5 @@
     "brakeTorque": 57143,
     "openDiffGrip": 1.0,
     "fuelLitres": 1852
-  },
-  "audio": {
-    "cylinders": 16,
-    "layout": "v",
-    "fuel": "diesel",
-    "displacementL": 65,
-    "idleRpm": 600,
-    "maxRpm": 1900,
-    "pipeM": 4.5,
-    "mufflerHz": 620,
-    "knock": 0.25,
-    "turbo": 1.0,
-    "jake": 1.0,
-    "bass": 0.8,
-    "pulseScale": 1.2,
-    "crankS": 2.2,
-    "starterHz": 85,
-    "backupAlarm": true,
-    "_note": "mining V16 diesel: a deep drone, twin turbos and a thunderous jake brake",
-    "gain": 2.2
   }
 }

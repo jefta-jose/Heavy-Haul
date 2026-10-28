@@ -188,20 +188,5 @@
   "load": {
     "name": "Expedition gear",
     "massT": 0.2
-  },
-  "audio": {
-    "cylinders": 8,
-    "layout": "v-cross",
-    "fuel": "petrol",
-    "displacementL": 5.7,
-    "idleRpm": 680,
-    "maxRpm": 4800,
-    "pipeM": 2.6,
-    "mufflerHz": 1200,
-    "roughness": 0.28,
-    "bass": 0.5,
-    "crankS": 0.9,
-    "backupAlarm": false,
-    "_note": "lumpy cross-plane petrol V8, dual exhaust: the approved burble"
   }
 }

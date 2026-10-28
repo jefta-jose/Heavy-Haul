@@ -193,22 +193,5 @@
   },
   "role": "repair",
   "size": "medium",
-  "towMassT": 45,
-  "audio": {
-    "cylinders": 6,
-    "layout": "inline",
-    "fuel": "diesel",
-    "displacementL": 13,
-    "idleRpm": 650,
-    "maxRpm": 2200,
-    "pipeM": 3.0,
-    "mufflerHz": 850,
-    "knock": 0.35,
-    "turbo": 0.8,
-    "jake": 0.9,
-    "bass": 0.55,
-    "crankS": 1.4,
-    "backupAlarm": true,
-    "_note": "big-block inline-six on a straight stack: a jake-braking recovery truck"
-  }
+  "towMassT": 45
 }

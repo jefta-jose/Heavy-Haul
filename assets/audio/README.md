@@ -1,39 +1,68 @@
-# Recorded truck engines
+# Sound: real recordings, one engine per truck class
 
-The six playable vehicles use six different real field recordings. Engines are played as Web Audio buffer loops; there is no combustion synthesizer, AudioWorklet or ScriptProcessor engine fallback.
+Everything the game plays comes from field recordings on Freesound, mostly CC0, plus one CC BY 4.0
+recording (the Dodge Ram, credited in the game's sound panel). There is no engine synthesis.
 
-| Vehicle | Recording and author |
-| --- | --- |
-| Swamp Scout | [F150 V8 start and idle](https://freesound.org/people/Therancher01/sounds/610773/) — Therancher01 |
-| Mesa Coyote | [Ram 5.9 Cummins start and idle](https://freesound.org/people/Therancher01/sounds/610771/) — Therancher01 |
-| Fuel Runner | [Delivery-truck start and idle](https://freesound.org/people/kyles/sounds/455737/) — kyles |
-| Breakdown Wrecker | [Diesel-truck idle](https://freesound.org/people/ibirdfilm/sounds/128160/) — ibirdfilm |
-| Ice Breaker | [Close semi-truck idle](https://freesound.org/people/kyles/sounds/637916/) — kyles |
-| Mountain Mover | [Heavy construction engine loops](https://freesound.org/people/qubodup/sounds/187564/) — qubodup |
-
-All six source pages declare [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). `sources.json` records each author, title, source page, public high-quality MP3 rendition URL and downloaded-file SHA-256. Those MP3s are retained in `source/`; they are not the original lossless uploads. No SnowRunner game audio is included. These are representative engine recordings, not recordings of the fictional trucks' exact engine specifications.
-
-## Preparation and playback
-
-`tools/prepare-audio.py` trims steady sections, folds 160 ms across each loop boundary, removes subsonic rumble and limits the high end, then level-matches within 0.7 peak headroom. `audio.json` records every clip's source, original time interval, duration and levels. Runtime clips are mono 24 kHz PCM WAV for consistent offline decoding, totaling about 2.94 MB.
-
-Each voice crossfades two different sections of its own recording: a quiet idle and a fuller running layer. Both are based on stationary recordings rather than a full multi-RPM dyno session. RPM changes playback speed within a restrained range; throttle changes the blend and filter opening. Do not promise independently recorded high-RPM or on-load samples where the source only contains idle. Start clips use the same vehicle where available; trucks without a recorded start share the real Cummins cranking excerpt. Engine-off fades the running loops to silence.
-
-`src/audio/engine-dsp.js` retains its historical filename but now contains recording selection, mixing and the Web Audio voice. It maps each current car ID to a distinct source. Only `crankS` and `backupAlarm` are used from legacy `car.json → audio`; the old cylinder, exhaust, turbo, jake and gain synthesis settings no longer create sound. A future unassigned vehicle falls back to a suitable recorded class, so give a new playable vehicle an explicit source when distinct sound is required.
-
-`src/audio/vehicle-audio.js` keeps the existing public interface and saved master/engine/effects/mute controls. Parked engines remain positional. Surface, suspension and UI sounds are still procedural, mixed more quietly; the continuous synthetic climb-strain and reverse-whine layers are removed. The back-up alarm remains.
-
-`tools/lib/content.js` embeds the 18 runtime clips in the single-file HTML build. Playback needs no network, account, API key, external sound library or audio-processing callbacks. Recordings decode once after a user gesture. Decode failure is reported in `audio.status()` rather than falling back to a harsh synthetic engine.
-
-## Rebuild and check
-
-```sh
-uv run --with numpy --with scipy --with imageio-ffmpeg python tools/prepare-audio.py
-npm run audio:preview
-npm test
-npm run test:browser
+```
+assets/audio/
+  sources.json   every recording: author, title, page, licence, download URL, SHA-256 of the file
+  source/*.mp3   the downloaded recordings (Freesound high-quality MP3 previews)
+  sounds.json    the recipe: which seconds of which recording become each engine layer and effect
+  bank/          built by tools/prepare-audio.py: the clips the game embeds (MP3) and bank.json
 ```
 
-The preview command renders the actual recorded-engine Web Audio graph, including its filters and smoothing, to `output/audio/recorded-<car-id>.wav`. Open `output/audio/index.html` to compare them. It checks audible idle, louder loaded running, headroom and silent shutdown; `recorded-report.json` stores levels. These checks do not establish subjective sound quality: audition the previews and the game on speakers and headphones before approving a new recording or mix.
+## Engines by class
 
-Unit tests check distinct source assignments, downloaded-file hashes, usable PCM levels and loop joins. Browser tests check all clips decode offline and preserve engine/volume/service controls. When changing sound, preserve the engine state machine and physics unless the task explicitly requires changing them.
+| Class | Recordings |
+| --- | --- |
+| scout | Dodge Ram 1500 V8 (sketchy.dog, CC BY 4.0): start, idle, cruise and pulling hard |
+| highway | Ford LTL 9000 semi start, idle and shutdown; Mack semi diesel running |
+| heavy-duty | Cummins start, recovery-truck diesel idle, Mack dump truck working and pulling away |
+| offroad | military vehicle idle, Humvee driving, APC diesel revving |
+| heavy | heavy construction engine idle, excavator working |
+
+A car plays its class's engine (`cars.json` class). Service trucks and unknown classes get the
+heavy-duty diesel, or the heavy engine from 700 kW up. A car can pick another with
+`"audio": { "engine": "offroad" }` in its `car.json`, and override `crankS`, `airBrakes` or
+`backupAlarm` there.
+
+Each engine has `idle`, `drive` and (except highway and heavy) `pull` layers, each a long stretch of
+steady running, plus a `start` clip and optionally a `stop` (the highway semi's real shutdown;
+others wind down in pitch). `src/audio/engine.js` blends the layers by revs and throttle with
+equal-power crossfades and moves their speed within a modest range. `crankS` is how long the starter
+turns before the engine catches in the start clip; the physics uses the same time.
+
+## No audible loops
+
+`src/audio/loop-player.js` plays every long recording as overlapping grains of a few seconds, each
+from a random place, crossfaded into the next. There is no loop point and no fixed repeat period.
+The prep script levels slow loudness swings in each layer, so any grain sits at the same volume.
+Rhythmic recordings (wading steps, footsteps in mud, rocks under a truck) are turned into even
+`texture` beds offline: many short, level-matched, overlapping grains.
+
+## Effects and ambience
+
+- Tires: `gravel`, `dirt`, `rocks`, `mud` (grows with wheel spin); water: `wade` and `water-churn`;
+  `splash` and `splash-small` on entry.
+- Brakes on trucks with air brakes: `hydraulic-brake` hiss braking from speed, `air-release` when it
+  stops, `air-burst` when the pedal lets go. Handbrake: `handbrake-on` / `-off` ratchet on scouts,
+  `air-release` / `air-burst` on trucks.
+- Hits and breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and
+  `cargo-chains` on scouts, `rattle` and `cargo-heavy-chains` on trucks, `cargo-metal` on the heaviest.
+- Ambience: `forest`, `swamp`, `frogs` beds and `crow` / `crow-far` calls, faded in by the season's
+  `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`).
+- The back-up alarm and the cab switch clicks are the only synthesized sounds.
+
+## Change or add a sound
+
+1. Find a CC0 (or CC BY, which must be credited) recording. Ask before downloading.
+2. Save it in `source/` and add its entry to `sources.json`, with its SHA-256.
+3. Add or change its regions in `sounds.json`. Pick steady stretches for engine layers and beds; check
+   them on a spectrogram first.
+4. Build: `uv run --with numpy --with scipy --with imageio-ffmpeg python tools/prepare-audio.py`
+5. Listen: `npm run audio:preview` renders every engine's drive (start, idle, pull, cruise, ease off,
+   idle, shutdown) and 40 s of every bed through the game's own code into `output/audio/`
+   (open `index.html`). Then `npm test`, `npm run test:browser`, and listen in the game.
+
+The bank is about 10 MB of MP3. Unused recordings were moved to
+`~/heavy-haul-archive/2026-10-28-unused-recordings/`.

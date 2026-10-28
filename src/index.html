@@ -35,6 +35,7 @@
     <div class="bottom">
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"><span>BRAKE</span></div>
+        <button class="winch hbrake" id="handbrakeBtn" aria-label="Handbrake on or off (B)" aria-pressed="false" title="Handbrake on / off (B)"><!--icon:handbrake-->PARK</button>
         <button class="winch engine on" id="engineBtn" aria-label="Engine on or off (I)" aria-pressed="true" title="Engine on / off (I)"><!--icon:engine-->ENGINE</button>
       </div>
       <canvas id="gauges" aria-hidden="true"></canvas>
@@ -66,7 +67,7 @@
         <dl class="spec" id="gSpec"></dl>
         <div class="tunehead"><h4>Tune</h4><button class="btn tiny" id="tuneReset" hidden>Reset to stock</button></div>
         <div class="tunes" id="tuneList"></div>
-        <div class="keys"><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Stuck or empty? Call a fuel or breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, H / L / R gears, Q 4×4, E diff, V switch vehicle, C camera, Esc pause.</div>
+        <div class="keys"><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Stuck or empty? Call a fuel or breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, H / L / R gears, Q 4×4, E diff, V switch vehicle, C camera, Esc pause.</div>
         <div class="rotate">Turn your phone sideways for the best view.</div>
         <div class="btns"><button class="btn primary" id="startBtn">Drive</button><button class="btn" id="startFs">Play fullscreen</button><button class="btn" id="garageSoundBtn">Sound</button></div>
       </div>
@@ -78,8 +79,9 @@
       <div class="cbody">
         <div class="eyebrow">Settings</div>
         <h3>Sound</h3>
-        <p>Every truck has its own engine. Effects are the tires, water, rocks, suspension and alarms.</p>
+        <p>Each class of truck has its own recorded engine. Effects are tires, water, mud, brakes and the load; ambience is the birds and the swamp.</p>
         <div class="vols" id="volList"></div>
+        <details class="credits"><summary>Sound credits (Freesound)</summary><ul id="soundCredits"></ul></details>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>
     </div>

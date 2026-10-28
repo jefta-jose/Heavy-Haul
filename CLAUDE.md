@@ -51,10 +51,11 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    - `drivetrain`: torque from `powerKw` / `torqueNm` sized for the loaded weight, gears for a
      sensible top speed; for a rig with a trailer drawn in, list the powered axle indices in
      `drivenAxles` (front first, so trailer axles roll free).
-   - `audio`: `crankS` and `backupAlarm` retain their existing behavior. Engine voices are recorded
-     samples assigned by car ID in `src/audio/engine-dsp.js`; old synthesis parameters are ignored.
-     Add a distinct licensed recording for a new playable vehicle; see `assets/audio/README.md`.
-     Audition `npm run audio:preview`; do not replace the recordings with engine synthesis.
+   - sound comes from the car's class: each class has one recorded engine in the sound bank
+     (`assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`). A car needs no audio
+     block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
+     `backupAlarm` override the class's. Never replace recordings with synthesis. See
+     `assets/audio/README.md`.
    - service trucks also get `role`, `size`, `towMassT`, `rig.towRear` (the rear
      winch point) and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`).
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
@@ -92,6 +93,7 @@ archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 ## Hook up a season
 
 Write `season.json` from the swamp-summer template: the trail (keys, zones, waters, heavy-mud pits,
-checkpoints, fuel, depot), surfaces, the art map, the bank contact row and lane materials. Trace
+checkpoints, fuel, depot), surfaces, the art map, the bank contact row, lane materials and the
+`ambience` zones (forest, swamp, frogs beds and crow calls, by trail position). Trace
 `rock-hulls.json` with `tools/art/trace-hulls.py`. Run `npm run test:route` with `HAUL_SEASON=<id>`
 and adjust the trail until the reference car clears it.

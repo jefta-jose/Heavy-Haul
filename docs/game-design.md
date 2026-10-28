@@ -74,18 +74,28 @@ The game sends the smallest one of that role that can pull the main truck's load
 4. Control returns to the main truck. The service truck **stays parked** where it was left.
    **V** or the swap button switches vehicles at any time.
 
-## Sound and the engine switch
+## Sound, engine and handbrake
 
-Each playable truck has a different recorded engine source: pickup V8, Cummins diesel, delivery
-truck, recovery diesel, semi or heavy construction engine. RPM changes playback rate gently and
-throttle blends the recorded layers. Parked vehicles keep idling in the distance. Surface and UI
-effects remain procedural at a quieter level; trucks beep in reverse. Source credits, preparation
-and the distinction between recorded engines and procedural effects are in `assets/audio/README.md`.
+Every sound is a real recording (credits in the sound panel). Each truck class has its own engine:
+the scouts a Dodge Ram 1500 V8, highway trucks a Ford and a Mack semi, heavy-duty trucks Mack dump
+trucks, offroad trucks military diesels, heavy haulers construction engines. Throttle and revs blend
+idle, cruising and pulling recordings; long recordings play through a seamless grain player, so no
+loop is ever heard. Parked vehicles keep idling in the distance.
+
+Driving adds tires on gravel, dirt, rock and mud (louder when the wheels spin), a smooth wade and
+churn in water, the load rattling and clanking on rocks and hard bumps, and on trucks the air brakes:
+a hydraulic hiss when braking from speed and the pssh when it stops. Trucks beep in reverse. The
+season's ambience zones bring in forest birds, swamp insects over the mud, frogs at the crossings and
+crows in the dry stretches.
 
 **ENGINE** (or I) turns the engine off and on. A run starts with the key turned: the starter cranks,
 then it catches. Off means no drive and no fuel burn; an empty tank stalls it.
 
-The sound panel (pause menu or garage) sets master, engine and effects volume, or mutes everything.
+**PARK** (or B) is the handbrake: it holds every wheel, even against the throttle, with a ratchet on
+the scouts and an air hiss on trucks.
+
+The sound panel (pause menu or garage) sets master, engines, effects and ambience volume, mutes
+everything, and lists the sound credits.
 
 ## Trail
 

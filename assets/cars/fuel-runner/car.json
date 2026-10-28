@@ -186,21 +186,5 @@
   },
   "role": "fuel",
   "size": "small",
-  "towMassT": 12,
-  "audio": {
-    "cylinders": 4,
-    "layout": "inline",
-    "fuel": "diesel",
-    "displacementL": 4.5,
-    "idleRpm": 800,
-    "maxRpm": 3000,
-    "pipeM": 1.6,
-    "mufflerHz": 1150,
-    "knock": 0.6,
-    "turbo": 0.5,
-    "roughness": 0.18,
-    "crankS": 1.0,
-    "backupAlarm": true,
-    "_note": "rattly four-cylinder turbo diesel bowser"
-  }
+  "towMassT": 12
 }

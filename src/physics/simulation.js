@@ -158,7 +158,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   }
 
   // ---------- vehicles ----------
-  function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false }; }
+  function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
   function newSt() { return { rpm: 750, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, inWater: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false }; }
 
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
@@ -206,7 +206,10 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (let i = 0; i < wheels.length; i++) {
       const w = wheels[i], j = joints[i], R = wheelRadius(car.rig, i);
       const s = wheelSurf(w); if (s) surf = s; if (s === 'mud') mud++;
-      if (brake > 0.01 && st.throttle < 0.05) {
+      if (ctl.handbrake) {
+        // handbrake: every wheel held, whatever the throttle does
+        j.setMotorSpeed(0); j.setMaxMotorTorque(dc.brakeTorque);
+      } else if (brake > 0.01 && st.throttle < 0.05) {
         j.setMotorSpeed(0); j.setMaxMotorTorque(dc.brakeTorque * brake);
       } else if (Math.abs(omAvg) > govOmega * 1.03 && Math.sign(omAvg) === dir) {
         // over the governor (rolling downhill): the engine and exhaust brake hold the gear's speed
@@ -280,7 +283,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       buildWorld(); events.length = 0;
       main = makeVehicle(setup.car, 'main', x, { ctl: mainCtl, st: mainSt });
       vehicles = [main]; active = main;
-      mainSt.fuel = 100; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0;
+      mainSt.fuel = 100; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
     respawn(x, v = main) { removeParts(v); spawnParts(v, x); for (const o of vehicles) if (o === v || o.cable?.target === v) o.cable = null; },

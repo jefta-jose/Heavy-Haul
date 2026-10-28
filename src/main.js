@@ -19,7 +19,7 @@ import { createSoundSettings } from './game/sound-settings.js';
 const { season, rockHulls, wheelTypes } = content;
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 const view = createView(document.getElementById('view'), sim);
-const audio = createVehicleAudio(content.audio);
+const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank, ambience: season.ambience ?? [] });
 const hud = createHud({ sim, season });
 const renderer = createRenderer({
   view, sim, content,
@@ -40,7 +40,7 @@ let selection = garage.selection;
 let refueling = null, returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
-const sound = createSoundSettings({ audio, onClose: () => { if (session.state === 'pause') showPause(); } });
+const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') audio.shift(g); sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   sim.ctl[key] = on; hud.showMode(key, on);
@@ -67,7 +67,7 @@ function drive(v) {
   stopRefueling();
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
-  sim.setActive(v); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
+  sim.setActive(v); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
   // the 4×4 switch exists on all-wheel-drive vehicles (4×4, 6×6, 10×10...), not on a 4×2 or 6×4
   { const [w, d] = v.car.drive.split('×').map(Number); hud.els.awdBtn.hidden = !(w > 0 && w === d); }
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
@@ -120,6 +120,13 @@ function engine() {
     audio.key(); sim.startEngine(v); hud.toast(`Starting the ${v.car.name}…`, 1.2);
   } else { audio.key(); sim.stopEngine(v); hud.toast('Engine off', 1.2); }
 }
+// the handbrake: holds every wheel; a ratchet on scouts, an air hiss on trucks
+function handbrake() {
+  if (session.state !== 'play') return;
+  const v = sim.active, on = !v.ctl.handbrake;
+  v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
+  hud.toast(on ? 'Handbrake on' : 'Handbrake off', 1.2);
+}
 function doServiceJob() {
   if (!serviceJob()) return;
   const v = sim.active, main = sim.main;
@@ -157,7 +164,7 @@ function updateRefueling(dt) {
 }
 
 const input = createInput(hud.els, {
-  gear: setGear, toggle: k => setMode(k, !sim.ctl[k]), camera: toggleCamera, pause, switchVehicle, winch, engine, onAnyInput: startAudio,
+  gear: setGear, toggle: k => setMode(k, !sim.ctl[k]), camera: toggleCamera, pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
 });
 
 function newRun() {
@@ -216,6 +223,7 @@ function frame(now) {
   if (playing) {
     const held = input.read();
     sim.ctl.gas = !refueling && held.gas ? 1 : 0;   // the engine model spools the throttle
+    if (held.gas && sim.ctl.handbrake && sim.st.engine === 'on' && Math.abs(sim.st.speed) < 0.5 && !hud.toastActive) hud.toast('The handbrake is on. Tap PARK (B) to release it.', 2);
     if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is off. Tap ENGINE (I) to start it.' : 'The tank is empty. Call a fuel truck.', 2);
     sim.ctl.brake = refueling || held.brake ? 1 : 0;
     hud.showPedals(held);
@@ -236,7 +244,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { sim, view, renderer, session, audio, sound, garage, setGear, setMode, summon, switchVehicle, winch, engine, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
+window.__haul = { sim, view, renderer, session, audio, sound, garage, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

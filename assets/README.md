@@ -20,6 +20,12 @@ assets/
       art/*.webp           backdrop, midground, bank, ground, props, lane materials
       source/              PNG masters and prompts.json
       rock-hulls.json      collision outlines for rocks
+  audio/
+    sources.json           every recording: author, page, licence, file hash
+    source/*.mp3           the downloaded recordings the bank is cut from
+    sounds.json            recipe: engines per truck class, effects, ambience beds
+    bank/                  built clips (MP3) and bank.json, embedded by the build
+    README.md              credits, preparation and playback
   hud/
     hud.json               icons and garage art to generate
     icons/*.svg            HUD icons, inlined by the build

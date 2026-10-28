@@ -238,23 +238,5 @@
     "brakeTorque": 12642,
     "openDiffGrip": 1.0,
     "fuelLitres": 678
-  },
-  "audio": {
-    "cylinders": 8,
-    "layout": "v",
-    "fuel": "diesel",
-    "displacementL": 16,
-    "idleRpm": 640,
-    "maxRpm": 2300,
-    "pipeM": 3.2,
-    "mufflerHz": 800,
-    "knock": 0.3,
-    "turbo": 0.8,
-    "jake": 0.8,
-    "bass": 0.6,
-    "crankS": 1.5,
-    "backupAlarm": true,
-    "_note": "military V8 diesel: a gruff, uneven rumble with a big turbo and jake brake",
-    "gain": 1.3
   }
 }

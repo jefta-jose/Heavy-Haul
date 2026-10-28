@@ -1,8 +1,8 @@
-// The sound panel: master, engine and effects volume plus mute, saved by the audio module. Opened
-// from the pause menu and the garage.
-export function createSoundSettings({ audio, onClose }) {
+// The sound panel: master, engine, effects and ambience volume plus mute, saved by the audio module,
+// and the credits for the recordings the game plays. Opened from the pause menu and the garage.
+export function createSoundSettings({ audio, credits = [], onClose }) {
   const $ = id => document.getElementById(id), ov = $('soundOv'), list = $('volList'), mute = $('muteBtn');
-  const rows = [['master', 'Master'], ['engine', 'Engines'], ['effects', 'Effects']];
+  const rows = [['master', 'Master'], ['engine', 'Engines'], ['effects', 'Effects'], ['ambience', 'Ambience']];
   function render() {
     list.innerHTML = '';
     for (const [key, label] of rows) {
@@ -15,6 +15,12 @@ export function createSoundSettings({ audio, onClose }) {
       // a short sound so the effects level can be heard while setting it
       input.addEventListener('change', () => { if (key !== 'engine') audio.clunk(true); });
       row.append(name, input, val); list.append(row);
+    }
+    const box = $('soundCredits'); box.innerHTML = '';
+    for (const c of credits) {
+      const li = document.createElement('li'), a = document.createElement('a');
+      a.href = c.page; a.target = '_blank'; a.rel = 'noopener'; a.textContent = c.title;
+      li.append(a, ` by ${c.author} (${c.license === 'CC0-1.0' ? 'CC0' : 'CC BY 4.0'})`); box.append(li);
     }
     mute.textContent = audio.volumes.muted ? 'Unmute' : 'Mute all';
     mute.setAttribute('aria-pressed', String(audio.volumes.muted));

@@ -105,27 +105,28 @@ gradients, drops, and rotating chunks.
 - A per-surface road lane makes the drivable line clear: wet mud, ground soil and granite textures
   (squashed for the elevated view), cross-faded at zone edges, with tire ruts and a crisp far edge.
 
-## Audio (`src/audio/`, recorded engines)
+## Audio (`src/audio/`, recorded sound)
 
-The synthesized engine model was rejected. Preserve the replacement field recordings and the
-existing engine switch/volume controls. Read [assets/audio/README.md](../../../assets/audio/README.md)
-for source credits, clip preparation and playback details.
+History: a synthesized engine was rejected as "horrible"; Codex's per-truck CC0 recordings were
+approved. On 2026-10-28 the user asked for: no audible loop restarts, a sound per truck class (a
+Dodge Ram for scouts), the load shaking on rock hits instead of a "beep", air/hydraulic brake hiss,
+a handbrake with its sound, smoother water and mud, and birds and crows in certain sections.
+Read [assets/audio/README.md](../../../assets/audio/README.md) for the recordings and the recipe.
 
-- Six current playable vehicles use six distinct CC0 recordings, embedded as 18 PCM WAV clips.
-- `engine-dsp.js` now selects recordings and creates buffer-source voices; the old name does not
-  mean synthesis. There is no AudioWorklet or ScriptProcessor engine fallback.
-- RPM moves playback rate modestly; throttle crossfades idle/running excerpts and opens the filter.
-  These are stationary field recordings, not a full multi-RPM/load recording session.
-- Legacy `car.json` audio settings retain `crankS` and `backupAlarm`. Old cylinder, exhaust, turbo,
-  jake and gain parameters are ignored. New vehicles need explicit recording assignments.
-- Procedural terrain/UI effects remain quieter. The continuous synthesized strain and reverse
-  whine are removed. Do not reintroduce piercing tonal layers over the engine recordings.
-- ENGINE / I, no drive or fuel burn while off, starter state, parked engines and volume persistence
-  retain the existing behavior. A sound change does not require changing physics.
-- `npm run audio:preview` renders the real playback graph and writes `output/audio/index.html`,
-  six `recorded-<car>.wav` previews and level reports. Compare those files and then listen in game.
-- PCM/source integrity, levels and joins have unit tests. Browser tests check offline decoding and
-  engine/volume controls. Numeric tests cannot approve timbre; use speakers and headphones.
+- One engine per class from `assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`
+  (MP3 + bank.json, ~10 MB). Layers idle / drive / pull plus start and optional stop clips.
+- **Never play a short recording on `loop = true`**: the user hears the restart. Every bed goes
+  through `loop-player.js` (random-offset grains, equal-power crossfades). Prep levels each layer
+  so grains match. Rhythmic sources (wading, mud footsteps) become `texture` beds offline.
+- Rock hits and bumps play the underbody thump and the load shaking (chains, metal, wood by weight),
+  not a tone. Water is low-passed and smooth. The only synthesized sounds are the back-up beeper and
+  the cab switch clicks.
+- No synthesis of engines, and no piercing tonal layers over the recordings.
+- ENGINE / I, PARK / B (handbrake holds all wheels), starter state, parked engines and volume
+  persistence (master, engine, effects, ambience) are covered by tests.
+- `npm run audio:preview` renders each engine's drive and 40 s of every bed through the game's own code
+  to `output/audio/` with a loudness report (the quietest over the loudest second shows unevenness).
+  Numbers cannot approve timbre: listen on speakers and headphones.
 
 ## Smooth frames
 
@@ -136,7 +137,7 @@ Causes and fixes:
 | Cost | Fix |
 | --- | --- |
 | Rotating 1254 px wheels and an 1774 px body with high-quality filtering every frame | Resample every sprite once per zoom level (`prepare()`, step-down halving), including the reeds, logs, rocks, backdrop and midground |
-| `ctx.filter = 'brightness()'` on far tires, also used in the reflection | Pre-darkened wheel canvas |
+| `ctx.filter = 'brightness()'` on far tires | Pre-darkened wheel canvas |
 | `backdrop-filter: blur()` on HUD pills over an animated canvas | Removed; the panels are slightly more opaque |
 | Bank drawn in 0.06 m columns, plus a second full-width lip pass | 0.25 m columns (the height-field spacing); lip pass only within ±5 m of the vehicle |
 | Gradients and patterns created every frame | Cached in `prepare()` |
