@@ -139,6 +139,9 @@
     ],
     "nose": 15.655
   },
+  "camera": {
+    "zoom": 4.0
+  },
   "physics": {
     "mass": 82000,
     "centreOfMass": [

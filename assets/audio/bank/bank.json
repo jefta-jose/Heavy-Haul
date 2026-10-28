@@ -665,20 +665,44 @@
         "fs-844605"
       ]
     },
-    "swamp": {
-      "file": "bank/swamp.mp3",
-      "seconds": 44.5,
-      "kind": "loop",
-      "sources": [
-        "fs-547690"
-      ]
-    },
     "frogs": {
       "file": "bank/frogs.mp3",
       "seconds": 49.5,
       "kind": "loop",
       "sources": [
         "fs-826445"
+      ]
+    },
+    "engine-highway-atlas": {
+      "file": "bank/engine-highway-atlas.wav",
+      "seconds": 27.36,
+      "kind": "atlas",
+      "sources": [
+        "fs-451373"
+      ]
+    },
+    "engine-heavy-duty-atlas": {
+      "file": "bank/engine-heavy-duty-atlas.wav",
+      "seconds": 18.24,
+      "kind": "atlas",
+      "sources": [
+        "fs-733091"
+      ]
+    },
+    "engine-offroad-atlas": {
+      "file": "bank/engine-offroad-atlas.wav",
+      "seconds": 27.36,
+      "kind": "atlas",
+      "sources": [
+        "fs-160357"
+      ]
+    },
+    "engine-heavy-atlas": {
+      "file": "bank/engine-heavy-atlas.wav",
+      "seconds": 25.08,
+      "kind": "atlas",
+      "sources": [
+        "fs-187563"
       ]
     }
   },
@@ -707,7 +731,591 @@
       "crankS": 1.9,
       "pitch": 1,
       "cutoff": 3600,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "clip": "engine-highway-atlas",
+        "cylinders": 6,
+        "frames": [
+          {
+            "offset": 0.0,
+            "seconds": 0.38,
+            "rpm": 748.75,
+            "load": 0,
+            "sourceTime": 76.25882,
+            "confidence": 0.0368
+          },
+          {
+            "offset": 0.38,
+            "seconds": 0.38,
+            "rpm": 753.44,
+            "load": 0,
+            "sourceTime": 76.06594,
+            "confidence": 0.0397
+          },
+          {
+            "offset": 0.76,
+            "seconds": 0.38,
+            "rpm": 800.71,
+            "load": 0,
+            "sourceTime": 216.10789,
+            "confidence": 0.0429
+          },
+          {
+            "offset": 1.14,
+            "seconds": 0.38,
+            "rpm": 753.41,
+            "load": 0,
+            "sourceTime": 76.44649,
+            "confidence": 0.0397
+          },
+          {
+            "offset": 1.52,
+            "seconds": 0.38,
+            "rpm": 810.29,
+            "load": 0,
+            "sourceTime": 215.93705,
+            "confidence": 0.0511
+          },
+          {
+            "offset": 1.9,
+            "seconds": 0.38,
+            "rpm": 832.91,
+            "load": 0,
+            "sourceTime": 215.74803,
+            "confidence": 0.0466
+          },
+          {
+            "offset": 2.28,
+            "seconds": 0.38,
+            "rpm": 830.13,
+            "load": 1,
+            "sourceTime": 203.50875,
+            "confidence": 0.0579
+          },
+          {
+            "offset": 2.66,
+            "seconds": 0.38,
+            "rpm": 829.78,
+            "load": 1,
+            "sourceTime": 97.68231,
+            "confidence": 0.0629
+          },
+          {
+            "offset": 3.04,
+            "seconds": 0.38,
+            "rpm": 834.46,
+            "load": 1,
+            "sourceTime": 178.12549,
+            "confidence": 0.067
+          },
+          {
+            "offset": 3.42,
+            "seconds": 0.38,
+            "rpm": 834.8,
+            "load": 1,
+            "sourceTime": 189.64195,
+            "confidence": 0.0584
+          },
+          {
+            "offset": 3.8,
+            "seconds": 0.38,
+            "rpm": 817.42,
+            "load": 1,
+            "sourceTime": 203.3371,
+            "confidence": 0.0478
+          },
+          {
+            "offset": 4.18,
+            "seconds": 0.38,
+            "rpm": 824.81,
+            "load": 1,
+            "sourceTime": 207.10698,
+            "confidence": 0.0531
+          },
+          {
+            "offset": 4.56,
+            "seconds": 0.38,
+            "rpm": 991.43,
+            "load": 0,
+            "sourceTime": 113.68349,
+            "confidence": 0.0335
+          },
+          {
+            "offset": 4.94,
+            "seconds": 0.38,
+            "rpm": 998.25,
+            "load": 0,
+            "sourceTime": 116.20925,
+            "confidence": 0.0402
+          },
+          {
+            "offset": 5.32,
+            "seconds": 0.38,
+            "rpm": 995.13,
+            "load": 0,
+            "sourceTime": 114.04871,
+            "confidence": 0.0349
+          },
+          {
+            "offset": 5.7,
+            "seconds": 0.38,
+            "rpm": 993.77,
+            "load": 0,
+            "sourceTime": 114.22975,
+            "confidence": 0.028
+          },
+          {
+            "offset": 6.08,
+            "seconds": 0.38,
+            "rpm": 1006.11,
+            "load": 0,
+            "sourceTime": 114.41043,
+            "confidence": 0.03
+          },
+          {
+            "offset": 6.46,
+            "seconds": 0.38,
+            "rpm": 1014.13,
+            "load": 0,
+            "sourceTime": 114.59293,
+            "confidence": 0.0335
+          },
+          {
+            "offset": 6.84,
+            "seconds": 0.38,
+            "rpm": 1021.52,
+            "load": 1,
+            "sourceTime": 406.36939,
+            "confidence": 0.0724
+          },
+          {
+            "offset": 7.22,
+            "seconds": 0.38,
+            "rpm": 1031.25,
+            "load": 1,
+            "sourceTime": 257.51828,
+            "confidence": 0.0563
+          },
+          {
+            "offset": 7.6,
+            "seconds": 0.38,
+            "rpm": 1018.77,
+            "load": 1,
+            "sourceTime": 257.32054,
+            "confidence": 0.0517
+          },
+          {
+            "offset": 7.98,
+            "seconds": 0.38,
+            "rpm": 1006.42,
+            "load": 1,
+            "sourceTime": 257.14036,
+            "confidence": 0.0463
+          },
+          {
+            "offset": 8.36,
+            "seconds": 0.38,
+            "rpm": 1041.62,
+            "load": 1,
+            "sourceTime": 409.06385,
+            "confidence": 0.0774
+          },
+          {
+            "offset": 8.74,
+            "seconds": 0.38,
+            "rpm": 994.13,
+            "load": 1,
+            "sourceTime": 256.97832,
+            "confidence": 0.0482
+          },
+          {
+            "offset": 9.12,
+            "seconds": 0.38,
+            "rpm": 1160.08,
+            "load": 0,
+            "sourceTime": 1.1849,
+            "confidence": 0.0436
+          },
+          {
+            "offset": 9.5,
+            "seconds": 0.38,
+            "rpm": 1159.31,
+            "load": 0,
+            "sourceTime": 0.82308,
+            "confidence": 0.0491
+          },
+          {
+            "offset": 9.88,
+            "seconds": 0.38,
+            "rpm": 1156.74,
+            "load": 0,
+            "sourceTime": 0.6498,
+            "confidence": 0.0461
+          },
+          {
+            "offset": 10.26,
+            "seconds": 0.38,
+            "rpm": 1163.15,
+            "load": 0,
+            "sourceTime": 1.3746,
+            "confidence": 0.0322
+          },
+          {
+            "offset": 10.64,
+            "seconds": 0.38,
+            "rpm": 1154.72,
+            "load": 0,
+            "sourceTime": 0.46054,
+            "confidence": 0.0471
+          },
+          {
+            "offset": 11.02,
+            "seconds": 0.38,
+            "rpm": 1140.12,
+            "load": 0,
+            "sourceTime": 2.08367,
+            "confidence": 0.0294
+          },
+          {
+            "offset": 11.4,
+            "seconds": 0.38,
+            "rpm": 1184.42,
+            "load": 1,
+            "sourceTime": 261.82431,
+            "confidence": 0.0293
+          },
+          {
+            "offset": 11.78,
+            "seconds": 0.38,
+            "rpm": 1182.65,
+            "load": 1,
+            "sourceTime": 261.65519,
+            "confidence": 0.0277
+          },
+          {
+            "offset": 12.16,
+            "seconds": 0.38,
+            "rpm": 1114.19,
+            "load": 1,
+            "sourceTime": 41.86621,
+            "confidence": 0.0259
+          },
+          {
+            "offset": 12.54,
+            "seconds": 0.38,
+            "rpm": 1196.61,
+            "load": 1,
+            "sourceTime": 262.01084,
+            "confidence": 0.0302
+          },
+          {
+            "offset": 12.92,
+            "seconds": 0.38,
+            "rpm": 1100.91,
+            "load": 1,
+            "sourceTime": 33.76717,
+            "confidence": 0.0409
+          },
+          {
+            "offset": 13.3,
+            "seconds": 0.38,
+            "rpm": 1102.53,
+            "load": 1,
+            "sourceTime": 33.58689,
+            "confidence": 0.0423
+          },
+          {
+            "offset": 13.68,
+            "seconds": 0.38,
+            "rpm": 1150.94,
+            "load": 0,
+            "sourceTime": 1.54694,
+            "confidence": 0.0295
+          },
+          {
+            "offset": 14.06,
+            "seconds": 0.38,
+            "rpm": 1135.31,
+            "load": 0,
+            "sourceTime": 2.27628,
+            "confidence": 0.0262
+          },
+          {
+            "offset": 14.44,
+            "seconds": 0.38,
+            "rpm": 1156.58,
+            "load": 0,
+            "sourceTime": 1.72,
+            "confidence": 0.0288
+          },
+          {
+            "offset": 14.82,
+            "seconds": 0.38,
+            "rpm": 1139.01,
+            "load": 0,
+            "sourceTime": 341.20354,
+            "confidence": 0.0276
+          },
+          {
+            "offset": 15.2,
+            "seconds": 0.38,
+            "rpm": 1155.35,
+            "load": 0,
+            "sourceTime": 0.2858,
+            "confidence": 0.0279
+          },
+          {
+            "offset": 15.58,
+            "seconds": 0.38,
+            "rpm": 1157.81,
+            "load": 0,
+            "sourceTime": 0.11329,
+            "confidence": 0.0481
+          },
+          {
+            "offset": 15.96,
+            "seconds": 0.38,
+            "rpm": 1099.39,
+            "load": 1,
+            "sourceTime": 34.13107,
+            "confidence": 0.0352
+          },
+          {
+            "offset": 16.34,
+            "seconds": 0.38,
+            "rpm": 1112.33,
+            "load": 1,
+            "sourceTime": 41.68535,
+            "confidence": 0.0318
+          },
+          {
+            "offset": 16.72,
+            "seconds": 0.38,
+            "rpm": 1113.51,
+            "load": 1,
+            "sourceTime": 42.04599,
+            "confidence": 0.0257
+          },
+          {
+            "offset": 17.1,
+            "seconds": 0.38,
+            "rpm": 1103.87,
+            "load": 1,
+            "sourceTime": 266.86322,
+            "confidence": 0.0399
+          },
+          {
+            "offset": 17.48,
+            "seconds": 0.38,
+            "rpm": 1098.69,
+            "load": 1,
+            "sourceTime": 259.49519,
+            "confidence": 0.0408
+          },
+          {
+            "offset": 17.86,
+            "seconds": 0.38,
+            "rpm": 1105.03,
+            "load": 1,
+            "sourceTime": 34.31297,
+            "confidence": 0.0282
+          },
+          {
+            "offset": 18.24,
+            "seconds": 0.38,
+            "rpm": 1109.33,
+            "load": 0,
+            "sourceTime": 415.19125,
+            "confidence": 0.0448
+          },
+          {
+            "offset": 18.62,
+            "seconds": 0.38,
+            "rpm": 1148.51,
+            "load": 0,
+            "sourceTime": 5.69188,
+            "confidence": 0.0457
+          },
+          {
+            "offset": 19.0,
+            "seconds": 0.38,
+            "rpm": 1104.1,
+            "load": 0,
+            "sourceTime": 59.15134,
+            "confidence": 0.0358
+          },
+          {
+            "offset": 19.38,
+            "seconds": 0.38,
+            "rpm": 1116.13,
+            "load": 0,
+            "sourceTime": 45.2922,
+            "confidence": 0.0411
+          },
+          {
+            "offset": 19.76,
+            "seconds": 0.38,
+            "rpm": 1108.98,
+            "load": 0,
+            "sourceTime": 59.8751,
+            "confidence": 0.0279
+          },
+          {
+            "offset": 20.14,
+            "seconds": 0.38,
+            "rpm": 1107.27,
+            "load": 0,
+            "sourceTime": 58.97211,
+            "confidence": 0.035
+          },
+          {
+            "offset": 20.52,
+            "seconds": 0.38,
+            "rpm": 1100.73,
+            "load": 1,
+            "sourceTime": 258.95116,
+            "confidence": 0.0449
+          },
+          {
+            "offset": 20.9,
+            "seconds": 0.38,
+            "rpm": 1111.42,
+            "load": 1,
+            "sourceTime": 266.68209,
+            "confidence": 0.0405
+          },
+          {
+            "offset": 21.28,
+            "seconds": 0.38,
+            "rpm": 1112.51,
+            "load": 1,
+            "sourceTime": 40.9659,
+            "confidence": 0.0396
+          },
+          {
+            "offset": 21.66,
+            "seconds": 0.38,
+            "rpm": 1097.8,
+            "load": 1,
+            "sourceTime": 265.97474,
+            "confidence": 0.0428
+          },
+          {
+            "offset": 22.04,
+            "seconds": 0.38,
+            "rpm": 1101.66,
+            "load": 1,
+            "sourceTime": 267.04222,
+            "confidence": 0.0405
+          },
+          {
+            "offset": 22.42,
+            "seconds": 0.38,
+            "rpm": 1106.35,
+            "load": 1,
+            "sourceTime": 266.33805,
+            "confidence": 0.0398
+          },
+          {
+            "offset": 22.8,
+            "seconds": 0.38,
+            "rpm": 1114.94,
+            "load": 0,
+            "sourceTime": 56.81315,
+            "confidence": 0.0263
+          },
+          {
+            "offset": 23.18,
+            "seconds": 0.38,
+            "rpm": 1101.88,
+            "load": 0,
+            "sourceTime": 418.4249,
+            "confidence": 0.0444
+          },
+          {
+            "offset": 23.56,
+            "seconds": 0.38,
+            "rpm": 1105.81,
+            "load": 0,
+            "sourceTime": 418.60494,
+            "confidence": 0.0336
+          },
+          {
+            "offset": 23.94,
+            "seconds": 0.38,
+            "rpm": 1106.93,
+            "load": 0,
+            "sourceTime": 415.00925,
+            "confidence": 0.0336
+          },
+          {
+            "offset": 24.32,
+            "seconds": 0.38,
+            "rpm": 1108.86,
+            "load": 0,
+            "sourceTime": 59.69438,
+            "confidence": 0.0284
+          },
+          {
+            "offset": 24.7,
+            "seconds": 0.38,
+            "rpm": 1102.26,
+            "load": 0,
+            "sourceTime": 59.33175,
+            "confidence": 0.0342
+          },
+          {
+            "offset": 25.08,
+            "seconds": 0.38,
+            "rpm": 1172.7,
+            "load": 1,
+            "sourceTime": 5.14444,
+            "confidence": 0.0321
+          },
+          {
+            "offset": 25.46,
+            "seconds": 0.38,
+            "rpm": 1107.6,
+            "load": 1,
+            "sourceTime": 259.31438,
+            "confidence": 0.0412
+          },
+          {
+            "offset": 25.84,
+            "seconds": 0.38,
+            "rpm": 1106.61,
+            "load": 1,
+            "sourceTime": 266.14,
+            "confidence": 0.0463
+          },
+          {
+            "offset": 26.22,
+            "seconds": 0.38,
+            "rpm": 1111.28,
+            "load": 1,
+            "sourceTime": 266.5015,
+            "confidence": 0.0415
+          },
+          {
+            "offset": 26.6,
+            "seconds": 0.38,
+            "rpm": 1100.76,
+            "load": 1,
+            "sourceTime": 29.62635,
+            "confidence": 0.04
+          },
+          {
+            "offset": 26.98,
+            "seconds": 0.38,
+            "rpm": 1105.9,
+            "load": 1,
+            "sourceTime": 259.13347,
+            "confidence": 0.0418
+          }
+        ],
+        "rpmCalibration": "estimated from dominant combustion-band harmonics; not measured RPM",
+        "loadCalibration": "relative recording energy at similar RPM; not measured torque"
+      }
     },
     "heavy-duty": {
       "name": "Cummins start, recovery diesel idle, Mack dump trucks",
@@ -720,10 +1328,402 @@
       "crankS": 1.7,
       "pitch": 1,
       "cutoff": 3400,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "clip": "engine-heavy-duty-atlas",
+        "cylinders": 6,
+        "frames": [
+          {
+            "offset": 0.0,
+            "seconds": 0.38,
+            "rpm": 1297.71,
+            "load": 0,
+            "sourceTime": 21.34,
+            "confidence": 0.0532
+          },
+          {
+            "offset": 0.38,
+            "seconds": 0.38,
+            "rpm": 1269.68,
+            "load": 0,
+            "sourceTime": 17.56481,
+            "confidence": 0.0284
+          },
+          {
+            "offset": 0.76,
+            "seconds": 0.38,
+            "rpm": 1255.3,
+            "load": 0,
+            "sourceTime": 17.7522,
+            "confidence": 0.0313
+          },
+          {
+            "offset": 1.14,
+            "seconds": 0.38,
+            "rpm": 1262.47,
+            "load": 0,
+            "sourceTime": 17.92354,
+            "confidence": 0.0303
+          },
+          {
+            "offset": 1.52,
+            "seconds": 0.38,
+            "rpm": 1256.93,
+            "load": 0,
+            "sourceTime": 20.62109,
+            "confidence": 0.0268
+          },
+          {
+            "offset": 1.9,
+            "seconds": 0.38,
+            "rpm": 1270.12,
+            "load": 0,
+            "sourceTime": 20.99347,
+            "confidence": 0.0341
+          },
+          {
+            "offset": 2.28,
+            "seconds": 0.38,
+            "rpm": 1337.95,
+            "load": 1,
+            "sourceTime": 14.32259,
+            "confidence": 0.0827
+          },
+          {
+            "offset": 2.66,
+            "seconds": 0.38,
+            "rpm": 1352.44,
+            "load": 1,
+            "sourceTime": 14.14367,
+            "confidence": 0.0475
+          },
+          {
+            "offset": 3.04,
+            "seconds": 0.38,
+            "rpm": 1345.8,
+            "load": 1,
+            "sourceTime": 15.58322,
+            "confidence": 0.03
+          },
+          {
+            "offset": 3.42,
+            "seconds": 0.38,
+            "rpm": 1331.6,
+            "load": 1,
+            "sourceTime": 14.50036,
+            "confidence": 0.0452
+          },
+          {
+            "offset": 3.8,
+            "seconds": 0.38,
+            "rpm": 1326.04,
+            "load": 1,
+            "sourceTime": 14.68168,
+            "confidence": 0.0368
+          },
+          {
+            "offset": 4.18,
+            "seconds": 0.38,
+            "rpm": 1321.18,
+            "load": 1,
+            "sourceTime": 14.86268,
+            "confidence": 0.0355
+          },
+          {
+            "offset": 4.56,
+            "seconds": 0.38,
+            "rpm": 1492.99,
+            "load": 0,
+            "sourceTime": 27.29333,
+            "confidence": 0.0297
+          },
+          {
+            "offset": 4.94,
+            "seconds": 0.38,
+            "rpm": 1809.61,
+            "load": 0,
+            "sourceTime": 35.0283,
+            "confidence": 0.0384
+          },
+          {
+            "offset": 5.32,
+            "seconds": 0.38,
+            "rpm": 1765.31,
+            "load": 0,
+            "sourceTime": 34.84163,
+            "confidence": 0.0334
+          },
+          {
+            "offset": 5.7,
+            "seconds": 0.38,
+            "rpm": 1512.74,
+            "load": 0,
+            "sourceTime": 25.66118,
+            "confidence": 0.0418
+          },
+          {
+            "offset": 6.08,
+            "seconds": 0.38,
+            "rpm": 1511.39,
+            "load": 0,
+            "sourceTime": 26.38907,
+            "confidence": 0.0558
+          },
+          {
+            "offset": 6.46,
+            "seconds": 0.38,
+            "rpm": 1503.03,
+            "load": 0,
+            "sourceTime": 25.84726,
+            "confidence": 0.0423
+          },
+          {
+            "offset": 6.84,
+            "seconds": 0.38,
+            "rpm": 1817.02,
+            "load": 1,
+            "sourceTime": 19.00354,
+            "confidence": 0.0282
+          },
+          {
+            "offset": 7.22,
+            "seconds": 0.38,
+            "rpm": 1825.16,
+            "load": 1,
+            "sourceTime": 18.82313,
+            "confidence": 0.0259
+          },
+          {
+            "offset": 7.6,
+            "seconds": 0.38,
+            "rpm": 1771.16,
+            "load": 1,
+            "sourceTime": 18.64272,
+            "confidence": 0.0295
+          },
+          {
+            "offset": 7.98,
+            "seconds": 0.38,
+            "rpm": 1755.16,
+            "load": 1,
+            "sourceTime": 18.46059,
+            "confidence": 0.0318
+          },
+          {
+            "offset": 8.36,
+            "seconds": 0.38,
+            "rpm": 1498.16,
+            "load": 1,
+            "sourceTime": 24.0498,
+            "confidence": 0.0273
+          },
+          {
+            "offset": 8.74,
+            "seconds": 0.38,
+            "rpm": 1489.7,
+            "load": 1,
+            "sourceTime": 24.76766,
+            "confidence": 0.0305
+          },
+          {
+            "offset": 9.12,
+            "seconds": 0.38,
+            "rpm": 2198.88,
+            "load": 0,
+            "sourceTime": 39.16535,
+            "confidence": 0.0334
+          },
+          {
+            "offset": 9.5,
+            "seconds": 0.38,
+            "rpm": 2142.21,
+            "load": 0,
+            "sourceTime": 38.44209,
+            "confidence": 0.0532
+          },
+          {
+            "offset": 9.88,
+            "seconds": 0.38,
+            "rpm": 2187.38,
+            "load": 0,
+            "sourceTime": 38.98168,
+            "confidence": 0.0509
+          },
+          {
+            "offset": 10.26,
+            "seconds": 0.38,
+            "rpm": 2142.79,
+            "load": 0,
+            "sourceTime": 38.62748,
+            "confidence": 0.064
+          },
+          {
+            "offset": 10.64,
+            "seconds": 0.38,
+            "rpm": 2155.77,
+            "load": 0,
+            "sourceTime": 38.26,
+            "confidence": 0.0471
+          },
+          {
+            "offset": 11.02,
+            "seconds": 0.38,
+            "rpm": 2138.03,
+            "load": 0,
+            "sourceTime": 37.90177,
+            "confidence": 0.0497
+          },
+          {
+            "offset": 11.4,
+            "seconds": 0.38,
+            "rpm": 2243.23,
+            "load": 1,
+            "sourceTime": 25.12499,
+            "confidence": 0.0375
+          },
+          {
+            "offset": 11.78,
+            "seconds": 0.38,
+            "rpm": 2203.63,
+            "load": 1,
+            "sourceTime": 22.6078,
+            "confidence": 0.0254
+          },
+          {
+            "offset": 12.16,
+            "seconds": 0.38,
+            "rpm": 2235.25,
+            "load": 1,
+            "sourceTime": 29.08444,
+            "confidence": 0.041
+          },
+          {
+            "offset": 12.54,
+            "seconds": 0.38,
+            "rpm": 2235.85,
+            "load": 1,
+            "sourceTime": 29.26331,
+            "confidence": 0.0411
+          },
+          {
+            "offset": 12.92,
+            "seconds": 0.38,
+            "rpm": 2200.46,
+            "load": 1,
+            "sourceTime": 5.14322,
+            "confidence": 0.0309
+          },
+          {
+            "offset": 13.3,
+            "seconds": 0.38,
+            "rpm": 2126.29,
+            "load": 1,
+            "sourceTime": 37.5468,
+            "confidence": 0.0637
+          },
+          {
+            "offset": 13.68,
+            "seconds": 0.38,
+            "rpm": 2303.63,
+            "load": 0,
+            "sourceTime": 36.28,
+            "confidence": 0.0294
+          },
+          {
+            "offset": 14.06,
+            "seconds": 0.38,
+            "rpm": 2288.99,
+            "load": 0,
+            "sourceTime": 35.74,
+            "confidence": 0.056
+          },
+          {
+            "offset": 14.44,
+            "seconds": 0.38,
+            "rpm": 2308.28,
+            "load": 0,
+            "sourceTime": 35.92345,
+            "confidence": 0.0535
+          },
+          {
+            "offset": 14.82,
+            "seconds": 0.38,
+            "rpm": 2308.96,
+            "load": 0,
+            "sourceTime": 36.10689,
+            "confidence": 0.0596
+          },
+          {
+            "offset": 15.2,
+            "seconds": 0.38,
+            "rpm": 2286.3,
+            "load": 0,
+            "sourceTime": 35.56558,
+            "confidence": 0.0664
+          },
+          {
+            "offset": 15.58,
+            "seconds": 0.38,
+            "rpm": 2295.06,
+            "load": 0,
+            "sourceTime": 35.38331,
+            "confidence": 0.0608
+          },
+          {
+            "offset": 15.96,
+            "seconds": 0.38,
+            "rpm": 2767.69,
+            "load": 1,
+            "sourceTime": 13.96612,
+            "confidence": 0.0336
+          },
+          {
+            "offset": 16.34,
+            "seconds": 0.38,
+            "rpm": 2528.41,
+            "load": 1,
+            "sourceTime": 19.90685,
+            "confidence": 0.0261
+          },
+          {
+            "offset": 16.72,
+            "seconds": 0.38,
+            "rpm": 2527.98,
+            "load": 1,
+            "sourceTime": 20.08,
+            "confidence": 0.0352
+          },
+          {
+            "offset": 17.1,
+            "seconds": 0.38,
+            "rpm": 2603.62,
+            "load": 1,
+            "sourceTime": 21.52345,
+            "confidence": 0.0423
+          },
+          {
+            "offset": 17.48,
+            "seconds": 0.38,
+            "rpm": 2542.81,
+            "load": 1,
+            "sourceTime": 20.8078,
+            "confidence": 0.0278
+          },
+          {
+            "offset": 17.86,
+            "seconds": 0.38,
+            "rpm": 2262.95,
+            "load": 1,
+            "sourceTime": 22.96172,
+            "confidence": 0.0471
+          }
+        ],
+        "rpmCalibration": "estimated from dominant combustion-band harmonics; not measured RPM",
+        "loadCalibration": "relative recording energy at similar RPM; not measured torque"
+      }
     },
     "offroad": {
-      "name": "Military vehicle, Humvee and APC diesels",
+      "name": "Humvee diesel \u2014 smooth off-road profile",
       "layers": {
         "idle": "engine-offroad-idle",
         "drive": "engine-offroad-drive",
@@ -733,7 +1733,595 @@
       "crankS": 1.7,
       "pitch": 0.97,
       "cutoff": 3200,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "clip": "engine-offroad-atlas",
+        "cylinders": 8,
+        "frames": [
+          {
+            "offset": 0.0,
+            "seconds": 0.38,
+            "rpm": 652.18,
+            "load": 0,
+            "sourceTime": 32.14721,
+            "confidence": 0.0626
+          },
+          {
+            "offset": 0.38,
+            "seconds": 0.38,
+            "rpm": 658.68,
+            "load": 0,
+            "sourceTime": 32.51846,
+            "confidence": 0.068
+          },
+          {
+            "offset": 0.76,
+            "seconds": 0.38,
+            "rpm": 653.77,
+            "load": 0,
+            "sourceTime": 32.33111,
+            "confidence": 0.0626
+          },
+          {
+            "offset": 1.14,
+            "seconds": 0.38,
+            "rpm": 703.55,
+            "load": 0,
+            "sourceTime": 33.77914,
+            "confidence": 0.0725
+          },
+          {
+            "offset": 1.52,
+            "seconds": 0.38,
+            "rpm": 706.84,
+            "load": 0,
+            "sourceTime": 33.94884,
+            "confidence": 0.0761
+          },
+          {
+            "offset": 1.9,
+            "seconds": 0.38,
+            "rpm": 703.8,
+            "load": 0,
+            "sourceTime": 81.10689,
+            "confidence": 0.0852
+          },
+          {
+            "offset": 2.28,
+            "seconds": 0.38,
+            "rpm": 1008.22,
+            "load": 1,
+            "sourceTime": 2.08,
+            "confidence": 0.0519
+          },
+          {
+            "offset": 2.66,
+            "seconds": 0.38,
+            "rpm": 913.3,
+            "load": 1,
+            "sourceTime": 3.16816,
+            "confidence": 0.0251
+          },
+          {
+            "offset": 3.04,
+            "seconds": 0.38,
+            "rpm": 1015.13,
+            "load": 1,
+            "sourceTime": 1.55002,
+            "confidence": 0.0463
+          },
+          {
+            "offset": 3.42,
+            "seconds": 0.38,
+            "rpm": 973.63,
+            "load": 1,
+            "sourceTime": 0.64925,
+            "confidence": 0.0341
+          },
+          {
+            "offset": 3.8,
+            "seconds": 0.38,
+            "rpm": 654.16,
+            "load": 1,
+            "sourceTime": 29.64095,
+            "confidence": 0.0417
+          },
+          {
+            "offset": 4.18,
+            "seconds": 0.38,
+            "rpm": 704.96,
+            "load": 1,
+            "sourceTime": 81.83252,
+            "confidence": 0.0533
+          },
+          {
+            "offset": 4.56,
+            "seconds": 0.38,
+            "rpm": 1234.88,
+            "load": 0,
+            "sourceTime": 106.48644,
+            "confidence": 0.0263
+          },
+          {
+            "offset": 4.94,
+            "seconds": 0.38,
+            "rpm": 704.03,
+            "load": 0,
+            "sourceTime": 76.07333,
+            "confidence": 0.0819
+          },
+          {
+            "offset": 5.32,
+            "seconds": 0.38,
+            "rpm": 703.22,
+            "load": 0,
+            "sourceTime": 80.57379,
+            "confidence": 0.0949
+          },
+          {
+            "offset": 5.7,
+            "seconds": 0.38,
+            "rpm": 1139.82,
+            "load": 0,
+            "sourceTime": 112.9702,
+            "confidence": 0.0333
+          },
+          {
+            "offset": 6.08,
+            "seconds": 0.38,
+            "rpm": 1145.55,
+            "load": 0,
+            "sourceTime": 113.1429,
+            "confidence": 0.0326
+          },
+          {
+            "offset": 6.46,
+            "seconds": 0.38,
+            "rpm": 1298.96,
+            "load": 0,
+            "sourceTime": 15.40821,
+            "confidence": 0.0306
+          },
+          {
+            "offset": 6.84,
+            "seconds": 0.38,
+            "rpm": 1137.21,
+            "load": 1,
+            "sourceTime": 2.99175,
+            "confidence": 0.0332
+          },
+          {
+            "offset": 7.22,
+            "seconds": 0.38,
+            "rpm": 1237.63,
+            "load": 1,
+            "sourceTime": 1.0107,
+            "confidence": 0.0391
+          },
+          {
+            "offset": 7.6,
+            "seconds": 0.38,
+            "rpm": 1281.22,
+            "load": 1,
+            "sourceTime": 1.18426,
+            "confidence": 0.0366
+          },
+          {
+            "offset": 7.98,
+            "seconds": 0.38,
+            "rpm": 1183.19,
+            "load": 1,
+            "sourceTime": 28.90821,
+            "confidence": 0.037
+          },
+          {
+            "offset": 8.36,
+            "seconds": 0.38,
+            "rpm": 1008.8,
+            "load": 1,
+            "sourceTime": 2.26,
+            "confidence": 0.0427
+          },
+          {
+            "offset": 8.74,
+            "seconds": 0.38,
+            "rpm": 1058.38,
+            "load": 1,
+            "sourceTime": 102.35034,
+            "confidence": 0.0295
+          },
+          {
+            "offset": 9.12,
+            "seconds": 0.38,
+            "rpm": 1501.48,
+            "load": 0,
+            "sourceTime": 112.06671,
+            "confidence": 0.0347
+          },
+          {
+            "offset": 9.5,
+            "seconds": 0.38,
+            "rpm": 1501.63,
+            "load": 0,
+            "sourceTime": 19.18263,
+            "confidence": 0.0293
+          },
+          {
+            "offset": 9.88,
+            "seconds": 0.38,
+            "rpm": 1223.36,
+            "load": 0,
+            "sourceTime": 97.12313,
+            "confidence": 0.0435
+          },
+          {
+            "offset": 10.26,
+            "seconds": 0.38,
+            "rpm": 1508.65,
+            "load": 0,
+            "sourceTime": 120.7,
+            "confidence": 0.0388
+          },
+          {
+            "offset": 10.64,
+            "seconds": 0.38,
+            "rpm": 1294.27,
+            "load": 0,
+            "sourceTime": 31.06662,
+            "confidence": 0.034
+          },
+          {
+            "offset": 11.02,
+            "seconds": 0.38,
+            "rpm": 1045.54,
+            "load": 0,
+            "sourceTime": 118.90127,
+            "confidence": 0.0398
+          },
+          {
+            "offset": 11.4,
+            "seconds": 0.38,
+            "rpm": 1553.21,
+            "load": 1,
+            "sourceTime": 86.68363,
+            "confidence": 0.0784
+          },
+          {
+            "offset": 11.78,
+            "seconds": 0.38,
+            "rpm": 1571.49,
+            "load": 1,
+            "sourceTime": 86.86,
+            "confidence": 0.0892
+          },
+          {
+            "offset": 12.16,
+            "seconds": 0.38,
+            "rpm": 1521.21,
+            "load": 1,
+            "sourceTime": 86.5015,
+            "confidence": 0.0611
+          },
+          {
+            "offset": 12.54,
+            "seconds": 0.38,
+            "rpm": 1599.86,
+            "load": 1,
+            "sourceTime": 87.04177,
+            "confidence": 0.0773
+          },
+          {
+            "offset": 12.92,
+            "seconds": 0.38,
+            "rpm": 1630.79,
+            "load": 1,
+            "sourceTime": 87.22231,
+            "confidence": 0.0626
+          },
+          {
+            "offset": 13.3,
+            "seconds": 0.38,
+            "rpm": 1249.48,
+            "load": 1,
+            "sourceTime": 97.48685,
+            "confidence": 0.0258
+          },
+          {
+            "offset": 13.68,
+            "seconds": 0.38,
+            "rpm": 1777.51,
+            "load": 0,
+            "sourceTime": 18.28839,
+            "confidence": 0.0277
+          },
+          {
+            "offset": 14.06,
+            "seconds": 0.38,
+            "rpm": 1688.55,
+            "load": 0,
+            "sourceTime": 20.26744,
+            "confidence": 0.0312
+          },
+          {
+            "offset": 14.44,
+            "seconds": 0.38,
+            "rpm": 1699.62,
+            "load": 0,
+            "sourceTime": 15.94717,
+            "confidence": 0.0264
+          },
+          {
+            "offset": 14.82,
+            "seconds": 0.38,
+            "rpm": 1708.36,
+            "load": 0,
+            "sourceTime": 20.44281,
+            "confidence": 0.0363
+          },
+          {
+            "offset": 15.2,
+            "seconds": 0.38,
+            "rpm": 1772.72,
+            "load": 0,
+            "sourceTime": 26.92717,
+            "confidence": 0.028
+          },
+          {
+            "offset": 15.58,
+            "seconds": 0.38,
+            "rpm": 1745.95,
+            "load": 0,
+            "sourceTime": 26.38254,
+            "confidence": 0.0311
+          },
+          {
+            "offset": 15.96,
+            "seconds": 0.38,
+            "rpm": 1650.65,
+            "load": 1,
+            "sourceTime": 87.40789,
+            "confidence": 0.0733
+          },
+          {
+            "offset": 16.34,
+            "seconds": 0.38,
+            "rpm": 1717.97,
+            "load": 1,
+            "sourceTime": 118.54576,
+            "confidence": 0.0327
+          },
+          {
+            "offset": 16.72,
+            "seconds": 0.38,
+            "rpm": 1657.26,
+            "load": 1,
+            "sourceTime": 100.90299,
+            "confidence": 0.0307
+          },
+          {
+            "offset": 17.1,
+            "seconds": 0.38,
+            "rpm": 1672.6,
+            "load": 1,
+            "sourceTime": 87.5815,
+            "confidence": 0.0834
+          },
+          {
+            "offset": 17.48,
+            "seconds": 0.38,
+            "rpm": 1679.17,
+            "load": 1,
+            "sourceTime": 101.08113,
+            "confidence": 0.0402
+          },
+          {
+            "offset": 17.86,
+            "seconds": 0.38,
+            "rpm": 1676.39,
+            "load": 1,
+            "sourceTime": 94.42345,
+            "confidence": 0.0325
+          },
+          {
+            "offset": 18.24,
+            "seconds": 0.38,
+            "rpm": 2106.49,
+            "load": 0,
+            "sourceTime": 70.3,
+            "confidence": 0.0559
+          },
+          {
+            "offset": 18.62,
+            "seconds": 0.38,
+            "rpm": 2107.23,
+            "load": 0,
+            "sourceTime": 70.66186,
+            "confidence": 0.0553
+          },
+          {
+            "offset": 19.0,
+            "seconds": 0.38,
+            "rpm": 2108.35,
+            "load": 0,
+            "sourceTime": 75.88032,
+            "confidence": 0.0619
+          },
+          {
+            "offset": 19.38,
+            "seconds": 0.38,
+            "rpm": 2103.35,
+            "load": 0,
+            "sourceTime": 73.18517,
+            "confidence": 0.0493
+          },
+          {
+            "offset": 19.76,
+            "seconds": 0.38,
+            "rpm": 2105.46,
+            "load": 0,
+            "sourceTime": 77.68635,
+            "confidence": 0.0516
+          },
+          {
+            "offset": 20.14,
+            "seconds": 0.38,
+            "rpm": 2098.24,
+            "load": 0,
+            "sourceTime": 74.62295,
+            "confidence": 0.0623
+          },
+          {
+            "offset": 20.52,
+            "seconds": 0.38,
+            "rpm": 2061.03,
+            "load": 1,
+            "sourceTime": 93.16472,
+            "confidence": 0.0898
+          },
+          {
+            "offset": 20.9,
+            "seconds": 0.38,
+            "rpm": 2046.37,
+            "load": 1,
+            "sourceTime": 93.34503,
+            "confidence": 0.0768
+          },
+          {
+            "offset": 21.28,
+            "seconds": 0.38,
+            "rpm": 2018.25,
+            "load": 1,
+            "sourceTime": 110.4459,
+            "confidence": 0.0844
+          },
+          {
+            "offset": 21.66,
+            "seconds": 0.38,
+            "rpm": 2066.98,
+            "load": 1,
+            "sourceTime": 92.98104,
+            "confidence": 0.0829
+          },
+          {
+            "offset": 22.04,
+            "seconds": 0.38,
+            "rpm": 2029.16,
+            "load": 1,
+            "sourceTime": 93.52036,
+            "confidence": 0.0821
+          },
+          {
+            "offset": 22.42,
+            "seconds": 0.38,
+            "rpm": 2091.86,
+            "load": 1,
+            "sourceTime": 89.56662,
+            "confidence": 0.0936
+          },
+          {
+            "offset": 22.8,
+            "seconds": 0.38,
+            "rpm": 2117.29,
+            "load": 0,
+            "sourceTime": 83.6215,
+            "confidence": 0.0325
+          },
+          {
+            "offset": 23.18,
+            "seconds": 0.38,
+            "rpm": 2115.64,
+            "load": 0,
+            "sourceTime": 70.48413,
+            "confidence": 0.0493
+          },
+          {
+            "offset": 23.56,
+            "seconds": 0.38,
+            "rpm": 2113.77,
+            "load": 0,
+            "sourceTime": 68.68181,
+            "confidence": 0.0632
+          },
+          {
+            "offset": 23.94,
+            "seconds": 0.38,
+            "rpm": 2121.01,
+            "load": 0,
+            "sourceTime": 80.20417,
+            "confidence": 0.0555
+          },
+          {
+            "offset": 24.32,
+            "seconds": 0.38,
+            "rpm": 2117.07,
+            "load": 0,
+            "sourceTime": 75.52485,
+            "confidence": 0.0503
+          },
+          {
+            "offset": 24.7,
+            "seconds": 0.38,
+            "rpm": 2112.9,
+            "load": 0,
+            "sourceTime": 75.34689,
+            "confidence": 0.054
+          },
+          {
+            "offset": 25.08,
+            "seconds": 0.38,
+            "rpm": 2117.02,
+            "load": 1,
+            "sourceTime": 89.74,
+            "confidence": 0.0863
+          },
+          {
+            "offset": 25.46,
+            "seconds": 0.38,
+            "rpm": 2288.13,
+            "load": 1,
+            "sourceTime": 90.64245,
+            "confidence": 0.0672
+          },
+          {
+            "offset": 25.84,
+            "seconds": 0.38,
+            "rpm": 2164.3,
+            "load": 1,
+            "sourceTime": 90.1015,
+            "confidence": 0.0708
+          },
+          {
+            "offset": 26.22,
+            "seconds": 0.38,
+            "rpm": 2140.71,
+            "load": 1,
+            "sourceTime": 89.92558,
+            "confidence": 0.0766
+          },
+          {
+            "offset": 26.6,
+            "seconds": 0.38,
+            "rpm": 2110.03,
+            "load": 1,
+            "sourceTime": 42.04635,
+            "confidence": 0.0698
+          },
+          {
+            "offset": 26.98,
+            "seconds": 0.38,
+            "rpm": 2112.81,
+            "load": 1,
+            "sourceTime": 53.38354,
+            "confidence": 0.0698
+          }
+        ],
+        "rpmCalibration": "estimated from dominant combustion-band harmonics; not measured RPM",
+        "loadCalibration": "relative recording energy at similar RPM; not measured torque",
+        "grainCycles": 10,
+        "cutoff": 2600,
+        "crossfade": "equal-power",
+        "leveling": true
+      }
     },
     "heavy": {
       "name": "Heavy construction engines and an excavator",
@@ -745,7 +2333,543 @@
       "crankS": 2.0,
       "pitch": 0.9,
       "cutoff": 2800,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "clip": "engine-heavy-atlas",
+        "cylinders": 6,
+        "frames": [
+          {
+            "offset": 0.0,
+            "seconds": 0.38,
+            "rpm": 1174.48,
+            "load": 0,
+            "sourceTime": 320.51565,
+            "confidence": 0.0351
+          },
+          {
+            "offset": 0.38,
+            "seconds": 0.38,
+            "rpm": 1169.11,
+            "load": 0,
+            "sourceTime": 317.45351,
+            "confidence": 0.0343
+          },
+          {
+            "offset": 0.76,
+            "seconds": 0.38,
+            "rpm": 1017.42,
+            "load": 0,
+            "sourceTime": 357.59406,
+            "confidence": 0.0356
+          },
+          {
+            "offset": 1.14,
+            "seconds": 0.38,
+            "rpm": 1013.45,
+            "load": 0,
+            "sourceTime": 357.41556,
+            "confidence": 0.0364
+          },
+          {
+            "offset": 1.52,
+            "seconds": 0.38,
+            "rpm": 1040.62,
+            "load": 0,
+            "sourceTime": 357.77156,
+            "confidence": 0.0385
+          },
+          {
+            "offset": 1.9,
+            "seconds": 0.38,
+            "rpm": 1071.97,
+            "load": 0,
+            "sourceTime": 357.94735,
+            "confidence": 0.0293
+          },
+          {
+            "offset": 2.28,
+            "seconds": 0.38,
+            "rpm": 996.5,
+            "load": 1,
+            "sourceTime": 354.35102,
+            "confidence": 0.037
+          },
+          {
+            "offset": 2.66,
+            "seconds": 0.38,
+            "rpm": 964.67,
+            "load": 1,
+            "sourceTime": 354.16,
+            "confidence": 0.0389
+          },
+          {
+            "offset": 3.04,
+            "seconds": 0.38,
+            "rpm": 1026.87,
+            "load": 1,
+            "sourceTime": 354.53442,
+            "confidence": 0.0393
+          },
+          {
+            "offset": 3.42,
+            "seconds": 0.38,
+            "rpm": 1050.49,
+            "load": 1,
+            "sourceTime": 354.71252,
+            "confidence": 0.034
+          },
+          {
+            "offset": 3.8,
+            "seconds": 0.38,
+            "rpm": 1186.86,
+            "load": 1,
+            "sourceTime": 382.06358,
+            "confidence": 0.0269
+          },
+          {
+            "offset": 4.18,
+            "seconds": 0.38,
+            "rpm": 1073.95,
+            "load": 1,
+            "sourceTime": 354.88617,
+            "confidence": 0.0319
+          },
+          {
+            "offset": 4.56,
+            "seconds": 0.38,
+            "rpm": 1002.59,
+            "load": 0,
+            "sourceTime": 357.23533,
+            "confidence": 0.0372
+          },
+          {
+            "offset": 4.94,
+            "seconds": 0.38,
+            "rpm": 994.3,
+            "load": 0,
+            "sourceTime": 357.05347,
+            "confidence": 0.0335
+          },
+          {
+            "offset": 5.32,
+            "seconds": 0.38,
+            "rpm": 1105.81,
+            "load": 0,
+            "sourceTime": 358.13751,
+            "confidence": 0.0295
+          },
+          {
+            "offset": 5.7,
+            "seconds": 0.38,
+            "rpm": 1090.53,
+            "load": 1,
+            "sourceTime": 355.07474,
+            "confidence": 0.0273
+          },
+          {
+            "offset": 6.08,
+            "seconds": 0.38,
+            "rpm": 892.43,
+            "load": 1,
+            "sourceTime": 229.97896,
+            "confidence": 0.0329
+          },
+          {
+            "offset": 6.46,
+            "seconds": 0.38,
+            "rpm": 886.02,
+            "load": 1,
+            "sourceTime": 343.18268,
+            "confidence": 0.0269
+          },
+          {
+            "offset": 6.84,
+            "seconds": 0.38,
+            "rpm": 1217.08,
+            "load": 0,
+            "sourceTime": 317.63061,
+            "confidence": 0.0295
+          },
+          {
+            "offset": 7.22,
+            "seconds": 0.38,
+            "rpm": 1187.23,
+            "load": 0,
+            "sourceTime": 358.48014,
+            "confidence": 0.0253
+          },
+          {
+            "offset": 7.6,
+            "seconds": 0.38,
+            "rpm": 1219.33,
+            "load": 0,
+            "sourceTime": 358.85324,
+            "confidence": 0.03
+          },
+          {
+            "offset": 7.98,
+            "seconds": 0.38,
+            "rpm": 1203.26,
+            "load": 0,
+            "sourceTime": 358.66839,
+            "confidence": 0.0294
+          },
+          {
+            "offset": 8.36,
+            "seconds": 0.38,
+            "rpm": 1455.74,
+            "load": 0,
+            "sourceTime": 332.2,
+            "confidence": 0.0263
+          },
+          {
+            "offset": 8.74,
+            "seconds": 0.38,
+            "rpm": 1339.18,
+            "load": 0,
+            "sourceTime": 48.88726,
+            "confidence": 0.0284
+          },
+          {
+            "offset": 9.12,
+            "seconds": 0.38,
+            "rpm": 1454.12,
+            "load": 1,
+            "sourceTime": 29.80576,
+            "confidence": 0.0387
+          },
+          {
+            "offset": 9.5,
+            "seconds": 0.38,
+            "rpm": 1261.87,
+            "load": 1,
+            "sourceTime": 383.50154,
+            "confidence": 0.0286
+          },
+          {
+            "offset": 9.88,
+            "seconds": 0.38,
+            "rpm": 1498.86,
+            "load": 1,
+            "sourceTime": 30.1619,
+            "confidence": 0.0352
+          },
+          {
+            "offset": 10.26,
+            "seconds": 0.38,
+            "rpm": 1439.95,
+            "load": 1,
+            "sourceTime": 29.62172,
+            "confidence": 0.0409
+          },
+          {
+            "offset": 10.64,
+            "seconds": 0.38,
+            "rpm": 1273.11,
+            "load": 1,
+            "sourceTime": 383.69297,
+            "confidence": 0.0309
+          },
+          {
+            "offset": 11.02,
+            "seconds": 0.38,
+            "rpm": 1416.47,
+            "load": 1,
+            "sourceTime": 29.45283,
+            "confidence": 0.0482
+          },
+          {
+            "offset": 11.4,
+            "seconds": 0.38,
+            "rpm": 1641.91,
+            "load": 0,
+            "sourceTime": 147.7112,
+            "confidence": 0.0392
+          },
+          {
+            "offset": 11.78,
+            "seconds": 0.38,
+            "rpm": 1653.28,
+            "load": 0,
+            "sourceTime": 177.77057,
+            "confidence": 0.0359
+          },
+          {
+            "offset": 12.16,
+            "seconds": 0.38,
+            "rpm": 1655.63,
+            "load": 0,
+            "sourceTime": 177.59179,
+            "confidence": 0.0321
+          },
+          {
+            "offset": 12.54,
+            "seconds": 0.38,
+            "rpm": 1655.05,
+            "load": 0,
+            "sourceTime": 174.70503,
+            "confidence": 0.0414
+          },
+          {
+            "offset": 12.92,
+            "seconds": 0.38,
+            "rpm": 1657.41,
+            "load": 0,
+            "sourceTime": 173.80966,
+            "confidence": 0.0489
+          },
+          {
+            "offset": 13.3,
+            "seconds": 0.38,
+            "rpm": 1652.8,
+            "load": 0,
+            "sourceTime": 173.63016,
+            "confidence": 0.0407
+          },
+          {
+            "offset": 13.68,
+            "seconds": 0.38,
+            "rpm": 1638.77,
+            "load": 1,
+            "sourceTime": 30.88703,
+            "confidence": 0.0372
+          },
+          {
+            "offset": 14.06,
+            "seconds": 0.38,
+            "rpm": 1649.93,
+            "load": 1,
+            "sourceTime": 150.94041,
+            "confidence": 0.0252
+          },
+          {
+            "offset": 14.44,
+            "seconds": 0.38,
+            "rpm": 1644.02,
+            "load": 1,
+            "sourceTime": 182.08413,
+            "confidence": 0.0403
+          },
+          {
+            "offset": 14.82,
+            "seconds": 0.38,
+            "rpm": 1653.2,
+            "load": 1,
+            "sourceTime": 153.82245,
+            "confidence": 0.0486
+          },
+          {
+            "offset": 15.2,
+            "seconds": 0.38,
+            "rpm": 1641.77,
+            "load": 1,
+            "sourceTime": 181.36726,
+            "confidence": 0.0455
+          },
+          {
+            "offset": 15.58,
+            "seconds": 0.38,
+            "rpm": 1650.26,
+            "load": 1,
+            "sourceTime": 153.47197,
+            "confidence": 0.0395
+          },
+          {
+            "offset": 15.96,
+            "seconds": 0.38,
+            "rpm": 2297.27,
+            "load": 0,
+            "sourceTime": 268.30458,
+            "confidence": 0.029
+          },
+          {
+            "offset": 16.34,
+            "seconds": 0.38,
+            "rpm": 2081.55,
+            "load": 0,
+            "sourceTime": 310.6015,
+            "confidence": 0.0345
+          },
+          {
+            "offset": 16.72,
+            "seconds": 0.38,
+            "rpm": 2171.38,
+            "load": 0,
+            "sourceTime": 310.78186,
+            "confidence": 0.0278
+          },
+          {
+            "offset": 17.1,
+            "seconds": 0.38,
+            "rpm": 2121.87,
+            "load": 0,
+            "sourceTime": 312.22336,
+            "confidence": 0.03
+          },
+          {
+            "offset": 17.48,
+            "seconds": 0.38,
+            "rpm": 1858.32,
+            "load": 0,
+            "sourceTime": 166.06077,
+            "confidence": 0.026
+          },
+          {
+            "offset": 17.86,
+            "seconds": 0.38,
+            "rpm": 1790.24,
+            "load": 0,
+            "sourceTime": 158.32177,
+            "confidence": 0.0402
+          },
+          {
+            "offset": 18.24,
+            "seconds": 0.38,
+            "rpm": 2353.9,
+            "load": 1,
+            "sourceTime": 299.62281,
+            "confidence": 0.0282
+          },
+          {
+            "offset": 18.62,
+            "seconds": 0.38,
+            "rpm": 2361.19,
+            "load": 1,
+            "sourceTime": 299.80091,
+            "confidence": 0.0291
+          },
+          {
+            "offset": 19.0,
+            "seconds": 0.38,
+            "rpm": 2386.61,
+            "load": 1,
+            "sourceTime": 298.18,
+            "confidence": 0.0289
+          },
+          {
+            "offset": 19.38,
+            "seconds": 0.38,
+            "rpm": 2400.34,
+            "load": 1,
+            "sourceTime": 303.58277,
+            "confidence": 0.0262
+          },
+          {
+            "offset": 19.76,
+            "seconds": 0.38,
+            "rpm": 2361.82,
+            "load": 1,
+            "sourceTime": 298.36317,
+            "confidence": 0.031
+          },
+          {
+            "offset": 20.14,
+            "seconds": 0.38,
+            "rpm": 2258.37,
+            "load": 1,
+            "sourceTime": 275.86463,
+            "confidence": 0.0277
+          },
+          {
+            "offset": 20.52,
+            "seconds": 0.38,
+            "rpm": 2483.21,
+            "load": 0,
+            "sourceTime": 293.50145,
+            "confidence": 0.0263
+          },
+          {
+            "offset": 20.9,
+            "seconds": 0.38,
+            "rpm": 2479.77,
+            "load": 0,
+            "sourceTime": 292.60608,
+            "confidence": 0.0312
+          },
+          {
+            "offset": 21.28,
+            "seconds": 0.38,
+            "rpm": 2479.08,
+            "load": 0,
+            "sourceTime": 290.62181,
+            "confidence": 0.0253
+          },
+          {
+            "offset": 21.66,
+            "seconds": 0.38,
+            "rpm": 2479.12,
+            "load": 0,
+            "sourceTime": 290.08159,
+            "confidence": 0.0268
+          },
+          {
+            "offset": 22.04,
+            "seconds": 0.38,
+            "rpm": 2479.17,
+            "load": 0,
+            "sourceTime": 292.42132,
+            "confidence": 0.0265
+          },
+          {
+            "offset": 22.42,
+            "seconds": 0.38,
+            "rpm": 2478.32,
+            "load": 0,
+            "sourceTime": 292.2434,
+            "confidence": 0.0256
+          },
+          {
+            "offset": 22.8,
+            "seconds": 0.38,
+            "rpm": 2469.91,
+            "load": 1,
+            "sourceTime": 307.72744,
+            "confidence": 0.0294
+          },
+          {
+            "offset": 23.18,
+            "seconds": 0.38,
+            "rpm": 2467.43,
+            "load": 1,
+            "sourceTime": 308.62617,
+            "confidence": 0.0336
+          },
+          {
+            "offset": 23.56,
+            "seconds": 0.38,
+            "rpm": 2472.66,
+            "load": 1,
+            "sourceTime": 309.52644,
+            "confidence": 0.0312
+          },
+          {
+            "offset": 23.94,
+            "seconds": 0.38,
+            "rpm": 2481.02,
+            "load": 1,
+            "sourceTime": 289.0005,
+            "confidence": 0.0252
+          },
+          {
+            "offset": 24.32,
+            "seconds": 0.38,
+            "rpm": 2475.02,
+            "load": 1,
+            "sourceTime": 288.64558,
+            "confidence": 0.0349
+          },
+          {
+            "offset": 24.7,
+            "seconds": 0.38,
+            "rpm": 2475.93,
+            "load": 1,
+            "sourceTime": 289.18658,
+            "confidence": 0.0279
+          }
+        ],
+        "rpmCalibration": "estimated from dominant combustion-band harmonics; not measured RPM",
+        "loadCalibration": "relative recording energy at similar RPM; not measured torque"
+      }
     }
   },
   "effects": {
@@ -856,9 +2980,6 @@
     ],
     "forest": [
       "forest"
-    ],
-    "swamp": [
-      "swamp"
     ],
     "frogs": [
       "frogs"

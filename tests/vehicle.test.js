@@ -51,10 +51,14 @@ test('4x4 and DIFF clearly change progress in deep mud', () => {
 });
 
 test('trail has climbable obstacles and rocks break under the tires', () => {
-  const s = spawn(newSim(), 260);
+  const s = spawn(newSim(), content.season.trail.start);
   assert(s.logs.length > 30 && s.rocks.some(r => r.crush) && s.rocks.some(r => !r.crush), 'logs, boulders and crushable rocks exist');
-  s.ctl.gas = 1; advance(s, 40);
-  assert(s.events.some(e => e.type === 'crush'), 'driving breaks crushable rocks');
+  // Approach an actual crushable stone, rather than assuming the seeded road
+  // still places one within 40 seconds of a fixed coordinate.
+  const target = s.rocks.find(r => r.crush && r.x > content.season.trail.start);
+  s.respawn(target.x - Math.max(...s.car.rig.axles) - s.car.rig.radius - 2); advance(s, 2);
+  s.ctl.gas = 1; advance(s, 12);
+  assert(!target.alive && s.events.some(e => e.type === 'crush' && e.x === target.x), 'driving breaks the approached rock');
 });
 
 test('makes progress through every kind of section', () => {

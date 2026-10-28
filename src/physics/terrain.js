@@ -14,6 +14,9 @@ export function createTerrain(trail, surfaces) {
   const N = Math.round((X1 - X0) / DX) + 1;
   const HV = new Float32Array(N), HC = new Float32Array(N);
   const features = [];
+  const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
+  const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
+  const authored = x => nearHole(x, 2) || gardens.some(g => x > g.x0 - 2 && x < g.x1 + 2) || (trail.ramps ?? []).some(r => x > r.x - 2 && x < r.x + r.face + r.plateau + r.back + 2);
   const rnd = seededRandom(trail.seed);
 
   const surfAt = x => { for (const z of ZONES) if (x >= z[0] && x < z[1]) return z[2]; return 'dirt'; };
@@ -39,7 +42,7 @@ export function createTerrain(trail, surfaces) {
   }
 
   // places kept calm so the start, fuel stop and depot stay drivable
-  const CALM = [[trail.start - 20, trail.start + 14], [trail.fuel - 14, trail.fuel + 14], [trail.depot - 10, X1]];
+  const CALM = [[trail.start - 20, trail.start + 14], [trail.fuel - 14, trail.fuel + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? [])];
   const calm = x => { let c = 1; for (const [a, b] of CALM) c = Math.min(c, 1 - sm((x - a + 6) / 6) * sm((b + 6 - x) / 6)); return c; };
   const nearCalm = (x, pad) => CALM.some(([a, b]) => x > a - pad && x < b + pad);
 
@@ -48,7 +51,7 @@ export function createTerrain(trail, surfaces) {
     for (const [z0, z1, s] of ZONES) {
       if (s === 'dirt' || s === 'gravel') {
         for (let x = z0 + 6; x < z1 - 8; x += 4 + rnd() * 6) {
-          if (nearCalm(x, 4)) continue;
+          if (nearCalm(x, 4) || authored(x)) continue;
           const r = rnd();
           if (r < 0.3) {                                       // washboard run
             const n = 3 + Math.floor(rnd() * 4), gap = 1.4 + rnd() * 0.8;
@@ -66,6 +69,7 @@ export function createTerrain(trail, surfaces) {
         }
       } else if (s === 'rock') {
         for (let x = z0 + 6; x < z1 - 8; x += 5 + rnd() * 6) {
+          if (nearCalm(x, 4) || authored(x)) continue;
           const r = rnd();
           if (r < 0.5) {
             const up = macro(x + 4) - macro(x - 4) >= -0.4, lh = 0.28 + rnd() * 0.22;   // ledges face the way the road climbs
@@ -82,6 +86,8 @@ export function createTerrain(trail, surfaces) {
         for (let x = z0 + 4; x < z1 - 4; x += 3 + rnd() * 4) features.push({ type: 'bump', c: x, w: 0.8 + rnd() * 1.2, h: (rnd() < 0.5 ? -1 : 1) * (0.08 + rnd() * 0.12) });
       }
     }
+    for (const hole of holes) features.push({ type: 'bump', c: hole.x, w: hole.width, h: -hole.depth, authored: 'hole' });
+    for (const r of trail.ramps ?? []) features.push({ type: 'ledge', x0: r.x, face: r.face, h: r.height, plat: r.plateau, back: r.back, authored: 'ramp' });
   }
   function featureAt(x) {
     let y = 0;
@@ -151,5 +157,5 @@ export function createTerrain(trail, surfaces) {
     wb.level = lo + wb.depth;
   }
 
-  return { X0, X1, step: DX, zones: ZONES, waters, features, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
+  return { X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
 }

@@ -8,8 +8,8 @@ export function buildBridges({ pl, world, terrain, events }) {
     for (let i = 0; i < count; i++) {
       const x0 = spec.x0 + i * dx, x1 = x0 + dx, y0 = deck(x0), y1 = deck(x1), len = Math.hypot(dx, y1 - y0);
       const body = world.createBody({ type: 'dynamic', position: V((x0 + x1) / 2, (y0 + y1) / 2 - 0.1), angle: Math.atan2(y1 - y0, dx), angularDamping: 1.4, linearDamping: 0.2 });
-      const board = { body, length: len, restY: body.getPosition().y, force: 0, damage: 0, cracked: false, bridge, index: i };
-      body.createFixture(new pl.Box(len / 2 + 0.012, 0.1), { density: 900, friction: 0.9, userData: { surf: 'wood', bridgeBoard: board }, filterGroupIndex: -300 });
+      const board = { body, length: len, restY: body.getPosition().y, force: 0, damage: 0, cracked: false, bridge, index: i, missing: i === spec.missingBoard };
+      body.createFixture(new pl.Box(len / 2 + 0.012, 0.1), { density: 900, friction: 0.9, isSensor: board.missing, userData: { surf: 'wood', bridgeBoard: board }, filterGroupIndex: -300 });
       bridge.boards.push(board);
       bridge.hinges.push(world.createJoint(new pl.RevoluteJoint({ enableLimit: true, lowerAngle: -0.22, upperAngle: 0.22, collideConnected: false }, i ? bridge.boards[i - 1].body : anchors, body, V(x0, y0 - 0.1))));
     }

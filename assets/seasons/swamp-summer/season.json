@@ -172,6 +172,11 @@
       ],
       [
         70,
+        118,
+        "rock"
+      ],
+      [
+        118,
         260,
         "mud"
       ],
@@ -207,6 +212,11 @@
       ],
       [
         1030,
+        1095,
+        "dirt"
+      ],
+      [
+        1095,
         1210,
         "mud"
       ],
@@ -274,29 +284,359 @@
         "x1": 378,
         "capacityT": 14,
         "sag": 0.28,
-        "depth": 1.5
+        "depth": 2.3,
+        "style": "timber"
       },
       {
         "id": "old-timber-bridge",
         "x0": 957,
         "x1": 969,
-        "capacityT": 10,
-        "sag": 0.22,
-        "depth": 1.4
+        "capacityT": 55,
+        "sag": 0.1,
+        "depth": 2.5,
+        "style": "steel"
+      },
+      {
+        "id": "broken-road-bridge",
+        "x0": 1182,
+        "x1": 1190,
+        "style": "timber",
+        "capacityT": 12,
+        "sag": 0.15,
+        "depth": 2.2,
+        "missingBoard": 5
       }
     ],
-    "logPiles": [
+    "rockGardens": [
       {
-        "x": 64,
-        "radius": 0.36
+        "x0": 78,
+        "x1": 111,
+        "gap": 2.7
       },
       {
-        "x": 775,
-        "radius": 0.4
+        "x0": 310,
+        "x1": 328,
+        "gap": 2.8
       },
       {
-        "x": 1652,
-        "radius": 0.42
+        "x0": 452,
+        "x1": 472,
+        "gap": 2.5
+      },
+      {
+        "x0": 495,
+        "x1": 516,
+        "gap": 2.7
+      },
+      {
+        "x0": 850,
+        "x1": 870,
+        "gap": 2.8
+      },
+      {
+        "x0": 1054,
+        "x1": 1085,
+        "gap": 2.6
+      },
+      {
+        "x0": 1248,
+        "x1": 1270,
+        "gap": 2.9
+      },
+      {
+        "x0": 1300,
+        "x1": 1324,
+        "gap": 2.6
+      },
+      {
+        "x0": 1700,
+        "x1": 1720,
+        "gap": 2.6
+      },
+      {
+        "x0": 1750,
+        "x1": 1776,
+        "gap": 2.8
+      }
+    ],
+    "holes": [
+      {
+        "x": 142,
+        "width": 6,
+        "depth": 0.7,
+        "kind": "mud"
+      },
+      {
+        "x": 208,
+        "width": 7,
+        "depth": 0.85,
+        "kind": "mud"
+      },
+      {
+        "x": 284,
+        "width": 6,
+        "depth": 0.6,
+        "kind": "pothole"
+      },
+      {
+        "x": 575,
+        "width": 7,
+        "depth": 0.8,
+        "kind": "mud"
+      },
+      {
+        "x": 710,
+        "width": 6,
+        "depth": 0.65,
+        "kind": "mud"
+      },
+      {
+        "x": 889,
+        "width": 6,
+        "depth": 0.6,
+        "kind": "pothole"
+      },
+      {
+        "x": 1116,
+        "width": 7,
+        "depth": 0.85,
+        "kind": "mud"
+      },
+      {
+        "x": 1420,
+        "width": 7,
+        "depth": 0.8,
+        "kind": "mud"
+      },
+      {
+        "x": 1555,
+        "width": 7,
+        "depth": 0.9,
+        "kind": "mud"
+      },
+      {
+        "x": 1684,
+        "width": 6,
+        "depth": 0.65,
+        "kind": "pothole"
+      },
+      {
+        "x": 1734,
+        "width": 9,
+        "depth": 1.0,
+        "kind": "washout"
+      }
+    ],
+    "ramps": [
+      {
+        "x": 303,
+        "height": 0.4,
+        "face": 1.2,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1226,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1670,
+        "height": 0.4,
+        "face": 1.2,
+        "plateau": 3,
+        "back": 5
+      }
+    ],
+    "recoverySections": [
+      [
+        232,
+        246
+      ],
+      [
+        397,
+        413
+      ],
+      [
+        810,
+        818
+      ],
+      [
+        1013,
+        1027
+      ],
+      [
+        1198,
+        1208
+      ],
+      [
+        1440,
+        1475
+      ],
+      [
+        1782,
+        1796
+      ]
+    ],
+    "obstacleRuns": [
+      {
+        "id": "log-run-1",
+        "kind": "log",
+        "x": 60,
+        "count": 5,
+        "radius": 0.3,
+        "gaps": [
+          0.15,
+          0.4,
+          0.15,
+          0.65
+        ]
+      },
+      {
+        "id": "log-run-2",
+        "kind": "log",
+        "x": 218,
+        "count": 6,
+        "radius": 0.33,
+        "gaps": [
+          0.2,
+          0.7,
+          0.2,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "pipe-run-3",
+        "kind": "pipe",
+        "x": 270,
+        "count": 4,
+        "radius": 0.34,
+        "gap": 0.5
+      },
+      {
+        "id": "log-run-4",
+        "kind": "log",
+        "x": 423,
+        "count": 4,
+        "radius": 0.32,
+        "gap": 0.55
+      },
+      {
+        "id": "log-run-5",
+        "kind": "log",
+        "x": 540,
+        "count": 4,
+        "radius": 0.3,
+        "gap": 0.4
+      },
+      {
+        "id": "pipe-run-6",
+        "kind": "pipe",
+        "x": 682,
+        "count": 6,
+        "radius": 0.32,
+        "gap": 1.0
+      },
+      {
+        "id": "log-run-7",
+        "kind": "log",
+        "x": 765,
+        "count": 5,
+        "radius": 0.34,
+        "gaps": [
+          0.3,
+          0.85,
+          0.35,
+          1.3
+        ]
+      },
+      {
+        "id": "pipe-run-8",
+        "kind": "pipe",
+        "x": 794,
+        "count": 5,
+        "radius": 0.36,
+        "gaps": [
+          0.4,
+          1.4,
+          0.4,
+          1.6
+        ]
+      },
+      {
+        "id": "log-run-9",
+        "kind": "log",
+        "x": 987,
+        "count": 6,
+        "radius": 0.32,
+        "gap": 0.8
+      },
+      {
+        "id": "pipe-run-10",
+        "kind": "pipe",
+        "x": 1102,
+        "count": 4,
+        "radius": 0.3,
+        "gap": 0.6
+      },
+      {
+        "id": "log-run-11",
+        "kind": "log",
+        "x": 1214,
+        "count": 4,
+        "radius": 0.31,
+        "gap": 0.6
+      },
+      {
+        "id": "pipe-run-12",
+        "kind": "pipe",
+        "x": 1362,
+        "count": 5,
+        "radius": 0.34,
+        "gaps": [
+          0.3,
+          1.5,
+          0.4,
+          1.3
+        ]
+      },
+      {
+        "id": "log-run-13",
+        "kind": "log",
+        "x": 1532,
+        "count": 5,
+        "radius": 0.32,
+        "gap": 0.7
+      },
+      {
+        "id": "pipe-run-14",
+        "kind": "pipe",
+        "x": 1606,
+        "count": 6,
+        "radius": 0.32,
+        "gaps": [
+          0.3,
+          0.8,
+          0.4,
+          1.6,
+          0.3
+        ]
+      },
+      {
+        "id": "log-run-15",
+        "kind": "log",
+        "x": 1645,
+        "count": 5,
+        "radius": 0.34,
+        "gaps": [
+          0.4,
+          1.6,
+          0.4,
+          1.6
+        ]
       }
     ]
   },
@@ -394,7 +734,7 @@
     },
     "rock": {
       "file": "art/rock.webp",
-      "source": "source/rock-v1.png"
+      "source": "source/rock-v2.png"
     },
     "granite": {
       "file": "art/granite.webp",
@@ -415,6 +755,30 @@
     "bridgeWood": {
       "file": "art/bridgeWood.webp",
       "source": "source/bridge-wood-v1.png"
+    },
+    "logCrossing": {
+      "file": "art/log-crossing.webp",
+      "source": "source/log-crossing-v1.png"
+    },
+    "bridgePlank": {
+      "file": "art/bridge-plank.webp",
+      "source": "source/bridge-plank-v2.png"
+    },
+    "bridgeFrame": {
+      "file": "art/bridge-frame.webp",
+      "source": "source/bridge-frame-v1.png"
+    },
+    "bridgeSteelFrame": {
+      "file": "art/bridge-steel-frame.webp",
+      "source": "source/bridge-steel-frame-v1.png"
+    },
+    "mudHole": {
+      "file": "art/mud-hole.webp",
+      "source": "source/mud-hole-v1.png"
+    },
+    "pipe": {
+      "file": "art/pipe.webp",
+      "source": "source/pipe-v1.png"
     }
   },
   "rockHulls": "rock-hulls.json",
@@ -440,6 +804,32 @@
         "gravel": "rgba(196,184,160,0.3)",
         "rock": "rgba(40,40,38,0.12)",
         "creek": "rgba(40,52,44,0.3)"
+      }
+    },
+    "obstacles": {
+      "logCrossing": {
+        "face": [
+          575,
+          600,
+          250
+        ]
+      },
+      "pipe": {
+        "face": [
+          565,
+          463,
+          375
+        ]
+      },
+      "bridgePlank": {
+        "nearLeft": [
+          410,
+          650
+        ],
+        "nearRight": [
+          1138,
+          650
+        ]
       }
     }
   },

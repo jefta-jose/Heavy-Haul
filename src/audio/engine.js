@@ -1,12 +1,11 @@
-// A truck's engine voice, from its class's recordings (assets/audio/sounds.json → bank). No synthesis.
+// A truck's engine voice, resampled from its class's licensed recordings.
 //
-// Layers: idle, drive (steady running) and, where recorded, pull (working hard). Each is a long
-// recording played by the seamless loop player, so nothing audibly repeats. Revs and throttle blend
-// the layers with equal-power crossfades and move their playback speed within a modest range, which
-// keeps the recordings' real character. Starting plays the recorded starter and catch; stopping plays
-// the recorded shutdown, or lets the running layers wind down in pitch and fade.
+// Scouts retain the approved original layer player. Diesels use RPM-indexed
+// grain atlases from one running engine per class, controlled by actual RPM,
+// analog throttle and wheel-joint load. Cranking remains a recorded one-shot.
 
 import { createLoopPlayer } from './loop-player.js';
+import { createRpmEngine, engineOperatingPoint } from './rpm-engine.js';
 
 const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, Number.isFinite(x) ? x : lo));
 
@@ -45,7 +44,47 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
   out.gain.value = 0; filter.type = 'lowpass'; filter.Q.value = 0.5; filter.frequency.value = profile.cutoff;
   filter.connect(out); out.connect(destination);
   const L = profile.layers, buf = name => name && buffers[name];
-  if (!buf(L.idle) || !buf(L.drive)) return { car, profile, out, set() {}, update() {}, stop() { out.disconnect(); } };
+  if (profile.engine !== 'scout' && profile.pack?.atlas && buf(profile.pack.atlas.clip)) {
+    const engine = createRpmEngine(ac, buf(profile.pack.atlas.clip), profile.pack.atlas, filter);
+    filter.frequency.value = 6500;
+    let state = null, shot = null, level = 1, catchAt = -Infinity;
+    const stopShot = () => {
+      if (!shot) return;
+      const old = shot; old.g.gain.setTargetAtTime(0, ac.currentTime, 0.035);
+      try { old.s.stop(ac.currentTime + 0.18); } catch (_) {}
+      shot = null;
+    };
+    function play(name, offset = 0) {
+      stopShot();
+      if (!buf(name)) return;
+      const s = ac.createBufferSource(), g = ac.createGain();
+      s.buffer = buf(name); g.gain.value = 1; s.connect(g); g.connect(filter);
+      const item = { s, g }; shot = item;
+      s.onended = () => { s.disconnect(); g.disconnect(); if (shot === item) shot = null; };
+      s.start(ac.currentTime, Math.min(offset, Math.max(0, s.buffer.duration - 0.05)));
+    }
+    return {
+      car, profile, out,
+      set(st, telemetry) {
+        if (st.engine !== state) {
+          if (st.engine === 'cranking') { engine.set(engineOperatingPoint(car, st), false); play(L.start); }
+          if (st.engine === 'on') { stopShot(); catchAt = ac.currentTime; }
+          if (st.engine === 'off') {
+            stopShot();
+            if (state === 'on') engine.windDown(1);
+            else engine.set(engineOperatingPoint(car, st), false);
+          }
+          state = st.engine;
+        }
+        out.gain.setTargetAtTime(level, ac.currentTime, 0.06);
+        if (state === 'on') engine.set(engineOperatingPoint(car, st, telemetry), true, Math.min(1, (ac.currentTime - catchAt) / 0.15));
+      },
+      setLevel(value) { level = value; out.gain.setTargetAtTime(level, ac.currentTime, 0.06); },
+      update() { engine.update(); },
+      stop() { engine.stop(); stopShot(); filter.disconnect(); out.disconnect(); },
+    };
+  }
+  if (!buf(L.idle) || !buf(L.drive)) return { car, profile, out, setLevel() {}, set() {}, update() {}, stop() { filter.disconnect(); out.disconnect(); } };
   const layers = {};
   for (const role of ['idle', 'drive', 'pull']) if (buf(L[role])) layers[role] = createLoopPlayer(ac, buf(L[role]), filter, { grain: role === 'idle' ? [3, 6] : [2.5, 5], fade: 0.9 });
   let state = null, oneShot = null;

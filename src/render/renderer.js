@@ -58,6 +58,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
     drawGround(scene); drawLane(scene);
     if (playing) mud.update(dt);
+    props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time);
     props.drawBehind();
     bridges.draw();
@@ -82,6 +83,10 @@ export function createRenderer({ view, sim, content, onEvent }) {
     get frames() { return frames; },
     get water() { return particles.water; },
     get mudTracks() { return mud.trackCount; },
+    rutAt: x => mud.rutAt(x),
+    liveLoad: v => vehicles.liveLoad(v),
+    // ruts last the whole run; the garage starts the next one clean
+    clearTracks: () => mud.clear(),
     assetStatus: () => ({ ...scenery.status(), vehicles: vehicles.ready }),
   };
 }

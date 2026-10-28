@@ -90,7 +90,8 @@ Browser captures are written to `output/captures/` for visual review.
 
 | Want | Change |
 | --- | --- |
-| Framing, zoom | `FRAMING` in `src/game/view.js` (`front`, `zoom`) |
+| Framing | `FRAMING` in `src/game/view.js` (`front`, ground line, default `zoom`) |
+| Zoom per car | `camera.zoom` in the car's `car.json` (1.5 = 17.7 m of trail across the screen; higher shows more) |
 | Take-off and cruise | `drivetrain` in `car.json`: `converterBoost`, `driveRamp`, `throttleRise`, `gears` |
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink` |
 | Suspension | `physics.suspension` in `car.json` |

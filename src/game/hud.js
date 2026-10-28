@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'cameraBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'repairCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'repairCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -65,7 +65,7 @@ export function createHud({ sim, season }) {
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
     const bridge = s === 'wood' && sim.terrain.bridgeAt(sim.truck.getPosition().x);
-    els.surfChip.textContent = bridge ? 'Swing bridge' : s === 'wood' ? 'Log pile' : bog ? 'Deep bog' : sim.st.inWater > 0.3 ? 'River crossing' : sim.surfaces[s].label;
+    els.surfChip.textContent = bridge ? bridge.missingBoard != null ? 'Broken bridge' : bridge.style === 'steel' ? 'Steel bridge' : 'Timber bridge' : s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.st.inWater > 0.3 ? 'River crossing' : sim.surfaces[s].label;
     els.surfChip.classList.toggle('bog', bog); els.surfChip.classList.toggle('bridge', !!bridge);
     els.surfChip.classList.toggle('warn', s === 'mud' || sim.st.inWater > 0.3);
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked

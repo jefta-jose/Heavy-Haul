@@ -24,5 +24,133 @@
   "limitations": [
     "wheel-v1.png is square 1254x1254, below required 1500px minimum.",
     "Wheel sprite has more prominent steel spikes than generated vehicle master."
-  ]
+  ],
+  "body-v2": {
+    "edit_of": "body-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target body-v1.png. Produce body-v2.png exactly 1920 x 819 px RGBA. Remove only the orca at approximately (405,228)-(1048,462); fill its silhouette seamlessly with surrounding tank water, same blue gradient, ripples, bubbles and caustics. Every pixel outside that silhouette must remain identical: waterline, air gap, glass, flat rectangular pane, frame, posts, straps, bolts, truck and transparent empty wheel arches. Keep exact canvas, registration, scale, side-on camera, right-facing orientation. No rotation, tilt, perspective change, cropping or recentering. True transparency outside truck. This is a registered animation layer, not a new illustration.",
+    "canvas_size": [
+      1919,
+      820
+    ],
+    "pixel_bounds": [
+      0,
+      17,
+      1919,
+      780
+    ],
+    "bounds_convention": "left, top, right exclusive, bottom exclusive; all nonzero alpha",
+    "status": "rejected",
+    "rejection_reason": "Wrong canvas dimensions; generated edit does not preserve original pixels outside the orca.",
+    "tool": "built-in image_gen"
+  },
+  "orca-v1": {
+    "edit_of": "body-v1.png",
+    "prompt": "Use case: background-extraction. Edit target body-v1.png. Produce orca-v1.png exactly 1920 x 819 px RGBA. Extract ONLY the existing orca pixels, not a redrawing. Preserve exact original pose, size, colours, caustic lighting and position approximately (405,228)-(1048,462). Clean silhouette including every fin and tail, no surrounding water, bubbles, glass, frame or halo. All other pixels fully transparent. Do not crop, recenter, rescale, rotate or change perspective. Strict side-on nose facing right. Must reconstruct original animal when composited over body with orca removed.",
+    "canvas_size": [
+      1920,
+      819
+    ],
+    "pixel_bounds": [
+      0,
+      31,
+      1896,
+      819
+    ],
+    "bounds_convention": "left, top, right exclusive, bottom exclusive; all nonzero alpha",
+    "status": "rejected",
+    "rejection_reason": "Orca enlarged and recentered; redrawn rather than exact source pixel extraction; stray alpha.",
+    "tool": "built-in image_gen"
+  },
+  "water-surface-v1": {
+    "edit_of": "body-v1.png",
+    "prompt": "Use case: background-extraction. Edit target body-v1.png. Produce water-surface-v1.png exactly 1920 x 819 px RGBA. Extract ONLY the original top water band: wavy surface line, white foam and ripples approximately x228-1252, y240-285, about 45 px tall, in exact original registration. Exclude all steel frame, posts, orange straps and orca fin; transparent holes where foreground equipment overlaps, no invented connections. Everything else fully transparent, no glass pane or tank body below band, no halo. Do not redraw, crop, recenter, rescale, rotate, tilt or change perspective. Flat rectangular tank strictly side-on. Preserve original pixel colours so overlay at zero offset reconstructs original surface.",
+    "canvas_size": [
+      1919,
+      820
+    ],
+    "pixel_bounds": [
+      57,
+      9,
+      1434,
+      468
+    ],
+    "bounds_convention": "left, top, right exclusive, bottom exclusive; all nonzero alpha",
+    "status": "rejected",
+    "rejection_reason": "Wrong canvas dimensions; surface changed position and scale; stray alpha outside band.",
+    "tool": "built-in image_gen"
+  },
+  "orca-v2": {
+    "edit_of": "body-v1.png",
+    "prompt": "Use case: background-extraction. Edit target body-v1.png. Produce orca-v1.png exactly 1920 x 819 px RGBA. Extract ONLY the existing orca pixels, not a redrawing. Preserve exact original pose, size, colours, caustic lighting and position approximately (405,228)-(1048,462). Clean silhouette including every fin and tail, no surrounding water, bubbles, glass, frame or halo. All other pixels fully transparent. Do not crop, recenter, rescale, rotate or change perspective. Strict side-on nose facing right. Must reconstruct original animal when composited over body with orca removed.\nCRITICAL correction: Do NOT enlarge the orca to fill the image. It must occupy ONLY x405 through1048 and y228 through462 on a 1920x819 canvas, leaving roughly 405px blank left,872px blank right,228px blank top,357px blank bottom. Preserve original source pixels at their original coordinates. The prior extraction was incorrectly enlarged and recentered; reject that approach. Output full source canvas with tiny unchanged orca in original tank location.",
+    "canvas_size": [
+      1920,
+      819
+    ],
+    "pixel_bounds": [
+      257,
+      48,
+      1650,
+      795
+    ],
+    "bounds_convention": "left, top, right exclusive, bottom exclusive; all nonzero alpha",
+    "status": "rejected",
+    "rejection_reason": "Retry still redraws the orca and changes registration and scale; stray alpha outside silhouette.",
+    "tool": "built-in image_gen"
+  },
+  "animated_load_validation": {
+    "status": "failed",
+    "required_canvas": [
+      1920,
+      819
+    ],
+    "zero_offset_reconstruction": "failed prerequisites: body-v2 and water-surface-v1 have incompatible canvas dimensions; orca source pixels and registration not preserved. No resize or offset applied.",
+    "approved_originals_modified": false
+  },
+  "animated_layers": {
+    "selected": {
+      "body-v3.png": {
+        "role": "body with the orca removed; the orca area refilled from the aligned empty tank",
+        "bounds_changed": [
+          408,
+          224,
+          1048,
+          465
+        ],
+        "derived": "Cut from body-v1.png by tools/art/ice-breaker-layers.py (no generation): the orca is the difference between body-v1 and the rejected, redrawn body-v2 aligned to body-v1 (resized to 1921x820, shifted -3,-1); its pixels come from body-v1. 1920x819, exact registration; body-v3 + orca-v3 rebuilds body-v1 (mean error 0.04, zero outside the tank)."
+      },
+      "orca-v3.png": {
+        "role": "the orca alone, transparent elsewhere",
+        "bounds": [
+          414,
+          230,
+          1042,
+          459
+        ],
+        "derived": "Cut from body-v1.png by tools/art/ice-breaker-layers.py (no generation): the orca is the difference between body-v1 and the rejected, redrawn body-v2 aligned to body-v1 (resized to 1921x820, shifted -3,-1); its pixels come from body-v1. 1920x819, exact registration; body-v3 + orca-v3 rebuilds body-v1 (mean error 0.04, zero outside the tank)."
+      },
+      "water-surface-v2.png": {
+        "role": "top band of the water (y 222-292) across the tank, frame excluded, from body-v3",
+        "bounds": [
+          228,
+          222,
+          1252,
+          292
+        ],
+        "derived": "Cut from body-v1.png by tools/art/ice-breaker-layers.py (no generation): the orca is the difference between body-v1 and the rejected, redrawn body-v2 aligned to body-v1 (resized to 1921x820, shifted -3,-1); its pixels come from body-v1. 1920x819, exact registration; body-v3 + orca-v3 rebuilds body-v1 (mean error 0.04, zero outside the tank)."
+      },
+      "tank-front-v1.png": {
+        "role": "tank frame bars, posts and straps over the water, from body-v1",
+        "derived": "Cut from body-v1.png by tools/art/ice-breaker-layers.py (no generation): the orca is the difference between body-v1 and the rejected, redrawn body-v2 aligned to body-v1 (resized to 1921x820, shifted -3,-1); its pixels come from body-v1. 1920x819, exact registration; body-v3 + orca-v3 rebuilds body-v1 (mean error 0.04, zero outside the tank)."
+      }
+    },
+    "rejected": {
+      "body-v2.png": "redrawn: 1919x820 and shifted, not pixel-identical (kept as the empty-tank fill source); kept: tools/art/ice-breaker-layers.py uses it to rebuild the layers",
+      "orca-v1.png": "redrawn as a new, much larger orca (file removed 2026-10-29)",
+      "orca-v2.png": "redrawn smaller, different pose (file removed 2026-10-29)",
+      "water-surface-v1.png": "1919x820, wrong position (file removed 2026-10-29)"
+    }
+  },
+  "removed": {
+    "vehicle-master-v1.png": "superseded by vehicle-master-v2.png; removed 2026-10-29 as unused"
+  }
 }

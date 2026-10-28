@@ -24,18 +24,74 @@ export function createProps(scene) {
     const [lo, hi] = scene.view.viewX(), { visH } = scene.sim;
     for (const p of list) if (p.x > lo - 3 && p.x < hi + 3) sprite(p.key, p.x, visH(p.x) + p.y, p.w, p.flip);
   }
+  // the rock art in the scene's shaded light: a darker copy made once per zoom level (a per-frame
+  // ctx.filter is far too slow)
+  let shadedFor = null, shaded = null;
+  function rockImage() {
+    const img = scene.cache.img.rock;
+    if (shadedFor !== img) {
+      shadedFor = img; shaded = makeCanvas(img.width, img.height);
+      const g = shaded.getContext('2d'); g.drawImage(img, 0, 0);
+      g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(44,34,22,0.16)'; g.fillRect(0, 0, img.width, img.height);
+    }
+    return shaded;
+  }
   function rocks() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), img = scene.cache.img.rock, { visH } = scene.sim;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), img = rockImage(), { visH } = scene.sim;
     for (const r of scene.sim.rocks) if (r.x > lo - 2 && r.x < hi + 2 && r.alive !== false) {
-      const base = visH(r.x) - 0.06, w = r.w, h = r.above + (r.crush ? 0.1 : 0.16);
-      ctx.save(); ctx.translate(r.x, base); ctx.scale(r.flip ? -1 : 1, -1);
+      const w = r.w, h = r.h, gy = visH(r.x);
+      // seated in the ground: a soft contact shadow behind the base
+      ctx.fillStyle = 'rgba(20,15,9,0.35)'; ctx.beginPath(); ctx.ellipse(r.x + w * 0.06, gy + 0.05, w * 0.62, 0.1 + h * 0.12, 0, 0, 7); ctx.fill();
+      ctx.save(); ctx.beginPath();
+      ctx.moveTo(r.x - w, visH(r.x - w) - 0.035);
+      for (let x = r.x - w; x <= r.x + w + 0.1; x += 0.1) ctx.lineTo(x, visH(x) - 0.035);
+      ctx.lineTo(r.x + w, visH(r.x) + 10); ctx.lineTo(r.x - w, visH(r.x) + 10); ctx.closePath(); ctx.clip();
+      ctx.translate(r.x, r.y); ctx.scale(r.flip ? -1 : 1, -1);
       if (r.crush) ctx.globalAlpha = 0.95;
-      ctx.drawImage(img, -w / 2, -h, w, h);
+      // natural proportions: the top matches the physical top and the extra height is buried, so a
+      // low, wide collision shape still looks like a rounded boulder rather than a squashed slab
+      const hv = Math.max(h, w * img.height / img.width);
+      ctx.drawImage(img, -w / 2, -h, w, hv);
       if (r.crush) {   // hairline cracks mark the breakable shale
         ctx.strokeStyle = 'rgba(30,26,20,0.55)'; ctx.lineWidth = 0.018; ctx.beginPath();
         ctx.moveTo(-w * 0.18, -h * 0.1); ctx.lineTo(-w * 0.04, -h * 0.5); ctx.lineTo(w * 0.12, -h * 0.35); ctx.moveTo(-w * 0.04, -h * 0.5); ctx.lineTo(0, -h * 0.85); ctx.stroke();
       }
       ctx.restore();
+      // soil pushed up around the front of the base
+      ctx.fillStyle = 'rgba(52,40,26,0.8)'; ctx.beginPath(); ctx.ellipse(r.x, gy - 0.005, w * 0.5, 0.045, 0, 0, Math.PI); ctx.fill();
+      ctx.fillStyle = 'rgba(70,55,36,0.55)';
+      for (const k of [-0.35, 0.05, 0.3]) { ctx.beginPath(); ctx.ellipse(r.x + w * k, gy + 0.012, w * 0.09, 0.03, 0, 0, 7); ctx.fill(); }
+    }
+  }
+  function crossingSprite(l, faceOnly = false) {
+    const key = l.kind === 'pipe' ? 'pipe' : 'logCrossing', img = scene.cache.img[key];
+    if (!img) return false;
+    const { ctx } = scene.view, [cx, cy, radius] = scene.season.render.obstacles[key].face;
+    const original = scene.images[key], scale = l.r / radius;
+    ctx.save();
+    ctx.beginPath();
+    const left = l.x - cx * scale, right = left + original.width * scale;
+    for (let x = left; x <= right + 0.08; x += 0.08) ctx.lineTo(x, scene.sim.visH(x) - 0.035);
+    ctx.lineTo(right, l.y + 10); ctx.lineTo(left, l.y + 10); ctx.closePath(); ctx.clip();
+    if (faceOnly) { ctx.beginPath(); ctx.arc(l.x, l.y, l.r * 0.99, 0, Math.PI * 2); ctx.clip(); }
+    ctx.translate(l.x - cx * scale, l.y + cy * scale); ctx.scale(1, -1);
+    ctx.drawImage(img, 0, 0, original.width * scale, original.height * scale); ctx.restore();
+    return true;
+  }
+  function holes(front = false) {
+    const img = scene.cache.img.mudHole; if (!img) return;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
+    for (const hole of scene.sim.terrain.holes) {
+      if (hole.x + hole.width < lo || hole.x - hole.width > hi) continue;
+      const width = hole.width + 0.8, height = hole.depth + 0.8, floor = scene.sim.visH(hole.x);
+      ctx.save();
+      if (front) {
+        ctx.beginPath();
+        for (let x = hole.x - width / 2; x <= hole.x + width / 2 + 0.05; x += 0.05) ctx.lineTo(x, scene.sim.visH(x) - 0.035);
+        ctx.lineTo(hole.x + width / 2, floor - 3); ctx.lineTo(hole.x - width / 2, floor - 3); ctx.closePath(); ctx.clip();
+      }
+      ctx.translate(hole.x - width / 2, floor + hole.depth + 0.45); ctx.scale(1, -1);
+      ctx.drawImage(img, 0, 0, width, height); ctx.restore();
     }
   }
   function bark() {
@@ -50,6 +106,7 @@ export function createProps(scene) {
     const [dx, dy] = LOG_DEPTH, len = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
     for (const l of scene.sim.logs) {
       if (l.x < lo - 2 || l.x > hi + 2) continue;
+      if (crossingSprite(l)) continue;
       ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a);
       pat.setTransform(new DOMMatrix([l.r * 2 / 110, 0, 0, l.r * 2 / 110, 0, -l.r]));
       ctx.beginPath(); ctx.ellipse(len, 0, l.r * 0.55, l.r, 0, -Math.PI / 2, Math.PI / 2); ctx.lineTo(0, l.r); ctx.lineTo(0, -l.r); ctx.closePath();
@@ -63,6 +120,7 @@ export function createProps(scene) {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     for (const l of scene.sim.logs) {
       if (l.x < lo - 2 || l.x > hi + 2) continue;
+      if (crossingSprite(l, true)) continue;
       const r = l.r;
       const end = scene.cache.img.logEnd;
       if (end) {
@@ -81,8 +139,9 @@ export function createProps(scene) {
   }
 
   return {
+    drawHoles() { holes(); },
     drawBehind() { drawList(back); rocks(); logsBehind(); },
-    drawLogEnds: logEnds,
+    drawLogEnds() { holes(true); logEnds(); },
     drawFront() { drawList(front); },
   };
 }

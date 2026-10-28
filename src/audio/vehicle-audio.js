@@ -2,18 +2,19 @@
 // sources.json). Engines are per truck class (src/audio/engine.js). The driven vehicle adds tires on
 // the ground under it, a smooth wade and churn in water, a squelch in mud that grows when the wheels
 // spin, air or hydraulic brakes, the handbrake, its load shaking when it hits rocks and bumps, and the
-// back-up alarm. The season's ambience zones bring in forest birds, swamp insects, frogs and crows.
+// back-up alarm. The season's ambience zones bring in forest birds, frogs and crows.
 // Long beds play through the seamless loop player, so nothing audibly repeats.
 //
 // Volumes: master, engines, effects and ambience, 0..1 each plus mute, saved in the browser.
 
 import { createEngineVoice, engineProfile } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
+import { engineTelemetry } from './rpm-engine.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
 export const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
-const BEDS = ['forest', 'swamp', 'frogs'];
+const BEDS = ['forest', 'frogs'];
 
 function loadVolumes() {
   try { return { ...DEFAULT_VOLUMES, ...JSON.parse(localStorage.getItem(VOLUME_KEY) || '{}') }; } catch (e) { return { ...DEFAULT_VOLUMES }; }
@@ -135,7 +136,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       // parked vehicles idle in the distance
       const dist = Math.abs(v.parts.truck.getPosition().x - s.camX);
       voice.setLevel(live ? (v === s.active ? 1 : 0.8 / (1 + dist / 10)) : 0);
-      voice.set(v.st); voice.update();
+      voice.set(v.st, engineTelemetry(v)); voice.update();
     }
     for (const [v, voice] of voices) if (!seen.has(v)) { voice.stop(); voices.delete(v); }
 
@@ -179,7 +180,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     if (live && dv > 9 && bumpCool <= 0) { api.bump(Math.min(1, (dv - 9) / 25), massT); bumpCool = 0.25; }
 
     // ambience beds and crows, from the zone the camera is in
-    const x = s.camX, w = { forest: 0, swamp: 0, frogs: 0, crows: 0 };
+    const x = s.camX, w = { forest: 0, frogs: 0, crows: 0 };
     for (const z of ambience) w[z.sound] = Math.max(w[z.sound] ?? 0, zoneWeight(z, x) * (z.gain ?? 1));
     for (const name of BEDS) if (beds[name]) { beds[name].setGain(live ? w[name] * 0.6 : 0, 1.2); beds[name].update(); }
     crowT -= dt;

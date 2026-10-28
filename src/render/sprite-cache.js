@@ -16,10 +16,21 @@ export function createSceneryCache(scene) {
     C.img = {
       reeds: scaled(A.reeds, Math.min(1, 1.7 * px / A.reeds.width)),
       log: scaled(A.log, Math.min(1, 3 * px / A.log.width)),
-      rock: scaled(A.rock, Math.min(1, 2.6 * px / A.rock.width)),
+      rock: null,
       midground: scaled(A.midground, Math.min(1, H * DPR * 0.56 / A.midground.height)),
       backdrop: scaled(A.backdrop, Math.min(1, H * DPR * 1.05 / A.backdrop.height)),
     };
+    C.rockSource ??= alphaCrop(A.rock);
+    C.img.rock = scaled(C.rockSource, Math.min(1, 2.6 * px / C.rockSource.width));
+    for (const key of ['logCrossing', 'bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'pipe']) if (A[key]) {
+      // Preserve full canvases for registered near faces/plank edges. Only
+      // support frames and terrain overlays use their visible alpha bounds.
+      const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole'].includes(key);
+      if (crop) { C[`${key}Source`] ??= alphaCrop(A[key]); }
+      const source = crop ? C[`${key}Source`] : A[key];
+      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 9 : 4;
+      C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
+    }
     if (A.logEnd) {
       C.logEndSource ??= alphaCrop(A.logEnd);
       C.img.logEnd = scaled(C.logEndSource, Math.min(1, 1.2 * px / C.logEndSource.width));
@@ -51,6 +62,8 @@ export function createRigCache(view, rig, sources) {
     C.over = makeCanvas(C.body.width, C.body.height);
     const g = C.over.getContext('2d'); g.drawImage(C.body, 0, 0); g.globalCompositeOperation = 'destination-out';
     for (const [x, y, r] of rig.archCircles) { g.beginPath(); g.arc(x * kb, y * kb, r * kb, 0, Math.PI * 2); g.fill(); }
+    // live load layers (a tank of water with an animal in it) at the body's scale
+    C.tank = rig.tank ? Object.fromEntries(['orca', 'waterSurface', 'tankFront'].filter(k => A[k]).map(k => [k, scaled(A[k], kb)])) : null;
     C.wheel = scaled(A.wheel, Math.min(1, rig.radius * Math.max(1, ...(rig.wheelScale ?? [])) / rig.wheelArtRadius * px * 1.1));
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);

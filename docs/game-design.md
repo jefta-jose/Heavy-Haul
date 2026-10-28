@@ -74,6 +74,13 @@ The game sends the smallest one of that role that can pull the main truck's load
 4. Control returns to the main truck. The service truck **stays parked** where it was left.
    **V** or the swap button switches vehicles at any time.
 
+## Live loads
+
+A load can be alive: the Ice Breaker's orca swims in its tank, and the water leans back as the truck
+pulls away, surges forward when it brakes, stays level on hills and splashes over the rim on hard
+stops and bumps. Any car can have one by registering `rig.tank` and its layers in `car.json`
+(see `assets/cars/ice-breaker-19/README.md`); the layers are cut from the approved body art.
+
 ## Sound, engine and handbrake
 
 Every sound is a real recording (credits in the sound panel). Each truck class has its own engine:

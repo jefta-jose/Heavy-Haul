@@ -33,15 +33,16 @@ the car's and season's `source/prompts.json`
 | Rotating tire | `wheel-v2.png` | Transparent square, circular, centered hub, soft even light |
 | Distant swamp | `backdrop-v2.png` | Opaque panorama, misty cool distance, no vehicle or UI |
 | Midground | `midground-v1.png` | Alpha between trunks/foliage, rooted horizontal baseline |
-| Driving bank | `bank-v1.png` | Slightly elevated side view, transparent above far crest, opaque lower ground |
+| Driving bank | `bank-v2.png` | Slightly elevated side view, transparent above far crest, opaque lower ground, matte (no sky reflections) |
 | Extended ground | `ground-v1.png` | Top-down repeatable base color, no perspective or fixed lane |
 | Reeds | `reeds-v3.png` | Clean alpha in every gap, no glow |
 | Fallen timber | `log-v1.png` | Transparent single low prop cluster |
-| Collision rock | `rock-v1.png` | Transparent broad low rock, painted moss and crevices |
+| Collision rock | `rock-v2.png` | Transparent broad low rock, painted moss and crevices |
 
 Vehicle masters are in `assets/cars/swamp-scout-4/source/`, environment masters in
 `assets/seasons/swamp-summer/source/`. The `art` map in each `car.json` / `season.json` selects the
-runtime WebP. Rejected variants were deleted; their reasons are kept in `prompts.json`.
+runtime WebP. Rejected variants are kept beside the selected ones (never overwritten), with their
+reasons in `prompts.json`.
 
 ## Reusable prompt shapes
 
@@ -103,4 +104,12 @@ Choose the next action from the visible defect. Stop revising a satisfactory ass
 problem is its integration; resume image generation when an actual image mismatch remains.
 
 Save versioned originals and record accepted/rejected selections in `prompts.json` and the `art` map.
+
+**Split layers:** a load split into separate parts (the 2026-10-26 trailers and loads) came back in
+mismatched angles and scales and was dropped. Only animated load layers made as edits of the approved
+body, on its exact canvas and camera, are allowed (AGENTS.md); composite them over the body to check.
+Lesson (2026-10-28, Ice Breaker orca): for animated parts of an existing picture, cutting them out of the approved art is reliable; asking the generator for them is not (it redraws the whole picture and loses pixel registration). Codex is still the right choice for whole new pictures. How it was done: the orca's outline is the
+difference between the approved body and an empty-tank image aligned to it; its pixels come from the
+approved body, and the gap behind it is refilled from the aligned empty tank. The stack must rebuild
+the approved body (mean error 0.04 here, zero outside the tank).
 Do not adopt the historical fourteen-image count as a minimum, maximum or spending authorization.

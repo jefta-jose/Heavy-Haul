@@ -30,11 +30,23 @@
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
       "source": "source/wheel-v1.png"
+    },
+    "orca": {
+      "file": "art/orca.webp",
+      "source": "source/orca-v3.png"
+    },
+    "waterSurface": {
+      "file": "art/water-surface.webp",
+      "source": "source/water-surface-v2.png"
+    },
+    "tankFront": {
+      "file": "art/tank-front.webp",
+      "source": "source/tank-front-v1.png"
     }
   },
   "rig": {
@@ -133,7 +145,28 @@
       1,
       1,
       1
-    ]
+    ],
+    "tank": {
+      "rect": [
+        228,
+        222,
+        1252,
+        466
+      ],
+      "surface": [
+        222,
+        292
+      ],
+      "animal": "orca",
+      "pivot": [
+        728,
+        345
+      ],
+      "massT": 20
+    }
+  },
+  "camera": {
+    "zoom": 3.5
   },
   "physics": {
     "mass": 23100,

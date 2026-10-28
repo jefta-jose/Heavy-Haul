@@ -6,8 +6,8 @@ The asset layout is described in [assets/README.md](../../../assets/README.md).
 ## Asset handoff
 
 1. Save generated vehicle masters in `assets/cars/<car-id>/source/` and environment masters in
-   `assets/seasons/<season-id>/source/`. Keep versioned PNG names (`body-v2.png`); delete rejected
-   variants once their rejection reason is recorded.
+   `assets/seasons/<season-id>/source/`. Keep versioned PNG names (`body-v2.png`); keep rejected
+   variants beside them, never overwrite, and record the rejection reason.
 2. Record the full prompt, which image was an edit target versus a style reference, and the chosen or
    rejected version in that folder's `source/prompts.json`. Add to it rather than losing iterations.
 3. Inspect the image itself and its transparency. Alpha bounds above zero can include faint generation

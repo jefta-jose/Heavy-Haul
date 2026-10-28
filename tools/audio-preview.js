@@ -26,7 +26,7 @@ function wav(file, samples, sr) {
 // the drive each engine plays: [seconds, engine state, revs 0..1, throttle]
 export const DRIVE = [[2.2, 'cranking', 0, 0], [3, 'on', 0, 0], [5, 'on', 0.75, 1], [5, 'on', 0.5, 0.45], [3, 'on', 0.45, 0], [3, 'on', 0, 0], [3.5, 'off', 0, 0]];
 
-export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'wade', 'water-churn', 'forest', 'swamp', 'frogs'], seconds = 40 } = {}) {
+export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'wade', 'water-churn', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');
   const bank = readSoundBank();
   classes ??= Object.keys(bank.engines);
@@ -38,7 +38,7 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
     const page = await browser.newPage(); await page.addScriptTag({ content: bundled.outputFiles[0].text });
     const render = (fn, arg) => page.evaluate(fn, arg).then(r => ({ ...r, samples: Float32Array.from(r.samples) }));
     for (const cls of classes) {
-      const pack = bank.engines[cls], names = Object.values(pack.layers);
+      const pack = bank.engines[cls], names = [...Object.values(pack.layers), ...(pack.atlas ? [pack.atlas.clip] : [])];
       const r = await render(async ({ cls, bank, clips, drive }) => {
         const sr = 44100, total = drive.reduce((n, s) => n + s[0], 0), ac = new OfflineAudioContext(1, Math.ceil(total * sr), sr), buffers = {};
         for (const [k, raw] of Object.entries(clips)) buffers[k] = await ac.decodeAudioData(Uint8Array.from(atob(raw), c => c.charCodeAt(0)).buffer);
@@ -48,17 +48,18 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
         const bounds = [0]; for (const [secs] of drive) bounds.push(bounds.at(-1) + secs);
         const steps = [];
         for (let i = 0; i * 0.05 < total - 0.05; i++) {
-          const at = i * 0.05, k = bounds.findIndex(b => b > at) - 1, [, engine, revs, throttle] = drive[Math.max(0, k)];
-          steps.push([Math.round(at * sr / 128) * 128 / sr, { engine, rpm: engine === 'on' ? 750 + revs * 1550 : engine === 'cranking' ? 180 : 0, throttle }]);
+          const at = i * 0.05, k = bounds.findIndex(b => b > at) - 1, [duration, engine, revs, throttle, load] = drive[Math.max(0, k)];
+          const rev = Array.isArray(revs) ? revs[0] + (revs[1] - revs[0]) * (at - bounds[Math.max(0, k)]) / duration : revs;
+          steps.push([Math.round(at * sr / 128) * 128 / sr, { engine, rpm: engine === 'on' ? 750 + rev * 1550 : engine === 'cranking' ? 180 : 0, throttle }, load]);
         }
-        const done = steps.map(([at, st]) => ac.suspend(at).then(() => { voice.set(st); voice.update(); ac.resume(); }));
+        const done = steps.map(([at, st, load]) => ac.suspend(at).then(() => { voice.set(st, { load }); voice.update(); ac.resume(); }));
         const out = await ac.startRendering(); await Promise.all(done);
         return { samples: Array.from(out.getChannelData(0)), bounds, sr };
-      }, { cls, bank, clips: clipData(names), drive: DRIVE });
-      wav(path.join(outDir, `engine-${cls}.wav`), r.samples, r.sr);
+      }, { cls, bank, clips: clipData(names), drive });
+      wav(path.join(outDir, `${tag}-${cls}.wav`), r.samples, r.sr);
       const parts = r.bounds.slice(1).map((end, i) => measure(r.samples.subarray(Math.round(r.bounds[i] * r.sr), Math.round(end * r.sr))));
-      report.push({ kind: 'engine', name: cls, file: `engine-${cls}.wav`, parts });
-      console.log(`engine ${cls.padEnd(11)} start ${parts[0].rms.toFixed(3)} idle ${parts[1].rms.toFixed(3)} pull ${parts[2].rms.toFixed(3)} cruise ${parts[3].rms.toFixed(3)} off ${parts[6].rms.toFixed(4)} peak ${Math.max(...parts.map(p => p.peak)).toFixed(2)}`);
+      report.push({ kind: 'engine', name: cls, file: `${tag}-${cls}.wav`, parts, bounds: r.bounds, drive });
+      console.log(`${tag} ${cls.padEnd(11)} phase RMS ${parts.map(p => p.rms.toFixed(3)).join(' / ')} peak ${Math.max(...parts.map(p => p.peak)).toFixed(2)}`);
     }
     for (const name of beds) {
       const r = await render(async ({ name, clips, seconds }) => {
@@ -76,8 +77,8 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
       report.push({ kind: 'bed', name, file: `bed-${name}.wav`, rms: m.rms, peak: m.peak, minOverMax: spread });
       console.log(`bed ${name.padEnd(12)} rms ${m.rms.toFixed(3)} peak ${m.peak.toFixed(2)} quietest/loudest second ${spread.toFixed(2)}`);
     }
-    fs.writeFileSync(path.join(outDir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
-    fs.writeFileSync(path.join(outDir, 'index.html'), '<!doctype html><meta name="viewport" content="width=device-width"><title>Heavy Haul sound previews</title><style>body{background:#17211e;color:#eee;font:17px system-ui;max-width:820px;margin:40px auto;padding:20px}audio{width:100%}section{margin:22px 0}</style><h1>Heavy Haul sound previews</h1><p>Engines: start, idle, pull away, cruise, ease off, idle, shut down. Beds: 40 s through the seamless loop player.</p>' + report.map(r => `<section><h2>${r.kind} · ${r.name}</h2><audio controls preload="none" src="${r.file}"></audio></section>`).join(''));
+    fs.writeFileSync(path.join(outDir, tag === 'engine' ? 'report.json' : `${tag}-report.json`), JSON.stringify(report, null, 2) + '\n');
+    fs.writeFileSync(path.join(outDir, tag === 'engine' ? 'index.html' : `${tag}-index.html`), '<!doctype html><meta name="viewport" content="width=device-width"><title>Heavy Haul sound previews</title><style>body{background:#17211e;color:#eee;font:17px system-ui;max-width:820px;margin:40px auto;padding:20px}audio{width:100%}section{margin:22px 0}</style><h1>Heavy Haul sound previews</h1><p>' + (tag === 'engine' ? 'Start, idle, pull away, cruise, ease off, idle, shut down.' : '0–2s start; 2–3 idle; 3–6 light pedal; 6–9 full pedal at the SAME RPM; 9–12 uphill load at the SAME RPM and pedal; 12–15 lift off; 15–19 RPM rise; 19–24 steady pedal; 24–26 downshift; 26–28 stop.') + '</p>' + report.map(r => `<section><h2>${r.kind} · ${r.name}</h2><audio controls preload="none" src="${r.file}"></audio></section>`).join(''));
     return report;
   } finally { await browser.close(); }
 }

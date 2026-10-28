@@ -95,5 +95,169 @@
     "file": "source/deep-mud-v2.png",
     "edit_of": "source/deep-mud-v1.png",
     "prompt": "Use case: precise-object-edit. Edit target: deep-mud-v1.png. Repaint ONLY reflections and shiny highlights. Preserve exact 1774x887 canvas, top-down texture layout, every churned ridge and rut flow, scale, framing and premium semi-realistic painted finish. Replace all light olive and grey-blue pools with thick opaque dark brown-olive slurry: dark matte chocolate-brown/olive, few small bubbles and soft ripple folds in the SAME dark colour. Remove all reflected trees, sky and cloud reflections and ALL white glints or bright specular highlights, including on ridges. No blue, grey-white or sky-coloured patches. Even diffuse soft daylight with no cast shadows. Fully opaque image. Seamlessly tile on ALL FOUR EDGES, preserving matching opposite-edge structure and flow. Output PNG exactly 1774x887. No border, text, watermark or scenery."
+  },
+  "log-crossing-v1": {
+    "file": "source/log-crossing-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: isolated physical obstacle sprite for a premium 2.5D side-view swamp truck game. Reference image 1 is the obstacle-design guide: use ONLY panel 2 logs for believable bark and timber construction, NOT its landscape, sun or text. Reference image 2 supplies ONLY the bottom-right Swamp Scout panel's semi-realistic painted game finish, earthy swamp colors and readable dark contours. Generate ONE substantial fallen swamp tree trunk lying ACROSS the driving path: its near sawn end is a clearly circular face toward the camera at lower-left, and the bark-covered cylindrical trunk recedes a short distance diagonally toward upper-right, toward the far verge. Camera only slightly elevated, restrained perspective, no long horizontal roadside log. The near end's face is centered at approximately 30% canvas width and 66% canvas height, with radius approximately 21% of canvas height; full bark cylinder extends toward about 83% width and 24% height. Make the sawn face muted warm weathered brown with naturally fine off-center growth rings and a few irregular radial cracks, NOT a bright orange concentric target. Thick rugged dark gray-brown bark, small broken branch nub, modest olive moss on the upper bark only, believable heavy timber volume. Premium painted game art, fine rich mechanical/natural textures, soft even overcast daylight without cast shadows or reflections. True alpha transparent around the whole object and in gaps; no ground patch, scenery, water, colored halo, shadow, lettering or watermark. Full object visible with clear margins. WIDE 2:1 PNG canvas, at least 1774 x 887 pixels requested.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      321,
+      34,
+      1724,
+      855
+    ],
+    "status": "selected"
+  },
+  "bridge-plank-v1": {
+    "file": "source/bridge-plank-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: isolated bridge deck plank sprite for an articulated physical wooden bridge in a 2.5D swamp truck game. Reference image 1 panel 5 supplies rough timber bridge construction; reference image 2 ONLY bottom-right Swamp Scout supplies premium semi-realistic painted game illustration and muted swamp palette. ONE massive weathered oak sleeper, square-ended, NOT an entire bridge: its width left-to-right in the image is one deck segment along the driving direction; its length runs away from the viewer toward upper-right across the lane. Restrained elevated side view. A broad top face is a parallelogram, near edge horizontal across the image, far edge offset slightly to the right; visible chunky front fascia below the near edge. Shape: near corners approximately (15%,70%) and (75%,70%), far corners (30%,20%) and (90%,20%), lower front corners (15%,82%) and (75%,82%). Realistic irregular timber edges, crushed fibers, longitudinal fine gray-brown wood grain, dark knots and splits, two understated dark iron fasteners near the front quarter. Natural worn matte material, olive-brown grime in crevices, soft even overcast light, readable dark contours, painted not photo. True alpha transparent background, no ground or cast shadow, no text/logos/watermark, no other boards, ropes, scenery or bright highlights. Entire object with clear margins. Square PNG canvas at least 1536x1536 requested.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      44,
+      272,
+      1236,
+      1140
+    ],
+    "status": "rejected",
+    "rejection_reason": "1254x1254 canvas is below the 1500px long-side minimum."
+  },
+  "rock-v2": {
+    "file": "source/rock-v2.png",
+    "prompt": "Use case: stylized-concept. Asset type: one isolated climbable rock obstacle for a 2.5D side-scrolling swamp driving game. Image 1 panel 3 supplies believable embedded rocky bumps; image 2 ONLY bottom-right Swamp Scout panel supplies painted semi-realistic game finish and earthy muted palette. ONE squat broad weathered river boulder, about twice as wide as tall, gently rounded asymmetrical crest with a few worn angular facets so a truck tire can roll up it. Dark gray-brown stone with warm earthy mineral streaks, dark natural contours, restrained olive moss in cracks, fine granular stone texture and a small amount of matte mud on its lowest edge. Side view with very restrained elevation, little top surface visible. Whole single rock centered with clear margins on wide 2:1 PNG canvas, at least 1774x887. TRUE transparent alpha everywhere outside the rock. NO ground patch, vegetation cluster, cast/drop shadow, shiny highlights, reflections, blue glow, sky, text, logo or watermark. Soft even daylight. This rock's visible silhouette will be traced into matching collision geometry; keep its bottom nearly flat and crest continuous, no detached stones.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      166,
+      289,
+      1615,
+      731
+    ],
+    "status": "selected",
+    "revision_reason": "Existing rock art and collision shape disagree; too few readable rocky bumps."
+  },
+  "bridge-frame-v1": {
+    "file": "source/bridge-frame-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: transparent wooden bridge support frame for a 2.5D side-view swamp truck game. Reference image 1 panel 5 for believable rough timber engineering; image 2 ONLY bottom-right Swamp Scout for premium semi-realistic painted game illustration and muted swamp materials. Generate ONE complete horizontal UNDER-DECK TIMBER FRAME, a long thick weathered load-bearing beam across the top, a short vertical timber support at each end, and two diagonal timber knee braces angling inward beneath the beam. Clearly assembled massive gray-brown timbers with mortise joints, rusty iron straps and bolts, deeply weathered wood grain, a little olive moss at lower joints. Strict side elevation with a tiny restrained view of upper surfaces. No deck planks, no railing, no ropes, no ground, no cliffs, no water, no scenery, no cast/drop shadow. Transparent empty space BETWEEN every brace. Entire isolated structure visible with generous alpha margins. A wide bridge support about five times wider than its structural height, placed across a wide 2:1 PNG canvas at least 1774x887. The upper beam is level and straight left-to-right; both end supports equal height. Soft even overcast daylight, crisp readable dark contours, matte natural texture, no reflections, no highlights/glints, no text or watermark.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      14,
+      274,
+      1761,
+      688
+    ],
+    "status": "selected"
+  },
+  "mud-hole-v1": {
+    "file": "source/mud-hole-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: transparent muddy pothole / bog-crater terrain overlay for a premium side-scrolling 2.5D swamp truck game. Image 1 panel 4 supplies the irregular sunken bowl and churned berm shape; image 2 ONLY bottom-right Swamp Scout supplies semi-realistic painted finish and muted natural palette. A single broad shallow excavated mud hole viewed from the side with restrained 10-degree elevation: irregular low far rim of churned mud, a clearly lower dark brown bowl in the middle, sloping torn muddy entry on left and exit on right, a near rim of soft clods and exposed roots. Broad oval footprint, approximately three times wider than its visible height. The hole reads deep enough for truck wheels to drop into, NOT a flat puddle. The interior is opaque saturated chocolate-brown waterlogged mud, nearly black at the bottom, with low soft same-brown ripple folds and two tiny bubbles. NO WATER REFLECTIONS AT ALL: no sky colors, blue, white, silver or specular glints; all wetness is matte dark brown. A few tiny embedded stones and torn reed fibers in the berm, no tall plants. Whole irregular soil patch isolated on TRUE TRANSPARENT ALPHA around the outer edge; no rectangle, no background or ground beyond the immediate rim, no exposed geological cutaway, no cast shadow. Premium textured painted game art, readable dark contours, soft even daylight. Wide 2:1 PNG, at least 1774x887 requested, centered with clear transparent margins. No text, labels, logos or watermark.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      11,
+      303,
+      1764,
+      678
+    ],
+    "status": "selected"
+  },
+  "pipe-v1": {
+    "file": "source/pipe-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: isolated concrete culvert pipe obstacle sprite for a premium 2.5D side-view swamp truck game. Reference image 1 panel 1 supplies the large pipe construction; reference image 2 ONLY bottom-right Swamp Scout supplies the painted illustration style and earthy swamp palette. ONE large weathered reinforced-concrete drainage pipe lying across the road, its circular open mouth facing camera at lower-left, its short cylindrical body receding diagonally into the upper-right toward the far verge. Mouth centered at approximately (30% canvas width, 66% canvas height), outer radius about 21% canvas height. Full object with ample transparent margins on a wide 2:1 PNG canvas at least 1774x887. Thick chipped gray-brown concrete rim, near-black dark hollow interior with a subtle inner curved wall, a few rusty reinforcement marks, muted olive moss and matte dried mud along the lower surface. Same pipe diameter front to back. Restrained elevated side camera. Rich semi-realistic painted game finish, crisp readable natural contours, fine pitted concrete texture. Soft even overcast daylight; no cast/drop shadow, no reflection or shiny highlights. TRUE transparent background around object; dark pipe interior is opaque dark brown-black, not a hole to scenery. No ground patch, water, sky, trees, people, text, logo or watermark.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      167,
+      84,
+      1681,
+      835
+    ],
+    "status": "selected"
+  },
+  "bridge-plank-v2": {
+    "file": "source/bridge-plank-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target: the inspected isolated bridge sleeper image. Preserve this exact weathered timber object, its perspective, painted finish, grain, dark bolt heads and transparent background. Reframe on a WIDE 2:1 transparent PNG canvas at least 1774 x 887 pixels, with the complete object centered and clear transparent margins on all sides. Preserve object proportions; fit the whole sleeper within the canvas height and use generous extra transparent side space. Do not crop any wood, do not add a second board, scenery, ground, cast shadow or text. This is a versioned revision because the first square canvas was only 1254 pixels wide, below the required 1500 pixel long side. True alpha transparency, no halo.",
+    "edit_of": "source/bridge-plank-v1.png",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      410,
+      120,
+      1375,
+      816
+    ],
+    "status": "selected",
+    "revision_reason": "v1 is 1254x1254, below the required 1500px long side."
+  },
+  "bridge-steel-frame-v1": {
+    "file": "source/bridge-steel-frame-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: transparent industrial bridge underframe sprite for a premium 2.5D side-view swamp truck game. Reference image 1 panel 6 supplies steel bridge engineering, image 2 ONLY bottom-right Swamp Scout supplies the painted semi-realistic game finish and muted swamp palette. ONE complete long horizontal rusty industrial steel bridge SUPPORT FRAME only: a substantial straight level steel girder along the top, two short upright end columns beneath it, a shallow lower arched steel chord and three diagonal cross braces between them. Massive riveted plates and bolted gussets, weathered dull brown-gray steel, dark rust seams and a little olive grime, crisp readable dark contours, finely painted mechanical detail. No deck boards, no top railing, no ground, cliffs, river, scenery or cast shadow. True transparent alpha around the entire frame and THROUGH ALL openings between steel members. Entire frame visible with generous clear margins on a WIDE 2:1 PNG canvas at least 1774x887. Frame about five times wider than its structural height; place it centrally. Soft even overcast daylight, matte material, no specular shine, blue/silver glints, text, logos or watermarks.",
+    "method": "built-in imagegen",
+    "references": [
+      "assets/seasons/Off-Road Terrain Obstacles Guide.png",
+      "assets/references/four-scout-trucks.png"
+    ],
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alphaBounds": [
+      21,
+      265,
+      1754,
+      635
+    ],
+    "status": "selected"
   }
 }

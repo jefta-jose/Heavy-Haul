@@ -74,20 +74,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.evaluate(() => __haul.sim.ctl.awd && __haul.sim.ctl.diff), '4x4 and DIFF buttons engage');
     await page.keyboard.press('KeyL'); assert.equal(await page.evaluate(() => __haul.sim.ctl.gear), 'L');
 
-    // The camera cycles through all four views and wraps; larger values show more terrain.
-    const initialScale = await page.evaluate(() => __haul.view.ppm);
-    let previousScale = initialScale;
-    for (const zoom of [2.5, 3.5, 4.5, 1.5]) {
-      await page.click('#cameraBtn');
-      const state = await page.evaluate(() => ({ zoom: __haul.view.zoom, ppm: __haul.view.ppm }));
-      assert.equal(state.zoom, zoom);
-      assert.equal(await page.locator('#cameraBtn').innerText(), `${zoom}×`);
-      if (zoom !== 1.5) assert(state.ppm < previousScale, 'higher zoom level widens the view');
-      else assert.equal(state.ppm, initialScale, 'wrapping restores the original scale');
-      previousScale = state.ppm;
-    }
-    await page.keyboard.press('KeyC');
-    assert.equal(await page.evaluate(() => __haul.view.zoom), 2.5, 'C cycles the same zoom levels');
+    // The camera uses the car's own zoom from car.json; there is no zoom button any more.
+    assert.equal(await page.locator('#cameraBtn').count(), 0, 'no zoom button');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.car.camera.zoom), 'the car sets the zoom');
     await page.waitForTimeout(200);
     assert(await page.evaluate(() => { const { W, ppm, cam } = __haul.view, nose = __haul.sim.truck.getWorldPoint(__haul.sim.V(__haul.sim.car.rig.nose, 0)); const x = (nose.x - cam.x) * ppm + W / 2; return x > W * 0.5 && x < W * 0.9; }), 'nose stays in frame');
     await capture('02-close');
@@ -105,10 +94,15 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.evaluate(x => Math.abs(__haul.sim.truck.getPosition().x - x) < 0.3, heldX), 'held against the throttle');
     await page.keyboard.press('KeyB');
     assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), false, 'B releases it');
+    // Engine-off means no propulsion, not immunity to gravity on the rebuilt
+    // obstacle course. Check stationary behavior on the calm launch apron.
+    await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.start); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.click('#engineBtn');
     assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'off', 'ENGINE turns it off');
     assert.equal(await page.locator('#engineBtn').getAttribute('aria-pressed'), 'false');
-    const parkedX = await page.evaluate(() => __haul.sim.truck.getPosition().x);
+    // on firm, level ground at the start (the drive above can end at the edge of the mud, where a
+    // parked truck settles a little as its tires sink)
+    const parkedX = await page.evaluate(() => { const s = __haul.sim; s.respawn(30); for (let i = 0; i < 240; i++) s.step(1 / 120); return s.truck.getPosition().x; });
     await page.keyboard.down('ArrowRight'); await page.evaluate(() => { for (let i = 0; i < 240; i++) __haul.sim.step(1 / 120); }); await page.keyboard.up('ArrowRight');
     assert(await page.evaluate(x => Math.abs(__haul.sim.truck.getPosition().x - x) < 0.3, parkedX), 'no drive with the engine off');
     await page.keyboard.press('KeyI');
@@ -193,7 +187,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
       await page.waitForTimeout(100); if (name) await capture(name);
     }
 
-    // Deep slurry is visible before it slows the truck; moving tires leave bounded impressions.
+    // Deep slurry is visible before it slows the truck; moving tires leave ruts that stay for the run.
     await page.evaluate(() => {
       const s = __haul.sim; s.respawn(s.trail.heavyMud[0]); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true);
       for (let frame = 0; frame < 150; frame++) {
@@ -203,7 +197,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
       s.ctl.gas = 0; __haul.snap();
     });
     await page.waitForFunction(() => document.getElementById('surfChip').classList.contains('bog'));
-    assert(await page.evaluate(() => __haul.renderer.mudTracks > 4 && __haul.renderer.mudTracks <= 260), 'moving tires leave retained, bounded mud ruts');
+    assert(await page.evaluate(() => __haul.renderer.mudTracks > 0.5), 'moving tires leave mud ruts');
+    const rutX = await page.evaluate(() => __haul.sim.trail.heavyMud[0] + 0.5);
+    assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'the ruts are deep in the bog');
     await capture('08-bog-splash');
     await page.evaluate(() => {
       const s = __haul.sim, b = s.bridges[0]; s.respawn((b.x0 + b.x1) / 2);
@@ -211,8 +207,29 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     });
     await page.waitForFunction(() => __haul.sim.st.surf === 'wood');
     await capture('09-swing-bridge');
+    // a minute later and somewhere else, the ruts are still where they were left
+    await page.evaluate(() => { for (let i = 0; i < 120 * 60; i++) __haul.sim.step(1 / 120); for (let f = 0; f < 30; f++) __haul.renderer.draw(1 / 60, true); });
+    assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
+    // the Ice Breaker's orca and tank water respond to the truck: pulling away leans the water back
+    // and sends the orca back; braking surges both forward
+    await page.evaluate(() => { __haul.garage.select('ice-breaker-19'); __haul.startRun(__haul.garage.selection); });
+    await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
+    const tankAfter = await page.evaluate(() => {
+      const s = __haul.sim, r = __haul.renderer, v = s.active, out = {}, pick = () => { const t = r.liveLoad(s.active); return { ox: t.ox, slope: t.slope }; };
+      s.respawn(30); __haul.setGear('L');
+      const run = (frames, gas, brake) => { for (let f = 0; f < frames; f++) { s.ctl.gas = gas; s.ctl.brake = brake; s.step(1 / 120); s.step(1 / 120); r.draw(1 / 60, true); } };
+      run(30, 0, 0); out.rest = pick();
+      run(50, 1, 0); out.pull = pick();
+      run(200, 1, 0); run(25, 0, 1); out.brake = pick();
+      s.ctl.gas = s.ctl.brake = 0; return out;
+    });
+    assert(tankAfter.pull.ox < tankAfter.rest.ox - 1, 'the orca drifts back as the truck pulls away');
+    assert(tankAfter.brake.ox > tankAfter.pull.ox + 1, 'and surges forward under braking');
+    assert(Math.abs(tankAfter.pull.slope - tankAfter.brake.slope) > 0.005, 'the water surface tilts with the motion');
+    await capture('10-orca-tank');
+    await page.evaluate(() => { __haul.garage.select('swamp-scout-4'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
     await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForTimeout(400);
@@ -223,16 +240,13 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(100);
     for (const id of ['#pauseBtn', '#gas', '#brake']) { const b = await page.locator(id).boundingBox(); assert(b.x >= 0 && b.x + b.width <= 391, `${id} fits portrait`); }
     await capture('07-portrait');
-    let portraitScale = await page.evaluate(() => __haul.view.ppm);
-    for (const zoom of [2.5, 3.5, 4.5]) {
-      await page.click('#cameraBtn');
-      const state = await page.evaluate(() => ({ zoom: __haul.view.zoom, ppm: __haul.view.ppm }));
-      assert.equal(state.zoom, zoom);
-      assert(state.ppm < portraitScale, 'each zoom level remains distinct on narrow screens');
-      portraitScale = state.ppm;
-    }
+    // the long rigs and the service trucks frame with their own zoom; switching vehicles re-frames
     await page.setViewportSize({ width: 844, height: 390 });
-    assert.equal(await page.evaluate(() => __haul.view.zoom), 4.5, 'resizing preserves the selected zoom');
+    const scoutZoom = await page.evaluate(() => __haul.view.zoom);
+    await page.evaluate(() => __haul.summon('repair'));
+    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.active.car.camera.zoom), 'the breakdown truck uses its own zoom');
+    await page.evaluate(() => __haul.switchVehicle());
+    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, its zoom returns');
     assert.deepEqual(errors, [], 'no runtime or artwork errors');
   } finally {
     await browser.close(); await new Promise(r => server.close(r));

@@ -78,8 +78,34 @@ at the **rear**: show the drum and hook clearly.
    is used on all of them.
 4. `prompts.json`: `{ "master": {"prompt": "..."}, "body": {"edit_of": "vehicle-master-v1.png", "prompt": "..."}, "wheel": {"prompt": "..."} }`.
 
-Before finishing, check that the body and master PNGs have identical dimensions and that the wheel
-is square. Long rigs need a wide canvas; keep at least 1500 px across the whole vehicle.
+### Animated load layers (only when a car's README asks for them)
+
+The load stays part of the vehicle image. The single exception: a car's README can ask for a small
+**animated part** of an already approved load (an animal swimming in a tank, water in it) as extra
+layers. These are not separate loads to combine, and they never replace the body. Past attempts to
+split loads off failed because the parts came back in a different perspective, scale or angle, so
+every layer must follow these rules exactly:
+
+- **Same camera as the body:** strictly side-on (90°), facing right, no tilt, no rotation, no 3/4
+  view, no perspective change. A shape that is horizontal in the body stays horizontal.
+- **Same canvas and registration:** every layer has the body's exact pixel dimensions, and each part
+  sits at the exact pixel position, size and angle it has in the current body. Layers are stacked
+  straight on top of the body with no offset; nothing is cropped, recentred or rescaled.
+- **Edits, not new drawings:** each layer is an edit of the current approved body or master, so
+  lighting, palette and painting match. Name the edit target in `prompts.json`.
+- **True transparency** everywhere outside the part, with no halo, checkerboard or shadow.
+
+Report the pixel bounds of each part (left, top, right, bottom) with the file list.
+
+**Lesson (2026-10-28, Ice Breaker orca):** for animated parts of an existing picture, cutting them out
+of the approved art is reliable; asking the generator for them is not. The built-in generator redraws
+the whole picture and loses pixel registration (the orca came back larger, the body 1919×820 and
+shifted). So Claude cuts animated layers from the approved art (`tools/art/ice-breaker-layers.py`).
+Codex may be asked for a helper image, such as the same scene with the part removed, which only serves
+as a reference for the cut. Codex is still the right choice for whole new pictures.
+
+Before finishing, check that the body and master PNGs (and any load layers) have identical
+dimensions and that the wheel is square. Long rigs need a wide canvas; keep at least 1500 px across the whole vehicle.
 
 ## HUD and garage: `assets/hud/`
 

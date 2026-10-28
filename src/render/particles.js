@@ -81,6 +81,12 @@ export function createParticles(scene, onEvent) {
         for (let k = 0; k < (e.type === 'bridge-break' ? 14 : 4); k++) emitChunk(e.x, e.y, (Math.random() - 0.5) * 2, Math.random() * 1.5, 0.025 + Math.random() * 0.04, k % 2 ? '#80613e' : '#ad8d5a');
         onEvent(e); continue;
       }
+      if (e.type === 'tank-splash') {
+        // water thrown over the rim of a live-load tank
+        for (let k = 0; k < 6 + e.power * 8; k++) emitDrop(e.x + (Math.random() - 0.5) * 0.5, e.y + 0.05, e.vx * (0.5 + Math.random() * 0.5) + (Math.random() - 0.5), 1.2 + Math.random() * 2.2 * e.power, 0.02 + Math.random() * 0.03, 0.9, 'rgba(196,226,236,0.9)');
+        emitPuff('spray', e.x, e.y + 0.1, e.vx * 0.3, 0.6, 0.12, 0.8, 0.6, 0.35);
+        onEvent(e); continue;
+      }
       if (e.type !== 'crush') continue;
       for (let k = 0; k < 12; k++) emitChunk(e.x + (Math.random() - 0.5) * e.w * 0.6, e.y + Math.random() * 0.15, (Math.random() - 0.5) * 3 + v.x * 0.3, 1 + Math.random() * 2.6, 0.035 + Math.random() * e.w * 0.09, Math.random() < 0.5 ? '#6e6a60' : '#8b867a');
       for (let k = 0; k < 5; k++) emitPuff('dust', e.x + (Math.random() - 0.5) * e.w, e.y, (Math.random() - 0.5) * 0.8, 0.3 + Math.random() * 0.5, 0.2, 0.9, 1.4, 0.4);

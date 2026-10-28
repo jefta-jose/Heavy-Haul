@@ -91,7 +91,11 @@
       "crankS": 1.9,
       "pitch": 1,
       "cutoff": 3600,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "source": "fs-451373",
+        "cylinders": 6
+      }
     },
     "heavy-duty": {
       "name": "Cummins start, recovery diesel idle, Mack dump trucks",
@@ -140,10 +144,14 @@
       "crankS": 1.7,
       "pitch": 1,
       "cutoff": 3400,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "source": "fs-733091",
+        "cylinders": 6
+      }
     },
     "offroad": {
-      "name": "Military vehicle, Humvee and APC diesels",
+      "name": "Humvee diesel \u2014 smooth off-road profile",
       "start": {
         "source": "mesa-cummins",
         "region": [
@@ -185,7 +193,17 @@
       "crankS": 1.7,
       "pitch": 0.97,
       "cutoff": 3200,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "source": "fs-160357",
+        "cylinders": 8,
+        "lowpass": 2800,
+        "maxStability": 0.18,
+        "grainCycles": 10,
+        "cutoff": 2600,
+        "crossfade": "equal-power",
+        "leveling": true
+      }
     },
     "heavy": {
       "name": "Heavy construction engines and an excavator",
@@ -246,7 +264,11 @@
       "crankS": 2.0,
       "pitch": 0.9,
       "cutoff": 2800,
-      "airBrakes": true
+      "airBrakes": true,
+      "atlas": {
+        "source": "fs-187563",
+        "cylinders": 6
+      }
     }
   },
   "effects": {
@@ -495,16 +517,6 @@
         [
           5.0,
           65.0
-        ]
-      ]
-    },
-    "swamp": {
-      "kind": "loop",
-      "source": "fs-547690",
-      "regions": [
-        [
-          1.0,
-          46.0
         ]
       ]
     },

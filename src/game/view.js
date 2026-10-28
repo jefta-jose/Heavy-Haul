@@ -1,11 +1,11 @@
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
 // Framing: the vehicle's nose sits at FRAMING.front of the screen width and the ground at
-// FRAMING.ground of the height from the bottom. Higher zoom levels widen the view.
+// FRAMING.ground of the height from the bottom. Each car sets its own zoom in car.json
+// (`camera.zoom`, 1.5 = 17.7 m of trail across the screen; higher shows more), applied whenever
+// that car is driven. A car without one gets a zoom sized to its length.
 // The camera follows with a critically damped spring fed the vehicle's velocity, so it keeps
 // pace under acceleration; vertical feed-forward is zero so suspension bounce never shakes it.
-
-export const ZOOM_LEVELS = [1.5, 2.5, 3.5, 4.5];
 
 export const FRAMING = {
   front: 0.60, ground: 0.30, groundShort: 0.31,
@@ -34,10 +34,11 @@ export function createView(canvas, sim) {
     if (sim.vehicles.length) view.snap();
   };
 
-  view.cycleZoom = () => {
-    view.zoom = ZOOM_LEVELS[(ZOOM_LEVELS.indexOf(view.zoom) + 1) % ZOOM_LEVELS.length];
-    view.resize();
-    return view.zoom;
+  // frame the car being driven with its own zoom
+  view.setZoom = zoom => {
+    zoom = Math.max(0.8, Math.min(6, Number(zoom) || FRAMING.zoom));
+    if (zoom === view.zoom) return;
+    view.zoom = zoom; view.resize();
   };
 
   function target() {
@@ -59,4 +60,11 @@ export function createView(canvas, sim) {
     }
   };
   return view;
+}
+
+// A car's zoom: its car.json camera.zoom, or wide enough to show about 1.6 times its length.
+export function zoomFor(car) {
+  if (car.camera?.zoom) return car.camera.zoom;
+  const rig = car.rig, length = rig.nose - (Math.min(...rig.axles) - rig.radius);
+  return Math.round(Math.max(FRAMING.zoom, Math.min(4.5, length * 1.6 / FRAMING.width)) * 10) / 10;
 }

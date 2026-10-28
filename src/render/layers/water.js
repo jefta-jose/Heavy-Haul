@@ -10,7 +10,9 @@ export function drawWater(scene, time) {
     if (q.x1 < lo || q.x0 > hi) continue;
     const a = Math.max(q.x0, lo - 1), b = Math.min(q.x1, hi + 1);
     const surf = x => q.level + Math.sin(x * 1.9 + time * 1.6) * 0.018 + Math.sin(x * 0.7 - time * 0.9) * 0.02;
-    const g = ctx.createLinearGradient(0, q.level + 0.05, 0, q.level - 1); g.addColorStop(0, 'rgba(120,140,128,0.62)'); g.addColorStop(0.25, 'rgba(66,78,58,0.66)'); g.addColorStop(1, 'rgba(40,46,32,0.78)');
+    // murky near the surface, clearing with depth so a deep gully (under a bridge) shows its banks
+    // through the water instead of reading as a solid box
+    const g = ctx.createLinearGradient(0, q.level + 0.05, 0, q.level - 1.8); g.addColorStop(0, 'rgba(120,140,128,0.6)'); g.addColorStop(0.18, 'rgba(66,78,58,0.6)'); g.addColorStop(0.55, 'rgba(48,56,40,0.38)'); g.addColorStop(1, 'rgba(40,46,32,0.12)');
     // Fill only the submerged intervals. Joining dry samples to the basin's water level
     // paints large translucent rectangles and waterfalls across otherwise dry approaches.
     let wet = [];

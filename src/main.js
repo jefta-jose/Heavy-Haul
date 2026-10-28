@@ -3,7 +3,7 @@ import content from 'virtual:content';
 import { createSimulation } from './physics/simulation.js';
 import { createRenderer } from './render/renderer.js';
 import { createVehicleAudio } from './audio/vehicle-audio.js';
-import { createView } from './game/view.js';
+import { createView, zoomFor } from './game/view.js';
 import { createInput } from './game/input.js';
 import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
@@ -53,13 +53,6 @@ function pause() {
   if (session.state === 'play') showPause();
   else if (session.state === 'pause') session.resume();
 }
-function toggleCamera() {
-  const zoom = view.cycleZoom(), button = hud.els.cameraBtn;
-  button.textContent = `${zoom}×`;
-  button.setAttribute('aria-label', `Camera zoom ${zoom}. Click to cycle zoom levels`);
-  button.title = `Camera zoom ${zoom} (C): 1.5 / 2.5 / 3.5 / 4.5`;
-  hud.toast(`Camera zoom: ${zoom}`, 1.5);
-}
 function resize() { view.resize(); hud.resizeGauges(view.DPR); }
 
 // ---------- vehicles: the main truck and summoned service trucks ----------
@@ -67,7 +60,7 @@ function drive(v) {
   stopRefueling();
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
-  sim.setActive(v); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
+  sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
   // the 4×4 switch exists on all-wheel-drive vehicles (4×4, 6×6, 10×10...), not on a 4×2 or 6×4
   { const [w, d] = v.car.drive.split('×').map(Number); hud.els.awdBtn.hidden = !(w > 0 && w === d); }
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
@@ -164,7 +157,7 @@ function updateRefueling(dt) {
 }
 
 const input = createInput(hud.els, {
-  gear: setGear, toggle: k => setMode(k, !sim.ctl[k]), camera: toggleCamera, pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
+  gear: setGear, toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
 });
 
 function newRun() {
@@ -177,7 +170,7 @@ function newRun() {
 }
 // a run starts with the engine off and the starter cranking, like turning the key
 function startRun(sel) { selection = sel; garage.hide(); session.state = 'play'; startAudio(); newRun(); sim.stopEngine(sim.main); sim.startEngine(sim.main); }
-function openGarage() { stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
+function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
 
 async function goFullscreen() {
   const el = document.documentElement;
@@ -194,7 +187,6 @@ E.fsBtn.addEventListener('click', goFullscreen);
 E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 for (const b of document.querySelectorAll('.gear button')) b.addEventListener('click', () => setGear(b.dataset.g));
-E.cameraBtn.addEventListener('click', toggleCamera);
 E.pauseBtn.addEventListener('click', pause);
 E.fuelCallBtn.addEventListener('click', () => summon('fuel'));
 E.repairCallBtn.addEventListener('click', () => summon('repair'));
@@ -222,10 +214,10 @@ function frame(now) {
   const playing = session.state === 'play';
   if (playing) {
     const held = input.read();
-    sim.ctl.gas = !refueling && held.gas ? 1 : 0;   // the engine model spools the throttle
+    sim.ctl.gas = refueling ? 0 : Number(held.gas);   // retain analog pedal position
     if (held.gas && sim.ctl.handbrake && sim.st.engine === 'on' && Math.abs(sim.st.speed) < 0.5 && !hud.toastActive) hud.toast('The handbrake is on. Tap PARK (B) to release it.', 2);
     if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is off. Tap ENGINE (I) to start it.' : 'The tank is empty. Call a fuel truck.', 2);
-    sim.ctl.brake = refueling || held.brake ? 1 : 0;
+    sim.ctl.brake = refueling ? 1 : Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
     acc += dt; let n = 0;

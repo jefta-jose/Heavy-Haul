@@ -79,6 +79,9 @@
     "nose": 2.851,
     "towRear": -2.639
   },
+  "camera": {
+    "zoom": 1.5
+  },
   "physics": {
     "mass": 6100,
     "centreOfMass": [

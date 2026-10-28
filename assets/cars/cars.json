@@ -3871,7 +3871,7 @@
    "torqueNm": 2100,
    "fuelL": 400,
    "wheelType": "mud-terrain",
-   "tireDiameterM": 1.3,
+   "tireDiameterM": 1.75,
    "towMassT": 45,
    "art": {
     "body": "signal red 6×6 recovery wrecker",

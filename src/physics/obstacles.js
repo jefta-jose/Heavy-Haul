@@ -11,7 +11,13 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const { zones, visH, colH, nearStep, nearCalm } = terrain;
   const rocks = [], logs = [];
   const rr = seededRandom(trail.obstacleSeed);
-  const reserved = x => (trail.logPiles ?? []).some(p => Math.abs(x - p.x) < 4) || (trail.bridges ?? []).some(b => x > b.x0 - 2 && x < b.x1 + 2);
+  const runs = (trail.obstacleRuns ?? []).map((spec, index) => {
+    const positions = [spec.x];
+    for (let i = 1; i < spec.count; i++) positions.push(positions.at(-1) + 2 * spec.radius + (spec.gaps?.[i - 1] ?? spec.gap));
+    return { spec, index, positions, x0: positions[0] - spec.radius, x1: positions.at(-1) + spec.radius };
+  });
+  const gardenAt = x => (trail.rockGardens ?? []).find(g => x > g.x0 - 2 && x < g.x1 + 2);
+  const reserved = x => runs.some(r => x > r.x0 - 2 && x < r.x1 + 2) || terrain.nearHole(x, 1.5) || (trail.bridges ?? []).some(b => x > b.x0 - 8 && x < b.x1 + 5);
 
   // Body from a traced hull, sitting `above` metres proud of the lowest ground under it.
   const rockBody = (x, above, wM) => {
@@ -20,7 +26,7 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     const by = g + above - (sh.h - sh.top) * s;
     const verts = sh.hull.map(([px, py]) => V((px - sh.w / 2) * s * (flip ? -1 : 1), (sh.h - py) * s));
     const body = world.createBody({ position: V(x, by) });
-    return { body, verts, rec: { x, y: by, w: wM, h: sh.h * s, flip, above } };
+    return { body, verts, rec: { x, y: by, w: wM, h: sh.h * s, flip, above, body } };
   };
   const boulder = (x, above, wM) => {
     const { body, verts, rec } = rockBody(x, above, wM);
@@ -37,33 +43,35 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   // climbable boulders on every firm section, sized for 0.87 m tires
   for (const [z0, z1, s] of zones) {
     if (s === 'mud') continue;
-    const gap = s === 'rock' ? 6 : 16;
-    for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (!reserved(x) && !nearStep(x) && !nearCalm(x, 8)) boulder(x, s === 'creek' ? 0.22 + rr() * 0.15 : 0.3 + rr() * 0.28, 1.1 + rr() * 0.9);
+    const gap = s === 'rock' ? 5 : 11;
+    for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 8)) boulder(x, s === 'creek' ? 0.16 + rr() * 0.13 : 0.2 + rr() * 0.2, 1.1 + rr() * 0.9);
   }
   for (const [z0, z1, s] of zones) {
     if (s === 'mud') continue;
-    for (let x = z0 + 8; x < z1 - 8; x += (s === 'rock' ? 7 : 11) + rr() * 10) if (!reserved(x) && !nearStep(x) && !nearCalm(x, 6) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + 1.5)) crushable(x, 0.2 + rr() * 0.16, 0.55 + rr() * 0.4);
+    for (let x = z0 + 8; x < z1 - 8; x += (s === 'rock' ? 7 : 11) + rr() * 10) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + 1.5)) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
   }
-  // fallen logs; in mud they are smaller and lie half sunk
-  for (const [z0, z1, s] of zones) {
-    for (let x = z0 + 10; x < z1 - 8; x += (s === 'mud' ? 22 : 9) + rr() * 12) {
-      if (nearStep(x) || nearCalm(x, 8) || trail.heavyMud.some(h => Math.abs(h - x) < 14) || rocks.some(r => Math.abs(r.x - x) < r.w / 2 + 1.8)) continue;
-      if (reserved(x)) continue;
-      const mud = s === 'mud', r = mud ? 0.17 + rr() * 0.05 : 0.2 + rr() * 0.13, y = Math.max(colH(x - r), colH(x), colH(x + r)) + r * (mud ? 0.35 : 0.72);
-      const b = world.createBody({ position: V(x, y) });
-      b.createFixture(new pl.Circle(r), { friction: 0.75, userData: { surf: 'rock' } });
-      logs.push({ x, y, r, seed: rr() });
+  // Repeated low crests articulate the suspension; occasional larger stones
+  // punctuate a garden without turning the whole road into a wall of boulders.
+  for (const garden of trail.rockGardens ?? []) {
+    let index = 0;
+    for (let x = garden.x0 + 1; x < garden.x1 - 1; x += garden.gap + rr() * 0.7) {
+      if (reserved(x) || nearCalm(x, 5)) continue;
+      const large = index++ % 5 === 4;
+      // rounder stones that stand proud of the mud (still within reach of the tires)
+      boulder(x, large ? 0.5 : 0.3 + rr() * 0.12, large ? 1.9 : 1.25 + rr() * 0.4);
+      rocks.at(-1).garden = true;
     }
   }
-  // Three trunks below and one above: four substantial, individually collidable logs. Slightly
-  // bury the bottom row so a small truck has a climbable approach rather than a vertical wall.
-  for (const [pile, spec] of (trail.logPiles ?? []).entries()) {
-    const r = spec.radius, spacing = r * 1.9;
-    const base = Math.max(visH(spec.x - spacing), visH(spec.x), visH(spec.x + spacing)) + r * 0.3;
-    for (const [dx, dy, radius] of [[-spacing, 0, r], [0, 0, r], [spacing, 0, r], [-spacing / 2, r * 1.58, r * 0.9]]) {
-      const x = spec.x + dx, y = base + dy, b = world.createBody({ position: V(x, y) });
-      b.createFixture(new pl.Circle(radius), { friction: 0.85, userData: { surf: 'wood' } });
-      logs.push({ x, y, r: radius, seed: rr(), pile, stacked: true, body: b });
+  // Every crossing is a horizontal run of 4–6 obstacles. Each circle sits on
+  // its own local road bed; none rests on another log or pipe. Edge gaps are
+  // explicit so a spaced run lets a tire return to the road between crests.
+  for (const { spec, index, positions } of runs) {
+    const r = spec.radius;
+    for (const [order, x] of positions.entries()) {
+      const y = Math.max(colH(x - r * 0.6), colH(x), colH(x + r * 0.6)) + r * 0.3;
+      const body = world.createBody({ position: V(x, y) });
+      body.createFixture(new pl.Circle(r), { friction: spec.kind === 'pipe' ? 0.8 : 0.85, userData: { surf: spec.kind === 'pipe' ? 'rock' : 'wood' } });
+      logs.push({ x, y, r, seed: rr(), kind: spec.kind, run: index, order, body });
     }
   }
   return { rocks, logs };

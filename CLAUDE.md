@@ -15,7 +15,11 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add
   engine features only when the data cannot express something, and keep them generic.
 - **Every car carries its load as part of its own art and mass.** There are no separate trailers
-  or loads to combine, and loads never fall off. A tractor and its semi-trailer, or a prime mover and
+  or loads to combine, and loads never fall off. The only split allowed is an *animated load layer*
+  (AGENTS.md: same canvas, same pixel position, strictly side-on), e.g. the Ice Breaker's orca; review
+  each layer composited over the body before wiring it in. Lesson: cut animated parts out of the
+  approved art yourself (`tools/art/ice-breaker-layers.py`); the generator redraws and loses
+  registration. Codex is still the right choice for whole new pictures. A tractor and its semi-trailer, or a prime mover and
   its lowbed, are one image and one rigid body with all their axles.
 - Winching belongs to the service trucks: there are no winch posts. A stuck truck calls a fuel or
   breakdown truck sized to its weight (`towMassT`). The player backs it within 5 m, taps WINCH to hook
@@ -45,6 +49,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 4. **Write `car.json`** with `swamp-scout-4/car.json` as the template:
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields;
+   - `camera.zoom`: the car's own view, set by the user per car (1.5 = 17.7 m of trail across the
+     screen; long rigs need more, e.g. 3.4 for the Ice Breaker, 4.0 for the Mountain Mover). There is
+     no zoom button. Check the whole rig fits with room ahead on desktop and phone;
    - `physics`: empty mass and centre of mass from `massT`, plus `physics.load` (`massT` from the
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
      body outline including the load, suspension sized to the loaded weight;
@@ -63,7 +70,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    classes are slower but must still clear the trail with L, 4×4, DIFF and a breakdown truck's
    winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
 6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
-   the close and phone views frame the vehicle. Then set `"status": "playable"` in `car.json` and in
+   the car's `camera.zoom` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
 Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`) are
