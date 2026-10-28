@@ -1,0 +1,28 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Production game vehicle master, PNG true transparent background. Wide landscape canvas, target 3072 x 1536 pixels, minimum 1500 pixels wide. Reference role: approved Swamp Scout illustration style only. Premium semi-realistic painted game art, readable dark contours, fine mechanical details, weathered surfaces and rich natural texture. ICE BREAKER: one racing-green all-terrain cargo truck with high-clearance continuous rigid chassis. Front cab on RIGHT, long flatbed to left. Exactly EIGHT AXLES: eight clearly visible separate near-side tires, all same size 2-metre winter tires with conspicuous rows of STEEL SPIKES, frost and packed snow between tread blocks, matching bolted rims. Equal size on all axles. Snorkel, front winch with visible cable and hook, roof light bar, stowed crane boom and recovery spades. Frost and road-salt crust on lower green panels, remnants of dried mud. On flatbed a BIG transparent GLASS AQUARIUM TANK inside sturdy steel protective frame, securely strapped and bolted to deck. Inside a believable anatomically natural black and white ORCA, friendly calm demeanor without cartoon face, fully visible through glass and water, water sloshing near top with air gap and plausible reflections/refraction. Keep aquarium and orca large and readable, loaded securely within vehicle silhouette. Side view FACING RIGHT, restrained elevated angle showing some roof, deck and tread. Soft even daylight, no hard directional lighting. Whole loaded truck and all wheels visible with clear transparent margins. No ground, drop or cast shadow, colored halo, checkerboard, text, logos, watermark or people."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied Ice Breaker vehicle-master-v2.png. Remove ALL road wheels, rubber tires, steel spikes and rims on both sides, all eight near-side wheels and every far-side glimpse including beneath cab and front bumper. Leave wheel regions empty and truly transparent. Keep existing chassis, axle shafts, suspension, cab, crane, glass aquarium, orca, water, frame, straps, winch, roof gear and every other detail exactly unchanged. Preserve EXACT canvas dimensions, original pixel positions, scale and camera; do not resize, crop, shift, redesign or move anything. Background stays true transparent, no ground, shadow, text, halo or new objects. This is precisely the same loaded truck with only road wheels removed."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: the spiked winter road tires and dark bolted rims on supplied Ice Breaker master. Generate exactly ONE matching winter road tire and rim. Rows of clearly protruding steel spikes in heavy tread blocks, dark charcoal rubber, frost and packed snow in tread, salt and light weathering, dark recessed steel rim with matching holes and bolts. Premium semi-realistic painted game illustration matching reference. A SQUARE transparent PNG, requested 1536 x 1536 pixels minimum 1500 x 1500. Tire perfectly circular, hub exactly centered, equal clear margins all around, face-on view suitable for spinning, soft even ambient light. Whole tire visible without cropping. True transparent background including holes where appropriate. No axle, body, ground, shadow, text, logos, halo or watermark."
+  },
+  "revisions": {
+    "vehicle-master-v2.png": {
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Use case: precise-object-edit. Edit supplied Ice Breaker master. Correct ONLY the axle count: there are currently six near-side tires; lengthen the rigid chassis and aquarium flatbed enough to fit exactly EIGHT equally sized near-side spiked winter tires on EIGHT axles, with eight distinct visible circular tires in one row. All eight tires must use the SAME diameter and rim design. Keep racing-green cab on right, glass aquarium with natural orca, water, steel frame, orange securing straps, crane, snorkel, front winch, roof lights, frosted salt-crusted finish and premium Swamp Scout painted illustration style. Preserve believable load and equipment. Side view facing right, slight elevated angle, soft even daylight. Whole rig with clear margins. True transparent background, no ground or shadows or text. Output at least 2400 pixels wide if possible.",
+      "rejection_reason": "v1 has six visible near-side axles rather than requested eight."
+    }
+  },
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v1.png"
+  },
+  "limitations": [
+    "wheel-v1.png is square 1254x1254, below required 1500px minimum.",
+    "Wheel sprite has more prominent steel spikes than generated vehicle master."
+  ]
+}

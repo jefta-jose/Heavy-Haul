@@ -1,0 +1,23 @@
+# Mammoth 4
+
+Status: **planned** · class `heavy`, tier 4 of 20 · 6×4, 3 axles · 29.2 t empty · 573 kW · road tires, 1.52 m
+Load: **Boulder**, 50 t
+
+## Art brief
+
+- Vehicle: olive heavy-haul prime mover with a multi-axle lowbed
+- Load (drawn as part of the vehicle): one enormous granite boulder chained to a frame
+- Equipment: ladder to a high cab and huge mirrors
+- Finish: heavy grime and chipped paint
+- Tires: 1.52 m road tires: smooth highway rib tread, chrome or painted hubs
+
+## Codex delivers (see AGENTS.md)
+
+- [ ] `source/vehicle-master-v1.png`: the complete vehicle **with its load**, all wheels on, side-on facing right, transparent
+- [ ] `source/body-v1.png`: the same canvas with every road wheel removed (the load stays)
+- [ ] `source/wheel-v1.png`: one matching tire on a square transparent canvas, hub centred
+- [ ] `source/prompts.json`: the exact prompts and which image was an edit target
+
+## Claude hooks it up (see CLAUDE.md)
+
+`art/*.webp`, `car.json` (registration, physics with the load's mass, drivetrain) and `status: "playable"`.

@@ -1,0 +1,221 @@
+{
+  "id": "mesa-coyote-8",
+  "name": "Mesa Coyote",
+  "number": 8,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Pickup scout with expedition gear",
+  "description": "A red lifted pickup with a bed cage, roof tent and mud tires, loaded with expedition gear.",
+  "stats": {
+    "power": 58,
+    "grip": 85,
+    "durability": 62,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      946,
+      670
+    ],
+    "pixelsPerMetre": 314,
+    "axles": [
+      1.591,
+      -1.591
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      628,
+      623
+    ],
+    "wheelArtRadius": 584,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1446,
+        670,
+        242
+      ],
+      [
+        447,
+        670,
+        242
+      ]
+    ],
+    "exhaust": [
+      -2.377,
+      0.287
+    ],
+    "winch": [
+      2.543,
+      0.478
+    ],
+    "nose": 2.575
+  },
+  "physics": {
+    "mass": 3000,
+    "centreOfMass": [
+      -0.2,
+      0.55
+    ],
+    "size": [
+      6.0,
+      2.2
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -2.75,
+        2.6,
+        0.22,
+        0.6,
+        1
+      ],
+      [
+        -2.55,
+        -0.83,
+        0.6,
+        1.08,
+        0.4
+      ],
+      [
+        -2.62,
+        -2.5,
+        1.08,
+        1.24,
+        0.1
+      ],
+      [
+        -0.83,
+        0.9,
+        0.6,
+        1.58,
+        0.5
+      ],
+      [
+        0.9,
+        2.55,
+        0.6,
+        1.08,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.14,
+      "travelUp": 0.28,
+      "travelDown": 0.32,
+      "damping": 0.48
+    },
+    "winchForce": 25796,
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -1.6,
+        1.4
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.165,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 45,
+    "exhaustBrake": 58,
+    "gears": {
+      "H": 11.1,
+      "L": 35.6,
+      "R": 27.9
+    },
+    "brakeTorque": 2457,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 100
+  },
+  "load": {
+    "name": "Expedition gear",
+    "massT": 0.4
+  },
+  "audio": {
+    "cylinders": 6,
+    "layout": "inline",
+    "fuel": "diesel",
+    "displacementL": 6.7,
+    "idleRpm": 760,
+    "maxRpm": 3300,
+    "pipeM": 2.2,
+    "mufflerHz": 1050,
+    "knock": 0.45,
+    "turbo": 0.7,
+    "roughness": 0.12,
+    "crankS": 1.1,
+    "backupAlarm": false,
+    "_note": "turbo inline-six pickup diesel: clatter at idle, a whoosh on boost"
+  }
+}

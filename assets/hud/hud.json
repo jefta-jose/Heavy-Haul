@@ -1,0 +1,105 @@
+{
+ "about": "HUD icons are 24×24 SVG files in icons/ (currentColor, simple strokes). Garage and menu art are painted PNG masters in source/, encoded to art/.",
+ "icons": [
+  {
+   "id": "class-scout",
+   "brief": "badge for the scout vehicle class"
+  },
+  {
+   "id": "class-highway",
+   "brief": "badge for the highway vehicle class"
+  },
+  {
+   "id": "class-heavy-duty",
+   "brief": "badge for the heavy-duty vehicle class"
+  },
+  {
+   "id": "class-offroad",
+   "brief": "badge for the offroad vehicle class"
+  },
+  {
+   "id": "class-heavy",
+   "brief": "badge for the heavy vehicle class"
+  },
+  {
+   "id": "wheel-road",
+   "brief": "tire icon for road tires"
+  },
+  {
+   "id": "wheel-all-terrain",
+   "brief": "tire icon for all-terrain tires"
+  },
+  {
+   "id": "wheel-mud-terrain",
+   "brief": "tire icon for mud-terrain tires"
+  },
+  {
+   "id": "wheel-flotation",
+   "brief": "tire icon for flotation tires"
+  },
+  {
+   "id": "wheel-chained",
+   "brief": "tire icon for chained tires"
+  },
+  {
+   "id": "wheel-spiked",
+   "brief": "tire icon for spiked tires"
+  },
+  {
+   "id": "wheel-giant",
+   "brief": "tire icon for giant tires"
+  },
+  {
+   "id": "summon-fuel",
+   "brief": "fuel truck call button"
+  },
+  {
+   "id": "summon-repair",
+   "brief": "breakdown truck call button"
+  },
+  {
+   "id": "switch-vehicle",
+   "brief": "swap between vehicles"
+  },
+  {
+   "id": "repair",
+   "brief": "wrench"
+  },
+  {
+   "id": "refuel",
+   "brief": "fuel nozzle"
+  },
+  {
+   "id": "lock",
+   "brief": "padlock for locked vehicles"
+  },
+  {
+   "id": "star",
+   "brief": "contract rating star"
+  },
+  {
+   "id": "restart",
+   "brief": "circular arrow"
+  },
+  {
+   "id": "garage",
+   "brief": "garage door"
+  },
+  {
+   "id": "contract",
+   "brief": "clipboard"
+  }
+ ],
+ "art": [
+  {
+   "id": "garage-background",
+   "file": "source/garage-background-v1.png",
+   "brief": "wide painted interior of a big muddy truck garage with tools, tires and a turntable floor, warm lights, empty centre for the vehicle, matching the Swamp Scout style, opaque"
+  },
+  {
+   "id": "garage-turntable",
+   "file": "source/garage-turntable-v1.png",
+   "brief": "side view of a round steel vehicle turntable platform, transparent"
+  }
+ ]
+}

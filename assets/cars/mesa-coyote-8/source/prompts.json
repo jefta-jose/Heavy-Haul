@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Generate a game vehicle master PNG at least 1500 pixels long. Style reference: approved Swamp Scout image in conversation, premium semi-realistic painted game illustration, dark readable contours, fine mechanical detail and weathered materials. Subject Mesa Coyote 8: signal red compact pickup scout, 4x4 two axles, bed cage, light bar and folded roof tent, mud-caked lower panels; large 1.11 m mud-terrain tires with deep chunky open-void lugs. Visible rear ball hitch at LEFT rear. Entire vehicle faces RIGHT, restrained elevated side view showing little roof and tread, soft even daylight. Whole object with clear margins. True transparent background and transparent gaps. No ground, cast or drop shadow, halo, checkerboard, text, logos or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit target: Mesa Coyote red pickup master. Remove EVERY road tire and wheel including both near wheels and any far-side road tires. Leave empty truly transparent wheel arches and wheel regions. Retain rear mounted spare tire, all body, bed cage, tent, equipment, hitch, chassis and suspension. Preserve EXACT canvas 1774x887, body position, scale, camera and every other detail. Do not move or redesign anything. Transparent background, no shadow."
+  },
+  "wheel": {
+    "prompt": "Use the red Mesa Coyote master as reference for road tire and rim only. Generate ONE matching mud-terrain tire and dark multi-hole metal rim, deep chunky open-void lugs with dried mud accents. Premium semi-realistic painted game art with dark contours and fine weathered mechanical detail. Perfectly circular frontal side view, HUB EXACTLY CENTRED on SQUARE 1536x1536 transparent canvas, equal clear margins all sides. Soft even ambient lighting suitable for sprite rotation. No perspective ellipse, axle, body, ground, shadow, halo, lettering or watermark. True transparency."
+  }
+}

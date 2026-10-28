@@ -1,0 +1,101 @@
+<title>Heavy Haul</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/*CSS*/
+</style>
+
+<div id="game">
+  <canvas id="view" aria-label="Heavy Haul game view"></canvas>
+  <div class="hud" id="hud">
+    <div class="top">
+      <div class="stack">
+        <div class="pill" title="Fuel"><!--icon:fuel--><div class="fuelbar"><i id="fuelFill"></i></div><span id="fuelTxt">100/100L</span></div>
+        <div class="right"><span class="chip" id="surfChip">Dirt</span><span class="chip" id="loadChip"></span></div>
+      </div>
+      <div class="pill" title="Distance to depot"><!--icon:distance--><span id="distTxt"></span></div>
+      <div class="right">
+        <div class="pill" title="Coins"><!--icon:coin--><span id="coinTxt">0</span></div>
+        <button class="ibtn" id="fuelCallBtn" aria-label="Call a fuel truck" title="Call a fuel truck"><!--icon:summon-fuel--></button>
+        <button class="ibtn" id="repairCallBtn" aria-label="Call a breakdown truck" title="Call a breakdown truck"><!--icon:summon-repair--></button>
+        <button class="ibtn" id="switchBtn" aria-label="Switch vehicle" title="Switch vehicle (V)" hidden><!--icon:switch-vehicle--></button>
+        <button class="ibtn" id="cameraBtn" aria-label="Camera zoom 1.5. Click to cycle zoom levels" title="Camera zoom 1.5 (C): 1.5 / 2.5 / 3.5 / 4.5">1.5×</button>
+        <button class="ibtn" id="fsBtn" aria-label="Fullscreen"><!--icon:fullscreen--></button>
+        <button class="ibtn" id="pauseBtn" aria-label="Pause"><!--icon:pause--></button>
+      </div>
+    </div>
+    <div class="mapcard" id="mapcard">
+      <h1 id="cardTitle"></h1><h2 id="cardTagline"></h2>
+      <div class="card-stats" id="cardStats"></div>
+      <p class="card-biomes" id="cardBiomes"></p>
+    </div>
+    <div class="toast" id="toast"></div>
+    <button class="btn primary action" id="actionBtn" hidden></button>
+    <div class="bottom">
+      <div class="side">
+        <div class="pedal" id="brake" role="button" aria-label="Brake"><span>BRAKE</span></div>
+        <button class="winch engine on" id="engineBtn" aria-label="Engine on or off (I)" aria-pressed="true" title="Engine on / off (I)"><!--icon:engine-->ENGINE</button>
+      </div>
+      <canvas id="gauges" aria-hidden="true"></canvas>
+      <div class="side">
+        <button class="winch" id="winch" aria-label="Winch: hook or unhook" aria-pressed="false"><!--icon:winch-->WINCH</button>
+        <div class="drive">
+          <div class="modes" role="group" aria-label="Drive modes">
+            <button class="mode" id="awdBtn" aria-pressed="false" title="Four-wheel drive (Q)">4×4</button>
+            <button class="mode" id="diffBtn" aria-pressed="false" title="Differential lock (E)">DIFF</button>
+          </div>
+          <div class="gear" role="group" aria-label="Gear">
+            <button data-g="H" class="on" title="High range (H)">H</button><button data-g="L" title="Low range (L)">L</button><button data-g="R" title="Reverse (R)">R</button>
+          </div>
+        </div>
+        <div class="pedal" id="gas" role="button" aria-label="Gas"><span>GAS</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay garage" id="garage">
+    <div class="garage-panel">
+      <div class="garage-list" id="garageList" aria-label="Vehicles"></div>
+      <div class="garage-detail">
+        <div class="eyebrow">Garage · every vehicle carries its own load</div>
+        <div class="garage-art" id="garageArt"></div>
+        <h3 id="gName"></h3>
+        <p id="gDesc"></p>
+        <div class="card-stats" id="gStats"></div>
+        <dl class="spec" id="gSpec"></dl>
+        <div class="tunehead"><h4>Tune</h4><button class="btn tiny" id="tuneReset" hidden>Reset to stock</button></div>
+        <div class="tunes" id="tuneList"></div>
+        <div class="keys"><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Stuck or empty? Call a fuel or breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, H / L / R gears, Q 4×4, E diff, V switch vehicle, C camera, Esc pause.</div>
+        <div class="rotate">Turn your phone sideways for the best view.</div>
+        <div class="btns"><button class="btn primary" id="startBtn">Drive</button><button class="btn" id="startFs">Play fullscreen</button><button class="btn" id="garageSoundBtn">Sound</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="soundOv" hidden>
+    <div class="card slim">
+      <div class="cbody">
+        <div class="eyebrow">Settings</div>
+        <h3>Sound</h3>
+        <p>Every truck has its own engine. Effects are the tires, water, rocks, suspension and alarms.</p>
+        <div class="vols" id="volList"></div>
+        <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="msgOv" hidden>
+    <div class="card slim">
+      <div class="cbody">
+        <div class="eyebrow" id="msgEyebrow"></div>
+        <h3 id="msgTitle"></h3>
+        <p id="msgText"></p>
+        <dl class="spec" id="msgSpec"></dl>
+        <div class="btns" id="msgBtns"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>/*JS*/</script>

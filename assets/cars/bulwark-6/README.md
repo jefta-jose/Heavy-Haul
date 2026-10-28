@@ -1,0 +1,23 @@
+# Bulwark 6
+
+Status: **planned** · class `heavy`, tier 6 of 20 · 8×4, 4 axles · 36.1 t empty · 689 kW · all-terrain tires, 1.75 m
+Load: **Wind turbine blade**, 22 t
+
+## Art brief
+
+- Vehicle: gunmetal grey heavy-haul prime mover with a multi-axle lowbed
+- Load (drawn as part of the vehicle): a 40 m white turbine blade in yellow frames
+- Equipment: ladder to a high cab and huge mirrors
+- Finish: heavy grime and chipped paint
+- Tires: 1.75 m all-terrain: blocky all-terrain tread with sipes
+
+## Codex delivers (see AGENTS.md)
+
+- [ ] `source/vehicle-master-v1.png`: the complete vehicle **with its load**, all wheels on, side-on facing right, transparent
+- [ ] `source/body-v1.png`: the same canvas with every road wheel removed (the load stays)
+- [ ] `source/wheel-v1.png`: one matching tire on a square transparent canvas, hub centred
+- [ ] `source/prompts.json`: the exact prompts and which image was an edit target
+
+## Claude hooks it up (see CLAUDE.md)
+
+`art/*.webp`, `car.json` (registration, physics with the load's mass, drivetrain) and `status: "playable"`.

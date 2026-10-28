@@ -1,0 +1,76 @@
+{
+  "sources": [
+    {
+      "id": "scout-v8",
+      "author": "Therancher01",
+      "title": "F150-Startup-idle.m4a",
+      "page": "https://freesound.org/people/Therancher01/sounds/610773/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/610/610773_13385150-hq.mp3",
+      "file": "source/scout-v8.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "9d3ce66fe26386c9f0954506c54761a0221baeb35cb96aca2d580716b14e56ae"
+    },
+    {
+      "id": "mesa-cummins",
+      "author": "Therancher01",
+      "title": "Ram 5.9 cummins-startup-idle.m4a",
+      "page": "https://freesound.org/people/Therancher01/sounds/610771/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/610/610771_13385150-hq.mp3",
+      "file": "source/mesa-cummins.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "c48284feedb9a14e8c21d45356721b3782b94ff5bd28d4fc16d647eacbb36a2e"
+    },
+    {
+      "id": "fuel-delivery",
+      "author": "kyles",
+      "title": "delivery truck engine start very close and idle.flac",
+      "page": "https://freesound.org/people/kyles/sounds/455737/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/455/455737_612689-hq.mp3",
+      "file": "source/fuel-delivery.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "e8a2013ccc4e005cdc53031253862ce3e41e2c9378d44653cc4729e61a3a945b"
+    },
+    {
+      "id": "wrecker-diesel",
+      "author": "ibirdfilm",
+      "title": "Diesel Truck Idling Front.wav",
+      "page": "https://freesound.org/people/ibirdfilm/sounds/128160/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/128/128160_1372389-hq.mp3",
+      "file": "source/wrecker-diesel.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "e7c5fa7344e28e025e0b63c45eab90b630a7ae8f22caae83b0c5d0943570ffb8"
+    },
+    {
+      "id": "ice-semi",
+      "author": "kyles",
+      "title": "truck engine semi trailer idle deep close.flac",
+      "page": "https://freesound.org/people/kyles/sounds/637916/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/637/637916_612689-hq.mp3",
+      "file": "source/ice-semi.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "90661654672e8d34a07fd0ec378b1641776560f09f1ada8e77cae5ae064ec1ba"
+    },
+    {
+      "id": "mountain-construction",
+      "author": "qubodup",
+      "title": "Truck Engine Idle Loops.flac",
+      "page": "https://freesound.org/people/qubodup/sounds/187564/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/187/187564_71257-hq.mp3",
+      "file": "source/mountain-construction.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "b81a5c1140415791c47d422d3df208ca5d0cfcf2301376ea48d0c18a2bb4d447"
+    }
+  ]
+}

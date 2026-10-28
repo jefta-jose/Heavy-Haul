@@ -1,0 +1,33 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Generate a production game vehicle master PNG on a true transparent background, wide canvas 3072 by 1024 pixels (at least 2400 pixels wide). Style reference: the supplied approved Swamp Scout master, premium semi-realistic painted game illustration, readable dark contours, weathered materials, fine mechanical detail and rich natural texture. Subject: Mountain Mover, colossal mustard-yellow heavy-haul transporter, ONE long rigid chassis, tall armored cab at the FRONT on the RIGHT with access ladder and huge bull bar, long low steel deck behind it extending left. On deck a huge dark grey decommissioned SUBMARINE on padded cradles, secured with heavy chains and binders. Submarine fully visible including conning tower and fins. Blank oversize-load banner shape without letters, amber beacons, ballast box, hydraulic lines, stowed outriggers. Heavy grime and chipped paint. Exactly TEN AXLES evenly spread along the single rigid vehicle: ten clearly distinguishable near-side tires, all identical diameter GIANT mining tires approximately 3 metres tall, deep chevron tread and steel bolted rims; matching far-side tires only where naturally visible. Keep all tires same size, no tiny auxiliary wheels. The cab and submarine must scale plausibly against the gigantic tires. Mostly side view FACING RIGHT, restrained elevated angle showing a little roof, deck and tread. Soft even daylight. Entire vehicle and its load in one image, generous transparent margins on all sides. No ground, no cast or drop shadow, no halo, no background color, no checkerboard, no text, logos, watermark, people or detached objects."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied Mountain Mover vehicle master. Remove EVERY road wheel, tire and rim on both sides, all ten visible near-side mining wheels and every glimpse of far-side tires including under the front cab. Leave their regions truly transparent with only existing chassis, axle shafts and suspension retained. Preserve submarine, chains, cradles, cab, ladder, deck, equipment and every remaining painted detail exactly. Keep exact original 2172 x 724 pixel canvas dimensions, position, scale and camera. Do not move, resize or redesign anything. No background, ground, shadow, halo, text or new objects. This is the wheel-free moving body layer of this exact master."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: match the mining road tires and steel bolted rims of the supplied Mountain Mover master. Generate ONE giant mining tire and rim, deep chevron tread, dark rubber with weathered dusty grime, dark inset heavy steel rim with circular bolt pattern, detailed painted game illustration matching the master. Square 1536 x 1536 PNG, true transparent background. Perfectly circular silhouette and exactly centered hub, equal generous margins on all sides. Face-on rim, a narrow even tread edge, rotationally suitable soft even ambient light. No axle, body, vehicle, ground, shadow, text, logos, halo or watermark. Entire tire isolated, not cropped."
+  },
+  "revisions": {
+    "vehicle-master-v2.png": {
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Use case: precise-object-edit. Input: Mountain Mover vehicle-master-v1.png. Preserve this exact ten-axle mustard-yellow rigid transporter and chained-down submarine design, tires, all painted details and camera. Correct output canvas size and margins only: create an EXTRA WIDE FOUR TO ONE aspect ratio transparent canvas, width 2560 height 640 pixels, at least 2400 pixels across. Fit the whole original rig centered with generous clear margins on EVERY side. Do not crop any object. No added scenery, no ground or shadows or letters, true alpha transparency. Keep same restrained elevated right-facing side view, soft even daylight, semi-realistic painted game art. Exactly ten same-diameter near-side mining tires. Do not add, remove or redesign equipment or load.",
+      "rejection_reason": "v1 output width 2172 is below required 2400 pixels. Canvas correction attempted; v2 output 1983x793 also fails width requirement."
+    },
+    "body-v2.png": {
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied Mountain Mover vehicle-master-v1.png, exactly 2172 pixels wide by 724 pixels high. Output MUST retain exactly 2172 x 724 pixels, do not change aspect ratio or lose even one pixel of canvas. Remove every road wheel, tire and rim including all ten visible mining wheels and all far-side tire glimpses under the cab. Leave all wheel areas alpha-transparent, retain chassis, axle shafts and suspension. Preserve submarine, load chains, cradles, cab, ladder, beacons, deck, equipment, exact original object positions, scale, camera and painted details. No resizing, shifting, cropping, redesign, added ground, shadow, text or new objects. Only remove the wheels. True transparent PNG.",
+      "rejection_reason": "body-v1.png output is 2171x724, one pixel narrower than master 2172x724."
+    }
+  },
+  "selected": {
+    "master": "vehicle-master-v1.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v1.png"
+  },
+  "limitations": [
+    "Generator did not honor requested 2400px minimum master width.",
+    "wheel-v1.png is square 1254x1254, below required 1500px minimum."
+  ]
+}

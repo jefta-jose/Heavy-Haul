@@ -1,0 +1,23 @@
+# Floodwalker 9
+
+Status: **planned** · class `offroad`, tier 9 of 20 · 6×6, 3 axles · 14.8 t empty · 380 kW · flotation tires, 1.6 m
+Load: **Military supplies**, 9 t
+
+## Art brief
+
+- Vehicle: sand beige all-terrain 6×6 cargo truck
+- Load (drawn as part of the vehicle): olive ammunition crates and jerry cans
+- Equipment: expedition box with ladders and lights
+- Finish: thick dried mud
+- Tires: 1.60 m flotation: huge low-pressure balloon tires with wide paddle lugs
+
+## Codex delivers (see AGENTS.md)
+
+- [ ] `source/vehicle-master-v1.png`: the complete vehicle **with its load**, all wheels on, side-on facing right, transparent
+- [ ] `source/body-v1.png`: the same canvas with every road wheel removed (the load stays)
+- [ ] `source/wheel-v1.png`: one matching tire on a square transparent canvas, hub centred
+- [ ] `source/prompts.json`: the exact prompts and which image was an edit target
+
+## Claude hooks it up (see CLAUDE.md)
+
+`art/*.webp`, `car.json` (registration, physics with the load's mass, drivetrain) and `status: "playable"`.

@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Generate Fuel Runner vehicle master: safety orange 4x4 TWO-AXLE fuel bowser, round cylindrical tank behind cab, hose reels, amber beacon, fuel decals as plain geometric shapes without words. Clean paint with road dust. 1.05m all-terrain tires. Premium semi-realistic painted game illustration matching approved Swamp Scout reference, readable dark contours, weathered materials, fine mechanical detail, natural texture. Side view facing RIGHT with restrained elevated angle showing little roof and tread, soft even daylight. Whole object with generous clear margins. True transparent background, no colored fringe, no checkerboard, halo, ground, cast or drop shadow, text, logos or watermark. PNG at least 1500 px long."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit Fuel Runner master to remove EVERY road wheel and tire including ALL far-side tire glimpses. Empty transparent wheel arches. Retain body, tank, hose reel, beacon, all equipment, chassis and suspension. Exact same canvas size, position, scale, camera and details. Do not redesign. True transparency, no ground, shadow or fringe."
+  },
+  "wheel": {
+    "prompt": "Generate ONE Fuel Runner tire and dark multi-hole rim matching master, all-terrain tread with moderate interconnected block lugs, dark rubber and light road dust. Premium semi-realistic painted game art, fine mechanical detail and readable dark contours. SQUARE 2048x2048 PNG, perfectly circular frontal side view with hub exactly centered, equal margins. Soft even illumination for rotating sprite. True transparent background, no axle, body, text, logos, ground, halo or shadow. Minimum 1500px square."
+  }
+}

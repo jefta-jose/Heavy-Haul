@@ -1,0 +1,24 @@
+{
+  "name": "heavy-haul",
+  "version": "0.10.0",
+  "private": true,
+  "description": "2D side-view off-road driving game: SnowRunner-style physics with Hill Climb Racing controls.",
+  "scripts": {
+    "dev": "node tools/dev.js",
+    "build": "node tools/build.js",
+    "test": "node --test tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js",
+    "test:route": "node --test tests/route.test.js",
+    "test:browser": "node --test tests/browser.test.js",
+    "check": "npm test && npm run test:route && npm run test:browser",
+    "feel": "node tools/report-feel.js",
+    "audio:preview": "node tools/audio-preview.js",
+    "art:encode": "uv run --with pillow python tools/art/encode-webp.py",
+    "scaffold": "node tools/content/scaffold.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "planck": "1.4.2",
+    "playwright": "^1.64.1"
+  },
+  "type": "module"
+}

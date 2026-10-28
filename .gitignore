@@ -1,0 +1,35 @@
+# Dependencies (npm install restores them)
+node_modules/
+
+# Build output and generated files (npm run build, npm run check, npm run audio:preview)
+dist/
+output/
+
+# Python tooling (tools/art/*.py run through uv)
+__pycache__/
+*.py[cod]
+.venv/
+.uv-cache/
+
+# Claude Code: personal settings stay local; the shared skill in .claude/swamp-scout is tracked
+.claude/settings.local.json
+.claude/worktrees/
+
+# Secrets and local environment
+.env
+.env.*
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+*.tmp
+*.swp
+*~
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+Desktop.ini
+*:Zone.Identifier
+.vscode/
+.idea/

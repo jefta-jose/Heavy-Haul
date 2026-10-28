@@ -1,0 +1,44 @@
+{
+  "art": {
+    "garage-background": {
+      "prompt": "Generate garage-background game art, opaque wide PNG panorama at least 1500px long. Interior of a big muddy truck garage with tools, spare tires and a round vehicle turntable set into the floor. Warm overhead workshop lights, richly weathered steel, concrete, wood, grease, mud. Large EMPTY centre and empty turntable for later vehicle overlay, tools and tires arranged along side walls. Premium semi-realistic PAINTED GAME ILLUSTRATION matching approved Swamp Scout art, readable natural dark contours, fine mechanical detail and rich natural texture. Mostly side-on garage composition with restrained elevated view, readable horizontal foreground floor. No vehicle, people, UI, text, logos or watermark. OPAQUE environment image, not transparent."
+    },
+    "load-broken": {
+      "prompt": "Generate load-broken game sprite sheet, PNG at least 1500px long. Separate generic broken cargo debris pieces: splintered wood planks, bent steel offcuts and broken wooden crate panels. Arrange as a tidy 4x3 grid of 12 INDIVIDUAL isolated pieces with ample transparent gutters so each can be cropped independently. Side views with restrained elevated angle, long pieces lie left to right. Premium semi-realistic painted game illustration matching approved Swamp Scout, readable natural dark contours and rich weathered wood/steel textures, fine splinters/rivets. Soft even daylight. TRUE alpha transparent background around and between EVERY piece. No ground, cast/drop shadows, halos, colored fringe, checkerboard, text, logos, labels, truck, trailer or intact load."
+    }
+  },
+  "icons": {
+    "class-scout": {
+      "prompt": "Create class-scout SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "class-highway": {
+      "prompt": "Create class-highway SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "summon-fuel": {
+      "prompt": "Create summon-fuel SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "summon-repair": {
+      "prompt": "Create summon-repair SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "switch-vehicle": {
+      "prompt": "Create switch-vehicle SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "load-condition": {
+      "prompt": "Create load-condition SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "load-stability": {
+      "prompt": "Create load-stability SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    },
+    "restart": {
+      "prompt": "Create restart SVG matching existing HUD icons: 24x24 viewBox, simple currentColor strokes, no text. Follow hud.json brief.",
+      "method": "SVG authored directly to match existing vector icon set"
+    }
+  }
+}

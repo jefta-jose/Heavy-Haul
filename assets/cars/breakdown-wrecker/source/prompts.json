@@ -1,0 +1,20 @@
+{
+  "master": {
+    "prompt": "Generate Breakdown Wrecker complete vehicle master: signal red 6x6 THREE-AXLE recovery truck, heavy crane boom stowed over rear, underlift extending at LEFT rear, tool lockers and light bar. Work-worn paint and dried mud. Large 1.30m deep-lug mud-terrain tires.undefined"
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Precise edit of Breakdown Wrecker master. Remove ALL road tires and wheels, including all THREE near wheels and every far-side tire glimpse. Leave fully transparent wheel regions. Also remove ALL dark ground/drop shadow below truck; it must be pure transparency. Retain body, boom, underlift, lockers, lights, chassis and suspension unchanged, EXACT same canvas size, position, scale, camera and other details. No redesign."
+  },
+  "wheel": {
+    "prompt": "Generate ONE Breakdown Wrecker matching road wheel: giant dark mud-terrain rubber tire, deep chunky open-void lugs with dried mud, black multi-hole rim and centered bolted hub matching master. Premium semi-realistic painted illustration, fine mechanical texture and dark contours. Perfectly circular orthographic side view, hub exactly centred on SQUARE 2048x2048 transparent PNG with equal clear margins, at least 1500px square. Soft even ambient light suitable for rotating sprite. No body, axle, ground, shadow, halo, text, logos or watermark."
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Edit ONLY transparency around Breakdown Wrecker master. Remove entire dark ground/drop shadow beneath wheels, and remove any bright red/cyan fringe outside object edges. Transparent background must be genuinely empty with NO shadow or halo. Keep complete vehicle including ALL road wheels, all mechanical details, same camera, position, scale and EXACT canvas dimensions. Do not redesign or move anything.",
+      "rejection_reason": "Ground shadow and colored silhouette fringe"
+    }
+  ]
+}

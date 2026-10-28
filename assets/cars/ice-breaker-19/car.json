@@ -1,0 +1,260 @@
+{
+  "id": "ice-breaker-19",
+  "name": "Ice Breaker",
+  "number": 19,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Spiked 8×8 hauling an orca aquarium",
+  "description": "A green 8×8 all-terrain truck on steel-spiked winter tires, carrying an orca in a glass aquarium.",
+  "stats": {
+    "power": 88,
+    "grip": 95,
+    "durability": 90,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Snow",
+    "Ice",
+    "Mud"
+  ],
+  "load": {
+    "name": "Orca aquarium",
+    "massT": 20
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      890,
+      677
+    ],
+    "pixelsPerMetre": 92.0,
+    "axles": [
+      8.473,
+      3.81,
+      1.81,
+      -0.19,
+      -2.386,
+      -4.245,
+      -6.245,
+      -8.473
+    ],
+    "wheelY": [
+      0.033,
+      -0.08,
+      -0.048,
+      -0.004,
+      0.029,
+      0.061,
+      0.072,
+      0.137
+    ],
+    "radius": 1.0,
+    "wheelPivot": [
+      626,
+      624
+    ],
+    "wheelArtRadius": 600,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1670,
+        674,
+        120
+      ],
+      [
+        1241,
+        684,
+        102
+      ],
+      [
+        1057,
+        681,
+        102
+      ],
+      [
+        873,
+        677,
+        102
+      ],
+      [
+        671,
+        674,
+        102
+      ],
+      [
+        500,
+        671,
+        102
+      ],
+      [
+        316,
+        670,
+        102
+      ],
+      [
+        111,
+        664,
+        102
+      ]
+    ],
+    "exhaust": [
+      10.321,
+      3.768
+    ],
+    "winch": [
+      11.136,
+      0.833
+    ],
+    "nose": 11.168,
+    "wheelScale": [
+      1.2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "physics": {
+    "mass": 23100,
+    "centreOfMass": [
+      1.19,
+      0.833
+    ],
+    "size": [
+      18.946,
+      3
+    ],
+    "wheelMass": 400,
+    "bodyBoxes": [
+      [
+        -9.516,
+        11.136,
+        0.289,
+        0.996,
+        1
+      ],
+      [
+        -9.245,
+        4.342,
+        0.996,
+        4.855,
+        0.5
+      ],
+      [
+        4.342,
+        11.136,
+        0.398,
+        3.768,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.45,
+      "travelDown": 0.6,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -1.962,
+        3.007
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.874,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 772,
+    "exhaustBrake": 992,
+    "gears": {
+      "H": 17.2,
+      "L": 52.8,
+      "R": 41.3
+    },
+    "brakeTorque": 12642,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 678
+  },
+  "audio": {
+    "cylinders": 8,
+    "layout": "v",
+    "fuel": "diesel",
+    "displacementL": 16,
+    "idleRpm": 640,
+    "maxRpm": 2300,
+    "pipeM": 3.2,
+    "mufflerHz": 800,
+    "knock": 0.3,
+    "turbo": 0.8,
+    "jake": 0.8,
+    "bass": 0.6,
+    "crankS": 1.5,
+    "backupAlarm": true,
+    "_note": "military V8 diesel: a gruff, uneven rumble with a big turbo and jake brake",
+    "gain": 1.3
+  }
+}

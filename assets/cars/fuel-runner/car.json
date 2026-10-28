@@ -1,0 +1,206 @@
+{
+  "id": "fuel-runner",
+  "name": "Fuel Runner",
+  "number": null,
+  "class": "service",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Fuel bowser you can call out to the trail",
+  "description": "An orange 4×4 bowser. Call it out, drive it to your truck, winch it free and refuel it.",
+  "stats": {
+    "power": 55,
+    "grip": 78,
+    "durability": 70,
+    "fuelEfficiency": 65
+  },
+  "biomes": [
+    "Dirt",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      916,
+      680
+    ],
+    "pixelsPerMetre": 295,
+    "axles": [
+      1.688,
+      -1.688
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.651,
+    "wheelPivot": [
+      626,
+      622
+    ],
+    "wheelArtRadius": 598,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1414,
+        680,
+        232
+      ],
+      [
+        418,
+        680,
+        215
+      ]
+    ],
+    "exhaust": [
+      -2.902,
+      0.271
+    ],
+    "winch": [
+      2.851,
+      0.407
+    ],
+    "nose": 2.851,
+    "towRear": -2.639
+  },
+  "physics": {
+    "mass": 6100,
+    "centreOfMass": [
+      -0.3,
+      0.65
+    ],
+    "size": [
+      6.4,
+      2.6
+    ],
+    "wheelMass": 200,
+    "bodyBoxes": [
+      [
+        -2.95,
+        2.85,
+        0.25,
+        0.7,
+        1
+      ],
+      [
+        -2.95,
+        -0.25,
+        0.7,
+        2.1,
+        0.6
+      ],
+      [
+        -0.3,
+        1.1,
+        0.7,
+        2.0,
+        0.4
+      ],
+      [
+        1.1,
+        2.85,
+        0.7,
+        1.05,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.14,
+      "travelUp": 0.28,
+      "travelDown": 0.32,
+      "damping": 0.5
+    },
+    "winchForce": 82404
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.198,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 82,
+    "exhaustBrake": 105,
+    "gears": {
+      "H": 11.2,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 4665,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 150
+  },
+  "role": "fuel",
+  "size": "small",
+  "towMassT": 12,
+  "audio": {
+    "cylinders": 4,
+    "layout": "inline",
+    "fuel": "diesel",
+    "displacementL": 4.5,
+    "idleRpm": 800,
+    "maxRpm": 3000,
+    "pipeM": 1.6,
+    "mufflerHz": 1150,
+    "knock": 0.6,
+    "turbo": 0.5,
+    "roughness": 0.18,
+    "crankS": 1.0,
+    "backupAlarm": true,
+    "_note": "rattly four-cylinder turbo diesel bowser"
+  }
+}

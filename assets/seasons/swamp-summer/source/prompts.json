@@ -1,0 +1,89 @@
+{
+  "tool": "built-in imagegen",
+  "reference": "../../../references/four-scout-trucks.png",
+  "backdrop": {
+    "file": "source/backdrop-v2.png",
+    "prompt_v1": "Use case: stylized-concept. Asset type: wide seamless horizontal-scrolling background painting for a premium 2.5D side-view swamp off-road driving game. Reference role: palette, illustration style and biome of ONLY the bottom-right SWAMP SCOUT panel. Create a richly detailed Louisiana-like flooded forest with tall cypress trunks, hanging Spanish moss, distant soft blue-gray conifers, pale humid sky seen through canopy, hazy layered forest silhouettes, still shallow blue-gray water catching soft broken reflections, drowned roots and patches of reeds at the water's edge. Broad eye-level view across the swamp, camera at vehicle door height with a slight downward look. Keep the brightest soft opening toward the middle, deeper forest framing the sides. Far bank about halfway down the image, lower half mostly calm open swamp water and muddy islets. Painted semi-realism, crisp readable shapes with dark natural outlines in nearer vegetation, softer cool atmospheric distance, warm muted afternoon light. Match the reference's beautiful game-art finish, not a photo or low-poly render. Landscape 2:1 panorama. Left and right edges should visually connect for scrolling. No vehicles, buildings, mountain peaks, people, text, UI, watermarks or foreground object dominating the frame.",
+    "edit_v2": {
+      "target": "/home/jeffndegwa/heavy-haul/swamp-scout-4/backdrop-v1.png",
+      "prompt": "Edit target: Image 1, the swamp panorama. Style/color reference: ONLY the bottom-right SWAMP SCOUT quadrant of Image 2. Keep the panorama composition, tree shapes, root detail, water and full wide canvas. Refine the atmosphere to match that swamp reference more closely: a cooler humid misty gray-blue distance, pale slightly overcast blue-gray sky rather than vivid saturated blue, muted olive foliage, gray-green Spanish moss, soft warm highlights only on nearer bark and reeds. Preserve the crisp premium semi-realistic painted game-art detail. Add a little more soft canopy around the upper corners so the scene feels enclosed by a flooded forest, with a readable misty opening in the middle. Keep natural broken reflections in the water. No vehicles, UI, text, people, added buildings or mountains. Fully opaque background painting."
+    },
+    "rejected_v1": "Sky too bright and saturated for the swamp reference"
+  },
+  "midground": {
+    "file": "source/midground-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: wide transparent midground parallax strip for a 2.5D swamp driving game. Reference role: ONLY the bottom-right SWAMP SCOUT biome and painterly game-art finish. A continuous horizontal cluster of moss-draped cypress trees and occasional dark swamp pines, gnarled trunks, subtle vines, tangled exposed roots, sparse upright reeds. Background is truly transparent between trunks and around foliage. Muted olive greens, gray-green moss, cool blue-gray shadow, warm subtle bark highlights. Premium detailed semi-realistic painted game art with crisp natural dark edge definition. Camera at truck-door height with a slight elevated side view. All tree roots grounded along one horizontal baseline near bottom, trees reach differing heights across frame. Distant forest NOT painted behind the trees: empty gaps are transparent. Wide 2:1 landscape image; ends designed to repeat into a forest strip. No water plane, sky, ground rectangle, vehicles, text, logos or UI."
+  },
+  "ground": {
+    "file": "source/ground-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: seamless square terrain base-color artwork for a premium 2.5D swamp driving game. Reference role: mud and shallow wet ground of ONLY the SWAMP SCOUT panel in the bottom-right. Fill the square with richly painted muddy brown-gray earth, irregular chunky soft mud, tiny scattered stones, broken roots, bits of decomposing leaves, a few olive moss patches, shallow dark wet pockets. Rich semi-realistic hand-painted game-art detail with crisp dark crevice accents and restrained highlights. More illustrated and deliberately shaped than a photographic texture. Flat perpendicular top-down view, even diffuse illumination, no perspective or directional cast shadows. No grass carpet, big puddle with white sky reflection, large boulders, fixed parallel tire tracks, objects, border, text or logos. Seamlessly tileable on all four edges. Base-color only; wet reflections will be added in the game."
+  },
+  "bank": {
+    "file": "source/bank-v1.png",
+    "prompt": {
+      "prompt": "Use case: stylized-concept. Asset type: wide horizontal ground strip for a premium 2.5D side-scrolling swamp driving game. Use ONLY the bottom-right SWAMP SCOUT reference panel's terrain, camera, palette and hand-painted illustration finish. Show a muddy wet marsh bank stretching left to right, viewed from the side with a gentle 10-degree elevated look so the ground has depth. This is ONLY ground and tiny low plants: irregular brown-gray mud clods, shallow reflective blue-gray puddles, intertwined roots, scattered small gray stones, flattened reeds and patches of olive grass. The middle horizontal lane is broad drivable churned mud with shallow wheel ruts. Rich crisp painted textures and dark crevice detail like the reference, soft warm upper-left highlights, wet glints. No sky, background trees, tall plants, vehicles, people or UI. Transparent above an uneven low far-bank crest about 25 percent down the canvas; the bottom 65 percent should be opaque textured near-ground reaching the bottom edge, with no cutaway soil cross-section. Wide landscape 2:1 strip; horizontal edges connect for repeating. No large boulders blocking the lane, no straight artificial border, no text or watermark.",
+      "ref": "/home/jeffndegwa/heavy-haul/final-goal-like/Four Scout Trucks_ Off-Road Selection.png"
+    }
+  },
+  "reeds": {
+    "file": "source/reeds-v3.png",
+    "prompt": "Use case: stylized-concept. One isolated small clump of wild swamp sedge and cattail reeds, full plant visible, true transparent background. Premium painted video game prop matching the marsh vegetation in the SWAMP SCOUT reference. Olive green and muted straw-colored leaves, 3 slender cattail seed heads, tangled dark muddy roots. Side view, soft diffuse front illumination, crisp dark natural outlines, illustrated semi-realism. The silhouette and every gap between leaves must have clean transparent alpha. This is a clean game sprite, with NO backlight, NO glow, NO surrounding color haze, NO vignette, NO spotlight, NO smoke, NO background, NO cast shadow. Keep empty transparent margin around all sides. Flat even lighting. No text, border, vehicle or scene.",
+    "prompt_v1": "Use case: stylized-concept. Asset type: one transparent foreground scenery prop for a premium side-view swamp driving game. Reference role: ONLY vegetation of the bottom-right SWAMP SCOUT panel. One beautiful irregular clump of marsh reeds and sedges with varied long olive and ochre blades, a few cattail seed heads, small broken stems and roots, a little muddy earth gathered tightly at its base. Painted semi-realism with crisp dark natural outlines, fine readable blade detail, warm upper-left afternoon highlights and cool dark shadows. Side-on view with a slight elevated camera, no perspective ground plane. The clump's base sits near bottom center; full plant in frame with clear margins. True transparent background. No water background, scene, square ground patch, text, vehicles, border, white outline or halo.",
+    "edit_v2": {
+      "prompt": "Edit target: the attached reed clump. Remove ALL background color, all amber glow and all fog around the plant. Preserve the detailed reeds, cattail heads and muddy roots. Every pixel outside the actual plant must be fully transparent alpha, including all gaps between blades. No halo or shadow backdrop at all. Keep the clump complete with clear empty margin all around. Bring the style closer to crisp semi-realistic painted game art with dark natural contours, muted olive and ochre, matching a swamp off-road game. Do not add any background.",
+      "ref": "/home/jeffndegwa/.codex/generated_images/01a1770e-8dad-7352-8138-ce53ebb7a31e/exec-f341a2ea-59d9-47f1-9f4c-a435deefbb85.png"
+    },
+    "rejected": {
+      "reeds-v1": "Colored halo around plant",
+      "reeds-v2": "Halo remained after edit"
+    }
+  },
+  "log": {
+    "file": "source/log-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: one transparent foreground scenery prop for a premium side-view swamp driving game. Reference role: ONLY bottom-right SWAMP SCOUT scene style. A weathered fallen swamp tree log lying almost horizontally, moss-coated gray-brown bark, exposed pale broken end grain, intricate roots, a few small gray stones and sedge shoots tucked around its base. Richly detailed semi-realistic hand-painted game illustration, crisp dark natural contours, earthy muted olive and brown palette, soft warm upper-left highlights. Slightly elevated side view. Entire single prop cluster in frame with generous transparent margin, landscape format. True transparent background. No scene or painted rectangular ground, no water background, no vehicle, text, UI, watermark or halo."
+  },
+  "rock": {
+    "file": "source/rock-v1.png",
+    "prompt": "Use case: stylized-concept. One isolated low broad gray swamp boulder with small moss patches, dark wet crevices, a few tiny tangled roots at its base. A single asymmetrical rounded weathered rock, about twice as wide as tall. Premium detailed semi-realistic painted game illustration with crisp dark natural contours, cool gray stone and muted olive moss, subtle warm upper-left highlights. Side view from a slightly elevated 10-degree camera, matching the SWAMP SCOUT reference panel's ground. Full object visible with generous empty margin. True transparent alpha background. No glow, halo, fog, vignette, ground rectangle, scenery, water background, text, UI or other large objects."
+  },
+  "granite": {
+    "file": "source/granite-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: square seamless base-color texture for 3D mountain rocks, not a landscape. Entire frame filled edge to edge with weathered dark gray granite, subtle warm gray and blue-gray mineral variation, fine irregular fractures, small mineral flecks, sparse muted olive moss in crevices. Premium semi-realistic painted game art with crisp readable material detail, earthy muted palette suitable for an alpine heavy-trucking game. Medium and fine detail, no single giant crack dominating. Flat perpendicular surface scan under even diffuse neutral illumination. Seamlessly tileable on all four edges. No directional light, no cast shadows, no rocks as separate objects, no ground plane, no perspective, no border, no text, no logos. Base color texture only."
+  },
+  "wet-mud": {
+    "file": "source/wet-mud-v1.png",
+    "prompt": "Use case: stylized-concept. Asset type: square seamless base-color ground texture for a 3D off-road driving game. Entire frame filled with rich dark chocolate brown churned wet earth, irregular compressed mud clods and shallow grooves, a few embedded small gray stones, scattered tiny roots and straw. Subtle wet color variation with shallow nearly-black pockets, no strong white specular highlights because the game supplies reflections. Premium semi-realistic painted game art, natural earthy palette, detailed readable at close range. No grass carpet, no large boulders, no regular tire tread pattern, no straight parallel ruts baked in; ruts are added separately in geometry. Flat top-down perpendicular surface scan, no perspective, diffuse uniform illumination, no cast shadows, no horizon, no text. Seamless tile on all four edges. Color texture only."
+  },
+  "interactive_terrain": {
+    "deepMud": {
+      "file": "deep-mud-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: seamless swamp driving-surface material. Generate a wide 2048x1024 opaque top-down orthographic texture of DEEP saturated bog mud, distinctly darker and wetter than ordinary dirt: nearly black chocolate slurry, waterlogged soft clay, broad shallow murky olive-brown reflective puddles, collapsed tire ruts and raised sticky mud ridges. Fine natural texture, low contrast diffuse sky reflections. Premium semi-realistic painted game illustration, readable natural dark contours and material richness matching the approved Swamp Scout reference. Uniform soft overcast light, no hard shadows. Seamless repeat-compatible edges on both axes; no horizon, perspective, scenery, foliage, stones, vehicle, text, logos or watermark. The tile must read as soft sinkable swamp slurry, not dry gravel or a crisp paved road.",
+      "method": "built-in imagegen",
+      "selected": "deep-mud-v1.png"
+    },
+    "logEnd": {
+      "file": "log-end-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: obstacle log end sprite. A single large realistic freshly broken tree-log END facing camera, a circular irregular bark silhouette surrounding golden weathered end grain, detailed growth rings, radial splits, torn fibers and patches of dark damp moss. A very small amount of rough bark thickness visible along top/right rim, but keep front silhouette approximately circular. Match premium semi-realistic painted Swamp Scout game illustration, dark natural contours, fine bark detail, soft even daylight. Center this ONE log end in a landscape 2048x1536 PNG canvas with clear transparent margins; entire object visible. True alpha transparent background including gaps; no checkerboard, colored fringe, halo, ground, cast/drop shadow, scene, text or logos.",
+      "method": "built-in imagegen",
+      "revisions": [
+        {
+          "file": "log-end-v2.png",
+          "prompt": "Use case: stylized-concept. Asset type: obstacle log end sprite. A single large realistic freshly broken tree-log END facing camera, a circular irregular bark silhouette surrounding golden weathered end grain, detailed growth rings, radial splits, torn fibers and patches of dark damp moss. A very small amount of rough bark thickness visible along top/right rim, but keep front silhouette approximately circular. Match premium semi-realistic painted Swamp Scout game illustration, dark natural contours, fine bark detail, soft even daylight. Center this ONE log end in a landscape 2048x1536 PNG canvas with clear transparent margins; entire object visible. True alpha transparent background including gaps; no checkerboard, colored fringe, halo, ground, cast/drop shadow, scene, text or logos. Revision requirement: use a WIDE 2:1 LANDSCAPE CANVAS, 2048x1024 requested, at least 1500 pixels wide. Keep the round log end centered with ample transparent side margins. Previous output was 1448 pixels wide, below required minimum. No colored fringe.",
+          "rejection_reason": "v1 canvas width 1448 is below the 1500px minimum",
+          "method": "built-in imagegen"
+        }
+      ],
+      "selected": "log-end-v2.png"
+    },
+    "bridgeWood": {
+      "file": "bridge-wood-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: seamless bridge timber surface material. Wide 2048x1024 opaque top-down orthographic texture of aged dark grey-brown rough sawn timber: long wood grain horizontal left to right, damp worn fibers, old fastener holes, subtle hairline splits and dark knots. Premium semi-realistic painted game illustration matching Swamp Scout mechanical/natural texture detail and muted swamp lighting. Flat even light. Seamless on both axes. NO complete bridge, scenery, perspective, ground, cast shadows, text, logos, planks protruding beyond frame, or bright edge highlights. This material will be mapped onto separate moving physical bridge boards.",
+      "method": "built-in imagegen",
+      "selected": "bridge-wood-v1.png"
+    },
+    "style_reference": {
+      "file": "assets/references/four-scout-trucks.png",
+      "role": "painted illustration style, materials and muted swamp palette; no vehicle content"
+    }
+  }
+}

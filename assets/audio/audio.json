@@ -1,0 +1,220 @@
+{
+  "clips": {
+    "scout-v8-idle": {
+      "file": "clips/scout-v8-idle.wav",
+      "source": "scout-v8",
+      "regionSeconds": [
+        8,
+        12.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.14,
+      "peak": 0.5328
+    },
+    "scout-v8-drive": {
+      "file": "clips/scout-v8-drive.wav",
+      "source": "scout-v8",
+      "regionSeconds": [
+        2,
+        6.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1612,
+      "peak": 0.7
+    },
+    "scout-v8-start": {
+      "file": "clips/scout-v8-start.wav",
+      "source": "scout-v8",
+      "regionSeconds": [
+        0.05,
+        1.2
+      ],
+      "loop": false,
+      "duration": 1.15,
+      "rms": 0.0985,
+      "peak": 0.7
+    },
+    "mesa-cummins-idle": {
+      "file": "clips/mesa-cummins-idle.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        12,
+        16.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.14,
+      "peak": 0.597
+    },
+    "mesa-cummins-drive": {
+      "file": "clips/mesa-cummins-drive.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        4,
+        8.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1708,
+      "peak": 0.7
+    },
+    "mesa-cummins-start": {
+      "file": "clips/mesa-cummins-start.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        1.4,
+        3.1
+      ],
+      "loop": false,
+      "duration": 1.7,
+      "rms": 0.0822,
+      "peak": 0.7
+    },
+    "fuel-delivery-idle": {
+      "file": "clips/fuel-delivery-idle.wav",
+      "source": "fuel-delivery",
+      "regionSeconds": [
+        12,
+        16.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.14,
+      "peak": 0.6043
+    },
+    "fuel-delivery-drive": {
+      "file": "clips/fuel-delivery-drive.wav",
+      "source": "fuel-delivery",
+      "regionSeconds": [
+        4,
+        8.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1703,
+      "peak": 0.7
+    },
+    "fuel-delivery-start": {
+      "file": "clips/fuel-delivery-start.wav",
+      "source": "fuel-delivery",
+      "regionSeconds": [
+        0,
+        1.2
+      ],
+      "loop": false,
+      "duration": 1.2,
+      "rms": 0.1396,
+      "peak": 0.7
+    },
+    "wrecker-diesel-idle": {
+      "file": "clips/wrecker-diesel-idle.wav",
+      "source": "wrecker-diesel",
+      "regionSeconds": [
+        4,
+        8.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1265,
+      "peak": 0.7
+    },
+    "wrecker-diesel-drive": {
+      "file": "clips/wrecker-diesel-drive.wav",
+      "source": "wrecker-diesel",
+      "regionSeconds": [
+        22,
+        26.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1192,
+      "peak": 0.7
+    },
+    "wrecker-diesel-start": {
+      "file": "clips/wrecker-diesel-start.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        1.4,
+        3.1
+      ],
+      "loop": false,
+      "duration": 1.7,
+      "rms": 0.0822,
+      "peak": 0.7
+    },
+    "ice-semi-idle": {
+      "file": "clips/ice-semi-idle.wav",
+      "source": "ice-semi",
+      "regionSeconds": [
+        8,
+        12.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.14,
+      "peak": 0.6384
+    },
+    "ice-semi-drive": {
+      "file": "clips/ice-semi-drive.wav",
+      "source": "ice-semi",
+      "regionSeconds": [
+        34,
+        38.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1478,
+      "peak": 0.7
+    },
+    "ice-semi-start": {
+      "file": "clips/ice-semi-start.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        1.4,
+        3.1
+      ],
+      "loop": false,
+      "duration": 1.7,
+      "rms": 0.0822,
+      "peak": 0.7
+    },
+    "mountain-construction-idle": {
+      "file": "clips/mountain-construction-idle.wav",
+      "source": "mountain-construction",
+      "regionSeconds": [
+        1,
+        5.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1173,
+      "peak": 0.7
+    },
+    "mountain-construction-drive": {
+      "file": "clips/mountain-construction-drive.wav",
+      "source": "mountain-construction",
+      "regionSeconds": [
+        19,
+        23.5
+      ],
+      "loop": true,
+      "duration": 4.34,
+      "rms": 0.1622,
+      "peak": 0.7
+    },
+    "mountain-construction-start": {
+      "file": "clips/mountain-construction-start.wav",
+      "source": "mesa-cummins",
+      "regionSeconds": [
+        1.4,
+        3.1
+      ],
+      "loop": false,
+      "duration": 1.7,
+      "rms": 0.0822,
+      "peak": 0.7
+    }
+  }
+}

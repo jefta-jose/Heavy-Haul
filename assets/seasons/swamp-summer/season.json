@@ -1,0 +1,446 @@
+{
+  "id": "swamp-summer",
+  "name": "Blackwater Swamp",
+  "season": "summer",
+  "status": "playable",
+  "trail": {
+    "name": "Blackwater trail",
+    "finishBonus": 4800,
+    "keys": [
+      [
+        -60,
+        0
+      ],
+      [
+        70,
+        0
+      ],
+      [
+        100,
+        -1.5
+      ],
+      [
+        230,
+        -1.2
+      ],
+      [
+        250,
+        -1.2
+      ],
+      [
+        263,
+        -1.2
+      ],
+      [
+        300,
+        4
+      ],
+      [
+        318,
+        4.5
+      ],
+      [
+        340,
+        -1.2
+      ],
+      [
+        415,
+        -1.2
+      ],
+      [
+        450,
+        4
+      ],
+      [
+        480,
+        9
+      ],
+      [
+        510,
+        11
+      ],
+      [
+        530,
+        10
+      ],
+      [
+        560,
+        7
+      ],
+      [
+        600,
+        4
+      ],
+      [
+        700,
+        3
+      ],
+      [
+        740,
+        3.5
+      ],
+      [
+        755,
+        3.5
+      ],
+      [
+        795,
+        8
+      ],
+      [
+        840,
+        9
+      ],
+      [
+        880,
+        5
+      ],
+      [
+        900,
+        0
+      ],
+      [
+        920,
+        -1
+      ],
+      [
+        1020,
+        -1
+      ],
+      [
+        1040,
+        0
+      ],
+      [
+        1195,
+        1.5
+      ],
+      [
+        1212,
+        1.5
+      ],
+      [
+        1245,
+        6
+      ],
+      [
+        1280,
+        11
+      ],
+      [
+        1320,
+        14
+      ],
+      [
+        1350,
+        13
+      ],
+      [
+        1380,
+        8
+      ],
+      [
+        1420,
+        5
+      ],
+      [
+        1600,
+        5
+      ],
+      [
+        1640,
+        9
+      ],
+      [
+        1700,
+        14
+      ],
+      [
+        1750,
+        16
+      ],
+      [
+        1900,
+        16
+      ]
+    ],
+    "zones": [
+      [
+        -60,
+        70,
+        "dirt"
+      ],
+      [
+        70,
+        260,
+        "mud"
+      ],
+      [
+        260,
+        340,
+        "dirt"
+      ],
+      [
+        340,
+        420,
+        "creek"
+      ],
+      [
+        420,
+        530,
+        "rock"
+      ],
+      [
+        530,
+        750,
+        "mud"
+      ],
+      [
+        750,
+        900,
+        "dirt"
+      ],
+      [
+        900,
+        1030,
+        "creek"
+      ],
+      [
+        1030,
+        1210,
+        "mud"
+      ],
+      [
+        1210,
+        1350,
+        "rock"
+      ],
+      [
+        1350,
+        1600,
+        "mud"
+      ],
+      [
+        1600,
+        1780,
+        "dirt"
+      ],
+      [
+        1780,
+        1900,
+        "gravel"
+      ]
+    ],
+    "waters": [
+      {
+        "x0": 345,
+        "x1": 415,
+        "depth": 0.45,
+        "kind": "swamp",
+        "drag": 0.2
+      },
+      {
+        "x0": 910,
+        "x1": 1020,
+        "depth": 0.55,
+        "kind": "swamp",
+        "drag": 0.22
+      }
+    ],
+    "heavyMud": [
+      180,
+      650,
+      1150,
+      1495
+    ],
+    "start": 30,
+    "fuel": 830,
+    "depot": 1800,
+    "checkpoints": [
+      30,
+      250,
+      440,
+      750,
+      1025,
+      1350,
+      1630
+    ],
+    "seed": 20261026,
+    "obstacleSeed": 4242,
+    "bridges": [
+      {
+        "id": "creek-bridge",
+        "x0": 364,
+        "x1": 378,
+        "capacityT": 14,
+        "sag": 0.28,
+        "depth": 1.5
+      },
+      {
+        "id": "old-timber-bridge",
+        "x0": 957,
+        "x1": 969,
+        "capacityT": 10,
+        "sag": 0.22,
+        "depth": 1.4
+      }
+    ],
+    "logPiles": [
+      {
+        "x": 64,
+        "radius": 0.36
+      },
+      {
+        "x": 775,
+        "radius": 0.4
+      },
+      {
+        "x": 1652,
+        "radius": 0.42
+      }
+    ]
+  },
+  "surfaces": {
+    "gravel": {
+      "mu": 0.85,
+      "label": "Gravel",
+      "rolling": 0.022,
+      "noise": [
+        0.12,
+        0.045,
+        0.014
+      ]
+    },
+    "dirt": {
+      "mu": 0.95,
+      "label": "Dirt",
+      "rolling": 0.035,
+      "noise": [
+        0.3,
+        0.11,
+        0.03
+      ]
+    },
+    "rock": {
+      "mu": 0.85,
+      "label": "Rock",
+      "rolling": 0.04,
+      "noise": [
+        0.38,
+        0.16,
+        0.045
+      ]
+    },
+    "mud": {
+      "mu": 0.32,
+      "label": "Deep mud",
+      "rolling": 0.12,
+      "sink": 0.26,
+      "bog": 3000,
+      "suction": 700,
+      "noise": [
+        0.2,
+        0.07,
+        0.02
+      ],
+      "heavySink": 0.16
+    },
+    "creek": {
+      "mu": 0.55,
+      "label": "River bed",
+      "rolling": 0.05,
+      "sink": 0,
+      "noise": [
+        0.2,
+        0.09,
+        0.03
+      ]
+    },
+    "wood": {
+      "mu": 0.82,
+      "label": "Timber bridge",
+      "rolling": 0.025,
+      "noise": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "art": {
+    "backdrop": {
+      "file": "art/backdrop.webp",
+      "source": "source/backdrop-v2.png"
+    },
+    "midground": {
+      "file": "art/midground.webp",
+      "source": "source/midground-v1.png"
+    },
+    "bank": {
+      "file": "art/bank.webp",
+      "source": "source/bank-v1.png"
+    },
+    "ground": {
+      "file": "art/ground.webp",
+      "source": "source/ground-v1.png"
+    },
+    "reeds": {
+      "file": "art/reeds.webp",
+      "source": "source/reeds-v3.png"
+    },
+    "log": {
+      "file": "art/log.webp",
+      "source": "source/log-v1.png"
+    },
+    "rock": {
+      "file": "art/rock.webp",
+      "source": "source/rock-v1.png"
+    },
+    "granite": {
+      "file": "art/granite.webp",
+      "source": "source/granite-v1.png"
+    },
+    "wetmud": {
+      "file": "art/wet-mud.webp",
+      "source": "source/wet-mud-v1.png"
+    },
+    "deepMud": {
+      "file": "art/deepMud.webp",
+      "source": "source/deep-mud-v1.png"
+    },
+    "logEnd": {
+      "file": "art/logEnd.webp",
+      "source": "source/log-end-v2.png"
+    },
+    "bridgeWood": {
+      "file": "art/bridgeWood.webp",
+      "source": "source/bridge-wood-v1.png"
+    }
+  },
+  "rockHulls": "rock-hulls.json",
+  "render": {
+    "sky": "#8dabb5",
+    "bankTile": 14,
+    "bankContactRow": 500,
+    "parallax": {
+      "backdrop": 0.055,
+      "midground": 0.24
+    },
+    "lane": {
+      "materials": {
+        "dirt": "ground",
+        "gravel": "ground",
+        "creek": "wetmud",
+        "mud": "wetmud",
+        "rock": "granite"
+      },
+      "tints": {
+        "mud": "rgba(30,20,10,0.22)",
+        "dirt": "rgba(150,116,70,0.16)",
+        "gravel": "rgba(196,184,160,0.3)",
+        "rock": "rgba(40,40,38,0.12)",
+        "creek": "rgba(40,52,44,0.3)"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+# Marsh Fox 3
+
+Status: **planned** · class `scout`, tier 3 of 20 · 4×4, 2 axles · 2.3 t empty · 147 kW · all-terrain tires, 0.93 m
+Load: **Supply crates**, 0.3 t
+
+## Art brief
+
+- Vehicle: gunmetal grey 4×4 pickup scout with an open bed
+- Load (drawn as part of the vehicle): olive supply crates under a cargo net
+- Equipment: side shovel and hi-lift jack
+- Finish: mud-caked lower panels
+- Tires: 0.93 m all-terrain: blocky all-terrain tread with sipes
+
+## Codex delivers (see AGENTS.md)
+
+- [ ] `source/vehicle-master-v1.png`: the complete vehicle **with its load**, all wheels on, side-on facing right, transparent
+- [ ] `source/body-v1.png`: the same canvas with every road wheel removed (the load stays)
+- [ ] `source/wheel-v1.png`: one matching tire on a square transparent canvas, hub centred
+- [ ] `source/prompts.json`: the exact prompts and which image was an edit target
+
+## Claude hooks it up (see CLAUDE.md)
+
+`art/*.webp`, `car.json` (registration, physics with the load's mass, drivetrain) and `status: "playable"`.

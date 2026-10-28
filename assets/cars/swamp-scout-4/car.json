@@ -1,0 +1,207 @@
+{
+  "id": "swamp-scout-4",
+  "name": "Swamp Scout",
+  "number": 4,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "High traction in soft terrain",
+  "description": "A lifted olive 4×4 built for flooded trails. Huge mud tires, long-travel suspension, recovery gear and a roof rack.",
+  "stats": {
+    "power": 66,
+    "grip": 95,
+    "durability": 78,
+    "fuelEfficiency": 73
+  },
+  "biomes": [
+    "Water",
+    "Swamp",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      900,
+      650
+    ],
+    "pixelsPerMetre": 235,
+    "axles": [
+      2.1404255319,
+      -1.9531914894
+    ],
+    "wheelY": [
+      -0.1914893617,
+      -0.1914893617
+    ],
+    "radius": 0.872,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 561,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1405,
+        712,
+        218
+      ],
+      [
+        445,
+        720,
+        222
+      ]
+    ],
+    "exhaust": [
+      -2.95,
+      -0.2
+    ],
+    "winch": [
+      3.05,
+      0.12
+    ],
+    "nose": 3.6
+  },
+  "physics": {
+    "mass": 3800,
+    "centreOfMass": [
+      -0.1,
+      0.48
+    ],
+    "size": [
+      6.5,
+      2.2
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -2.9,
+        2.9,
+        -0.12,
+        0.32,
+        1
+      ],
+      [
+        -2.55,
+        1.2,
+        0.28,
+        1.9,
+        0.6
+      ],
+      [
+        1.2,
+        2.85,
+        0.32,
+        1.12,
+        0.45
+      ],
+      [
+        -2,
+        0.8,
+        1.9,
+        2.28,
+        0.25
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.32,
+      "travelDown": 0.38,
+      "damping": 0.48
+    },
+    "winchForce": 42000
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.17,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 15,
+      "L": 46,
+      "R": 36
+    },
+    "brakeTorque": 4000,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 100
+  },
+  "load": {
+    "name": "Expedition gear",
+    "massT": 0.2
+  },
+  "audio": {
+    "cylinders": 8,
+    "layout": "v-cross",
+    "fuel": "petrol",
+    "displacementL": 5.7,
+    "idleRpm": 680,
+    "maxRpm": 4800,
+    "pipeM": 2.6,
+    "mufflerHz": 1200,
+    "roughness": 0.28,
+    "bass": 0.5,
+    "crankS": 0.9,
+    "backupAlarm": false,
+    "_note": "lumpy cross-plane petrol V8, dual exhaust: the approved burble"
+  }
+}
