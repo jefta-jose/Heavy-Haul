@@ -94,6 +94,5 @@ Browser captures are written to `output/captures/` for visual review.
 | Zoom per car | `camera.zoom` in the car's `car.json` (1.5 = 17.7 m of trail across the screen; higher shows more) |
 | Take-off and cruise | `drivetrain` in `car.json`: `converterBoost`, `driveRamp`, `throttleRise`, `gears` |
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink` |
-| Ruts | `RUT` in `src/physics/ground.js` (depth, rate, dig, healing); `CHURN` in `simulation.js` (grip and drag in churned ground); `surfaces.<id>.give` in `season.json` |
 | Suspension | `physics.suspension` in `car.json` |
 | Trail shape | `trail` in `season.json`; obstacle generation in `terrain.js` / `obstacles.js` |

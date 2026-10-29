@@ -48,24 +48,9 @@ and Load weight. Levels are saved per car in the browser (saves from the older 1
 dropped), and the run uses the tuned copy. The knobs live in `src/game/tuning.js` and scale car.json
 fields, so they work for every car, including future ones.
 
-Tuning is how a truck beats the mud: a stock scout bogs down where a fully tuned one keeps going
-(see the ruts below), and when even a tuned truck is properly stuck, the breakdown truck pulls it out.
-
-## Ruts: the ground remembers
-
-Mud, creek beds, dirt and gravel give under the tires (`physics/ground.js`; rock, wood and bridges do
-not). Each tire presses a rut into the ground in proportion to the load it carries: the heavier the
-truck and its load, the deeper the rut it can make (up to 0.36 m in mud, never more than a third of
-the tire's radius) and the faster it sinks. Standing still keeps sinking, a spinning tire digs in, and
-every pass of every axle adds to the rut. The ruts are real: the collision ground is lowered, so the
-tires sit in them and have to climb out. Churned ground is also soupier: a deep rut has less grip and
-more bog drag. A road a heavy truck worked back and forth is much harder for a scout that comes
-after it. Tuning is the answer (a fully tuned scout keeps going where a stock one bogs down), and the
-breakdown truck is for when even that is not enough.
-
-Ruts never reset. They stay through new runs and the garage, are saved in the browser per season,
-and heal slowly back to the original ground wherever no tire is pressing: half their depth every 7
-minutes, including the real time that passed while the game was closed.
+Ruts are drawn where the tires roll: deeper in mud and where a wheel spins, lighter on dirt and
+gravel. They last for the run and clear when a new run starts or the player goes back to the garage;
+they do not change the physics.
 
 ## Fuel
 

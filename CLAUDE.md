@@ -28,10 +28,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   specs: 5 knobs (engine, suspension, speed, grip, load weight), each 0 to 100 in steps of 25 and each
   moving several car.json fields; every car can max all five. Saved per car in the browser. New cars
   need nothing; extend a knob's `apply` to tune something new.
-- Soft ground ruts under the tires by load and time (`src/physics/ground.js`), and the ruts persist:
-  never reset, saved per season in the browser, healing slowly. Tests start from untouched ground.
-  Do not soften the ruts to make a car easier: tuning gets a truck through, the breakdown truck
-  rescues it when even that fails.
+- Ruts are drawn only (`src/render/layers/mud.js`): they last the run and clear on a new run or the
+  garage. Persistent physics ruts were tried and dropped on 2026-10-29 (they made the trail
+  impassable after a few passes). Mud sinking is `surfaces.mud.sink` in `season.json`.
   Keep mud fun: a light truck must wiggle through, help is for when it is properly stuck.
 - Never overwrite Codex's PNG masters. Runtime files are `art/*.webp` from `npm run art:encode`.
 - Physics changes need `npm test` and `npm run test:route`; anything visible needs

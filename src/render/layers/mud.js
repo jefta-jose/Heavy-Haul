@@ -1,25 +1,61 @@
+import { wheelRadius } from '../../physics/vehicle.js';
 import { makeCanvas } from '../canvas-utils.js';
 
-// Wet mud patches and the ruts the tires leave. The ruts are the physics' own: the ground field
-// (physics/ground.js) the tires press into, deeper under heavy loads and while they stand or spin,
-// healing slowly where nothing presses. Its depth in metres is drawn as a groove on both wheel
-// tracks; it lasts across runs and visits, so a road a heavy truck worked stays rutted.
-const RUT_FULL = 0.25;                 // metres of rut drawn as a full-depth groove
-const RUT_OFFSETS = [0.5, 0.02];       // far and near wheel tracks, in the lane's elevated view
+// Wet mud patches and the ruts the tires leave. Ruts are a depth profile along the trail (every
+// RES metres) that tires press into as they roll: deeper where they sink (the same surface/collision
+// separation that sinks them in the physics), deeper again with every pass and while a wheel spins,
+// wider under big tires. Soft ground takes deep wet ruts, dirt and gravel lighter packed tracks, rock
+// and bridges none. Ruts stay for the whole run, so driving back you find them where you left them;
+// they are cleared only when a new run starts or the player goes back to the garage.
+const RES = 0.1;
+const GIVE = { mud: 1, creek: 0.8, dirt: 0.45, gravel: 0.25 };
+const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the lane's elevated view
 export function createMudLayer(scene) {
-  const { ctx } = scene.view, sim = scene.sim, ground = sim.ground, T = sim.terrain;
-  let currentTime = 0;
-  const cellOf = x => Math.round((x - T.X0) / T.step);
-  const D = new Float32Array(T.N), W = new Float32Array(T.N), S = new Float32Array(T.N);
-  function update() {}
+  const { ctx } = scene.view, sim = scene.sim;
+  let currentTime = 0, world = null, ruts = null, lastCell = new WeakMap();
+  function clear() {
+    const { X0, X1 } = sim.terrain, n = Math.ceil((X1 - X0) / RES) + 2;
+    ruts = { X0, depth: new Float32Array(n), width: new Float32Array(n), soft: new Float32Array(n), count: 0 };
+    lastCell = new WeakMap();
+  }
+  const cellOf = x => Math.round((x - ruts.X0) / RES);
+  function press(x, half, target, widthScale, give, add) {
+    const c0 = Math.max(0, cellOf(x - half)), c1 = Math.min(ruts.depth.length - 1, cellOf(x + half));
+    for (let c = c0; c <= c1; c++) {
+      // rounded contact patch: full depth at the middle of the tire, easing out at its ends
+      const u = Math.abs(ruts.X0 + c * RES - x) / half, f = Math.sqrt(Math.max(0, 1 - u * u));
+      const before = ruts.depth[c];
+      ruts.depth[c] = Math.min(1, Math.max(before, target * f) + add * f);
+      if (before < 0.02 && ruts.depth[c] >= 0.02) ruts.count++;
+      ruts.width[c] = Math.max(ruts.width[c], widthScale);
+      ruts.soft[c] = Math.max(ruts.soft[c], give);
+    }
+  }
+  function update(dt) {
+    if (world !== sim.world || !ruts) { world = sim.world; clear(); }
+    for (const v of sim.vehicles) v.parts.wheels.forEach((wheel, i) => {
+      const p = wheel.getPosition(), radius = wheelRadius(v.car.rig, i), surf = sim.surfAt(p.x), give = GIVE[surf] ?? 0;
+      if (!give || sim.terrain.bridgeAt?.(p.x)) return;
+      const bottom = p.y - radius, ground = sim.visH(p.x);
+      if (bottom > ground + 0.04) return;                         // in the air
+      // how far the tire has sunk below the drawn surface, as a share of a deep rut
+      const sunk = Math.max(0, Math.min(1, (ground - bottom) / 0.28));
+      const target = give * (0.3 + 0.7 * sunk), half = radius * 0.42, widthScale = Math.min(1.6, Math.max(0.8, radius / 0.87));
+      const cell = cellOf(p.x), prev = lastCell.get(wheel);
+      // each new pass over a stretch deepens it a little; a spinning wheel digs in where it stands
+      const vel = wheel.getLinearVelocity().x, spin = Math.abs(wheel.getAngularVelocity() * radius + vel);
+      const add = (prev !== cell ? 0.025 * give : 0) + Math.min(0.5, spin * 0.06) * give * dt;
+      if (prev !== cell || spin > 1) press(p.x, half, target, widthScale, give, add);
+      lastCell.set(wheel, cell);
+    });
+  }
   // the ruts in view, for each wheel track: a soft-edged groove whose width follows the depth and
   // the tire, a darker bottom, lumpy soil pushed up along both edges and tread chevrons pressed into
   // the bottom. Edges wobble a little so nothing reads as a ruler line.
   function drawRuts(lo, hi) {
-    const c0 = Math.max(0, cellOf(lo)), c1 = Math.min(T.N - 1, cellOf(hi)), X = c => T.X0 + c * T.step;
-    // depth 0..1 for drawing, tire width, and how soft the ground is (wet grooves on mud and creek),
-    // copied for the cells in view
-    for (let k = c0; k <= c1; k++) { D[k] = Math.min(1, T.dent[k] / RUT_FULL); W[k] = ground.widthAt(k) || 1; S[k] = ground.giveAt(k); }
+    if (!ruts) return;
+    const c0 = Math.max(0, cellOf(lo)), c1 = Math.min(ruts.depth.length - 1, cellOf(hi)), D = ruts.depth, W = ruts.width, S = ruts.soft;
+    const X = c => ruts.X0 + c * RES;
     const wob = x => Math.sin(x * 9.1) * 0.006 + Math.sin(x * 23.7) * 0.004;
     const band = (start, end, top, bottom) => {
       ctx.beginPath();
@@ -135,9 +171,9 @@ export function createMudLayer(scene) {
     surface(currentTime); ctx.restore();
   }
   return {
-    update, surface, foreground,
-    // metres of trail carrying a rut, and the rut at x as drawn, 0..1 (for tests)
-    get trackCount() { return Math.round(ground.rutMetres); },
-    rutAt: x => Math.min(1, ground.depthAt(x) / RUT_FULL),
+    update, surface, foreground, clear,
+    // metres of trail carrying a rut, and the deepest rut at x (for tests)
+    get trackCount() { return ruts ? Math.round(ruts.count * RES) : 0; },
+    rutAt: x => (ruts ? ruts.depth[cellOf(x)] ?? 0 : 0),
   };
 }

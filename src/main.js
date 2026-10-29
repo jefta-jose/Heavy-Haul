@@ -169,7 +169,7 @@ function newRun() {
 }
 // a run starts with the engine off and the starter cranking, like turning the key
 function startRun(sel) { selection = sel; garage.hide(); session.state = 'play'; startAudio(); newRun(); sim.stopEngine(sim.main); sim.startEngine(sim.main); }
-function openGarage() { stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
+function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
 
 async function goFullscreen() {
   const el = document.documentElement;
@@ -235,16 +235,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { saveRuts: () => saveRuts(), sim, view, renderer, session, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
-
-// Ruts are kept in the browser per season and never reset; they heal by the real time that passed
-// while the game was closed, and are saved every few seconds and when the page is hidden.
-const RUTS_KEY = `hh_ruts_${season.id}`;
-try { sim.ground.import(JSON.parse(localStorage.getItem(RUTS_KEY)), Date.now()); } catch (e) {}
-const saveRuts = () => { try { localStorage.setItem(RUTS_KEY, JSON.stringify(sim.ground.export(Date.now()))); } catch (e) {} };
-setInterval(saveRuts, 5000);
-document.addEventListener('visibilitychange', () => { if (document.hidden) saveRuts(); });
-window.addEventListener('pagehide', saveRuts);
+window.__haul = { sim, view, renderer, session, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);
