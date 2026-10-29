@@ -1227,7 +1227,9 @@
         0.07,
         0.02
       ],
-      "heavySink": 0.16
+      "heavySink": 0.22,
+      "heavyDrag": 0.35,
+      "heavyGrip": 0.6
     },
     "creek": {
       "mu": 0.55,

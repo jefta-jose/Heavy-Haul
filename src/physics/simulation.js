@@ -83,7 +83,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       if (!tire || !other || !other.surf) return;
       const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
       if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU, surfaces[other.surf].mu * m));
-      else if (other.surf === 'mud' || other.surf === 'creek') c.setFriction(surfaces[other.surf].mu * mudPatch(tire.getBody().getPosition().x) * m);
+      else if (other.surf === 'mud' || other.surf === 'creek') { const x = tire.getBody().getPosition().x; c.setFriction(surfaces[other.surf].mu * mudPatch(x) * pitGrip(x) * m); }
       else if (m !== 1) { c.resetFriction(); c.setFriction(c.getFriction() * m); }   // reset: pre-solve runs every step
     });
   }
@@ -168,11 +168,17 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const tq = Math.min(crr * N * R, cap);
     w.applyTorque(-Math.sign(om) * tq, true);
   }
-  function mudDrag(w) {
-    // deep mud: suction grows with speed plus a bog drag that holds a slow tire in the rut
-    const wv = w.getLinearVelocity(), bog = surfaces.mud.bog * Math.tanh(wv.x / 0.35);
+  function mudDrag(w, dt) {
+    // deep mud: suction grows with speed plus a bog drag that holds a slow tire in the rut. In a
+    // heavy-mud pit the bog also grows with the load on the tire (heavyDrag, a share of it), so a
+    // heavy rig sinks and drags in proportion and a pit stops every class, not only the light ones
+    const wv = w.getLinearVelocity(), L = load.get(w), N = L && L.imp ? L.imp / dt : 0;
+    const pit = (surfaces.mud.heavyDrag ?? 0) * terrain.mudAt(w.getPosition().x).heavy * N;
+    const bog = (surfaces.mud.bog + pit) * Math.tanh(wv.x / 0.35);
     w.applyForceToCenter(V(-wv.x * surfaces.mud.suction - bog, 0), true);
   }
+  // grip left in a heavy-mud pit: heavyGrip at its centre, easing back to 1 at its edges
+  const pitGrip = x => 1 - (1 - (surfaces.mud.heavyGrip ?? 1)) * terrain.mudAt(x).heavy;
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
@@ -200,7 +206,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const mu = L && L.surf ? surfaces[L.surf].mu : 0.9, m = (L && L.surf ? (v.tireData.grip?.[L.surf] ?? 1) : 1) * (v.tireData.gripScale ?? 1);
     const soft = L && (L.surf === 'mud' || L.surf === 'creek');
     if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU, mu * m) * N * wheelRadius(v.car.rig, i);
-    return mu * (soft ? mudPatch(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
+    return mu * (soft ? mudPatch(w.getPosition().x) * pitGrip(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
   }
 
   function stepVehicle(v, dt) {
@@ -246,7 +252,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       }
       rollingResistance(w, R, dt);
       slip = Math.max(slip, Math.abs(Math.abs(w.getAngularVelocity() * R) - Math.abs(fwd)));
-      if (s === 'mud' && !v.tireData.neverStuck) mudDrag(w);
+      if (s === 'mud' && !v.tireData.neverStuck) mudDrag(w, dt);
     }
     let water = 0;
     for (const b of [truck, ...wheels]) {
