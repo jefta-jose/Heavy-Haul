@@ -22,12 +22,12 @@ function playable(dir, entries, file) {
 
 // Sound: the bank (assets/audio/bank/bank.json, built by tools/prepare-audio.py from sounds.json) has
 // one engine per truck class. A car plays its class's engine, or the one its car.json names in
-// `audio.engine`; service trucks and unknown classes get a heavy-duty diesel, or the heavy engine from
-// 700 kW up. `audio.crankS`, `airBrakes` and `backupAlarm` in car.json override the class's.
+// `audio.engine`; service trucks (they have a `role`) and unknown classes get a heavy-duty diesel, or
+// the heavy engine from 700 kW up. `audio.crankS`, `airBrakes` and `backupAlarm` in car.json override the class's.
 export const readSoundBank = () => readJson('assets/audio/bank/bank.json');
 export function resolveAudio(all, bank = readSoundBank()) {
   for (const car of all) {
-    const a = { ...(car.audio ?? {}) }, cls = car.spec?.class ?? car.class;
+    const a = { ...(car.audio ?? {}) }, cls = car.role ? null : car.spec?.class ?? car.class;
     a.engine = bank.engines[a.engine] ? a.engine : bank.engines[cls] ? cls : (car.spec?.powerKw ?? 0) >= 700 ? 'heavy' : 'heavy-duty';
     a.crankS ??= bank.engines[a.engine].crankS;
     car.audio = a;

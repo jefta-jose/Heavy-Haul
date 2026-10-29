@@ -7,7 +7,7 @@ and season into one HTML file.
 assets/
   cars/
     cars.json              100 cars in 5 classes ordered weakest to strongest, each with the load it
-                           carries (drawn into its art), plus 4 service trucks (fuel / breakdown)
+                           carries (drawn into its art), plus 10 service trucks (fuel / breakdown per class)
     wheel-types.json       the 7 tire types and their grip per surface
     <car-id>/              one folder per car
       car.json             playable cars only: registration, physics, drivetrain, card text

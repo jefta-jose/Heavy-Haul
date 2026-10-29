@@ -1,0 +1,38 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game vehicle master Titan Tanker: ARCTIC WHITE massive 8\u00d78 off-road rigid fuel tanker, 13 m long with EXACTLY FOUR axles, two front and two rear, FOUR visible near-side road wheels. All tires SAME 2.20 m diameter: huge low-pressure balloon flotation tires, wide paddle lugs. Integrated huge insulated white fuel tank with metal bands, hose reels, amber beacons, heavy exposed REAR LEFT winch drum, cable and hook. Mud and frost finish. Purpose-built high-clearance polar cab, rugged mechanical details. Overall length 5.9 tire diameters, tires dwarf steps and cab doors; real heavy equipment proportions. Premium semi-realistic painted game art matching approved family, rich weathered materials, fine fittings, dark contours. Side-on facing RIGHT, only slight elevated angle showing some roof/deck/tread. Full vehicle clear margins on wide PNG minimum 1500 across. Soft even daylight, true transparent background and gaps. No ground, cast shadow, halo, text, logos or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Titan Tanker vehicle-master-v1.png. Remove EVERY road wheel and tire on ALL FOUR axles, including ALL far-side tire glimpses beneath chassis. Leave empty true transparent wheel regions and arches. Keep arctic white tank and cab, hoses, winch/cable/hook, equipment, chassis, suspension and all other details unchanged. EXACT original canvas dimensions, position, scale and camera. Do not redesign or move anything. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE matching Titan Tanker wheel: huge 2.20 m low-pressure BALLOON flotation tire with broad widely spaced PADDLE lugs, charcoal rubber with mud and frost, small weathered silver steel rim and detailed grey bolted hub matching arctic-white tanker master. Premium semi-realistic painted game illustration. Perfect CIRCLE, FRONT-ON orthographic, hub exactly centred and equal margins on square transparent PNG canvas. Requested 2048\u00d72048 at least 1500 square. Soft even ambient lighting suitable for spinning. No axle, body, ground, shadows, halo, text, logos."
+  },
+  "v2": {
+    "rejection_reason": "three-quarter perspective; needs a flat side profile",
+    "master": {
+      "file": "vehicle-master-v2.png",
+      "references": [
+        "../../bog-wrecker/source/vehicle-master-v1.png",
+        "../../fuel-runner-6x6/source/vehicle-master-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. References 1 bog-wrecker and 2 fuel-runner-6x6 are CAMERA and painted STYLE references only. Create Titan Tanker: arctic white 8\u00d78 off-road rigid tanker, 13 m long, HUGE insulated fuel tank integrated on chassis, hose reels and amber beacons, mud and frost. NO WINCH DRUM, NO CABLE OR HOOK. STRICTLY FLAT SIDE PROFILE for a 2D side-scroller facing RIGHT. Camera exactly perpendicular to near side, orthographic side elevation. NO visible cab front, no three-quarter view, no vanishing point, NO far-side tires. EXACTLY FOUR fully visible near-side tires on four axles: two rear and two front. ALL FOUR TIRES IDENTICAL diameter 2.20 m, perfectly circular with concentric circular rims and centered hubs. All hub centers on ONE EXACT horizontal line, all tire bottoms on ONE LEVEL baseline. Chassis, deck and tank perfectly horizontal. Real length roughly 5.9 tire diameters. Huge low-pressure BALLOON flotation tires with broad paddle lugs, small silver bolted steel rims. Premium semi-realistic painted game illustration, fine mechanics, weathered natural texture and dark readable contours, soft even daylight. Complete object centered with at least 6 percent clear transparent margins on ALL FOUR sides, nothing touching edges. Wide PNG at least 1500 px across, true transparent background/gaps. No ground, shadow, halo, text, logo or watermark."
+    },
+    "body": {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Use case: precise-object-edit. Output canvas MUST be EXACTLY 1942 pixels wide by 809 pixels high, identical to this input master. Titan Tanker wheel-free body extraction: remove ONLY all FOUR road tires and rims; leave transparent empty wheel regions, retaining chassis and suspension. Keep every other part of the truck at EXACT input position and scale, level camera, white tank/cab, hose reels/beacons. Do not shift or expand canvas, do not redesign. True transparent background. Preserve margins. Exact output 1942\u00d7809 PNG.",
+      "previous_prompt": "Use case: precise-object-edit. Edit target Titan Tanker vehicle-master-v2.png. Remove ONLY all FOUR road wheels and tires, including any tire fragments. Leave EMPTY TRANSPARENT wheel arches and wheel regions; preserve chassis, suspension and hubs. Keep arctic-white tank, cab, hose reels, ladders and beacons unchanged. EXACT original canvas dimensions, position, scale, perpendicular flat side camera and level horizontal alignment. Do not move, rescale, redesign, rotate or slant any part. Keep clear margins all four sides and true transparent background. No winch, hook, ground, shadow or halo."
+    },
+    "wheel": {
+      "file": "wheel-v2.png",
+      "reference": "vehicle-master-v2.png",
+      "prompt": "Use case: stylized-concept. Reference vehicle-master-v2.png is wheel design/style reference only. ONE matching Titan Tanker tire and rim, perfectly circular FRONT-ON orthographic side face, hub exactly canvas centre. Huge 2.20 m low-pressure BALLOON flotation tire with broad paddle lugs, charcoal rubber with mud and frost, small silver steel rim and silver bolted central hub matching reference. Equal generous margins on SQUARE true transparent canvas (1254 square is fine). Premium semi-realistic painted game illustration, fine weathered material, dark contours, soft even ambient light for rotation. No ellipse, perspective tilt, axle, body, ground, cast shadow, halo, text, logo or watermark."
+    }
+  },
+  "v1_status": {
+    "status": "rejected and images deleted after v2 checks",
+    "rejection_reason": "three-quarter perspective; needs a flat side profile"
+  }
+}

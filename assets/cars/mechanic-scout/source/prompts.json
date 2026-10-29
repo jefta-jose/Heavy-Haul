@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Generate game vehicle-master-v1.png for Mechanic Scout: mustard yellow 4×4 recovery pickup, 2 axles, 6.8 m overall length with 1.20 m equal-size mud-terrain tires, aggressive open-shoulder lugs. Small folding tow crane and wheel-lift integrated in bed, tool chests, spare wheel, amber beacon, mud-caked lower panels. Heavy REAR (left end) winch: clearly visible drum, wound cable and hanging hook. Premium semi-realistic painted game illustration matching the approved orange Fuel Runner and red Breakdown Wrecker seen in conversation: dark readable contours, fine mechanical fittings, weathered rich materials. Complete truck side-on facing RIGHT, restrained elevated angle showing a little roof, deck and tread. Exactly two near-side road wheels with all axle tires same diameter. Soft even daylight. Whole object with clear margins on wide PNG canvas at least 1500 pixels across. True transparent background and transparent gaps. No ground, shadow, halo, text, logos or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: Mechanic Scout vehicle-master-v1.png. Remove EVERY ROAD wheel and tire, including both near-side wheels and all far-side tire glimpses, leaving the arches and wheel regions truly transparent. Retain the attached spare tire behind cab. Keep the entire body, crane, load, winch, hook, chassis and suspension unchanged. Preserve EXACT original canvas dimensions, position, scale, camera and every remaining detail. Do not move or redesign anything. True transparent background. Output only the wheel-free body layer."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Generate wheel-v1.png, ONE matching road wheel from the mustard Mechanic Scout master seen in conversation. 1.20 m mud-terrain tire with aggressive open-shoulder lugs, dark charcoal rubber, dried mud in recesses, black steel rim with circular holes, bolts and detailed hub matching master. Premium semi-realistic painted game art with natural dark contours. Perfectly CIRCULAR silhouette, hub exactly centered, FRONT-ON orthographic view, equal clear margins on a SQUARE 1536×1536 transparent PNG canvas. Soft even ambient light suitable for spinning. No axle, vehicle, ground, shadow, text, logo or halo. True alpha background."
+  }
+}

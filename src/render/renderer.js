@@ -84,7 +84,6 @@ export function createRenderer({ view, sim, content, onEvent }) {
     get water() { return particles.water; },
     get mudTracks() { return mud.trackCount; },
     rutAt: x => mud.rutAt(x),
-    liveLoad: v => vehicles.liveLoad(v),
     // ruts last the whole run; the garage starts the next one clean
     clearTracks: () => mud.clear(),
     assetStatus: () => ({ ...scenery.status(), vehicles: vehicles.ready }),

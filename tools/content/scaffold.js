@@ -32,7 +32,7 @@ function scaffold(dir, entries, readme) {
 
 const vehicleSteps = `## Codex delivers (see AGENTS.md)
 
-- [ ] \`source/vehicle-master-v1.png\`: the complete vehicle **with its load**, all wheels on, side-on facing right, transparent
+- [ ] \`source/vehicle-master-v1.png\`: the complete vehicle **with its load**, all wheels on, facing right, transparent, as a **strictly flat side profile** (the hard rule in AGENTS.md: no perspective, all tires the same size on one level line, no far-side tires)
 - [ ] \`source/body-v1.png\`: the same canvas with every road wheel removed (the load stays)
 - [ ] \`source/wheel-v1.png\`: one matching tire on a square transparent canvas, hub centred
 - [ ] \`source/prompts.json\`: the exact prompts and which image was an edit target
@@ -44,7 +44,7 @@ const vehicleSteps = `## Codex delivers (see AGENTS.md)
 const cars = readJson('assets/cars/cars.json');
 scaffold('assets/cars', [...cars.cars, ...cars.service], c => `# ${c.name}${c.number ? ' ' + c.number : ''}
 
-Status: **${c.status}** · ${c.class === 'service' ? `service truck (${c.role}, ${c.size}; tows up to ${c.towMassT} t)` : `class \`${c.class}\`, tier ${c.tier} of 20`} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
+Status: **${c.status}** · ${c.role ? `${c.role} truck for class \`${c.class}\` (${c.size}${c.towMassT ? `; tows up to ${c.towMassT} t` : ''})` : `class \`${c.class}\`, tier ${c.tier} of 20`} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
 ${c.load ? `Load: **${c.load.name}**, ${c.load.massT} t\n` : ''}
 ## Art brief
 

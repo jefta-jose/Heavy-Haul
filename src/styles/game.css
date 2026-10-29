@@ -38,6 +38,9 @@ canvas#view { position: absolute; inset: 0; width: 100%; height: 100%; display: 
 @keyframes service-ready { 50% { box-shadow: 0 0 24px rgba(98,210,75,.95), 0 0 0 5px rgba(98,210,75,.18); } }
 .btn.primary.action:disabled { opacity: 1; cursor: progress; background: #214f2a; border-color: #62d24b; color: #dbffda; }
 @media (prefers-reduced-motion: reduce) { .ibtn.service-ready { animation: none; } }
+.ibtn.unavailable { opacity: 0.4; }
+.ibtn.called { position: relative; }
+.ibtn.called::after { content: ''; position: absolute; right: 4px; top: 4px; width: 7px; height: 7px; border-radius: 50%; background: #62d24b; box-shadow: 0 0 0 2px var(--panel); }
 .ibtn:focus-visible, .btn:focus-visible, .gear button:focus-visible { outline: 2px solid var(--hazard); outline-offset: 2px; }
 .mapcard { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); top: 108px; pointer-events: none; transition: opacity 1s; text-shadow: 0 2px 8px rgba(0,0,0,0.55); }
 .mapcard h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4.6vw, 46px); line-height: 0.95; letter-spacing: 0.01em; text-transform: uppercase; }

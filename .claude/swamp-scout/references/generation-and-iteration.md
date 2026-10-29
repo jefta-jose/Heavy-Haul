@@ -52,8 +52,9 @@ wording used in this run rather than reconstructing its details from memory.
 **Assembled master**
 
 > Reference role: design, camera and illustration style. Use only the specified vehicle/panel.
-> Generate one complete vehicle facing right, mostly side-on with a restrained elevated view showing
-> some hood, roof, body width and tread. Match the reference's detailed semi-realistic painted game art,
+> Generate one complete vehicle facing right, as a strictly flat 2D side profile: camera perpendicular
+> to the near side at hub height, no perspective, all tires the same size on one level line, no
+> far-side tires (the hard rule in AGENTS.md). Match the reference's detailed semi-realistic painted game art,
 > natural dark contours, weathered paint, material richness and equipment. Keep the full vehicle in frame
 > with clear margins. True transparent background. No scene, ground shadow, UI, writing or watermark.
 
@@ -85,6 +86,13 @@ than editing that same defective cutout repeatedly.
 
 ## Observed refinements
 
+- **Hard rule: flat side profile (2026-10-29).** Of the 8 service trucks Codex drew, three
+  (titan-tanker, mega-tanker, colossus-wrecker) came back in a three-quarter view: tires shrinking
+  toward the front, a slanted ground line, off-centre oval rims, far-side tires and the cab front
+  showing. They could not be rigged and had to be drawn again. Earlier prompts asked for "a restrained
+  elevated angle", which invites that drift. Every vehicle prompt now carries the AGENTS.md hard rule,
+  and a review rejects any image that breaks it before measuring anything.
+
 - **Reeds v1/v2:** colored background glow remained around the plant despite transparent corners.
   Both were rejected. A fresh v3 from the original reference produced the clean isolated silhouette.
 - **Wheel v1:** excessive tan coating on lug faces weakened the dark-rubber look. Edit v2 preserved
@@ -106,10 +114,7 @@ problem is its integration; resume image generation when an actual image mismatc
 Save versioned originals and record accepted/rejected selections in `prompts.json` and the `art` map.
 
 **Split layers:** a load split into separate parts (the 2026-10-26 trailers and loads) came back in
-mismatched angles and scales and was dropped. Only animated load layers made as edits of the approved
-body, on its exact canvas and camera, are allowed (AGENTS.md); composite them over the body to check.
-Lesson (2026-10-28, Ice Breaker orca): for animated parts of an existing picture, cutting them out of the approved art is reliable; asking the generator for them is not (it redraws the whole picture and loses pixel registration). Codex is still the right choice for whole new pictures. How it was done: the orca's outline is the
-difference between the approved body and an empty-tank image aligned to it; its pixels come from the
-approved body, and the gap behind it is refilled from the aligned empty tank. The stack must rebuild
-the approved body (mean error 0.04 here, zero outside the tank).
+mismatched angles and scales and was dropped, and so were animated load layers cut from the approved
+body (the Ice Breaker's orca, the Mountain Mover's submarine, dropped 2026-10-29). The load is always
+part of the body art.
 Do not adopt the historical fourteen-image count as a minimum, maximum or spending authorization.

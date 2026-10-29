@@ -62,8 +62,6 @@ export function createRigCache(view, rig, sources) {
     C.over = makeCanvas(C.body.width, C.body.height);
     const g = C.over.getContext('2d'); g.drawImage(C.body, 0, 0); g.globalCompositeOperation = 'destination-out';
     for (const [x, y, r] of rig.archCircles) { g.beginPath(); g.arc(x * kb, y * kb, r * kb, 0, Math.PI * 2); g.fill(); }
-    // live load layers (a tank of water with an animal in it) at the body's scale
-    C.tank = rig.tank ? Object.fromEntries(['orca', 'waterSurface', 'tankFront'].filter(k => A[k]).map(k => [k, scaled(A[k], kb)])) : null;
     C.wheel = scaled(A.wheel, Math.min(1, rig.radius * Math.max(1, ...(rig.wheelScale ?? [])) / rig.wheelArtRadius * px * 1.1));
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);

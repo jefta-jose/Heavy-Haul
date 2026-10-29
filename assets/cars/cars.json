@@ -1,5 +1,5 @@
 {
- "about": "Vehicle roster, ordered weakest to strongest: classes run scouts -> highway -> heavy-duty -> offroad -> heavy, and tiers inside a class rise in power, speed, capacity, wheels and load size. Every car carries its load as part of its art and mass (load): small loads on scouts up to huge loads on heavy haulers. Tires are fixed (wheelType, see wheel-types.json): to get something stronger, switch cars. Service trucks (fuel and repair, small to huge) are called in play for free: they winch a stuck truck free, refuel it or repair it; towMassT is the heaviest truck each can pull. status: playable (car.json and art exist), planned, needs-art.",
+ "about": "Vehicle roster, ordered weakest to strongest: classes run scouts -> highway -> heavy-duty -> offroad -> heavy, and tiers inside a class rise in power, speed, capacity, wheels and load size. Every car carries its load as part of its art and mass (load): small loads on scouts up to huge loads on heavy haulers. Tires are fixed (wheelType, see wheel-types.json): to get something stronger, switch cars. Service trucks: one fuel truck and one breakdown truck per class, bigger and stronger class by class. A run can call each once; it starts at the beginning of the trail and is driven out to the main truck. The fuel truck only refuels; the breakdown truck only winches and tows, strongly only on its own class (towMassT is the heaviest gross weight it pulls). Service trucks never get stuck, never run out of fuel, and are the most powerful trucks of their class but not the fastest. status: playable (car.json and art exist), planned, needs-art.",
  "classes": [
   {
    "id": "scout",
@@ -50,7 +50,6 @@
     "power": 20,
     "speed": 40,
     "grip": 78,
-    "durability": 30,
     "capacity": 10
    },
    "price": 3000,
@@ -88,7 +87,6 @@
     "power": 24,
     "speed": 43,
     "grip": 78,
-    "durability": 33,
     "capacity": 14
    },
    "price": 6000,
@@ -126,7 +124,6 @@
     "power": 28,
     "speed": 46,
     "grip": 78,
-    "durability": 37,
     "capacity": 19
    },
    "price": 9000,
@@ -164,7 +161,6 @@
     "power": 32,
     "speed": 49,
     "grip": 79,
-    "durability": 40,
     "capacity": 24
    },
    "price": 12000,
@@ -202,7 +198,6 @@
     "power": 36,
     "speed": 52,
     "grip": 79,
-    "durability": 44,
     "capacity": 28
    },
    "price": 15000,
@@ -240,7 +235,6 @@
     "power": 40,
     "speed": 55,
     "grip": 84,
-    "durability": 48,
     "capacity": 33
    },
    "price": 18000,
@@ -278,7 +272,6 @@
     "power": 44,
     "speed": 58,
     "grip": 84,
-    "durability": 51,
     "capacity": 38
    },
    "price": 21000,
@@ -316,7 +309,6 @@
     "power": 49,
     "speed": 61,
     "grip": 85,
-    "durability": 55,
     "capacity": 42
    },
    "price": 24000,
@@ -354,7 +346,6 @@
     "power": 53,
     "speed": 64,
     "grip": 85,
-    "durability": 59,
     "capacity": 47
    },
    "price": 27000,
@@ -392,7 +383,6 @@
     "power": 57,
     "speed": 67,
     "grip": 86,
-    "durability": 62,
     "capacity": 52
    },
    "price": 30000,
@@ -430,7 +420,6 @@
     "power": 61,
     "speed": 70,
     "grip": 86,
-    "durability": 66,
     "capacity": 56
    },
    "price": 33000,
@@ -468,7 +457,6 @@
     "power": 65,
     "speed": 73,
     "grip": 86,
-    "durability": 69,
     "capacity": 61
    },
    "price": 36000,
@@ -506,7 +494,6 @@
     "power": 69,
     "speed": 76,
     "grip": 92,
-    "durability": 73,
     "capacity": 66
    },
    "price": 39000,
@@ -544,7 +531,6 @@
     "power": 74,
     "speed": 79,
     "grip": 92,
-    "durability": 77,
     "capacity": 70
    },
    "price": 42000,
@@ -582,7 +568,6 @@
     "power": 78,
     "speed": 82,
     "grip": 93,
-    "durability": 80,
     "capacity": 75
    },
    "price": 45000,
@@ -620,7 +605,6 @@
     "power": 82,
     "speed": 85,
     "grip": 93,
-    "durability": 84,
     "capacity": 80
    },
    "price": 48000,
@@ -658,7 +642,6 @@
     "power": 86,
     "speed": 88,
     "grip": 93,
-    "durability": 88,
     "capacity": 84
    },
    "price": 51000,
@@ -696,7 +679,6 @@
     "power": 90,
     "speed": 91,
     "grip": 93,
-    "durability": 91,
     "capacity": 89
    },
    "price": 54000,
@@ -734,7 +716,6 @@
     "power": 94,
     "speed": 94,
     "grip": 94,
-    "durability": 95,
     "capacity": 94
    },
    "price": 57000,
@@ -772,7 +753,6 @@
     "power": 99,
     "speed": 98,
     "grip": 94,
-    "durability": 99,
     "capacity": 99
    },
    "price": 60000,
@@ -810,7 +790,6 @@
     "power": 20,
     "speed": 40,
     "grip": 69,
-    "durability": 30,
     "capacity": 10
    },
    "price": 5400,
@@ -848,7 +827,6 @@
     "power": 24,
     "speed": 43,
     "grip": 70,
-    "durability": 33,
     "capacity": 14
    },
    "price": 10800,
@@ -886,7 +864,6 @@
     "power": 28,
     "speed": 46,
     "grip": 70,
-    "durability": 37,
     "capacity": 19
    },
    "price": 16200,
@@ -924,7 +901,6 @@
     "power": 32,
     "speed": 49,
     "grip": 71,
-    "durability": 40,
     "capacity": 24
    },
    "price": 21600,
@@ -962,7 +938,6 @@
     "power": 36,
     "speed": 52,
     "grip": 71,
-    "durability": 44,
     "capacity": 28
    },
    "price": 27000,
@@ -1000,7 +975,6 @@
     "power": 40,
     "speed": 55,
     "grip": 71,
-    "durability": 48,
     "capacity": 33
    },
    "price": 32400,
@@ -1038,7 +1012,6 @@
     "power": 44,
     "speed": 58,
     "grip": 72,
-    "durability": 51,
     "capacity": 38
    },
    "price": 37800,
@@ -1077,7 +1050,6 @@
     "power": 49,
     "speed": 61,
     "grip": 72,
-    "durability": 55,
     "capacity": 42
    },
    "price": 43200,
@@ -1115,7 +1087,6 @@
     "power": 53,
     "speed": 64,
     "grip": 81,
-    "durability": 59,
     "capacity": 47
    },
    "price": 48600,
@@ -1153,7 +1124,6 @@
     "power": 57,
     "speed": 67,
     "grip": 81,
-    "durability": 62,
     "capacity": 52
    },
    "price": 54000,
@@ -1191,7 +1161,6 @@
     "power": 61,
     "speed": 70,
     "grip": 82,
-    "durability": 66,
     "capacity": 56
    },
    "price": 59400,
@@ -1229,7 +1198,6 @@
     "power": 65,
     "speed": 73,
     "grip": 82,
-    "durability": 69,
     "capacity": 61
    },
    "price": 64800,
@@ -1267,7 +1235,6 @@
     "power": 69,
     "speed": 76,
     "grip": 83,
-    "durability": 73,
     "capacity": 66
    },
    "price": 70200,
@@ -1305,7 +1272,6 @@
     "power": 74,
     "speed": 79,
     "grip": 83,
-    "durability": 77,
     "capacity": 70
    },
    "price": 75600,
@@ -1343,7 +1309,6 @@
     "power": 78,
     "speed": 82,
     "grip": 93,
-    "durability": 80,
     "capacity": 75
    },
    "price": 81000,
@@ -1381,7 +1346,6 @@
     "power": 82,
     "speed": 85,
     "grip": 93,
-    "durability": 84,
     "capacity": 80
    },
    "price": 86400,
@@ -1419,7 +1383,6 @@
     "power": 86,
     "speed": 88,
     "grip": 93,
-    "durability": 88,
     "capacity": 84
    },
    "price": 91800,
@@ -1457,7 +1420,6 @@
     "power": 90,
     "speed": 91,
     "grip": 94,
-    "durability": 91,
     "capacity": 89
    },
    "price": 97200,
@@ -1495,7 +1457,6 @@
     "power": 94,
     "speed": 94,
     "grip": 94,
-    "durability": 95,
     "capacity": 94
    },
    "price": 102600,
@@ -1533,7 +1494,6 @@
     "power": 99,
     "speed": 98,
     "grip": 95,
-    "durability": 99,
     "capacity": 99
    },
    "price": 108000,
@@ -1571,7 +1531,6 @@
     "power": 20,
     "speed": 40,
     "grip": 78,
-    "durability": 30,
     "capacity": 10
    },
    "price": 7800,
@@ -1609,7 +1568,6 @@
     "power": 24,
     "speed": 43,
     "grip": 78,
-    "durability": 33,
     "capacity": 14
    },
    "price": 15600,
@@ -1647,7 +1605,6 @@
     "power": 28,
     "speed": 46,
     "grip": 78,
-    "durability": 37,
     "capacity": 19
    },
    "price": 23400,
@@ -1685,7 +1642,6 @@
     "power": 32,
     "speed": 49,
     "grip": 79,
-    "durability": 40,
     "capacity": 24
    },
    "price": 31200,
@@ -1723,7 +1679,6 @@
     "power": 36,
     "speed": 52,
     "grip": 79,
-    "durability": 44,
     "capacity": 28
    },
    "price": 39000,
@@ -1761,7 +1716,6 @@
     "power": 40,
     "speed": 55,
     "grip": 80,
-    "durability": 48,
     "capacity": 33
    },
    "price": 46800,
@@ -1799,7 +1753,6 @@
     "power": 44,
     "speed": 58,
     "grip": 84,
-    "durability": 51,
     "capacity": 38
    },
    "price": 54600,
@@ -1837,7 +1790,6 @@
     "power": 49,
     "speed": 61,
     "grip": 85,
-    "durability": 55,
     "capacity": 42
    },
    "price": 62400,
@@ -1875,7 +1827,6 @@
     "power": 53,
     "speed": 64,
     "grip": 85,
-    "durability": 59,
     "capacity": 47
    },
    "price": 70200,
@@ -1913,7 +1864,6 @@
     "power": 57,
     "speed": 67,
     "grip": 86,
-    "durability": 62,
     "capacity": 52
    },
    "price": 78000,
@@ -1951,7 +1901,6 @@
     "power": 61,
     "speed": 70,
     "grip": 86,
-    "durability": 66,
     "capacity": 56
    },
    "price": 85800,
@@ -1989,7 +1938,6 @@
     "power": 65,
     "speed": 73,
     "grip": 86,
-    "durability": 69,
     "capacity": 61
    },
    "price": 93600,
@@ -2027,7 +1975,6 @@
     "power": 69,
     "speed": 76,
     "grip": 87,
-    "durability": 73,
     "capacity": 66
    },
    "price": 101400,
@@ -2065,7 +2012,6 @@
     "power": 74,
     "speed": 79,
     "grip": 92,
-    "durability": 77,
     "capacity": 70
    },
    "price": 109200,
@@ -2103,7 +2049,6 @@
     "power": 78,
     "speed": 82,
     "grip": 93,
-    "durability": 80,
     "capacity": 75
    },
    "price": 117000,
@@ -2141,7 +2086,6 @@
     "power": 82,
     "speed": 85,
     "grip": 93,
-    "durability": 84,
     "capacity": 80
    },
    "price": 124800,
@@ -2179,7 +2123,6 @@
     "power": 86,
     "speed": 88,
     "grip": 93,
-    "durability": 88,
     "capacity": 84
    },
    "price": 132600,
@@ -2217,7 +2160,6 @@
     "power": 90,
     "speed": 91,
     "grip": 93,
-    "durability": 91,
     "capacity": 89
    },
    "price": 140400,
@@ -2255,7 +2197,6 @@
     "power": 94,
     "speed": 94,
     "grip": 94,
-    "durability": 95,
     "capacity": 94
    },
    "price": 148200,
@@ -2293,7 +2234,6 @@
     "power": 99,
     "speed": 98,
     "grip": 94,
-    "durability": 99,
     "capacity": 99
    },
    "price": 156000,
@@ -2331,7 +2271,6 @@
     "power": 20,
     "speed": 40,
     "grip": 82,
-    "durability": 30,
     "capacity": 10
    },
    "price": 10200,
@@ -2369,7 +2308,6 @@
     "power": 24,
     "speed": 43,
     "grip": 82,
-    "durability": 33,
     "capacity": 14
    },
    "price": 20400,
@@ -2407,7 +2345,6 @@
     "power": 28,
     "speed": 46,
     "grip": 83,
-    "durability": 37,
     "capacity": 19
    },
    "price": 30600,
@@ -2445,7 +2382,6 @@
     "power": 32,
     "speed": 49,
     "grip": 83,
-    "durability": 40,
     "capacity": 24
    },
    "price": 40800,
@@ -2483,7 +2419,6 @@
     "power": 36,
     "speed": 52,
     "grip": 83,
-    "durability": 44,
     "capacity": 28
    },
    "price": 51000,
@@ -2521,7 +2456,6 @@
     "power": 40,
     "speed": 55,
     "grip": 84,
-    "durability": 48,
     "capacity": 33
    },
    "price": 61200,
@@ -2559,7 +2493,6 @@
     "power": 44,
     "speed": 58,
     "grip": 87,
-    "durability": 51,
     "capacity": 38
    },
    "price": 71400,
@@ -2597,7 +2530,6 @@
     "power": 49,
     "speed": 61,
     "grip": 87,
-    "durability": 55,
     "capacity": 42
    },
    "price": 81600,
@@ -2635,7 +2567,6 @@
     "power": 53,
     "speed": 64,
     "grip": 87,
-    "durability": 59,
     "capacity": 47
    },
    "price": 91800,
@@ -2673,7 +2604,6 @@
     "power": 57,
     "speed": 67,
     "grip": 88,
-    "durability": 62,
     "capacity": 52
    },
    "price": 102000,
@@ -2711,7 +2641,6 @@
     "power": 61,
     "speed": 70,
     "grip": 88,
-    "durability": 66,
     "capacity": 56
    },
    "price": 112200,
@@ -2749,7 +2678,6 @@
     "power": 65,
     "speed": 73,
     "grip": 89,
-    "durability": 69,
     "capacity": 61
    },
    "price": 122400,
@@ -2787,7 +2715,6 @@
     "power": 69,
     "speed": 76,
     "grip": 92,
-    "durability": 73,
     "capacity": 66
    },
    "price": 132600,
@@ -2825,7 +2752,6 @@
     "power": 74,
     "speed": 79,
     "grip": 92,
-    "durability": 77,
     "capacity": 70
    },
    "price": 142800,
@@ -2863,7 +2789,6 @@
     "power": 78,
     "speed": 82,
     "grip": 93,
-    "durability": 80,
     "capacity": 75
    },
    "price": 153000,
@@ -2901,7 +2826,6 @@
     "power": 82,
     "speed": 85,
     "grip": 93,
-    "durability": 84,
     "capacity": 80
    },
    "price": 163200,
@@ -2939,7 +2863,6 @@
     "power": 86,
     "speed": 88,
     "grip": 93,
-    "durability": 88,
     "capacity": 84
    },
    "price": 173400,
@@ -2977,7 +2900,6 @@
     "power": 90,
     "speed": 91,
     "grip": 93,
-    "durability": 91,
     "capacity": 89
    },
    "price": 183600,
@@ -3015,7 +2937,6 @@
     "power": 94,
     "speed": 94,
     "grip": 94,
-    "durability": 95,
     "capacity": 94
    },
    "price": 193800,
@@ -3053,7 +2974,6 @@
     "power": 99,
     "speed": 98,
     "grip": 94,
-    "durability": 99,
     "capacity": 99
    },
    "price": 204000,
@@ -3091,7 +3011,6 @@
     "power": 20,
     "speed": 40,
     "grip": 69,
-    "durability": 30,
     "capacity": 10
    },
    "price": 12600,
@@ -3129,7 +3048,6 @@
     "power": 24,
     "speed": 43,
     "grip": 70,
-    "durability": 33,
     "capacity": 14
    },
    "price": 25200,
@@ -3167,7 +3085,6 @@
     "power": 28,
     "speed": 46,
     "grip": 70,
-    "durability": 37,
     "capacity": 19
    },
    "price": 37800,
@@ -3205,7 +3122,6 @@
     "power": 32,
     "speed": 49,
     "grip": 71,
-    "durability": 40,
     "capacity": 24
    },
    "price": 50400,
@@ -3243,7 +3159,6 @@
     "power": 36,
     "speed": 52,
     "grip": 79,
-    "durability": 44,
     "capacity": 28
    },
    "price": 63000,
@@ -3281,7 +3196,6 @@
     "power": 40,
     "speed": 55,
     "grip": 80,
-    "durability": 48,
     "capacity": 33
    },
    "price": 75600,
@@ -3319,7 +3233,6 @@
     "power": 44,
     "speed": 58,
     "grip": 80,
-    "durability": 51,
     "capacity": 38
    },
    "price": 88200,
@@ -3357,7 +3270,6 @@
     "power": 49,
     "speed": 61,
     "grip": 81,
-    "durability": 55,
     "capacity": 42
    },
    "price": 100800,
@@ -3395,7 +3307,6 @@
     "power": 53,
     "speed": 64,
     "grip": 81,
-    "durability": 59,
     "capacity": 47
    },
    "price": 113400,
@@ -3433,7 +3344,6 @@
     "power": 57,
     "speed": 67,
     "grip": 91,
-    "durability": 62,
     "capacity": 52
    },
    "price": 126000,
@@ -3471,7 +3381,6 @@
     "power": 61,
     "speed": 70,
     "grip": 91,
-    "durability": 66,
     "capacity": 56
    },
    "price": 138600,
@@ -3509,7 +3418,6 @@
     "power": 65,
     "speed": 73,
     "grip": 91,
-    "durability": 69,
     "capacity": 61
    },
    "price": 151200,
@@ -3547,7 +3455,6 @@
     "power": 69,
     "speed": 76,
     "grip": 92,
-    "durability": 73,
     "capacity": 66
    },
    "price": 163800,
@@ -3585,7 +3492,6 @@
     "power": 74,
     "speed": 79,
     "grip": 92,
-    "durability": 77,
     "capacity": 70
    },
    "price": 176400,
@@ -3623,7 +3529,6 @@
     "power": 78,
     "speed": 82,
     "grip": 92,
-    "durability": 80,
     "capacity": 75
    },
    "price": 189000,
@@ -3661,7 +3566,6 @@
     "power": 82,
     "speed": 85,
     "grip": 93,
-    "durability": 84,
     "capacity": 80
    },
    "price": 201600,
@@ -3699,7 +3603,6 @@
     "power": 86,
     "speed": 88,
     "grip": 93,
-    "durability": 88,
     "capacity": 84
    },
    "price": 214200,
@@ -3737,7 +3640,6 @@
     "power": 90,
     "speed": 91,
     "grip": 94,
-    "durability": 91,
     "capacity": 89
    },
    "price": 226800,
@@ -3775,7 +3677,6 @@
     "power": 94,
     "speed": 94,
     "grip": 94,
-    "durability": 95,
     "capacity": 94
    },
    "price": 239400,
@@ -3813,7 +3714,6 @@
     "power": 99,
     "speed": 98,
     "grip": 94,
-    "durability": 99,
     "capacity": 99
    },
    "price": 252000,
@@ -3834,7 +3734,7 @@
   {
    "id": "fuel-runner",
    "name": "Fuel Runner",
-   "class": "service",
+   "class": "scout",
    "role": "fuel",
    "size": "small",
    "status": "playable",
@@ -3842,93 +3742,248 @@
    "axles": 2,
    "massT": 6.5,
    "lengthM": 7.2,
-   "powerKw": 210,
-   "torqueNm": 1100,
+   "powerKw": 420,
+   "torqueNm": 2800,
+   "topSpeedKmh": 100,
    "fuelL": 3000,
    "wheelType": "all-terrain",
    "tireDiameterM": 1.05,
-   "towMassT": 12,
    "art": {
     "body": "safety orange 4×4 fuel bowser",
     "load": "a round fuel tank",
-    "equipment": "hose reels, rear winch, amber beacon",
+    "equipment": "hose reels, amber beacon",
     "finish": "clean paint with road dust",
     "tires": "1.05 m all-terrain tires"
    }
   },
   {
+   "id": "mechanic-scout",
+   "name": "Mechanic Scout",
+   "class": "scout",
+   "role": "breakdown",
+   "size": "small",
+   "status": "playable",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 5.0,
+   "lengthM": 6.8,
+   "powerKw": 420,
+   "torqueNm": 2800,
+   "topSpeedKmh": 100,
+   "fuelL": 200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.22,
+   "towMassT": 9,
+   "art": {
+    "body": "mustard yellow 4×4 recovery pickup",
+    "load": "a small folding tow crane and wheel-lift in the bed",
+    "equipment": "heavy rear winch drum with hook, tool chests, spare wheel, amber beacon",
+    "finish": "mud-caked lower panels",
+    "tires": "1.22 m mud-terrain tires: aggressive open-shoulder lugs"
+   }
+  },
+  {
+   "id": "road-tanker",
+   "name": "Road Tanker",
+   "class": "highway",
+   "role": "fuel",
+   "size": "medium",
+   "status": "playable",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 13,
+   "lengthM": 9.8,
+   "powerKw": 560,
+   "torqueNm": 3800,
+   "topSpeedKmh": 90,
+   "fuelL": 12000,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.53,
+   "art": {
+    "body": "cobalt blue 6×6 rigid fuel tanker truck",
+    "load": "a polished aluminium fuel tank with hazard placards",
+    "equipment": "hose reels, roof beacons",
+    "finish": "polished paint with road dust",
+    "tires": "1.53 m all-terrain tires: blocky tread with sipes"
+   }
+  },
+  {
+   "id": "highway-wrecker",
+   "name": "Highway Wrecker",
+   "class": "highway",
+   "role": "breakdown",
+   "size": "medium",
+   "status": "playable",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 13,
+   "lengthM": 10,
+   "powerKw": 560,
+   "torqueNm": 3800,
+   "topSpeedKmh": 90,
+   "fuelL": 500,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.52,
+   "towMassT": 48,
+   "art": {
+    "body": "pearl white 6×6 heavy rotator tow truck",
+    "load": "a rotating recovery boom and underlift",
+    "equipment": "heavy rear winch drum with hook, outrigger legs, light bar",
+    "finish": "clean paint with road dust",
+    "tires": "1.52 m all-terrain tires: blocky tread with sipes"
+   }
+  },
+  {
+   "id": "fuel-runner-6x6",
+   "name": "Fuel Runner 6×6",
+   "class": "heavy-duty",
+   "role": "fuel",
+   "size": "large",
+   "status": "playable",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 16,
+   "lengthM": 10,
+   "powerKw": 540,
+   "torqueNm": 3700,
+   "topSpeedKmh": 80,
+   "fuelL": 10000,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.77,
+   "art": {
+    "body": "forest green 6×6 off-road fuel tanker",
+    "load": "an insulated fuel tank",
+    "equipment": "hose reels, beacons, mud flaps",
+    "finish": "dried mud and scuffed paint",
+    "tires": "1.77 m mud-terrain tires: aggressive open-shoulder lugs"
+   }
+  },
+  {
    "id": "breakdown-wrecker",
    "name": "Breakdown Wrecker",
-   "class": "service",
-   "role": "repair",
-   "size": "medium",
+   "class": "heavy-duty",
+   "role": "breakdown",
+   "size": "large",
    "status": "playable",
    "drive": "6×6",
    "axles": 3,
    "massT": 14,
    "lengthM": 9.5,
-   "powerKw": 360,
-   "torqueNm": 2100,
+   "powerKw": 540,
+   "torqueNm": 3700,
    "fuelL": 400,
    "wheelType": "mud-terrain",
    "tireDiameterM": 1.75,
-   "towMassT": 45,
+   "towMassT": 58,
    "art": {
     "body": "signal red 6×6 recovery wrecker",
     "load": "a crane boom and underlift",
     "equipment": "rear winch, ground spades, tool lockers, light bar",
     "finish": "work-worn paint and dried mud",
     "tires": "1.30 m mud-terrain tires"
-   }
+   },
+   "topSpeedKmh": 80
   },
   {
    "id": "titan-tanker",
    "name": "Titan Tanker",
-   "class": "service",
+   "class": "offroad",
    "role": "fuel",
    "size": "huge",
-   "status": "planned",
+   "status": "playable",
    "drive": "8×8",
    "axles": 4,
    "massT": 38,
    "lengthM": 13,
-   "powerKw": 700,
-   "torqueNm": 4800,
+   "powerKw": 620,
+   "torqueNm": 4200,
+   "topSpeedKmh": 75,
    "fuelL": 20000,
    "wheelType": "flotation",
-   "tireDiameterM": 1.9,
-   "towMassT": 200,
+   "tireDiameterM": 2.3,
    "art": {
     "body": "arctic white 8×8 off-road fuel tanker",
     "load": "a huge insulated fuel tank",
-    "equipment": "heavy rear winch, hose reels, beacons",
+    "equipment": "hose reels, beacons",
     "finish": "mud and frost",
-    "tires": "1.90 m flotation tires"
+    "tires": "2.30 m flotation tires: huge low-pressure balloon tires with wide paddle lugs"
+   }
+  },
+  {
+   "id": "bog-wrecker",
+   "name": "Bog Wrecker",
+   "class": "offroad",
+   "role": "breakdown",
+   "size": "huge",
+   "status": "playable",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 34,
+   "lengthM": 12.5,
+   "powerKw": 620,
+   "torqueNm": 4200,
+   "topSpeedKmh": 75,
+   "fuelL": 800,
+   "wheelType": "flotation",
+   "tireDiameterM": 2.32,
+   "towMassT": 64,
+   "art": {
+    "body": "olive drab 8×8 military recovery truck",
+    "load": "a heavy recovery crane boom",
+    "equipment": "twin rear winch drums with hooks, ground spades, sand ladders, light bar",
+    "finish": "thick dried swamp mud",
+    "tires": "2.32 m flotation tires: huge low-pressure balloon tires with wide paddle lugs"
+   }
+  },
+  {
+   "id": "mega-tanker",
+   "name": "Mega Tanker",
+   "class": "heavy",
+   "role": "fuel",
+   "size": "giant",
+   "status": "playable",
+   "drive": "10×10",
+   "axles": 5,
+   "massT": 70,
+   "lengthM": 16,
+   "powerKw": 1650,
+   "torqueNm": 11500,
+   "topSpeedKmh": 55,
+   "fuelL": 40000,
+   "wheelType": "giant",
+   "tireDiameterM": 2.67,
+   "art": {
+    "body": "burnt orange 10×10 mining fuel tanker",
+    "load": "a colossal fuel tank on a mining chassis",
+    "equipment": "hose booms, ladders, amber beacons",
+    "finish": "heavy grime and chipped paint",
+    "tires": "2.67 m giant mining tires: enormous tires taller than a person, deep chevron tread"
    }
   },
   {
    "id": "colossus-wrecker",
    "name": "Colossus Wrecker",
-   "class": "service",
-   "role": "repair",
-   "size": "huge",
-   "status": "planned",
+   "class": "heavy",
+   "role": "breakdown",
+   "size": "giant",
+   "status": "playable",
    "drive": "10×10",
    "axles": 5,
-   "massT": 60,
-   "lengthM": 15,
-   "powerKw": 1000,
-   "torqueNm": 7000,
-   "fuelL": 1200,
+   "massT": 75,
+   "lengthM": 16,
+   "powerKw": 1650,
+   "torqueNm": 11500,
+   "topSpeedKmh": 55,
+   "fuelL": 1500,
    "wheelType": "giant",
-   "tireDiameterM": 2.4,
-   "towMassT": 400,
+   "tireDiameterM": 2.71,
+   "towMassT": 260,
    "art": {
     "body": "safety yellow 10×10 heavy recovery truck",
     "load": "a giant rotating crane boom",
     "equipment": "twin heavy rear winches, outrigger spades, counterweights, light bars",
     "finish": "heavy grime and chipped paint",
-    "tires": "2.40 m giant mining tires"
+    "tires": "2.71 m giant mining tires: enormous tires taller than a person, deep chevron tread"
    }
   }
  ]

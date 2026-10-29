@@ -1,0 +1,38 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game master Colossus Wrecker: SAFETY YELLOW 10\u00d710 giant mining recovery truck, 16 m long. EXACTLY FIVE AXLES and FIVE near-side road wheels, all same huge 3.30 m diameter GIANT MINING tires with deep chevron tread. Giant rotating recovery crane boom stowed along deck, twin heavy REAR LEFT exposed winch drums with wound cables and two hanging hooks, outrigger spades stowed, counterweights, tool lockers, light bars. Heavy grime and chipped yellow paint. Elevated industrial mining cab, enormous tires taller than a person and comparable cab height; length about 4.85 tire diameters, closely spaced five wheels. Premium semi-realistic painted game illustration matching approved service family: fine mechanics, dark contours, rich weathered materials. Side-on facing RIGHT, slight elevated angle showing little roof/deck/tread. Entire object clear margins on wide PNG minimum 1500 across. Soft even daylight. TRUE transparent background and gaps, no ground, cast shadows, halo, text, logos, watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Colossus Wrecker vehicle-master-v1.png. Remove EVERY ROAD tire and wheel on all FIVE axles, near and far side, including huge far-side tire visible below cab at right. Leave truly transparent empty wheel regions. Keep yellow cab/body, crane, counterweights, twin rear winch drums, cables/hooks, spades, lockers, chassis and suspension unchanged. Preserve EXACT original canvas dimensions, position, scale and camera. No movement or redesign. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE matching Colossus Wrecker wheel: enormous 3.30 m GIANT MINING tire, deep chevron tread, thick dark charcoal rubber, heavy grime and dusty lug edges. Safety yellow heavy steel rim and yellow detailed bolted hub matching giant recovery master. Premium semi-realistic painted game illustration, weathered materials, fine mechanical details, dark contours. Perfect CIRCLE frontal orthographic, hub exactly centered, equal clear margins on SQUARE true transparent PNG canvas. Requested 2048\u00d72048 minimum 1500 square. Soft even light for rotation. No axle, body, ground, shadow, halo, text or logo."
+  },
+  "v2": {
+    "rejection_reason": "three-quarter perspective; needs a flat side profile",
+    "master": {
+      "file": "vehicle-master-v2.png",
+      "references": [
+        "../../bog-wrecker/source/vehicle-master-v1.png",
+        "../../fuel-runner-6x6/source/vehicle-master-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. References bog-wrecker and fuel-runner-6x6 are CAMERA and painted STYLE ONLY. Create Colossus Wrecker: SAFETY YELLOW 10\u00d710 heavy mining recovery truck, about 16 m long, GIANT rotating crane boom folded FLAT HORIZONTAL along deck, twin heavy REAR LEFT winch drums with clearly visible wound cables and TWO hanging hooks, stowed outrigger spades, counterweights, lockers, amber light bars, heavy grime and chipped yellow paint. STRICTLY FLAT SIDE PROFILE facing RIGHT, orthographic camera perpendicular to near side. NO visible cab front, NO three-quarter view, vanishing point, perspective, foreshortening or far-side tires. Exactly FIVE near-side road wheels, ALL FIVE FULLY VISIBLE including front tire exposed BELOW CAB (cab must not hide it). Every tire IDENTICAL 3.30 m diameter GIANT MINING tire with deep chevron tread, perfectly ROUND with concentric circular yellow steel rim and centered hub. All FIVE hub centers on ONE horizontal line, all tire bottoms on ONE LEVEL baseline. Chassis, deck, folded crane and locker rows perfectly horizontal. Cab sits above front wheel, tires taller than a person. Premium semi-realistic painted game art, fine weathered mechanics and dark readable contours, soft even daylight. Entire truck centered with generous clear transparent margins on ALL FOUR sides, nothing touching edges. Wide PNG at least 1500 across. True transparent background/gaps, no ground, shadow, halo, text, logos or watermark.",
+      "correction_prompt": "Use case: precise-object-edit. Correct this Colossus Wrecker draft. Keep exact flat side camera, yellow design, FIVE identical circular near-side tires on single horizontal hub line, twin rear winches/hooks. Change the folded crane boom to PERFECTLY HORIZONTAL, parallel to the deck: lower its left tip until top and bottom boom edges are level. Stow it flat without removing twin rear drums/cables/hooks. Increase transparent margin by fitting the ENTIRE truck inside central 88 percent of canvas width and height, at least 50 transparent pixels all four edges; no part touches any edge. No cab front face, no far-side tires, no perspective, no slanted chassis. True transparent background. Premium detailed painted finish unchanged. Whole truck faces right."
+    },
+    "body": {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Use case: precise-object-edit. Edit target Colossus Wrecker vehicle-master-v2.png. Remove ONLY all FIVE road wheels and tires, every road tire fragment, leaving transparent EMPTY wheel arches/regions. Keep chassis, suspension and hubs. Preserve entire yellow truck, HORIZONTAL folded crane, twin rear winch drums, cables and hooks, equipment, cab and every remaining detail EXACTLY. EXACT SAME canvas dimensions, position, scale, perpendicular FLAT SIDE camera and level horizontal alignment. Do not move, rotate, rescale or redesign any part. Keep all clear margins and true transparent background. No ground, shadows, halo, text or watermark."
+    },
+    "wheel": {
+      "file": "wheel-v2.png",
+      "reference": "vehicle-master-v2.png",
+      "prompt": "Use case: stylized-concept. Reference vehicle-master-v2.png is wheel design/style reference ONLY. ONE matching Colossus Wrecker 3.30 m GIANT MINING road tire, deep chevron tread, dark charcoal rubber, heavy grime and dusty lug edges. Safety-yellow circular steel rim with concentric centered yellow bolted hub matching master. Perfectly CIRCULAR front-on orthographic side face, hub exactly canvas center, equal generous margins on SQUARE true transparent PNG (1254 px square fine). Premium semi-realistic painted game illustration, fine mechanical weathering, dark readable contours, soft EVEN ambient light for spinning. No ellipse, slant, perspective, axle, body, ground, shadow, halo, text, logos, watermark."
+    }
+  },
+  "v1_status": {
+    "status": "rejected and images deleted after v2 checks",
+    "rejection_reason": "three-quarter perspective; needs a flat side profile"
+  }
+}

@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'repairCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['fuelFill', 'fuelTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -16,7 +16,7 @@ export function createHud({ sim, season }) {
     $('cardTitle').textContent = `${car.number ? car.number + '. ' : ''}${car.name}`;
     $('cardTagline').textContent = car.tagline;
     $('cardStats').innerHTML = '';
-    for (const [label, key] of [['Power', 'power'], ['Grip', 'grip'], ['Durability', 'durability'], ['Fuel efficiency', 'fuelEfficiency']]) {
+    for (const [label, key] of [['Power', 'power'], ['Grip', 'grip'], ['Fuel efficiency', 'fuelEfficiency']]) {
       const row = document.createElement('div'), name = document.createElement('span'), bar = document.createElement('i'), fill = document.createElement('b');
       name.textContent = label; fill.style.width = `${car.stats[key]}%`; bar.append(fill); row.append(name, bar); $('cardStats').append(row);
     }
@@ -55,10 +55,10 @@ export function createHud({ sim, season }) {
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; hudT = 0;
-    const f = sim.st.fuel, cap = sim.car.drivetrain.fuelLitres ?? 100;
-    els.fuelFill.style.width = f + '%';
-    els.fuelFill.style.background = f < 20 ? 'var(--danger)' : f < 45 ? 'var(--gold)' : 'var(--fuel)';
-    els.fuelTxt.textContent = `${Math.round(f * cap / 100)}/${cap}L`;
+    const f = sim.st.fuel, cap = sim.car.drivetrain.fuelLitres ?? 100, unlimited = sim.active.role === 'service';
+    els.fuelFill.style.width = (unlimited ? 100 : f) + '%';
+    els.fuelFill.style.background = unlimited || f >= 45 ? 'var(--fuel)' : f < 20 ? 'var(--danger)' : 'var(--gold)';
+    els.fuelTxt.textContent = unlimited ? 'Unlimited' : `${Math.round(f * cap / 100)}/${cap}L`;
     const left = Math.max(0, trail.depot - sim.main.parts.truck.getPosition().x);
     els.distTxt.textContent = left >= 1000 ? `${(left / 1000).toFixed(2)} km` : `${Math.round(left)} m`;
     els.coinTxt.textContent = coins.toLocaleString('en-US');
@@ -69,7 +69,7 @@ export function createHud({ sim, season }) {
     els.surfChip.classList.toggle('bog', bog); els.surfChip.classList.toggle('bridge', !!bridge);
     els.surfChip.classList.toggle('warn', s === 'mud' || sim.st.inWater > 0.3);
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
-    els.winch.hidden = sim.active.role !== 'service';
+    els.winch.hidden = !sim.canWinch();
     const hooked = !!sim.cable(), near = !hooked && sim.nearestHook()?.d <= sim.winchReach;
     els.winch.classList.toggle('ready', near); els.winch.classList.toggle('down', hooked);
     els.winch.setAttribute('aria-pressed', String(hooked));
@@ -95,8 +95,19 @@ export function createHud({ sim, season }) {
   }
   const hideMessage = () => { els.msgOv.hidden = true; };
 
+  // after a service truck is called its button switches to it: a green dot and a new label. A class
+  // with no truck of that role yet gets a greyed-out button (still tappable, to say so).
+  const available = {};
+  function showCalled(role, on, ok = available[role], what = role === 'fuel' ? 'fuel truck' : 'breakdown truck') {
+    const b = role === 'fuel' ? els.fuelCallBtn : els.breakdownCallBtn;
+    available[role] = ok;
+    b.classList.toggle('called', on); b.classList.toggle('unavailable', !ok);
+    b.title = !ok ? `No ${what} yet` : on ? `Switch to the ${what}` : `Call the ${what}`; b.setAttribute('aria-label', b.title);
+  }
+
   return {
     els, toast, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
+    showCalled,
     setCar,
     get toastActive() { return toastT > 0; },
     setCardVisible(on) { els.mapcard.style.opacity = on ? 1 : 0; },

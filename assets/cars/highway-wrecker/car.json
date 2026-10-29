@@ -1,0 +1,228 @@
+{
+  "id": "highway-wrecker",
+  "name": "Highway Wrecker",
+  "number": null,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Highway-class rotator wrecker that never gets stuck",
+  "description": "A pearl-white 6×6 rotator wrecker for the highway class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 80,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Road",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      885,
+      695
+    ],
+    "pixelsPerMetre": 175.2,
+    "axles": [
+      3.807,
+      -1.244,
+      -2.928
+    ],
+    "wheelY": [
+      -0.006,
+      -0.017,
+      0.023
+    ],
+    "radius": 0.759,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1552,
+        696,
+        137
+      ],
+      [
+        667,
+        698,
+        137
+      ],
+      [
+        372,
+        691,
+        137
+      ]
+    ],
+    "exhaust": [
+      1.176,
+      3.459
+    ],
+    "winch": [
+      4.9,
+      0.455
+    ],
+    "nose": 5.0,
+    "towRear": -5.0
+  },
+  "camera": {
+    "zoom": 2.5
+  },
+  "physics": {
+    "mass": 12220,
+    "centreOfMass": [
+      0.0,
+      0.91
+    ],
+    "size": [
+      10,
+      3.2
+    ],
+    "wheelMass": 285,
+    "bodyBoxes": [
+      [
+        -5.0,
+        -3.75,
+        -0.05,
+        3.248,
+        1
+      ],
+      [
+        -3.75,
+        -2.5,
+        -0.05,
+        3.063,
+        0.6
+      ],
+      [
+        -2.5,
+        -1.25,
+        -0.05,
+        2.854,
+        0.6
+      ],
+      [
+        -1.25,
+        0.0,
+        -0.05,
+        2.654,
+        0.6
+      ],
+      [
+        0.0,
+        1.25,
+        -0.011,
+        3.139,
+        0.6
+      ],
+      [
+        1.25,
+        2.5,
+        -0.034,
+        2.939,
+        0.6
+      ],
+      [
+        2.5,
+        3.75,
+        -0.05,
+        2.78,
+        0.6
+      ],
+      [
+        3.75,
+        5.006,
+        -0.05,
+        1.769,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "winchForce": 329616,
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.534,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 169,
+    "exhaustBrake": 217,
+    "gears": {
+      "H": 14.6,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 10883,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 500
+  },
+  "role": "breakdown",
+  "size": "medium",
+  "towMassT": 48
+}

@@ -1,6 +1,6 @@
 # Colossus Wrecker
 
-Status: **planned** · service truck (repair, huge; tows up to 400 t) · 10×10, 5 axles · 60 t empty · 1000 kW · giant tires, 2.4 m
+Status: **planned** · breakdown truck for class `heavy` (giant; tows up to 260 t) · 10×10, 5 axles · 75 t empty · 1650 kW · giant tires, 3.3 m
 
 ## Art brief
 
@@ -8,7 +8,7 @@ Status: **planned** · service truck (repair, huge; tows up to 400 t) · 10×10,
 - Load (drawn as part of the vehicle): a giant rotating crane boom
 - Equipment: twin heavy rear winches, outrigger spades, counterweights, light bars
 - Finish: heavy grime and chipped paint
-- Tires: 2.40 m giant mining tires
+- Tires: 3.30 m giant mining tires: enormous tires taller than a person, deep chevron tread
 
 ## Codex delivers (see AGENTS.md)
 

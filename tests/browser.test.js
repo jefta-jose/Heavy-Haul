@@ -125,37 +125,43 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     const paused = await page.evaluate(() => __haul.sim.truck.getPosition().x); await page.waitForTimeout(150);
     assert.equal(await page.evaluate(() => __haul.sim.truck.getPosition().x), paused, 'pause stops physics');
 
-    // stuck in a heavy-mud pit: call the breakdown truck, winch the truck out, repair, switch back
+    // stuck in a heavy-mud pit: call the scouts' breakdown truck, which starts at the beginning of the
+    // trail, drive it out, winch the truck back out of the pit and switch back
     await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn');
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.heavyMud[0] - 6); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.waitForTimeout(150); await capture('03-deep-mud');
     const x0 = await page.evaluate(() => __haul.sim.main.parts.truck.getPosition().x);
-    await page.click('#repairCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.role === 'service' && __haul.sim.vehicles.length === 2), 'the breakdown truck arrives and takes control');
+    await page.click('#breakdownCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active.car.role === 'breakdown' && __haul.sim.active.car.class === __haul.sim.main.car.class && __haul.sim.vehicles.length === 2), 'the class\'s own breakdown truck arrives and takes control');
+    assert(await page.evaluate(() => __haul.sim.truck.getPosition().x < __haul.sim.trail.start + 30), 'it starts at the beginning of the trail');
+    assert(await page.locator('#breakdownCallBtn').evaluate(e => e.classList.contains('called')), 'its button now switches to it');
+    await page.waitForTimeout(100); await capture('03a-called-at-start');
+    // drive it out to the stuck truck: it never runs dry and never gets stuck
+    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); for (let i = 0; i < 120 * 90 && s.nearestHook().d > s.winchReach - 1.5; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; for (let i = 0; i < 60; i++) s.step(1 / 120); __haul.snap(); });
+    assert(await page.evaluate(() => __haul.sim.nearestHook().d <= __haul.sim.winchReach), 'driven out to within hook reach');
+    assert.equal(await page.evaluate(() => __haul.sim.active.st.fuel), 100, 'service trucks never burn fuel');
+    await page.waitForTimeout(100); await capture('03b-unlimited-fuel');
     assert(await page.locator('#winch').isVisible(), 'the winch button shows for the service truck');
-    // back up within hook reach, tap WINCH, then drive away to tow
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('R'); s.ctl.gas = 1; for (let i = 0; i < 120 * 20 && s.nearestHook().d > s.winchReach - 1.5; i++) s.step(1 / 120); s.ctl.gas = 0; for (let i = 0; i < 60; i++) s.step(1 / 120); });
+    // tap WINCH, then reverse away to tow the truck back out of the pit
     await page.click('#winch');
     assert(await page.evaluate(() => !!__haul.sim.cable() && __haul.sim.cable().target === __haul.sim.main), 'tapping WINCH hooks the stuck truck');
     assert(await page.locator('#winch').getAttribute('aria-pressed') === 'true' || await page.evaluate(() => !!__haul.sim.cable()));
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); for (let i = 0; i < 120 * 6; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; __haul.snap(); });
+    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('R'); for (let i = 0; i < 120 * 6; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; __haul.snap(); });
     await page.waitForTimeout(200); await capture('03b-winch');
-    assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x > x + 1.5, x0), 'driving the service truck tows the stuck truck');
+    assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x < x - 1.5, x0), 'driving the breakdown truck away tows the stuck truck');
     await page.keyboard.press('KeyW');
     assert(await page.evaluate(() => !__haul.sim.cable()), 'W unhooks');
-    // drive back to the truck for the service job
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('R'); for (let i = 0; i < 120 * 20 && s.distance(s.active, s.main) > 5; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; for (let i = 0; i < 120; i++) s.step(1 / 120); });
-    await page.waitForFunction(() => !!__haul.serviceJob());
-    await page.click('#actionBtn');
-    assert(await page.evaluate(() => __haul.sim.active.role === 'service'), 'repair completion does not switch vehicles automatically');
-    assert(await page.locator('#switchBtn').evaluate(e => e.classList.contains('service-ready')), 'repair completion highlights the switch button');
     await page.click('#switchBtn');
-    assert(await page.evaluate(() => __haul.sim.active.role === 'main' && __haul.sim.vehicles.length === 2), 'manual switch returns to the main truck; service truck stays parked');
-    assert(!await page.locator('#switchBtn').evaluate(e => e.classList.contains('service-ready')), 'manual switching clears the glow');
+    assert(await page.evaluate(() => __haul.sim.active.role === 'main' && __haul.sim.vehicles.length === 2), 'the switch button returns to the main truck; the breakdown truck stays parked');
 
     // Fuel is transferred gradually; pause freezes the job and completion waits for a manual switch.
     await page.evaluate(() => { const s = __haul.sim; s.respawn(30); s.main.st.fuel = 25; });
     await page.click('#fuelCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active.car.role === 'fuel' && __haul.sim.active.car.class === __haul.sim.main.car.class), 'the fuel button calls the class\'s own fuel truck');
+    assert(await page.evaluate(() => __haul.sim.truck.getPosition().x < __haul.sim.trail.start + 40), 'from the beginning of the trail');
+    assert(await page.locator('#fuelCallBtn').evaluate(e => e.classList.contains('called')), 'its button now switches to it');
+    assert(await page.evaluate(() => !__haul.sim.canWinch()), 'the fuel truck has no winch');
+    assert(await page.locator('#winch').isHidden(), 'so no WINCH button');
     await page.evaluate(() => {
       const s = __haul.sim; s.respawn(39, s.active);
       for (let i = 0; i < 240; i++) s.step(1 / 120);
@@ -178,6 +184,11 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.keyboard.press('KeyV');
     assert(await page.evaluate(() => __haul.sim.active === __haul.sim.main), 'V returns directly to the main truck even with several service vehicles');
     assert(!await page.locator('#switchBtn').evaluate(e => e.classList.contains('service-ready')), 'keyboard switching clears the glow');
+    const count = await page.evaluate(() => __haul.sim.vehicles.length);
+    await page.click('#fuelCallBtn');
+    assert(await page.evaluate(n => __haul.sim.active.car.role === 'fuel' && __haul.sim.vehicles.length === n, count), 'tapping the fuel button again switches to it: it is never called twice');
+    await page.click('#fuelCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active === __haul.sim.main), 'and tapping it in the fuel truck returns to the main truck');
     const gas = await page.locator('#gas').boundingBox(), cdp = await page.context().newCDPSession(page);
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: gas.x + gas.width / 2, y: gas.y + gas.height / 2 }] }); await page.waitForFunction(() => __haul.sim.ctl.gas === 1);
@@ -212,23 +223,35 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
-    // the Ice Breaker's orca and tank water respond to the truck: pulling away leans the water back
-    // and sends the orca back; braking surges both forward
+    // the Ice Breaker draws as one image, its orca and tank part of the body art
     await page.evaluate(() => { __haul.garage.select('ice-breaker-19'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
-    const tankAfter = await page.evaluate(() => {
-      const s = __haul.sim, r = __haul.renderer, v = s.active, out = {}, pick = () => { const t = r.liveLoad(s.active); return { ox: t.ox, slope: t.slope }; };
-      s.respawn(30); __haul.setGear('L');
-      const run = (frames, gas, brake) => { for (let f = 0; f < frames; f++) { s.ctl.gas = gas; s.ctl.brake = brake; s.step(1 / 120); s.step(1 / 120); r.draw(1 / 60, true); } };
-      run(30, 0, 0); out.rest = pick();
-      run(50, 1, 0); out.pull = pick();
-      run(200, 1, 0); run(25, 0, 1); out.brake = pick();
-      s.ctl.gas = s.ctl.brake = 0; return out;
-    });
-    assert(tankAfter.pull.ox < tankAfter.rest.ox - 1, 'the orca drifts back as the truck pulls away');
-    assert(tankAfter.brake.ox > tankAfter.pull.ox + 1, 'and surges forward under braking');
-    assert(Math.abs(tankAfter.pull.slope - tankAfter.brake.slope) > 0.005, 'the water surface tilts with the motion');
-    await capture('10-orca-tank');
+    await page.evaluate(() => { __haul.sim.respawn(30); for (let i = 0; i < 120; i++) __haul.sim.step(1 / 120); __haul.snap(); });
+    await capture('10-ice-breaker');
+    // a class without a truck of that role gets a greyed-out button that calls nothing; one with it,
+    // a live button (the Ice Breaker's off-road class: a breakdown truck, no fuel truck yet)
+    const has = await page.evaluate(() => Object.fromEntries(['fuel', 'breakdown'].map(r => [r, __haul.content.service.some(c => c.role === r && c.class === __haul.sim.main.car.class)])));
+    for (const [role, id] of [['fuel', '#fuelCallBtn'], ['breakdown', '#breakdownCallBtn']]) {
+      assert.equal(await page.locator(id).evaluate(e => e.classList.contains('unavailable')), !has[role], `${id} is greyed out exactly when the class has no ${role} truck`);
+      if (has[role]) continue;
+      await page.click(id);
+      assert(await page.evaluate(() => __haul.sim.vehicles.length === 1 && __haul.sim.active === __haul.sim.main), `${id} calls no other class's truck`);
+      assert.match(await page.locator('#toast').innerText(), /Not available: the Off-road class has no/);
+      await capture('10b-ice-breaker-no-service');
+    }
+    await page.click('#breakdownCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Ice Breaker gets the off-road Bog Wrecker');
+    await page.waitForTimeout(150); await capture('10c-bog-wrecker');
+    await page.click('#fuelCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'titan-tanker'), 'and the off-road Titan Tanker');
+    await page.waitForTimeout(150); await capture('10d-titan-tanker');
+    // the heavy class: the Mountain Mover gets the Colossus Wrecker
+    await page.evaluate(() => { __haul.garage.select('mountain-mover-18'); __haul.startRun(__haul.garage.selection); });
+    await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
+    await page.click('#breakdownCallBtn');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'colossus-wrecker'), 'the Mountain Mover gets the heavy Colossus Wrecker');
+    await page.evaluate(() => { const s = __haul.sim; s.ctl.gas = 1; for (let i = 0; i < 120 * 3; i++) s.step(1 / 120); s.ctl.gas = 0; for (let i = 0; i < 120; i++) s.step(1 / 120); __haul.snap(); });
+    await page.waitForTimeout(150); await capture('10e-colossus-wrecker');
     await page.evaluate(() => { __haul.garage.select('swamp-scout-4'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
@@ -243,8 +266,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // the long rigs and the service trucks frame with their own zoom; switching vehicles re-frames
     await page.setViewportSize({ width: 844, height: 390 });
     const scoutZoom = await page.evaluate(() => __haul.view.zoom);
-    await page.evaluate(() => __haul.summon('repair'));
-    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.active.car.camera.zoom), 'the breakdown truck uses its own zoom');
+    await page.evaluate(() => __haul.summon('fuel'));
+    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.active.car.camera.zoom), 'the fuel truck uses its own zoom');
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, its zoom returns');
     assert.deepEqual(errors, [], 'no runtime or artwork errors');

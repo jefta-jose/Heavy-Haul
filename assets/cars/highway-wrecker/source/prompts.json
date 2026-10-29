@@ -1,0 +1,20 @@
+{
+  "master": {
+    "file": "vehicle-master-v1.png",
+    "references": [
+      "../../breakdown-wrecker/source/vehicle-master-v1.png"
+    ],
+    "prompt": "Use case: precise-object-edit. Redraw Highway Wrecker (image 1 design reference) into a STRAIGHT LEVEL 2D SIDE PROFILE matching image 2 camera and painted finish exactly. Image 2 is camera/style reference ONLY, do not copy its red color. Pearl-white 6\u00d76 heavy rotator tow truck, 10 m length, exactly THREE axles: TWO rear wheels and ONE front wheel visible. All three tires identical 1.30 m diameter, blocky siped all-terrain tread, circular silver rims and dark hubs. All wheel hub centers on EXACT SAME HORIZONTAL LINE and tire bottoms on same level baseline. Truck chassis, tool locker rows and running boards perfectly horizontal, zero roll, zero yaw, zero diagonal perspective, no vanishing point or foreshortening; camera perpendicular to near side. Only tiny roof thickness visible like image 2. Preserve pearl white truck identity, stowed rotator boom, underlift, stowed outriggers/spades, amber light bar, tool lockers, road dust. Rear LEFT exposed winch drum, wound cable and hanging hook clearly visible. Premium semi-realistic painted game art, readable dark contours, fine weathered mechanical details, soft even daylight. Complete right-facing truck with clear margins on wide transparent PNG at least 1500 px across. True alpha including gaps; no ground, shadows, glow, text, logos or watermark.",
+    "provenance_note": "Approved straight-profile revision retained on disk under vehicle-master-v1.png; earlier local revision names are no longer present."
+  },
+  "body": {
+    "file": "body-v1.png",
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target vehicle-master-v1.png, straight side-profile pearl-white Highway Wrecker. Remove ONLY all ROAD wheels and tires on the three axles including any far-side glimpses. Leave those wheel regions and arches truly transparent; retain chassis and suspension. Keep every other pixel/design detail, boom, rear winch drum/cable/hook, underlift, outriggers, cab, lockers and lighting. EXACT same canvas dimensions, body position, scale and camera. Preserve level horizontal chassis and aligned wheel locations. Do not rotate, slant, move, rescale or redesign the truck. True transparent background; no shadow, halo, text or watermark."
+  },
+  "wheel": {
+    "file": "wheel-v1.png",
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Reference image vehicle-master-v1.png is tire/rim style reference ONLY. Generate ONE isolated matching Highway Wrecker road wheel for 2D sprite rotation. Exact FRONT-ON orthographic side-face, perfect circular outer silhouette and circular silver steel rim with small round holes, dark central hub and matching bolts. Dark charcoal 1.30 m all-terrain tire with blocky tread and fine sipes, light road dust matching master. Hub exactly in canvas center with equal generous transparent margins. Square PNG requested 2048\u00d72048, at least 1500 px square. Premium semi-realistic painted game art, readable dark contours and fine weathered details, soft even ambient lighting. No perspective tilt, slant or ellipse. No axle/body/ground/shadow/halo/text/logo/watermark. True transparent background."
+  }
+}

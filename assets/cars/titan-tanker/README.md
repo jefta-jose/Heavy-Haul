@@ -1,14 +1,14 @@
 # Titan Tanker
 
-Status: **planned** · service truck (fuel, huge; tows up to 200 t) · 8×8, 4 axles · 38 t empty · 700 kW · flotation tires, 1.9 m
+Status: **planned** · fuel truck for class `offroad` (huge) · 8×8, 4 axles · 38 t empty · 620 kW · flotation tires, 2.2 m
 
 ## Art brief
 
 - Vehicle: arctic white 8×8 off-road fuel tanker
 - Load (drawn as part of the vehicle): a huge insulated fuel tank
-- Equipment: heavy rear winch, hose reels, beacons
+- Equipment: hose reels, beacons
 - Finish: mud and frost
-- Tires: 1.90 m flotation tires
+- Tires: 2.20 m flotation tires: huge low-pressure balloon tires with wide paddle lugs
 
 ## Codex delivers (see AGENTS.md)
 

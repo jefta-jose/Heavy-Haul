@@ -8,14 +8,21 @@ import { buildBridges } from './bridges.js';
 // Composes terrain, obstacles and vehicles into one fixed-step simulation. The world holds the main
 // vehicle (its load is part of the car: art and mass) plus any service trucks summoned during the
 // run. Only the active vehicle takes input; `ctl`, `st`, `truck` and friends always refer to it.
-// A service truck's winch hooks onto any vehicle within reach and tows it as the service truck
-// drives away. One-off happenings (a rock breaking) go to `events`.
+// A breakdown truck's winch (service trucks with `physics.winchForce`; fuel trucks have none) hooks
+// onto any vehicle within reach and tows it as the breakdown truck drives away; it is only strong on
+// trucks of its own class. Service trucks never get stuck (`physics.neverStuck`) and never run out of
+// fuel. One-off happenings (a rock breaking) go to `events`.
 
 const GRIP_REFERENCE = 'mud-terrain';
 // the winch hook reaches a vehicle this close (metres between tow points), like SnowRunner
 export const WINCH_REACH = 5;
 const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
 const CABLE_STRETCH = 0.25;       // metres of stretch at which the cable pulls with full winch force
+// on a truck of another class the winch pulls only this share of what that truck's own service
+// truck would (towMassT x g x 0.7 for its gross weight): enough to struggle, rarely enough to free it
+const CROSS_CLASS_PULL = 0.4;
+// a never-stuck tire grips mud and creek beds at least this well, with no suction or patchiness
+const NEVER_STUCK_MU = 0.85;
 
 export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -73,7 +80,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       const tire = ua && ua.tire ? fa : ub && ub.tire ? fb : null, other = tire === fa ? ub : ua;
       if (!tire || !other || !other.surf) return;
       const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
-      if (other.surf === 'mud' || other.surf === 'creek') c.setFriction(surfaces[other.surf].mu * mudPatch(tire.getBody().getPosition().x) * m);
+      if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU, surfaces[other.surf].mu * m));
+      else if (other.surf === 'mud' || other.surf === 'creek') c.setFriction(surfaces[other.surf].mu * mudPatch(tire.getBody().getPosition().x) * m);
       else if (m !== 1) { c.resetFriction(); c.setFriction(c.getFriction() * m); }   // reset: pre-solve runs every step
     });
   }
@@ -111,15 +119,16 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     return { la, lb, from, to, d: Math.hypot(to.x - from.x, to.y - from.y) };
   }
   // the nearest other vehicle a service truck could hook, with its distance (in reach or not)
+  const canWinch = v => !!v && v.role === 'service' && v.car.physics.winchForce > 0;
   function nearestHook(v) {
-    if (!v || v.role !== 'service') return null;
+    if (!canWinch(v)) return null;
     let best = null;
     for (const o of vehicles) if (o !== v) { const t = towPoints(v, o); if (!best || t.d < best.d) best = { ...t, target: o }; }
     return best;
   }
   // hook the nearest vehicle in reach, or unhook if already hooked; returns what happened
   function toggleWinch(v) {
-    if (!v || v.role !== 'service') return { ok: false, reason: 'not-service' };
+    if (!canWinch(v)) return { ok: false, reason: 'no-winch' };
     if (v.cable) { v.cable = null; return { ok: true, attached: false }; }
     const h = nearestHook(v);
     if (!h) return { ok: false, reason: 'nothing' };
@@ -135,14 +144,20 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const from = a.getWorldPoint(c.la), to = b.getWorldPoint(c.lb), dx = from.x - to.x, dy = from.y - to.y, d = Math.hypot(dx, dy);
     c.from = from; c.to = to; c.taut = false;
     if (d <= c.length || d < 1e-6) return;
-    const ux = dx / d, uy = dy / d, Fmax = v.car.physics.winchForce, k = Fmax / CABLE_STRETCH;
     const va = a.getLinearVelocityFromWorldPoint(from), vb = b.getLinearVelocityFromWorldPoint(to);
     const ma = vehicleMass(v) + loadMass(v), mb = vehicleMass(o) + loadMass(o), mr = ma * mb / (ma + mb);
+    const ux = dx / d, uy = dy / d, Fmax = winchForce(v, o, mb), k = Fmax / CABLE_STRETCH;
     const opening = (va.x - vb.x) * ux + (va.y - vb.y) * uy;
     const F = Math.max(0, Math.min(Fmax, k * (d - c.length) + 2 * Math.sqrt(k * mr) * opening));
     b.applyForce(V(ux * F, uy * F), to, true); a.applyForce(V(-ux * F, -uy * F), from, true);
     o.winched = true; c.taut = F > 0;
   }
+
+  // full force on its own class; on any other class a share of what that truck's own service truck needs
+  // a stand-in (another class's truck filling in until a class's own has art) serves that class
+  const classOf = v => v.serves ?? v.car.class;
+  const sameClass = (v, o) => !classOf(v) || !classOf(o) || classOf(v) === classOf(o);
+  const winchForce = (v, o, mb = vehicleMass(o) + loadMass(o)) => sameClass(v, o) ? v.car.physics.winchForce : Math.min(v.car.physics.winchForce, CROSS_CLASS_PULL * mb * 9.81 * 0.7);
 
   function rollingResistance(w, R, dt) {
     const L = load.get(w); if (!L || !L.imp) return;
@@ -165,6 +180,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const tireData = { tire: true }, grip = gripTable(car.wheelType);
     if (car.physics.tireGrip && car.physics.tireGrip !== 1) tireData.gripScale = car.physics.tireGrip;   // garage tuning
     if (grip) tireData.grip = grip;
+    if (car.physics.neverStuck) tireData.neverStuck = true;
     const v = { car, role, ctl, st, drivetrain: createDrivetrain(car.drivetrain), tireData, winched: false, cable: null };
     spawnParts(v, x);
     return v;
@@ -180,7 +196,9 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function gripOf(v, i) {
     const w = v.parts.wheels[i], L = load.get(w), N = L && L.imp ? L.imp / stepDt : 0;
     const mu = L && L.surf ? surfaces[L.surf].mu : 0.9, m = (L && L.surf ? (v.tireData.grip?.[L.surf] ?? 1) : 1) * (v.tireData.gripScale ?? 1);
-    return mu * (L && (L.surf === 'mud' || L.surf === 'creek') ? mudPatch(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
+    const soft = L && (L.surf === 'mud' || L.surf === 'creek');
+    if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU, mu * m) * N * wheelRadius(v.car.rig, i);
+    return mu * (soft ? mudPatch(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
   }
 
   function stepVehicle(v, dt) {
@@ -226,7 +244,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       }
       rollingResistance(w, R, dt);
       slip = Math.max(slip, Math.abs(Math.abs(w.getAngularVelocity() * R) - Math.abs(fwd)));
-      if (s === 'mud') mudDrag(w);
+      if (s === 'mud' && !v.tireData.neverStuck) mudDrag(w);
     }
     let water = 0;
     for (const b of [truck, ...wheels]) {
@@ -243,8 +261,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // fuel: litres from engine power, more with 4x4, more again climbing with a heavy load, less
     // for an efficient engine; the tank's size turns litres into the % the HUD shows
     const climb = 1 + 3 * Math.max(0, Math.sin(ang) * Math.sign(fwd || 1)), haul = 1 + 1.5 * loadMass(v) / vehicleMass(v);
-    const litres = dt * (0.01 + st.power / 300 * 0.11 * (ctl.awd ? 1.08 : 1) * climb * haul) * (v.role === 'service' ? 0.2 : 1) * (dc.fuelBurn ?? 1) * efficiencyBurn(car);
-    if (st.engine === 'on') st.fuel = Math.max(0, st.fuel - litres / (dc.fuelLitres ?? 100) * 100);   // % of the tank
+    const litres = dt * (0.01 + st.power / 300 * 0.11 * (ctl.awd ? 1.08 : 1) * climb * haul)  * (dc.fuelBurn ?? 1) * efficiencyBurn(car);
+    if (st.engine === 'on' && v.role !== 'service') st.fuel = Math.max(0, st.fuel - litres / (dc.fuelLitres ?? 100) * 100);   // % of the tank; service trucks never run dry
     st.inMud = mud; st.inWater = water; st.slip = slip; st.surf = surf || st.surf;
     v.parts.bumpStops(dt);
   }
@@ -274,8 +292,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // winch for the active vehicle: what it could hook, hook / unhook, and its cable
     nearestHook: (v = active) => nearestHook(v),
     toggleWinch: (v = active) => toggleWinch(v),
+    canWinch: (v = active) => canWinch(v),
     cable: (v = active) => v.cable,
     distance: (v, o) => towPoints(v, o).d,
+    // the most the active service truck's winch can pull on another vehicle (weaker off its class)
+    winchForce: (o, v = active) => winchForce(v, o),
+    sameClass,
     winchReach: WINCH_REACH,
     // start a run: a fresh world with the chosen car
     init(x = trail.start, setup = sim.setup) {
@@ -287,7 +309,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
     respawn(x, v = main) { removeParts(v); spawnParts(v, x); for (const o of vehicles) if (o === v || o.cable?.target === v) o.cable = null; },
-    spawnService(car, x = sim.serviceSpot(car)) { const v = makeVehicle(car, 'service', x); vehicles.push(v); return v; },
+    spawnService(car, x = sim.serviceSpot(car), serves = car.class) { const v = makeVehicle(car, 'service', x); v.serves = serves; vehicles.push(v); return v; },
     // where a called service truck parks: ahead of the main truck, on firm ground if any lies
     // close by (a truck stuck in mud is towed out by one standing past the mud)
     serviceSpot(car) {
@@ -295,6 +317,20 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       const len = car.rig.nose + rear, firm = x => { for (let t = x - rear; t <= x + car.rig.nose; t += 1) if (terrain.surfAt(t) === 'mud') return false; return true; };
       for (let gap = 6; gap <= SPAWN_REACH; gap += 1) if (firm(nose + gap + rear)) return Math.min(X1 - len, nose + gap + rear);
       return Math.min(X1 - len, nose + 8 + rear);
+    },
+    // where a called service truck starts: the beginning of the trail, moved forward past any
+    // vehicle already standing there
+    startSpot(car) {
+      const rear = -(car.rig.towRear ?? -car.rig.nose), len = car.rig.nose + rear;
+      let x = trail.start;
+      for (let moved = true; moved;) {
+        moved = false;
+        for (const o of vehicles) {
+          const p = o.parts.truck.getPosition().x, o0 = p - (-(o.car.rig.towRear ?? -o.car.rig.nose)), o1 = p + o.car.rig.nose;
+          if (x - rear < o1 + 2 && x + car.rig.nose > o0 - 2) { x = o1 + 2 + rear; moved = true; }
+        }
+      }
+      return Math.min(X1 - len, x);
     },
     setActive(v) { active = v; },
     // engine switch: starting cranks for the car's crank time (car.json audio.crankS) first

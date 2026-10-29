@@ -51,35 +51,39 @@ scales it: 70 is the reference, and every 40 points halves or doubles the burn (
 
 ## Service trucks
 
-There are no winch posts. When the truck is stuck, empty or rolled over, the player calls a service
-truck from the top bar. Calling one is free:
+There are no winch posts and no damage: trucks never break, and nothing needs repairing. Every class
+has two service trucks (`cars.json` → `service`), bigger, stronger and differently painted and shod
+class by class, from scout-sized pickups to 10×10 mining giants:
 
-- **Fuel trucks**: refuel and winch.
-- **Breakdown trucks**: winch, repair, and right a rolled truck with the crane.
+- **Fuel truck** (top-bar fuel button): only refuels. It has no winch.
+- **Breakdown truck** (top-bar breakdown button): only winches and tows.
 
-Each comes in sizes, from small trucks for scouts to huge ones for the heavy haulers (`towMassT`).
-The game sends the smallest one of that role that can pull the main truck's loaded weight.
+The buttons call the main truck's own class's trucks. Each can be called **once per run**, and it
+starts at the **beginning of the trail**: the player drives it all the way out to the main truck.
+After that the button switches to it (a green dot marks it), and tapping it again while driving it
+returns to the main truck. Calling is free.
 
-1. The service truck arrives a little ahead of the main truck, and control switches to it.
-2. **Winching works like SnowRunner.** Back the service truck to within **5 m** of the vehicle
+Service trucks **never get stuck** (`physics.neverStuck`: full grip in mud and creek beds, no mud
+suction) and **never run out of fuel** (the gauge reads Unlimited). Each is the **most powerful truck
+of its class** but **not the fastest**. A breakdown truck's winch (`physics.winchForce`, sized from
+`towMassT`) is strong on its own class; on any other vehicle it pulls only 40% of what that
+vehicle's own breakdown truck would. A class whose truck has no art yet has none: its button is
+greyed out and says "Not available"; no other class's truck is sent instead.
+
+1. The service truck starts at the beginning of the trail, and control switches to it.
+2. **Winching works like SnowRunner.** Back the breakdown truck to within **5 m** of the vehicle
    and tap **WINCH** (or W). The hook goes onto the nearest vehicle: the main truck or another service
    truck. Farther away it says "Too far away (N m)". The button pulses when something is in reach and
    stays lit while hooked. The cable keeps the length it was hooked at and does not reel in: **drive
-   the service truck away** and it tows the hooked vehicle behind it (a vehicle ahead is pulled from its
-   rear). The cable is a stiff, tension-only spring, capped at the truck's `winchForce`, and both
-   vehicles feel it. The service truck has to out-pull whatever holds the other back. If it bogs down,
-   back up a little and take a run at it. A towed vehicle's parking brake and engine braking let go
-   so it rolls. Tap WINCH again to unhook.
-3. Stopped next to the truck, the action button offers **Refuel truck** or **Repair truck**.
+   the breakdown truck away** and it tows the hooked vehicle (a vehicle ahead is pulled from its
+   rear, one behind from its front). The cable is a stiff, tension-only spring capped at the winch's
+   force, and both vehicles feel it. A towed vehicle's parking brake and engine braking let go so it
+   rolls. Tap WINCH again to unhook.
+3. Stopped next to the truck, the fuel truck's action button offers **Refuel truck**.
 4. Control returns to the main truck. The service truck **stays parked** where it was left.
    **V** or the swap button switches vehicles at any time.
 
-## Live loads
-
-A load can be alive: the Ice Breaker's orca swims in its tank, and the water leans back as the truck
-pulls away, surges forward when it brakes, stays level on hills and splashes over the rim on hard
-stops and bumps. Any car can have one by registering `rig.tank` and its layers in `car.json`
-(see `assets/cars/ice-breaker-19/README.md`); the layers are cut from the approved body art.
+A truck that rolls over is towed back to the last checkpoint for a fee, or the run restarts.
 
 ## Sound, engine and handbrake
 
@@ -109,7 +113,7 @@ everything, and lists the sound credits.
 The trail has rolling hills: steep climbs and drops on rock and dirt (up to about 17%), and mostly
 flat mud basins. On top of that come washboard, potholes, deep potholes the tires drop into, stepped
 climbs, rock ledges, climbable boulders, crushable rocks, fallen logs and four heavy-mud pits where
-the breakdown truck earns its keep.
+the service trucks earn their keep.
 
 ## Status
 
@@ -117,7 +121,7 @@ Built:
 - cars carrying their loads (mass on the chassis);
 - the garage;
 - fuel burn with load and grade;
-- service trucks by role and size, with summon, switch, hook-and-tow winch, refuel, repair and parked leftovers;
+- a fuel and a breakdown truck per class, called once per run from the trail start, never stuck and never dry, with switch, hook-and-tow winch (breakdown, strong on its own class), refuel (fuel) and parked leftovers;
 - the steeper trail.
 
 Not built yet:

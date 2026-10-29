@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game vehicle master: Road Tanker, cobalt blue 6×6 rigid fuel tanker, 9.8 m long, THREE axles with equal 1.30 m all-terrain tires, blocky siped tread. Polished aluminium fuel tank integrated on chassis, small pictorial hazard placards without lettering, hose reels, roof amber beacons. REAR at LEFT has exposed heavy winch drum, wound cable and clearly hanging hook. Polished blue paint with road dust. Distinct commercial cab, realistic long chassis proportions (length 7.54 tire diameters). Premium semi-realistic painted game illustration in approved Fuel Runner/Breakdown Wrecker style: fine mechanical detail, rich weathered material, dark readable contours. Side-on facing RIGHT with restrained elevated angle showing slight roof/deck/tread. Exactly THREE visible near-side road wheels, same diameter on every axle. Full truck with clear margins, wide PNG at least 1500 pixels across. Soft even daylight. True transparent background in all gaps. No ground, cast shadow, halo, text, logos, watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Road Tanker vehicle-master-v1.png. Remove EVERY road wheel and tire on all THREE axles, including ALL far-side tire glimpses. Empty transparent wheel arches and regions. Keep tank, equipment, rear winch, chassis, suspension, blue body and every other detail unchanged. Preserve EXACT canvas dimensions, camera, position and scale; do not redesign or move anything. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE Road Tanker road tire and rim matching cobalt tanker master: 1.30 m all-terrain tire, blocky tread with sipes, dark rubber with road dust, dark steel circular-hole rim and cobalt BLUE hub, detailed bolts. Premium semi-realistic painted game art. Perfectly circular frontal orthographic wheel, hub exactly centred and equal clear margins on SQUARE transparent canvas. Request 2048×2048 PNG, at least 1500 pixels square. Soft even ambient illumination suitable for sprite rotation. No axle, body, ground, shadow, text, logo, halo. True transparency."
+  }
+}

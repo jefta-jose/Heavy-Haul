@@ -1,0 +1,277 @@
+{
+  "id": "colossus-wrecker",
+  "name": "Colossus Wrecker",
+  "number": null,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Heavy-class 10×10 recovery truck that never gets stuck",
+  "description": "A yellow 10×10 heavy recovery truck for the heavy class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 94,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      990,
+      609
+    ],
+    "pixelsPerMetre": 119.4,
+    "axles": [
+      5.704,
+      2.672,
+      -0.008,
+      -2.663,
+      -5.653
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 1.357,
+    "wheelPivot": [
+      628,
+      632
+    ],
+    "wheelArtRadius": 615,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1671,
+        609,
+        166
+      ],
+      [
+        1309,
+        609,
+        166
+      ],
+      [
+        989,
+        609,
+        166
+      ],
+      [
+        672,
+        609,
+        166
+      ],
+      [
+        315,
+        609,
+        166
+      ]
+    ],
+    "exhaust": [
+      3.97,
+      4.665
+    ],
+    "winch": [
+      7.898000000000001,
+      0.814
+    ],
+    "nose": 7.998,
+    "towRear": -7.998
+  },
+  "camera": {
+    "zoom": 4.0
+  },
+  "physics": {
+    "mass": 70500,
+    "centreOfMass": [
+      0.0,
+      1.63
+    ],
+    "size": [
+      16,
+      4.3
+    ],
+    "wheelMass": 912,
+    "bodyBoxes": [
+      [
+        -7.998,
+        -6.767,
+        0.637,
+        3.905,
+        1
+      ],
+      [
+        -6.767,
+        -5.536,
+        -0.05,
+        3.953,
+        0.6
+      ],
+      [
+        -5.536,
+        -4.305,
+        -0.05,
+        3.886,
+        0.6
+      ],
+      [
+        -4.305,
+        -3.074,
+        -0.05,
+        3.894,
+        0.6
+      ],
+      [
+        -3.074,
+        -1.843,
+        -0.05,
+        3.886,
+        0.6
+      ],
+      [
+        -1.843,
+        -0.611,
+        -0.05,
+        3.987,
+        0.6
+      ],
+      [
+        -0.611,
+        0.62,
+        -0.05,
+        3.888,
+        0.6
+      ],
+      [
+        0.62,
+        1.851,
+        -0.05,
+        3.853,
+        0.6
+      ],
+      [
+        1.851,
+        3.082,
+        -0.05,
+        3.894,
+        0.6
+      ],
+      [
+        3.082,
+        4.313,
+        -0.05,
+        4.162,
+        0.6
+      ],
+      [
+        4.313,
+        5.544,
+        -0.05,
+        4.29,
+        0.6
+      ],
+      [
+        5.544,
+        6.776,
+        -0.05,
+        4.223,
+        0.6
+      ],
+      [
+        6.776,
+        8.007,
+        0.494,
+        3.744,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "winchForce": 1785420,
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 14.099,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 975,
+    "exhaustBrake": 1252,
+    "gears": {
+      "H": 26.2,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 112258,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 1500
+  },
+  "role": "breakdown",
+  "size": "giant",
+  "towMassT": 260
+}

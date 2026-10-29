@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game master Bog Wrecker: OLIVE DRAB 8×8 military recovery truck, 12.5 m long, EXACTLY FOUR axles (two rear plus two front), FOUR near-side road wheels, equal-size 2.20 m low-pressure balloon flotation tires with wide paddle lugs. Heavy recovery crane boom folded securely along deck, twin exposed REAR LEFT winch drums with wound steel cables and TWO clear hanging hooks. Stowed ground spades, sand ladders, tool lockers, amber light bar. Thick dried swamp mud over lower panels and tires. Purpose-built angular military cab, real functional high-clearance chassis. Length 5.68 tire diameters; huge tires dwarf cab steps. Premium semi-realistic painted game illustration matching approved family, dark natural contours, fine detailed mechanics, rich weathered material. Side-on facing RIGHT, restrained elevated view showing little roof/deck/tread. Whole object clear margins, wide PNG minimum 1500 across. Soft even daylight. TRUE transparent background and gaps. No ground, cast shadows, halo, text, insignia, logo or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Bog Wrecker vehicle-master-v1.png. Remove ALL road wheels and tires on ALL FOUR axles, including far-side tire glimpses. Transparent empty arches and wheel regions. Retain olive drab body, crane, twin rear winch drums, cables/hooks, spades, sand ladders, lockers, chassis and suspension, unchanged. Preserve EXACT canvas dimensions, position, scale, camera, materials and details. No redesign or movement. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE matching Bog Wrecker road wheel: huge 2.20 m low-pressure balloon flotation tire, broad widely spaced paddle lugs, charcoal rubber with thick dried swamp mud. Small olive drab steel rim, olive bolted hub matching military master. Premium semi-realistic painted game art with detailed weathered materials and dark contours. Perfect CIRCLE, FRONT-ON orthographic, hub exactly centered, equal clear margins on SQUARE truly transparent PNG. Requested 2048×2048 minimum 1500 square. Soft even light suitable for spinning sprite. No axle, body, ground, shadow, halo, text, logos."
+  }
+}

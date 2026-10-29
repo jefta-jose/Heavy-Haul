@@ -81,19 +81,24 @@ test('a car carries its load: heavier, and it burns more fuel climbing', () => {
   assert(burn(mesa) > burn(empty), 'climbing with the load burns more fuel');
 });
 
+// the main truck's breakdown truck, or (until its art exists) the nearest class's as a stand-in for
+// these physics checks (the game itself offers no stand-ins)
+const rank = id => content.roster.classes.findIndex(c => c.id === id);
+const breakdownFor = c => content.service.filter(s => s.role === 'breakdown').sort((a, b) => Math.abs(rank(a.class) - rank(c.class)) - Math.abs(rank(b.class) - rank(c.class)))[0];
+
 // park a service truck ahead of the main truck with `gap` metres between the tow points
-function serviceAhead(s, car, gap) {
+function serviceAhead(s, car, gap, serves = car.class) {
   const main = s.main, front = main.parts.truck.getWorldPoint(s.V(main.car.rig.winch[0], 0)).x;
-  const v = s.spawnService(car, front + gap - car.rig.towRear);
+  const v = s.spawnService(car, front + gap - car.rig.towRear, serves);
   advance(s, 2); s.setActive(v); Object.assign(v.ctl, { gear: 'L', awd: true, diff: true });
   return v;
 }
 
 test('a service truck hooks a stuck truck within reach and tows it by driving away', () => {
-  const wrecker = content.service.find(c => c.role === 'repair');
+  const wrecker = breakdownFor(car);
   assert(wrecker, 'a playable breakdown truck');
   const s = spawn(newSim(), content.season.trail.heavyMud[0] - 10);
-  const main = s.main, v = serviceAhead(s, wrecker, 3.5);
+  const main = s.main, v = serviceAhead(s, wrecker, 3.5, car.class);   // a stand-in serves the main truck's class
   assert(s.nearestHook().d <= s.winchReach, 'the main truck is within hook reach');
   const x0 = main.parts.truck.getPosition().x;
   advance(s, 2);
@@ -108,8 +113,76 @@ test('a service truck hooks a stuck truck within reach and tows it by driving aw
   v.ctl.gas = 0; s.toggleWinch(); assert.equal(s.cable(), null, 'tapping again unhooks');
 });
 
+test('service trucks never get stuck: each one drives through a heavy-mud pit unaided', () => {
+  for (const car of content.service) {
+    for (const pit of content.season.trail.heavyMud) {   // pit centres; each pit is about 20 m long
+      const s = newSim(car); spawn(s, pit - 12 - car.rig.nose);
+      s.ctl.gas = 1; advance(s, 25);
+      const back = s.truck.getWorldPoint(s.V(car.rig.towRear ?? -car.rig.nose, 0)).x;
+      assert(back > pit + 12, `${car.name} crosses the pit at ${pit} m (its tail reached ${back.toFixed(1)} m)`);
+    }
+  }
+});
+
+test('a service truck is the most powerful of its class but not the fastest', () => {
+  const roster = content.roster;
+  for (const svc of roster.service) {
+    const own = roster.cars.filter(c => c.class === svc.class);
+    assert(svc.powerKw > Math.max(...own.map(c => c.powerKw)), `${svc.name} out-powers every ${svc.class} car`);
+    assert(svc.torqueNm > Math.max(...own.map(c => c.torqueNm)), `${svc.name} out-pulls every ${svc.class} car`);
+    assert(svc.topSpeedKmh < Math.max(...own.map(c => c.topSpeedKmh)), `${svc.name} is not the fastest ${svc.class} vehicle`);
+    if (svc.role === 'breakdown') assert(svc.towMassT >= Math.max(...own.map(c => c.massT + c.load.massT)), `${svc.name} can tow the heaviest loaded ${svc.class} car`);
+  }
+  // in game: pulling force in low range beats the playable cars of its class
+  const pull = car => car.drivetrain.torqueScale * car.drivetrain.gears.L / car.rig.radius;
+  for (const svc of content.service) for (const c of content.cars.filter(c => c.class === svc.class))
+    assert(pull(svc) > pull(c), `${svc.name} pulls harder than the ${c.name}`);
+});
+
+test('every class has a fuel truck and a breakdown truck, bigger class by class', () => {
+  const { classes, service } = content.roster;
+  const last = { fuel: 0, breakdown: 0 };
+  for (const cls of classes) {
+    const mine = service.filter(s => s.class === cls.id);
+    assert.deepEqual(mine.map(s => s.role).sort(), ['breakdown', 'fuel'], `${cls.name}: one of each`);
+    for (const s of mine) { assert(s.massT >= last[s.role], `the ${cls.name} ${s.role} truck is at least as big as the class before`); last[s.role] = s.massT; }
+  }
+});
+
+test('the winch is strong on its own class and weak on any other', () => {
+  const wrecker = content.service.find(c => c.role === 'breakdown');
+  const s = spawn(newSim(), 60), main = s.main, v = serviceAhead(s, wrecker, 3);
+  const same = s.sameClass(v, main), F = s.winchForce(main);
+  if (same) assert.equal(F, wrecker.physics.winchForce);
+  else assert(F < 0.5 * (s.vehicleMass(main) + s.loadMass(main)) * 9.81 * 0.7, `cross-class pull is only a share of what the ${main.car.name} needs (${Math.round(F)} N)`);
+  const own = content.service.find(c => c.class === main.car.class && c.role === 'breakdown');
+  if (own) { const o = serviceAhead(s, own, 20); s.setActive(o); assert.equal(s.winchForce(main), own.physics.winchForce, 'its own class gets the full winch'); }
+});
+
+test('fuel trucks only refuel: no winch', () => {
+  const fuel = content.service.find(c => c.role === 'fuel');
+  const s = spawn(newSim(), 60), v = serviceAhead(s, fuel, 3);
+  assert(!s.canWinch(v), 'a fuel truck has no winch');
+  assert.equal(s.toggleWinch(v).reason, 'no-winch');
+  assert.equal(s.nearestHook(v), null);
+});
+
+test('service trucks never run out of fuel', () => {
+  const s = spawn(newSim(), 60);
+  for (const car of content.service) { const v = serviceAhead(s, car, 25); v.ctl.gas = 1; advance(s, 6); assert.equal(v.st.fuel, 100, `${car.name} burns nothing`); v.ctl.gas = 0; }
+});
+
+test('a called service truck starts at the beginning of the trail, clear of anything parked there', () => {
+  const s = spawn(newSim(), content.season.trail.start), [a, b] = content.service;
+  const x1 = s.startSpot(a), v = s.spawnService(a, x1); advance(s, 1);
+  assert(x1 - content.season.trail.start < 25, 'near the start');
+  assert(s.distance(v, s.main) > 1, 'not on top of the main truck');
+  const x2 = s.startSpot(b);
+  assert(x2 - (-(b.rig.towRear ?? -b.rig.nose)) > v.parts.truck.getPosition().x + a.rig.nose, 'the second one parks past the first');
+});
+
 test('the winch hook only reaches a vehicle within 5 m', () => {
-  const wrecker = content.service.find(c => c.role === 'repair');
+  const wrecker = content.service.find(c => c.role === 'breakdown');
   const s = spawn(newSim(), content.season.trail.heavyMud[0] - 10);
   const main = s.main, v = serviceAhead(s, wrecker, s.winchReach + 4);
   const r = s.toggleWinch();
@@ -120,7 +193,7 @@ test('the winch hook only reaches a vehicle within 5 m', () => {
 });
 
 test('a service truck can tow another service truck', () => {
-  const wrecker = content.service.find(c => c.role === 'repair'), fuel = content.service.find(c => c.role === 'fuel');
+  const wrecker = content.service.find(c => c.role === 'breakdown'), fuel = content.service.find(c => c.role === 'fuel');
   const s = spawn(newSim(), 60);
   const f = serviceAhead(s, fuel, 8), x0 = f.parts.truck.getPosition().x;
   const front = f.parts.truck.getWorldPoint(s.V(f.car.rig.winch[0], 0)).x;

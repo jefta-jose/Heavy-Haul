@@ -18,24 +18,53 @@ style of the approved Swamp Scout: [assets/references/four-scout-trucks.png](ass
 
 - Premium semi-realistic painted game illustration: readable dark contours, weathered materials,
   fine mechanical detail, rich natural texture. The same look as the Swamp Scout.
-- Side view facing **right**, with a restrained elevated angle that shows a little roof, deck and
-  tread. Soft, even daylight; no strong cast shadows.
+- **Flat side view facing right** (see the hard rule below): the camera perpendicular to the near
+  side, no perspective. Soft, even daylight; no strong cast shadows.
 - **True transparent background** for every object (vehicles, wheels, props). No
   checkerboard, no colored halo or glow around the edges, no ground or drop shadow, no text, logos or
   watermarks. Show the whole object with clear margins.
 - PNG, at least 1500 px on the long side.
 
+## Hard rule for every vehicle image: a flat side profile
+
+Every vehicle picture (master, body, wheel, and any redo) must pass these checks before you report it.
+A picture that fails one is rejected in review and drawn again, which wastes the whole generation, so
+check your own output against this list first and regenerate before reporting.
+
+- **Flat side profile, facing right.** The camera looks straight at the near side, perpendicular to
+  it, at the height of the hubs. No three-quarter view, no elevated or tilted camera, no vanishing
+  point or foreshortening. The cab's front face is not visible; only a sliver of roof may show.
+- **All near-side tires the same size and perfectly round,** each rim centred in its tire. Tires do
+  not shrink toward one end.
+- **All hub centres on one horizontal line, all tire bottoms on one level ground line.** The
+  chassis, deck, tank and load are horizontal: zero roll, zero yaw.
+- **No far-side tires** peeking out below or between the near ones.
+- **Every near-side tire fully visible,** none hidden behind steps, the cab or bodywork.
+- **Exactly the axle count the brief gives,** with every axle's tires drawn the same.
+- **The whole vehicle inside the canvas** with clear margins on all four sides; nothing (booms,
+  masts, hoses, hooks) touches or crosses the edge.
+- **The body is the master with the wheels removed, nothing else changed:** the same canvas size,
+  position, scale and camera, so the two line up pixel for pixel.
+- **The wheel is a square canvas, the tire a perfect circle centred in it,** seen face-on, matching
+  the master's tires.
+- **Fuel trucks have no winch;** breakdown trucks show the rear winch drum, cable and hook.
+
+Put these words in every vehicle prompt: "strictly flat 2D side profile, camera perpendicular to the
+near side at hub height, no perspective, all tires the same size on one level line, no far-side tires".
+Approved examples of the right camera: `assets/cars/bog-wrecker/source/` and
+`assets/cars/fuel-runner-6x6/source/`.
+
 ## What to generate
 
 | Roster | Folder | What to make |
 | --- | --- | --- |
-| `assets/cars/cars.json` → `cars` (100) and `service` (4) | `assets/cars/<id>/source/` | vehicle **with its load**, body, wheel |
+| `assets/cars/cars.json` → `cars` (100) and `service` (10) | `assets/cars/<id>/source/` | vehicle **with its load**, body, wheel |
 | `assets/hud/hud.json` | `assets/hud/icons/`, `assets/hud/source/` | SVG icons; garage art |
 | a season's README | `assets/seasons/<id>/source/` | environment set |
 
 Each folder's `README.md` has the brief and a checklist of exact file names. If the user does not say
-what to make, do this first: the Titan Tanker and Colossus Wrecker service trucks, then
-`turnpike-7` (see its README), then the cars in roster order.
+what to make, do this first: the service trucks still marked `planned` (a fuel and a breakdown
+truck for every class), then `turnpike-7` (see its README), then the cars in roster order.
 
 ## Cars: every vehicle carries its load in its own image
 
@@ -63,8 +92,10 @@ suggests). Keep the real proportions from `lengthM`, `massT` and the load's size
 The brief is in `assets/cars/<id>/README.md`. Cars are ordered weakest to strongest (class, then
 tier). Make stronger tiers look bigger and better equipped, and draw the tires the brief names (road,
 all-terrain, mud-terrain, flotation, snow chains, steel spikes, giant mining tires; see
-`assets/cars/wheel-types.json`). Service trucks (fuel and breakdown, small to huge) carry a winch
-at the **rear**: show the drum and hook clearly.
+`assets/cars/wheel-types.json`). Service trucks (a fuel and a breakdown truck per class, growing from
+scout-sized pickups to 10×10 mining giants, each in its own colour and tires). Breakdown trucks carry a winch at
+the **rear**: show the drum and hook clearly. Fuel trucks only refuel: hose reels and beacons, no
+winch.
 
 1. `vehicle-master-v1.png`: the complete vehicle with its load and every wheel, facing right. For a
    tractor with a trailer, the trailer is part of this one image.
@@ -78,33 +109,11 @@ at the **rear**: show the drum and hook clearly.
    is used on all of them.
 4. `prompts.json`: `{ "master": {"prompt": "..."}, "body": {"edit_of": "vehicle-master-v1.png", "prompt": "..."}, "wheel": {"prompt": "..."} }`.
 
-### Animated load layers (only when a car's README asks for them)
+Loads are never animated or split into layers: the whole load is part of the body art. Animated
+load layers (the Ice Breaker's orca, the Mountain Mover's submarine) were tried and dropped on
+2026-10-29.
 
-The load stays part of the vehicle image. The single exception: a car's README can ask for a small
-**animated part** of an already approved load (an animal swimming in a tank, water in it) as extra
-layers. These are not separate loads to combine, and they never replace the body. Past attempts to
-split loads off failed because the parts came back in a different perspective, scale or angle, so
-every layer must follow these rules exactly:
-
-- **Same camera as the body:** strictly side-on (90°), facing right, no tilt, no rotation, no 3/4
-  view, no perspective change. A shape that is horizontal in the body stays horizontal.
-- **Same canvas and registration:** every layer has the body's exact pixel dimensions, and each part
-  sits at the exact pixel position, size and angle it has in the current body. Layers are stacked
-  straight on top of the body with no offset; nothing is cropped, recentred or rescaled.
-- **Edits, not new drawings:** each layer is an edit of the current approved body or master, so
-  lighting, palette and painting match. Name the edit target in `prompts.json`.
-- **True transparency** everywhere outside the part, with no halo, checkerboard or shadow.
-
-Report the pixel bounds of each part (left, top, right, bottom) with the file list.
-
-**Lesson (2026-10-28, Ice Breaker orca):** for animated parts of an existing picture, cutting them out
-of the approved art is reliable; asking the generator for them is not. The built-in generator redraws
-the whole picture and loses pixel registration (the orca came back larger, the body 1919×820 and
-shifted). So Claude cuts animated layers from the approved art (`tools/art/ice-breaker-layers.py`).
-Codex may be asked for a helper image, such as the same scene with the part removed, which only serves
-as a reference for the cut. Codex is still the right choice for whole new pictures.
-
-Before finishing, check that the body and master PNGs (and any load layers) have identical
+Before finishing, check that the body and master PNGs have identical
 dimensions and that the wheel is square. Long rigs need a wide canvas; keep at least 1500 px across the whole vehicle.
 
 ## HUD and garage: `assets/hud/`

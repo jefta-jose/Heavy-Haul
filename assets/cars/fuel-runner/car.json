@@ -2,16 +2,15 @@
   "id": "fuel-runner",
   "name": "Fuel Runner",
   "number": null,
-  "class": "service",
+  "class": "scout",
   "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
-  "tagline": "Fuel bowser you can call out to the trail",
-  "description": "An orange 4×4 bowser. Call it out, drive it to your truck, winch it free and refuel it.",
+  "tagline": "Scout-class fuel bowser that never gets stuck",
+  "description": "An orange 4×4 bowser for the scouts. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
   "stats": {
-    "power": 55,
+    "power": 95,
     "grip": 78,
-    "durability": 70,
     "fuelEfficiency": 65
   },
   "biomes": [
@@ -129,7 +128,7 @@
       "travelDown": 0.32,
       "damping": 0.5
     },
-    "winchForce": 82404
+    "neverStuck": true
   },
   "drivetrain": {
     "idleRpm": 750,
@@ -166,7 +165,7 @@
         0
       ]
     ],
-    "torqueScale": 0.198,
+    "torqueScale": 0.313,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -179,7 +178,7 @@
     "engineBrake": 82,
     "exhaustBrake": 105,
     "gears": {
-      "H": 11.2,
+      "H": 12.3,
       "L": 34.3,
       "R": 26.9
     },
@@ -188,6 +187,5 @@
     "fuelLitres": 150
   },
   "role": "fuel",
-  "size": "small",
-  "towMassT": 12
+  "size": "small"
 }

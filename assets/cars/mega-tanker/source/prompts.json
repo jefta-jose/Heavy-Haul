@@ -1,0 +1,37 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game vehicle master Mega Tanker: BURNT ORANGE 10\u00d710 MINING fuel tanker, 16 m overall, EXACTLY FIVE AXLES, FIVE near-side wheels. Equal huge 3.30 m GIANT MINING tires with deep CHEVRON tread, taller than a person, wheel diameter comparable cab height. Enormous integrated fuel tank on mining chassis. Heavy exposed REAR LEFT winch drum with wound cable and hanging hook, hose booms, reels, ladders and amber beacons. Industrial elevated mining cab, heavy grime and chipped orange paint. Overall length only 4.85 tire diameters; closely spaced five enormous wheels fill almost chassis length, true giant proportions. Premium semi-realistic painted game illustration matching approved family, rich weathered materials, fine mechanics, dark readable contours. Side-on facing RIGHT with restrained elevated angle showing a little roof/deck/tread. Complete object with clear margins, wide transparent PNG minimum 1500 across. Soft even daylight. True transparent gaps/background. No ground, cast shadow, halo, text, logos, watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Mega Tanker vehicle-master-v1.png. Remove EVERY road wheel and tire from ALL FIVE axles, including ALL far-side tire glimpses. Leave transparent empty wheel regions and arches. Keep burnt orange tank, mining cab, hose booms, ladders, rear winch drum/cable/hook, chassis and suspension and every other detail unchanged. Preserve EXACT original canvas dimensions, position, scale and camera. No redesign or movement. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE matching Mega Tanker wheel: gigantic 3.30 m mining tire with deep CHEVRON tread, thick charcoal rubber, heavy grime and dusty scuffed lug edges. Burnt orange solid steel rim and orange bolted central hub matching mining tanker master, small rim relative tire. Premium semi-realistic painted game art, fine mechanical and material details. Perfectly circular frontal orthographic wheel, hub exactly centered, equal clear margins on square true transparent PNG canvas. Requested 2048\u00d72048 minimum 1500 square. Soft even light for spinning sprite. No axle, body, ground, shadows, halo, lettering, logos."
+  },
+  "v2": {
+    "rejection_reason": "three-quarter perspective; needs a flat side profile",
+    "master": {
+      "file": "vehicle-master-v2.png",
+      "references": [
+        "../../bog-wrecker/source/vehicle-master-v1.png",
+        "../../fuel-runner-6x6/source/vehicle-master-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Input references bog-wrecker and fuel-runner-6x6 are CAMERA and PAINTED STYLE ONLY. Create Mega Tanker, burnt orange 10\u00d710 mining rigid fuel tanker, 16 m long, colossal integrated fuel tank on mining chassis, folded HORIZONTAL hose booms, ladders, amber beacons, heavy grime and chipped paint. Fuel truck: NO WINCH DRUM, NO STEEL CABLE, NO HOOK. STRICTLY FLAT SIDE PROFILE facing RIGHT for 2D side-scroller. Orthographic camera exactly perpendicular to near side. NO cab front surface visible, no three-quarter view, no perspective or vanishing point, NO far-side tires. Exactly FIVE FULLY VISIBLE near-side road wheels. ALL FIVE equal 3.30 m GIANT MINING tires, identical perfectly circular outlines, concentric circular burnt-orange rims, hubs at exact tire centers. All hub centers on ONE horizontal line; all tire bottoms on ONE LEVEL baseline. Chassis, deck, tank and hose boom perfectly horizontal. Tires taller than a person, cab door much smaller than tire. Premium semi-realistic painted game art, fine weathered mechanics, dark readable contours, soft even daylight. CENTER ENTIRE OBJECT with generous clear transparent margins ALL FOUR SIDES, especially ABOVE hose boom: nothing touches canvas edge. Wide PNG at least 1500 across. True transparent background and gaps. No ground, shadow, halo, text, logo or watermark."
+    },
+    "body": {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Use case: precise-object-edit. Edit target Mega Tanker vehicle-master-v2.png. Remove ONLY all FIVE ROAD wheels and tires completely. Leave transparent EMPTY arches and wheel regions. Retain chassis, suspension and axle hubs. Keep orange tank, cab, hoses/booms, ladders, beacons, materials and every remaining detail unchanged. EXACT original canvas dimensions, position, scale and FLAT perpendicular side camera. Preserve horizontal alignment and ALL clear margins especially ABOVE hose boom; no cropping or touching edges. Do not move, rotate, rescale, redesign or slant anything. True transparent background. No winch, hook, ground, shadow or halo."
+    },
+    "wheel": {
+      "file": "wheel-v2.png",
+      "reference": "vehicle-master-v2.png",
+      "prompt": "Use case: stylized-concept. Reference vehicle-master-v2.png is matching tire/rim STYLE only. ONE isolated Mega Tanker road wheel: 3.30 m GIANT MINING tire with deep chevron tread, thick dark charcoal rubber with heavy grime and dusty edges, burnt orange circular steel rim and centered bolted orange hub matching master. Perfect CIRCLE in FRONT-ON orthographic side-face view, rim concentric with tire, hub exactly at canvas center, equal generous transparent margins on SQUARE PNG (1254 px square fine). Premium semi-realistic painted game art, detailed weathered materials, dark contours, soft even ambient light suitable for sprite spinning. No slant, ellipse, perspective, axle, body, ground, shadow, halo, text, logos or watermark. True transparency."
+    }
+  },
+  "v1_status": {
+    "status": "rejected and images deleted after v2 checks",
+    "rejection_reason": "three-quarter perspective; needs a flat side profile"
+  }
+}

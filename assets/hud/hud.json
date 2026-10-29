@@ -54,16 +54,12 @@
    "brief": "fuel truck call button"
   },
   {
-   "id": "summon-repair",
+   "id": "summon-breakdown",
    "brief": "breakdown truck call button"
   },
   {
    "id": "switch-vehicle",
    "brief": "swap between vehicles"
-  },
-  {
-   "id": "repair",
-   "brief": "wrench"
   },
   {
    "id": "refuel",

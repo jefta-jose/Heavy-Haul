@@ -11,9 +11,10 @@ import { createGarage } from './game/garage.js';
 import { createSoundSettings } from './game/sound-settings.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
-// car and drives the fixed-step game loop. During a run the player can call fuel and breakdown
-// trucks sized to the main truck, drive them over, hook the winch and tow the truck free, refuel or repair it, and
-// switch back; the service truck stays parked where it was left.
+// car and drives the fixed-step game loop. During a run the player can call the class's fuel truck
+// and breakdown truck once each: they start at the beginning of the trail and are driven out to the
+// main truck, the fuel truck to refuel it, the breakdown truck to hook its winch and tow it free.
+// After that the buttons switch between them; a service truck stays parked where it was left.
 // Content (JSON + artwork) is embedded by tools/build.js.
 
 const { season, rockHulls, wheelTypes } = content;
@@ -35,6 +36,7 @@ const session = createSession({ sim, hud, season, onRestart: () => newRun(), onG
 session.onRecover = x => { sim.respawn(x); view.snap(); setGear('H'); };
 session.onResume = () => audio.resume();
 session.onCall = role => summon(role);
+session.canCall = role => !!called[role] || !!serviceFor(role);
 
 let selection = garage.selection;
 let refueling = null, returnVehicle = null;
@@ -70,35 +72,38 @@ function switchVehicle() {
   const i = sim.vehicles.indexOf(sim.active), next = returnVehicle ?? sim.vehicles[(i + 1) % sim.vehicles.length];
   drive(next); hud.toast(`Driving the ${next.car.name}`, 1.5);
 }
-// the smallest service truck of that role that can pull the main truck (gross weight)
-function serviceFor(role) {
-  const need = sim.vehicleMass(sim.main) / 1000 + (sim.main.car.physics.load?.massT ?? 0);
-  const options = content.service.filter(c => c.role === role).sort((a, b) => a.towMassT - b.towMassT);
-  return options.find(c => c.towMassT >= need) ?? options.at(-1);
-}
+// Each class has one fuel truck and one breakdown truck. A run can call each once: it starts at the
+// beginning of the trail and has to be driven out to the main truck; after that its button switches
+// to it. A class whose truck has no art yet has none: its button is greyed out and says so.
+const className = id => content.roster.classes.find(c => c.id === id)?.name ?? id;
+const called = {};   // role -> the service vehicle called this run
+const serviceFor = role => content.service.find(c => c.role === role && c.class === sim.main.car.class);
+const roleName = role => role === 'fuel' ? 'fuel truck' : 'breakdown truck';
+// the fuel or breakdown button: call that truck the first time, switch to it afterwards (and back)
 function summon(role) {
   if (session.state !== 'play') return;
+  const have = called[role];
+  if (have) { drive(sim.active === have ? sim.main : have); hud.toast(`Driving the ${sim.active.car.name}`, 1.5); return; }
   const car = serviceFor(role);
-  if (!car) { hud.toast(`No ${role === 'fuel' ? 'fuel' : 'breakdown'} truck in the garage yet`, 2); return; }
-  // it arrives ahead of the main truck, on firm ground if possible, to winch it forward out of trouble
-  const main = sim.main, v = sim.spawnService(car);
+  if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName(role)} yet`, 2.5); return; }
+  const main = sim.main, v = sim.spawnService(car, sim.startSpot(car));
   v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
-  const small = car.towMassT < sim.vehicleMass(main) / 1000 + (main.car.physics.load?.massT ?? 0);
-  drive(v); hud.toast(`${car.name} is here. Back up within ${sim.winchReach} m of your truck, tap WINCH to hook it, then drive away to tow it${small ? ' (it may be too small for this rig)' : ''}.`, 4);
+  called[role] = v; hud.showCalled(role, true);
+  const far = Math.round(sim.distance(v, main));
+  drive(v); hud.toast(`${car.name} is at the trail start, ${far} m away. ${role === 'fuel' ? 'Drive it to your truck to refuel.' : 'Drive it out, hook on, tow.'}`, 4.5);
 }
-// a service truck stopped next to the main one offers its job; both kinds can winch
+// a fuel truck stopped next to the main one offers to refuel it
 function serviceJob() {
   const v = sim.active, main = sim.main;
-  if (refueling || returnVehicle === main || v.role !== 'service' || session.state !== 'play') return null;
+  if (refueling || returnVehicle === main || v.role !== 'service' || v.car.role !== 'fuel' || session.state !== 'play') return null;
   if (sim.distance(v, main) > 8 || Math.abs(v.st.speed) > 2 || Math.abs(main.st.speed) > 2) return null;
-  if (v.car.role === 'fuel') return main.st.fuel < 99.9 ? 'Refuel truck' : null;
-  return 'Repair truck';
+  return main.st.fuel < 99.9 ? 'Refuel truck' : null;
 }
 // tap WINCH: hook the nearest vehicle within reach, or unhook
 function winch() {
   if (session.state !== 'play') return;
   const v = sim.active;
-  if (v.role !== 'service') { hud.toast('Only service trucks have a winch. Call one from the top bar.', 2); return; }
+  if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'Fuel trucks have no winch. Call the breakdown truck to tow.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
   const r = sim.toggleWinch(v), name = o => o === sim.main ? 'your truck' : `the ${o.car.name}`;
   if (r.ok) hud.toast(r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
   else if (r.reason === 'far') hud.toast(`Too far away (${Math.round(r.gap)} m). Get within ${sim.winchReach} m of ${name(r.target)} to hook the winch.`, 2.5);
@@ -123,18 +128,11 @@ function handbrake() {
 function doServiceJob() {
   if (!serviceJob()) return;
   const v = sim.active, main = sim.main;
-  if (v.car.role === 'fuel') {
-    refueling = { source: v, target: main, startFuel: main.st.fuel, elapsed: 0, duration: 4, progress: 0 };
-    v.ctl.gas = main.ctl.gas = 0; v.ctl.brake = main.ctl.brake = 1;
-    renderer.setRefueling(refueling);
-    hud.showAction('Refueling… 0%', true);
-    hud.toast('Refueling your truck. Keep both vehicles parked.', 2.5);
-  }
-  else {
-    // the crane lifts the truck back onto its wheels where it stands
-    const p = main.parts.truck.getPosition(); sim.respawn(p.x, main); session.run.rollT = 0; session.run.stuckT = 0;
-    serviceComplete('Repaired and back on its wheels.');
-  }
+  refueling = { source: v, target: main, startFuel: main.st.fuel, elapsed: 0, duration: 4, progress: 0 };
+  v.ctl.gas = main.ctl.gas = 0; v.ctl.brake = main.ctl.brake = 1;
+  renderer.setRefueling(refueling);
+  hud.showAction('Refueling… 0%', true);
+  hud.toast('Refueling your truck. Keep both vehicles parked.', 2.5);
 }
 
 function stopRefueling() {
@@ -163,6 +161,7 @@ const input = createInput(hud.els, {
 function newRun() {
   stopRefueling();
   sim.init(sim.trail.start, selection); session.reset();
+  for (const role of ['fuel', 'breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
   drive(sim.main);
   setGear('H'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);
@@ -189,7 +188,7 @@ E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 for (const b of document.querySelectorAll('.gear button')) b.addEventListener('click', () => setGear(b.dataset.g));
 E.pauseBtn.addEventListener('click', pause);
 E.fuelCallBtn.addEventListener('click', () => summon('fuel'));
-E.repairCallBtn.addEventListener('click', () => summon('repair'));
+E.breakdownCallBtn.addEventListener('click', () => summon('breakdown'));
 E.switchBtn.addEventListener('click', switchVehicle);
 E.actionBtn.addEventListener('click', doServiceJob);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
@@ -236,7 +235,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { sim, view, renderer, session, audio, sound, garage, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
+window.__haul = { sim, view, renderer, session, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

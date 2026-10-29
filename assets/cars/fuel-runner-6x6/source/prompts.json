@@ -1,0 +1,12 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game master Fuel Runner 6×6: FOREST GREEN 6×6 off-road fuel tanker, 10 m long, EXACTLY THREE axles: tandem rear plus one front. Equal 1.50 m mud-terrain tires, aggressive open-shoulder lugs, exactly THREE near-side road wheels. Integrated insulated green fuel tank, hose reels, amber beacons, mud flaps, scuffed paint and dried mud. Heavy rear winch at LEFT end: exposed drum, wound steel cable and hanging hook clearly visible. Rugged raised expedition cab, functional ladders and tank fittings. Length 6.67 tire diameters; sturdy real proportions. Premium semi-realistic painted game illustration matching approved Fuel Runner and Breakdown Wrecker, dark contours, rich material texture, fine mechanics. Side-on facing RIGHT, restrained elevated angle showing little roof/deck/tread. Full truck clear margins, wide PNG at least 1500 across, true transparent background and gaps. Soft even daylight, no ground, shadow, halo, text, logos, watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target Fuel Runner 6×6 vehicle-master-v1.png. Remove ALL road wheels and tires on all THREE axles including all far-side glimpses. Leave truly transparent empty wheel arches. Keep insulated tank, rear winch drum/cable/hook, hoses, green body, equipment, chassis and suspension unchanged. Preserve EXACT original canvas dimensions, object position, camera and scale. Do not move or redesign any remaining part. True transparent background."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. ONE matching Fuel Runner 6×6 wheel. Dark charcoal 1.50 m mud-terrain tire, aggressive open-shoulder chunky lugs with dried mud in grooves, forest green heavy steel rim and green central hub with detailed bolts matching master. Premium semi-realistic painted game illustration. Perfect circular frontal orthographic wheel, hub centered, equal clear margins, square transparent PNG canvas, requested 2048×2048 at least 1500 square. Soft even light suitable for rotation. No axle, body, ground, shadow, halo, text or logo."
+  }
+}

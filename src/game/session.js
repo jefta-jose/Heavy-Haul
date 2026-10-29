@@ -43,13 +43,13 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     const coins = ['Your coins', wallet.toLocaleString('en-US')];
     if (kind === 'roll') {
       const cost = 600;
-      hud.showMessage('Rolled over', 'The vehicle is on its side', 'Call the breakdown truck and drive it over to right your truck, or pay to be towed back to the last checkpoint.', [['Recovery fee', `${cost} coins`], coins], [
-        ['Call the breakdown truck', () => { hud.hideMessage(); api.state = 'play'; run.rollT = -30; api.onCall?.('repair'); }, true], ['Tow me back', () => recover(cost), false, wallet < cost], restartButton(), garageButton,
+      hud.showMessage('Rolled over', 'The vehicle is on its side', 'Pay to be towed back to the last checkpoint, or start the run again.', [['Recovery fee', `${cost} coins`], coins], [
+        ['Tow me back', () => recover(cost), true, wallet < cost], restartButton(), garageButton,
       ]);
     } else if (kind === 'fuel') {
       const cost = 400;
-      hud.showMessage('Out of fuel', 'The tank is dry', `Call the fuel truck from the top bar and drive it over, or have support drop off fuel. Next time, stop at the fuel station at ${trail.fuel} m.`, [['Delivery fee', `${cost} coins`], coins], [
-        ['Call the fuel truck', () => { hud.hideMessage(); api.state = 'play'; run.emptyT = -30; api.onCall?.('fuel'); }, true], ['Drop off fuel', () => deliverFuel(cost), false, wallet < cost], restartButton(), garageButton,
+      hud.showMessage('Out of fuel', 'The tank is dry', `Call your fuel truck and drive it over from the start of the trail, or have support drop off fuel. Next time, stop at the fuel station at ${trail.fuel} m.`, [['Delivery fee', `${cost} coins`], coins], [
+        ['Call the fuel truck', () => { hud.hideMessage(); api.state = 'play'; run.emptyT = -30; api.onCall?.('fuel'); }, true, !api.canCall?.('fuel')], ['Drop off fuel', () => deliverFuel(cost), false, wallet < cost], restartButton(), garageButton,
       ]);
     }
   }
@@ -75,7 +75,7 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     if (!run.refueled && Math.abs(driving.x - trail.fuel) < 14 && Math.abs(st.speed) >= 2.5) hud.toast('Slow down at the pumps to refuel', 0.4);
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
-    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Get within ${sim.winchReach} m, tap WINCH, then drive away to tow your truck free` : ctl.gear === 'H' ? 'Not enough pull. Shift to L (low range)' : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage 4×4 for front-axle drive' : 'Stuck? Call a breakdown truck to winch you out', 3);
+    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Get within ${sim.winchReach} m, tap WINCH, then drive away to tow your truck free` : ctl.gear === 'H' ? 'Not enough pull. Shift to L (low range)' : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage 4×4 for front-axle drive' : 'Stuck? Call the breakdown truck to winch you out', 3);
     const ahead = sim.surfAt(driving.x + 10);
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(driving.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage 4×4 and DIFF, shift to L', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));

@@ -15,15 +15,15 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add
   engine features only when the data cannot express something, and keep them generic.
 - **Every car carries its load as part of its own art and mass.** There are no separate trailers
-  or loads to combine, and loads never fall off. The only split allowed is an *animated load layer*
-  (AGENTS.md: same canvas, same pixel position, strictly side-on), e.g. the Ice Breaker's orca; review
-  each layer composited over the body before wiring it in. Lesson: cut animated parts out of the
-  approved art yourself (`tools/art/ice-breaker-layers.py`); the generator redraws and loses
-  registration. Codex is still the right choice for whole new pictures. A tractor and its semi-trailer, or a prime mover and
+  or loads to combine, loads never fall off, and loads are not animated (animated load layers were
+  tried and dropped on 2026-10-29). A tractor and its semi-trailer, or a prime mover and
   its lowbed, are one image and one rigid body with all their axles.
-- Winching belongs to the service trucks: there are no winch posts. A stuck truck calls a fuel or
-  breakdown truck sized to its weight (`towMassT`). The player backs it within 5 m, taps WINCH to hook
-  the nearest vehicle, and drives away to tow it. The cable never reels in.
+- Winching belongs to the breakdown trucks: there are no winch posts, and there is no damage or
+  repair. Each class has a fuel truck (refuels only, no winch) and a breakdown truck (winches only).
+  The top-bar buttons call the main truck's class's pair, once per run each, from the start of the
+  trail; afterwards they switch to them. Back the breakdown truck within 5 m, tap WINCH to hook the
+  nearest vehicle, and drive away to tow it. The cable never reels in. Service trucks never get stuck
+  and never run out of fuel.
 - Cars have fixed tires and art. The garage **tuning** panel (`src/game/tuning.js`) scales any car's
   specs: 12 bars from 0 to 100 in steps of 10, where 100 = the knob's `max` multiplier, saved per car
   in the browser. Knobs name
@@ -38,8 +38,10 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 1. **Review the drop** in `source/`: master, body and wheel exist; body and master have identical
    dimensions; the wheel is square and centred; transparency is real, with no halo, checkerboard or
-   ground. Look at every image. If one is wrong, write the exact re-generation request for Codex and
-   stop.
+   ground; and every vehicle image passes the **flat side profile** hard rule in AGENTS.md (equal round
+   tires on one level line, rims centred, no far-side tires, no visible cab front, nothing touching the
+   canvas edge). Look at every image. If one is wrong, write the exact re-generation request for Codex,
+   naming the rule it broke, and stop.
 2. **Measure** the body: hub centres, the fender flare's inner edge (fit `archCircles` `[x, y, r]` in
    body pixels), the ground line and the body length. Choose `pixelsPerMetre` from `lengthM` in
    `cars.json`. Measure the wheel's pivot and artwork radius (tire edge, not canvas margin).
@@ -63,19 +65,22 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
      `backupAlarm` override the class's. Never replace recordings with synthesis. See
      `assets/audio/README.md`.
-   - service trucks also get `role`, `size`, `towMassT`, `rig.towRear` (the rear
-     winch point) and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`).
+   - service trucks also get `class` (the class they serve), `role` (`fuel` / `breakdown`), `size`,
+     `rig.towRear` (the rear winch point) and `physics.neverStuck: true`; breakdown trucks also
+     `towMassT` and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`). Fuel trucks have no
+     winch. Tune them to out-pull every car
+     of their class in L but stay slower than its fastest (`npm test` checks the roster and the pits).
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
    the approved feel: brisk take-off, smooth drive, and 4×4 / DIFF clearly felt in mud. Heavier
-   classes are slower but must still clear the trail with L, 4×4, DIFF and a breakdown truck's
-   winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
+   classes are slower but must still clear the trail with L, 4×4, DIFF and their own class's
+   breakdown-truck winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
 6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
    the car's `camera.zoom` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
-Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`) are
-hooked up the same way and are summoned in play: the game picks the smallest one of that role
-whose `towMassT` covers the main truck's loaded weight.
+Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a fuel
+and a breakdown truck per class) are hooked up the same way; once playable, the top-bar buttons call
+them for their class (until then the class's button is greyed out and says "Not available").
 
 `tools/art/measure-vehicle.py <folder> --preview out.png` finds the wheel circles (pixels in the
 master missing from the body), the wheel sprite's pivot and radius, and the body outline, and

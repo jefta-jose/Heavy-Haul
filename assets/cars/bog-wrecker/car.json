@@ -1,0 +1,256 @@
+{
+  "id": "bog-wrecker",
+  "name": "Bog Wrecker",
+  "number": null,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Off-road 8×8 recovery truck that never gets stuck",
+  "description": "An olive 8×8 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 95,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      976,
+      604
+    ],
+    "pixelsPerMetre": 153.3,
+    "axles": [
+      4.292,
+      1.95,
+      -1.703,
+      -4.24
+    ],
+    "wheelY": [
+      0.02,
+      0.026,
+      0.02,
+      -0.072
+    ],
+    "radius": 1.161,
+    "wheelPivot": [
+      626,
+      623
+    ],
+    "wheelArtRadius": 604,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1634,
+        601,
+        182
+      ],
+      [
+        1275,
+        600,
+        182
+      ],
+      [
+        715,
+        601,
+        182
+      ],
+      [
+        326,
+        615,
+        182
+      ]
+    ],
+    "exhaust": [
+      0.431,
+      3.496
+    ],
+    "winch": [
+      6.149,
+      0.697
+    ],
+    "nose": 6.249,
+    "towRear": -6.249,
+    "wheelScale": [
+      1,
+      1,
+      1,
+      0.95
+    ]
+  },
+  "camera": {
+    "zoom": 3.2
+  },
+  "physics": {
+    "mass": 31960,
+    "centreOfMass": [
+      0.0,
+      1.39
+    ],
+    "size": [
+      12.5,
+      3.8
+    ],
+    "wheelMass": 667,
+    "bodyBoxes": [
+      [
+        -6.249,
+        -5.003,
+        0.691,
+        3.842,
+        1
+      ],
+      [
+        -5.003,
+        -3.751,
+        -0.05,
+        3.742,
+        0.6
+      ],
+      [
+        -3.751,
+        -2.498,
+        -0.046,
+        3.542,
+        0.6
+      ],
+      [
+        -2.498,
+        -1.252,
+        -0.05,
+        3.392,
+        0.6
+      ],
+      [
+        -1.252,
+        0.0,
+        -0.05,
+        3.281,
+        0.6
+      ],
+      [
+        0.0,
+        1.252,
+        -0.05,
+        3.072,
+        0.6
+      ],
+      [
+        1.252,
+        2.498,
+        -0.05,
+        3.007,
+        0.6
+      ],
+      [
+        2.498,
+        3.751,
+        -0.031,
+        3.434,
+        0.6
+      ],
+      [
+        3.751,
+        5.003,
+        -0.05,
+        3.464,
+        0.6
+      ],
+      [
+        5.003,
+        6.256,
+        0.359,
+        3.151,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "winchForce": 439488,
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.8,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 442,
+    "exhaustBrake": 568,
+    "gears": {
+      "H": 22.4,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 43540,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 800
+  },
+  "role": "breakdown",
+  "size": "huge",
+  "towMassT": 64
+}

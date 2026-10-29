@@ -1,0 +1,207 @@
+{
+  "id": "mechanic-scout",
+  "name": "Mechanic Scout",
+  "number": null,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Scout-class recovery pickup that never gets stuck",
+  "description": "A yellow 4×4 recovery pickup for the scouts. Call it from the start of the trail, back it up to a stuck scout, hook the winch and tow. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 88,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Dirt",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      894,
+      660
+    ],
+    "pixelsPerMetre": 255.1,
+    "axles": [
+      2.462,
+      -1.109
+    ],
+    "wheelY": [
+      0.008,
+      -0.004
+    ],
+    "radius": 0.608,
+    "wheelPivot": [
+      626,
+      623
+    ],
+    "wheelArtRadius": 596,
+    "farWheelOffset": [
+      -0.22,
+      0.1
+    ],
+    "archCircles": [
+      [
+        1522,
+        658,
+        159
+      ],
+      [
+        611,
+        661,
+        159
+      ]
+    ],
+    "exhaust": [
+      -3.152,
+      0.392
+    ],
+    "winch": [
+      3.299,
+      0.365
+    ],
+    "nose": 3.399,
+    "towRear": -3.403
+  },
+  "camera": {
+    "zoom": 1.6
+  },
+  "physics": {
+    "mass": 4700,
+    "centreOfMass": [
+      0.0,
+      0.73
+    ],
+    "size": [
+      6.8,
+      2.3
+    ],
+    "wheelMass": 183,
+    "bodyBoxes": [
+      [
+        -3.403,
+        -2.27,
+        0.345,
+        2.266,
+        1
+      ],
+      [
+        -2.27,
+        -1.137,
+        0.002,
+        2.082,
+        0.6
+      ],
+      [
+        -1.137,
+        0.0,
+        -0.029,
+        1.952,
+        0.6
+      ],
+      [
+        0.0,
+        1.133,
+        0.071,
+        2.215,
+        0.6
+      ],
+      [
+        1.133,
+        2.266,
+        -0.02,
+        1.845,
+        0.6
+      ],
+      [
+        2.266,
+        3.403,
+        -0.05,
+        1.298,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "winchForce": 61803,
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 65,
+    "exhaustBrake": 84,
+    "gears": {
+      "H": 11.7,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 3353,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 200
+  },
+  "role": "breakdown",
+  "size": "small",
+  "towMassT": 9
+}

@@ -2,16 +2,15 @@
   "id": "breakdown-wrecker",
   "name": "Breakdown Wrecker",
   "number": null,
-  "class": "service",
+  "class": "heavy-duty",
   "drive": "6×6",
   "wheelType": "mud-terrain",
   "status": "playable",
-  "tagline": "6×6 recovery truck",
-  "description": "A red 6×6 wrecker with a crane. Call it out to winch a stuck truck free, or right and repair a rolled one.",
+  "tagline": "Heavy-duty recovery truck that never gets stuck",
+  "description": "A red 6×6 wrecker for the heavy-duty class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
-    "power": 75,
+    "power": 96,
     "grip": 86,
-    "durability": 90,
     "fuelEfficiency": 50
   },
   "biomes": [
@@ -87,7 +86,7 @@
     "towRear": -4.922
   },
   "camera": {
-    "zoom": 1.6
+    "zoom": 2.5
   },
   "physics": {
     "mass": 13100,
@@ -157,7 +156,8 @@
       "travelDown": 0.3,
       "damping": 0.5
     },
-    "winchForce": 309015
+    "winchForce": 398286,
+    "neverStuck": true
   },
   "drivetrain": {
     "idleRpm": 750,
@@ -194,7 +194,7 @@
         0
       ]
     ],
-    "torqueScale": 0.443,
+    "torqueScale": 0.63,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -207,7 +207,7 @@
     "engineBrake": 182,
     "exhaustBrake": 234,
     "gears": {
-      "H": 15.1,
+      "H": 16.5,
       "L": 46.2,
       "R": 36.2
     },
@@ -215,7 +215,7 @@
     "openDiffGrip": 1.0,
     "fuelLitres": 400
   },
-  "role": "repair",
-  "size": "medium",
-  "towMassT": 45
+  "role": "breakdown",
+  "size": "large",
+  "towMassT": 58
 }

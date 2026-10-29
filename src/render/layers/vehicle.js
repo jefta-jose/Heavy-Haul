@@ -1,6 +1,5 @@
 import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius } from '../../physics/vehicle.js';
-import { createLiveLoad } from './live-load.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires, then the body again with the wheel arches cut out so the fenders sit over the tread. The
@@ -12,8 +11,7 @@ export function createVehicleLayer(scene) {
   const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri)); return caches.get(item.id); };
   // warm every cache so images are decoded before the first run
   for (const item of [...content.cars, ...content.service]) rigCache(item);
-  let flash = null, frameDt = 1 / 60;
-  const liveLoad = createLiveLoad(view, scene.sim);
+  let flash = null;
 
   function drawBody(rig, C, body, src, dx = 0, dy = 0) {
     const { ctx } = view, p = body.getPosition(), k = 1 / rig.pixelsPerMetre, A = C.images.body;
@@ -30,7 +28,6 @@ export function createVehicleLayer(scene) {
     const rig = v.car.rig, { truck, wheels } = v.parts;
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i)); drawBody(rig, C, truck, C.body);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i)); drawBody(rig, C, truck, C.over);
-    if (rig.tank) liveLoad.draw(v, C, frameDt);
   }
 
   // 4x4 / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
@@ -68,11 +65,9 @@ export function createVehicleLayer(scene) {
   }
 
   return {
-    liveLoad: v => liveLoad.stateOf(v),
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
-      frameDt = dt || 0;
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
       for (const v of list) shadows(v);
       for (const v of list) { if (v === sim.active) border(v, dt); drawVehicle(v); }

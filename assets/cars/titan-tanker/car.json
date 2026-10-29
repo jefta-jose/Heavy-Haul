@@ -1,0 +1,255 @@
+{
+  "id": "titan-tanker",
+  "name": "Titan Tanker",
+  "number": null,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Off-road 8×8 fuel tanker that never gets stuck",
+  "description": "An arctic-white 8×8 off-road fuel tanker for the off-road class. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 95,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Snow",
+    "Water"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      971,
+      608
+    ],
+    "pixelsPerMetre": 144.3,
+    "axles": [
+      4.581,
+      1.767,
+      -1.587,
+      -4.227
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 1.15,
+    "wheelPivot": [
+      627,
+      630
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1632,
+        608,
+        170
+      ],
+      [
+        1226,
+        608,
+        170
+      ],
+      [
+        742,
+        608,
+        170
+      ],
+      [
+        361,
+        608,
+        170
+      ]
+    ],
+    "exhaust": [
+      3.16,
+      3.749
+    ],
+    "winch": [
+      6.4,
+      0.69
+    ],
+    "nose": 6.5,
+    "towRear": -6.5
+  },
+  "camera": {
+    "zoom": 3.4
+  },
+  "physics": {
+    "mass": 35720,
+    "centreOfMass": [
+      0.0,
+      1.38
+    ],
+    "size": [
+      13,
+      3.7
+    ],
+    "wheelMass": 655,
+    "bodyBoxes": [
+      [
+        -6.5,
+        -5.322,
+        0.423,
+        2.878,
+        1
+      ],
+      [
+        -5.322,
+        -4.137,
+        -0.05,
+        3.403,
+        0.6
+      ],
+      [
+        -4.137,
+        -2.959,
+        -0.05,
+        3.403,
+        0.6
+      ],
+      [
+        -2.959,
+        -1.774,
+        -0.05,
+        3.611,
+        0.6
+      ],
+      [
+        -1.774,
+        -0.589,
+        -0.05,
+        3.486,
+        0.6
+      ],
+      [
+        -0.589,
+        0.589,
+        0.173,
+        3.416,
+        0.6
+      ],
+      [
+        0.589,
+        1.774,
+        -0.05,
+        3.624,
+        0.6
+      ],
+      [
+        1.774,
+        2.959,
+        -0.05,
+        3.527,
+        0.6
+      ],
+      [
+        2.959,
+        4.137,
+        -0.05,
+        3.666,
+        0.6
+      ],
+      [
+        4.137,
+        5.322,
+        -0.05,
+        3.652,
+        0.6
+      ],
+      [
+        5.322,
+        6.507,
+        0.249,
+        3.403,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.738,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 494,
+    "exhaustBrake": 635,
+    "gears": {
+      "H": 22.2,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 48201,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 20000
+  },
+  "role": "fuel",
+  "size": "huge"
+}

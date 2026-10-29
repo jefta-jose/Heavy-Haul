@@ -7,12 +7,15 @@ import { content, newSim, DT } from './helpers.js';
 
 const { trail } = content.season;
 const legs = [...trail.checkpoints, trail.depot + 3];
-const wrecker = content.service.find(s => s.role === 'repair') ?? content.service[0];
+// the main truck's breakdown truck; until its art exists the nearest class's stands in, serving the
+// main truck's class (a check that the trail can be cleared; the game itself offers no stand-ins)
+const rank = id => content.roster.classes.findIndex(c => c.id === id);
+const wrecker = content.service.filter(s => s.role === 'breakdown').sort((a, b) => Math.abs(rank(a.class) - rank(content.car.class)) - Math.abs(rank(b.class) - rank(content.car.class)))[0];
 
 // call the breakdown truck ahead of the main truck, back it up to the hook reach, hook on and
 // drive away until the main truck is out and rolling, then unhook
 function rescue(sim) {
-  const main = sim.main, v = sim.spawnService(wrecker);
+  const main = sim.main, v = sim.spawnService(wrecker, undefined, main.car.class);
   Object.assign(v.ctl, { gear: 'R', awd: true, diff: true });
   for (let i = 0; i < 120 * 2; i++) sim.step(DT);   // let it settle
   sim.setActive(v);

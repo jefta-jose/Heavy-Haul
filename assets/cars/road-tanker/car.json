@@ -1,0 +1,226 @@
+{
+  "id": "road-tanker",
+  "name": "Road Tanker",
+  "number": null,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Highway-class fuel tanker that never gets stuck",
+  "description": "A blue 6×6 fuel tanker for the highway class. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
+  "stats": {
+    "power": 95,
+    "grip": 80,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Road",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      890,
+      648
+    ],
+    "pixelsPerMetre": 177.4,
+    "axles": [
+      3.219,
+      -0.795,
+      -2.751
+    ],
+    "wheelY": [
+      0.017,
+      0.011,
+      -0.023
+    ],
+    "radius": 0.767,
+    "wheelPivot": [
+      627,
+      624
+    ],
+    "wheelArtRadius": 607,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1461,
+        645,
+        140
+      ],
+      [
+        749,
+        646,
+        140
+      ],
+      [
+        402,
+        652,
+        140
+      ]
+    ],
+    "exhaust": [
+      2.029,
+      3.055
+    ],
+    "winch": [
+      4.799,
+      0.46
+    ],
+    "nose": 4.899,
+    "towRear": -4.904
+  },
+  "camera": {
+    "zoom": 2.5
+  },
+  "physics": {
+    "mass": 12220,
+    "centreOfMass": [
+      0.0,
+      0.92
+    ],
+    "size": [
+      9.8,
+      3.0
+    ],
+    "wheelMass": 291,
+    "bodyBoxes": [
+      [
+        -4.904,
+        -3.681,
+        0.135,
+        1.826,
+        1
+      ],
+      [
+        -3.681,
+        -2.452,
+        -0.05,
+        2.864,
+        0.6
+      ],
+      [
+        -2.452,
+        -1.229,
+        -0.05,
+        2.837,
+        0.6
+      ],
+      [
+        -1.229,
+        0.0,
+        -0.05,
+        2.779,
+        0.6
+      ],
+      [
+        0.0,
+        1.223,
+        -0.05,
+        2.791,
+        0.6
+      ],
+      [
+        1.223,
+        2.452,
+        -0.05,
+        2.914,
+        0.6
+      ],
+      [
+        2.452,
+        3.675,
+        -0.05,
+        3.044,
+        0.6
+      ],
+      [
+        3.675,
+        4.904,
+        0.073,
+        2.683,
+        1
+      ]
+    ],
+    "suspension": {
+      "sag": 0.12,
+      "travelUp": 0.25,
+      "travelDown": 0.3,
+      "damping": 0.5
+    },
+    "neverStuck": true
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.54,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 169,
+    "exhaustBrake": 217,
+    "gears": {
+      "H": 14.8,
+      "L": 46.2,
+      "R": 36.2
+    },
+    "brakeTorque": 10998,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 12000
+  },
+  "role": "fuel",
+  "size": "medium"
+}
