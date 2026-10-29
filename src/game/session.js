@@ -11,7 +11,7 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
   try { const w = +localStorage.getItem(WALLET_KEY); if (w > 0) wallet = w; } catch (e) {}
   const saveWallet = () => { try { localStorage.setItem(WALLET_KEY, String(wallet)); } catch (e) {} };
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, refueled: false, winchSecs: 0, recoveries: 0, fuelUsed: 0, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, refueled: false, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet; } };
 
@@ -59,7 +59,8 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     wallet += pay; saveWallet();
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
-      ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Fuel burned', `${Math.round(run.fuelUsed)}%`], ['Winch time', `${Math.round(run.winchSecs)} s`], ['Recoveries', String(run.recoveries)],
+      ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
+      ['Fuel burned', `${Math.round(run.fuelUsed * (sim.main.car.drivetrain.fuelLitres ?? 100) / 100)} L (${(run.fuelUsed * (sim.main.car.drivetrain.fuelLitres ?? 100) / 100 / Math.max(0.01, run.odometer / 1000)).toFixed(1)} L/km)`], ['Winch time', `${Math.round(run.winchSecs)} s`], ['Recoveries', String(run.recoveries)],
       ...(load ? [['Load pay', `${loadPay.toLocaleString('en-US')} coins`]] : []), ['Trail pay', `${trail.finishBonus.toLocaleString('en-US')} coins`],
     ], [['Drive again', () => { hud.hideMessage(); api.state = 'play'; onRestart(); }, true], garageButton]);
   }
@@ -68,6 +69,9 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
   api.update = dt => {
     const main = sim.main, mainTruck = main.parts.truck, p = mainTruck.getPosition(), st = sim.st, ctl = sim.ctl, driving = sim.active.parts.truck.getPosition();
     run.time += dt;
+    // odometer: every metre the main truck rolls, forwards or back (a recovery teleport is not driving)
+    if (run.lastX != null && Math.abs(p.x - run.lastX) < 5) run.odometer += Math.abs(p.x - run.lastX);
+    run.lastX = p.x;
     if (run.time > 6) hud.setCardVisible(false);
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) { run.checkpoint = c; hud.toast(`Checkpoint · ${Math.round(c)} m`); }

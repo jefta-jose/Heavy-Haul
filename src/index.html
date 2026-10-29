@@ -11,10 +11,17 @@
   <div class="hud" id="hud">
     <div class="top">
       <div class="stack">
-        <div class="pill" title="Fuel"><!--icon:fuel--><div class="fuelbar"><i id="fuelFill"></i></div><span id="fuelTxt">100/100L</span></div>
-        <div class="right"><span class="chip" id="surfChip">Dirt</span><span class="chip" id="loadChip"></span></div>
+        <div class="status" aria-label="Truck status">
+          <div class="srow" title="Fuel in the tank"><!--icon:fuel--><b>Fuel</b><div class="fuelbar"><i id="fuelFill"></i></div><span class="sval" id="fuelTxt">100/100 L</span></div>
+          <div class="srow" title="Fuel use right now, and the average for this run"><!--icon:engine--><b>Use</b><span class="sval" id="useTxt">–</span><span class="ssub" id="avgTxt"></span></div>
+          <div class="srow" title="What the truck is carrying"><!--icon:load-condition--><b>Cargo</b><span class="sval cargo" id="loadChip"></span></div>
+        </div>
+        <span class="chip" id="surfChip">Dirt</span>
       </div>
-      <div class="pill" title="Distance to depot"><!--icon:distance--><span id="distTxt"></span></div>
+      <div class="trip" aria-label="Trail progress">
+        <div class="track" id="track"><i class="done" id="trackDone"></i></div>
+        <div class="tripline"><span id="drivenTxt">0.00 km driven</span><span class="next" id="nextTxt"></span><span><!--icon:distance--><b id="distTxt"></b> to depot</span></div>
+      </div>
       <div class="right">
         <div class="pill" title="Coins"><!--icon:coin--><span id="coinTxt">0</span></div>
         <button class="ibtn" id="fuelCallBtn" aria-label="Call the fuel truck" title="Call the fuel truck"><!--icon:summon-fuel--></button>

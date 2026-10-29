@@ -160,7 +160,7 @@ const input = createInput(hud.els, {
 
 function newRun() {
   stopRefueling();
-  sim.init(sim.trail.start, selection); session.reset();
+  sim.init(sim.trail.start, selection); session.reset(); hud.resetTrip();
   for (const role of ['fuel', 'breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
   drive(sim.main);
   setGear('H'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
@@ -228,7 +228,7 @@ function frame(now) {
   } else acc = 0;
   view.follow(dt);
   renderer.draw(dt, playing);
-  hud.update(dt, { coins: session.coins });
+  hud.update(dt, { coins: session.coins, run: session.run });
   audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x }, dt);
   adapt(dt);
   requestAnimationFrame(frame);
