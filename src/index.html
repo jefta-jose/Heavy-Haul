@@ -66,20 +66,46 @@
   </div>
 
   <div class="overlay garage" id="garage">
-    <div class="garage-panel">
-      <div class="garage-list" id="garageList" aria-label="Vehicles"></div>
-      <div class="garage-detail">
-        <div class="eyebrow">Garage · every vehicle carries its own load</div>
-        <div class="garage-art" id="garageArt"></div>
-        <h3 id="gName"></h3>
-        <p id="gDesc"></p>
-        <div class="card-stats" id="gStats"></div>
-        <dl class="spec" id="gSpec"></dl>
-        <div class="tunehead"><h4>Tune</h4><button class="btn tiny" id="tuneReset" hidden>Reset to stock</button></div>
-        <div class="tunes" id="tuneList"></div>
-        <div class="keys"><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Empty? Call your class's fuel truck from the top bar and drive it to your truck. Stuck? Call the breakdown truck, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). Each comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, H / L / R gears, Q 4×4, E diff, V switch vehicle, Esc pause.</div>
+    <!-- class icons the build found (assets/hud/icons/class-*.svg), copied into the class tabs -->
+    <template id="classIcons"><!--icons:class--></template>
+    <nav class="g-seasons" id="gSeasons" aria-label="Season"></nav>
+    <nav class="g-classes" id="gClasses" aria-label="Vehicle class"></nav>
+    <div class="g-strip">
+      <button class="g-arrow" id="gStripPrev" aria-label="Scroll vehicles left">‹</button>
+      <div class="g-cars" id="garageList" aria-label="Vehicles"></div>
+      <button class="g-arrow" id="gStripNext" aria-label="Scroll vehicles right">›</button>
+    </div>
+    <div class="g-main">
+      <div class="g-show">
+        <button class="g-arrow g-prev" id="gPrev" aria-label="Previous vehicle">‹</button>
+        <img class="g-car" id="garageArt" alt="">
+        <button class="g-arrow g-next" id="gNext" aria-label="Next vehicle">›</button>
+      </div>
+      <!-- the actions, top to bottom beside the truck; details and tuning open in #upgradeOv -->
+      <aside class="g-actions">
+        <button class="btn primary" id="startBtn">Drive ›</button>
+        <button class="btn" id="upgradeBtn">Upgrade</button>
+        <button class="btn" id="garageSoundBtn">Sound</button>
+        <button class="btn" id="startFs">Fullscreen</button>
         <div class="rotate">Turn your phone sideways for the best view.</div>
-        <div class="btns"><button class="btn primary" id="startBtn">Drive</button><button class="btn" id="startFs">Play fullscreen</button><button class="btn" id="garageSoundBtn">Sound</button></div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- UPGRADE: the chosen car's details beside its tuning knobs, over the garage -->
+  <div class="overlay" id="upgradeOv" hidden>
+    <div class="card upgrade">
+      <div class="cbody">
+        <div class="g-title"><h3 id="gName"></h3><span class="g-badge" id="gBadge"></span></div>
+        <p id="gDesc"></p>
+        <div class="g-stats" id="gStats"></div>
+        <dl class="spec" id="gSpec"></dl>
+        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Empty? Call your class's fuel truck from the top bar and drive it to your truck. Stuck? Call the breakdown truck, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). Each comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, H / L / R gears, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
+      </div>
+      <div class="cbody">
+        <div class="tunehead"><h4>Upgrade</h4><button class="btn tiny" id="tuneReset" hidden>Reset to stock</button></div>
+        <div class="tunes" id="tuneList"></div>
+        <div class="btns"><button class="btn primary" id="upgradeDone">Done</button></div>
       </div>
     </div>
   </div>

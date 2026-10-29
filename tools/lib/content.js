@@ -64,6 +64,8 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
 
 const withArt = item => ({ ...item, artUri: Object.fromEntries(Object.entries(item.art).map(([k, a]) => [k, dataUri(`${item.dir}/${a.file}`)])) });
 
+const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'];
+
 // Data plus every runtime image and sound clip as a data URI.
 export function loadContentWithArt(opts) {
   const c = loadContent(opts);
@@ -78,10 +80,17 @@ export function loadContentWithArt(opts) {
   // the garage lists the whole roster; only the summary fields are shipped
   const roster = {
     classes: c.roster.classes,
-    cars: c.roster.cars.map(({ id, name, number, class: cls, tier, status, wheelType, stats, load, price, drive }) => ({ id, name, number, class: cls, tier, status, wheelType, stats, load, price, drive })),
+    cars: c.roster.cars.map(({ id, name, number, class: cls, tier, order, status, wheelType, stats, load, price, drive, lengthM }) => ({ id, name, number, class: cls, tier, order, status, wheelType, stats, load, price, drive, lengthM })),
   };
+  // every season folder for the garage's season row: playable ones from season.json, planned ones
+  // from their README's title ("# Frozen North (winter)")
+  const seasons = fs.readdirSync(path.join(ROOT, 'assets/seasons')).filter(id => fs.statSync(path.join(ROOT, 'assets/seasons', id)).isDirectory()).sort().map(id => {
+    if (exists(`assets/seasons/${id}/season.json`)) { const s = readJson(`assets/seasons/${id}/season.json`); return { id, name: s.name, season: s.season, status: s.status }; }
+    const m = exists(`assets/seasons/${id}/README.md`) ? fs.readFileSync(path.join(ROOT, `assets/seasons/${id}/README.md`), 'utf8').match(/^#\s*([^(\n]+?)\s*(?:\((\w+)\))?\s*$/m) : null;
+    return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
+  }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   return {
-    roster, wheelTypes: c.wheelTypes, season: c.season, rockHulls: c.rockHulls, seasonArt, hud,
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, rockHulls: c.rockHulls, seasonArt, hud,
     cars: c.cars.map(withArt), service: c.service.map(withArt),
     defaultCar: c.car.id, audio, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };

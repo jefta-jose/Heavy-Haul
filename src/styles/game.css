@@ -221,28 +221,99 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .mapcard { top: 290px; }
 }
 
-/* Garage */
-.garage { background: #0b1420 center / cover no-repeat; place-items: stretch; }
-.garage-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 16px; max-width: 1280px; width: 100%; margin: 0 auto; min-height: 0; }
-.garage-list { overflow-y: auto; max-height: calc(100vh - 40px); padding-right: 6px; }
-.gclass h4 { margin: 10px 0 6px; font-family: var(--display); font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hazard); }
-.gtiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
-.gtile { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--panel-edge); background: var(--panel); color: var(--ink); cursor: pointer; font-family: var(--body); }
-.gtile b { font-family: var(--display); font-size: 17px; font-weight: 700; }
-.gtile span { font-size: 12px; color: var(--ink-dim); }
-.gtile.on { border-color: var(--hazard); box-shadow: inset 0 0 0 1px var(--hazard); }
-.gtile.locked { opacity: 0.38; cursor: not-allowed; }
-.garage-detail { background: rgba(12,22,36,0.86); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: calc(100vh - 40px); }
-.garage-detail h3 { margin: 0; font-family: var(--display); font-size: 30px; text-transform: uppercase; }
-.garage-detail p { margin: 0; color: var(--ink-dim); font-size: 14px; line-height: 1.45; }
-.garage-art { height: 120px; flex: none; background: center / contain no-repeat; }
-@media (max-width: 760px) { .garage-panel { grid-template-columns: 1fr; } .garage-list, .garage-detail { max-height: none; } }
+/* Garage: a workshop. Seasons on top, then the class tabs, the class's vehicles in a strip, and the
+   chosen vehicle on the turntable floor beside its spec and tuning panel. */
+.garage { display: grid; grid-template-rows: auto auto auto minmax(0, 1fr); gap: 10px; place-items: stretch; overflow: hidden;
+  background: #0b1420 no-repeat center 72% / cover;
+  background-image: linear-gradient(rgba(6,12,20,.7), rgba(6,12,20,.15) 32%, rgba(6,12,20,0) 70%, rgba(6,12,20,.45)), var(--garage-bg, none); }
+.garage button { font-family: var(--display); color: var(--ink); }
+.g-seasons { display: flex; gap: 8px; }
+.g-season { flex: 0 1 260px; min-width: 0; height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 14px; text-align: left; cursor: pointer;
+  border-radius: 10px; border: 1px solid var(--panel-edge); background: linear-gradient(90deg, rgba(10,18,30,.94) 45%, rgba(10,18,30,.5)), var(--thumb, none) center / cover, rgba(10,18,30,.9); }
+.g-season b { font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.g-season small { font-size: 12px; color: var(--ink-dim); }
+.g-season.on { border-color: var(--hazard); box-shadow: 0 0 0 1px var(--hazard), 0 0 14px rgba(242,183,5,.25); }
+.g-season.on small { color: var(--hazard); }
+.g-season.locked { opacity: .5; cursor: not-allowed; }
+.g-classes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.g-class { display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 14px; min-width: 0; text-align: left; cursor: pointer;
+  border-radius: 10px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.88); }
+.g-class svg { width: 30px; height: 30px; flex: none; color: var(--ink-dim); }
+.g-class span { display: flex; flex-direction: column; min-width: 0; }
+.g-class b { font-size: 20px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-class small { font-size: 12px; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-class.on { border-color: var(--hazard); background: linear-gradient(rgba(242,183,5,.16), rgba(242,183,5,.06)), rgba(10,18,30,.9); box-shadow: 0 0 0 1px var(--hazard); }
+.g-class.on b, .g-class.on svg { color: var(--hazard); }
+.g-class.empty b { color: var(--ink-dim); }
+.g-strip { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 6px; }
+.g-cars { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding: 2px; }
+.g-cars::-webkit-scrollbar { display: none; }
+.gtile { flex: none; width: 168px; display: grid; grid-template-rows: 58px auto auto; gap: 1px; padding: 6px 10px 8px; text-align: left; cursor: pointer; scroll-snap-align: start;
+  border-radius: 10px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.9); color: var(--ink); }
+.gthumb { display: grid; place-items: center; min-height: 0; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
+.gthumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.gtile b { font-size: 15px; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gtile > span:last-child { font-family: var(--body); font-size: 12px; color: var(--ink-dim); }
+.gtile.on { border-color: var(--hazard); box-shadow: 0 0 0 1px var(--hazard), 0 0 14px rgba(242,183,5,.25); }
+.gtile.locked { opacity: .42; cursor: not-allowed; }
+.g-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.85); font-size: 26px; line-height: 1; padding: 0 0 3px; cursor: pointer; }
+.g-arrow:hover, .g-class:hover, .gtile:not(.locked):hover { border-color: var(--hazard); }
+.g-main { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 14px; min-height: 0; }
+/* the truck stands on the turntable, well back from the bottom edge */
+.g-show { position: relative; display: flex; align-items: flex-end; justify-content: center; min-height: 0; padding-bottom: var(--floor, 14%); }
+/* parked to scale: width follows the car's length in metres (--len): a 7 m scout over half the floor, a 14 m rig nearly all of it */
+.g-car { width: min(96%, calc(12% + var(--len, 6) * 6%)); max-height: 78%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 22px 16px rgba(0,0,0,.6)); }
+.g-show .g-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; font-size: 30px; }
+.g-prev { left: 4px; } .g-next { right: 4px; }
+.g-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.g-title h3 { margin: 0; font-family: var(--display); font-size: 30px; line-height: 1; text-transform: uppercase; }
+.g-badge { flex: none; padding: 4px 10px; border: 1px solid var(--hazard); border-radius: 6px; color: var(--hazard); font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.g-stats { display: grid; gap: 7px; }
+.g-stats > div { display: grid; grid-template-columns: 76px minmax(0, 1fr) 30px; align-items: center; gap: 10px; font-family: var(--display); font-size: 15px; font-weight: 600; }
+.g-stats i { display: block; height: 9px; border-radius: 5px; background: rgba(202,211,206,.17); overflow: hidden; }
+.g-stats i b { display: block; height: 100%; border-radius: 5px; }
+.g-stats em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
+#upgradeOv .keys summary { cursor: pointer; font-family: var(--display); font-weight: 600; color: var(--ink); }
+.g-actions { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.g-actions .btn { padding: 13px 8px; background: rgba(10,18,30,.92); font-size: 17px; }
+.g-actions #startBtn { font-size: 28px; padding: 18px 8px; background: var(--hazard); }
+/* the Upgrade pop-up: details on the left, the knobs on the right */
+.card.upgrade { width: min(900px, 100%); grid-template-columns: 1fr 1.1fr; max-height: 100%; overflow-y: auto; }
+.card.upgrade .cbody + .cbody { border-left: 1px solid var(--panel-edge); }
+.card.upgrade .g-title h3 { font-size: 30px; }
+@media (max-width: 760px) { .card.upgrade { grid-template-columns: 1fr; } .card.upgrade .cbody + .cbody { border-left: 0; border-top: 1px solid var(--panel-edge); } }
+@media (max-height: 520px) { .card.upgrade .cbody { padding: 12px 14px; gap: 8px; } .card.upgrade .g-title h3 { font-size: 22px; } .card.upgrade p, .card.upgrade .keys { display: none; } }
+/* short screens (phones on their side): compact rows, no subtitles */
+@media (max-height: 520px) {
+  .garage { gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+  .g-season { height: 30px; padding: 0 10px; } .g-season small { display: none; } .g-season b { font-size: 13px; }
+  .g-class { height: 38px; gap: 8px; padding: 0 10px; } .g-class small { display: none; } .g-class b { font-size: 14px; } .g-class svg { width: 20px; height: 20px; }
+  .g-strip { grid-template-columns: 28px minmax(0, 1fr) 28px; } .g-arrow { width: 28px; height: 28px; font-size: 22px; }
+  .gtile { width: 118px; grid-template-rows: 30px auto; padding: 4px 8px 5px; } .gtile b { font-size: 12px; } .gtile > span:last-child { display: none; }
+  .g-main { grid-template-columns: minmax(0, 1fr) 130px; gap: 8px; --floor: 6%; }
+  .g-show .g-arrow { width: 34px; height: 34px; font-size: 24px; }
+  .tune { padding: 1px 4px; } .tname small { display: none; }
+  .g-actions { gap: 6px; } .g-actions .btn { padding: 7px 4px; font-size: 13px; } .g-actions #startBtn { font-size: 19px; padding: 10px 4px; }
+}
+/* narrow screens held upright: one column that scrolls, the Drive bar stays at the bottom */
+@media (orientation: portrait) and (max-width: 1100px) and (min-height: 521px) {
+  .garage { display: flex; flex-direction: column; overflow-y: auto; gap: 8px; }
+  .g-seasons, .g-classes { display: flex; overflow-x: auto; scrollbar-width: none; flex: none; }
+  .g-season { flex: none; width: 150px; } .g-class { flex: none; height: 50px; } .g-class b { font-size: 16px; }
+  .g-strip { flex: none; } .gtile { width: 132px; grid-template-rows: 44px auto auto; }
+  .g-main { display: flex; flex-direction: column; gap: 8px; flex: none; }
+  .garage { background-image: linear-gradient(rgba(6,12,20,.82), rgba(6,12,20,.82)), var(--garage-bg, none); }
+  /* the showroom gets its own crop of the workshop, floor at the bottom, so the car stands on it */
+  .g-car { width: min(96%, calc(16% + var(--len, 6) * 6.8%)); }
+  .g-show { height: 48vh; flex: none; --floor: 6%; border-radius: 12px; border: 1px solid var(--panel-edge); background: #0b1420 var(--garage-bg, none) center 92% / cover no-repeat; }
+  .g-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; gap: 8px; }
+  .g-actions #startBtn { grid-column: 1 / -1; font-size: 24px; padding: 14px; } .g-actions .btn { padding: 10px 4px; font-size: 14px; }
+  .g-actions .rotate { grid-column: 1 / -1; text-align: center; }
+}
 /* Service call action */
 .dash { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
 .action { pointer-events: auto; font-size: 22px; padding: 12px 26px; white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 @media (max-width: 600px), (max-height: 520px) { .action { font-size: 16px; padding: 8px 16px; } .dash { gap: 6px; } }
-@media (max-height: 820px) { .garage-detail .keys { display: none; } .garage-detail p { font-size: 13px; } }
-.gtile b { line-height: 1.05; }
 
 /* Garage tuning */
 .tunehead { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }

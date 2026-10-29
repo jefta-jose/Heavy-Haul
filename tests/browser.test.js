@@ -32,9 +32,17 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.goto(url, { waitUntil: 'networkidle' }); await ready();
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads offline');
     assert.match(await page.locator('#gName').innerText(), /\S/, 'garage card is filled from car.json');
-    assert(await page.locator('.gtile:not(.locked)').count() >= 1 && await page.locator('.gtile.locked').count() > 50, 'garage lists the roster, planned cars locked');
+    // seasons on top, then the class tabs, then the chosen class's vehicles, planned ones locked
+    assert.equal(await page.locator('.g-season.on').count(), 1, 'the season being played is selected');
+    assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class');
+    assert(await page.locator('.gtile:not(.locked)').count() >= 1 && await page.locator('.gtile.locked').count() > 10, 'the class strip lists its roster, planned cars locked');
+    await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
+    assert.equal(await page.locator('.gtile:not(.locked)').count(), 0, 'a class with no playable cars shows them all locked');
+    await page.locator('.g-class', { hasText: 'Scouts' }).click();
     await capture('00-garage');
-    // tuning: five knobs, each can go to 100. + raises the engine by 10 a step; the run uses the tuned car
+    // tuning opens in the UPGRADE panel: five knobs, each can go to 100 in steps of 25; the run uses the tuned car
+    assert(!await page.locator('.tune').first().isVisible(), 'the knobs stay hidden until UPGRADE');
+    await page.click('#upgradeBtn');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
     assert.deepEqual(await page.locator('.tune .tname b').allInnerTexts(), ['Engine', 'Suspension', 'Speed', 'Grip', 'Load weight']);
     const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tstep', { hasText: '+' });
@@ -48,6 +56,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
       assert(await plus(row).isDisabled(), `${name} stops at 100`);
     }
     await capture('00b-tuning');
+    await page.click('#upgradeDone');
+    assert(await page.locator('#upgradeOv').isHidden(), 'Done closes the upgrade panel');
     await page.click('#startBtn'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
     assert(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.sim.car.id].grip === 100), 'levels saved per car');

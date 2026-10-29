@@ -4,26 +4,31 @@
   {
    "id": "scout",
    "name": "Scouts",
+   "tagline": "Light & exploration",
    "about": "Light 4×4 explorers: fast and nimble, bed or roof loads only, small trailers."
   },
   {
    "id": "highway",
    "name": "Highway",
+   "tagline": "Road freight",
    "about": "Road tractors and haulers: quick and strong on firm roads, struggle off-road."
   },
   {
    "id": "heavy-duty",
    "name": "Heavy Duty",
+   "tagline": "Work trucks",
    "about": "Work trucks for logging, construction and utilities: strong, geared low, decent off-road."
   },
   {
    "id": "offroad",
    "name": "Off-road",
+   "tagline": "Extreme terrain",
    "about": "All-terrain 6×6 and 8×8 trucks with huge tires: built for mud, water and rock."
   },
   {
    "id": "heavy",
    "name": "Heavy",
+   "tagline": "Oversize loads",
    "about": "Huge prime movers and mining giants for oversize loads: slow, enormous torque, multi-axle trailers."
   }
  ],

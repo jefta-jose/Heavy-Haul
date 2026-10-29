@@ -33,6 +33,9 @@ export async function build() {
   let html = read('src/index.html')
     .replace('/*CSS*/', () => read('src/styles/game.css'))
     .replace(/<!--icon:([a-z-]+)-->/g, (_, name) => read(`assets/hud/icons/${name}.svg`).trim())
+    // every icon whose name starts with the prefix, each in a <span data-icon>; missing ones are simply absent
+    .replace(/<!--icons:([a-z-]+)-->/g, (_, prefix) => fs.readdirSync(path.join(ROOT, 'assets/hud/icons')).filter(f => f.startsWith(prefix) && f.endsWith('.svg'))
+      .map(f => `<span data-icon="${f.slice(0, -4)}">${read(`assets/hud/icons/${f}`).trim()}</span>`).join(''))
     .replace('<script>/*JS*/</script>', () => `<script type="application/json" id="haul-content">${data}</script>\n<script>${js}</script>`);
   const page = `<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n${html}\n</body></html>\n`;
   fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
