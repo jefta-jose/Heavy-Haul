@@ -40,6 +40,8 @@ session.canCall = role => !!called[role] || !!serviceFor(role);
 
 let selection = garage.selection;
 let refueling = null, returnVehicle = null;
+// the camera zooms out for a job: a refuel running, or the driven truck's winch cable hooked on
+view.inJob = () => !!refueling || !!sim.active?.cable;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
