@@ -3,7 +3,8 @@ import { smoothstep as sm, seededRandom, valueNoise } from './math.js';
 // One height profile shared by physics and rendering. The macro shape comes from the trail keys
 // (monotone cubic, so slopes run continuously), plus value noise scaled by surface, plus authored
 // obstacles: washboard, potholes, mounds, stepped climbs, rock ledges, slabs and mud pits.
-// visH is the drawn surface; colH is where tires actually rest (mud sinks them).
+// visH is the drawn surface; colH is where tires actually rest (mud sinks them), lowered further by
+// the ruts tires press in (`dent`, kept by ground.js).
 
 const DX = 0.25;          // height-field spacing in metres
 const TIRE_CLIMB = 0.84;  // step faces stay under ~40 degrees (smoothstep peak slope is 1.5 h / face)
@@ -12,7 +13,7 @@ export function createTerrain(trail, surfaces) {
   const { keys: KEYS, zones: ZONES, heavyMud: HEAVY_MUD } = trail;
   const X0 = KEYS[0][0], X1 = KEYS[KEYS.length - 1][0];
   const N = Math.round((X1 - X0) / DX) + 1;
-  const HV = new Float32Array(N), HC = new Float32Array(N);
+  const HV = new Float32Array(N), HC = new Float32Array(N), DENT = new Float32Array(N);
   const features = [];
   const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
   const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
@@ -132,7 +133,7 @@ export function createTerrain(trail, surfaces) {
     return arr[i] + (arr[i + 1] - arr[i]) * (f - i);
   };
   const visH = x => sample(HV, x);
-  const colH = x => sample(HC, x);
+  const colH = x => sample(HC, x) - sample(DENT, x);
   // near a ledge face or slab edge, so obstacles are not dropped onto a step
   const nearStep = x => features.some(f => (f.type === 'ledge' && x > f.x0 - 3 && x < f.x0 + f.face + 2) || (f.type === 'slab' && Math.abs(Math.abs(x - f.c) - f.w / 2) < 1.5));
 
@@ -157,5 +158,5 @@ export function createTerrain(trail, surfaces) {
     wb.level = lo + wb.depth;
   }
 
-  return { X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
+  return { X0, X1, N, step: DX, dent: DENT, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
 }

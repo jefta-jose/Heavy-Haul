@@ -32,14 +32,40 @@ the load and the gross weight. Delivering pays the trail bonus plus the load's v
 
 ## Tuning
 
-In the garage every car has 12 tuning bars (engine power, top speed, low-range pull, throttle
-response, tire grip, brakes, suspension travel, softness and damping, lighter chassis, load capacity,
-fuel economy). Each goes from 0 (stock) to 100 in steps of 10 with − / + (or a tap on the bar),
-and fills from orange to green. Level 100 multiplies the car's own value by the knob's `max` (for
-example ×3 engine power, ×2 grip). The Power, Speed, Grip and Capacity stat bars grow with their
-knobs and fill completely at 100. There is no cost for now. Levels are saved per car in the browser,
-and the run uses the tuned copy. The knobs live in `src/game/tuning.js` and scale car.json fields, so
-they work for every car, including future ones.
+In the garage every car has five tuning knobs, each grouping several specs:
+
+| Knob | Moves (multiplier at level 100) |
+| --- | --- |
+| Engine | torque ×2.5, throttle response ×2, fuel economy ×1.6 |
+| Suspension | travel ×1.8, softer springs ×1.6, firmer shocks ×1.8 |
+| Speed | longer gears: top ×1.7, low range and reverse ×1.3 |
+| Grip | tire grip ×1.8, brakes ×2.5 |
+| Load weight | load capacity ×2.5, empty frame lighter ÷1.7 |
+
+Each knob goes from 0 (stock) to 100 in steps of 25 (four taps to full) with − / + (or a tap on the bar), and every car
+can take all five to 100. The Power, Speed, Grip and Capacity stat bars grow with Engine, Speed, Grip
+and Load weight. Levels are saved per car in the browser (saves from the older 12-knob panel are
+dropped), and the run uses the tuned copy. The knobs live in `src/game/tuning.js` and scale car.json
+fields, so they work for every car, including future ones.
+
+Tuning is how a truck beats the mud: a stock scout bogs down where a fully tuned one keeps going
+(see the ruts below), and when even a tuned truck is properly stuck, the breakdown truck pulls it out.
+
+## Ruts: the ground remembers
+
+Mud, creek beds, dirt and gravel give under the tires (`physics/ground.js`; rock, wood and bridges do
+not). Each tire presses a rut into the ground in proportion to the load it carries: the heavier the
+truck and its load, the deeper the rut it can make (up to 0.36 m in mud, never more than a third of
+the tire's radius) and the faster it sinks. Standing still keeps sinking, a spinning tire digs in, and
+every pass of every axle adds to the rut. The ruts are real: the collision ground is lowered, so the
+tires sit in them and have to climb out. Churned ground is also soupier: a deep rut has less grip and
+more bog drag. A road a heavy truck worked back and forth is much harder for a scout that comes
+after it. Tuning is the answer (a fully tuned scout keeps going where a stock one bogs down), and the
+breakdown truck is for when even that is not enough.
+
+Ruts never reset. They stay through new runs and the garage, are saved in the browser per season,
+and heal slowly back to the original ground wherever no tire is pressing: half their depth every 7
+minutes, including the real time that passed while the game was closed.
 
 ## Fuel
 

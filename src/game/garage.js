@@ -3,7 +3,7 @@
 // huge ones on the heavy haulers. Planned vehicles show locked. Each car can be tuned (tuning.js):
 // the run uses the tuned copy, and the settings are saved per car.
 
-import { KNOBS, STEP, MAX_LEVEL, applyTuning, clampLevel, tunedStat, levelColor, loadTuning, saveTuning } from './tuning.js';
+import { KNOBS, STEP, MAX_LEVEL, applyTuning, clampLevel, tunedStat, levelColor, loadTuning, saveTuning, validLevels } from './tuning.js';
 
 const $ = id => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
@@ -14,7 +14,8 @@ export function createGarage({ content, onStart }) {
   const playable = new Map(content.cars.map(c => [c.id, c]));
   let car = playable.get(content.defaultCar) ?? content.cars[0];
   const tuning = loadTuning();
-  const tuneOf = id => (tuning[id] ??= {});
+  // saved levels are trimmed to the five knobs when read
+  const tuneOf = id => (tuning[id] = validLevels(playable.get(id) ?? car, tuning[id] ?? {}));
   const tuned = () => applyTuning(car, tuning[car.id]);
   $('garage').style.backgroundImage = content.hud['garage-background'] ? `linear-gradient(rgba(6,12,20,.55),rgba(6,12,20,.75)),url(${content.hud['garage-background']})` : '';
 
@@ -53,7 +54,7 @@ export function createGarage({ content, onStart }) {
     const load = t.load ?? r.load;
     for (const [k, v] of [['Class', `${classes[rank[car.class]]?.name ?? car.class} · tier ${car.number ?? '-'}`], ['Drive', `${car.drive} · ${car.wheelType} tires`], ['Load', load ? `${load.name} · ${load.massT} t` : 'none'], ['Gross weight', `${mass.toFixed(1)} t`]]) spec.append(el('dt', null, k), el('dd', null, v));
   }
-  // tuning: one bar per knob, 0 (stock) to 100 in steps of 10, filling from orange to green
+  // tuning: one bar per knob, 0 (stock) to 100 in steps of 25, filling from orange to green
   function renderTuning() {
     const box = $('tuneList'), t = tuneOf(car.id); box.innerHTML = '';
     for (const knob of KNOBS) {
@@ -88,7 +89,7 @@ export function createGarage({ content, onStart }) {
     show() { $('garage').hidden = false; render(); },
     hide() { $('garage').hidden = true; },
     select(carId) { car = playable.get(carId) ?? car; render(); return { car: tuned() }; },   // tests and quick starts
-    tune(carId, knob, k) { tuneOf(carId)[knob] = k; saveTuning(tuning); render(); },
+    tune(carId, knob, k) { tuneOf(carId)[knob] = clampLevel(k); saveTuning(tuning); render(); },
     get selection() { return { car: tuned() }; },
   };
 }

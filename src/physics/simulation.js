@@ -4,6 +4,7 @@ import { buildVehicle, wheelRadius } from './vehicle.js';
 import { createDrivetrain } from './drivetrain.js';
 import { valueNoise } from './math.js';
 import { buildBridges } from './bridges.js';
+import { createGround } from './ground.js';
 
 // Composes terrain, obstacles and vehicles into one fixed-step simulation. The world holds the main
 // vehicle (its load is part of the car: art and mass) plus any service trucks summoned during the
@@ -18,9 +19,16 @@ const GRIP_REFERENCE = 'mud-terrain';
 export const WINCH_REACH = 5;
 const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
 const CABLE_STRETCH = 0.25;       // metres of stretch at which the cable pulls with full winch force
+// the ground is built in chunks this long, so a chunk whose ruts changed can be rebuilt on its own
+const CHUNK = 6;
+const RUT_REBUILD = 0.004;        // metres a chunk's ruts must change by before it is rebuilt
+const RUT_REACH = 60;             // only chunks this close to a vehicle are rebuilt (others when approached)
 // on a truck of another class the winch pulls only this share of what that truck's own service
 // truck would (towMassT x g x 0.7 for its gross weight): enough to struggle, rarely enough to free it
 const CROSS_CLASS_PULL = 0.4;
+// churned ground: a rut this deep (m) turns the soil to slurry, with this much less grip and this
+// much more bog drag, so a road a heavy truck has worked is harder for the next one
+const CHURN = { depth: 0.2, grip: 0.3, bog: 1.5 };
 // a never-stuck tire grips mud and creek beds at least this well, with no suction or patchiness
 const NEVER_STUCK_MU = 0.85;
 
@@ -29,6 +37,9 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const trail = season.trail, surfaces = season.surfaces;
   const terrain = createTerrain(trail, surfaces);
   const { visH, colH, zones, waters, X0, X1 } = terrain;
+  // ruts live as long as the terrain (the whole page): new runs and the garage keep them
+  const soil = createGround(terrain, surfaces);
+  let chunks = [], rebuildT = 0;
   const BRAKE = { rise: 2.5, fall: 5 };
   const events = [], crushQueue = [];
   const load = new Map();   // tire normal loads, measured from the solver's contact impulses every step
@@ -49,17 +60,15 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function buildWorld() {
     world = new pl.World({ gravity: V(0, -9.81) });
     const ground = world.createBody();
-    // one continuous chain per surface zone, with ghost vertices so tires roll across joints
-    const step = terrain.step;
+    // the surface zones in chunks of about CHUNK metres, each a chain with ghost vertices so tires roll
+    // across the joints; a chunk is rebuilt when the ruts under it change
+    chunks = [];
     for (const [z0, z1, s] of zones) {
-      const vs = [];
-      for (let x = z0; x < z1 - 1e-6; x += step) vs.push(V(x, colH(x)));
-      vs.push(V(z1, colH(z1)));
-      const ch = new pl.Chain(vs, false);
-      ch.setPrevVertex(V(z0 - step, colH(z0 - step)));
-      ch.setNextVertex(V(z1 + step, colH(z1 + step)));
-      ground.createFixture(ch, { friction: surfaces[s].mu * surfaces[s].mu, userData: { surf: s } });
+      const n = Math.max(1, Math.round((z1 - z0) / CHUNK));
+      for (let k = 0; k < n; k++) chunks.push({ x0: z0 + (z1 - z0) * k / n, x1: z0 + (z1 - z0) * (k + 1) / n, surf: s, fixture: null, built: null });
     }
+    groundBody = ground;
+    for (const c of chunks) buildChunk(c);
     ground.createFixture(new pl.Edge(V(X0, colH(X0)), V(X0, colH(X0) + 40)), { friction: 0.5 });
     ground.createFixture(new pl.Edge(V(X1, colH(X1)), V(X1, colH(X1) + 40)), { friction: 0.5 });
     obstacles = buildObstacles({ pl, world, terrain, trail, hulls: rockHulls });
@@ -79,11 +88,44 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       const fa = c.getFixtureA(), fb = c.getFixtureB(), ua = fa.getUserData(), ub = fb.getUserData();
       const tire = ua && ua.tire ? fa : ub && ub.tire ? fb : null, other = tire === fa ? ub : ua;
       if (!tire || !other || !other.surf) return;
-      const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
+      const td = tire.getUserData(), x = tire.getBody().getPosition().x, m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
       if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU, surfaces[other.surf].mu * m));
-      else if (other.surf === 'mud' || other.surf === 'creek') c.setFriction(surfaces[other.surf].mu * mudPatch(tire.getBody().getPosition().x) * m);
-      else if (m !== 1) { c.resetFriction(); c.setFriction(c.getFriction() * m); }   // reset: pre-solve runs every step
+      else if (other.surf === 'mud' || other.surf === 'creek') c.setFriction(surfaces[other.surf].mu * mudPatch(x) * m * churnGrip(x));
+      else if (m !== 1 || soil.depthAt(x) > 0) { c.resetFriction(); c.setFriction(c.getFriction() * m * (td.neverStuck ? 1 : churnGrip(x))); }   // reset: pre-solve runs every step
     });
+  }
+
+  let groundBody = null;
+  function buildChunk(c) {
+    const step = terrain.step, vs = [], built = [];
+    if (c.fixture) groundBody.destroyFixture(c.fixture);
+    const n = Math.max(1, Math.round((c.x1 - c.x0) / step));
+    for (let k = 0; k <= n; k++) { const x = c.x0 + (c.x1 - c.x0) * k / n; vs.push(V(x, colH(x))); built.push(soil.depthAt(x)); }
+    const ch = new pl.Chain(vs, false);
+    ch.setPrevVertex(V(c.x0 - step, colH(c.x0 - step)));
+    ch.setNextVertex(V(c.x1 + step, colH(c.x1 + step)));
+    c.fixture = groundBody.createFixture(ch, { friction: surfaces[c.surf].mu * surfaces[c.surf].mu, userData: { surf: c.surf } });
+    c.built = built; c.n = n;
+  }
+  // rebuild the chunks near a vehicle whose ruts have moved since they were built
+  function rebuildRuts() {
+    for (const c of chunks) {
+      if (!vehicles.some(v => { const x = v.parts.truck.getPosition().x; return x > c.x0 - RUT_REACH && x < c.x1 + RUT_REACH; })) continue;
+      let moved = false;
+      for (let k = 0; k <= c.n && !moved; k++) moved = Math.abs(soil.depthAt(c.x0 + (c.x1 - c.x0) * k / c.n) - c.built[k]) > RUT_REBUILD;
+      if (moved) buildChunk(c);
+    }
+  }
+  // every tire on soft ground presses its rut, from the load the solver just measured
+  function pressRuts(dt) {
+    for (const v of vehicles) v.parts.wheels.forEach((w, i) => {
+      const L = load.get(w); if (!L || !L.imp || !L.surf) return;
+      const R = wheelRadius(v.car.rig, i), p = w.getPosition(), vx = w.getLinearVelocity().x;
+      const slip = Math.abs(Math.abs(w.getAngularVelocity() * R) - Math.abs(vx));
+      soil.press(p.x, R, L.imp / dt / 9810, slip, dt);
+    });
+    soil.heal(dt);
+    if ((rebuildT += dt) >= 0.1) { rebuildT = 0; rebuildRuts(); }
   }
 
   function crushRocks() {
@@ -166,9 +208,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const tq = Math.min(crr * N * R, cap);
     w.applyTorque(-Math.sign(om) * tq, true);
   }
+  const churn = x => Math.min(1, soil.depthAt(x) / CHURN.depth);
+  const churnGrip = x => 1 - CHURN.grip * churn(x);
   function mudDrag(w) {
-    // deep mud: suction grows with speed plus a bog drag that holds a slow tire in the rut
-    const wv = w.getLinearVelocity(), bog = surfaces.mud.bog * Math.tanh(wv.x / 0.35);
+    // deep mud: suction grows with speed plus a bog drag that holds a slow tire in the rut, more in
+    // churned slurry
+    const wv = w.getLinearVelocity(), bog = surfaces.mud.bog * (1 + CHURN.bog * churn(w.getPosition().x)) * Math.tanh(wv.x / 0.35);
     w.applyForceToCenter(V(-wv.x * surfaces.mud.suction - bog, 0), true);
   }
 
@@ -198,7 +243,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const mu = L && L.surf ? surfaces[L.surf].mu : 0.9, m = (L && L.surf ? (v.tireData.grip?.[L.surf] ?? 1) : 1) * (v.tireData.gripScale ?? 1);
     const soft = L && (L.surf === 'mud' || L.surf === 'creek');
     if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU, mu * m) * N * wheelRadius(v.car.rig, i);
-    return mu * (soft ? mudPatch(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
+    return mu * (soft ? mudPatch(w.getPosition().x) : 1) * churnGrip(w.getPosition().x) * N * wheelRadius(v.car.rig, i) * m;
   }
 
   function stepVehicle(v, dt) {
@@ -275,12 +320,13 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (const v of vehicles) stepVehicle(v, dt);
     load.clear();
     world.step(dt, 10, 6);
+    pressRuts(dt);
     bridgeSystem.afterStep(dt);
     if (crushQueue.length) crushRocks();
   }
 
   const sim = {
-    V, season, terrain, surfaces, trail, events,
+    V, season, terrain, surfaces, trail, events, ground: soil,
     surfAt: terrain.surfAt, visH, colH,
     get world() { return world; },
     get vehicles() { return vehicles; }, get active() { return active; }, get main() { return main; },

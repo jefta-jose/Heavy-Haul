@@ -34,18 +34,22 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.match(await page.locator('#gName').innerText(), /\S/, 'garage card is filled from car.json');
     assert(await page.locator('.gtile:not(.locked)').count() >= 1 && await page.locator('.gtile.locked').count() > 50, 'garage lists the roster, planned cars locked');
     await capture('00-garage');
-    // tuning: + raises engine power by 10 a step, the bar fills and the run uses the tuned car
+    // tuning: five knobs, each can go to 100. + raises the engine by 10 a step; the run uses the tuned car
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
-    const power = page.locator('.tune', { hasText: 'Engine power' });
-    for (let i = 0; i < 5; i++) await power.locator('.tstep', { hasText: '+' }).click();
-    assert.equal(await power.locator('.tval').innerText(), '50', 'five steps of 10');
-    assert.equal(await power.locator('.tbar').getAttribute('aria-valuenow'), '50');
-    const grip = page.locator('.tune', { hasText: 'Tire grip' });
-    for (let i = 0; i < 12; i++) if (await grip.locator('.tstep', { hasText: '+' }).isEnabled()) await grip.locator('.tstep', { hasText: '+' }).click();
-    assert.equal(await grip.locator('.tval').innerText(), '100', 'capped at 100');
+    assert.deepEqual(await page.locator('.tune .tname b').allInnerTexts(), ['Engine', 'Suspension', 'Speed', 'Grip', 'Load weight']);
+    const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tstep', { hasText: '+' });
+    for (let i = 0; i < 2; i++) await plus(engine).click();
+    assert.equal(await engine.locator('.tval').innerText(), '50', 'two steps of 25');
+    assert.equal(await engine.locator('.tbar').getAttribute('aria-valuenow'), '50');
+    for (const name of ['Suspension', 'Speed', 'Grip', 'Load weight']) {
+      const row = page.locator('.tune', { hasText: name });
+      for (let i = 0; i < 4; i++) await plus(row).click();
+      assert.equal(await row.locator('.tval').innerText(), '100', `${name}: four taps to 100`);
+      assert(await plus(row).isDisabled(), `${name} stops at 100`);
+    }
     await capture('00b-tuning');
     await page.click('#startBtn'); await page.waitForTimeout(500);
-    assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 2) < 1e-9, 'the run uses the tuned engine (level 50 = x2)');
+    assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
     assert(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.sim.car.id].grip === 100), 'levels saved per car');
     await page.evaluate(() => localStorage.removeItem('hh_tuning_levels'));
     await capture('01-desktop');
@@ -209,8 +213,10 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     });
     await page.waitForFunction(() => document.getElementById('surfChip').classList.contains('bog'));
     assert(await page.evaluate(() => __haul.renderer.mudTracks > 0.5), 'moving tires leave mud ruts');
-    const rutX = await page.evaluate(() => __haul.sim.trail.heavyMud[0] + 0.5);
-    assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'the ruts are deep in the bog');
+    // the deepest rut the scout left around the pit
+    const rutX = await page.evaluate(() => { const s = __haul.sim, c = s.trail.heavyMud[0]; let best = c; for (let x = c - 12; x < c + 20; x += 0.25) if (s.ground.depthAt(x) > s.ground.depthAt(best)) best = x; return best; });
+    const rut0 = await page.evaluate(x => __haul.sim.ground.depthAt(x), rutX);
+    assert(rut0 > 0.03, `the tires pressed a rut into the bog (${rut0.toFixed(3)} m)`);
     await capture('08-bog-splash');
     await page.evaluate(() => {
       const s = __haul.sim, b = s.bridges[0]; s.respawn((b.x0 + b.x1) / 2);
@@ -218,11 +224,18 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     });
     await page.waitForFunction(() => __haul.sim.st.surf === 'wood');
     await capture('09-swing-bridge');
-    // a minute later and somewhere else, the ruts are still where they were left
+    // a minute later and somewhere else, the ruts are still there, slowly healing
     await page.evaluate(() => { for (let i = 0; i < 120 * 60; i++) __haul.sim.step(1 / 120); for (let f = 0; f < 30; f++) __haul.renderer.draw(1 / 60, true); });
-    assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
+    const rut1 = await page.evaluate(x => __haul.sim.ground.depthAt(x), rutX);
+    assert(rut1 > rut0 * 0.8 && rut1 < rut0, `ruts stay and heal slowly (${rut0.toFixed(3)} -> ${rut1.toFixed(3)} m)`);
+    // a new run, the garage and a reload all keep them
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
-    assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
+    assert(await page.evaluate(x => __haul.sim.ground.depthAt(x), rutX) > rut1 * 0.99, 'a new run keeps the ruts');
+    await page.evaluate(() => __haul.saveRuts());
+    await page.reload({ waitUntil: 'networkidle' }); await ready();
+    const rut2 = await page.evaluate(x => __haul.sim.ground.depthAt(x), rutX);
+    assert(Math.abs(rut2 - rut1) < 0.01, `and so does reloading the game (${rut2.toFixed(3)} m)`);
+    await page.click('#startBtn');
     // the Ice Breaker draws as one image, its orca and tank part of the body art
     await page.evaluate(() => { __haul.garage.select('ice-breaker-19'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
