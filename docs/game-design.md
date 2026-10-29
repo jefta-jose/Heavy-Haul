@@ -58,7 +58,7 @@ Burn follows engine power. 4×4 adds about 8%. Climbing multiplies it (up to ×4
 and so does the load (`1 + 1.5 × load / empty mass`). The burn is in litres and comes out of the car's
 own tank (`drivetrain.fuelLitres`), so a bigger tank lasts longer. The card's `stats.fuelEfficiency`
 scales it: 70 is the reference, and every 40 points halves or doubles the burn (90 burns ×0.71, 45 burns
-×1.54). Refill at the station or with a fuel truck.
+×1.54). The only way to refill is the fuel truck: there are no fuel stations on the trail.
 
 ## Service trucks
 

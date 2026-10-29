@@ -6,6 +6,7 @@
   "drive": "8×8",
   "wheelType": "flotation",
   "status": "playable",
+  "audio": { "engine": "heavy-duty" },
   "tagline": "Off-road 8×8 recovery truck that never gets stuck",
   "description": "An olive 8×8 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {

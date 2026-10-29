@@ -93,6 +93,7 @@ Browser captures are written to `output/captures/` for visual review.
 | Framing | `FRAMING` in `src/game/view.js` (`front`, ground line, default `zoom`) |
 | Zoom per car | `camera.zoom` in the car's `car.json` (1.5 = 17.7 m of trail across the screen; higher shows more) |
 | Take-off and cruise | `drivetrain` in `car.json`: `converterBoost`, `driveRamp`, `throttleRise`, `gears` |
+| Power, speed, grip, weight of one car | its own `car.json` only: `drivetrain.torqueScale`, `gears`, `governedRpm`, `physics.tireGrip`, `physics.mass`, `physics.load.massT`; roster numbers follow automatically (`tools/lib/specs.js`) |
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink` |
 | Suspension | `physics.suspension` in `car.json` |
 | Trail shape | `trail` in `season.json`; obstacle generation in `terrain.js` / `obstacles.js` |

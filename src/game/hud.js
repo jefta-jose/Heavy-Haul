@@ -1,5 +1,5 @@
 // Everything drawn in HTML over the canvas: the status panel (fuel, fuel use, cargo), the trail
-// progress map (checkpoints, fuel station, mud pits, bridges, depot, the trucks), the trip line,
+// progress map (checkpoints, mud pits, bridges, depot, the trucks), the trip line,
 // coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
 // message overlays.
 
@@ -21,8 +21,6 @@ export function createHud({ sim, season }) {
   };
   for (const x of trail.heavyMud ?? []) mark('pit', x - 10, 'Deep mud', 20);
   for (const b of trail.bridges ?? []) mark('bridge', b.x0, 'Bridge', b.x1 - b.x0);
-  const fuelMark = mark('station', trail.fuel, `Fuel station · ${Math.round(trail.fuel)} m`);
-  fuelMark.innerHTML = document.querySelector('.srow svg')?.outerHTML ?? '';
   const checkpoints = trail.checkpoints.filter(c => c > trail.start && c < trail.depot).map(c => ({ x: c, el: mark('cp', c, `Checkpoint · ${Math.round(c)} m`) }));
   mark('depot', trail.depot, `Depot · ${Math.round(trail.depot)} m`);
   const vehMarks = new Map();   // vehicle -> marker, rebuilt as service trucks are called
@@ -48,6 +46,7 @@ export function createHud({ sim, season }) {
   function setCar(car) {
     document.title = `Heavy Haul · ${car.name} ${car.number ?? ''}`.trim();
     $('cardTitle').textContent = `${car.number ? car.number + '. ' : ''}${car.name}`;
+    $('carName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
     $('cardTagline').textContent = car.tagline;
     $('cardStats').innerHTML = '';
     // the cargo row names the load and its weight
@@ -135,7 +134,7 @@ export function createHud({ sim, season }) {
     for (const c of checkpoints) c.el.classList.toggle('passed', (run?.checkpoint ?? trail.start) >= c.x);
     els.distTxt.textContent = km(left);
     els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
-    const ahead = [...checkpoints.map(c => [c.x, 'Checkpoint']), [trail.fuel, 'Fuel station'], [trail.depot, 'Depot']].filter(([x]) => x > mx + 2).sort((a, b) => a[0] - b[0])[0];
+    const ahead = [...checkpoints.map(c => [c.x, 'Checkpoint']), [trail.depot, 'Depot']].filter(([x]) => x > mx + 2).sort((a, b) => a[0] - b[0])[0];
     els.nextTxt.textContent = ahead ? `${ahead[1]} in ${km(ahead[0] - mx)}` : 'At the depot';
     els.coinTxt.textContent = coins.toLocaleString('en-US');
     const s = sim.st.surf;

@@ -42,7 +42,7 @@ export function createTerrain(trail, surfaces) {
   }
 
   // places kept calm so the start, fuel stop and depot stay drivable
-  const CALM = [[trail.start - 20, trail.start + 14], [trail.fuel - 14, trail.fuel + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? [])];
+  const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? [])];
   const calm = x => { let c = 1; for (const [a, b] of CALM) c = Math.min(c, 1 - sm((x - a + 6) / 6) * sm((b + 6 - x) / 6)); return c; };
   const nearCalm = (x, pad) => CALM.some(([a, b]) => x > a - pad && x < b + pad);
 

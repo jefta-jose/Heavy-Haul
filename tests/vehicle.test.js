@@ -126,8 +126,12 @@ test('service trucks never get stuck: each one drives through a heavy-mud pit un
 
 test('a service truck is the most powerful of its class but not the fastest', () => {
   const roster = content.roster;
+  // planned cars only carry paper numbers: compare with the playable ones, whose roster specs are
+  // worked out from their car.json when content loads
+  const playable = new Set(content.cars.map(c => c.id));
   for (const svc of roster.service) {
-    const own = roster.cars.filter(c => c.class === svc.class);
+    const own = roster.cars.filter(c => c.class === svc.class && playable.has(c.id));
+    if (!own.length) continue;
     assert(svc.powerKw > Math.max(...own.map(c => c.powerKw)), `${svc.name} out-powers every ${svc.class} car`);
     assert(svc.torqueNm > Math.max(...own.map(c => c.torqueNm)), `${svc.name} out-pulls every ${svc.class} car`);
     assert(svc.topSpeedKmh < Math.max(...own.map(c => c.topSpeedKmh)), `${svc.name} is not the fastest ${svc.class} vehicle`);

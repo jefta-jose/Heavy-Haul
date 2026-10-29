@@ -100,7 +100,9 @@ from its `car.json` registration: check it before playing. Long rigs need a high
 `assets/cars/cars.json` (5 classes ordered weakest to strongest, tiers within, each car's `load`;
 `service` trucks by role and size; `wheel-types.json`) and `assets/hud/hud.json`. After editing a
 roster run `npm run scaffold` (`-- --refresh` rewrites README-only folders, `-- --prune` drops
-folders of removed entries). When something becomes playable, set `status` both in its own JSON and
+folders of removed entries). A playable car's spec numbers (`massT`, `powerKw`, `torqueNm`,
+`topSpeedKmh`, `fuelL`, `tireDiameterM`, load mass) are worked out from its `car.json` whenever content loads
+(`tools/lib/specs.js`); the roster's own numbers only count for planned cars. When something becomes playable, set `status` both in its own JSON and
 in the roster. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
 
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
@@ -109,7 +111,7 @@ archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 ## Hook up a season
 
 Write `season.json` from the swamp-summer template: the trail (keys, zones, waters, heavy-mud pits,
-checkpoints, fuel, depot), surfaces, the art map, the bank contact row, lane materials and the
+checkpoints, depot; no fuel stations: refuelling is by fuel truck only), surfaces, the art map, the bank contact row, lane materials and the
 `ambience` zones (forest, swamp, frogs beds and crow calls, by trail position). Trace
 `rock-hulls.json` with `tools/art/trace-hulls.py`. Run `npm run test:route` with `HAUL_SEASON=<id>`
 and adjust the trail until the reference car clears it.

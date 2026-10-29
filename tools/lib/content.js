@@ -2,6 +2,7 @@
 // service trucks, HUD art and the season.
 import fs from 'node:fs';
 import path from 'node:path';
+import { deriveSpecs } from './specs.js';
 
 export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
 const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
@@ -9,13 +10,22 @@ const exists = f => fs.existsSync(path.join(ROOT, f));
 const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' };
 const dataUri = f => `data:${MIME[path.extname(f)]};base64,` + fs.readFileSync(path.join(ROOT, f)).toString('base64');
 
-// a roster entry is playable when its definition file exists and says so; it carries its roster
-// spec (class, engine power, weight) so sound and other derived settings can use it
+// a roster entry is playable when its definition file exists and says so. Its spec numbers
+// (weight, power, torque, top speed, tank, tires, load) are then worked out from that car.json
+// (specs.js) and written over the roster entry, so the garage, the sound and the tests always see
+// what the physics drives with; the car carries them as `spec`
 function playable(dir, entries, file) {
   const out = [];
-  for (const { id, class: cls, powerKw, torqueNm, massT } of entries) {
-    const p = `${dir}/${id}/${file}`;
-    if (exists(p)) { const d = readJson(p); if (d.status === 'playable') out.push({ ...d, spec: { class: cls, powerKw, torqueNm, massT }, dir: `${dir}/${id}` }); }
+  for (const e of entries) {
+    const p = `${dir}/${e.id}/${file}`;
+    if (!exists(p)) continue;
+    const d = readJson(p);
+    if (d.status !== 'playable') continue;
+    const { loadMassT, fuelL, ...specs } = deriveSpecs(d);
+    Object.assign(e, specs);
+    if (!e.role) e.fuelL = fuelL;   // a service truck's fuelL is what a fuel truck carries for others
+    if (loadMassT != null && e.load) e.load.massT = loadMassT;
+    out.push({ ...d, spec: { class: e.class, powerKw: e.powerKw, torqueNm: e.torqueNm, massT: e.massT }, dir: `${dir}/${e.id}` });
   }
   return out;
 }
