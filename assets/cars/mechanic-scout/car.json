@@ -20,63 +20,63 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v1.png"
+      "source": "source/vehicle-master-v2.png"
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v2.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v1.png"
+      "source": "source/wheel-v2.png"
     }
   },
   "rig": {
     "bodyOrigin": [
-      894,
-      660
+      892,
+      674
     ],
-    "pixelsPerMetre": 255.1,
+    "pixelsPerMetre": 248.7,
     "axles": [
-      2.462,
-      -1.109
+      2.384,
+      -1.785
     ],
     "wheelY": [
-      0.008,
+      0.0,
       -0.004
     ],
-    "radius": 0.608,
+    "radius": 0.692,
     "wheelPivot": [
-      626,
-      623
+      628,
+      630
     ],
-    "wheelArtRadius": 596,
+    "wheelArtRadius": 593,
     "farWheelOffset": [
-      -0.22,
-      0.1
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
-        1522,
-        658,
-        159
+        1485,
+        674,
+        176
       ],
       [
-        611,
-        661,
-        159
+        448,
+        675,
+        176
       ]
     ],
     "exhaust": [
-      -3.152,
-      0.392
+      -2.863,
+      0.137
     ],
     "winch": [
-      3.299,
-      0.365
+      3.298,
+      0.571
     ],
-    "nose": 3.399,
-    "towRear": -3.403
+    "nose": 3.398,
+    "towRear": -3.345
   },
   "camera": {
     "zoom": 1.6
@@ -85,54 +85,54 @@
     "mass": 4700,
     "centreOfMass": [
       0.0,
-      0.73
+      0.83
     ],
     "size": [
       6.8,
       2.3
     ],
-    "wheelMass": 183,
+    "wheelMass": 237,
     "bodyBoxes": [
       [
-        -3.403,
-        -2.27,
-        0.345,
-        2.266,
+        -3.402,
+        -2.268,
+        0.213,
+        1.929,
         1
       ],
       [
-        -2.27,
-        -1.137,
-        0.002,
-        2.082,
+        -2.268,
+        -1.134,
+        -0.04,
+        1.866,
         0.6
       ],
       [
-        -1.137,
+        -1.134,
         0.0,
-        -0.029,
-        1.952,
+        0.06,
+        1.6,
         0.6
       ],
       [
         0.0,
-        1.133,
-        0.071,
-        2.215,
+        1.134,
+        0.076,
+        2.296,
         0.6
       ],
       [
-        1.133,
-        2.266,
-        -0.02,
-        1.845,
+        1.134,
+        2.268,
+        -0.04,
+        2.162,
         0.6
       ],
       [
-        2.266,
-        3.403,
-        -0.05,
-        1.298,
+        2.268,
+        3.402,
+        0.323,
+        1.267,
         1
       ]
     ],
@@ -180,7 +180,7 @@
         0
       ]
     ],
-    "torqueScale": 0.3,
+    "torqueScale": 0.342,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -193,11 +193,11 @@
     "engineBrake": 65,
     "exhaustBrake": 84,
     "gears": {
-      "H": 11.7,
+      "H": 13.3,
       "L": 46.2,
       "R": 36.2
     },
-    "brakeTorque": 3353,
+    "brakeTorque": 3816,
     "openDiffGrip": 1.0,
     "fuelLitres": 200
   },

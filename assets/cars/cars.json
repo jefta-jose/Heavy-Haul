@@ -3772,14 +3772,14 @@
    "topSpeedKmh": 100,
    "fuelL": 200,
    "wheelType": "mud-terrain",
-   "tireDiameterM": 1.22,
+   "tireDiameterM": 1.38,
    "towMassT": 9,
    "art": {
     "body": "mustard yellow 4×4 recovery pickup",
     "load": "a small folding tow crane and wheel-lift in the bed",
     "equipment": "heavy rear winch drum with hook, tool chests, spare wheel, amber beacon",
     "finish": "mud-caked lower panels",
-    "tires": "1.22 m mud-terrain tires: aggressive open-shoulder lugs"
+    "tires": "1.38 m mud-terrain tires: aggressive open-shoulder lugs"
    }
   },
   {
