@@ -238,7 +238,9 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .garage-art { height: 120px; flex: none; background: center / contain no-repeat; }
 @media (max-width: 760px) { .garage-panel { grid-template-columns: 1fr; } .garage-list, .garage-detail { max-height: none; } }
 /* Service call action */
-.action { position: absolute; left: 50%; bottom: 150px; transform: translateX(-50%); pointer-events: auto; font-size: 22px; padding: 12px 26px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+.dash { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
+.action { pointer-events: auto; font-size: 22px; padding: 12px 26px; white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+@media (max-width: 600px), (max-height: 520px) { .action { font-size: 16px; padding: 8px 16px; } .dash { gap: 6px; } }
 @media (max-height: 820px) { .garage-detail .keys { display: none; } .garage-detail p { font-size: 13px; } }
 .gtile b { line-height: 1.05; }
 

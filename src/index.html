@@ -38,14 +38,17 @@
       <p class="card-biomes" id="cardBiomes"></p>
     </div>
     <div class="toast" id="toast"></div>
-    <button class="btn primary action" id="actionBtn" hidden></button>
     <div class="bottom">
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"><span>BRAKE</span></div>
         <button class="winch hbrake" id="handbrakeBtn" aria-label="Handbrake on or off (B)" aria-pressed="false" title="Handbrake on / off (B)"><!--icon:handbrake-->PARK</button>
         <button class="winch engine on" id="engineBtn" aria-label="Engine on or off (I)" aria-pressed="true" title="Engine on / off (I)"><!--icon:engine-->ENGINE</button>
       </div>
-      <canvas id="gauges" aria-hidden="true"></canvas>
+      <!-- the action button (refuel, ...) rides on top of the gauges, whatever size they are -->
+      <div class="dash">
+        <button class="btn primary action" id="actionBtn" hidden></button>
+        <canvas id="gauges" aria-hidden="true"></canvas>
+      </div>
       <div class="side">
         <button class="winch" id="winch" aria-label="Winch: hook or unhook" aria-pressed="false"><!--icon:winch-->WINCH</button>
         <div class="drive">

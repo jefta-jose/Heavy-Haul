@@ -24,6 +24,8 @@ const CROSS_CLASS_PULL = 0.4;
 // a never-stuck tire grips mud and creek beds at least this well, with no suction or patchiness
 const NEVER_STUCK_MU = 0.85;
 
+const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0;
+
 export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);
   const trail = season.trail, surfaces = season.surfaces;
@@ -188,7 +190,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function spawnParts(v, x) { v.parts = buildVehicle({ pl, world, terrain: { ...terrain, visH: terrain.driveH }, car: v.car, x0: x, tireData: v.tireData }); }
   function removeParts(v) { v.parts.destroy(); }
   // the card's fuel-efficiency stat (0..100): 70 is the reference, every 40 points halves or doubles the burn
-  const efficiencyBurn = car => 2 ** ((70 - (car.stats?.fuelEfficiency ?? 70)) / 40);
+  const efficiencyBurn = car => GLOBAL_FUEL_BURN_MULTIPLIER * 2 ** ((70 - (car.stats?.fuelEfficiency ?? 70)) / 40);
   const loadMass = v => (v.car.physics.load?.massT ?? 0) * 1000;
   const vehicleMass = v => v.car.physics.mass + v.car.physics.wheelMass * v.parts.wheels.length;
 
