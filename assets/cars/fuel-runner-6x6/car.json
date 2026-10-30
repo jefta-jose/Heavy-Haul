@@ -6,6 +6,9 @@
   "drive": "6×6",
   "wheelType": "mud-terrain",
   "status": "playable",
+  "audio": {
+    "engine": "heavy-duty"
+  },
   "tagline": "Heavy-duty fuel tanker that never gets stuck",
   "description": "A green 6×6 off-road fuel tanker for the heavy-duty class. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
   "stats": {
@@ -91,7 +94,7 @@
   "physics": {
     "mass": 15040,
     "centreOfMass": [
-      0.0,
+      0,
       1.06
     ],
     "size": [
@@ -123,13 +126,13 @@
       ],
       [
         -1.255,
-        0.0,
+        0,
         -0.011,
         2.92,
         0.6
       ],
       [
-        0.0,
+        0,
         1.249,
         0.105,
         3.068,
@@ -200,7 +203,7 @@
         0
       ]
     ],
-    "torqueScale": 0.765,
+    "torqueScale": 1.45,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -213,12 +216,12 @@
     "engineBrake": 208,
     "exhaustBrake": 267,
     "gears": {
-      "H": 17.0,
+      "H": 17,
       "L": 46.2,
       "R": 36.2
     },
     "brakeTorque": 15601,
-    "openDiffGrip": 1.0,
+    "openDiffGrip": 1,
     "fuelLitres": 10000
   },
   "role": "fuel",

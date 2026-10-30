@@ -1229,7 +1229,8 @@
       ],
       "heavySink": 0.22,
       "heavyDrag": 0.35,
-      "heavyGrip": 0.6
+      "heavyGrip": 0.6,
+      "bogRefT": 2.5
     },
     "creek": {
       "mu": 0.55,

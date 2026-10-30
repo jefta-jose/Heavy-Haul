@@ -1,0 +1,229 @@
+{
+  "id": "interstate-1",
+  "name": "Interstate",
+  "number": 1,
+  "class": "highway",
+  "drive": "4×2",
+  "wheelType": "road",
+  "status": "playable",
+  "tagline": "Burnt orange highway tractor with its semi-trailer",
+  "description": "A burnt orange highway tractor with its semi-trailer, carrying a plain box semi-trailer.",
+  "stats": {
+    "power": 20,
+    "grip": 69,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1143,
+      644
+    ],
+    "pixelsPerMetre": 150,
+    "axles": [
+      5.787,
+      1.153,
+      -4.473,
+      -5.787
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.6,
+    "wheelPivot": [
+      798,
+      790
+    ],
+    "wheelArtRadius": 736,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2011,
+        644,
+        81
+      ],
+      [
+        1316,
+        644,
+        85
+      ],
+      [
+        472,
+        644,
+        83
+      ],
+      [
+        275,
+        644,
+        83
+      ]
+    ],
+    "exhaust": [
+      4.216,
+      2.538
+    ],
+    "winch": [
+      6.927,
+      0.42
+    ],
+    "nose": 7.027
+  },
+  "camera": {
+    "zoom": 1.9
+  },
+  "physics": {
+    "mass": 7000,
+    "centreOfMass": [
+      2.459,
+      0.95
+    ],
+    "size": [
+      13.933,
+      3.173
+    ],
+    "wheelMass": 130,
+    "bodyBoxes": [
+      [
+        -6.907,
+        7.027,
+        0.6,
+        1.1,
+        1
+      ],
+      [
+        -6.907,
+        -4.584,
+        1.1,
+        3.167,
+        0.4
+      ],
+      [
+        -4.584,
+        -2.262,
+        1.1,
+        3.167,
+        0.4
+      ],
+      [
+        -2.262,
+        0.06,
+        1.1,
+        3.167,
+        0.4
+      ],
+      [
+        0.06,
+        2.382,
+        1.1,
+        3.167,
+        0.4
+      ],
+      [
+        2.382,
+        4.704,
+        1.1,
+        3.073,
+        0.4
+      ],
+      [
+        4.704,
+        7.027,
+        1.1,
+        2.34,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 6,
+      "centreOfMass": [
+        -3.56,
+        2.54
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.608,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 7.8,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 8754,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  }
+}

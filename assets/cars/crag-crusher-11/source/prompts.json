@@ -1,0 +1,48 @@
+{
+  "master": {
+    "prompt": "Safety orange powerful all-terrain 6x6 cargo truck, central tire inflation lines, thick dried mud. Scorched believable crew space capsule secured to cradle on deck with chains. Exactly THREE axles. All THREE tires identical huge 1.70m flotation balloon tires, low pressure with wide paddle lugs, equal diameter. Entire capsule within generous margins. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Wide landscape 2200x1000 canvas. Capsule in secure cradle above deck, same painted believable style. Tires huge rounded balloon flotation rubber with wide paddle lugs."
+  },
+  "body": {
+    "prompt": "Edit supplied Crag Crusher master. Remove all THREE road flotation tires and rims, transparent empty wheel regions. Keep capsule, cradle, chains, cab, deck, chassis, suspension and central inflation plumbing unchanged. Exact same canvas dimensions, position, scale and camera; do not move or redesign anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One matching Crag Crusher road wheel: huge 1.70m flotation balloon tire with wide paddle lugs, weathered orange steel rim, broad low pressure balloon rubber, wide paddle lugs with thick dried mud, orange bead ring and dark bolted central hub matching master. Perfect circle with concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal margins. Soft even ambient light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.181,
+        0.733,
+        0.1469
+      ],
+      [
+        0.505,
+        0.733,
+        0.1469
+      ],
+      [
+        0.833,
+        0.733,
+        0.1469
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      1989,
+      976
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 3
+  }
+}

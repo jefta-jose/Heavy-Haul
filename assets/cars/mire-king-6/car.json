@@ -1,0 +1,209 @@
+{
+  "id": "mire-king-6",
+  "name": "Mire King",
+  "number": 6,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Expedition 6×6 carrying an elephant",
+  "description": "A cobalt blue all-terrain 6×6 with an expedition box, ladders and roof lights, carrying a calm elephant in a tall open crate.",
+  "stats": {
+    "power": 62,
+    "grip": 88,
+    "fuelEfficiency": 55
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      896,
+      686
+    ],
+    "pixelsPerMetre": 174.834,
+    "axles": [
+      2.949,
+      -0.077,
+      -2.949
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.755,
+    "wheelPivot": [
+      628,
+      623
+    ],
+    "wheelArtRadius": 594,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1412,
+        686,
+        124
+      ],
+      [
+        883,
+        686,
+        122
+      ],
+      [
+        381,
+        686,
+        124
+      ]
+    ],
+    "exhaust": [
+      2.35,
+      2.57
+    ],
+    "winch": [
+      4.75,
+      0.5
+    ],
+    "nose": 4.813
+  },
+  "camera": {
+    "zoom": 2.4
+  },
+  "physics": {
+    "mass": 12500,
+    "centreOfMass": [
+      0.6,
+      0.9
+    ],
+    "size": [
+      9.729,
+      3.643
+    ],
+    "wheelMass": 320,
+    "bodyBoxes": [
+      [
+        -4.916,
+        4.813,
+        0.755,
+        1.255,
+        1
+      ],
+      [
+        -4.916,
+        -2.484,
+        1.255,
+        3.123,
+        0.4
+      ],
+      [
+        -2.484,
+        -0.051,
+        1.255,
+        3.586,
+        0.4
+      ],
+      [
+        -0.051,
+        2.381,
+        1.255,
+        2.728,
+        0.4
+      ],
+      [
+        2.381,
+        4.813,
+        1.255,
+        2.625,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 5.5,
+      "centreOfMass": [
+        -2.84,
+        2.04
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.782,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 213,
+    "exhaustBrake": 275,
+    "gears": {
+      "H": 13,
+      "L": 39.8,
+      "R": 31.2
+    },
+    "brakeTorque": 20238,
+    "openDiffGrip": 1,
+    "fuelLitres": 405
+  }
+}

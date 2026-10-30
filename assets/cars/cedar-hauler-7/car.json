@@ -1,0 +1,251 @@
+{
+  "id": "cedar-hauler-7",
+  "name": "Cedar Hauler",
+  "number": 7,
+  "class": "heavy-duty",
+  "drive": "6×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Log truck with a pole trailer of long cedar",
+  "description": "An olive 6×4 log truck with a loader crane behind the cab, hauling long cedar logs chained to bunks on the truck and its pole trailer.",
+  "stats": {
+    "power": 64,
+    "grip": 78,
+    "fuelEfficiency": 58
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1108,
+      505
+    ],
+    "pixelsPerMetre": 146.218,
+    "axles": [
+      6.042,
+      1.611,
+      0.291,
+      -4.729,
+      -6.042
+    ],
+    "wheelY": [
+      0.068,
+      0,
+      0,
+      0,
+      0
+    ],
+    "wheelScale": [
+      1.14,
+      1,
+      1,
+      1,
+      1
+    ],
+    "radius": 0.595,
+    "wheelPivot": [
+      626,
+      622
+    ],
+    "wheelArtRadius": 600,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1991,
+        495,
+        101
+      ],
+      [
+        1343,
+        505,
+        89
+      ],
+      [
+        1150,
+        505,
+        89
+      ],
+      [
+        416,
+        505,
+        89
+      ],
+      [
+        224,
+        505,
+        89
+      ]
+    ],
+    "exhaust": [
+      4.05,
+      3.18
+    ],
+    "winch": [
+      7,
+      0.4
+    ],
+    "nose": 7.02
+  },
+  "camera": {
+    "zoom": 3.2
+  },
+  "physics": {
+    "mass": 13400,
+    "centreOfMass": [
+      1,
+      0.9
+    ],
+    "size": [
+      14.43,
+      2.708
+    ],
+    "wheelMass": 220,
+    "bodyBoxes": [
+      [
+        -7.41,
+        7.02,
+        0.595,
+        1.095,
+        1
+      ],
+      [
+        -7.41,
+        -5.349,
+        1.095,
+        1.976,
+        0.4
+      ],
+      [
+        -5.349,
+        -3.287,
+        1.095,
+        1.956,
+        0.4
+      ],
+      [
+        -3.287,
+        -1.226,
+        1.095,
+        1.929,
+        0.4
+      ],
+      [
+        -1.226,
+        0.836,
+        1.095,
+        1.935,
+        0.4
+      ],
+      [
+        0.836,
+        2.897,
+        1.095,
+        2.031,
+        0.4
+      ],
+      [
+        2.897,
+        4.959,
+        1.095,
+        2.571,
+        0.4
+      ],
+      [
+        4.959,
+        7.02,
+        1.095,
+        2.175,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 16,
+      "centreOfMass": [
+        -1.42,
+        2.22
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.322,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 360,
+    "exhaustBrake": 464,
+    "gears": {
+      "H": 8.9,
+      "L": 31.4,
+      "R": 24.6
+    },
+    "brakeTorque": 15435,
+    "openDiffGrip": 1,
+    "fuelLitres": 360
+  }
+}

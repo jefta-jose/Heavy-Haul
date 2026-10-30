@@ -1,0 +1,258 @@
+{
+  "id": "prime-mover-1",
+  "name": "Prime Mover",
+  "number": 1,
+  "class": "heavy",
+  "drive": "6×4",
+  "wheelType": "road",
+  "status": "playable",
+  "tagline": "Gunmetal grey heavy-haul prime mover with a multi-axle lowbed",
+  "description": "A gunmetal grey heavy-haul prime mover with a multi-axle lowbed, carrying a yellow tracked excavator.",
+  "stats": {
+    "power": 20,
+    "grip": 69,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1130,
+      603
+    ],
+    "pixelsPerMetre": 91.429,
+    "axles": [
+      10.232,
+      5.868,
+      4.315,
+      -7.323,
+      -8.788,
+      -10.232
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      798,
+      800
+    ],
+    "wheelArtRadius": 738,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2065,
+        603,
+        74
+      ],
+      [
+        1666,
+        603,
+        73
+      ],
+      [
+        1524,
+        603,
+        72
+      ],
+      [
+        460,
+        603,
+        70
+      ],
+      [
+        326,
+        603,
+        70
+      ],
+      [
+        194,
+        603,
+        70
+      ]
+    ],
+    "exhaust": [
+      6.822,
+      3.911
+    ],
+    "winch": [
+      11.27,
+      0.49
+    ],
+    "nose": 11.37
+  },
+  "camera": {
+    "zoom": 3.1
+  },
+  "physics": {
+    "mass": 20000,
+    "centreOfMass": [
+      3.979,
+      1.05
+    ],
+    "size": [
+      22.673,
+      4.889
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -11.304,
+        11.37,
+        0.7,
+        1.2,
+        1
+      ],
+      [
+        -6.769,
+        -4.502,
+        1.2,
+        4.364,
+        0.4
+      ],
+      [
+        -4.502,
+        -2.235,
+        1.2,
+        4.408,
+        0.4
+      ],
+      [
+        -2.235,
+        0.033,
+        1.2,
+        4.867,
+        0.4
+      ],
+      [
+        0.033,
+        2.3,
+        1.2,
+        4.441,
+        0.4
+      ],
+      [
+        2.3,
+        4.567,
+        1.2,
+        3.752,
+        0.4
+      ],
+      [
+        4.567,
+        6.835,
+        1.2,
+        1.859,
+        0.4
+      ],
+      [
+        6.835,
+        9.102,
+        1.2,
+        3.522,
+        0.4
+      ],
+      [
+        9.102,
+        11.37,
+        1.2,
+        2.078,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 35,
+      "centreOfMass": [
+        -4.747,
+        3.598
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.804,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 763,
+    "exhaustBrake": 984,
+    "gears": {
+      "H": 15.6,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 28241,
+    "openDiffGrip": 1,
+    "fuelLitres": 600
+  }
+}

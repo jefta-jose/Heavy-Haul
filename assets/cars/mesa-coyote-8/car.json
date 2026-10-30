@@ -43,8 +43,8 @@
       -1.591
     ],
     "wheelY": [
-      0.0,
-      0.0
+      0,
+      0
     ],
     "radius": 0.675,
     "wheelPivot": [
@@ -88,7 +88,7 @@
       0.55
     ],
     "size": [
-      6.0,
+      6,
       2.2
     ],
     "wheelMass": 150,
@@ -179,7 +179,7 @@
         0
       ]
     ],
-    "torqueScale": 0.165,
+    "torqueScale": 0.218,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -189,15 +189,15 @@
       "maxSlipRpm": 700
     },
     "throttleRise": 1.8,
-    "engineBrake": 45,
-    "exhaustBrake": 58,
+    "engineBrake": 59,
+    "exhaustBrake": 76,
     "gears": {
       "H": 11.1,
       "L": 35.6,
       "R": 27.9
     },
     "brakeTorque": 2457,
-    "openDiffGrip": 1.0,
+    "openDiffGrip": 1,
     "fuelLitres": 100
   },
   "load": {

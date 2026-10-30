@@ -1,0 +1,48 @@
+{
+  "master": {
+    "prompt": "Rust red all-terrain 6x6 cargo truck, expedition box with ladders and lights, carrying crates, fuel bladders and spare wheels secured under canvas on deck. Thick dried mud. Exactly THREE axles, identical 1.27m mud-terrain tires deep chunky lugs and open voids. Spare wheels above deck are cargo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Landscape canvas 2200x1000. Canvas partly covers secured cargo but identifiable crates, fuel bladders and spare wheels visible."
+  },
+  "body": {
+    "prompt": "Edit supplied Mudlark master. Remove all THREE ROAD tires and rims below deck, leaving transparent empty wheel arches. Keep BOTH spare wheels above deck, crates, bladders, canvas, straps, expedition box, ladders, lights, cab, chassis and suspension unchanged. Same exact canvas size, position, scale and camera, no redesign. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One matching Mudlark road wheel: 1.27m mud-terrain tire with deep chunky open lugs, dried mud, dark weathered steel bolted rim as on master. Perfect circular silhouette with concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal margins. Soft even ambient light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.229,
+        0.764,
+        0.1222
+      ],
+      [
+        0.451,
+        0.764,
+        0.1222
+      ],
+      [
+        0.81,
+        0.764,
+        0.1222
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      1990,
+      976
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 3
+  }
+}

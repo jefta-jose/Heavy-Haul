@@ -1,0 +1,89 @@
+{
+  "master": {
+    "prompt": "Reference role: EIGHT axle layout and painted game style. Create Hercules from this layout. Preserve exactly ALL EIGHT ROAD wheels and their layout: four trailer, four tractor including twin front steering. Replace locomotive cargo with a horizontal WHITE civilian space launch rocket stage secured in red cradles and straps. Change tractor and trailer paint to signal RED with grime/chips; add roll cage, beacons, large bullbar. All eight tires are identical giant 2.56m mining tires with deep chevron tread; enlarge entire rig proportionally as needed. Keep tractor four axles and trailer four axles. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Very wide canvas with generous margins.",
+    "reference": "assets/cars/atlas-8/source/vehicle-master-v1.png"
+  },
+  "body": {
+    "prompt": "Edit supplied Hercules master. Remove ALL EIGHT ROAD tires and rims below deck: FOUR trailer and FOUR prime mover including both front steering wheels. Transparent empty wheel arches. Keep white civilian rocket stage, cradles, straps, chains, red cab, roll cage, beacons, bullbar, lowbed, chassis and suspension unchanged. Exact same canvas dimensions, position, scale and camera. Do not move or redesign anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One matching Hercules wheel: giant 2.56m charcoal mining tire with deep chevron tread, weathered dark silver bolted steel multi-hole rim matching master, grime and light dried mud. Perfect circular silhouette, concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal generous margins. Soft even ambient light for spinning. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.056,
+        0.745,
+        0.0494
+      ],
+      [
+        0.115,
+        0.745,
+        0.0494
+      ],
+      [
+        0.177,
+        0.745,
+        0.0494
+      ],
+      [
+        0.238,
+        0.745,
+        0.0494
+      ],
+      [
+        0.635,
+        0.745,
+        0.0494
+      ],
+      [
+        0.702,
+        0.745,
+        0.0494
+      ],
+      [
+        0.881,
+        0.745,
+        0.0494
+      ],
+      [
+        0.943,
+        0.745,
+        0.0494
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      2296,
+      883
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 8
+  },
+  "rejected_attempts": [
+    {
+      "prompt": "Signal red enormous heavy-haul 8x8 prime mover, roll cage, beacons, giant bull bar, heavy grime and chipped paint; coupled to FOUR-axle lowbed with horizontal white rocket stage strapped in cradles. Exactly EIGHT road axles total: FOUR prime mover axles at right, FOUR lowbed axles at left. ALL EIGHT identical 2.56m giant mining tires taller than a person, deep chevron tread. Trailer must use same giant tires as tractor. Entire rig rocket and cradle one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Extra wide 3600x1000 lowbed composition. Exactly EIGHT equally huge road wheels: FOUR at left trailer rear, TWO behind tractor cab, TWO steering wheels beneath long tractor front at right. Rocket stage perfectly horizontal on trailer cradle. No text on rocket.",
+      "rejection_reason": "Seven road axles: missing second front steering axle"
+    },
+    {
+      "prompt": "Signal red enormous heavy-haul 8x8 prime mover, roll cage, beacons, giant bull bar, heavy grime and chipped paint; coupled to FOUR-axle lowbed with horizontal white rocket stage strapped in cradles. Exactly EIGHT road axles total: FOUR prime mover axles at right, FOUR lowbed axles at left. ALL EIGHT identical 2.56m giant mining tires taller than a person, deep chevron tread. Trailer must use same giant tires as tractor. Entire rig rocket and cradle one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Extra wide 3600x1000 lowbed composition. Exactly EIGHT equally huge road wheels: FOUR at left trailer rear, TWO behind tractor cab, TWO steering wheels beneath long tractor front at right. Rocket stage perfectly horizontal on trailer cradle. No text on rocket. CRITICAL COUNT BEFORE DRAWING: 4 TRAILER wheels at LEFT + 4 TRACTOR wheels at RIGHT = EIGHT. The tractor is an 8x8 with TWO front steering wheels together under an EXTRA LONG cab/bonnet and TWO rear drive wheels behind cab. Show every one of these FOUR truck wheels. Extend the truck bonnet and chassis to fit both steering axles. Do not generate a 3-axle tractor. All EIGHT tires equal enormous diameter, 2.56m, deep mining chevron tread.",
+      "rejection_reason": "Seven road axles: missing second rear tractor axle"
+    },
+    {
+      "prompt": "Paint an engineering side elevation game sprite of a red 8x8 heavy haul tractor towing a 4 axle lowbed carrying horizontal white rocket stage secured in red cradles. EIGHT huge identical mining wheels total. Layout from LEFT to RIGHT: WHEEL 1, WHEEL 2, WHEEL 3, WHEEL 4 under rear trailer; empty lowbed middle; WHEEL 5 and WHEEL 6 tandem under rear of tractor; WHEEL 7 and WHEEL 8 tandem under elongated front hood. Tractor MUST have FOUR wheels, not three. Eight equal tire circles on same horizontal baseline, all rims centered. Giant 2.56m deep chevron mining tires taller than person. Roll cage beacons bullbar, heavy grime chipped red paint. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Extra wide 3600x1000 canvas. Count 8 wheels before finishing.",
+      "rejection_reason": "Six road axles instead of eight"
+    }
+  ],
+  "generation_tool": "built-in image_gen"
+}

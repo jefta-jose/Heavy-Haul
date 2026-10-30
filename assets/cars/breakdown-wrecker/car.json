@@ -6,6 +6,9 @@
   "drive": "6×6",
   "wheelType": "mud-terrain",
   "status": "playable",
+  "audio": {
+    "engine": "heavy-duty"
+  },
   "tagline": "Heavy-duty recovery truck that never gets stuck",
   "description": "A red 6×6 wrecker for the heavy-duty class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
@@ -92,10 +95,10 @@
     "mass": 13100,
     "centreOfMass": [
       -0.3,
-      1.0
+      1
     ],
     "size": [
-      9.0,
+      9,
       3.2
     ],
     "wheelMass": 380,
@@ -194,7 +197,7 @@
         0
       ]
     ],
-    "torqueScale": 0.63,
+    "torqueScale": 1.45,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -212,7 +215,7 @@
       "R": 36.2
     },
     "brakeTorque": 13525,
-    "openDiffGrip": 1.0,
+    "openDiffGrip": 1,
     "fuelLitres": 400
   },
   "role": "breakdown",

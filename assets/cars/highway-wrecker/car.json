@@ -82,8 +82,8 @@
       4.9,
       0.455
     ],
-    "nose": 5.0,
-    "towRear": -5.0
+    "nose": 5,
+    "towRear": -5
   },
   "camera": {
     "zoom": 2.5
@@ -91,7 +91,7 @@
   "physics": {
     "mass": 12220,
     "centreOfMass": [
-      0.0,
+      0,
       0.91
     ],
     "size": [
@@ -101,7 +101,7 @@
     "wheelMass": 285,
     "bodyBoxes": [
       [
-        -5.0,
+        -5,
         -3.75,
         -0.05,
         3.248,
@@ -123,13 +123,13 @@
       ],
       [
         -1.25,
-        0.0,
+        0,
         -0.05,
         2.654,
         0.6
       ],
       [
-        0.0,
+        0,
         1.25,
         -0.011,
         3.139,
@@ -201,7 +201,7 @@
         0
       ]
     ],
-    "torqueScale": 0.534,
+    "torqueScale": 1.6,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -219,7 +219,7 @@
       "R": 36.2
     },
     "brakeTorque": 10883,
-    "openDiffGrip": 1.0,
+    "openDiffGrip": 1,
     "fuelLitres": 500
   },
   "role": "breakdown",

@@ -1,0 +1,63 @@
+{
+  "master": {
+    "prompt": "Signal red highway tractor, aero roof fairing and side skirts, coupled to skeletal semi-trailer carrying faded blue 40ft shipping container. Polished paint with road dust. Exactly SIX axles total: THREE tractor axles (one front steering and rear tandem), THREE trailer axles at far left. Identical 1.11m all-terrain blocky siped tires on every axle. Whole rig one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Very wide 3000x1000 canvas. Exact SIX road wheels: THREE at left trailer, TWO behind cab, ONE front steering at right. All equally sized."
+  },
+  "body": {
+    "prompt": "Edit supplied Crossroads master. Remove ALL SIX road tires and rims on tractor AND trailer, making transparent empty arches. Keep blue container, skeletal trailer, cab, fairing, side skirts, chassis and suspension unchanged. Exact same canvas dimensions, position, scale, camera and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One matching Crossroads road wheel: 1.11m all-terrain tire with blocky siped tread and silver multi-hole rim, road dust. Perfect circular silhouette, concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal margins. Soft even light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.076,
+        0.787,
+        0.052000000000000005
+      ],
+      [
+        0.156,
+        0.787,
+        0.052000000000000005
+      ],
+      [
+        0.236,
+        0.787,
+        0.052000000000000005
+      ],
+      [
+        0.635,
+        0.787,
+        0.052000000000000005
+      ],
+      [
+        0.717,
+        0.787,
+        0.052000000000000005
+      ],
+      [
+        0.906,
+        0.787,
+        0.052000000000000005
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      2324,
+      876
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 6
+  }
+}

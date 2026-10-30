@@ -1,0 +1,314 @@
+{
+  "id": "atlas-8",
+  "name": "Atlas",
+  "number": 8,
+  "class": "heavy",
+  "drive": "8×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Prime mover hauling a steam locomotive",
+  "description": "A chrome heavy-haul prime mover with twin steering axles, pulling a multi-axle lowbed with a black steam locomotive chained to its deck.",
+  "stats": {
+    "power": 72,
+    "grip": 70,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1074,
+      542
+    ],
+    "pixelsPerMetre": 54.783,
+    "axles": [
+      17.424,
+      15.087,
+      8.04,
+      5.503,
+      -10.779,
+      -13.006,
+      -15.197,
+      -17.424
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1.15,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 616,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2029,
+        542,
+        56
+      ],
+      [
+        1901,
+        542,
+        56
+      ],
+      [
+        1515,
+        542,
+        56
+      ],
+      [
+        1376,
+        542,
+        56
+      ],
+      [
+        484,
+        542,
+        56
+      ],
+      [
+        362,
+        542,
+        56
+      ],
+      [
+        242,
+        542,
+        56
+      ],
+      [
+        120,
+        542,
+        56
+      ]
+    ],
+    "exhaust": [
+      13.261,
+      7.703
+    ],
+    "winch": [
+      18.927,
+      0.719
+    ],
+    "nose": 18.957
+  },
+  "camera": {
+    "zoom": 5.2
+  },
+  "physics": {
+    "mass": 43300,
+    "centreOfMass": [
+      3.594,
+      1.198
+    ],
+    "size": [
+      38.132,
+      7.941
+    ],
+    "wheelMass": 650,
+    "bodyBoxes": [
+      [
+        -19.176,
+        18.957,
+        1.15,
+        1.749,
+        1
+      ],
+      [
+        -19.176,
+        -16.452,
+        1.749,
+        5.495,
+        0.4
+      ],
+      [
+        -16.452,
+        -13.728,
+        1.749,
+        6.791,
+        0.4
+      ],
+      [
+        -13.728,
+        -11.004,
+        1.749,
+        6.955,
+        0.4
+      ],
+      [
+        -11.004,
+        -8.281,
+        1.749,
+        7.576,
+        0.4
+      ],
+      [
+        -8.281,
+        -5.557,
+        1.749,
+        7.576,
+        0.4
+      ],
+      [
+        -5.557,
+        -2.833,
+        1.749,
+        7.247,
+        0.4
+      ],
+      [
+        -2.833,
+        -0.109,
+        1.749,
+        7.412,
+        0.4
+      ],
+      [
+        -0.109,
+        2.614,
+        1.749,
+        7.904,
+        0.4
+      ],
+      [
+        2.614,
+        5.338,
+        1.749,
+        6.936,
+        0.4
+      ],
+      [
+        5.338,
+        8.062,
+        1.749,
+        2.373,
+        0.4
+      ],
+      [
+        8.062,
+        10.786,
+        1.749,
+        6.005,
+        0.4
+      ],
+      [
+        10.786,
+        13.509,
+        1.749,
+        7.082,
+        0.4
+      ],
+      [
+        13.509,
+        16.233,
+        1.749,
+        5.641,
+        0.4
+      ],
+      [
+        16.233,
+        18.957,
+        1.749,
+        3.45,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 70,
+      "centreOfMass": [
+        -6.828,
+        4.42
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.797,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 1577,
+    "exhaustBrake": 2034,
+    "gears": {
+      "H": 25.6,
+      "L": 60.6,
+      "R": 47.4
+    },
+    "brakeTorque": 71938,
+    "openDiffGrip": 1,
+    "fuelLitres": 1115
+  }
+}

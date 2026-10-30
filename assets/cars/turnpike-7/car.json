@@ -5,11 +5,11 @@
   "class": "highway",
   "drive": "4×2",
   "wheelType": "road",
-  "status": "needs-art",
-  "tagline": "Chrome highway tractor for semi-trailers",
-  "description": "A polished long-nose road tractor with a fifth wheel. Fast and strong on firm ground; its road tires hate mud.",
+  "status": "playable",
+  "tagline": "Chrome highway tractor hauling a fuel tanker",
+  "description": "A polished long-nose road tractor coupled to a stainless fuel-tanker semi-trailer. Fast and strong on firm ground; its road tires hate mud.",
   "stats": {
-    "power": 72,
+    "power": 60,
     "grip": 55,
     "fuelEfficiency": 60
   },
@@ -20,104 +20,169 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v2.png"
+      "source": "source/vehicle-master-v3.png"
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v1.png"
+      "source": "source/wheel-v3.png"
     }
   },
   "rig": {
     "bodyOrigin": [
-      801,
-      712
+      1100,
+      531
     ],
-    "pixelsPerMetre": 235,
+    "pixelsPerMetre": 170.093,
     "axles": [
-      2.685,
-      -2.685
+      5.412,
+      1.143,
+      -3.142,
+      -4.271,
+      -5.412
     ],
     "wheelY": [
-      -0.119,
-      0.0
+      0,
+      0,
+      -0.065,
+      -0.065,
+      -0.065
     ],
-    "radius": 0.574,
+    "wheelScale": [
+      1,
+      1,
+      0.88,
+      0.88,
+      0.88
+    ],
+    "radius": 0.535,
     "wheelPivot": [
-      626,
-      629
+      627,
+      624
     ],
-    "wheelArtRadius": 551,
+    "wheelArtRadius": 592,
     "farWheelOffset": [
       0.2,
       0.13
     ],
     "archCircles": [
       [
-        1432,
-        740,
-        150
+        2021,
+        531,
+        81
       ],
       [
-        170,
-        712,
-        145
+        1295,
+        531,
+        81
+      ],
+      [
+        566,
+        542,
+        72
+      ],
+      [
+        374,
+        542,
+        72
+      ],
+      [
+        180,
+        542,
+        72
       ]
     ],
     "exhaust": [
-      -1.345,
-      2.966
+      2.88,
+      2.68
     ],
     "winch": [
-      4.102,
-      0.051
+      5.9,
+      0.3
     ],
-    "nose": 4.102
+    "nose": 5.994
+  },
+  "camera": {
+    "zoom": 3
   },
   "physics": {
-    "mass": 8700,
+    "mass": 9500,
     "centreOfMass": [
-      0.3,
-      0.6
+      0.5,
+      0.8
     ],
     "size": [
-      7.4,
-      3.2
+      12.346,
+      2.716
     ],
-    "wheelMass": 400,
+    "wheelMass": 180,
     "bodyBoxes": [
       [
-        -3.3,
-        4.05,
-        -0.2,
-        0.35,
+        -6.352,
+        5.994,
+        0.535,
+        1.035,
         1
       ],
       [
-        -0.6,
-        1.9,
-        0.35,
-        2.9,
-        0.35
+        -6.352,
+        -4.295,
+        1.035,
+        2.169,
+        0.4
       ],
       [
-        1.9,
-        4.05,
-        0.35,
-        1.25,
-        0.45
+        -4.295,
+        -2.237,
+        1.035,
+        2.128,
+        0.4
+      ],
+      [
+        -2.237,
+        -0.179,
+        1.035,
+        2.04,
+        0.4
+      ],
+      [
+        -0.179,
+        1.878,
+        1.035,
+        2.175,
+        0.4
+      ],
+      [
+        1.878,
+        3.936,
+        1.035,
+        2.105,
+        0.4
+      ],
+      [
+        3.936,
+        5.994,
+        1.035,
+        1.793,
+        0.4
       ]
     ],
     "suspension": {
-      "sag": 0.1,
-      "travelUp": 0.18,
-      "travelDown": 0.22,
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
       "damping": 0.5
     },
-    "winchForce": 63187
+    "load": {
+      "massT": 15,
+      "centreOfMass": [
+        -2.94,
+        1.95
+      ]
+    }
   },
   "drivetrain": {
     "idleRpm": 750,
@@ -154,7 +219,7 @@
         0
       ]
     ],
-    "torqueScale": 0.281,
+    "torqueScale": 1.125,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -164,15 +229,15 @@
       "maxSlipRpm": 700
     },
     "throttleRise": 1.8,
-    "engineBrake": 116,
-    "exhaustBrake": 149,
+    "engineBrake": 306,
+    "exhaustBrake": 395,
     "gears": {
-      "H": 7.9,
-      "L": 30.3,
-      "R": 23.7
+      "H": 7,
+      "L": 28.2,
+      "R": 22.1
     },
-    "brakeTorque": 6018,
-    "openDiffGrip": 1.0,
-    "fuelLitres": 100
+    "brakeTorque": 11546,
+    "openDiffGrip": 1,
+    "fuelLitres": 489
   }
 }

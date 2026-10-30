@@ -17,6 +17,7 @@ export function deriveSpecs(car) {
     topSpeedKmh: round(d.governedRpm / d.gears.H * 2 * Math.PI / 60 * R * 3.6),
     fuelL: d.fuelLitres ?? 100,
     tireDiameterM: round(car.rig.radius * 2, 2),
+    lengthM: round(car.physics.size[0], 1),   // the whole rig as drawn, trailer included
   };
   if (car.physics.load) specs.loadMassT = car.physics.load.massT;
   return specs;

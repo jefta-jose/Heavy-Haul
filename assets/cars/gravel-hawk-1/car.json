@@ -1,0 +1,188 @@
+{
+  "id": "gravel-hawk-1",
+  "name": "Gravel Hawk",
+  "number": 1,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Racing green 4×4 pickup scout with an open bed",
+  "description": "A racing green 4×4 pickup scout with an open bed, carrying six red jerry cans strapped in the bed.",
+  "stats": {
+    "power": 20,
+    "grip": 78,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      988,
+      730
+    ],
+    "pixelsPerMetre": 218.065,
+    "axles": [
+      2.327,
+      -2.327
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      800,
+      798
+    ],
+    "wheelArtRadius": 730,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1496,
+        730,
+        152
+      ],
+      [
+        481,
+        730,
+        152
+      ]
+    ],
+    "exhaust": [
+      2.284,
+      2.344
+    ],
+    "winch": [
+      3.689,
+      0.542
+    ],
+    "nose": 3.808
+  },
+  "camera": {
+    "zoom": 1.5
+  },
+  "physics": {
+    "mass": 2000,
+    "centreOfMass": [
+      1.333,
+      1.192
+    ],
+    "size": [
+      7.971,
+      2.931
+    ],
+    "wheelMass": 210,
+    "bodyBoxes": [
+      [
+        -4.161,
+        3.808,
+        0.775,
+        1.371,
+        1
+      ],
+      [
+        -4.161,
+        -1.505,
+        1.371,
+        2.05,
+        0.4
+      ],
+      [
+        -1.505,
+        1.152,
+        1.371,
+        2.907,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.15,
+      "centreOfMass": [
+        -2.32,
+        1.711
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.246,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 67,
+    "exhaustBrake": 86,
+    "gears": {
+      "H": 12.8,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 4098,
+    "openDiffGrip": 1,
+    "fuelLitres": 70
+  }
+}

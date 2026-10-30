@@ -1,0 +1,48 @@
+{
+  "master": {
+    "prompt": "Signal red heavy-duty rigid 6x6 work truck with flatbed/beavertail deck carrying yellow tracked excavator chained securely down, boom folded safely within vehicle outline, bucket resting on deck. Work-worn paint and dried mud. Exactly THREE ROAD axles on this single rigid truck, rear tandem and front steering. No trailer, NO mixer drum. All identical 1.29m mud-terrain tires deep chunky open lugs. Excavator tracks remain part of load ABOVE deck. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Wide landscape canvas 2400x1000. Yellow excavator tracks rest on deck, separate from the THREE truck road tires beneath. Entire boom and bucket safely within canvas."
+  },
+  "body": {
+    "prompt": "Edit supplied Pioneer master. Remove only all THREE TRUCK ROAD tires and rims below deck, transparent empty road-wheel regions. Keep yellow excavator INCLUDING tracks and track rollers above deck, chains, deck, ramps, cab, chassis and suspension. Exact same canvas dimensions, position, scale and camera; no redesign or shifting remaining pixels. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One matching Pioneer road wheel: 1.29m mud-terrain tire with deep chunky open lugs and dark weathered steel rim, dried mud. Perfect circular silhouette and concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal margins. Soft even ambient light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.254,
+        0.789,
+        0.09100000000000001
+      ],
+      [
+        0.4,
+        0.789,
+        0.09100000000000001
+      ],
+      [
+        0.889,
+        0.789,
+        0.09100000000000001
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      2078,
+      945
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 3
+  }
+}

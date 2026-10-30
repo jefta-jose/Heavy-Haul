@@ -17,5 +17,18 @@
       "rejection_reason": "Cyan/blue fringe outside silhouette",
       "result": "Fringe remains visible; requires further cleanup"
     }
-  ]
+  ],
+  "v3": {
+    "master": {
+      "prompt": "Use case: stylized-concept. Chrome silver long-nose highway tractor with sleeper, twin exhaust stacks, visor, TWO tractor axles, coupled to polished stainless fuel tanker semi-trailer with THREE trailer axles. Exactly FIVE fully visible identical 1.07m road tires with highway rib tread and chrome hubs. Entire 16m rig in one very wide image. Small hazard diamond placards without readable text. No winch. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side. Exact orthographic side elevation, cab front face invisible. All hub centres aligned, identical perfectly round tires. Horizontal tank and chassis. Use 3000x1000 very wide canvas with ample margins."
+    },
+    "body": {
+      "prompt": "Edit supplied Turnpike complete rig master: remove ALL FIVE road wheels including tires and rims from tractor AND trailer, leave true transparent empty wheel areas. Preserve suspension, chassis, tank, cab, fittings and load. Exact same canvas dimensions, position, scale, camera and all remaining detail; do not move or redesign anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side.",
+      "edit_of": "vehicle-master-v3.png"
+    },
+    "wheel": {
+      "prompt": "One road wheel matching Turnpike tanker master: dark highway rib-tread tire, chrome round multi-hole rim and central chrome hub, ten lug nuts. Perfectly circular face-on and centred with equal margins on square transparent canvas, REQUIRED 1600x1600 pixels minimum. No axle, body, ground, lettering or shadow. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side."
+    },
+    "rejection_reason": "bare tractor, no trailer"
+  }
 }

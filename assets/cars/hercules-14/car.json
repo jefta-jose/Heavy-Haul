@@ -1,0 +1,342 @@
+{
+  "id": "hercules-14",
+  "name": "Hercules",
+  "number": 14,
+  "class": "heavy",
+  "drive": "8×8",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Signal red heavy-haul prime mover with a multi-axle lowbed",
+  "description": "A signal red heavy-haul prime mover with a multi-axle lowbed, carrying a white rocket stage on a cradle.",
+  "stats": {
+    "power": 74,
+    "grip": 92,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1143,
+      624
+    ],
+    "pixelsPerMetre": 53.906,
+    "axles": [
+      17.586,
+      15.082,
+      8.07,
+      5.435,
+      -10.296,
+      -12.726,
+      -15.156,
+      -17.586
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1.28,
+    "wheelPivot": [
+      801,
+      802
+    ],
+    "wheelArtRadius": 783,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2091,
+        624,
+        62
+      ],
+      [
+        1956,
+        624,
+        62
+      ],
+      [
+        1578,
+        624,
+        62
+      ],
+      [
+        1436,
+        624,
+        62
+      ],
+      [
+        588,
+        624,
+        62
+      ],
+      [
+        457,
+        624,
+        62
+      ],
+      [
+        326,
+        624,
+        62
+      ],
+      [
+        195,
+        624,
+        62
+      ]
+    ],
+    "exhaust": [
+      11.821,
+      6.144
+    ],
+    "winch": [
+      19.601,
+      0.896
+    ],
+    "nose": 19.701
+  },
+  "camera": {
+    "zoom": 5.3
+  },
+  "physics": {
+    "mass": 66100,
+    "centreOfMass": [
+      6.895,
+      1.63
+    ],
+    "size": [
+      39.142,
+      7.68
+    ],
+    "wheelMass": 590,
+    "bodyBoxes": [
+      [
+        -19.441,
+        19.701,
+        1.28,
+        1.78,
+        1
+      ],
+      [
+        -19.441,
+        -17.267,
+        1.78,
+        7.346,
+        0.4
+      ],
+      [
+        -17.267,
+        -15.092,
+        1.78,
+        7.383,
+        0.4
+      ],
+      [
+        -15.092,
+        -12.917,
+        1.78,
+        7.365,
+        0.4
+      ],
+      [
+        -12.917,
+        -10.743,
+        1.78,
+        7.328,
+        0.4
+      ],
+      [
+        -10.743,
+        -8.568,
+        1.78,
+        7.365,
+        0.4
+      ],
+      [
+        -8.568,
+        -6.394,
+        1.78,
+        7.272,
+        0.4
+      ],
+      [
+        -6.394,
+        -4.219,
+        1.78,
+        7.272,
+        0.4
+      ],
+      [
+        -4.219,
+        -2.045,
+        1.78,
+        7.272,
+        0.4
+      ],
+      [
+        -2.045,
+        0.13,
+        1.78,
+        7.272,
+        0.4
+      ],
+      [
+        0.13,
+        2.304,
+        1.78,
+        7.346,
+        0.4
+      ],
+      [
+        2.304,
+        4.479,
+        1.78,
+        7.532,
+        0.4
+      ],
+      [
+        4.479,
+        6.654,
+        1.78,
+        6.975,
+        0.4
+      ],
+      [
+        6.654,
+        8.828,
+        1.78,
+        2.857,
+        0.4
+      ],
+      [
+        8.828,
+        11.003,
+        1.78,
+        6.548,
+        0.4
+      ],
+      [
+        11.003,
+        13.177,
+        1.78,
+        7.383,
+        0.4
+      ],
+      [
+        13.177,
+        15.352,
+        1.78,
+        6.196,
+        0.4
+      ],
+      [
+        15.352,
+        17.526,
+        1.78,
+        3.896,
+        0.4
+      ],
+      [
+        17.526,
+        19.701,
+        1.78,
+        3.877,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 30,
+      "centreOfMass": [
+        -9.517,
+        6.697
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.041,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 1371,
+    "exhaustBrake": 1769,
+    "gears": {
+      "H": 28.5,
+      "L": 67.5,
+      "R": 52.9
+    },
+    "brakeTorque": 69629,
+    "openDiffGrip": 1,
+    "fuelLitres": 1557
+  }
+}

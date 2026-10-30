@@ -91,12 +91,12 @@
   "physics": {
     "mass": 12220,
     "centreOfMass": [
-      0.0,
+      0,
       0.92
     ],
     "size": [
       9.8,
-      3.0
+      3
     ],
     "wheelMass": 291,
     "bodyBoxes": [
@@ -123,13 +123,13 @@
       ],
       [
         -1.229,
-        0.0,
+        0,
         -0.05,
         2.779,
         0.6
       ],
       [
-        0.0,
+        0,
         1.223,
         -0.05,
         2.791,
@@ -200,7 +200,7 @@
         0
       ]
     ],
-    "torqueScale": 0.54,
+    "torqueScale": 1.6,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -218,7 +218,7 @@
       "R": 36.2
     },
     "brakeTorque": 10998,
-    "openDiffGrip": 1.0,
+    "openDiffGrip": 1,
     "fuelLitres": 12000
   },
   "role": "fuel",

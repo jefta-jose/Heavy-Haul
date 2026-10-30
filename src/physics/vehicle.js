@@ -31,7 +31,9 @@ export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: t
 
   // static axle loads from the mass layout
   const xr = rig.axles.slice(1).reduce((sum, x) => sum + x, 0) / (rig.axles.length - 1), xf = rig.axles[0];
-  const front = (M * (com.x - xr)) / (xf - xr);
+  // a load tuned far behind the rear axles would leave the front a negative share and turn its spring
+  // inside out: the front always keeps at least a quarter of an even per-axle share
+  const front = Math.max(M / rig.axles.length * 0.25, (M * (com.x - xr)) / (xf - xr));
   const rear = (M - front) / (rig.axles.length - 1);
 
   const wheels = [], joints = [], springs = [];

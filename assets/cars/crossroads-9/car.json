@@ -1,0 +1,257 @@
+{
+  "id": "crossroads-9",
+  "name": "Crossroads",
+  "number": 9,
+  "class": "highway",
+  "drive": "6×2",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Signal red highway tractor with its semi-trailer",
+  "description": "A signal red highway tractor with its semi-trailer, carrying a skeletal chassis with a faded blue 40 ft container.",
+  "stats": {
+    "power": 53,
+    "grip": 81,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1128,
+      647
+    ],
+    "pixelsPerMetre": 124.8,
+    "axles": [
+      7.103,
+      3.914,
+      2.488,
+      -4.355,
+      -5.725,
+      -7.103
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.625,
+    "wheelPivot": [
+      801,
+      810
+    ],
+    "wheelArtRadius": 755,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2014,
+        647,
+        77
+      ],
+      [
+        1616,
+        647,
+        77
+      ],
+      [
+        1438,
+        647,
+        77
+      ],
+      [
+        584,
+        647,
+        76
+      ],
+      [
+        413,
+        647,
+        76
+      ],
+      [
+        241,
+        647,
+        76
+      ]
+    ],
+    "exhaust": [
+      5.214,
+      3.263
+    ],
+    "winch": [
+      8.59,
+      0.438
+    ],
+    "nose": 8.69
+  },
+  "camera": {
+    "zoom": 2.3
+  },
+  "physics": {
+    "mass": 10500,
+    "centreOfMass": [
+      3.041,
+      0.975
+    ],
+    "size": [
+      16.803,
+      4.079
+    ],
+    "wheelMass": 140,
+    "bodyBoxes": [
+      [
+        -8.113,
+        8.69,
+        0.625,
+        1.125,
+        1
+      ],
+      [
+        -8.113,
+        -6.013,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        -6.013,
+        -3.912,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        -3.912,
+        -1.812,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        -1.812,
+        0.288,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        0.288,
+        2.389,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        2.389,
+        4.489,
+        1.125,
+        3.558,
+        0.4
+      ],
+      [
+        4.489,
+        6.59,
+        1.125,
+        3.974,
+        0.4
+      ],
+      [
+        6.59,
+        8.69,
+        1.125,
+        3.646,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 18,
+      "centreOfMass": [
+        -3.526,
+        3.013
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.32,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 359,
+    "exhaustBrake": 463,
+    "gears": {
+      "H": 8.1,
+      "L": 33,
+      "R": 25.8
+    },
+    "brakeTorque": 13192,
+    "openDiffGrip": 1,
+    "fuelLitres": 552
+  }
+}

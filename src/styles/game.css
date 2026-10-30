@@ -227,7 +227,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   background: #0b1420 no-repeat center 72% / cover;
   background-image: linear-gradient(rgba(6,12,20,.7), rgba(6,12,20,.15) 32%, rgba(6,12,20,0) 70%, rgba(6,12,20,.45)), var(--garage-bg, none); }
 .garage button { font-family: var(--display); color: var(--ink); }
-.g-seasons { display: flex; gap: 8px; }
+.g-seasons { display: flex; justify-content: safe center; gap: 8px; }   /* centred; "safe" keeps the first one reachable when the row scrolls */
 .g-season { flex: 0 1 260px; min-width: 0; height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 14px; text-align: left; cursor: pointer;
   border-radius: 10px; border: 1px solid var(--panel-edge); background: linear-gradient(90deg, rgba(10,18,30,.94) 45%, rgba(10,18,30,.5)), var(--thumb, none) center / cover, rgba(10,18,30,.9); }
 .g-season b { font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
@@ -261,8 +261,9 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .g-main { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 14px; min-height: 0; }
 /* the truck stands on the turntable, well back from the bottom edge */
 .g-show { position: relative; display: flex; align-items: flex-end; justify-content: center; min-height: 0; padding-bottom: var(--floor, 14%); }
-/* parked to scale: width follows the car's length in metres (--len): a 7 m scout over half the floor, a 14 m rig nearly all of it */
-.g-car { width: min(96%, calc(12% + var(--len, 6) * 6%)); max-height: 78%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 22px 16px rgba(0,0,0,.6)); }
+/* parked by size: width grows with the square root of the rig's length in metres (--len): a 5 m scout
+   about half the floor, a 32 m lowbed nearly all of it */
+.g-car { width: calc(14% + sqrt(var(--len, 6)) * 14.5%); max-width: 96%; max-height: 78%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 22px 16px rgba(0,0,0,.6)); }
 .g-show .g-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; font-size: 30px; }
 .g-prev { left: 4px; } .g-next { right: 4px; }
 .g-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -304,7 +305,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .g-main { display: flex; flex-direction: column; gap: 8px; flex: none; }
   .garage { background-image: linear-gradient(rgba(6,12,20,.82), rgba(6,12,20,.82)), var(--garage-bg, none); }
   /* the showroom gets its own crop of the workshop, floor at the bottom, so the car stands on it */
-  .g-car { width: min(96%, calc(16% + var(--len, 6) * 6.8%)); }
+  .g-car { width: calc(20% + sqrt(var(--len, 6)) * 13.5%); max-width: 98%; }
   .g-show { height: 48vh; flex: none; --floor: 6%; border-radius: 12px; border: 1px solid var(--panel-edge); background: #0b1420 var(--garage-bg, none) center 92% / cover no-repeat; }
   .g-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; gap: 8px; }
   .g-actions #startBtn { grid-column: 1 / -1; font-size: 24px; padding: 14px; } .g-actions .btn { padding: 10px 4px; font-size: 14px; }

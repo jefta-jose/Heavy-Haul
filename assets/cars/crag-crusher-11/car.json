@@ -1,0 +1,202 @@
+{
+  "id": "crag-crusher-11",
+  "name": "Crag Crusher",
+  "number": 11,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Safety orange all-terrain 6×6 cargo truck",
+  "description": "A safety orange all-terrain 6×6 cargo truck, carrying a scorched crew capsule on a cradle.",
+  "stats": {
+    "power": 61,
+    "grip": 88,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1002,
+      672
+    ],
+    "pixelsPerMetre": 205,
+    "axles": [
+      2.9,
+      -0.012,
+      -2.9
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 1,
+    "wheelPivot": [
+      801,
+      798
+    ],
+    "wheelArtRadius": 776,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1597,
+        672,
+        184
+      ],
+      [
+        1000,
+        672,
+        184
+      ],
+      [
+        408,
+        672,
+        184
+      ]
+    ],
+    "exhaust": [
+      2.662,
+      2.338
+    ],
+    "winch": [
+      4.337,
+      0.7
+    ],
+    "nose": 4.437
+  },
+  "camera": {
+    "zoom": 1.5
+  },
+  "physics": {
+    "mass": 16400,
+    "centreOfMass": [
+      1.553,
+      1.35
+    ],
+    "size": [
+      8.946,
+      2.922
+    ],
+    "wheelMass": 360,
+    "bodyBoxes": [
+      [
+        -4.51,
+        4.437,
+        1,
+        1.5,
+        1
+      ],
+      [
+        -2.273,
+        -0.037,
+        1.5,
+        2.849,
+        0.4
+      ],
+      [
+        -0.037,
+        2.2,
+        1.5,
+        2.068,
+        0.4
+      ],
+      [
+        2.2,
+        4.437,
+        1.5,
+        2.302,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 9,
+      "centreOfMass": [
+        -1.493,
+        2.088
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.112,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 302,
+    "exhaustBrake": 390,
+    "gears": {
+      "H": 17.2,
+      "L": 52.8,
+      "R": 41.3
+    },
+    "brakeTorque": 38099,
+    "openDiffGrip": 1,
+    "fuelLitres": 510
+  }
+}

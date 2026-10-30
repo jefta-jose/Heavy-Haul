@@ -1,0 +1,195 @@
+{
+  "id": "canyon-lynx-5",
+  "name": "Canyon Lynx",
+  "number": 5,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Pickup scout hauling cement blocks",
+  "description": "A gunmetal grey 4×4 pickup with a side shovel and a hi-lift jack, carrying a pallet of cement blocks in its bed.",
+  "stats": {
+    "power": 52,
+    "grip": 72,
+    "fuelEfficiency": 72
+  },
+  "biomes": [
+    "Rock",
+    "Gravel",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2-aligned.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1011,
+      616
+    ],
+    "pixelsPerMetre": 234.667,
+    "axles": [
+      2.263,
+      -2.263
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      628,
+      626
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1542,
+        616,
+        158
+      ],
+      [
+        480,
+        616,
+        158
+      ]
+    ],
+    "exhaust": [
+      -4.071,
+      0.214
+    ],
+    "winch": [
+      3.386,
+      0.514
+    ],
+    "nose": 3.669
+  },
+  "camera": {
+    "zoom": 1.5
+  },
+  "physics": {
+    "mass": 2600,
+    "centreOfMass": [
+      -0.143,
+      0.714
+    ],
+    "size": [
+      7.934,
+      2.54
+    ],
+    "wheelMass": 210,
+    "bodyBoxes": [
+      [
+        -4.266,
+        3.669,
+        0.571,
+        0.929,
+        1
+      ],
+      [
+        -4.266,
+        -1.621,
+        0.929,
+        2.306,
+        0.4
+      ],
+      [
+        -1.621,
+        1.024,
+        0.929,
+        2.377,
+        0.4
+      ],
+      [
+        1.024,
+        3.669,
+        0.929,
+        1.636,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.9,
+      "centreOfMass": [
+        -2.471,
+        1.986
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.218,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 59,
+    "exhaustBrake": 76,
+    "gears": {
+      "H": 12.3,
+      "L": 39.6,
+      "R": 31
+    },
+    "brakeTorque": 5989,
+    "openDiffGrip": 1,
+    "fuelLitres": 93
+  }
+}

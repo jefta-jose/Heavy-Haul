@@ -51,7 +51,8 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
   const service = playable('assets/cars', roster.service, 'car.json');
   if (!cars.length) throw new Error('No playable car');
   resolveAudio([...cars, ...service]);
-  const car = carId ? cars.find(c => c.id === carId) : cars[0];
+  // the default: the roster's defaultCar (the reference car the tests and feel are tuned on), else the first
+  const car = carId ? cars.find(c => c.id === carId) : cars.find(c => c.id === roster.defaultCar) ?? cars[0];
   if (!car) throw new Error(`Car ${carId} is not playable`);
   seasonId ||= fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort().find(id => exists(`assets/seasons/${id}/season.json`) && readJson(`assets/seasons/${id}/season.json`).status === 'playable');
   const seasonDir = `assets/seasons/${seasonId}`, season = readJson(`${seasonDir}/season.json`);

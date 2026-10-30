@@ -1,0 +1,43 @@
+{
+  "master": {
+    "prompt": "Racing green compact basic 4x4 pickup scout, open bed with SIX red jerry cans strapped securely in bed. Light bar and folded roof tent. Mud-caked lower panels. Exactly TWO axles, 0.88m all-terrain tires, blocky tread with sipes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Landscape canvas 2000x1000."
+  },
+  "body": {
+    "prompt": "Edit target supplied Gravel Hawk master. Remove BOTH road tires and rims entirely, leave transparent empty wheel regions. Keep the six jerry cans, straps, roof tent, light bar, body, chassis and suspension unchanged. Exact same canvas dimensions, position, scale, camera and all other pixels; no redesign. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "One wheel matching Gravel Hawk master: 0.88m all-terrain tire with blocky siped tread, dark steel multi-hole rim, light dried mud. Perfect circle face-on, rim and hub concentric with tire, centred with equal generous margins on SQUARE 1600x1600 transparent canvas. Soft even ambient light for spinning. No axle, body, ground, cast shadow, lettering, halo or colour fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game art matching master."
+  },
+  "postprocessing": {
+    "authorization": "User approved local PNG size/alignment corrections",
+    "master_body": "Identical transparent border added to both; body dimensions aligned to master if needed",
+    "wheel": "Bilinear resize to 1600x1600",
+    "registration": "Original master pixels restored outside road-wheel edit regions to guarantee unchanged body/load position, scale and detail.",
+    "road_wheel_regions_normalized": [
+      [
+        0.235,
+        0.758,
+        0.13
+      ],
+      [
+        0.809,
+        0.758,
+        0.13
+      ]
+    ],
+    "alpha": "Near-zero alpha (<=8/255) edge residue cleared to true transparency."
+  },
+  "validation": {
+    "master_body_dimensions": [
+      1898,
+      1011
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "rgba": true,
+    "axles": 2
+  }
+}

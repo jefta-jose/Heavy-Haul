@@ -1,0 +1,209 @@
+{
+  "id": "pioneer-12",
+  "name": "Pioneer",
+  "number": 12,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Signal red heavy-duty work truck",
+  "description": "A signal red heavy-duty work truck, carrying a yellow tracked excavator on a lowbed.",
+  "stats": {
+    "power": 65,
+    "grip": 86,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1170,
+      700
+    ],
+    "pixelsPerMetre": 200,
+    "axles": [
+      3.042,
+      -1.653,
+      -3.042
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.645,
+    "wheelPivot": [
+      800,
+      800
+    ],
+    "wheelArtRadius": 756,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1778,
+        700,
+        116
+      ],
+      [
+        839,
+        700,
+        116
+      ],
+      [
+        561,
+        700,
+        116
+      ]
+    ],
+    "exhaust": [
+      2.429,
+      2.404
+    ],
+    "winch": [
+      3.948,
+      0.451
+    ],
+    "nose": 4.048
+  },
+  "camera": {
+    "zoom": 1.5
+  },
+  "physics": {
+    "mass": 16600,
+    "centreOfMass": [
+      1.417,
+      0.995
+    ],
+    "size": [
+      9.395,
+      3.005
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -5.348,
+        4.048,
+        0.645,
+        1.145,
+        1
+      ],
+      [
+        -5.348,
+        -2.999,
+        1.145,
+        2.525,
+        0.4
+      ],
+      [
+        -2.999,
+        -0.65,
+        1.145,
+        2.87,
+        0.4
+      ],
+      [
+        -0.65,
+        1.699,
+        1.145,
+        3.005,
+        0.4
+      ],
+      [
+        1.699,
+        4.048,
+        1.145,
+        2.005,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 14,
+      "centreOfMass": [
+        -1.575,
+        2.035
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.366,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 372,
+    "exhaustBrake": 480,
+    "gears": {
+      "H": 9.7,
+      "L": 34,
+      "R": 26.6
+    },
+    "brakeTorque": 28815,
+    "openDiffGrip": 1,
+    "fuelLitres": 452
+  }
+}

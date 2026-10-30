@@ -1,0 +1,22 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Gunmetal grey 4x4 pickup scout, 4.7m long, open bed carrying one pallet of grey cement blocks strapped securely in bed. Side shovel and hi-lift jack, mud-caked lower panels. Exactly TWO axles, two fully visible same-size 1.05m all-terrain tires with blocky siped tread. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side. All hub centres horizontal, tires perfectly circular, no cab front face visible, no hidden tires, horizontal chassis. Wide landscape canvas."
+  },
+  "body": {
+    "prompt": "Edit target: supplied Canyon Lynx master. Remove BOTH road tires and rims entirely, leaving transparent empty wheel regions. Keep chassis and suspension, pallet cement blocks, straps, tools, body and every other pixel unchanged. Exact same canvas dimensions, position, scale and camera. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side.",
+    "edit_of": "vehicle-master-v1.png"
+  },
+  "wheel": {
+    "prompt": "Generate ONE tire and rim matching the Canyon Lynx master visible in this conversation: charcoal all-terrain rubber with blocky siped tread, light dried mud, dark multi-hole metal rim with bolts. Perfect circle face-on centred on SQUARE 1536x1536 transparent canvas, equal generous margins. No axle, brakes, body, ground, lettering or shadow. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side."
+  },
+  "body-v2.png": {
+    "prompt": "Edit target Canyon Lynx master. Output EXACTLY 1881x836 pixels, identical canvas to input. Remove only both road tires and rims, transparent empty wheel regions, preserve all body/load/tools/chassis pixels and placement. Do not resize, crop, scale or shift. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side.",
+    "edit_of": "vehicle-master-v1.png",
+    "rejection_reason": "body canvas dimension mismatch"
+  },
+  "wheel-v2.png": {
+    "prompt": "Increase resolution of supplied wheel to 2048x2048 PNG on true transparent square background. Keep the same centred circular tire and rim, same proportions and equal margins, no redesign. Output long edge MUST exceed 1500 pixels. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "edit_of": "wheel-v1.png",
+    "rejection_reason": "wheel below 1500px minimum"
+  }
+}

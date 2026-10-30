@@ -25,7 +25,8 @@ function rescue(sim) {
   if (sim.toggleWinch(v).attached) {
     // if the service truck stalls on the tow, back up a little and take a run at it
     v.ctl.gear = 'L'; const x0 = main.parts.truck.getPosition().x; let go = 0, stall = 0, back = 0;
-    while (go < 40 && main.parts.truck.getPosition().x - x0 < 12) {
+    // tow well clear: out of the pit and over whatever sits just past it, as a player would
+    while (go < 60 && main.parts.truck.getPosition().x - x0 < 25) {
       if (back > 0) { back -= DT; v.ctl.gear = 'R'; if (back <= 0) v.ctl.gear = 'L'; }
       else if (stall > 1.5) { back = 1.2; stall = 0; }
       v.ctl.gas = 1; sim.step(DT); go += DT;
@@ -42,7 +43,7 @@ test('the full trail can be driven, with a breakdown truck for the worst mud', (
   const sim = newSim(), report = [];
   for (let i = 0; i < legs.length - 1; i++) {
     sim.init(legs[i]); sim.ctl.gear = 'L';
-    let hold = 0, t = 0, stuck = 0, backT = 0, tries = 0, rescues = 0, winchT = 0, stalled = null;
+    let hold = 0, t = 0, stuck = 0, backT = 0, tries = 0, rescues = 0, winchT = 0, stalled = null, crawl = 0, mark = legs[i];
     while (t < 300) {
       const p = sim.truck.getPosition(), speed = sim.st.speed;
       if (sim.surfAt(p.x) === 'mud' || sim.surfAt(p.x + 8) === 'mud' || sim.surfAt(p.x) === 'rock' || stuck > 1) hold = 12;
@@ -50,9 +51,11 @@ test('the full trail can be driven, with a breakdown truck for the worst mud', (
       // stalled: reverse a few metres and try again; after a few tries, call the breakdown truck
       if (backT > 0) { backT -= DT; sim.ctl.gear = 'R'; if (backT <= 0) sim.ctl.gear = 'L'; }
       else if (stuck > 3 && tries < 3 && Math.abs(sim.truck.getAngle()) < 0.08) { backT = 2.5; stuck = 0; tries++; }   // never back down a slope into the mud
-      else if (stuck > 3) { winchT += rescue(sim); rescues++; tries = 0; stuck = 0; }
+      else if (stuck > 3 || crawl > 20) { winchT += rescue(sim); rescues++; tries = 0; stuck = 0; crawl = 0; mark = sim.truck.getPosition().x; }
       sim.ctl.gas = 1;
       if (Math.abs(speed) < 0.2) stuck += DT; else stuck = Math.max(0, stuck - DT * 2);
+      // crawling: under 5 m in 20 s through a pit is as good as stuck, so call for help
+      if (p.x - mark > 5) { mark = p.x; crawl = 0; } else crawl += DT;
       if (rescues > 6) { stalled = `stalled at ${p.x.toFixed(1)} m`; break; }
       sim.step(DT); t += DT; sim.st.fuel = 100;
       if (p.x >= legs[i + 1]) break;

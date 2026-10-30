@@ -30,7 +30,8 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   need nothing; extend a knob's `apply` to tune something new.
 - Ruts are drawn only (`src/render/layers/mud.js`): they last the run and clear on a new run or the
   garage. Persistent physics ruts were tried and dropped on 2026-10-29 (they made the trail
-  impassable after a few passes). Mud sinking is `surfaces.mud.sink` in `season.json`.
+  impassable after a few passes). Mud sinking is `surfaces.mud.sink` in `season.json`; bog drag shrinks for
+  tires carrying under `bogRefT` tonnes, so light scouts are not held as hard as a laden rig.
   Keep mud fun: a light truck must wiggle through, help is for when it is properly stuck.
 - Never overwrite Codex's PNG masters. Runtime files are `art/*.webp` from `npm run art:encode`.
 - Physics changes need `npm test` and `npm run test:route`; anything visible needs
@@ -94,6 +95,12 @@ When wheels touch each other (multi-axle rigs), find each hub from the tire tops
 `tools/art/preview-car.py <folder> out.png --marks` composites a car exactly as the game draws it
 from its `car.json` registration: check it before playing. Long rigs need a high cab collision box
 (at frame height) so the overhang clears grade changes and boulders.
+`tools/art/draft-rig.py <folder> --tire-m <roster tire>` drafts the `rig` (hubs, arches, origin, nose) and
+collision boxes from those circles (`--hubs x,... --hub-y Y --tire-px R` when tires merge). Its chassis
+box sits at the body's lowest edge: raise it to about one tire radius above the hubs for anything long,
+or the rig bellies out on crests and the pipe runs. Tires under about 1.3 m (scouts) or 2.2 m (rigs over
+30 m) cannot climb the swamp trail's pipes or out of a broken bridge's creek: pick `pixelsPerMetre`
+so the drawn tires reach that size.
 
 ## Rosters
 

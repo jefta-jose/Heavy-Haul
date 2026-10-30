@@ -1,0 +1,202 @@
+{
+  "id": "forester-1",
+  "name": "Forester",
+  "number": 1,
+  "class": "heavy-duty",
+  "drive": "6×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Rust red heavy-duty work truck",
+  "description": "A rust red heavy-duty work truck, carrying a steel dump body heaped with gravel.",
+  "stats": {
+    "power": 20,
+    "grip": 78,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      948,
+      729
+    ],
+    "pixelsPerMetre": 220,
+    "axles": [
+      2.636,
+      -1.127,
+      -2.636
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      800,
+      799
+    ],
+    "wheelArtRadius": 761,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1528,
+        729,
+        128
+      ],
+      [
+        700,
+        729,
+        128
+      ],
+      [
+        368,
+        729,
+        128
+      ]
+    ],
+    "exhaust": [
+      2.318,
+      2.262
+    ],
+    "winch": [
+      3.764,
+      0.455
+    ],
+    "nose": 3.864
+  },
+  "camera": {
+    "zoom": 1.5
+  },
+  "physics": {
+    "mass": 10000,
+    "centreOfMass": [
+      1.352,
+      1
+    ],
+    "size": [
+      7.682,
+      2.827
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -3.818,
+        3.864,
+        0.65,
+        1.15,
+        1
+      ],
+      [
+        -3.818,
+        -1.258,
+        1.15,
+        2.386,
+        0.4
+      ],
+      [
+        -1.258,
+        1.303,
+        1.15,
+        2.441,
+        0.4
+      ],
+      [
+        1.303,
+        3.864,
+        1.15,
+        2.432,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -1.241,
+        1.891
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.812,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 9.8,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 250
+  }
+}
