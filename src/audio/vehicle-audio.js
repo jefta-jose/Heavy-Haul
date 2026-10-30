@@ -58,8 +58,9 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     }
     api.mode = 'loading';
     api.ready = Promise.all(Object.entries(clips).map(async ([key, uri]) => {
-      const raw = Uint8Array.from(atob(uri.split(',')[1]), c => c.charCodeAt(0));
-      return [key, await ac.decodeAudioData(raw.buffer)];
+      // a data URI in the one-file build, a file path in the app build
+      const raw = uri.startsWith('data:') ? Uint8Array.from(atob(uri.split(',')[1]), c => c.charCodeAt(0)).buffer : await (await fetch(uri)).arrayBuffer();
+      return [key, await ac.decodeAudioData(raw)];
     })).then(entries => {
       if (!entries.length) throw new Error('No sound bank embedded');
       buffers = Object.fromEntries(entries);

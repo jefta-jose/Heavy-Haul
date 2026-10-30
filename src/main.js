@@ -173,8 +173,21 @@ function newRun() {
 function startRun(sel) { selection = sel; garage.hide(); session.state = 'play'; startAudio(); newRun(); sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
 
+// Inside the Android app (Capacitor) the game is already full screen and landscape, and Android's
+// back button pauses and resumes a run, closes the sound panel, or leaves the app from the garage.
+const app = window.Capacitor?.isNativePlatform?.() ? window.Capacitor : null;
+if (app) {
+  document.documentElement.classList.add('native-app');
+  app.Plugins.App?.addListener('backButton', () => {
+    if (sound.isOpen) document.getElementById('soundDone').click();
+    else if (session.state === 'play' || session.state === 'pause') pause();
+    else if (session.state === 'garage') app.Plugins.App.minimizeApp();
+  });
+}
+
 async function goFullscreen() {
   const el = document.documentElement;
+  if (app) return;
   try {
     if (document.fullscreenElement) { await document.exitFullscreen(); return; }
     if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });

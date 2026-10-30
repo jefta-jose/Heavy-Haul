@@ -33,3 +33,10 @@ Desktop.ini
 *:Zone.Identifier
 .vscode/
 .idea/
+
+# Never commit sogning keystores
+*.keystore
+*.jks
+# Signing keys (the shared debug key lives in android/app/ and in the ANDROID_DEBUG_KEYSTORE secret)
+*.keystore
+*.jks

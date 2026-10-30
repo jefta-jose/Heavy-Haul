@@ -63,21 +63,22 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
   };
 }
 
-const withArt = item => ({ ...item, artUri: Object.fromEntries(Object.entries(item.art).map(([k, a]) => [k, dataUri(`${item.dir}/${a.file}`)])) });
+const withArt = (item, asset) => ({ ...item, artUri: Object.fromEntries(Object.entries(item.art).map(([k, a]) => [k, asset(`${item.dir}/${a.file}`)])) });
 
 const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'];
 
-// Data plus every runtime image and sound clip as a data URI.
-export function loadContentWithArt(opts) {
+// Data plus every runtime image and sound clip as a URI: a data URI by default (the one-file web
+// build), or whatever `asset(file)` returns, e.g. a relative path to a copied file (the app build).
+export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   const c = loadContent(opts);
   // the whole sound bank, keyed by clip name, plus the credits for the recordings it uses
   const bank = readSoundBank(), sources = readJson('assets/audio/sources.json').sources;
-  const audio = Object.fromEntries(Object.entries(bank.clips).map(([name, clip]) => [name, dataUri(`assets/audio/${clip.file}`)]));
+  const audio = Object.fromEntries(Object.entries(bank.clips).map(([name, clip]) => [name, asset(`assets/audio/${clip.file}`)]));
   const used = new Set(Object.values(bank.clips).flatMap(clip => clip.sources));
   const soundCredits = sources.filter(s => used.has(s.id)).map(({ title, author, page, license }) => ({ title, author, page, license }));
   const hud = {};
-  for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = dataUri(`assets/hud/art/${a.id}.webp`);
-  const seasonArt = Object.fromEntries(Object.entries(c.season.art).map(([k, a]) => [k, dataUri(`${c.seasonDir}/${a.file}`)]));
+  for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = asset(`assets/hud/art/${a.id}.webp`);
+  const seasonArt = Object.fromEntries(Object.entries(c.season.art).map(([k, a]) => [k, asset(`${c.seasonDir}/${a.file}`)]));
   // the garage lists the whole roster; only the summary fields are shipped
   const roster = {
     classes: c.roster.classes,
@@ -92,7 +93,7 @@ export function loadContentWithArt(opts) {
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   return {
     roster, wheelTypes: c.wheelTypes, season: c.season, seasons, rockHulls: c.rockHulls, seasonArt, hud,
-    cars: c.cars.map(withArt), service: c.service.map(withArt),
+    cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };
 }

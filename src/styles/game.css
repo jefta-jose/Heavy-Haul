@@ -400,3 +400,6 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 }
 @media (max-width: 600px) and (min-height: 521px) and (max-height: 600px) { .mapcard h2 { display: none; } }
 @media (max-height: 340px) { .mapcard h2 { display: none; } }
+
+/* The Android app is always full screen and landscape */
+.native-app #fsBtn, .native-app #startFs, .native-app .rotate { display: none !important; }
