@@ -135,7 +135,12 @@ dimensions and that the wheel is square. Long rigs need a wide canvas; keep at l
 
 ## Seasons: `assets/seasons/<id>/source/`
 
-Follow the list in the season's `README.md`, with `swamp-summer` as the template:
+Follow the list in the season's `README.md`, with `swamp-summer` as the template. **Hard rule: simple
+scenery, detailed road.** The backdrop, midground trees, the bank's far verge and props such as reeds
+are extremely simple (gradient sky, two or three flat hazy silhouette layers, few tones, smooth
+gradients, no fine texture, low contrast); only the road gets full detail (the bank's driving band,
+lane materials, mud, rocks, logs, holes, pipes, bridges). See `assets/seasons/SKILL.md`.
+
 
 - `backdrop`: opaque panorama;
 - `midground`: transparent trees, rooted on a horizontal baseline;

@@ -9,7 +9,9 @@ Use this guide when creating a season or fixing its landscape. Read the season's
 
 ## 1. Establish the art direction
 
-Match `assets/references/four-scout-trucks.png` and the approved artwork in `assets/seasons/swamp-summer/source/`:
+Match `assets/references/four-scout-trucks.png` and the approved artwork in `assets/seasons/swamp-summer/source/`.
+
+**Hard rule: simple scenery, detailed road** (2026-10-31, after `swamp-summer` was redrawn this way). Every season's scenery (backdrop, midground trees, the bank's far verge above the driving band, and props like reeds) is extremely simple: a soft gradient sky, two or three flat, hazy layers of silhouettes, few tones per layer, smooth gradients, no fine texture, no hard outlines, low contrast. Only the road gets full SnowRunner detail: the bank's driving band, lane materials, deep mud, rocks, logs, holes, pipes and bridges. Set `render.forestFloor` to `false` and give the backdrop a calm lower band (water, snowfield, meadow) that reads naturally behind the trail. The rest of this section applies to the road layers; scenery follows the hard rule.
 
 - Premium semi-realistic painted game illustration, readable dark contours, weathered materials and fine natural texture.
 - Soft, coherent lighting across every layer. Change vegetation, weather, moisture and palette for the season while keeping the same illustration style.
@@ -25,8 +27,8 @@ These are recommended generation targets, not assumptions about tool output. Che
 
 | Role and filename | Recommended target | Background and composition |
 | --- | --- | --- |
-| `backdrop-v1.png` | 3072×1536, wide 2:1 | Opaque panorama: sky, distant terrain and vegetation. No foreground road. Quiet horizontal edges that can repeat. |
-| `midground-v1.png` | 3072×1536, wide 2:1 | Transparent tree or vegetation strip. Roots share one horizontal baseline near 90% of image height. Leave headroom; include clean alpha between trunks and foliage. |
+| `backdrop-v1.png` | 3072×1536, wide 2:1 | Opaque, extremely simple panorama: gradient sky, two or three flat hazy silhouette layers, a calm lower band that can sit behind the trail. No foreground road. Quiet horizontal edges that can repeat. |
+| `midground-v1.png` | 3072×1536, wide 2:1 | Transparent strip of simple, flat one- or two-tone tree or vegetation silhouettes. Roots share one horizontal baseline near 90% of image height. Leave headroom; include clean alpha between trunks and foliage. |
 | `bank-v1.png` | 2048×1024, wide 2:1 | Side-view terrain strip with a slightly elevated view. Transparent above an irregular far crest; continuously opaque below it, including the entire bottom edge. Broad readable driving band. |
 | `ground-v1.png` | 1536×1536 or 2048×2048 | Opaque top-down seamless base soil, leaf litter, snow or gravel. No horizon, perspective, road edges or large distinctive landmarks. |
 | Lane material tiles | 1536×1536 or 2048×2048 | Opaque top-down seamless materials for the season's surfaces: mud, rock, packed snow, ice, etc. No baked-in track boundary or directional lighting. |

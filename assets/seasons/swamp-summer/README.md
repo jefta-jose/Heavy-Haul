@@ -1,6 +1,17 @@
 # Blackwater Swamp landscape
 
-Use the [season landscape guide](../SKILL.md), [approved Swamp Scout style](../../references/four-scout-trucks.png) and [obstacle design reference](../Off-Road%20Terrain%20Obstacles%20Guide.png). Preserve the swamp background, soft painted finish and muted natural palette. Road mud and hole interiors are matte brown with **no sky reflections or bright wet glints**.
+Use the [season landscape guide](../SKILL.md), [approved Swamp Scout style](../../references/four-scout-trucks.png) and [obstacle design reference](../Off-Road%20Terrain%20Obstacles%20Guide.png). Road mud and hole interiors are matte brown with **no sky reflections or bright wet glints**.
+
+**Simple scenery, detailed road** (2026-10-31). The scenery is extremely simple, like a clean mobile driving game: a soft gradient sky, two or three flat hazy layers of tree silhouettes, a calm water band, a clean low grass crest on the bank and a simple reed clump. Few tones, smooth gradients, no fine texture, low contrast. The road keeps its SnowRunner detail: the bank's driving band, mud, ruts, rocks, logs, holes, pipes and bridges. `render.forestFloor` is `false`: the backdrop's water shows behind the trail instead of a soil band. The detailed panorama, trees, bank verge and reeds this season had before were replaced (first built as `swamp-summer-v2`) and deleted.
+
+## Scenery
+
+| Role | Master | Runtime |
+| --- | --- | --- |
+| Backdrop: sky, flat tree lines, water | `source/backdrop-v3.png` | `art/backdrop.webp` |
+| Midground: flat cypress silhouettes | `source/midground-v2.png` | `art/midground.webp` |
+| Bank: detailed driving band, clean grass crest | `source/bank-v3.png` | `art/bank.webp` |
+| Reed clump | `source/reeds-v4.png` | `art/reeds.webp` |
 
 ## Selected road art
 

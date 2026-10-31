@@ -1257,15 +1257,15 @@
   "art": {
     "backdrop": {
       "file": "art/backdrop.webp",
-      "source": "source/backdrop-v2.png"
+      "source": "source/backdrop-v3.png"
     },
     "midground": {
       "file": "art/midground.webp",
-      "source": "source/midground-v1.png"
+      "source": "source/midground-v2.png"
     },
     "bank": {
       "file": "art/bank.webp",
-      "source": "source/bank-v2.png"
+      "source": "source/bank-v3.png"
     },
     "ground": {
       "file": "art/ground.webp",
@@ -1273,7 +1273,7 @@
     },
     "reeds": {
       "file": "art/reeds.webp",
-      "source": "source/reeds-v3.png"
+      "source": "source/reeds-v4.png"
     },
     "log": {
       "file": "art/log.webp",
@@ -1337,6 +1337,7 @@
       "backdrop": 0.055,
       "midground": 0.24
     },
+    "forestFloor": false,
     "lane": {
       "materials": {
         "dirt": "ground",

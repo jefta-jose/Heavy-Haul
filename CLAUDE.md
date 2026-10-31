@@ -128,6 +128,9 @@ archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 
 ## Hook up a season
 
+Seasons follow **simple scenery, detailed road** (the hard rule in `assets/seasons/SKILL.md`): flat, hazy
+backdrop and trees, `render.forestFloor: false`, full detail only on the road layers.
+
 Write `season.json` from the swamp-summer template: the trail (keys, zones, waters, heavy-mud pits,
 checkpoints, depot; no fuel stations: refuelling is by fuel truck only), surfaces, the art map, the bank contact row, lane materials and the
 `ambience` zones (forest, swamp, frogs beds and crow calls, by trail position). Trace

@@ -7,6 +7,8 @@ Logging roads through wet leaf litter, ruts and fallen trunks; amber and rust ca
 ## Needed to become playable
 
 Use `../swamp-summer` as the template (its `season.json` documents every field).
+Scenery is **extremely simple** (gradient sky, flat hazy silhouette layers, a calm lower band; set
+`render.forestFloor` to `false`); only the road layers get full detail. See the hard rule in `../SKILL.md`.
 
 - [ ] `source/*.png` masters and `source/prompts.json` for: backdrop (opaque panorama), midground
       (transparent trees), bank (side-view ground strip, tire-contact row recorded in `render.bankContactRow`),

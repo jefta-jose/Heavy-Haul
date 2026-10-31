@@ -58,5 +58,30 @@
       "prompt": "One road wheel matching Turnpike tanker master: dark highway rib-tread tire, chrome round multi-hole rim and central chrome hub, ten lug nuts. Perfectly circular face-on and centred with equal margins on square transparent canvas, REQUIRED 1600x1600 pixels minimum. No axle, body, ground, lettering or shadow. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side."
     },
     "rejection_reason": "bare tractor, no trailer"
+  },
+  "offroad_redraw_2026_10_31": {
+    "generation_tool": "built-in image_gen",
+    "rejection_reason": "Previous art used smooth highway tires; redraw requested as rugged off-road hauler.",
+    "master": {
+      "file": "vehicle-master-v4.png",
+      "prompt": "Use case: stylized-concept. Generate FROM SCRATCH a premium semi-realistic painted game sprite, rich weathered materials, natural dark contours and fine mechanical detail like approved Swamp Scout. One chrome-silver long-nose raised off-road tractor with twin chrome stacks and a sun visor coupled to a polished cylindrical fuel tanker semi-trailer with red diamond flame hazard placards, together ONE complete image facing RIGHT. Exactly FIVE visible near-side road wheels: three closely spaced trailer axles at left rear, one tractor drive axle, one steer axle at right front. 1.07 m identical circular mud-terrain tires with very deep chunky mud lugs and open voids, rugged painted steel rims. Raised suspension, mud flaps clear of tires, side-visible front bull bar/skid plate, marker lights, wide mirrors, road-and-mud dust. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Cab front face invisible, chassis and tank perfectly horizontal. Fender curves cleanly over front tire with small even gap; no fender, flap, step or bumper overlaps ANY tire circle, every tire fully visible. Whole long rig inside wide canvas at least 2000 px across, at least 80 pixels clear margins all four sides. Soft even daylight, no ground, shadow, halo, glow, text, logos or watermark. Real transparent alpha background, not a checkerboard.",
+      "margin_edit_prompt": "Edit target: supplied new master. Add generous TRANSPARENT canvas margins of 100 pixels left and right, preserving entire vehicle and all pixels without resizing or redesigning it. The front bull bar must be completely in frame with clear space to its right. Preserve real alpha. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No other changes."
+    },
+    "body": {
+      "file": "body-v5.png",
+      "edit_of": "vehicle-master-v4.png",
+      "prompt": "Use case: precise-object-edit. Edit target: this master truck image. Remove EVERY road tire AND rim from tractor and trailer. Replace each wheel's UPPER HALF with opaque painted dark inner wheel-well liner, axle stub, leaf springs and suspension from the fender lip down to the original horizontal hub-centre line, INCLUDING between adjacent trailer arches. No transparent holes anywhere above hubs within a wheel arch. Each former wheel's LOWER HALF below the original hub line becomes completely transparent; no remaining road wheels, rims or circular wheel disks. Under chassis remains transparent. Preserve ALL other pixels, body, trailer, equipment, weathering and front fender unchanged. EXACT same canvas dimensions and pixel registration, position, scale, camera. Do not move or redraw any body part. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Real transparent background, no ground, shadow, halo, glow, text or watermark."
+    },
+    "wheel": {
+      "file": "wheel-v4.png",
+      "reference": "vehicle-master-v4.png",
+      "prompt": "Use case: stylized-concept. Reference role: tire and rim design on supplied master, use its road wheel only. Generate ONE matching 1.07 m off-road mud-terrain tire and rugged silver steel rim, deep chunky mud lugs with open voids, charcoal rubber with restrained dried mud, fine mechanical bolts and weathered painted game illustration. Square PNG canvas 2048 by 2048 pixels; perfect circular tire silhouette and centred hub, equal clear margins on all four sides, face-on. Soft even ambient daylight appropriate for spinning sprite. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No axle, truck, ground, shadow, text, logo, halo, glow, watermark or checkerboard. Real transparent alpha background."
+    },
+    "resolution_retry": null,
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG correction, registration, filled wheel wells and wheel enlargement in this conversation.",
+      "body": "Master pixels preserved outside road-wheel regions; generated liner/suspension pixels used inside upper wells, opaque painted backing added through hub line including tandem gaps, lower road-wheel regions cleared.",
+      "wheel": "Generated square 1254x1254 RGBA wheel enlarged uniformly to 1600x1600 using Lanczos, preserving alpha."
+    }
   }
 }

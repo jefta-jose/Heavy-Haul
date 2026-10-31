@@ -80,7 +80,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = asset(`assets/hud/art/${a.id}.webp`);
   const seasonArt = Object.fromEntries(Object.entries(c.season.art).map(([k, a]) => [k, asset(`${c.seasonDir}/${a.file}`)]));
   // every playable season, so the garage can switch between them: its JSON, rock hulls and art paths.
-  // Art shared between seasons (swamp-summer-v2 reuses swamp-summer's road) is shipped once, in
+  // Art shared between seasons (one season reusing another's road art) is shipped once, in
   // seasonAssets, keyed by path.
   const seasonAssets = {};
   const playableSeasons = fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort()
