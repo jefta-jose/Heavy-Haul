@@ -162,6 +162,23 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
 | Mud foreground redrew both rut tracks and the bubbles | Only the near track (the far one and the bubbles never reach below the lip) |
 | Main canvas with alpha | `getContext('2d', { alpha: false })` |
 
+**2026-10-31, "achieve the smoothness and quality of Hill Climb Racing" on phones:**
+
+- Frames are drawn between physics steps (`src/game/interpolate.js`): every `sim.step` records the
+  state it starts from, and each frame blends the bodies by `acc / DT` through instance getter
+  overrides that are removed right after drawing, so physics stays deterministic. Without it a 90 Hz
+  phone alternates one and two steps per frame and the truck stutters.
+- A finger is full pedal while it is down; only a mouse eases off by dragging and a pen uses pressure.
+  Thumbs drifting on the old drag-to-ease pedal silently lost power.
+- Touch screens under 520 px tall cap the pixel ratio at 1.25, and adaptive quality steps down after
+  2 s under 50 fps (desktop: 3 s under 40 fps).
+- Haptics (`src/game/haptics.js`, Android only): gear and drive-mode ticks, hard hits, winch hook-on,
+  low fuel.
+- Phone HUD (the block at the end of `game.css`): fuel bar, depot distance, service and pause buttons,
+  big corner pedals, one dial, gears above the gas. Details, engine and fullscreen live in the pause
+  menu; ENGINE shows on the HUD only while the engine is off; status toasts are `hud.hint`s shown
+  three times per device. Keep new HUD items off phones unless a thumb needs them while driving.
+
 Rules: never set a high smoothing quality on the main canvas, and never draw a full-screen layer or a
 clipped translucent pattern every frame when it could be cached in world-space or screen-space chunks.
 

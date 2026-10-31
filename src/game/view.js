@@ -19,6 +19,7 @@ export const FRAMING = {
   keepIn: 0.45,                    // the car body's centre stays within this share of the half-height (clear of the HUD)
   job: { zoomScale: 2.0 },           // zoom during a winch or refuel job, times the truck's own
   maxDpr: 1.5,
+  phoneMaxDpr: 1.25,                // touch screens under 520 px tall: sharp enough there, and it holds 60 fps
 };
 
 export function createView(canvas, sim) {
@@ -31,8 +32,9 @@ export function createView(canvas, sim) {
   view.viewX = () => { const hw = view.W / 2 / view.ppm + 3; return [cam.x - hw, cam.x + hw]; };
 
   view.resize = () => {
-    view.DPR = Math.min(FRAMING.maxDpr, window.devicePixelRatio || 1) * view.quality;
     view.W = canvas.clientWidth; view.H = canvas.clientHeight;
+    const phone = matchMedia('(pointer: coarse)').matches && Math.min(view.W, view.H) < 520;
+    view.DPR = Math.min(phone ? FRAMING.phoneMaxDpr : FRAMING.maxDpr, window.devicePixelRatio || 1) * view.quality;
     canvas.width = Math.round(view.W * view.DPR); canvas.height = Math.round(view.H * view.DPR);
     view.groundFrac = view.H < 520 ? FRAMING.groundShort : FRAMING.ground;
     scale();

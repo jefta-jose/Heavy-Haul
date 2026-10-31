@@ -20,10 +20,12 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
   const restartButton = (label = 'Restart') => [label, () => { hud.hideMessage(); api.state = 'play'; onRestart(); }];
   const garageButton = ['Back to garage', () => { hud.hideMessage(); onGarage(); }];
 
-  api.pause = openSound => {
+  // extra: { spec: [[label, value]...], buttons: [[label, fn]...] } from main.js (the truck's
+  // details and the controls the phone HUD leaves out)
+  api.pause = (openSound, extra = {}) => {
     api.state = 'pause';
-    hud.showMessage('Paused', 'Expedition on hold', `${trail.name}. Your vehicle will wait right where you left it.`, [], [
-      ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Sound', openSound],
+    hud.showMessage('Paused', 'Expedition on hold', `${trail.name}. Your vehicle will wait right where you left it.`, extra.spec ?? [], [
+      ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Sound', openSound], ...(extra.buttons ?? []),
     ]);
   };
   api.resume = () => { hud.hideMessage(); api.state = 'play'; api.onResume?.(); };

@@ -7,7 +7,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['fuelFill', 'fuelTxt', 'useTxt', 'avgTxt', 'track', 'trackDone', 'drivenTxt', 'nextTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['carName', 'fuelFill', 'fuelTxt', 'useTxt', 'avgTxt', 'track', 'trackDone', 'drivenTxt', 'nextTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -59,6 +59,14 @@ export function createHud({ sim, season }) {
   }
 
   function toast(msg, secs = 2.5) { els.toast.textContent = msg; els.toast.classList.add('on'); toastT = secs; }
+  // a teaching hint: shown the first HINT_TIMES times on this device, then the sound and the
+  // button lights say it on their own
+  const HINT_TIMES = 3;
+  function hint(key, msg, secs) {
+    let seen = 0;
+    try { seen = Number(localStorage.getItem(`haul.hint.${key}`)) || 0; localStorage.setItem(`haul.hint.${key}`, String(seen + 1)); } catch (e) {}
+    if (seen < HINT_TIMES) toast(msg, secs);
+  }
 
   function resizeGauges(DPR) { els.gauges.width = Math.round(els.gauges.clientWidth * DPR); els.gauges.height = Math.round(els.gauges.clientHeight * DPR); }
   // analog dials: metal bezel, dark face, minor and major ticks, a lit arc that follows the value,
@@ -106,6 +114,12 @@ export function createHud({ sim, season }) {
   function drawGauges() {
     const w = els.gauges.width, h = els.gauges.height; gx.clearRect(0, 0, w, h);
     const r = Math.min(w / 4.25, h / 2.02), kmh = Math.abs(sim.st.speed * 3.6), gov = (sim.car.drivetrain.governedRpm ?? 2300) / 1000;
+    // phones get one compact dial (CSS makes the canvas square): the RPM needle around the speed
+    if (w < h * 1.5) {
+      const R = Math.min(w, h) / 2.02;
+      dial(w / 2, h / 2, R, sim.st.rpm / 1000, 3, { label: 'km/h', majors: 3, minors: 5, redFrom: gov / 3, readout: String(Math.round(kmh)), lit: ['#f2b705', '#ff7a1a'] });
+      return;
+    }
     dial(w / 2 - r * 1.06, h / 2, r, sim.st.rpm / 1000, 3, { label: 'RPM ×1000', majors: 3, minors: 5, redFrom: gov / 3, readout: sim.ctl.gear, lit: ['#f2b705', '#ff7a1a'] });
     dial(w / 2 + r * 1.06, h / 2, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
   }
@@ -181,7 +195,7 @@ export function createHud({ sim, season }) {
   }
 
   return {
-    els, toast, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
+    els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     showCalled,
     // a new run: forget the fuel-use window and the vehicle markers
     resetTrip() { use.samples.length = 0; for (const m of vehMarks.values()) m.remove(); vehMarks.clear(); },

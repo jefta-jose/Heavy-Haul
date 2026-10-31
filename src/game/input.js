@@ -18,11 +18,13 @@ export function createInput(els, actions) {
     const up = () => { held[name] = 0; pointer = null; };
     el.addEventListener('pointermove', e => {
       if (e.pointerId !== pointer) return;
-      // Ordinary screens do not measure finger force. Drag down to ease off,
-      // back up to press harder; pens can provide real pressure.
-      held[name] = e.pointerType === 'pen' && e.pressure > 0 ? e.pressure : Math.max(0, Math.min(1, 1 - (e.clientY - originY) / 100));
+      // A finger is full pedal while it is down, wherever the thumb drifts (as in Hill Climb Racing):
+      // easing off by sliding made thumbs lose power without noticing. A mouse can drag down to ease
+      // off; pens give real pressure.
+      if (e.pointerType === 'pen' && e.pressure > 0) held[name] = e.pressure;
+      else if (e.pointerType === 'mouse') held[name] = Math.max(0, Math.min(1, 1 - (e.clientY - originY) / 100));
     });
-    el.title = 'Hold for full pedal; drag down to ease off, up to press harder';
+    el.title = 'Hold for full pedal';
     el.addEventListener('pointerdown', down);
     el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('lostpointercapture', up);
     el.addEventListener('contextmenu', e => e.preventDefault());

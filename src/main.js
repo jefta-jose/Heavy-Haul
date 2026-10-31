@@ -9,6 +9,8 @@ import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
 import { createGarage } from './game/garage.js';
 import { createSoundSettings } from './game/sound-settings.js';
+import { createInterpolation } from './game/interpolate.js';
+import { createHaptics } from './game/haptics.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's fuel truck
@@ -19,14 +21,20 @@ import { createSoundSettings } from './game/sound-settings.js';
 
 const { season, rockHulls, wheelTypes } = content;
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
+// every step first records the state it starts from, so frames can be drawn between steps
+const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
+{ const step = sim.step; sim.step = dt => { interp.capture(); step(dt); }; }
 const view = createView(document.getElementById('view'), sim);
 const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank, ambience: season.ambience ?? [] });
+const haptics = createHaptics();
+// hard hits felt in the hand as well as heard (the audio detects them from the suspension)
+{ const bump = audio.bump; audio.bump = (strength, massT) => { haptics.hit(strength); bump(strength, massT); }; }
 const hud = createHud({ sim, season });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
-    else if (e.type === 'crush') audio.crush(e.size);
+    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); }
     else if (e.type === 'bridge-crack') audio.wood(0.5);
     else if (e.type === 'bridge-break') { audio.wood(1.2); hud.toast('Bridge plank gave way! Keep it slow.', 2.5); }
   },
@@ -45,13 +53,21 @@ view.inJob = () => !!refueling || !!sim.active?.cable;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
-function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') audio.shift(g); sim.ctl.gear = g; hud.showGear(g); }
+function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   sim.ctl[key] = on; hud.showMode(key, on);
-  renderer.flash(on); audio.clunk(on);
-  hud.toast(key === 'awd' ? (on ? '4×4 on: front axle engaged' : '4×4 off: rear axle only') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
+  renderer.flash(on); audio.clunk(on); haptics.toggle();
+  hud.hint(`${key}-${on}`, key === 'awd' ? (on ? '4×4 on: front axle engaged' : '4×4 off: rear axle only') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
 }
-const showPause = () => session.pause(() => { hud.hideMessage(); sound.open(); });
+// the pause menu also carries what the phone HUD leaves out: the truck's details, the engine switch
+// and fullscreen
+const showPause = () => {
+  const E = hud.els, text = el => el.textContent.trim() || '–';
+  const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Use', `${text(E.useTxt)} ${E.avgTxt.textContent}`.trim()], ['Coins', text(E.coinTxt)]];
+  const buttons = [[sim.st.engine === 'off' ? 'Start engine' : 'Engine off', () => { session.resume(); engine(); }]];
+  if (!app) buttons.push([document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]);
+  session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
+};
 function pause() {
   if (sound.isOpen) return;
   if (session.state === 'play') showPause();
@@ -107,7 +123,8 @@ function winch() {
   const v = sim.active;
   if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'Fuel trucks have no winch. Call the breakdown truck to tow.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
   const r = sim.toggleWinch(v), name = o => o === sim.main ? 'your truck' : `the ${o.car.name}`;
-  if (r.ok) hud.toast(r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
+  if (r.ok && r.attached) haptics.hooked();
+  if (r.ok) hud.hint(r.attached ? 'winch-on' : 'winch-off', r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
   else if (r.reason === 'far') hud.toast(`Too far away (${Math.round(r.gap)} m). Get within ${sim.winchReach} m of ${name(r.target)} to hook the winch.`, 2.5);
   else hud.toast('Nothing to hook the winch to.', 2);
 }
@@ -117,15 +134,15 @@ function engine() {
   const v = sim.active;
   if (v.st.engine === 'off') {
     if (v.st.fuel <= 0) { hud.toast('The tank is empty. Call a fuel truck.', 2); return; }
-    audio.key(); sim.startEngine(v); hud.toast(`Starting the ${v.car.name}…`, 1.2);
-  } else { audio.key(); sim.stopEngine(v); hud.toast('Engine off', 1.2); }
+    audio.key(); sim.startEngine(v); hud.hint('engine-on', `Starting the ${v.car.name}…`, 1.2);
+  } else { audio.key(); sim.stopEngine(v); hud.hint('engine-off', 'Engine off', 1.2); }
 }
 // the handbrake: holds every wheel; a ratchet on scouts, an air hiss on trucks
 function handbrake() {
   if (session.state !== 'play') return;
   const v = sim.active, on = !v.ctl.handbrake;
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
-  hud.toast(on ? 'Handbrake on' : 'Handbrake off', 1.2);
+  hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
 function doServiceJob() {
   if (!serviceJob()) return;
@@ -211,16 +228,18 @@ document.addEventListener('visibilitychange', () => { if (document.hidden && ses
 window.addEventListener('resize', resize);
 
 // ---------- loop ----------
-// Physics runs at a fixed 120 Hz; rendering follows the display. If frames run long for a few
+// Physics runs at a fixed 120 Hz; rendering follows the display, drawn between steps (interpolate.js). If frames run long for a few
 // seconds the canvas resolution steps down. Start-up frames are slow while art caches build, so
 // adaptation waits 5 s, and the resize happens before drawing (resizing clears the canvas).
-const DT = 1 / 120;
+const DT = 1 / 120, TOUCH = matchMedia('(pointer: coarse)').matches;
 let last = performance.now(), acc = 0, slowT = 0, frameAvg = 1 / 60, pendingResize = false;
 function adapt(dt) {
   if (session.state !== 'play' || session.run.time < 5) { frameAvg = 1 / 60; slowT = 0; return; }
   frameAvg += (dt - frameAvg) * 0.05;
-  slowT = frameAvg > 1 / 40 ? slowT + dt : Math.max(0, slowT - dt);
-  if (slowT > 3 && view.quality > 0.6) { view.quality = Math.max(0.6, view.quality - 0.15); slowT = 0; frameAvg = 1 / 60; pendingResize = true; }
+  // touch devices step down sooner (under 50 fps for 2 s), so a phone holds 60 fps rather than ~40
+  const slow = TOUCH ? 1 / 50 : 1 / 40;
+  slowT = frameAvg > slow ? slowT + dt : Math.max(0, slowT - dt);
+  if (slowT > (TOUCH ? 2 : 3) && view.quality > 0.6) { view.quality = Math.max(0.6, view.quality - 0.15); slowT = 0; frameAvg = 1 / 60; pendingResize = true; }
 }
 function frame(now) {
   const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
@@ -237,12 +256,13 @@ function frame(now) {
     acc += dt; let n = 0;
     while (acc >= DT && n < 8) { sim.step(DT); acc -= DT; n++; }
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
+    if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     session.update(dt);
     if (session.state === 'play') updateRefueling(dt);
     hud.showAction(refueling ? `Refueling… ${Math.round(refueling.progress * 100)}%` : serviceJob(), !!refueling);
   } else acc = 0;
-  view.follow(dt);
-  renderer.draw(dt, playing);
+  interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
+  try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run });
   audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x }, dt);
   adapt(dt);
