@@ -12,7 +12,7 @@ import { createMudLayer } from './layers/mud.js';
 // Painted 2.5D scene: screen-space backdrop, then world-space layers in metres (y up).
 // Layer order (back to front):
 //   backdrop with its haze, forest floor, midground -> bank with the road lane -> props, rocks, log bark -> exhaust ->
-//   shadows, 4x4/DIFF outline, vehicles with their loads (far tires, body, near tires, fenders),
+//   shadows, 4x4/DIFF outline, vehicles with their loads (far tires, body, near tires),
 //   service winch cables -> front mud lip, log ends -> contact accents, water,
 //   ripples, dust/spray/debris -> foreground props -> shade.
 

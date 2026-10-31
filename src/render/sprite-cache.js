@@ -60,7 +60,7 @@ export function createSceneryCache(scene) {
   return C;
 }
 
-// A vehicle (its load drawn in): body, body with the wheel arches cut out (fenders drawn over the tires),
+// A vehicle (its load drawn in): body,
 // near and pre-darkened far wheel, and solid outlines for the 4x4 / DIFF flash.
 export function createRigCache(view, rig, sources) {
   const loader = loadImages(sources);
@@ -69,9 +69,6 @@ export function createRigCache(view, rig, sources) {
     const key = zoomKey(view); if (C.key === key || !loader.allLoaded()) return; C.key = key;
     const px = view.ppm * view.DPR, A = loader.images, kb = Math.min(1, px / rig.pixelsPerMetre * 1.1);
     C.body = scaled(A.body, kb);
-    C.over = makeCanvas(C.body.width, C.body.height);
-    const g = C.over.getContext('2d'); g.drawImage(C.body, 0, 0); g.globalCompositeOperation = 'destination-out';
-    for (const [x, y, r] of rig.archCircles) { g.beginPath(); g.arc(x * kb, y * kb, r * kb, 0, Math.PI * 2); g.fill(); }
     C.wheel = scaled(A.wheel, Math.min(1, rig.radius * Math.max(1, ...(rig.wheelScale ?? [])) / rig.wheelArtRadius * px * 1.1));
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);

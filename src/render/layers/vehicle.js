@@ -2,7 +2,7 @@ import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius } from '../../physics/vehicle.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
-// tires, then the body again with the wheel arches cut out so the fenders sit over the tread. The
+// tires. Near tires stay in front of the body throughout suspension travel. The
 // body follows its physics body; each tire follows its own wheel body's position and spin.
 
 export function createVehicleLayer(scene) {
@@ -27,7 +27,7 @@ export function createVehicleLayer(scene) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts;
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i)); drawBody(rig, C, truck, C.body);
-    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i)); drawBody(rig, C, truck, C.over);
+    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i));
   }
 
   // 4x4 / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
