@@ -1,0 +1,81 @@
+{
+  "master": {
+    "prompt": "Transparent-background game sprite, alpha cutout, ONE safety orange tractor with flatbed semi-trailer carrying strapped squared timber. Four near-side wheels: two rear trailer axles, one tractor drive, one front steer. All four wheels have 1.01m mud-terrain tires with rows of short metallic steel spikes. Aero roof fairing, side skirts clear of wheel circles, dusty polished paint. Premium semi-realistic PAINTED game art, dark contours, fine mechanical detail. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right; no visible cab front. Every tire fully visible and circular with centered rim and same diameter, hub line level, load and deck horizontal. Clean fender arches with small even gap. Whole rig with generous transparent margins. Wide PNG at least 2000 pixels across. No scene, no studio backdrop, no brown or black haze, no shadows, no ground, no text or logos. Actual transparent RGBA alpha outside object including between wheels."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied complete vehicle master. Remove EVERY ROAD wheel and tire and rim from truck and attached trailer, including far-side glimpses. Keep any mounted spare tire and all tank cargo tracks/wheels. Replace each wheel arch with OPAQUE painted dark inner liner, axle, leaf springs and suspension all the way from fender lip DOWN TO ORIGINAL HUB CENTRE LINE across entire arch width, including gaps between tandem arches. No alpha holes above hub line. Below original hub line each removed wheel region must be transparent. Keep under-chassis ground clearance transparent. No full circular wheel discs, rubber, rims or ghost tires. Preserve exact canvas dimensions and pixel registration: same body, load, equipment, position, scale and camera, nothing else redesigned or moved. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted style, soft even daylight. True transparent alpha background, no checkerboard, halo, glow, ground, shadow, text or watermark.\nexactly FOUR near-side road wheels: two trailer axles at left, one tractor drive, one front steer; remove all of those ROAD wheels. "
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: road tire and rim on supplied truck master. Generate ONE matching road tire and rim, exact perfect CIRCLE seen FACE-ON orthographically with perfectly CENTRED hub and equal clear margins on square 2048x2048 PNG canvas (actual minimum 1500x1500). Match rim paint, hub, bolts, grime and tread. Premium semi-realistic painted game illustration with natural dark contours and fine weathered mechanical detail, soft completely EVEN daylight suitable for spinning sprite. Real transparent RGBA alpha background, no axle, body, ground, shadow, lettering, logo, watermark, checkerboard, halo or glow. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.\nTire specification: 1.01 m off-road mud-terrain tires studded with evenly spaced rows of short steel SPIKES all the way around; clearly visible metal studs on tread blocks. Rows of short steel SPIKES, uniformly repeated on every tread block around entire circumference."
+  },
+  "generation_tool": "built-in image_gen",
+  "generation_artifacts": {
+    "master": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-bbd8efc1-3483-4a2d-ab53-0102bdcb90c6.png",
+    "body": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-d399b2fa-63cd-456a-bb74-112ed325fb3c.png",
+    "wheel": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-f26fd238-edc6-4fe7-9d05-b5748b20b328.png"
+  },
+  "local_processing_authorization": "User explicitly approved local PNG corrections for this batch in this conversation.",
+  "axle_layout": "exactly FOUR near-side road wheels: two trailer axles at left, one tractor drive, one front steer",
+  "rejected_background_edit": {
+    "prompt": "Use case: background-extraction. Edit target this orange timber hauler. Remove the entire background, all brown haze and black studio backdrop and all ground shadows. Real transparent alpha background all around vehicle AND in gaps underneath chassis and between wheels. Preserve truck, timber, straps, four spiked road wheels and every detail unchanged. Strictly isolated transparent sprite, not a studio image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No text, logos or watermark.",
+    "rejection_reason": "Opaque studio background remained; generated fresh transparent master instead."
+  },
+  "local_processing": {
+    "registration": "Body reconstructed from master pixels; generated liner/suspension pixels imported only inside road-wheel regions. All final master pixels outside road wheel regions match body exactly.",
+    "upper_wells": "Opaque painted liner and suspension through hub line, including tandem gaps.",
+    "lower_wells": "Removed road wheel regions below hub line remain transparent.",
+    "wheel": "Hub centered on 1600x1600 transparent canvas, uniformly resampled; identical selected wheel composited on every road axle at a common diameter and level hub line.",
+    "hardware_repeat": [
+      32,
+      -95,
+      500
+    ],
+    "canvas_margin_px": 120,
+    "alpha": "Near-transparent residue and colored low-alpha edge contamination removed.",
+    "road_hubs_px": [
+      [
+        321,
+        676
+      ],
+      [
+        542,
+        676
+      ],
+      [
+        1460,
+        676
+      ],
+      [
+        2166,
+        676
+      ]
+    ],
+    "road_tire_radius_px": 92,
+    "removed_region_radius_px": 105,
+    "opaque_arch_height_px": 108
+  },
+  "rejected_generations": [
+    {
+      "prompt": "Use case: stylized-concept. Premium semi-realistic PAINTED game illustration matching approved Swamp Scout, readable dark contours, weathered materials, rich natural texture and fine mechanical detail. Generate one complete truck WITH its specified load as ONE sprite facing RIGHT. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Absolutely no visible cab front face, no elevated camera. Hubs centred and on one perfectly horizontal line, all tire circles exactly equal diameter, bottoms level. Chassis, deck and load horizontal. Front and rear fenders curve above tires with small even gaps, NO fender, mud flap, bumper or step overlaps ANY tire circle. Every near-side road tire fully visible. Generous 6% empty margins on all FOUR sides; whole vehicle and equipment fit inside canvas. At least 2000 pixels across the vehicle, wide canvas for long rigs. Soft even daylight. TRUE TRANSPARENT RGBA BACKGROUND, clean neutral alpha edges, no checkerboard, colored halo, glow, ground, cast shadow, text, logos or watermark.\nSubject: safety orange highway tractor coupled to a flatbed semi-trailer carrying securely strapped square timber stack; aero roof fairing and side skirts clear of all tire circles, polished paint with road dust. Tires: 1.01 m off-road mud-terrain tires studded with evenly spaced rows of short steel SPIKES all the way around; clearly visible metal studs on tread blocks. Axles: exactly FOUR near-side road wheels: two trailer axles at left, one tractor drive, one front steer. ",
+      "rejection_reason": "Opaque studio background; extraction edit also failed, so generated a fresh transparent master."
+    }
+  ],
+  "validation": {
+    "master_body_dimensions": [
+      2412,
+      964
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "real_alpha": true,
+    "clear_canvas_margins": true,
+    "opaque_upper_wells": true,
+    "transparent_lower_wheel_regions": true,
+    "exact_registration_outside_road_wheel_regions": true,
+    "identical_road_wheels_and_level_hubs": true,
+    "near_side_road_axle_count": 4
+  }
+}

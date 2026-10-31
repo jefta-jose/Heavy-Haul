@@ -1,0 +1,214 @@
+{
+  "id": "ridge-runner-2",
+  "name": "Ridge Runner",
+  "number": 2,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Gunmetal 4×4 pickup with a firewood load",
+  "description": "A gunmetal grey 4×4 pickup scout on all-terrain tires, with a roof rack, snorkel and a strapped stack of firewood in its open bed.",
+  "stats": {
+    "power": 24,
+    "grip": 78,
+    "fuelEfficiency": 72
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1112,
+      713
+    ],
+    "pixelsPerMetre": 240.0,
+    "axles": [
+      2.852,
+      -2.481
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      799,
+      784
+    ],
+    "wheelArtRadius": 705,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1796,
+        713,
+        164
+      ],
+      [
+        516,
+        713,
+        164
+      ]
+    ],
+    "exhaust": [
+      -3.708,
+      -0.2
+    ],
+    "winch": [
+      4.012,
+      0.42
+    ],
+    "nose": 4.112
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 2100.0,
+    "centreOfMass": [
+      0.185,
+      0.48
+    ],
+    "size": [
+      8.22,
+      2.421
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -4.108,
+        4.112,
+        0.65,
+        1.15,
+        1
+      ],
+      [
+        -4.108,
+        -2.464,
+        1.15,
+        2.013,
+        0.4
+      ],
+      [
+        -2.464,
+        -0.82,
+        1.15,
+        2.413,
+        0.4
+      ],
+      [
+        -0.82,
+        0.824,
+        1.15,
+        2.417,
+        0.4
+      ],
+      [
+        0.824,
+        2.468,
+        1.15,
+        2.421,
+        0.4
+      ],
+      [
+        2.468,
+        4.112,
+        1.15,
+        1.45,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.32,
+      "travelDown": 0.38,
+      "damping": 0.48
+    },
+    "winchForce": 42000,
+    "load": {
+      "massT": 0.3,
+      "centreOfMass": [
+        -2.481,
+        1.518
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.107,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 44,
+    "exhaustBrake": 57,
+    "gears": {
+      "H": 11.18,
+      "L": 34.29,
+      "R": 26.83
+    },
+    "brakeTorque": 1789,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 75
+  },
+  "load": {
+    "name": "Firewood",
+    "massT": 0.3
+  }
+}

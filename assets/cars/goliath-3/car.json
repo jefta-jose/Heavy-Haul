@@ -1,0 +1,248 @@
+{
+  "id": "goliath-3",
+  "name": "Goliath",
+  "number": 3,
+  "class": "heavy",
+  "drive": "6×4",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Mustard prime mover hauling a battle tank",
+  "description": "A mustard yellow heavy-haul prime mover on spiked tires, pulling a multi-axle lowbed with a battle tank chained on its deck.",
+  "stats": {
+    "power": 28,
+    "grip": 70,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1208,
+      679
+    ],
+    "pixelsPerMetre": 107.914,
+    "axles": [
+      8.488,
+      5.291,
+      3.67,
+      -3.021,
+      -4.763,
+      -6.496,
+      -8.257
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.695,
+    "wheelPivot": [
+      800,
+      800
+    ],
+    "wheelArtRadius": 716,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2124,
+        679,
+        83
+      ],
+      [
+        1779,
+        679,
+        83
+      ],
+      [
+        1604,
+        679,
+        83
+      ],
+      [
+        882,
+        679,
+        83
+      ],
+      [
+        694,
+        679,
+        83
+      ],
+      [
+        507,
+        679,
+        83
+      ],
+      [
+        317,
+        679,
+        83
+      ]
+    ],
+    "exhaust": [
+      6.042,
+      4.077
+    ],
+    "winch": [
+      9.871,
+      0.42
+    ],
+    "nose": 9.971
+  },
+  "camera": {
+    "zoom": 2.75
+  },
+  "physics": {
+    "mass": 25900.0,
+    "centreOfMass": [
+      5.816,
+      1.0
+    ],
+    "size": [
+      19.942,
+      4.179
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -9.971,
+        9.971,
+        0.695,
+        1.195,
+        1
+      ],
+      [
+        -9.971,
+        -5.983,
+        1.195,
+        2.975,
+        0.4
+      ],
+      [
+        -5.983,
+        -1.994,
+        1.195,
+        4.179,
+        0.4
+      ],
+      [
+        -1.994,
+        1.994,
+        1.195,
+        4.142,
+        0.4
+      ],
+      [
+        1.994,
+        5.983,
+        1.195,
+        3.169,
+        0.4
+      ],
+      [
+        5.983,
+        9.971,
+        1.195,
+        3.781,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 60,
+      "centreOfMass": [
+        -2.293,
+        2.678
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.234,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 1140,
+    "exhaustBrake": 1470,
+    "gears": {
+      "H": 15.49,
+      "L": 36.64,
+      "R": 28.69
+    },
+    "brakeTorque": 43792,
+    "openDiffGrip": 1,
+    "fuelLitres": 747
+  },
+  "load": {
+    "name": "Battle tank",
+    "massT": 60
+  }
+}

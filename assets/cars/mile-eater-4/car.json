@@ -1,0 +1,227 @@
+{
+  "id": "mile-eater-4",
+  "name": "Mile Eater",
+  "number": 4,
+  "class": "highway",
+  "drive": "4×2",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Orange tractor on spiked tires hauling timber",
+  "description": "A safety orange highway tractor pulling a flatbed timber stack, running off-road tires studded with rows of steel spikes.",
+  "stats": {
+    "power": 32,
+    "grip": 71,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1213,
+      682
+    ],
+    "pixelsPerMetre": 169.307,
+    "axles": [
+      5.632,
+      1.462,
+      -3.96,
+      -5.266
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.505,
+    "wheelPivot": [
+      800,
+      800
+    ],
+    "wheelArtRadius": 715,
+    "farWheelOffset": [
+      0.08,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2166,
+        682,
+        94
+      ],
+      [
+        1460,
+        682,
+        94
+      ],
+      [
+        542,
+        682,
+        94
+      ],
+      [
+        322,
+        682,
+        94
+      ]
+    ],
+    "exhaust": [
+      3.325,
+      2.924
+    ],
+    "winch": [
+      6.149,
+      0.42
+    ],
+    "nose": 6.249
+  },
+  "camera": {
+    "zoom": 2.1
+  },
+  "physics": {
+    "mass": 8200.0,
+    "centreOfMass": [
+      3.547,
+      1.0
+    ],
+    "size": [
+      12.498,
+      2.882
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -6.249,
+        6.249,
+        0.505,
+        1.005,
+        1
+      ],
+      [
+        -6.249,
+        -3.749,
+        1.005,
+        2.055,
+        0.4
+      ],
+      [
+        -3.749,
+        -1.25,
+        1.005,
+        2.061,
+        0.4
+      ],
+      [
+        -1.25,
+        1.25,
+        1.005,
+        2.061,
+        0.4
+      ],
+      [
+        1.25,
+        3.749,
+        1.005,
+        2.882,
+        0.4
+      ],
+      [
+        3.749,
+        6.249,
+        1.005,
+        2.746,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.902,
+        1.436
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.861,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 234,
+    "exhaustBrake": 302,
+    "gears": {
+      "H": 6.61,
+      "L": 26.62,
+      "R": 20.86
+    },
+    "brakeTorque": 8096,
+    "openDiffGrip": 1,
+    "fuelLitres": 394
+  },
+  "load": {
+    "name": "Timber stack",
+    "massT": 10
+  }
+}

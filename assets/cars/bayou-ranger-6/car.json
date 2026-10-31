@@ -1,0 +1,214 @@
+{
+  "id": "bayou-ranger-6",
+  "name": "Bayou Ranger",
+  "number": 6,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Desert-tan pickup hauling small logs",
+  "description": "A desert tan 4×4 pickup scout on mud-terrain tires, with a hi-lift jack and shovel on the bed rail and small logs strapped in the bed.",
+  "stats": {
+    "power": 40,
+    "grip": 84,
+    "fuelEfficiency": 72
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1090,
+      741
+    ],
+    "pixelsPerMetre": 243.077,
+    "axles": [
+      2.6,
+      -2.057
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      802,
+      782
+    ],
+    "wheelArtRadius": 702,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1722,
+        741,
+        166
+      ],
+      [
+        590,
+        741,
+        166
+      ]
+    ],
+    "exhaust": [
+      -3.553,
+      -0.2
+    ],
+    "winch": [
+      3.853,
+      0.42
+    ],
+    "nose": 3.953
+  },
+  "camera": {
+    "zoom": 2.35
+  },
+  "physics": {
+    "mass": 2800.0,
+    "centreOfMass": [
+      0.272,
+      0.48
+    ],
+    "size": [
+      7.906,
+      2.444
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -3.953,
+        3.953,
+        0.65,
+        1.15,
+        1
+      ],
+      [
+        -3.953,
+        -2.372,
+        1.15,
+        2.143,
+        0.4
+      ],
+      [
+        -2.372,
+        -0.791,
+        1.15,
+        2.09,
+        0.4
+      ],
+      [
+        -0.791,
+        0.791,
+        1.15,
+        2.444,
+        0.4
+      ],
+      [
+        0.791,
+        2.372,
+        1.15,
+        2.217,
+        0.4
+      ],
+      [
+        2.372,
+        3.953,
+        1.15,
+        1.45,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.32,
+      "travelDown": 0.38,
+      "damping": 0.48
+    },
+    "winchForce": 42000,
+    "load": {
+      "massT": 0.7,
+      "centreOfMass": [
+        -2.057,
+        1.565
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.151,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 62,
+    "exhaustBrake": 80,
+    "gears": {
+      "H": 11.18,
+      "L": 34.29,
+      "R": 26.83
+    },
+    "brakeTorque": 2609,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 98
+  },
+  "load": {
+    "name": "Small logs",
+    "massT": 0.7
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "id": "asphalt-king-3",
+  "name": "Asphalt King",
+  "number": 3,
+  "class": "highway",
+  "drive": "4×2",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Olive tractor on ladder chains with a pipe load",
+  "description": "An olive highway tractor with a chrome bull bar and air horns, pulling a flatbed of banded steel pipes, its tires wrapped in heavy ladder chains.",
+  "stats": {
+    "power": 28,
+    "grip": 70,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1206,
+      688
+    ],
+    "pixelsPerMetre": 178.095,
+    "axles": [
+      4.997,
+      0.898,
+      -3.779,
+      -4.964
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.525,
+    "wheelPivot": [
+      800,
+      800
+    ],
+    "wheelArtRadius": 714,
+    "farWheelOffset": [
+      0.08,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2096,
+        688,
+        102
+      ],
+      [
+        1366,
+        688,
+        102
+      ],
+      [
+        533,
+        688,
+        102
+      ],
+      [
+        322,
+        688,
+        102
+      ]
+    ],
+    "exhaust": [
+      3.279,
+      3.004
+    ],
+    "winch": [
+      5.869,
+      0.42
+    ],
+    "nose": 5.969
+  },
+  "camera": {
+    "zoom": 2.0
+  },
+  "physics": {
+    "mass": 7800.0,
+    "centreOfMass": [
+      2.947,
+      1.0
+    ],
+    "size": [
+      11.938,
+      2.381
+    ],
+    "wheelMass": 180,
+    "bodyBoxes": [
+      [
+        -5.969,
+        5.969,
+        0.525,
+        1.025,
+        1
+      ],
+      [
+        -5.969,
+        -3.581,
+        1.025,
+        1.965,
+        0.4
+      ],
+      [
+        -3.581,
+        -1.194,
+        1.025,
+        1.965,
+        0.4
+      ],
+      [
+        -1.194,
+        1.194,
+        1.025,
+        1.965,
+        0.4
+      ],
+      [
+        1.194,
+        3.581,
+        1.025,
+        2.336,
+        0.4
+      ],
+      [
+        3.581,
+        5.969,
+        1.025,
+        2.381,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 9,
+      "centreOfMass": [
+        -2.033,
+        1.401
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.801,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 218,
+    "exhaustBrake": 281,
+    "gears": {
+      "H": 6.87,
+      "L": 27.67,
+      "R": 21.69
+    },
+    "brakeTorque": 7769,
+    "openDiffGrip": 1,
+    "fuelLitres": 363
+  },
+  "load": {
+    "name": "Pipe bundles",
+    "massT": 9
+  }
+}

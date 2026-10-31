@@ -1,0 +1,63 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Premium semi-realistic PAINTED game illustration matching approved Swamp Scout, readable dark contours, weathered materials, rich natural texture and fine mechanical detail. Generate one complete truck WITH its specified load as ONE sprite facing RIGHT. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Absolutely no visible cab front face, no elevated camera. Hubs centred and on one perfectly horizontal line, all tire circles exactly equal diameter, bottoms level. Chassis, deck and load horizontal. Front and rear fenders curve above tires with small even gaps, NO fender, mud flap, bumper or step overlaps ANY tire circle. Every near-side road tire fully visible. Generous 6% empty margins on all FOUR sides; whole vehicle and equipment fit inside canvas. At least 2000 pixels across the vehicle, wide canvas for long rigs. Soft even daylight. TRUE TRANSPARENT RGBA BACKGROUND, clean neutral alpha edges, no checkerboard, colored halo, glow, ground, cast shadow, text, logos or watermark.\nSubject: forest green heavy-duty 6x4 work truck carrying 8 m medium logs between tall steel stakes with chains securing load; tool lockers and a compressor, work-worn paint and dried mud. Tires: 1.08 m all-terrain tires with blocky tread and sipes. Axles: exactly THREE near-side road wheels: two tandem rear wheels at left and one steer wheel at right. Single rigid work truck; NO trailer."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied complete vehicle master. Remove EVERY ROAD wheel and tire and rim from truck and attached trailer, including far-side glimpses. Keep any mounted spare tire and all tank cargo tracks/wheels. Replace each wheel arch with OPAQUE painted dark inner liner, axle, leaf springs and suspension all the way from fender lip DOWN TO ORIGINAL HUB CENTRE LINE across entire arch width, including gaps between tandem arches. No alpha holes above hub line. Below original hub line each removed wheel region must be transparent. Keep under-chassis ground clearance transparent. No full circular wheel discs, rubber, rims or ghost tires. Preserve exact canvas dimensions and pixel registration: same body, load, equipment, position, scale and camera, nothing else redesigned or moved. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted style, soft even daylight. True transparent alpha background, no checkerboard, halo, glow, ground, shadow, text or watermark.\nexactly THREE near-side road wheels: two tandem rear wheels at left and one steer wheel at right; remove all of those road wheels."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: road tire and rim on supplied truck master. Generate ONE matching road tire and rim, exact perfect CIRCLE seen FACE-ON orthographically with perfectly CENTRED hub and equal clear margins on square 2048x2048 PNG canvas (actual minimum 1500x1500). Match rim paint, hub, bolts, grime and tread. Premium semi-realistic painted game illustration with natural dark contours and fine weathered mechanical detail, soft completely EVEN daylight suitable for spinning sprite. Real transparent RGBA alpha background, no axle, body, ground, shadow, lettering, logo, watermark, checkerboard, halo or glow. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.\nTire specification: 1.08 m all-terrain tires with blocky tread and sipes. "
+  },
+  "generation_tool": "built-in image_gen",
+  "generation_artifacts": {
+    "master": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-e443535b-88e2-49b3-8815-ea9341964af5.png",
+    "body": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-c2ae1ab0-b323-4afe-b62b-253740420a70.png",
+    "wheel": "/home/jeffndegwa/.codex/generated_images/01a19255-0c1d-7613-832f-9ab134ab5b40/exec-68aaa9ad-1a87-4752-95c2-14ca66ac424e.png"
+  },
+  "local_processing_authorization": "User explicitly approved local PNG corrections for this batch in this conversation.",
+  "axle_layout": "exactly THREE near-side road wheels: two tandem rear wheels at left and one steer wheel at right",
+  "local_processing": {
+    "registration": "Body reconstructed from master pixels; generated liner/suspension pixels imported only inside road-wheel regions. All final master pixels outside road wheel regions match body exactly.",
+    "upper_wells": "Opaque painted liner and suspension through hub line, including tandem gaps.",
+    "lower_wells": "Removed road wheel regions below hub line remain transparent.",
+    "wheel": "Hub centered on 1600x1600 transparent canvas, uniformly resampled; identical selected wheel composited on every road axle at a common diameter and level hub line.",
+    "hardware_repeat": null,
+    "canvas_margin_px": 120,
+    "alpha": "Near-transparent residue and colored low-alpha edge contamination removed.",
+    "road_hubs_px": [
+      [
+        437,
+        758
+      ],
+      [
+        729,
+        758
+      ],
+      [
+        1857,
+        758
+      ]
+    ],
+    "road_tire_radius_px": 128,
+    "removed_region_radius_px": 140,
+    "opaque_arch_height_px": 150
+  },
+  "validation": {
+    "master_body_dimensions": [
+      2215,
+      1036
+    ],
+    "wheel_dimensions": [
+      1600,
+      1600
+    ],
+    "real_alpha": true,
+    "clear_canvas_margins": true,
+    "opaque_upper_wells": true,
+    "transparent_lower_wheel_regions": true,
+    "exact_registration_outside_road_wheel_regions": true,
+    "identical_road_wheels_and_level_hubs": true,
+    "near_side_road_axle_count": 3
+  }
+}

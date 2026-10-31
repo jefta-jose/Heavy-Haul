@@ -1,0 +1,220 @@
+{
+  "id": "swamp-ox-3",
+  "name": "Swamp Ox",
+  "number": 3,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Silver 6×6 carrying a fuel bladder",
+  "description": "A chrome silver all-terrain 6×6 cargo truck with a snorkel, carrying a strapped black fuel bladder on its flatbed, on mud-terrain tires.",
+  "stats": {
+    "power": 28,
+    "grip": 83,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1095,
+      752
+    ],
+    "pixelsPerMetre": 219.259,
+    "axles": [
+      3.275,
+      -1.45,
+      -2.996
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      802,
+      803
+    ],
+    "wheelArtRadius": 711,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1813,
+        752,
+        156
+      ],
+      [
+        777,
+        752,
+        156
+      ],
+      [
+        438,
+        752,
+        156
+      ]
+    ],
+    "exhaust": [
+      2.837,
+      2.828
+    ],
+    "winch": [
+      4.237,
+      0.42
+    ],
+    "nose": 4.337
+  },
+  "camera": {
+    "zoom": 2.15
+  },
+  "physics": {
+    "mass": 10300.0,
+    "centreOfMass": [
+      0.526,
+      0.95
+    ],
+    "size": [
+      8.674,
+      2.805
+    ],
+    "wheelMass": 320,
+    "bodyBoxes": [
+      [
+        -4.337,
+        4.337,
+        0.675,
+        1.175,
+        1
+      ],
+      [
+        -4.337,
+        -2.602,
+        1.175,
+        2.408,
+        0.4
+      ],
+      [
+        -2.602,
+        -0.867,
+        1.175,
+        2.609,
+        0.4
+      ],
+      [
+        -0.867,
+        0.867,
+        1.175,
+        2.604,
+        0.4
+      ],
+      [
+        0.867,
+        2.602,
+        1.175,
+        2.7,
+        0.4
+      ],
+      [
+        2.602,
+        4.337,
+        1.175,
+        2.805,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -0.848,
+        1.739
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.794,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 216,
+    "exhaustBrake": 279,
+    "gears": {
+      "H": 11.62,
+      "L": 35.58,
+      "R": 27.89
+    },
+    "brakeTorque": 18395,
+    "openDiffGrip": 1,
+    "fuelLitres": 342
+  },
+  "load": {
+    "name": "Fuel bladder",
+    "massT": 8
+  }
+}

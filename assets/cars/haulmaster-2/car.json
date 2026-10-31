@@ -1,0 +1,220 @@
+{
+  "id": "haulmaster-2",
+  "name": "Haulmaster",
+  "number": 2,
+  "class": "heavy-duty",
+  "drive": "6×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Green 6×4 log truck",
+  "description": "A forest green heavy-duty 6×4 work truck with tall stakes and chains holding a load of medium logs, on all-terrain tires.",
+  "stats": {
+    "power": 24,
+    "grip": 78,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1108,
+      761
+    ],
+    "pixelsPerMetre": 227.778,
+    "axles": [
+      3.288,
+      -1.664,
+      -2.946
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.54,
+    "wheelPivot": [
+      803,
+      796
+    ],
+    "wheelArtRadius": 712,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1857,
+        761,
+        131
+      ],
+      [
+        729,
+        761,
+        131
+      ],
+      [
+        437,
+        761,
+        131
+      ]
+    ],
+    "exhaust": [
+      1.076,
+      2.757
+    ],
+    "winch": [
+      4.172,
+      0.42
+    ],
+    "nose": 4.272
+  },
+  "camera": {
+    "zoom": 1.75
+  },
+  "physics": {
+    "mass": 10500.0,
+    "centreOfMass": [
+      0.491,
+      0.95
+    ],
+    "size": [
+      8.544,
+      2.52
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -4.272,
+        4.272,
+        0.54,
+        1.04,
+        1
+      ],
+      [
+        -4.272,
+        -2.563,
+        1.04,
+        2.52,
+        0.4
+      ],
+      [
+        -2.563,
+        -0.854,
+        1.04,
+        2.401,
+        0.4
+      ],
+      [
+        -0.854,
+        0.854,
+        1.04,
+        2.489,
+        0.4
+      ],
+      [
+        0.854,
+        2.563,
+        1.04,
+        2.489,
+        0.4
+      ],
+      [
+        2.563,
+        4.272,
+        1.04,
+        1.787,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -2.305,
+        1.628
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.953,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 259,
+    "exhaustBrake": 335,
+    "gears": {
+      "H": 8.12,
+      "L": 28.47,
+      "R": 22.27
+    },
+    "brakeTorque": 16162,
+    "openDiffGrip": 1,
+    "fuelLitres": 268
+  },
+  "load": {
+    "name": "Medium logs",
+    "massT": 10
+  }
+}

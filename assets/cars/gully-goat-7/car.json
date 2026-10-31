@@ -1,0 +1,220 @@
+{
+  "id": "gully-goat-7",
+  "name": "Gully Goat",
+  "number": 7,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Teal 6×6 carrying a giraffe",
+  "description": "A teal all-terrain 6×6 on huge flotation tires, with a canvas cargo bed and a tall open crate whose giraffe looks out over the cab.",
+  "stats": {
+    "power": 44,
+    "grip": 87,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1008,
+      829
+    ],
+    "pixelsPerMetre": 203.974,
+    "axles": [
+      2.937,
+      -1.373,
+      -2.995
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.755,
+    "wheelPivot": [
+      800,
+      800
+    ],
+    "wheelArtRadius": 712,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1607,
+        829,
+        162
+      ],
+      [
+        728,
+        829,
+        162
+      ],
+      [
+        397,
+        829,
+        162
+      ]
+    ],
+    "exhaust": [
+      2.049,
+      2.231
+    ],
+    "winch": [
+      4.151,
+      0.42
+    ],
+    "nose": 4.251
+  },
+  "camera": {
+    "zoom": 2.1
+  },
+  "physics": {
+    "mass": 13200.0,
+    "centreOfMass": [
+      0.376,
+      0.95
+    ],
+    "size": [
+      8.502,
+      3.216
+    ],
+    "wheelMass": 320,
+    "bodyBoxes": [
+      [
+        -4.251,
+        4.251,
+        0.755,
+        1.255,
+        1
+      ],
+      [
+        -4.251,
+        -2.55,
+        1.255,
+        2.392,
+        0.4
+      ],
+      [
+        -2.55,
+        -0.85,
+        1.255,
+        2.544,
+        0.4
+      ],
+      [
+        -0.85,
+        0.85,
+        1.255,
+        3.216,
+        0.4
+      ],
+      [
+        0.85,
+        2.55,
+        1.255,
+        3.079,
+        0.4
+      ],
+      [
+        2.55,
+        4.251,
+        1.255,
+        1.555,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 1.5,
+      "centreOfMass": [
+        -0.904,
+        1.881
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.652,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 178,
+    "exhaustBrake": 229,
+    "gears": {
+      "H": 13.0,
+      "L": 39.8,
+      "R": 31.2
+    },
+    "brakeTorque": 16528,
+    "openDiffGrip": 1,
+    "fuelLitres": 426
+  },
+  "load": {
+    "name": "Giraffe",
+    "massT": 1.5
+  }
+}
