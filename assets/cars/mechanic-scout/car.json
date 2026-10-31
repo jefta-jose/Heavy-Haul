@@ -24,7 +24,7 @@
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v2.png"
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",

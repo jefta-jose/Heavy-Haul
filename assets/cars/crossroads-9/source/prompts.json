@@ -3,8 +3,26 @@
     "prompt": "Signal red highway tractor, aero roof fairing and side skirts, coupled to skeletal semi-trailer carrying faded blue 40ft shipping container. Polished paint with road dust. Exactly SIX axles total: THREE tractor axles (one front steering and rear tandem), THREE trailer axles at far left. Identical 1.11m all-terrain blocky siped tires on every axle. Whole rig one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Very wide 3000x1000 canvas. Exact SIX road wheels: THREE at left trailer, TWO behind cab, ONE front steering at right. All equally sized."
   },
   "body": {
-    "prompt": "Edit supplied Crossroads master. Remove ALL SIX road tires and rims on tractor AND trailer, making transparent empty arches. Keep blue container, skeletal trailer, cab, fairing, side skirts, chassis and suspension unchanged. Exact same canvas dimensions, position, scale, camera and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
-    "edit_of": "vehicle-master-v1.png"
+    "edit_of": "vehicle-master-v1.png",
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit ONLY the six road-wheel regions of the supplied Crossroads vehicle-master-v1.png, exact original 2324x876 canvas. Remove ALL SIX road tires and rims, preserving red tractor, blue container, trailer, cab, fenders, lights, hoses, skirts, steps and every other original pixel and its position. CRITICAL CORRECTION: the prior attempt left inverted U-shaped transparent cutouts ABOVE the axle height. NO SUCH HOLES. Each upper wheel well must be a SOLID OPAQUE dark painted metal liner ALL THE WAY DOWN TO A STRAIGHT HORIZONTAL HUB LINE at original image y=647, across the full original wheel width. Tire hub x positions left to right approximately 241,413,584,1438,1616,2014 pixels, radius approximately 80. At ALL six arches, paint shadowed liner, chassis rail, springs, shock absorbers, axle housing and air lines, but NO wheel-shaped discs or rims. Fill tandem/triple inter-arch gaps to y=647 as well. The arch interior at y=600 through y=647 must never contain any transparency. Only BELOW y=647 remove the lower semicircle to true alpha transparent. Open ground clearance under the middle chassis remains transparent. KEEP original canvas 2324x876, no rescale, shift, crop, redesign, relight or changed cab angle. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching supplied master, soft even light, weathered rich texture. True transparent background, no checkerboard, halo, ground, shadows, added text or watermark. Return edited image ONLY.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2324,
+        876
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "One matching Crossroads road wheel: 1.11m all-terrain tire with blocky siped tread and silver multi-hole rim, road dust. Perfect circular silhouette, concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal margins. Soft even light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
@@ -59,5 +77,17 @@
     ],
     "rgba": true,
     "axles": 6
-  }
+  },
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "prompt": "Edit supplied Crossroads master. Remove ALL SIX road tires and rims on tractor AND trailer, making transparent empty arches. Keep blue container, skeletal trailer, cab, fairing, side skirts, chassis and suspension unchanged. Exact same canvas dimensions, position, scale, camera and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+        "edit_of": "vehicle-master-v1.png"
+      }
+    }
+  ]
 }

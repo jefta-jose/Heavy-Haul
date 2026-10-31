@@ -43,8 +43,13 @@ check your own output against this list first and regenerate before reporting.
 - **Exactly the axle count the brief gives,** with every axle's tires drawn the same.
 - **The whole vehicle inside the canvas** with clear margins on all four sides; nothing (booms,
   masts, hoses, hooks) touches or crosses the edge.
-- **The body is the master with the wheels removed, nothing else changed:** the same canvas size,
+- **The body is the master with the road wheels replaced by filled wheel wells, nothing else changed:** the same canvas size,
   position, scale and camera, so the two line up pixel for pixel.
+- **Filled wheel wells:** every body image fills each wheel arch with an opaque, painted wheel-well
+  interior (dark inner liner, chassis, axle and suspension parts) from the fender lip down to the hub
+  line, including the gaps between tandem arches. The arch must never be transparent above the hub,
+  because the tires move with the suspension and any hole shows the background. Below the hub line,
+  and under the chassis, stays transparent.
 - **The wheel is a square canvas, the tire a perfect circle centred in it,** seen face-on, matching
   the master's tires.
 - **Fuel trucks have no winch;** breakdown trucks show the rear winch drum, cable and hook.
@@ -100,8 +105,11 @@ winch.
 1. `vehicle-master-v1.png`: the complete vehicle with its load and every wheel, facing right. For a
    tractor with a trailer, the trailer is part of this one image.
 2. `body-v1.png`: an **edit of the master**. Remove every road wheel and tire on the truck **and**
-   the trailer, including glimpses of far-side tires, and leave the wheel arches empty and
-   transparent. Keep the exact same canvas size, position, scale and camera. Keep the load, the
+   the trailer, including glimpses of far-side tires. Fill each wheel well with an opaque painted
+   inner liner, chassis, axle and suspension from the fender lip to the hub line, including gaps
+   between tandem arches; never leave transparency above the hub. Below the hub line and under
+   the chassis stays transparent (see the filled wheel wells hard rule above).
+   Keep the exact same canvas size, position, scale and camera. Keep the load, the
    spare tire, body, chassis, suspension and equipment. Do not redesign or move anything.
 3. `wheel-v1.png`: one road tire and rim matching the master, on a **square** transparent canvas,
    perfectly circular and **centred**, with equal margins and soft even light (it will spin). No

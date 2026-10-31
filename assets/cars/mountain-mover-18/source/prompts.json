@@ -4,7 +4,25 @@
   },
   "body": {
     "edit_of": "vehicle-master-v1.png",
-    "prompt": "Use case: precise-object-edit. Edit target: supplied Mountain Mover vehicle master. Remove EVERY road wheel, tire and rim on both sides, all ten visible near-side mining wheels and every glimpse of far-side tires including under the front cab. Leave their regions truly transparent with only existing chassis, axle shafts and suspension retained. Preserve submarine, chains, cradles, cab, ladder, deck, equipment and every remaining painted detail exactly. Keep exact original 2172 x 724 pixel canvas dimensions, position, scale and camera. Do not move, resize or redesign anything. No background, ground, shadow, halo, text or new objects. This is the wheel-free moving body layer of this exact master."
+    "file": "body-v3.png",
+    "prompt": "Use case: precise-object-edit. Edit mountain-mover-18's own vehicle-master-v1.png; canvas EXACTLY 2172x724 pixels. Remove ALL TEN ROAD tires/rims: ten road wheels along entire yellow transporter. Preserve entire submarine, propeller, fins, cradles, chains and yellow cab. Remove every ROAD rubber tire and rim COMPLETELY. Replace each tire's UPPER semicircle with a fully OPAQUE painted wheel-well interior from arch lip down to the original HUB-CENTRE horizontal line across its ENTIRE WIDTH. Paint dark solid shadowed inner fender liner with chassis rails, small axle housings, leaf/coil springs, shocks, air lines and mud flaps, matching existing truck colour/style. Fill inter-arch gaps between tandem/bogie/trailer axles down to hub line with continuous shadowed chassis/suspension too. NO transparent holes above hub line even when separate tires drop by a third radius. Below hub line lower half of each tire circle stays truly transparent; ground clearance below chassis stays transparent. No rubber tread, rims, road-wheel discs, black full-circle silhouettes, tire ghosts, or far-side tires. Keep ALL OTHER original master pixels unchanged, exact same canvas dimensions and vehicle/load position, scale, camera and details. No redesign, no shift, no relighting, no cropping. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, weathered materials and fine mechanical detail, soft even light. True alpha transparent background, no checkerboard, halo, ground, shadows, added text or watermark. Whole object within original margins. Return only edited image at exact original dimensions.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "Use case: stylized-concept. Reference role: match the mining road tires and steel bolted rims of the supplied Mountain Mover master. Generate ONE giant mining tire and rim, deep chevron tread, dark rubber with weathered dusty grime, dark inset heavy steel rim with circular bolt pattern, detailed painted game illustration matching the master. Square 1536 x 1536 PNG, true transparent background. Perfectly circular silhouette and exactly centered hub, equal generous margins on all sides. Face-on rim, a narrow even tread edge, rotationally suitable soft even ambient light. No axle, body, vehicle, ground, shadow, text, logos, halo or watermark. Entire tire isolated, not cropped."
@@ -19,6 +37,15 @@
       "edit_of": "vehicle-master-v1.png",
       "prompt": "Use case: precise-object-edit. Edit target: supplied Mountain Mover vehicle-master-v1.png, exactly 2172 pixels wide by 724 pixels high. Output MUST retain exactly 2172 x 724 pixels, do not change aspect ratio or lose even one pixel of canvas. Remove every road wheel, tire and rim including all ten visible mining wheels and all far-side tire glimpses under the cab. Leave all wheel areas alpha-transparent, retain chassis, axle shafts and suspension. Preserve submarine, load chains, cradles, cab, ladder, beacons, deck, equipment, exact original object positions, scale, camera and painted details. No resizing, shifting, cropping, redesign, added ground, shadow, text or new objects. Only remove the wheels. True transparent PNG.",
       "rejection_reason": "body-v1.png output is 2171x724, one pixel narrower than master 2172x724."
+    },
+    "body-v3.png": {
+      "replaces": "body-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "edit_of": "vehicle-master-v1.png",
+        "prompt": "Use case: precise-object-edit. Edit target: supplied Mountain Mover vehicle master. Remove EVERY road wheel, tire and rim on both sides, all ten visible near-side mining wheels and every glimpse of far-side tires including under the front cab. Leave their regions truly transparent with only existing chassis, axle shafts and suspension retained. Preserve submarine, chains, cradles, cab, ladder, deck, equipment and every remaining painted detail exactly. Keep exact original 2172 x 724 pixel canvas dimensions, position, scale and camera. Do not move, resize or redesign anything. No background, ground, shadow, halo, text or new objects. This is the wheel-free moving body layer of this exact master."
+      }
     }
   },
   "selected": {

@@ -3,8 +3,26 @@
     "prompt": "Generate Turnpike 7 complete vehicle master, transparent PNG at least 1500 px long. Chrome silver long-nose conventional highway tractor with sleeper, 4x2 TWO axles only, twin chrome exhaust stacks and visor, polished paint with road dust. No cargo bed. Clearly visible greased fifth-wheel coupling on exposed chassis at LEFT rear, suitable for heavy semi-trailers. 1.07m road tires smooth highway rib tread with chrome hubs. Facing RIGHT, mostly side-on with restrained elevated view showing little roof, chassis deck and tread. Premium semi-realistic painted game illustration matching approved Swamp Scout: dark readable contours, fine mechanical detail, rich weathered material textures. Soft even daylight. Entire vehicle and coupling visible with clear margins. TRUE transparent background. No ground, shadow, halo, checkerboard, text, logos or watermark."
   },
   "body": {
-    "edit_of": "vehicle-master-v1.png",
-    "prompt": "Precise edit of Turnpike 7 master. Remove ALL road wheels and tires, including far-side tires and dual tire glimpses. Leave true transparent empty wheel regions. Keep chassis, suspension, mudguards, fifth-wheel, body and every equipment detail unchanged. EXACT same canvas dimensions, position, camera and scale. Do not redesign or move anything. Also remove any cyan/blue fringe outside silhouette to clean true transparent edges. No ground or shadow."
+    "edit_of": "vehicle-master-v3.png",
+    "file": "body-v4.png",
+    "prompt": "Use case: precise-object-edit. Edit target turnpike-7 vehicle-master-v3.png, original canvas EXACTLY 2172x724 pixels. Remove ALL FIVE road wheels: three under left tanker, one tractor rear, one front at right; retain entire polished tanker, hazard symbols, hoses and chrome tractor. Remove every road tire and rim, including all far-side rubber. Replace each tire's UPPER semicircle with an OPAQUE painted wheel-well interior from the fender lip DOWN TO THE ORIGINAL HUB-CENTRE HORIZONTAL LINE, full arch width: dark solid inner fender liner with chassis rails, small axle housings, leaf springs, shocks, air lines and mud flaps, matching original truck style. Fill the gaps between tandem or triple arches above hub line with dark chassis/suspension. Absolutely NO transparent sky holes in any arch above hub line even with a separately animated tire dropped a third radius. Below hub line leave the lower half of every removed tire circle transparent; open ground clearance below chassis stays transparent. No tires, rims, circular wheel discs, black full-circle silhouettes or ghosts. Change NOTHING outside wheel regions. Cab, body, load, spare, equipment and all details stay exactly registered to original master pixels. Preserve canvas dimensions, body position, scale, camera and original clear margins. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration with soft even light. True alpha transparent background, no checkerboard, halo, ground, cast shadow, added text or watermark. Return edited image only at the EXACT original dimensions.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "Generate ONE Turnpike 7 highway road tire matching reference master: dark rubber smooth highway rib tread, polished chrome multi-hole rim and domed hub with bolts, road dust. Premium semi-realistic painted game illustration, natural dark contours and fine mechanical detail. Perfect circular side view, hub exactly centred on square 1536x1536 TRUE transparent canvas with equal clear margins. Soft even ambient illumination for rotating sprite. No axle, body, ground, shadow, lettering, logo, halo or watermark."
@@ -16,6 +34,16 @@
       "prompt": "Clean edge edit only of Turnpike 7 vehicle master. Remove ALL bright cyan blue red colored fringe and speckles around outer silhouette, replacing them with true transparency and clean natural dark material edges. Keep vehicle design, all wheels, coupling, camera, scale, exact 1774x887 canvas and position unchanged. No added halo, glow, shadow, ground or text. Retain complete truck.",
       "rejection_reason": "Cyan/blue fringe outside silhouette",
       "result": "Fringe remains visible; requires further cleanup"
+    },
+    {
+      "file": "body-v4.png",
+      "replaces": "body-v3.png",
+      "edit_of": "vehicle-master-v3.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "edit_of": "vehicle-master-v1.png",
+        "prompt": "Precise edit of Turnpike 7 master. Remove ALL road wheels and tires, including far-side tires and dual tire glimpses. Leave true transparent empty wheel regions. Keep chassis, suspension, mudguards, fifth-wheel, body and every equipment detail unchanged. EXACT same canvas dimensions, position, camera and scale. Do not redesign or move anything. Also remove any cyan/blue fringe outside silhouette to clean true transparent edges. No ground or shadow."
+      }
     }
   ],
   "v3": {

@@ -3,10 +3,40 @@
     "prompt": "Olive 6x4 heavy duty log truck with THREE truck axles and small folded log-loader crane behind cab. Long cedar logs on bunks with stakes and chains running back onto TWO-axle pole log trailer. Entire 17m rig in one very wide image. Work-worn paint and dried mud. Exactly FIVE fully visible identical 1.19m mud-terrain tires, deep chunky lugs. No mixer drum. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side. Orthographic side elevation, no cab front visible, round equal tires and centred rims, hubs aligned horizontally, horizontal chassis and log stack. Wide 3000x1000 canvas. CRITICAL: ONE continuous bundle of 16 metre long cedar logs extends uninterrupted from immediately behind the cab all the way to the rear trailer stakes. NO separate log bundles, NO gap in logs. Pole logging trailer is only rear wheel bogie and a long narrow connecting pole beneath the continuous logs. Vehicle occupies 90 percent of canvas width, 5 percent clear transparent margin each side."
   },
   "body": {
-    "prompt": "Edit supplied Cedar Hauler master. Remove all FIVE road tires and rims, truck and pole trailer, making empty transparent wheel regions. Keep continuous cedar logs, chains, stakes, crane, cab, chassis and suspension unchanged. Preserve exact canvas dimensions, position, scale, camera and remaining pixels. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side.",
-    "edit_of": "vehicle-master-v1.png"
+    "edit_of": "vehicle-master-v1.png",
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit cedar-hauler-7's own vehicle-master-v1.png; canvas EXACTLY 2172x724 pixels. Remove ALL FIVE road tires/rims: two trailer road wheels at left, two truck rear, one steering at right. Preserve all logs, stakes, chains, logging crane and olive cab. Remove all road rubber tires and rims COMPLETELY. Paint OPAQUE wheel-well interiors across the ENTIRE UPPER HALF of each original tire circle from fender lip to ORIGINAL HUB LINE, full arch width: dark solid metal inner fender liners with chassis rails, small axle housings, leaf or coil springs, shocks, air lines and mud flaps in the same weathered painted style. NO transparent holes above hub line. Fill gaps between tandem arches down to original hub line too. Background must not show when separate tire drops a third radius. Below hub line leave lower half of each removed tire circle transparent; preserve transparent open ground clearance under chassis. No tire tread, rims, discs, full black wheel circles, ghosts or far tires. Change NOTHING ELSE: all load, cab, equipment, spare and non-wheel-region pixels untouched. Exact same canvas size, position, scale, camera, clear margins. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, readable dark contours, weathered materials and fine mechanical detail, soft even light. True alpha transparent background, no checkerboard, halo, ground, shadow, added text or watermark. Return ONLY the edited PNG at the exact original dimensions.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "One matching Cedar Hauler road wheel: dark charcoal mud-terrain rubber with deep chunky open lugs, dried mud, olive steel circular rim with central bolted hub. Perfect circle, face-on, precisely centred with equal margins on square transparent canvas at least 1500x1500 pixels. No axle, body, ground, shadow, text. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side."
-  }
+  },
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "prompt": "Edit supplied Cedar Hauler master. Remove all FIVE road tires and rims, truck and pole trailer, making empty transparent wheel regions. Keep continuous cedar logs, chains, stakes, crane, cab, chassis and suspension unchanged. Preserve exact canvas dimensions, position, scale, camera and remaining pixels. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching Swamp Scout: dark readable contours, weathered materials, fine mechanical detail, rich natural texture, soft even daylight. Facing right. True transparent background, no halo, ground, shadow, text, logos or watermark. Full object with generous clear margins. PNG at least 1500px long side.",
+        "edit_of": "vehicle-master-v1.png"
+      }
+    }
+  ]
 }

@@ -14,6 +14,9 @@ the car's and season's `source/prompts.json`
    weathered surfaces, tiny fittings, glass, rim recesses, tread thickness and dark natural contours.
 3. Edit the master to remove all four **road** tires, including glimpses of far-side tires. Retain the
    rear spare, chassis and suspension details. Preserve the canvas, body position, camera and scale.
+   Fill each wheel well with opaque painted inner liner, chassis, axle and suspension down to the
+   hub line, including gaps between tandem arches; keep below the hub line and under the chassis
+   transparent. Never leave transparent holes above the hubs.
    This preserves the design relationship between the body and the generated master.
 4. Generate one matching wheel on a square transparent canvas, with a circular silhouette, centered
    hub and even lighting. Near and far instances share this asset. Do not use an entire vehicle image
@@ -29,7 +32,7 @@ the car's and season's `source/prompts.json`
 | Role | Current source | Background / special requirement |
 | --- | --- | --- |
 | Complete design / intro | `vehicle-master-v1.png` | Transparent, including road tires and attached gear |
-| Moving body | `body-v1.png` | Transparent empty road-wheel arches; spare remains |
+| Moving body | `body-v1.png` | Opaque painted wheel wells from lip to hub line, including tandem gaps; transparent below hubs and under chassis; spare remains |
 | Rotating tire | `wheel-v2.png` | Transparent square, circular, centered hub, soft even light |
 | Distant swamp | `backdrop-v2.png` | Opaque panorama, misty cool distance, no vehicle or UI |
 | Midground | `midground-v1.png` | Alpha between trunks/foliage, rooted horizontal baseline |
@@ -61,9 +64,21 @@ wording used in this run rather than reconstructing its details from memory.
 **Body extraction/edit**
 
 > Edit target: the inspected assembled master. Remove all road wheels and tires, including any visible
-> far-side tires, leaving true transparent empty wheel regions. Keep the attached spare, body, rack,
+> far-side tires. Fill each wheel well with opaque painted dark inner liner, chassis, axle and suspension
+> from the fender lip down to the hub line, including gaps between tandem arches. No transparency above
+> the hub; below the hub line and under the chassis stays transparent. Keep the attached spare, body, rack,
 > recovery equipment and chassis. Preserve the canvas dimensions, position, camera, scale and detail.
 > Do not redesign or move the body. This is the moving body layer; road wheels are animated separately.
+
+**Hard rule — filled wheel wells:** every body image fills each wheel arch with an opaque, painted
+wheel-well interior (dark inner liner, chassis, axle and suspension parts) from the fender lip down
+to the hub line, including the gaps between tandem arches. The arch must never be transparent above
+the hub, because the tires move with the suspension and any hole shows the background. Below the
+hub line, and under the chassis, stays transparent.
+
+Review every arch with a contrasting background and the separate tire dropped by a third of its
+radius. Reject any upper-arch hole, remaining road tire or rim, or filled ground clearance below
+the hubs. Body and master must have identical dimensions and registration.
 
 **Wheel**
 

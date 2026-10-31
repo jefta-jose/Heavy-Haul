@@ -3,8 +3,26 @@
     "prompt": "Burnt orange highway tractor with marker lights and wide mirrors coupled to a plain box freight semi-trailer. Polished paint with road dust. Exactly FOUR axles TOTAL: TWO tractor axles (one steering, one drive), TWO trailer axles at far left. Identical 1.00m highway rib tread road tires and silver hubs on ALL axles. Whole tractor AND trailer in one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Very wide 3000x1000 composition. Orthographic side elevation, FOUR road wheels clearly visible: 2 at left trailer, 1 tractor rear drive, 1 front steering at right."
   },
   "body": {
-    "prompt": "Edit supplied Interstate master. Remove ALL FOUR ROAD tires and rims from tractor AND trailer, transparent empty wheel regions. Preserve complete box trailer, cab, chassis, suspension, mirrors and all fittings. Same exact canvas dimensions, position, scale, camera and all remaining detail. No moving or redesigning. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
-    "edit_of": "vehicle-master-v1.png"
+    "edit_of": "vehicle-master-v1.png",
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target interstate-1 vehicle-master-v1.png, original canvas EXACTLY 2296x883 pixels. Remove ALL FOUR road wheels: two under left box trailer, one behind tractor cab, one front at right; retain entire white box trailer and orange cab. Remove every road tire and rim, including all far-side rubber. Replace each tire's UPPER semicircle with an OPAQUE painted wheel-well interior from the fender lip DOWN TO THE ORIGINAL HUB-CENTRE HORIZONTAL LINE, full arch width: dark solid inner fender liner with chassis rails, small axle housings, leaf springs, shocks, air lines and mud flaps, matching original truck style. Fill the gaps between tandem or triple arches above hub line with dark chassis/suspension. Absolutely NO transparent sky holes in any arch above hub line even with a separately animated tire dropped a third radius. Below hub line leave the lower half of every removed tire circle transparent; open ground clearance below chassis stays transparent. No tires, rims, circular wheel discs, black full-circle silhouettes or ghosts. Change NOTHING outside wheel regions. Cab, body, load, spare, equipment and all details stay exactly registered to original master pixels. Preserve canvas dimensions, body position, scale, camera and original clear margins. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration with soft even light. True alpha transparent background, no checkerboard, halo, ground, cast shadow, added text or watermark. Return edited image only at the EXACT original dimensions.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2296,
+        883
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "One Interstate matching road wheel: 1.00m road tire with highway rib tread and silver multi-hole rim, road dust. Perfect circular silhouette and concentric centred rim/hub, face-on on square 1600x1600 transparent canvas, equal margins. Soft even light. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
@@ -49,5 +67,17 @@
     ],
     "rgba": true,
     "axles": 4
-  }
+  },
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "prompt": "Edit supplied Interstate master. Remove ALL FOUR ROAD tires and rims from tractor AND trailer, transparent empty wheel regions. Preserve complete box trailer, cab, chassis, suspension, mirrors and all fittings. Same exact canvas dimensions, position, scale, camera and all remaining detail. No moving or redesigning. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+        "edit_of": "vehicle-master-v1.png"
+      }
+    }
+  ]
 }

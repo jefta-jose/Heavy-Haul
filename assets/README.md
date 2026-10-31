@@ -36,6 +36,12 @@ assets/
 and only the wheels are separate. Tires are fixed per car; to get something stronger, switch to
 a different car.
 
+**Hard rule — filled wheel wells:** every body image fills each wheel arch with an opaque, painted
+wheel-well interior (dark inner liner, chassis, axle and suspension parts) from the fender lip down
+to the hub line, including the gaps between tandem arches. The arch must never be transparent above
+the hub, because the tires move with the suspension and any hole shows the background. Below the
+hub line, and under the chassis, stays transparent.
+
 The build picks the first `playable` car and season (alphabetically), or the ones named by
 `HAUL_CAR` / `HAUL_SEASON`. Art keys in a car and its season must not collide.
 
@@ -155,6 +161,10 @@ load entry; the vehicle builder does not separately add that listed weight.
 
 `art.master`, `art.body` and `art.wheel` each contain a runtime `file` and a recorded `source`
 path. Changing `source` alone does not replace the runtime image.
+The body is an edit of its own master with every road tire and rim removed and replaced by filled
+wheel wells under the hard rule above. Preserve the master's exact canvas, position, scale and
+camera; keep the load, spare and equipment unchanged. Check opaque coverage from each fender lip
+to the hub line, including tandem gaps, with the separate tire dropped by a third of its radius.
 
 | Field under `rig` | Meaning |
 | --- | --- |

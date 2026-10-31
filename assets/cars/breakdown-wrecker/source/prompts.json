@@ -11,15 +11,26 @@
     "sha256": "b7b7f73074b3b68960643bc79353abdbbd84152e4c95fc641817bae66780563c"
   },
   "body": {
-    "file": "body-v1.png",
     "edit_of": "vehicle-master-v1.png",
-    "prompt": "Use case: precise-object-edit. Edit target: the attached APPROVED red commercial-cab 6x6 Breakdown Wrecker. This is an exact body-layer extraction, NOT a redesign. Remove ALL THREE near road wheels and their tires, and EVERY far-side road tire/rim glimpse behind the chassis. Every former road-wheel/tire region must be truly alpha transparent. Keep the wheel arches, fenders, springs, suspension arms, chassis, high cab, short bonnet, folded crane, tool lockers, rear left winch drum and hook, recovery equipment, underlift, hoses, exhaust, steps and all body paint detail EXACTLY as they are. Keep the exact 1774 x 887 canvas, truck position, scale, camera, colors and every non-wheel pixel. Do not move the body or alter its proportions. Do not replace wheels with black discs or painted empty arches: empty regions must be transparent. Preserve any attached spare if present. True transparent background around and beneath the truck, no ground/shadow, glow/fringe, text or logo. Output PNG 1774x887 matching the approved master precisely.",
-    "method": "built-in imagegen",
-    "dimensions": [
-      1774,
-      887
-    ],
-    "road_wheels_removed": true
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied Breakdown Wrecker vehicle-master-v1.png, EXACT original 1774x887 canvas. Remove ALL THREE road tires and rims and every far-side tire glimpse; replace each upper tire semicircle with a fully OPAQUE PAINTED wheel-well interior from the fender lip down to original hub line y=683 across full arch width, approximate hub x=385,720,1486. Paint solid dark inner fender liner with weathered chassis rails, small axle housings, yellow coil springs, shocks, air lines and mud flaps in this same premium semi-realistic painted game illustration. Fill the tandem gap between the two rear arches down to the same hub line with chassis/suspension/shadow. Absolutely no transparent holes above hub line, even when separate tires drop by a third radius. Below hub line leave the lower semicircle of every removed tire truly transparent, and retain transparent open ground clearance under chassis. No rubber tire fragments, rims, wheel-shaped discs or black full circles. Keep EVERY other original pixel and geometry unchanged: commercial red cab, short bonnet, folded crane, rear LEFT winch drum/cable/hook, lockers, ropes, tools, underlift, exhaust, steps, colour and detail. Preserve canvas dimensions, body position, scale and camera; no redesign, crop, move or relight. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Soft even daylight, weathered materials and fine mechanical detail. True alpha transparent background, no checkerboard, colored halo, ground, shadow, added text or watermark. Full object with original margins. Return only edited transparent PNG at exactly 1774x887.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "file": "wheel-v1.png",
@@ -61,6 +72,23 @@
             "rejection_reason": "Ground shadow and colored silhouette fringe"
           }
         ]
+      }
+    },
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "Transparent upper wheel arches exposed background when the separately animated tires dropped with suspension.",
+      "previous_body_entry": {
+        "file": "body-v1.png",
+        "edit_of": "vehicle-master-v1.png",
+        "prompt": "Use case: precise-object-edit. Edit target: the attached APPROVED red commercial-cab 6x6 Breakdown Wrecker. This is an exact body-layer extraction, NOT a redesign. Remove ALL THREE near road wheels and their tires, and EVERY far-side road tire/rim glimpse behind the chassis. Every former road-wheel/tire region must be truly alpha transparent. Keep the wheel arches, fenders, springs, suspension arms, chassis, high cab, short bonnet, folded crane, tool lockers, rear left winch drum and hook, recovery equipment, underlift, hoses, exhaust, steps and all body paint detail EXACTLY as they are. Keep the exact 1774 x 887 canvas, truck position, scale, camera, colors and every non-wheel pixel. Do not move the body or alter its proportions. Do not replace wheels with black discs or painted empty arches: empty regions must be transparent. Preserve any attached spare if present. True transparent background around and beneath the truck, no ground/shadow, glow/fringe, text or logo. Output PNG 1774x887 matching the approved master precisely.",
+        "method": "built-in imagegen",
+        "dimensions": [
+          1774,
+          887
+        ],
+        "road_wheels_removed": true
       }
     }
   ],

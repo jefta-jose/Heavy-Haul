@@ -3,8 +3,26 @@
     "prompt": "Gunmetal grey heavy-haul prime mover coupled to THREE-axle multi-axle lowbed with hydraulic gooseneck hitch, carrying yellow tracked excavator chained down, folded boom and bucket on deck. Heavy grime and chipped paint. Exactly SIX ROAD axles TOTAL: THREE on tractor (rear tandem and front steering), THREE on lowbed at left. Identical 1.20m highway rib tread road tires on ALL six axles. Entire rig and load one image. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides. Very wide lowbed composition 3300x1000. Exactly SIX equal road wheels: THREE at far left lowbed rear, TWO behind tractor cab, ONE steering under cab/hood at right. No extra road wheels under low deck."
   },
   "body": {
-    "prompt": "Edit supplied Prime Mover master. Remove ALL SIX ROAD tires and rims below deck, THREE tractor and THREE lowbed. Transparent empty road-wheel regions. Keep excavator INCLUDING its tracks and track rollers above deck, chains, lowbed, gooseneck hitch, tractor cab, chassis and suspension unchanged. Exact same canvas dimensions, position, scale and camera. No redesign or shifting. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
-    "edit_of": "vehicle-master-v1.png"
+    "edit_of": "vehicle-master-v1.png",
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target: attached Prime Mover vehicle-master-v1.png, original canvas EXACTLY 2285x886 pixels. Produce body-v2.png. Remove ALL SIX ROAD TIRES AND RIMS: three under left trailer, two tractor rear, one front at right. KEEP excavator tracks and track rollers above deck, excavator, cab, lowbed, chains, equipment, paint and every non-wheel pixel untouched. Replace removed wheels' UPPER semicircles with opaque painted dark wheel-well interiors: continuous shadowed metal inner liner from fender lip down to original horizontal hub-centre line across full arch width, with chassis rails, small axle housings, leaf springs, shocks, air lines and mud flaps. Fill spaces between tandem/triple arches above hub line with matching shadowed chassis. NO transparent holes anywhere inside upper wheel wells, even with separate tire dropping one-third radius. Below original hub line lower half of each road tire circle is true transparent; keep all open ground clearance transparent. NO rubber tires, rims, circular wheel discs, ghosts or far tires. Do not replace tires with black circular silhouettes; upper well interiors end at hub line. Preserve exact original canvas dimensions, vehicle position, scale, perspective and all load/body details. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, soft even light. True alpha transparent background, no checkerboard, halo, ground, shadow, text or watermark. Full vehicle inside clear margins. Return only edited image at exactly 2285x886, no layout change.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2285,
+        886
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "One matching Prime Mover road wheel: 1.20m highway rib tread road tire, weathered dark silver steel multi-hole rim, heavy road grime. Perfect circular silhouette, concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal generous margins. Soft even ambient light for spinning. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
@@ -59,5 +77,17 @@
     ],
     "rgba": true,
     "axles": 6
-  }
+  },
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "prompt": "Edit supplied Prime Mover master. Remove ALL SIX ROAD tires and rims below deck, THREE tractor and THREE lowbed. Transparent empty road-wheel regions. Keep excavator INCLUDING its tracks and track rollers above deck, chains, lowbed, gooseneck hitch, tractor cab, chassis and suspension unchanged. Exact same canvas dimensions, position, scale and camera. No redesign or shifting. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+        "edit_of": "vehicle-master-v1.png"
+      }
+    }
+  ]
 }

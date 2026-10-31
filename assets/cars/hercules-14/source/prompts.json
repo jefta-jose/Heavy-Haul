@@ -4,8 +4,26 @@
     "reference": "assets/cars/atlas-8/source/vehicle-master-v1.png"
   },
   "body": {
-    "prompt": "Edit supplied Hercules master. Remove ALL EIGHT ROAD tires and rims below deck: FOUR trailer and FOUR prime mover including both front steering wheels. Transparent empty wheel arches. Keep white civilian rocket stage, cradles, straps, chains, red cab, roll cage, beacons, bullbar, lowbed, chassis and suspension unchanged. Exact same canvas dimensions, position, scale and camera. Do not move or redesign anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
-    "edit_of": "vehicle-master-v1.png"
+    "edit_of": "vehicle-master-v1.png",
+    "file": "body-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit hercules-14's own vehicle-master-v1.png; canvas EXACTLY 2296x883 pixels. Remove ALL EIGHT ROAD tires/rims: four trailer road wheels at left, two tractor rear and two tractor front at right. Preserve all white rocket stage, engine bells, cradles, chains and red cab. Remove every ROAD rubber tire and rim COMPLETELY. Replace each tire's UPPER semicircle with a fully OPAQUE painted wheel-well interior from arch lip down to the original HUB-CENTRE horizontal line across its ENTIRE WIDTH. Paint dark solid shadowed inner fender liner with chassis rails, small axle housings, leaf/coil springs, shocks, air lines and mud flaps, matching existing truck colour/style. Fill inter-arch gaps between tandem/bogie/trailer axles down to hub line with continuous shadowed chassis/suspension too. NO transparent holes above hub line even when separate tires drop by a third radius. Below hub line lower half of each tire circle stays truly transparent; ground clearance below chassis stays transparent. No rubber tread, rims, road-wheel discs, black full-circle silhouettes, tire ghosts, or far-side tires. Keep ALL OTHER original master pixels unchanged, exact same canvas dimensions and vehicle/load position, scale, camera and details. No redesign, no shift, no relighting, no cropping. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, weathered materials and fine mechanical detail, soft even light. True alpha transparent background, no checkerboard, halo, ground, shadows, added text or watermark. Whole object within original margins. Return only edited image at exact original dimensions.",
+    "generation_tool": "built-in image_gen",
+    "local_processing": {
+      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+    },
+    "validation": {
+      "dimensions": [
+        2296,
+        883
+      ],
+      "rgba": true,
+      "opaque_upper_wells": true,
+      "transparent_lower_wheel_regions": true,
+      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+    }
   },
   "wheel": {
     "prompt": "One matching Hercules wheel: giant 2.56m charcoal mining tire with deep chevron tread, weathered dark silver bolted steel multi-hole rim matching master, grime and light dried mud. Perfect circular silhouette, concentric centred rim/hub, face-on on square 1600x1600 true transparent canvas, equal generous margins. Soft even ambient light for spinning. No axle, body, ground, shadow, lettering, halo or coloured fringe. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration."
@@ -85,5 +103,17 @@
       "rejection_reason": "Six road axles instead of eight"
     }
   ],
-  "generation_tool": "built-in image_gen"
+  "generation_tool": "built-in image_gen",
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "replaces": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "rejection_reason": "The old body left wheel arches transparent above the hubs, exposing the background when separately rendered tires dropped with suspension.",
+      "previous_body_entry": {
+        "prompt": "Edit supplied Hercules master. Remove ALL EIGHT ROAD tires and rims below deck: FOUR trailer and FOUR prime mover including both front steering wheels. Transparent empty wheel arches. Keep white civilian rocket stage, cradles, straps, chains, red cab, roll cage, beacons, bullbar, lowbed, chassis and suspension unchanged. Exact same canvas dimensions, position, scale and camera. Do not move or redesign anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration matching approved Swamp Scout. Readable dark contours, richly textured weathered materials and fine mechanical detail, soft even daylight. Facing RIGHT, cab front face NOT visible, only sliver of roof. True alpha transparent background with clean neutral edges, NO coloured fringe, halo, checkerboard, ground, shadow, text, logos or watermark. Every near-side tire fully visible, perfectly circular with centred rim, hub centres horizontal and bottoms level. Chassis/deck/load horizontal. Full object with generous 5% clear margins on all sides.",
+        "edit_of": "vehicle-master-v1.png"
+      }
+    }
+  ]
 }
