@@ -223,7 +223,7 @@ function adapt(dt) {
   if (slowT > 3 && view.quality > 0.6) { view.quality = Math.max(0.6, view.quality - 0.15); slowT = 0; frameAvg = 1 / 60; pendingResize = true; }
 }
 function frame(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
   if (pendingResize) { pendingResize = false; resize(); }
   const playing = session.state === 'play';
   if (playing) {

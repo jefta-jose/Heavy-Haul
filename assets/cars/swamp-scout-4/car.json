@@ -80,7 +80,7 @@
     "nose": 3.6
   },
   "camera": {
-    "zoom": 1.5
+    "zoom": 1.95
   },
   "physics": {
     "mass": 3800,

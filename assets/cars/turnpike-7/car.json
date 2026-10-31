@@ -46,7 +46,7 @@
     ],
     "wheelY": [
       0,
-      0,
+      -0.065,
       -0.065,
       -0.065,
       -0.065
@@ -65,7 +65,7 @@
     ],
     "wheelArtRadius": 592,
     "farWheelOffset": [
-      0.2,
+      0.08,
       0.13
     ],
     "archCircles": [
@@ -106,7 +106,7 @@
     "nose": 5.994
   },
   "camera": {
-    "zoom": 3
+    "zoom": 2
   },
   "physics": {
     "mass": 9500,

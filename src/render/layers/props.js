@@ -107,7 +107,7 @@ export function createProps(scene) {
     for (const l of scene.sim.logs) {
       if (l.x < lo - 2 || l.x > hi + 2) continue;
       if (crossingSprite(l)) continue;
-      ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a);
+      ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a); ctx.imageSmoothingQuality = 'medium';   // shrunk bark texture
       pat.setTransform(new DOMMatrix([l.r * 2 / 110, 0, 0, l.r * 2 / 110, 0, -l.r]));
       ctx.beginPath(); ctx.ellipse(len, 0, l.r * 0.55, l.r, 0, -Math.PI / 2, Math.PI / 2); ctx.lineTo(0, l.r); ctx.lineTo(0, -l.r); ctx.closePath();
       ctx.fillStyle = pat; ctx.fill();

@@ -12,7 +12,7 @@ const GIVE = { mud: 1, creek: 0.8, dirt: 0.45, gravel: 0.25 };
 const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the lane's elevated view
 export function createMudLayer(scene) {
   const { ctx } = scene.view, sim = scene.sim;
-  let currentTime = 0, world = null, ruts = null, lastCell = new WeakMap();
+  let world = null, ruts = null, lastCell = new WeakMap();
   function clear() {
     const { X0, X1 } = sim.terrain, n = Math.ceil((X1 - X0) / RES) + 2;
     ruts = { X0, depth: new Float32Array(n), width: new Float32Array(n), soft: new Float32Array(n), count: 0 };
@@ -52,7 +52,7 @@ export function createMudLayer(scene) {
   // the ruts in view, for each wheel track: a soft-edged groove whose width follows the depth and
   // the tire, a darker bottom, lumpy soil pushed up along both edges and tread chevrons pressed into
   // the bottom. Edges wobble a little so nothing reads as a ruler line.
-  function drawRuts(lo, hi) {
+  function drawRuts(lo, hi, offsets = RUT_OFFSETS) {
     if (!ruts) return;
     const c0 = Math.max(0, cellOf(lo)), c1 = Math.min(ruts.depth.length - 1, cellOf(hi)), D = ruts.depth, W = ruts.width, S = ruts.soft;
     const X = c => ruts.X0 + c * RES;
@@ -63,7 +63,7 @@ export function createMudLayer(scene) {
       for (let k = end; k >= start; k--) ctx.lineTo(X(k), bottom(k));
       ctx.closePath();
     };
-    for (const off of RUT_OFFSETS) {
+    for (const off of offsets) {
       let c = c0;
       while (c <= c1) {
         while (c <= c1 && D[c] < 0.02) c++;
@@ -150,7 +150,6 @@ export function createMudLayer(scene) {
     }
   }
   function surface(time) {
-    currentTime = time;
     const [lo, hi] = scene.view.viewX();
     cachedSurface(lo, hi);
     // Slow bubbles make the deep slurry read as liquid (no reflections: the user removed them).
@@ -163,12 +162,14 @@ export function createMudLayer(scene) {
     }
     drawRuts(lo - 1, hi + 1);
   }
+  // The mud and the near wheel track again, in front of the sunk tire bottoms, rocks and log ends.
+  // The far track and the bubbles sit above the lip, so they are not drawn twice.
   function foreground() {
     const [lo, hi] = scene.view.viewX(), bottom = scene.view.cam.y - scene.view.H / scene.view.ppm - 2;
     ctx.save(); ctx.beginPath();
     for (let x = lo; x <= hi + 0.25; x += 0.25) ctx.lineTo(x, sim.visH(x) - 0.025 + Math.sin(x * 23) * 0.01);
     ctx.lineTo(hi + 0.25, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip();
-    surface(currentTime); ctx.restore();
+    cachedSurface(lo, hi); drawRuts(lo - 1, hi + 1, [RUT_OFFSETS[1]]); ctx.restore();
   }
   return {
     update, surface, foreground, clear,

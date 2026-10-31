@@ -107,7 +107,7 @@
     "nose": 7.02
   },
   "camera": {
-    "zoom": 3.2
+    "zoom": 2.2
   },
   "physics": {
     "mass": 13400,
@@ -227,7 +227,7 @@
         0
       ]
     ],
-    "torqueScale": 1.322,
+    "torqueScale": 2.322,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

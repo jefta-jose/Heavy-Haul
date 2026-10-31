@@ -43,8 +43,8 @@
       -2.179
     ],
     "wheelY": [
-      0,
-      0
+      -0.15,
+      -0.15
     ],
     "radius": 0.725,
     "wheelPivot": [
@@ -79,7 +79,7 @@
     "nose": 3.321
   },
   "camera": {
-    "zoom": 1.5
+    "zoom": 1.95
   },
   "physics": {
     "mass": 3400,

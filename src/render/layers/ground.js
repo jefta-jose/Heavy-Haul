@@ -37,7 +37,8 @@ function bank(scene, lo, hi) {
   const key = `${px.toFixed(4)}:${scene.season.render.bankTile}`;
   if (C.bankKey !== key) { C.bankKey = key; C.bankChunks = new Map(); }
   const chunkWidth = scene.season.render.bankTile / 2, { visH } = scene.sim;
-  for (let index = Math.floor(lo / chunkWidth); index <= Math.floor(hi / chunkWidth); index++) {
+  const first = Math.floor(lo / chunkWidth), last = Math.floor(hi / chunkWidth);
+  for (let index = first; index <= last; index++) {
     let tile = C.bankChunks.get(index);
     if (!tile) {
       const x = index * chunkWidth, end = x + chunkWidth;
@@ -48,10 +49,15 @@ function bank(scene, lo, hi) {
       const bottom = low - (img.height - r.bankContactRow) * scale - 0.1;
       const canvas = makeCanvas(Math.ceil(chunkWidth * px), Math.ceil((top - bottom) * px));
       const g = canvas.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+      // deep soil under the contour first: the bank art is not quite opaque (alpha 252)
+      g.setTransform(px, 0, 0, -px, -x * px, top * px); g.beginPath();
+      for (let t = x - COL; t <= end + COL; t += COL) g.lineTo(t, visH(t) + 0.1);
+      g.lineTo(end + COL, bottom); g.lineTo(x - COL, bottom); g.closePath(); g.fillStyle = scene.cache.deepPat; g.fill();
       paintBank(scene, x, end, g, [px, 0, 0, -px, -x * px, top * px]);
+      paintLane(scene, g, x, end);
       tile = { canvas, x, top }; C.bankChunks.set(index, tile);
       // Keep memory bounded while crossing a long trail or teleporting between checkpoints.
-      if (C.bankChunks.size > 20) C.bankChunks.delete(C.bankChunks.keys().next().value);
+      if (C.bankChunks.size > Math.max(20, last - first + 5)) C.bankChunks.delete(C.bankChunks.keys().next().value);
     }
     ctx.save(); ctx.translate(tile.x, tile.top); ctx.scale(1, -1);
     ctx.drawImage(tile.canvas, 0, 0, tile.canvas.width / px, tile.canvas.height / px); ctx.restore();
@@ -59,17 +65,25 @@ function bank(scene, lo, hi) {
 }
 
 export function drawGround(scene) {
-  const { ctx, cam, H, ppm } = scene.view, [xa, xb] = scene.view.viewX();
-  // Fill under the ENTIRE terrain contour first. A single height sampled at the camera centre
-  // leaves wedges on slopes; this silhouette always extends beyond the viewport bottom.
+  const { ctx, cam, H, ppm } = scene.view, [xa, xb] = scene.view.viewX(), { visH } = scene.sim;
+  // Deep soil below the bank. The cached bank chunks carry it under the contour down to their
+  // bottom edge, so fill only below the bank's own lowest contour (its broad contour, less its depth).
+  // A single height sampled at the camera centre leaves wedges on slopes; this follows the contour
+  // and always extends beyond the viewport bottom.
+  const img = scene.images.bank, r = scene.season.render, depth = (img.height - r.bankContactRow) * r.bankTile / img.width - 0.05;
+  const broad = x => (visH(x - 3) + 2 * visH(x - 1.5) + 3 * visH(x) + 2 * visH(x + 1.5) + visH(x + 3)) / 9 - depth;
   const bottom = cam.y - H / ppm - 2;
+  let visible = false;
   ctx.save(); ctx.beginPath();
   for (let x = xa; x <= xb + COL; x += COL) {
-    const y = scene.sim.visH(x) + 0.1;
+    const y = Math.min(broad(x), visH(x) + 0.1);
+    if (y > cam.y - H / 2 / ppm) visible = true;
     if (x === xa) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
   ctx.lineTo(xb + COL, bottom); ctx.lineTo(xa, bottom); ctx.closePath();
-  ctx.fillStyle = scene.cache.deepPat; ctx.fill(); ctx.restore();
+  // the texture is shrunk a lot here: keep it mipmapped (the main canvas draws with 'low')
+  if (visible) { ctx.imageSmoothingQuality = 'medium'; ctx.fillStyle = scene.cache.deepPat; ctx.fill(); }
+  ctx.restore();
   bank(scene, xa, xb);
 }
 
@@ -84,9 +98,11 @@ export function drawFrontLip(scene) {
 
 // A broad worn trail blended into its shoulders, with two irregular tire ruts. Materials remain
 // world-anchored; there is no solid dark ribbon or ruler-straight outline over the painted bank.
-export function drawLane(scene) {
-  const { ctx } = scene.view, { visH, terrain } = scene.sim, C = scene.cache, tints = scene.season.render.lane.tints;
-  const [lo, hi] = scene.view.viewX(), x0 = Math.floor(lo / COL) * COL, x1 = Math.ceil(hi / COL) * COL, BLEND = 2;
+// It never changes, so it is painted into the cached bank chunks (live, its clipped translucent
+// bands were the second most expensive thing on screen in Chrome).
+function paintLane(scene, ctx, lo, hi) {
+  const { visH, terrain } = scene.sim, C = scene.cache, tints = scene.season.render.lane.tints;
+  const x0 = Math.floor(lo / COL) * COL, x1 = Math.ceil(hi / COL) * COL, BLEND = 2;
   const laneTop = x => (visH(x - 1) + 2 * visH(x) + visH(x + 1)) / 4 + 0.82 + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08;
   const lanePath = (a, b) => {
     ctx.beginPath();
@@ -129,4 +145,5 @@ export function drawLane(scene) {
     line(x => rut(x, off), 0.07, 'rgba(24,21,15,0.12)');
     line(x => rut(x, off) + 0.06, 0.025, 'rgba(191,171,127,0.10)');
   }
+  ctx.globalAlpha = 1;
 }

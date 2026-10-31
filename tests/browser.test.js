@@ -91,8 +91,10 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // The camera uses the car's own zoom from car.json; there is no zoom button any more.
     assert.equal(await page.locator('#cameraBtn').count(), 0, 'no zoom button');
     assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.car.camera.zoom), 'the car sets the zoom');
-    await page.waitForTimeout(200);
-    assert(await page.evaluate(() => { const { W, ppm, cam } = __haul.view, nose = __haul.sim.truck.getWorldPoint(__haul.sim.V(__haul.sim.car.rig.nose, 0)); const x = (nose.x - cam.x) * ppm + W / 2; return x > W * 0.5 && x < W * 0.9; }), 'nose stays in frame');
+    // the steps above jump the car ahead instantly: give the camera spring real frames to catch up
+    const noseInFrame = () => { const { W, ppm, cam } = __haul.view, nose = __haul.sim.truck.getWorldPoint(__haul.sim.V(__haul.sim.car.rig.nose, 0)); const x = (nose.x - cam.x) * ppm + W / 2; return x > W * 0.5 && x < W * 0.9; };
+    await page.waitForFunction(noseInFrame, null, { timeout: 4000 }).catch(() => {});
+    assert(await page.evaluate(noseInFrame), 'nose stays in frame');
     await capture('02-close');
     // the engine switch: off stops the truck from driving, on cranks it first; each truck has its own engine voice
     await page.waitForFunction(() => __haul.audio.mode === 'recorded');
@@ -113,6 +115,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.start); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.click('#engineBtn');
     assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'off', 'ENGINE turns it off');
+    // the HUD refreshes its buttons at 10 Hz, so allow a frame or two for the button to follow
+    await page.waitForFunction(() => document.getElementById('engineBtn').getAttribute('aria-pressed') === 'false', null, { timeout: 2000 }).catch(() => {});
     assert.equal(await page.locator('#engineBtn').getAttribute('aria-pressed'), 'false');
     // on firm, level ground at the start (the drive above can end at the edge of the mud, where a
     // parked truck settles a little as its tires sink)
@@ -318,7 +322,7 @@ test('terrain stays opaque below uphill, downhill and valley contours', { timeou
           const pattern = ctx.createPattern(images.ground, 'repeat');
           pattern.setTransform(new DOMMatrix([0.004, 0, 0, -0.004, 0, 0]));
           window.drawTestGround({ view: { ctx, cam, H, ppm, viewX: () => [lo, hi] },
-            images, season: { render }, worldMatrix: matrix, sim: { visH }, cache: { deepPat: pattern } });
+            images, season: { render }, worldMatrix: matrix, sim: { visH, terrain: { zones: [] } }, cache: { deepPat: pattern, lanePat: {} } });
           const pixels = ctx.getImageData(0, 0, W, H).data;
           let missing = 0;
           for (let x = 2; x < W - 2; x += 3) {

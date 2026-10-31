@@ -1,7 +1,7 @@
 import { loadImages } from './canvas-utils.js';
 import { createSceneryCache } from './sprite-cache.js';
 import { drawBackground, drawForegroundShade } from './layers/background.js';
-import { drawGround, drawFrontLip, drawLane } from './layers/ground.js';
+import { drawGround, drawFrontLip } from './layers/ground.js';
 import { createProps } from './layers/props.js';
 import { createVehicleLayer } from './layers/vehicle.js';
 import { drawWater, drawRipples } from './layers/water.js';
@@ -11,7 +11,7 @@ import { createMudLayer } from './layers/mud.js';
 
 // Painted 2.5D scene: screen-space backdrop, then world-space layers in metres (y up).
 // Layer order (back to front):
-//   backdrop, haze, midground -> bank, road lane -> props, rocks, log bark -> exhaust ->
+//   backdrop with its haze, forest floor, midground -> bank with the road lane -> props, rocks, log bark -> exhaust ->
 //   shadows, 4x4/DIFF outline, vehicles with their loads (far tires, body, near tires, fenders),
 //   service winch cables -> front mud lip, log ends -> contact accents, water,
 //   ripples, dust/spray/debris -> foreground props -> shade.
@@ -53,10 +53,12 @@ export function createRenderer({ view, sim, content, onEvent }) {
     }
     time += dt;
     scene.cache.prepare();
-    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'medium';
+    // Sprites are cached at screen size, so plain bilinear filtering is enough; Chrome's 'medium'
+    // mipmaps every draw and cost about 40% of the frame.
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';
     drawBackground(scene);
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
-    drawGround(scene); drawLane(scene);
+    drawGround(scene);
     if (playing) mud.update(dt);
     props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time);

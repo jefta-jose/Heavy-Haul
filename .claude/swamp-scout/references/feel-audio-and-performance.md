@@ -144,6 +144,22 @@ Causes and fixes:
 | Canvas at DPR 2 | DPR capped at 1.5; adaptive quality drops to 0.85 or 0.7 if frames average over 25 ms for 3 s |
 | Gauges redrawn every frame | 30 Hz |
 
+**2026-10-31, "very slow on mobile and Chrome, smooth on Firefox":** Chrome pays per pixel for
+mipmapped filtering, clipped translucent pattern fills and full-screen overdraw, which Firefox's
+WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, with an identical look:
+
+| Cost | Fix |
+| --- | --- |
+| `imageSmoothingQuality = 'medium'` on the main canvas (Chrome mipmaps every draw, about 40% of the frame) | `'low'`: sprites are already resampled to screen size. Keep `'medium'` only around pattern fills that shrink their texture a lot (deep soil, log bark) |
+| Sky fill, fog gradient, clipped forest floor with 12 alpha strips, midground with `globalAlpha`: about 6 full-screen passes | Fog baked into the cached backdrop (opaque, so no sky fill); midground opacity baked in; forest floor cached in 8 m chunks relative to the horizon; backdrop and midground cached at their on-screen height and blitted 1:1 at whole device pixels |
+| Road lane: six clipped translucent pattern bands per zone slice every frame | Painted once into the cached bank chunks (it never changes) |
+| Deep soil pattern filled under the whole bank | Filled only below the bank's bottom edge (the bank art is opaque from its contact row down) |
+| Mud foreground redrew both rut tracks and the bubbles | Only the near track (the far one and the bubbles never reach below the lip) |
+| Main canvas with alpha | `getContext('2d', { alpha: false })` |
+
+Rules: never set a high smoothing quality on the main canvas, and never draw a full-screen layer or a
+clipped translucent pattern every frame when it could be cached in world-space or screen-space chunks.
+
 **Black-flash rule:** resizing a canvas clears it. The adaptive-quality step used to call `resize()`
 after drawing, and it fired during the naturally slow first seconds (cache building, ignition), so the
 screen flashed black twice. Now:
@@ -152,9 +168,10 @@ screen flashed black twice. Now:
 - it needs 3 s of sustained slowness;
 - the resize is deferred with `pendingResize` and runs at the start of the next frame, before drawing.
 
-To profile, record a few seconds in the browser's Performance panel on a real GPU. Headless
+To profile, record a few seconds in the browser's Performance panel on a real GPU (on a phone: `chrome://inspect` remote debugging). Headless
 SwiftShader collects the whole raster cost in whichever draw call flushes, so its per-stage timings
-mislead; compare after removing the suspected cost instead.
+mislead; compare whole frames (draw, then `getImageData(0, 0, 1, 1)` to flush) with one layer skipped at a
+time, against a baseline build in a git worktree.
 
 ## Framing
 

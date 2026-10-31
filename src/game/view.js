@@ -22,7 +22,7 @@ export const FRAMING = {
 };
 
 export function createView(canvas, sim) {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: false });   // opaque: the backdrop covers it every frame
   const cam = { x: 0, y: 5, vx: 0, vy: 0 };
   // zoom: what is on screen now; baseZoom: the driven car's own (car.json), restored after a job
   const view = { canvas, ctx, cam, W: 0, H: 0, DPR: 1, ppm: 20, quality: 1, zoom: FRAMING.zoom, baseZoom: FRAMING.zoom, groundFrac: FRAMING.ground };

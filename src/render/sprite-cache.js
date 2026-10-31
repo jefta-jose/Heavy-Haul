@@ -1,5 +1,8 @@
 import { makeCanvas, scaled, tinted, loadImages, alphaCrop } from './canvas-utils.js';
 
+// a copy with its opacity multiplied in, so it is drawn without globalAlpha
+const faded = (img, alpha) => { const c = makeCanvas(img.width, img.height), g = c.getContext('2d'); g.globalAlpha = alpha; g.drawImage(img, 0, 0); return c; };
+
 // Resampled sprites, patterns and gradients for the current zoom level and viewport. Rebuilt only
 // when the pixel scale or canvas size changes; each frame then blits sprites at screen size.
 
@@ -17,9 +20,17 @@ export function createSceneryCache(scene) {
       reeds: scaled(A.reeds, Math.min(1, 1.7 * px / A.reeds.width)),
       log: scaled(A.log, Math.min(1, 3 * px / A.log.width)),
       rock: null,
-      midground: scaled(A.midground, Math.min(1, H * DPR * 0.56 / A.midground.height)),
-      backdrop: scaled(A.backdrop, Math.min(1, H * DPR * 1.05 / A.backdrop.height)),
+      midground: faded(scaled(A.midground, Math.round(H * DPR * 0.55) / A.midground.height), 0.72),   // its on-screen height
+      backdrop: scaled(A.backdrop, Math.round(H * DPR * 1.04) / A.backdrop.height),
     };
+    // Haze baked into the backdrop, which is drawn H * 1.04 tall from y = -0.02 H: the band from
+    // 0.25 H to 0.74 H of the screen. One full-screen pass per frame fewer.
+    {
+      const b = C.img.backdrop, g = b.getContext('2d'), row = y => (y + 0.02) / 1.04 * b.height;
+      const fog = g.createLinearGradient(0, row(0.25), 0, row(0.74));
+      fog.addColorStop(0, 'rgba(169,193,195,0)'); fog.addColorStop(0.7, 'rgba(151,177,177,0.13)'); fog.addColorStop(1, 'rgba(148,167,157,0)');
+      g.fillStyle = fog; g.fillRect(0, 0, b.width, b.height);
+    }
     C.rockSource ??= alphaCrop(A.rock);
     C.img.rock = scaled(C.rockSource, Math.min(1, 2.6 * px / C.rockSource.width));
     for (const key of ['logCrossing', 'bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'pipe']) if (A[key]) {
@@ -37,7 +48,6 @@ export function createSceneryCache(scene) {
     }
     if (A.deepMud) { C.deepMudPat = ctx.createPattern(A.deepMud, 'repeat'); C.deepMudPat.setTransform(new DOMMatrix([0.0034, 0, 0, -0.0013, 0, 0])); }
     if (A.bridgeWood) { C.bridgePat = ctx.createPattern(A.bridgeWood, 'repeat'); C.bridgePat.setTransform(new DOMMatrix([0.002, 0, 0, -0.001, 0, 0])); }
-    C.fog = ctx.createLinearGradient(0, H * 0.25, 0, H * 0.74); C.fog.addColorStop(0, 'rgba(169,193,195,0)'); C.fog.addColorStop(0.7, 'rgba(151,177,177,0.13)'); C.fog.addColorStop(1, 'rgba(148,167,157,0)');
     C.shade = ctx.createLinearGradient(0, H * 0.72, 0, H); C.shade.addColorStop(0, 'rgba(15,24,17,0)'); C.shade.addColorStop(1, 'rgba(15,24,17,0.15)');
     // lane textures, squashed vertically for the slightly elevated side view
     C.lanePat = {};
