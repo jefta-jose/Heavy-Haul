@@ -30,6 +30,11 @@ spring tops over the tire.
    stays behind the tread. Never use a straight horizontal occlusion line.
 6. Run `npm test` (wheels settle at the registered ride height) and check a suspension capture.
 
+**Hard rule: axles on the painted hubs.** Each axle's x in `rig.axles` is the hub centre measured in the
+master (tire edges on rows just above the ground, cross-checked against the rim on a gridded crop),
+converted with `bodyOrigin` and `pixelsPerMetre`, within 3 px. A wheel even 10-15 px off its hub reads
+as sitting forward or back in its arch. See step 3 of the hook-up list in CLAUDE.md.
+
 Far tires use a pre-darkened copy of the wheel, offset `(0.2, 0.13)`, scale 0.95.
 
 ## Driving feel: brisk take-off, smooth drive

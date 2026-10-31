@@ -51,8 +51,18 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    body pixels), the ground line and the body length. Choose `pixelsPerMetre` from `lengthM` in
    `cars.json`. Measure the wheel's pivot and artwork radius (tire edge, not canvas margin).
 3. **Fit the tires to the arches**: pick the radius and hub height so the tread fills each arch with no
-   gap. Composite wheel + body + body-with-arches-cut-out offline and look at it before touching
-   the game.
+   gap. Composite wheel + body offline and look at it before touching the game.
+
+   **Hard rule: every axle sits on its painted hub, to within 3 px.** Each `rig.axles[i]` must equal
+   `(hubX - bodyOrigin[0]) / pixelsPerMetre`, where `hubX` is the hub centre measured in the
+   **master**, never guessed from the arch or the fender. Measure it two ways and make them agree:
+   the midpoint of the tire's left and right edges on two or three rows just above the ground line
+   (below the body, where only tires are opaque), and the centre of the rim and hub cap on a zoomed,
+   gridded crop. When they disagree (uneven tread, a mud flap or step in the row), trust the rim.
+   Set that arch circle's `x` to the same `hubX`. Then render `tools/art/preview-car.py` and check
+   every tire is centred in its well. Axles measured off by 10-20 px made the wheels sit visibly
+   forward or back on the Prime Mover, Interstate, Turnpike, Crossroads, Cedar Hauler and Pioneer
+   (fixed on 2026-10-31).
 4. **Write `car.json`** with `swamp-scout-4/car.json` as the template:
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields;
@@ -90,7 +100,8 @@ them for their class (until then the class's button is greyed out and says "Not 
 `tools/art/measure-vehicle.py <folder> --preview out.png` finds the wheel circles (pixels in the
 master missing from the body), the wheel sprite's pivot and radius, and the body outline, and
 writes a preview composite. It is a starting point: check every measurement on a gridded crop,
-because wheels that overlap fenders or each other confuse it.
+because wheels that overlap fenders or each other confuse it. It cannot find wheels in bodies whose
+wheel wells are painted in (the current rule), so measure hubs in the master as in step 3.
 When wheels touch each other (multi-axle rigs), find each hub from the tire tops instead.
 `tools/art/preview-car.py <folder> out.png --marks` composites a car exactly as the game draws it
 from its `car.json` registration: check it before playing. Long rigs need a high cab collision box
