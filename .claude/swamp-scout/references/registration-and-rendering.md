@@ -75,11 +75,11 @@ The active sequence is:
 1. Opaque distant panorama, subtle atmospheric haze, transparent midground trees.
 2. World-space painted bank, then the per-surface road lane (ruts and far edge).
 3. Back props, collision-rock art and log bark bands.
-4. Exhaust smoke and haze (behind the vehicle), chassis and tire contact shadows.
-5. The 4x4/DIFF outline (only while flashing), far tires, body, near tires, then the fender overlay
-   (body with `archCircles` cut out).
+4. Exhaust smoke and haze (behind the vehicle). No vehicle shadows: the user removed the ground,
+   chassis and tire contact shadows (2026-10-31); do not add them back.
+5. The 4x4/DIFF outline (only while flashing), far tires, body, then near tires in front of the body.
 6. Service winch cables, the foreground bank lip (only near the vehicle), then the log end caps.
-7. Contact accents, water surface, ripples, dust, spray, drops and chunks, front props.
+7. Water surface, ripples, dust, spray, drops and chunks, front props.
 8. Mild bottom-screen shading, then the HUD.
 
 Every sprite is drawn from canvases resampled once per zoom level in `prepare()`, never from the full
@@ -130,7 +130,7 @@ lip(x) = visH(x) - 0.04 + sin(18.7*x)*0.018 + sin(7.3*x)*0.027
 That restores real mud in front of sunk tire bottoms without a straight bitmap cutoff. Extend the
 near ground with the soil tile on tall displays so no blank rectangle appears below the bank.
 Current backdrop and midground horizontal parallax factors are `0.055` and `0.24`; ground/near props
-are anchored to world coordinates. Shadows and vegetation overlap provide depth without a freely
+are anchored to world coordinates. Parallax and vegetation overlap provide depth without a freely
 rotating camera. No reflections: the user had the vehicle reflection, puddle glints and mud sheen
 removed (2026-10-28).
 

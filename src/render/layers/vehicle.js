@@ -44,15 +44,6 @@ export function createVehicleLayer(scene) {
     ctx.globalAlpha = 1;
   }
 
-  function shadows(v) {
-    const { ctx } = view, sim = scene.sim, R = v.car.rig.radius, p = v.parts.truck.getWorldCenter();
-    const r = Math.max(3.7, (Math.max(...v.car.rig.axles) - Math.min(...v.car.rig.axles)) / 2 + R * 1.5);
-    ctx.save(); ctx.translate(p.x, sim.visH(p.x) + 0.025); ctx.scale(1, 0.16);
-    const g = ctx.createRadialGradient(0, 0, 0.4, 0, 0, r); g.addColorStop(0, 'rgba(14,19,12,0.6)'); g.addColorStop(1, 'rgba(14,19,12,0)');
-    ctx.fillStyle = g; ctx.fillRect(-r - 0.2, -1.5, 2 * r + 0.4, 3); ctx.restore();
-    for (const w of v.parts.wheels) { const q = w.getPosition(); ctx.fillStyle = 'rgba(15,20,12,0.28)'; ctx.beginPath(); ctx.ellipse(q.x, sim.visH(q.x) + 0.015, R * 0.82, 0.07, 0, 0, Math.PI * 2); ctx.fill(); }
-  }
-
   // a hooked winch cable: straight when taut, sagging when slack
   function winchCable(v) {
     const c = v.cable; if (!c) return;
@@ -69,13 +60,8 @@ export function createVehicleLayer(scene) {
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
-      for (const v of list) shadows(v);
       for (const v of list) { if (v === sim.active) border(v, dt); drawVehicle(v); }
       for (const v of sim.vehicles) winchCable(v);
-    },
-    contactAccents() {
-      const { ctx } = view, sim = scene.sim;
-      for (const v of sim.vehicles) for (const w of v.parts.wheels) { const p = w.getPosition(); ctx.fillStyle = 'rgba(30,27,18,0.13)'; ctx.beginPath(); ctx.ellipse(p.x, sim.visH(p.x) - 0.05, v.car.rig.radius * 0.62, 0.045, 0, 0, 7); ctx.fill(); }
     },
     get ready() { return [...caches.values()].every(c => c.loaded()); },
   };

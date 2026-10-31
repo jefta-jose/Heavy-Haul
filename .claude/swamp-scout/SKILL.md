@@ -50,8 +50,8 @@ rules should not override the supplied scout reference or the user's current ins
    the tire radius and hub height so the tread fills the arch with no gap under the fender. Verify an
    offline composite before playing.
 6. **Integrate immediately.** Make the body pitch and rise from the physics chassis and move each wheel
-   from its physics axle. Add far tires, contact shadows, the arch-cut fender overlay, foreground mud and
-   layered scenery. Keep terrain anchored to the physical height field. Read
+   from its physics axle. Add far tires, foreground mud and layered scenery (vehicles cast no
+   shadows, and the near tires draw in front of the body). Keep terrain anchored to the physical height field. Read
    [registration and rendering](references/registration-and-rendering.md) for the exact implementation.
 7. **Tune the feel, sound and frame rate.** Aim for a brisk take-off and a smooth drive. 4x4 and DIFF
    must change mud progress clearly and show a green or red outline when toggled. Give the trail
@@ -84,7 +84,8 @@ capability accurately. A finished existing asset does not need regeneration mere
   at a comfortable volume.
 - Steady frame rate with no black flashes at start-up: sprites are cached per zoom, there are no
   per-frame canvas or CSS filters, and adaptive resolution is deferred to the start of a frame.
-- Far tires, fender overlap, shadows and irregular ground occlusion make contact convincing.
+- Far tires and irregular ground occlusion make contact convincing. Vehicles have no shadows: the user
+  removed them (2026-10-31); do not add ground, chassis or tire contact shadows.
 - Suspension bounce does not shake the landscape; zoom and resize preserve vehicle framing.
 - Scrolling has no hard texture joins, colored alpha halos or blank edges.
 - Controls leave the vehicle readable at the requested display sizes.

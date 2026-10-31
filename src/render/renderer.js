@@ -12,8 +12,8 @@ import { createMudLayer } from './layers/mud.js';
 // Painted 2.5D scene: screen-space backdrop, then world-space layers in metres (y up).
 // Layer order (back to front):
 //   backdrop with its haze, forest floor, midground -> bank with the road lane -> props, rocks, log bark -> exhaust ->
-//   shadows, 4x4/DIFF outline, vehicles with their loads (far tires, body, near tires),
-//   service winch cables -> front mud lip, log ends -> contact accents, water,
+//   4x4/DIFF outline, vehicles with their loads (far tires, body, near tires; no shadows),
+//   service winch cables -> front mud lip, log ends -> water,
 //   ripples, dust/spray/debris -> foreground props -> shade.
 
 export function createRenderer({ view, sim, content, onEvent }) {
@@ -72,7 +72,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     layer('props', () => { props.drawBehind(); bridges.draw(); });
     layer('particles', () => { particles.update(playing ? dt : 0, playing); particles.draw('back'); });
     layer('vehicles', () => vehicles.draw(playing ? dt : 0));
-    layer('foreground', () => { drawFrontLip(scene); props.drawLogEnds(); mud.foreground(); bridges.drawFront(); drawRefueling(); vehicles.contactAccents(); });
+    layer('foreground', () => { drawFrontLip(scene); props.drawLogEnds(); mud.foreground(); bridges.drawFront(); drawRefueling(); });
     layer('water', () => { drawWater(scene, time); drawRipples(scene, time); particles.draw('front'); });
     layer('front', () => { props.drawFront(); drawForegroundShade(scene); });
     frames++;

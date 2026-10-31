@@ -96,7 +96,7 @@ Draw in this order:
 2. Continuous distant ground apron, then transparent midground vegetation over it.
 3. Opaque terrain fill extending past the screen bottom, then the painted bank and lane.
 4. Wet mud surface and retained tracks, back props and physical bridge decks.
-5. Vehicle shadows, vehicles and effects that belong behind them.
+5. Vehicles (no shadows) and effects that belong behind them.
 6. Irregular foreground soil lip, near log faces, mud below the terrain contour, near bridge ropes, water and foreground props.
 7. Gentle foreground shade and HUD.
 
