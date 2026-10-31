@@ -1,0 +1,174 @@
+{
+  "tool": "built-in imagegen",
+  "season": "swamp-summer-v2",
+  "note": "Prompts actually run with built-in image_gen. All four selected outputs are edits of the specified swamp-summer masters; rejected attempts and reasons retained. Local PNG registration/pixel preservation follows the user-approved alignment workflow.",
+  "style": "Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks.",
+  "backdrop": {
+    "file": "source/backdrop-v1.png",
+    "edit_of": "../swamp-summer/source/backdrop-v2.png",
+    "canvas": "1774x887 opaque",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. EDIT the supplied swamp-summer backdrop-v2.png at EXACTLY 1774x887. Keep original horizon/far waterline at y475 and the same major left/right tree positions and framing. EXTREME SIMPLIFICATION: quiet minimalist mobile game scenery, smooth pale warm-grey/blue-grey sky gradient and ONLY THREE broad flat tree silhouette layers, 3-4 muted sage/olive/teal-grey tones TOTAL plus sky gradient. Simple cypress/pine forms with rounded canopy masses, very few large clean moss drapes, NO small leaves, branch networks, grass blades, twigs, bark, stippling, brush noise or fine texture. Repaint completely inside original composition, do NOT trace original tiny silhouettes. Remove ALL foreground islands, reeds, cypress knees, logs and surface objects; below original horizon use ONE CALM UNIFORM flat pale teal-grey WATER BAND with absolutely NO reflections, mirrored trees, ripples, highlights, banks or islands. Nothing competes with the detailed game road that will cover foreground. Very LOW contrast, subtle smooth atmospheric haze, no dark outlines or hard edge strokes. Calm repeatable left/right edges. Whole image fully opaque alpha255. No vehicles, people, obstacles, text, logos or watermark. Exact original canvas and unchanged horizon, no crop or zoom. Return edited image only.",
+    "draft_prompt": "Edit target: the swamp panorama. Keep the full canvas, the horizon and the far waterline at exactly the same height. Repaint it as a very simple scene: a smooth pale sky gradient (warm near the horizon, soft blue-grey above), then two or three flat layered tree-line silhouettes of cypress and pine, each layer one flat colour that gets lighter and hazier with distance, with a calm flat band of pale water at the waterline. Left and right edges calm so the image repeats when mirrored. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks.",
+    "reason": "Broader flat silhouettes, restrained palette and reduced detail.",
+    "attempts": [
+      {
+        "prompt": "Use case: precise-object-edit. Edit target: the swamp panorama. Keep the full canvas, the horizon and the far waterline at exactly the same height. Repaint it as a very simple scene: a smooth pale sky gradient (warm near the horizon, soft blue-grey above), then two or three flat layered tree-line silhouettes of cypress and pine, each layer one flat colour that gets lighter and hazier with distance, with a calm flat band of pale water at the waterline. Left and right edges calm so the image repeats when mirrored. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks. Input is the existing master, not a new composition. EXACT original 1774x887 canvas. Keep the existing spatial arrangement, dominant tree positions, horizon and far waterline at approximately y=475 unchanged. Dramatically simplify ALL scenery into large soft flat shapes; only three broad muted sage/teal-grey tree silhouette layers against a pale warm grey sky, no detailed foreground trees, no individual leaf clusters, no bark marks. Water is one calm flat pale tone WITHOUT ANY reflections or texture. Low contrast with very soft hazy layer boundaries, no outlines. Entire image fully OPAQUE alpha255, including sky and bottom edge. Return only edited image.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-9bae3e9f-1b6c-4a1a-a627-67ce6e8f4534.png",
+        "status": "rejected",
+        "reason": "Retained too many small foreground islands and busy silhouettes."
+      },
+      {
+        "prompt": "Use case: precise-object-edit. EDIT the supplied swamp-summer backdrop-v2.png at EXACTLY 1774x887. Keep original horizon/far waterline at y475 and the same major left/right tree positions and framing. EXTREME SIMPLIFICATION: quiet minimalist mobile game scenery, smooth pale warm-grey/blue-grey sky gradient and ONLY THREE broad flat tree silhouette layers, 3-4 muted sage/olive/teal-grey tones TOTAL plus sky gradient. Simple cypress/pine forms with rounded canopy masses, very few large clean moss drapes, NO small leaves, branch networks, grass blades, twigs, bark, stippling, brush noise or fine texture. Repaint completely inside original composition, do NOT trace original tiny silhouettes. Remove ALL foreground islands, reeds, cypress knees, logs and surface objects; below original horizon use ONE CALM UNIFORM flat pale teal-grey WATER BAND with absolutely NO reflections, mirrored trees, ripples, highlights, banks or islands. Nothing competes with the detailed game road that will cover foreground. Very LOW contrast, subtle smooth atmospheric haze, no dark outlines or hard edge strokes. Calm repeatable left/right edges. Whole image fully opaque alpha255. No vehicles, people, obstacles, text, logos or watermark. Exact original canvas and unchanged horizon, no crop or zoom. Return edited image only.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-f74ed4a6-5869-4578-83df-1bda4f05db36.png",
+        "status": "selected",
+        "reason": "Broader flat silhouettes, restrained palette and reduced detail."
+      }
+    ],
+    "local_processing": [
+      "Shift painted backdrop up 7px to register central far waterline from generated row482 to reference row475; extend last water row into bottom 7px, retaining opaque original canvas."
+    ],
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "same_canvas_as_master": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "source_sha256": "f8cfc96437eab1bdcf72f5fbf190e57798999ca113acf457f2ea68d350941aef",
+      "far_waterline_row": 475,
+      "light_and_dark_background_review": "passed",
+      "no_vehicles_people_text_reflections_or_shadow": "passed visual inspection"
+    }
+  },
+  "midground": {
+    "file": "source/midground-v1.png",
+    "edit_of": "../swamp-summer/source/midground-v1.png",
+    "canvas": "1774x887 true alpha",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. EDIT supplied transparent swamp-summer midground-v1.png. EXACT1774x887 original canvas. Keep principal tree trunk positions and root baseline at y800 exactly unchanged, transparent padding below roots through887. EXTREMELY SIMPLE MINIMAL MOBILE GAME SCENERY. Repaint trees as broad clean flat silhouettes: each trunk/roots ONE muted olive shade, each canopy ONE sage shade; at most3-4 low-contrast tones across entire strip. A few large smooth cypress/pine canopy masses and only a few simple broad hanging moss shapes. No fine leaves, no intricate lobes, no fine branches, no bark strokes, no root grooves, no glossy shading, no brush noise or texture. Root forms simple smooth flares, preserve existing trunk and baseline placement. Eliminate ALL yellow/green source fringe and colored speckle around edges: clean neutral antialiased contours leading directly to true alpha0, not glow or outlines. Genuine transparent background and spaces between trees, no sky, matte, ground slab, shadow or reflections. Muted sage/olive/teal-grey, very LOW contrast, quiet flat painted layer behind detailed road. No vehicles, people, text, logos, watermark. No crop or rescale. Return edited transparent image only.",
+    "draft_prompt": "Edit target: the transparent strip of swamp trees. Keep the canvas, the tree positions and the root baseline exactly where they are. Repaint every tree as a simple cypress silhouette in one or two flat tones (darker olive trunk, sage canopy), with a few clean drapes of Spanish moss and simple flared roots. Remove fine leaves, bark texture and scattered small vegetation. Everything between and around the trees stays truly transparent; no ground slab, sky, halo or shadow. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks.",
+    "reason": "Broader flat silhouettes, restrained palette and reduced detail.",
+    "attempts": [
+      {
+        "prompt": "Use case: precise-object-edit. Edit target: the transparent strip of swamp trees. Keep the canvas, the tree positions and the root baseline exactly where they are. Repaint every tree as a simple cypress silhouette in one or two flat tones (darker olive trunk, sage canopy), with a few clean drapes of Spanish moss and simple flared roots. Remove fine leaves, bark texture and scattered small vegetation. Everything between and around the trees stays truly transparent; no ground slab, sky, halo or shadow. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks. Input is the existing master, not a new composition. EXACT original 1774x887 canvas. Preserve the same principal tree trunk positions and root baseline at original y~795; preserve transparent padding beneath roots to y887, do NOT move roots upward or downward. Keep original canopy/trunk overall placement, but simplify into large clean silhouettes using only 3 or 4 muted sage/olive tones across the whole strip, one or two tones per tree. Clean readable flared root shapes, only a few broad Spanish-moss drapes, no leaf speckles or fine branches. Everything between trees and below root baseline is genuine alpha0, NO grey or colored matte, no ground slab, no shadow or halo. Flat low contrast mobile game backdrop layer. Return only edited PNG.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-b8e417a0-a843-4acd-8dac-3b28a5c6340d.png",
+        "status": "rejected",
+        "reason": "Too much canopy and root detail for the requested extreme simplification."
+      },
+      {
+        "prompt": "Use case: precise-object-edit. EDIT supplied transparent swamp-summer midground-v1.png. EXACT1774x887 original canvas. Keep principal tree trunk positions and root baseline at y800 exactly unchanged, transparent padding below roots through887. EXTREMELY SIMPLE MINIMAL MOBILE GAME SCENERY. Repaint trees as broad clean flat silhouettes: each trunk/roots ONE muted olive shade, each canopy ONE sage shade; at most3-4 low-contrast tones across entire strip. A few large smooth cypress/pine canopy masses and only a few simple broad hanging moss shapes. No fine leaves, no intricate lobes, no fine branches, no bark strokes, no root grooves, no glossy shading, no brush noise or texture. Root forms simple smooth flares, preserve existing trunk and baseline placement. Eliminate ALL yellow/green source fringe and colored speckle around edges: clean neutral antialiased contours leading directly to true alpha0, not glow or outlines. Genuine transparent background and spaces between trees, no sky, matte, ground slab, shadow or reflections. Muted sage/olive/teal-grey, very LOW contrast, quiet flat painted layer behind detailed road. No vehicles, people, text, logos, watermark. No crop or rescale. Return edited transparent image only.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-57d2f3d0-c610-442f-887a-4da98c5ab9eb.png",
+        "status": "selected",
+        "reason": "Broader flat silhouettes, restrained palette and reduced detail."
+      }
+    ],
+    "local_processing": [
+      "Vertical registration shift -2px to preserve original root baseline at row 800."
+    ],
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "same_canvas_as_master": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_sha256": "36fdda377c0a0726985b7c2a4f532b758f3a2cf869895a77d210ab86f2fde48e",
+      "light_and_dark_background_review": "passed",
+      "no_vehicles_people_text_reflections_or_shadow": "passed visual inspection"
+    }
+  },
+  "bank": {
+    "file": "source/bank-v1.png",
+    "edit_of": "../swamp-summer/source/bank-v2.png",
+    "canvas": "1774x887 true alpha",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Edit target: the side-view road bank strip. Keep the broad drivable band and everything below row 500 exactly as it is: same shape, same detailed soil and wheel ruts, opaque all the way to the bottom edge. Change only the far verge above the band: replace the busy scattered vegetation with a clean, low, gently irregular crest of flat grass tufts in two or three greens, matching the simple scenery style. Transparent above the crest; ends repeat horizontally. No sky, distant trees, vehicles, text or drop shadow. Input is the existing master, not a new composition. EXACT original 1774x887 canvas and identical crest/road registration. Rows y=500 through y=886 inclusive are LOCKED: preserve original pixel RGB AND alpha values EXACTLY, no repainting, smoothing, recoloring or resampling there. Preserve existing detailed drivable band and road soil/ruts in their original positions. Edit ONLY far verge ABOVE row500: simplify grass/soil crest into large flat muted sage/olive shapes, 3 subdued tones, very sparse broad tufts and no scattered pebbles, twigs or tiny foliage detail. Transition naturally into original band before y500, no straight seam or new horizontal stripe. Transparent above original crest, opaque road to bottom. No new road pieces or objects. Return only edited PNG.",
+    "draft_prompt": "Edit target: the side-view road bank strip. Keep the broad drivable band and everything below row 500 exactly as it is: same shape, same detailed soil and wheel ruts, opaque all the way to the bottom edge. Change only the far verge above the band: replace the busy scattered vegetation with a clean, low, gently irregular crest of flat grass tufts in two or three greens, matching the simple scenery style. Transparent above the crest; ends repeat horizontally. No sky, distant trees, vehicles, text or drop shadow.",
+    "reason": "Matches requested simplified layer; canvas/registration checked after alignment.",
+    "attempts": [
+      {
+        "prompt": "Use case: precise-object-edit. Edit target: the side-view road bank strip. Keep the broad drivable band and everything below row 500 exactly as it is: same shape, same detailed soil and wheel ruts, opaque all the way to the bottom edge. Change only the far verge above the band: replace the busy scattered vegetation with a clean, low, gently irregular crest of flat grass tufts in two or three greens, matching the simple scenery style. Transparent above the crest; ends repeat horizontally. No sky, distant trees, vehicles, text or drop shadow. Input is the existing master, not a new composition. EXACT original 1774x887 canvas and identical crest/road registration. Rows y=500 through y=886 inclusive are LOCKED: preserve original pixel RGB AND alpha values EXACTLY, no repainting, smoothing, recoloring or resampling there. Preserve existing detailed drivable band and road soil/ruts in their original positions. Edit ONLY far verge ABOVE row500: simplify grass/soil crest into large flat muted sage/olive shapes, 3 subdued tones, very sparse broad tufts and no scattered pebbles, twigs or tiny foliage detail. Transition naturally into original band before y500, no straight seam or new horizontal stripe. Transparent above original crest, opaque road to bottom. No new road pieces or objects. Return only edited PNG.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-bf43ad29-a1ff-4e64-8af8-b2f814c242c6.png",
+        "status": "selected",
+        "reason": "Matches requested simplified layer; canvas/registration checked after alignment."
+      }
+    ],
+    "local_processing": [
+      "Far-verge alignment -14px to match original highest crest; use edit above row300, feather rows300-329 into original. Restore original master pixels from row330 through bottom verbatim, preserving the entire drivable band and all rows500+ exactly."
+    ],
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "same_canvas_as_master": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_sha256": "8d6fb332a08ac887832bcc9311eda7e655691dbdc2cd8ff5f783eacce5a6ee76",
+      "rows_330_to_886_identical_to_master": true,
+      "protected_road_alpha": "Original alpha preserved exactly, including inherited range251-254 below row500; no opacity changes.",
+      "light_and_dark_background_review": "passed",
+      "no_vehicles_people_text_reflections_or_shadow": "passed visual inspection"
+    }
+  },
+  "reeds": {
+    "file": "source/reeds-v1.png",
+    "edit_of": "../swamp-summer/source/reeds-v3.png",
+    "canvas": "1309x1202 true alpha",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. Edit target: the reed clump. Keep the canvas, footprint and baseline. Repaint it as one simple clump of reeds and cattails in two or three flat greens with a few soft highlights, clean readable blade shapes, no fine noise. True transparent background and gaps, no ground, shadow or halo. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks. Input is the existing master, not a new composition. EXACT original 1309x1202 canvas. Keep identical overall footprint, clump centre, three cattail positions, root baseline at ~y1180 and original clear margins. Repaint blades into just a few broad clean shapes, two or three flat muted sage/olive greens, very low contrast and almost no texture. Simplify cattails to flat muted olive forms, no seed speckles, no bark/soil detail; simple root silhouette only. True alpha0 background AND all blade gaps, no checkerboard, halo, glow, matte, ground slab or shadow. No outlines, no fine noise. Return only edited PNG.",
+    "draft_prompt": "Edit target: the reed clump. Keep the canvas, footprint and baseline. Repaint it as one simple clump of reeds and cattails in two or three flat greens with a few soft highlights, clean readable blade shapes, no fine noise. True transparent background and gaps, no ground, shadow or halo. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks.",
+    "reason": "Matches requested simplified layer; canvas/registration checked after alignment.",
+    "attempts": [
+      {
+        "prompt": "Use case: precise-object-edit. Edit target: the reed clump. Keep the canvas, footprint and baseline. Repaint it as one simple clump of reeds and cattails in two or three flat greens with a few soft highlights, clean readable blade shapes, no fine noise. True transparent background and gaps, no ground, shadow or halo. Flat stylized painted game scenery with almost no texture: 3 or 4 tonal values, smooth gradients instead of brush noise, soft atmospheric fade with distance, muted swamp palette of sage, olive, teal-grey and a pale warm sky, low contrast and gentle saturation so it stays behind a detailed foreground road. No fine leaves, no bark detail, no reflections, no hard outlines, no busy small shapes, no vehicles, people, text, logos or watermarks. Input is the existing master, not a new composition. EXACT original 1309x1202 canvas. Keep identical overall footprint, clump centre, three cattail positions, root baseline at ~y1180 and original clear margins. Repaint blades into just a few broad clean shapes, two or three flat muted sage/olive greens, very low contrast and almost no texture. Simplify cattails to flat muted olive forms, no seed speckles, no bark/soil detail; simple root silhouette only. True alpha0 background AND all blade gaps, no checkerboard, halo, glow, matte, ground slab or shadow. No outlines, no fine noise. Return only edited PNG.",
+        "generated": "/home/jeffndegwa/.codex/generated_images/01a19101-7461-7232-8045-7d48a48359b7/exec-5246090e-389e-4f7c-a0b4-ebcbb03c851c.png",
+        "status": "selected",
+        "reason": "Matches requested simplified layer; canvas/registration checked after alignment."
+      }
+    ],
+    "local_processing": [
+      "Align generated clump to original visible footprint [169, 26, 1152, 1185] on original [1309, 1202] canvas, keeping baseline row 1184.",
+      "Preserve final one-pixel root tip at original baseline row1184 after resampling."
+    ],
+    "validation": {
+      "dimensions": [
+        1309,
+        1202
+      ],
+      "same_canvas_as_master": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_sha256": "8473b2806efe54f25c71743511f474a2f04d9f304079f317e28a8f7391071af3",
+      "light_and_dark_background_review": "passed",
+      "no_vehicles_people_text_reflections_or_shadow": "passed visual inspection"
+    }
+  },
+  "reused_from_swamp_summer": [
+    "ground",
+    "granite",
+    "wetmud",
+    "deepMud",
+    "rock",
+    "log",
+    "logEnd",
+    "logCrossing",
+    "bridgeWood",
+    "bridgePlank",
+    "bridgeFrame",
+    "bridgeSteelFrame",
+    "mudHole",
+    "pipe"
+  ]
+}

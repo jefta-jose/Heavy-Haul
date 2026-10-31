@@ -19,6 +19,13 @@ import { createHaptics } from './game/haptics.js';
 // After that the buttons switch between them; a service truck stays parked where it was left.
 // Content (JSON + artwork) is embedded by tools/build.js.
 
+// The season: the one picked in the garage (remembered on this device), else the build's default.
+// Every playable season is in the build; shared art is stored once in content.seasonAssets.
+{
+  let pick = null; try { pick = localStorage.getItem('haul.season'); } catch (e) {}
+  const all = content.playableSeasons ?? [], s = all.find(x => x.season.id === pick) ?? all.find(x => x.season.id === content.season.id);
+  if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
+}
 const { season, rockHulls, wheelTypes } = content;
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps

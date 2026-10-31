@@ -25,7 +25,7 @@ export function createGarage({ content, onStart }) {
   if (bg) $('garage').style.setProperty('--garage-bg', `url(${bg})`);
   const icon = id => $('classIcons').content.querySelector(`[data-icon="class-${id}"] svg`)?.cloneNode(true);
 
-  // seasons: the one being played, and the planned ones locked
+  // seasons: the one being played, the other open ones (tap to switch), and the planned ones locked
   function renderSeasons() {
     const box = $('gSeasons'); box.innerHTML = '';
     for (const s of content.seasons ?? [{ id: content.season.id, name: content.season.name, status: 'playable' }]) {
@@ -33,6 +33,8 @@ export function createGarage({ content, onStart }) {
       if (on && content.seasonArt?.backdrop) b.style.setProperty('--thumb', `url(${content.seasonArt.backdrop})`);
       b.append(el('b', null, s.name), el('small', null, s.status === 'playable' ? (on ? 'Selected' : 'Open') : 'Coming soon'));
       if (s.status !== 'playable') { b.disabled = true; b.title = 'Not open yet'; }
+      // another open season: remember it on this device and restart the game in it
+      else if (!on) b.addEventListener('click', () => { try { localStorage.setItem('haul.season', s.id); } catch (e) {} location.reload(); });
       b.setAttribute('aria-pressed', String(on));
       box.append(b);
     }

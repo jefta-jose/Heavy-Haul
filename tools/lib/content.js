@@ -79,6 +79,21 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   const hud = {};
   for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = asset(`assets/hud/art/${a.id}.webp`);
   const seasonArt = Object.fromEntries(Object.entries(c.season.art).map(([k, a]) => [k, asset(`${c.seasonDir}/${a.file}`)]));
+  // every playable season, so the garage can switch between them: its JSON, rock hulls and art paths.
+  // Art shared between seasons (swamp-summer-v2 reuses swamp-summer's road) is shipped once, in
+  // seasonAssets, keyed by path.
+  const seasonAssets = {};
+  const playableSeasons = fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort()
+    .filter(id => exists(`assets/seasons/${id}/season.json`) && readJson(`assets/seasons/${id}/season.json`).status === 'playable')
+    .map(id => {
+      const dir = `assets/seasons/${id}`, season = readJson(`${dir}/season.json`);
+      const art = Object.fromEntries(Object.entries(season.art).map(([k, a]) => {
+        const f = path.posix.normalize(`${dir}/${a.file}`);
+        seasonAssets[f] ??= asset(f);
+        return [k, f];
+      }));
+      return { season, rockHulls: readJson(path.posix.normalize(`${dir}/${season.rockHulls}`)), art };
+    });
   // the garage lists the whole roster; only the summary fields are shipped
   const roster = {
     classes: c.roster.classes,
@@ -91,9 +106,12 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     const m = exists(`assets/seasons/${id}/README.md`) ? fs.readFileSync(path.join(ROOT, `assets/seasons/${id}/README.md`), 'utf8').match(/^#\s*([^(\n]+?)\s*(?:\((\w+)\))?\s*$/m) : null;
     return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
-  return {
-    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, rockHulls: c.rockHulls, seasonArt, hud,
+  const content = {
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud,
     cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };
+  // the default season's art, for Node-side tools and tests; not serialized (seasonAssets has it)
+  Object.defineProperty(content, 'seasonArt', { value: seasonArt, enumerable: false });
+  return content;
 }
