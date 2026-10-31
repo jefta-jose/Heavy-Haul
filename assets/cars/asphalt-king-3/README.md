@@ -1,6 +1,6 @@
 # Asphalt King 3
 
-Status: **planned** · class `highway`, tier 3 of 20 · 4×2, 2 axles · 7.8 t empty · 251 kW · road tires, 1.05 m
+Status: **planned** · class `highway`, tier 3 of 20 · 4×2, 2 axles · 7.8 t empty · 251 kW · chained tires, 1.05 m
 Load: **Pipe bundles**, 9 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Pipe bundles**, 9 t
 - Load (drawn as part of the vehicle): a flatbed semi-trailer with banded steel pipes
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
-- Tires: 1.05 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.05 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

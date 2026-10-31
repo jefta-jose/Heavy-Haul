@@ -9,7 +9,7 @@ Load: **Chicken crates**, 0.3 t
 - Load (drawn as part of the vehicle): stacked wire crates of white chickens
 - Equipment: snorkel and steel bumper with winch
 - Finish: mud-caked lower panels
-- Tires: 1.38 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.38 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

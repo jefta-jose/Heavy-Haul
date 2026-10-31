@@ -9,7 +9,7 @@ Load: **Medical supplies**, 0.5 t
 - Load (drawn as part of the vehicle): white crates with red crosses under a tarp
 - Equipment: side shovel and hi-lift jack
 - Finish: mud-caked lower panels
-- Tires: 1.49 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.49 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

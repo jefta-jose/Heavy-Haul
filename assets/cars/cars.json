@@ -508,7 +508,7 @@
     "load": "two brown-and-white calves behind wooden side rails",
     "equipment": "roof rack with jerry cans and recovery boards",
     "finish": "mud-caked lower panels",
-    "tires": "1.33 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Calves",
@@ -545,7 +545,7 @@
     "load": "three goats behind wooden side rails",
     "equipment": "rear spare carrier and ladder",
     "finish": "mud-caked lower panels",
-    "tires": "1.35 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.35 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Goats",
@@ -582,7 +582,7 @@
     "load": "stacked wire crates of white chickens",
     "equipment": "snorkel and steel bumper with winch",
     "finish": "mud-caked lower panels",
-    "tires": "1.38 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.38 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Chicken crates",
@@ -619,7 +619,7 @@
     "load": "three wooden spools of shiny copper cable",
     "equipment": "light bar and roof tent",
     "finish": "mud-caked lower panels",
-    "tires": "1.48 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.48 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Copper wire spools",
@@ -656,7 +656,7 @@
     "load": "white crates with red crosses under a tarp",
     "equipment": "side shovel and hi-lift jack",
     "finish": "mud-caked lower panels",
-    "tires": "1.49 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.49 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Medical supplies",
@@ -693,7 +693,7 @@
     "load": "a folded white satellite dish on a cradle",
     "equipment": "rear spare carrier and ladder",
     "finish": "mud-caked lower panels",
-    "tires": "1.49 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.49 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Satellite dish",
@@ -730,7 +730,7 @@
     "load": "loudspeaker stacks and bright campaign banners",
     "equipment": "roof rack with jerry cans and recovery boards",
     "finish": "mud-caked lower panels",
-    "tires": "1.53 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.53 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Campaign speakers",
@@ -767,7 +767,7 @@
     "load": "red explosives crates with hazard stripes and a flag",
     "equipment": "roof rack with jerry cans and recovery boards",
     "finish": "mud-caked lower panels",
-    "tires": "1.60 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.60 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Dynamite crates",
@@ -790,7 +790,7 @@
    "torqueNm": 1643,
    "topSpeedKmh": 100,
    "fuelL": 300,
-   "wheelType": "road",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.0,
    "stats": {
     "power": 20,
@@ -804,7 +804,7 @@
     "load": "a plain box semi-trailer",
     "equipment": "marker lights and wide mirrors",
     "finish": "polished paint with road dust",
-    "tires": "1.00 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.00 m mud-terrain tires: deep chunky mud lugs with open voids"
    },
    "load": {
     "name": "Box freight",
@@ -827,7 +827,7 @@
    "torqueNm": 1478,
    "topSpeedKmh": 101,
    "fuelL": 331,
-   "wheelType": "road",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.0,
    "stats": {
     "power": 24,
@@ -841,7 +841,7 @@
     "load": "a flatbed semi-trailer stacked with square hay bales",
     "equipment": "polished fuel tanks",
     "finish": "polished paint with road dust",
-    "tires": "1.00 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.00 m mud-terrain tires: deep chunky mud lugs with open voids"
    },
    "load": {
     "name": "Hay trailer",
@@ -864,7 +864,7 @@
    "torqueNm": 1869,
    "topSpeedKmh": 103,
    "fuelL": 363,
-   "wheelType": "road",
+   "wheelType": "chained",
    "tireDiameterM": 1.05,
    "stats": {
     "power": 28,
@@ -878,7 +878,7 @@
     "load": "a flatbed semi-trailer with banded steel pipes",
     "equipment": "chrome bull bar and air horns",
     "finish": "polished paint with road dust",
-    "tires": "1.05 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.05 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Pipe bundles",
@@ -901,7 +901,7 @@
    "torqueNm": 2000,
    "topSpeedKmh": 104,
    "fuelL": 394,
-   "wheelType": "road",
+   "wheelType": "spiked",
    "tireDiameterM": 1.01,
    "stats": {
     "power": 32,
@@ -915,7 +915,7 @@
     "load": "a flatbed semi-trailer with strapped square timber",
     "equipment": "aero roof fairing and side skirts",
     "finish": "polished paint with road dust",
-    "tires": "1.01 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.01 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Timber stack",
@@ -938,7 +938,7 @@
    "torqueNm": 1677,
    "topSpeedKmh": 106,
    "fuelL": 426,
-   "wheelType": "road",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.08,
    "stats": {
     "power": 36,
@@ -952,7 +952,7 @@
     "load": "a grey bulk cement tanker trailer",
     "equipment": "twin chrome stacks and visor",
     "finish": "polished paint with road dust",
-    "tires": "1.08 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.08 m mud-terrain tires: deep chunky mud lugs with open voids"
    },
    "load": {
     "name": "Cement tanker",
@@ -975,7 +975,7 @@
    "torqueNm": 1683,
    "topSpeedKmh": 107,
    "fuelL": 457,
-   "wheelType": "road",
+   "wheelType": "chained",
    "tireDiameterM": 1.04,
    "stats": {
     "power": 40,
@@ -989,7 +989,7 @@
     "load": "a flatbed semi-trailer with three steel coils on chocks",
     "equipment": "chrome bull bar and air horns",
     "finish": "polished paint with road dust",
-    "tires": "1.04 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.04 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Steel coils",
@@ -1012,7 +1012,7 @@
    "torqueNm": 1960,
    "topSpeedKmh": 109,
    "fuelL": 489,
-   "wheelType": "road",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.07,
    "stats": {
     "power": 44,
@@ -1026,7 +1026,7 @@
     "load": "a polished fuel tanker trailer with hazard placards",
     "equipment": "twin chrome stacks and visor",
     "finish": "polished paint with road dust",
-    "tires": "1.07 m road tires: smooth highway rib tread, chrome or painted hubs",
+    "tires": "1.07 m mud-terrain tires: deep chunky mud lugs with open voids",
     "note": "Delivered art is a bare tractor; regenerate it with its semi-trailer and load in one image."
    },
    "load": {
@@ -1050,7 +1050,7 @@
    "torqueNm": 2069,
    "topSpeedKmh": 111,
    "fuelL": 521,
-   "wheelType": "road",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.04,
    "stats": {
     "power": 49,
@@ -1064,7 +1064,7 @@
     "load": "an aluminium livestock trailer full of cows",
     "equipment": "sleeper cab with roof lights",
     "finish": "polished paint with road dust",
-    "tires": "1.04 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.04 m mud-terrain tires: deep chunky mud lugs with open voids"
    },
    "load": {
     "name": "Cattle trailer",
@@ -1323,7 +1323,7 @@
     "load": "an A-frame rack of huge glass panels",
     "equipment": "chrome bull bar and air horns",
     "finish": "polished paint with road dust",
-    "tires": "1.12 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Glass panels",
@@ -1360,7 +1360,7 @@
     "load": "a lowbed semi-trailer with a white wind tower section",
     "equipment": "chrome bull bar and air horns",
     "finish": "polished paint with road dust",
-    "tires": "1.15 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.15 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Wind tower section",
@@ -1397,7 +1397,7 @@
     "load": "a flatbed with long steel I-beams",
     "equipment": "chrome bull bar and air horns",
     "finish": "polished paint with road dust",
-    "tires": "1.17 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.17 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Steel beams",
@@ -1434,7 +1434,7 @@
     "load": "a fuel tanker trailer plus a pup tanker",
     "equipment": "marker lights and wide mirrors",
     "finish": "polished paint with road dust",
-    "tires": "1.22 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.22 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Fuel double",
@@ -1471,7 +1471,7 @@
     "load": "a stage trailer covered in banners, loudspeakers and lights",
     "equipment": "sleeper cab with roof lights",
     "finish": "polished paint with road dust",
-    "tires": "1.15 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.15 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Campaign float",
@@ -1508,7 +1508,7 @@
     "load": "a flatbed with two giant copper cable drums",
     "equipment": "twin chrome stacks and visor",
     "finish": "polished paint with road dust",
-    "tires": "1.16 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.16 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Copper cable drums",
@@ -2026,7 +2026,7 @@
     "load": "a dump body heaped with big granite boulders",
     "equipment": "steel dump body and mud flaps",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.30 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.30 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Boulders",
@@ -2063,7 +2063,7 @@
     "load": "racked drill pipes",
     "equipment": "folded knuckle crane",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.35 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.35 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Drill pipes",
@@ -2100,7 +2100,7 @@
     "load": "painted steel bridge girders",
     "equipment": "rotating mixer drum",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.33 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Steel girders",
@@ -2137,7 +2137,7 @@
     "load": "a grey transformer with cooling fins",
     "equipment": "folded knuckle crane",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.32 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.32 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Substation transformer",
@@ -2174,7 +2174,7 @@
     "load": "a folded tracked crane",
     "equipment": "tool lockers and a compressor",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.39 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.39 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Tracked crane",
@@ -2211,7 +2211,7 @@
     "load": "a single colossal sequoia trunk chained down",
     "equipment": "tool lockers and a compressor",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.36 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.36 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "One giant log",
@@ -2248,7 +2248,7 @@
     "load": "a dump body heaped with copper ore",
     "equipment": "steel dump body and mud flaps",
     "finish": "work-worn paint and dried mud",
-    "tires": "1.42 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.42 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Mining ore",
@@ -2729,7 +2729,7 @@
     "load": "a broken-down 6×6 truck on a recovery deck",
     "equipment": "snorkel and wading kit",
     "finish": "thick dried mud",
-    "tires": "1.75 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.75 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Broken-down 6×6",
@@ -2766,7 +2766,7 @@
     "load": "cows behind tall livestock rails",
     "equipment": "snorkel and wading kit",
     "finish": "thick dried mud",
-    "tires": "1.81 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.81 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Cattle",
@@ -2803,7 +2803,7 @@
     "load": "a red lattice drilling mast lying flat",
     "equipment": "crane boom and recovery spades",
     "finish": "thick dried mud",
-    "tires": "1.78 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.78 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Drilling mast",
@@ -2840,7 +2840,7 @@
     "load": "clear blue ice blocks in an insulated open box",
     "equipment": "snorkel and wading kit",
     "finish": "thick dried mud",
-    "tires": "1.85 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "1.85 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Ice blocks",
@@ -2877,7 +2877,7 @@
     "load": "a mounted T-rex skeleton on a museum frame",
     "equipment": "expedition box with ladders and lights",
     "finish": "thick dried mud",
-    "tires": "1.91 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.91 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Dinosaur skeleton",
@@ -2914,7 +2914,7 @@
     "load": "a blue wooden prefab cabin",
     "equipment": "central tire inflation lines",
     "finish": "thick dried mud",
-    "tires": "1.95 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "1.95 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Prefab cabin",
@@ -2988,7 +2988,7 @@
     "load": "a huge rocket engine on a test-stand frame",
     "equipment": "expedition box with ladders and lights",
     "finish": "thick dried mud",
-    "tires": "2.01 m spiked studs: winter tires studded with rows of steel spikes"
+    "tires": "2.01 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Rocket engine",
@@ -3048,7 +3048,7 @@
    "torqueNm": 3342,
    "topSpeedKmh": 61,
    "fuelL": 673,
-   "wheelType": "road",
+   "wheelType": "chained",
    "tireDiameterM": 1.31,
    "stats": {
     "power": 24,
@@ -3062,7 +3062,7 @@
     "load": "a giant orange mining dump body",
     "equipment": "ladder to a high cab and huge mirrors",
     "finish": "heavy grime and chipped paint",
-    "tires": "1.31 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.31 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Mining dump body",
@@ -3085,7 +3085,7 @@
    "torqueNm": 3708,
    "topSpeedKmh": 63,
    "fuelL": 747,
-   "wheelType": "road",
+   "wheelType": "spiked",
    "tireDiameterM": 1.39,
    "stats": {
     "power": 28,
@@ -3099,7 +3099,7 @@
     "load": "an olive battle tank",
     "equipment": "ladder to a high cab and huge mirrors",
     "finish": "heavy grime and chipped paint",
-    "tires": "1.39 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.39 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
    },
    "load": {
     "name": "Battle tank",
@@ -3122,7 +3122,7 @@
    "torqueNm": 3622,
    "topSpeedKmh": 64,
    "fuelL": 821,
-   "wheelType": "road",
+   "wheelType": "chained",
    "tireDiameterM": 1.52,
    "stats": {
     "power": 32,
@@ -3136,7 +3136,7 @@
     "load": "one enormous granite boulder chained to a frame",
     "equipment": "ladder to a high cab and huge mirrors",
     "finish": "heavy grime and chipped paint",
-    "tires": "1.52 m road tires: smooth highway rib tread, chrome or painted hubs"
+    "tires": "1.52 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Boulder",
@@ -3358,7 +3358,7 @@
     "load": "a blue fishing trawler on cradles",
     "equipment": "escort light bar and amber beacons",
     "finish": "heavy grime and chipped paint",
-    "tires": "2.16 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "2.16 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
    },
    "load": {
     "name": "Fishing trawler",
@@ -3395,7 +3395,7 @@
     "load": "a sleek white yacht on cradles",
     "equipment": "escort light bar and amber beacons",
     "finish": "heavy grime and chipped paint",
-    "tires": "2.21 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "2.21 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
    },
    "load": {
     "name": "Luxury yacht",
@@ -3432,7 +3432,7 @@
     "load": "a rust-red ship hull block with weld seams",
     "equipment": "ladder to a high cab and huge mirrors",
     "finish": "heavy grime and chipped paint",
-    "tires": "2.36 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "2.36 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
    },
    "load": {
     "name": "Ship hull section",
@@ -3469,7 +3469,7 @@
     "load": "a grey power transformer with porcelain bushings",
     "equipment": "roll cage, beacons and a giant bull bar",
     "finish": "heavy grime and chipped paint",
-    "tires": "2.44 m snow chains: mud-terrain tires wrapped in heavy steel snow chains"
+    "tires": "2.44 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains"
    },
    "load": {
     "name": "Transformer",

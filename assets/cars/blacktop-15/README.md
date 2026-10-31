@@ -9,7 +9,7 @@ Load: **Glass panels**, 12 t
 - Load (drawn as part of the vehicle): an A-frame rack of huge glass panels
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
-- Tires: 1.12 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

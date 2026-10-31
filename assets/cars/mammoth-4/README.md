@@ -1,6 +1,6 @@
 # Mammoth 4
 
-Status: **planned** · class `heavy`, tier 4 of 20 · 6×4, 3 axles · 29.2 t empty · 573 kW · road tires, 1.52 m
+Status: **planned** · class `heavy`, tier 4 of 20 · 6×4, 3 axles · 29.2 t empty · 573 kW · chained tires, 1.52 m
 Load: **Boulder**, 50 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Boulder**, 50 t
 - Load (drawn as part of the vehicle): one enormous granite boulder chained to a frame
 - Equipment: ladder to a high cab and huge mirrors
 - Finish: heavy grime and chipped paint
-- Tires: 1.52 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.52 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 

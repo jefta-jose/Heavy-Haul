@@ -1,6 +1,6 @@
 # Road Hawk 5
 
-Status: **planned** · class `highway`, tier 5 of 20 · 4×2, 2 axles · 8.6 t empty · 283 kW · road tires, 1.08 m
+Status: **planned** · class `highway`, tier 5 of 20 · 4×2, 2 axles · 8.6 t empty · 283 kW · mud-terrain tires, 1.08 m
 Load: **Cement tanker**, 12 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Cement tanker**, 12 t
 - Load (drawn as part of the vehicle): a grey bulk cement tanker trailer
 - Equipment: twin chrome stacks and visor
 - Finish: polished paint with road dust
-- Tires: 1.08 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.08 m mud-terrain tires: deep chunky mud lugs with open voids
 
 ## Codex delivers (see AGENTS.md)
 

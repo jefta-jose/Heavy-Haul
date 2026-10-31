@@ -9,7 +9,7 @@ Load: **Drilling mast**, 15 t
 - Load (drawn as part of the vehicle): a red lattice drilling mast lying flat
 - Equipment: crane boom and recovery spades
 - Finish: thick dried mud
-- Tires: 1.78 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.78 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

@@ -95,9 +95,10 @@ suggests). Keep the real proportions from `lengthM`, `massT` and the load's size
 ## Cars and service trucks: `assets/cars/<id>/source/`
 
 The brief is in `assets/cars/<id>/README.md`. Cars are ordered weakest to strongest (class, then
-tier). Make stronger tiers look bigger and better equipped, and draw the tires the brief names (road,
-all-terrain, mud-terrain, flotation, snow chains, steel spikes, giant mining tires; see
-`assets/cars/wheel-types.json`). Service trucks (a fuel and a breakdown truck per class, growing from
+tier). Make stronger tiers look bigger and better equipped, and draw the tires the brief names (see
+`assets/cars/wheel-types.json`). **Every new truck gets off-road tires:** plain mud-terrain, chained
+(vary the chain style: ladder, diamond, V-bar or twin-ring tractor chains), steel spikes, all-terrain,
+flotation or giant mining tires. No smooth highway road tires on new art (decided 2026-10-31). Service trucks (a fuel and a breakdown truck per class, growing from
 scout-sized pickups to 10×10 mining giants, each in its own colour and tires). Breakdown trucks carry a winch at
 the **rear**: show the drum and hook clearly. Fuel trucks only refuel: hose reels and beacons, no
 winch.

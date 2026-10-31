@@ -4,7 +4,7 @@
   "number": 7,
   "class": "highway",
   "drive": "4×2",
-  "wheelType": "road",
+  "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Chrome highway tractor hauling a fuel tanker",
   "description": "A polished long-nose road tractor coupled to a stainless fuel-tanker semi-trailer. Fast and strong on firm ground; its road tires hate mud.",

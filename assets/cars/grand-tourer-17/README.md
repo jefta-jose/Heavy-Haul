@@ -9,7 +9,7 @@ Load: **Steel beams**, 22 t
 - Load (drawn as part of the vehicle): a flatbed with long steel I-beams
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
-- Tires: 1.17 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.17 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

@@ -9,7 +9,7 @@ Load: **Dinosaur skeleton**, 8 t
 - Load (drawn as part of the vehicle): a mounted T-rex skeleton on a museum frame
 - Equipment: expedition box with ladders and lights
 - Finish: thick dried mud
-- Tires: 1.91 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.91 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

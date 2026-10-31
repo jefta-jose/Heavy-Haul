@@ -9,7 +9,7 @@ Load: **Substation transformer**, 22 t
 - Load (drawn as part of the vehicle): a grey transformer with cooling fins
 - Equipment: folded knuckle crane
 - Finish: work-worn paint and dried mud
-- Tires: 1.32 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.32 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

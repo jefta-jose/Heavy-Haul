@@ -9,7 +9,7 @@ Load: **Steel girders**, 20 t
 - Load (drawn as part of the vehicle): painted steel bridge girders
 - Equipment: rotating mixer drum
 - Finish: work-worn paint and dried mud
-- Tires: 1.33 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

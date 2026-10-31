@@ -9,7 +9,7 @@ Load: **Copper cable drums**, 26 t
 - Load (drawn as part of the vehicle): a flatbed with two giant copper cable drums
 - Equipment: twin chrome stacks and visor
 - Finish: polished paint with road dust
-- Tires: 1.16 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.16 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

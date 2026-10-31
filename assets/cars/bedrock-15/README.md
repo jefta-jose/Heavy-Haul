@@ -9,7 +9,7 @@ Load: **Drill pipes**, 16 t
 - Load (drawn as part of the vehicle): racked drill pipes
 - Equipment: folded knuckle crane
 - Finish: work-worn paint and dried mud
-- Tires: 1.35 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.35 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 

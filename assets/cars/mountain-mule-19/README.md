@@ -9,7 +9,7 @@ Load: **One giant log**, 28 t
 - Load (drawn as part of the vehicle): a single colossal sequoia trunk chained down
 - Equipment: tool lockers and a compressor
 - Finish: work-worn paint and dried mud
-- Tires: 1.36 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.36 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

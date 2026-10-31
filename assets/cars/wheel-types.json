@@ -69,7 +69,7 @@
     "snow": 0.9,
     "ice": 0.6
    },
-   "art": "mud-terrain tires wrapped in heavy steel snow chains"
+   "art": "off-road mud-terrain tires wrapped in heavy steel chains; vary the chain style from truck to truck: ladder chains (straight cross links), diamond or square-pattern chains, V-bar cleated chains, or twin-ring tractor chains"
   },
   "spiked": {
    "name": "Spiked studs",
@@ -83,7 +83,7 @@
     "snow": 0.85,
     "ice": 0.9
    },
-   "art": "winter tires studded with rows of steel spikes"
+   "art": "off-road mud-terrain tires studded with rows of short steel spikes"
   },
   "giant": {
    "name": "Giant mining tires",

@@ -9,7 +9,7 @@ Load: **Boulders**, 20 t
 - Load (drawn as part of the vehicle): a dump body heaped with big granite boulders
 - Equipment: steel dump body and mud flaps
 - Finish: work-worn paint and dried mud
-- Tires: 1.30 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.30 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

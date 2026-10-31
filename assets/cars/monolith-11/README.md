@@ -9,7 +9,7 @@ Load: **Luxury yacht**, 30 t
 - Load (drawn as part of the vehicle): a sleek white yacht on cradles
 - Equipment: escort light bar and amber beacons
 - Finish: heavy grime and chipped paint
-- Tires: 2.21 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 2.21 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 

@@ -9,7 +9,7 @@ Load: **Ice blocks**, 10 t
 - Load (drawn as part of the vehicle): clear blue ice blocks in an insulated open box
 - Equipment: snorkel and wading kit
 - Finish: thick dried mud
-- Tires: 1.85 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.85 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

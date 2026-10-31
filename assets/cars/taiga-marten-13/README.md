@@ -9,7 +9,7 @@ Load: **Calves**, 0.6 t
 - Load (drawn as part of the vehicle): two brown-and-white calves behind wooden side rails
 - Equipment: roof rack with jerry cans and recovery boards
 - Finish: mud-caked lower panels
-- Tires: 1.33 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

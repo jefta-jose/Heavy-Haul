@@ -9,7 +9,7 @@ Load: **Copper wire spools**, 1.2 t
 - Load (drawn as part of the vehicle): three wooden spools of shiny copper cable
 - Equipment: light bar and roof tent
 - Finish: mud-caked lower panels
-- Tires: 1.48 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.48 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 

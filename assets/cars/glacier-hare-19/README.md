@@ -9,7 +9,7 @@ Load: **Campaign speakers**, 0.8 t
 - Load (drawn as part of the vehicle): loudspeaker stacks and bright campaign banners
 - Equipment: roof rack with jerry cans and recovery boards
 - Finish: mud-caked lower panels
-- Tires: 1.53 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.53 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

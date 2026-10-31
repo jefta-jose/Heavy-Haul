@@ -1,6 +1,6 @@
 # Titan 2
 
-Status: **planned** · class `heavy`, tier 2 of 20 · 6×4, 3 axles · 22.7 t empty · 457 kW · road tires, 1.31 m
+Status: **planned** · class `heavy`, tier 2 of 20 · 6×4, 3 axles · 22.7 t empty · 457 kW · chained tires, 1.31 m
 Load: **Mining dump body**, 45 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Mining dump body**, 45 t
 - Load (drawn as part of the vehicle): a giant orange mining dump body
 - Equipment: ladder to a high cab and huge mirrors
 - Finish: heavy grime and chipped paint
-- Tires: 1.31 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.31 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

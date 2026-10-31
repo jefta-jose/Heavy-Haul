@@ -9,7 +9,7 @@ Load: **Ship hull section**, 60 t
 - Load (drawn as part of the vehicle): a rust-red ship hull block with weld seams
 - Equipment: ladder to a high cab and huge mirrors
 - Finish: heavy grime and chipped paint
-- Tires: 2.36 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 2.36 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

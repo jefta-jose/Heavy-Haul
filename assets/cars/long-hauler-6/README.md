@@ -1,6 +1,6 @@
 # Long Hauler 6
 
-Status: **planned** · class `highway`, tier 6 of 20 · 4×2, 2 axles · 9.1 t empty · 298 kW · road tires, 1.04 m
+Status: **planned** · class `highway`, tier 6 of 20 · 4×2, 2 axles · 9.1 t empty · 298 kW · chained tires, 1.04 m
 Load: **Steel coils**, 14 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Steel coils**, 14 t
 - Load (drawn as part of the vehicle): a flatbed semi-trailer with three steel coils on chocks
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
-- Tires: 1.04 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.04 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

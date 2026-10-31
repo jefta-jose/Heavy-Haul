@@ -1,6 +1,6 @@
 # Overlander 8
 
-Status: **planned** · class `highway`, tier 8 of 20 · 6×2, 3 axles · 10 t empty · 330 kW · road tires, 1.04 m
+Status: **planned** · class `highway`, tier 8 of 20 · 6×2, 3 axles · 10 t empty · 330 kW · mud-terrain tires, 1.04 m
 Load: **Cattle trailer**, 9 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Cattle trailer**, 9 t
 - Load (drawn as part of the vehicle): an aluminium livestock trailer full of cows
 - Equipment: sleeper cab with roof lights
 - Finish: polished paint with road dust
-- Tires: 1.04 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.04 m mud-terrain tires: deep chunky mud lugs with open voids
 
 ## Codex delivers (see AGENTS.md)
 

@@ -9,7 +9,7 @@ Load: **Transformer**, 90 t
 - Load (drawn as part of the vehicle): a grey power transformer with porcelain bushings
 - Equipment: roll cage, beacons and a giant bull bar
 - Finish: heavy grime and chipped paint
-- Tires: 2.44 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 2.44 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

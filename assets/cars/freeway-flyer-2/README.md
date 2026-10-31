@@ -1,6 +1,6 @@
 # Freeway Flyer 2
 
-Status: **planned** · class `highway`, tier 2 of 20 · 4×2, 2 axles · 7.4 t empty · 235 kW · road tires, 1 m
+Status: **planned** · class `highway`, tier 2 of 20 · 4×2, 2 axles · 7.4 t empty · 235 kW · mud-terrain tires, 1 m
 Load: **Hay trailer**, 7 t
 
 ## Art brief
@@ -9,7 +9,7 @@ Load: **Hay trailer**, 7 t
 - Load (drawn as part of the vehicle): a flatbed semi-trailer stacked with square hay bales
 - Equipment: polished fuel tanks
 - Finish: polished paint with road dust
-- Tires: 1.00 m road tires: smooth highway rib tread, chrome or painted hubs
+- Tires: 1.00 m mud-terrain tires: deep chunky mud lugs with open voids
 
 ## Codex delivers (see AGENTS.md)
 

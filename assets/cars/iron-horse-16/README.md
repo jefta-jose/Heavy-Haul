@@ -9,7 +9,7 @@ Load: **Wind tower section**, 25 t
 - Load (drawn as part of the vehicle): a lowbed semi-trailer with a white wind tower section
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
-- Tires: 1.15 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.15 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

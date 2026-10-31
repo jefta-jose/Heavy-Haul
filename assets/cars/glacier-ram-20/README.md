@@ -9,7 +9,7 @@ Load: **Rocket engine**, 18 t
 - Load (drawn as part of the vehicle): a huge rocket engine on a test-stand frame
 - Equipment: expedition box with ladders and lights
 - Finish: thick dried mud
-- Tires: 2.01 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 2.01 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

@@ -9,7 +9,7 @@ Load: **Goats**, 0.4 t
 - Load (drawn as part of the vehicle): three goats behind wooden side rails
 - Equipment: rear spare carrier and ladder
 - Finish: mud-caked lower panels
-- Tires: 1.35 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.35 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
 
 ## Codex delivers (see AGENTS.md)
 

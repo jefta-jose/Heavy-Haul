@@ -9,7 +9,7 @@ Load: **Satellite dish**, 0.7 t
 - Load (drawn as part of the vehicle): a folded white satellite dish on a cradle
 - Equipment: rear spare carrier and ladder
 - Finish: mud-caked lower panels
-- Tires: 1.49 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.49 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

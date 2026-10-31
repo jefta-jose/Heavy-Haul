@@ -9,7 +9,7 @@ Load: **Broken-down 6×6**, 14 t
 - Load (drawn as part of the vehicle): a broken-down 6×6 truck on a recovery deck
 - Equipment: snorkel and wading kit
 - Finish: thick dried mud
-- Tires: 1.75 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.75 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

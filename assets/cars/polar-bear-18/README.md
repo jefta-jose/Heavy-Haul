@@ -9,7 +9,7 @@ Load: **Prefab cabin**, 14 t
 - Load (drawn as part of the vehicle): a blue wooden prefab cabin
 - Equipment: central tire inflation lines
 - Finish: thick dried mud
-- Tires: 1.95 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.95 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

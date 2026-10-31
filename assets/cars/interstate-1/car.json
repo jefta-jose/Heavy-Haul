@@ -4,7 +4,7 @@
   "number": 1,
   "class": "highway",
   "drive": "4×2",
-  "wheelType": "road",
+  "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Burnt orange highway tractor with its semi-trailer",
   "description": "A burnt orange highway tractor with its semi-trailer, carrying a plain box semi-trailer.",

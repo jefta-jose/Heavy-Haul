@@ -9,7 +9,7 @@ Load: **Mining ore**, 30 t
 - Load (drawn as part of the vehicle): a dump body heaped with copper ore
 - Equipment: steel dump body and mud flaps
 - Finish: work-worn paint and dried mud
-- Tires: 1.42 m spiked studs: winter tires studded with rows of steel spikes
+- Tires: 1.42 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes
 
 ## Codex delivers (see AGENTS.md)
 

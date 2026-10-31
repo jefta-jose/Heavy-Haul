@@ -9,7 +9,7 @@ Load: **Campaign float**, 10 t
 - Load (drawn as part of the vehicle): a stage trailer covered in banners, loudspeakers and lights
 - Equipment: sleeper cab with roof lights
 - Finish: polished paint with road dust
-- Tires: 1.15 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.15 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)
 
 ## Codex delivers (see AGENTS.md)
 

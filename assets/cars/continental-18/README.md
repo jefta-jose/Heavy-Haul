@@ -9,7 +9,7 @@ Load: **Fuel double**, 28 t
 - Load (drawn as part of the vehicle): a fuel tanker trailer plus a pup tanker
 - Equipment: marker lights and wide mirrors
 - Finish: polished paint with road dust
-- Tires: 1.22 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.22 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 

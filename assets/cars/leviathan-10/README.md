@@ -9,7 +9,7 @@ Load: **Fishing trawler**, 45 t
 - Load (drawn as part of the vehicle): a blue fishing trawler on cradles
 - Equipment: escort light bar and amber beacons
 - Finish: heavy grime and chipped paint
-- Tires: 2.16 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 2.16 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains
 
 ## Codex delivers (see AGENTS.md)
 

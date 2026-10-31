@@ -9,7 +9,7 @@ Load: **Cattle**, 8 t
 - Load (drawn as part of the vehicle): cows behind tall livestock rails
 - Equipment: snorkel and wading kit
 - Finish: thick dried mud
-- Tires: 1.81 m snow chains: mud-terrain tires wrapped in heavy steel snow chains
+- Tires: 1.81 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains
 
 ## Codex delivers (see AGENTS.md)
 
