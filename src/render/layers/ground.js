@@ -32,36 +32,42 @@ function paintBank(scene, lo, hi, ctx, world) {
   ctx.setTransform(...world);
 }
 
-function bank(scene, lo, hi) {
-  const { ctx, ppm, DPR = 1 } = scene.view, px = ppm * DPR, C = scene.cache;
+// Bank chunks (bank art, deep soil and the lane) for [lo, hi]. `ahead`: also build the next chunk in
+// the direction of travel, if no chunk was built yet this frame (see renderer.js, cache.built), so
+// chunks are ready before they scroll in instead of several being painted in one frame.
+function bank(scene, lo, hi, ahead = false) {
+  const { ctx, ppm, DPR = 1, cam } = scene.view, px = ppm * DPR, C = scene.cache;
   const key = `${px.toFixed(4)}:${scene.season.render.bankTile}`;
   if (C.bankKey !== key) { C.bankKey = key; C.bankChunks = new Map(); }
   const chunkWidth = scene.season.render.bankTile / 2, { visH } = scene.sim;
   const first = Math.floor(lo / chunkWidth), last = Math.floor(hi / chunkWidth);
+  const make = index => {
+    const x = index * chunkWidth, end = x + chunkWidth;
+    let low = Infinity, high = -Infinity;
+    for (let t = x - 3; t <= end + 3; t += COL) { low = Math.min(low, visH(t)); high = Math.max(high, visH(t)); }
+    const img = scene.images.bank, r = scene.season.render, scale = r.bankTile / img.width;
+    const top = high + r.bankContactRow * scale + 0.1;
+    const bottom = low - (img.height - r.bankContactRow) * scale - 0.1;
+    const canvas = makeCanvas(Math.ceil(chunkWidth * px), Math.ceil((top - bottom) * px));
+    const g = canvas.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+    // deep soil under the contour first: the bank art is not quite opaque (alpha 252)
+    g.setTransform(px, 0, 0, -px, -x * px, top * px); g.beginPath();
+    for (let t = x - COL; t <= end + COL; t += COL) g.lineTo(t, visH(t) + 0.1);
+    g.lineTo(end + COL, bottom); g.lineTo(x - COL, bottom); g.closePath(); g.fillStyle = scene.cache.deepPat; g.fill();
+    paintBank(scene, x, end, g, [px, 0, 0, -px, -x * px, top * px]);
+    paintLane(scene, g, x, end);
+    const tile = { canvas, x, top }; C.bankChunks.set(index, tile); C.built = (C.built ?? 0) + 1;
+    // Keep memory bounded while crossing a long trail or teleporting between checkpoints.
+    if (C.bankChunks.size > Math.max(20, last - first + 6)) C.bankChunks.delete(C.bankChunks.keys().next().value);
+    return tile;
+  };
   for (let index = first; index <= last; index++) {
-    let tile = C.bankChunks.get(index);
-    if (!tile) {
-      const x = index * chunkWidth, end = x + chunkWidth;
-      let low = Infinity, high = -Infinity;
-      for (let t = x - 3; t <= end + 3; t += COL) { low = Math.min(low, visH(t)); high = Math.max(high, visH(t)); }
-      const img = scene.images.bank, r = scene.season.render, scale = r.bankTile / img.width;
-      const top = high + r.bankContactRow * scale + 0.1;
-      const bottom = low - (img.height - r.bankContactRow) * scale - 0.1;
-      const canvas = makeCanvas(Math.ceil(chunkWidth * px), Math.ceil((top - bottom) * px));
-      const g = canvas.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
-      // deep soil under the contour first: the bank art is not quite opaque (alpha 252)
-      g.setTransform(px, 0, 0, -px, -x * px, top * px); g.beginPath();
-      for (let t = x - COL; t <= end + COL; t += COL) g.lineTo(t, visH(t) + 0.1);
-      g.lineTo(end + COL, bottom); g.lineTo(x - COL, bottom); g.closePath(); g.fillStyle = scene.cache.deepPat; g.fill();
-      paintBank(scene, x, end, g, [px, 0, 0, -px, -x * px, top * px]);
-      paintLane(scene, g, x, end);
-      tile = { canvas, x, top }; C.bankChunks.set(index, tile);
-      // Keep memory bounded while crossing a long trail or teleporting between checkpoints.
-      if (C.bankChunks.size > Math.max(20, last - first + 5)) C.bankChunks.delete(C.bankChunks.keys().next().value);
-    }
+    const tile = C.bankChunks.get(index) ?? make(index);
     ctx.save(); ctx.translate(tile.x, tile.top); ctx.scale(1, -1);
     ctx.drawImage(tile.canvas, 0, 0, tile.canvas.width / px, tile.canvas.height / px); ctx.restore();
   }
+  const next = (cam?.vx ?? 0) < 0 ? first - 1 : last + 1;
+  if (ahead && !C.built && !C.bankChunks.has(next)) make(next);
 }
 
 export function drawGround(scene) {
@@ -84,7 +90,7 @@ export function drawGround(scene) {
   // the texture is shrunk a lot here: keep it mipmapped (the main canvas draws with 'low')
   if (visible) { ctx.imageSmoothingQuality = 'medium'; ctx.fillStyle = scene.cache.deepPat; ctx.fill(); }
   ctx.restore();
-  bank(scene, xa, xb);
+  bank(scene, xa, xb, true);
 }
 
 // Restores real mud in front of the sunk tire bottoms along an irregular lip, near the vehicle only.

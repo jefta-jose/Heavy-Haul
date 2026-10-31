@@ -285,7 +285,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (const v of vehicles) stepVehicle(v, dt);
     load.clear();
     world.step(dt, 10, 6);
-    bridgeSystem.afterStep(dt);
+    bridgeSystem.afterStep(dt, vehicles.map(v => v.parts.truck.getPosition().x));
     if (crushQueue.length) crushRocks();
   }
 

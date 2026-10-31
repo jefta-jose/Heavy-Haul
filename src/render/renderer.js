@@ -60,6 +60,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     };
     time += dt;
     layer('cache', () => scene.cache.prepare());
+    scene.cache.built = 0;   // chunks built this frame; the chunk layers build one ahead only when none was
     // Sprites are cached at screen size, so plain bilinear filtering is enough; Chrome's 'medium'
     // mipmaps every draw and cost about 40% of the frame.
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';

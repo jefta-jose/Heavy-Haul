@@ -4,7 +4,7 @@ export function buildBridges({ pl, world, terrain, events }) {
   for (const spec of terrain.bridges) {
     const length = spec.x1 - spec.x0, count = Math.ceil(length / 0.7), dx = length / count;
     const deck = x => spec.y0 + (spec.y1 - spec.y0) * (x - spec.x0) / length - spec.sag * Math.sin(Math.PI * (x - spec.x0) / length);
-    const bridge = { ...spec, boards: [], hinges: [], broken: false, crackClock: 0, maxDeflection: 0 };
+    const bridge = { ...spec, boards: [], hinges: [], broken: false, crackClock: 0, maxDeflection: 0, awake: true };
     for (let i = 0; i < count; i++) {
       const x0 = spec.x0 + i * dx, x1 = x0 + dx, y0 = deck(x0), y1 = deck(x1), len = Math.hypot(dx, y1 - y0);
       const body = world.createBody({ type: 'dynamic', position: V((x0 + x1) / 2, (y0 + y1) / 2 - 0.1), angle: Math.atan2(y1 - y0, dx), angularDamping: 1.4, linearDamping: 0.2 });
@@ -20,8 +20,20 @@ export function buildBridges({ pl, world, terrain, events }) {
     const a = contact.getFixtureA().getUserData(), b = contact.getFixtureB().getUserData(), board = a?.bridgeBoard ?? b?.bridgeBoard;
     if (board && (a?.tire || b?.tire)) board.force += impulse.normalImpulses.reduce((sum, n) => sum + n, 0);
   });
-  return { bridges, afterStep(dt) {
+  // A chain of limited hinges never settles enough to sleep on its own, so every bridge on the trail
+  // was simulated every step (about a fifth of the physics on a phone). A bridge with no vehicle within
+  // WAKE metres is put to sleep and woken again as one approaches, long before a tire reaches it.
+  const WAKE = 30;
+  function settle(xs) {
     for (const bridge of bridges) {
+      const near = xs.some(x => x > bridge.x0 - WAKE && x < bridge.x1 + WAKE);
+      if (near !== bridge.awake) { bridge.awake = near; for (const board of bridge.boards) board.body.setAwake(near); }
+    }
+  }
+  return { bridges, afterStep(dt, xs = []) {
+    settle(xs);
+    for (const bridge of bridges) {
+      if (!bridge.awake) continue;
       bridge.crackClock = Math.max(0, bridge.crackClock - dt);
       for (const board of bridge.boards) {
         bridge.maxDeflection = Math.max(bridge.maxDeflection, board.restY - board.body.getPosition().y);

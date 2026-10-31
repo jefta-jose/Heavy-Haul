@@ -122,36 +122,41 @@ export function createMudLayer(scene) {
       patch(centre - 10, centre + 10, 0.32, x => sim.terrain.mudAt(x).heavy);
     }
   }
-  function cachedSurface(lo, hi) {
+  // ahead: also build the next chunk in the direction of travel if nothing was built this frame
+  function cachedSurface(lo, hi, ahead = false) {
     const C = scene.cache, px = scene.view.ppm * scene.view.DPR, key = px.toFixed(4), width = 7;
     if (C.mudKey !== key) { C.mudKey = key; C.mudChunks = new Map(); }
-    for (let index = Math.floor(lo / width); index <= Math.floor(hi / width); index++) {
-      let tile = C.mudChunks.get(index);
-      if (!tile) {
-        const x = index * width, end = x + width;
-        let low = Infinity, high = -Infinity, wet = false;
-        for (let t = x; t <= end + 0.25; t += 0.25) {
-          low = Math.min(low, sim.visH(t)); high = Math.max(high, sim.visH(t));
-          wet ||= sim.terrain.mudAt(t).intensity > 0;
-        }
-        tile = { x, top: high + 1.65, canvas: null };
-        if (wet) {
-          tile.canvas = makeCanvas(Math.ceil(width * px), Math.ceil((high - low + 2.5) * px));
-          const g = tile.canvas.getContext('2d'); g.setTransform(px, 0, 0, -px, -x * px, tile.top * px);
-          paintSurface(g, x, end);
-        }
-        C.mudChunks.set(index, tile);
-        if (C.mudChunks.size > 20) C.mudChunks.delete(C.mudChunks.keys().next().value);
+    const first = Math.floor(lo / width), last = Math.floor(hi / width);
+    const make = index => {
+      const x = index * width, end = x + width;
+      let low = Infinity, high = -Infinity, wet = false;
+      for (let t = x; t <= end + 0.25; t += 0.25) {
+        low = Math.min(low, sim.visH(t)); high = Math.max(high, sim.visH(t));
+        wet ||= sim.terrain.mudAt(t).intensity > 0;
       }
+      const tile = { x, top: high + 1.65, canvas: null };
+      if (wet) {
+        tile.canvas = makeCanvas(Math.ceil(width * px), Math.ceil((high - low + 2.5) * px));
+        const g = tile.canvas.getContext('2d'); g.setTransform(px, 0, 0, -px, -x * px, tile.top * px);
+        paintSurface(g, x, end); C.built = (C.built ?? 0) + 1;
+      }
+      C.mudChunks.set(index, tile);
+      if (C.mudChunks.size > Math.max(20, last - first + 6)) C.mudChunks.delete(C.mudChunks.keys().next().value);
+      return tile;
+    };
+    for (let index = first; index <= last; index++) {
+      const tile = C.mudChunks.get(index) ?? make(index);
       if (tile.canvas) {
         ctx.save(); ctx.translate(tile.x, tile.top); ctx.scale(1, -1);
         ctx.drawImage(tile.canvas, 0, 0, width, tile.canvas.height / px); ctx.restore();
       }
     }
+    const next = scene.view.cam.vx < 0 ? first - 1 : last + 1;
+    if (ahead && !C.built && !C.mudChunks.has(next)) make(next);
   }
   function surface(time) {
     const [lo, hi] = scene.view.viewX();
-    cachedSurface(lo, hi);
+    cachedSurface(lo, hi, true);
     // Slow bubbles make the deep slurry read as liquid (no reflections: the user removed them).
     for (let x = Math.floor(lo / 1.7) * 1.7; x < hi; x += 1.7) {
       const m = sim.terrain.mudAt(x); if (m.heavy < 0.12) continue;

@@ -60,16 +60,20 @@ export function drawBackground(scene) {
   const depth = H * 0.35 / ppm + 0.3, fade = Math.min(0.8, H / ppm * 0.03), key = `${(ppm * DPR).toFixed(4)}|${H}`;
   if (C.floorKey !== key) { C.floorKey = key; C.floorChunks = new Map(); }
   const first = Math.floor(lo / FLOOR_CHUNK), last = Math.floor(hi / FLOOR_CHUNK);
+  const make = index => {
+    const canvas = floorChunk(scene, index, depth, fade); C.floorChunks.set(index, canvas); C.built = (C.built ?? 0) + 1;
+    // keep every chunk in view (zoomed out for a job there are many), or each frame rebuilds them
+    if (C.floorChunks.size > last - first + 6) C.floorChunks.delete(C.floorChunks.keys().next().value);
+    return canvas;
+  };
   for (let index = first; index <= last; index++) {
-    let canvas = C.floorChunks.get(index);
-    if (!canvas) {
-      canvas = floorChunk(scene, index, depth, fade); C.floorChunks.set(index, canvas);
-      // keep every chunk in view (zoomed out for a job there are many), or each frame rebuilds them
-      if (C.floorChunks.size > last - first + 5) C.floorChunks.delete(C.floorChunks.keys().next().value);
-    }
+    const canvas = C.floorChunks.get(index) ?? make(index);
     ctx.save(); ctx.translate(index * FLOOR_CHUNK, horizon + WAVE); ctx.scale(1, -1);
     ctx.drawImage(canvas, 0, 0, FLOOR_CHUNK, WAVE + depth); ctx.restore();
   }
+  // the next chunk in the direction of travel, ahead of time, if nothing was built this frame
+  const next = cam.vx < 0 ? first - 1 : last + 1;
+  if (!C.built && !C.floorChunks.has(next)) make(next);
   screenLayer(scene, C.img.midground, render.parallax.midground, H * 0.73);
 }
 
