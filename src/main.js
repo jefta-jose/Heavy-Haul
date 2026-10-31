@@ -11,7 +11,6 @@ import { createGarage } from './game/garage.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
-import { createPerfLog } from './game/perf-log.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's fuel truck
@@ -65,27 +64,12 @@ function setMode(key, on) {
   renderer.flash(on); audio.clunk(on); haptics.toggle();
   hud.hint(`${key}-${on}`, key === 'awd' ? (on ? '4×4 on: front axle engaged' : '4×4 off: rear axle only') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
 }
-// the pause menu also carries what the phone HUD leaves out: the truck's details, the engine switch
-// and fullscreen
-// the phone performance log (perf-log.js): recorded from the pause menu, saved or shared from it
-const perfLog = createPerfLog({ view, sim, content, getState: () => session.state });
-const recBadge = Object.assign(document.createElement('div'), { className: 'rec', hidden: true });
-document.getElementById('hud').append(recBadge);
-async function savePerfLog() {
-  const r = await perfLog.save();
-  hud.toast(r.ok ? `Performance log saved to ${r.where}` : r.reason, 3.5);
-}
-const showPause = (fresh = false) => {
+// the pause menu also carries what the phone HUD leaves out: the truck's details and fullscreen
+const showPause = () => {
   const E = hud.els, text = el => el.textContent.trim() || '–';
   const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Use', `${text(E.useTxt)} ${E.avgTxt.textContent}`.trim()], ['Coins', text(E.coinTxt)]];
-  const buttons = [[sim.st.engine === 'off' ? 'Start engine' : 'Engine off', () => { session.resume(); engine(); }]];
-  if (!app) buttons.push([document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]);
-  const rep = perfLog.report;
-  if (fresh && rep) spec.unshift(['Recorded', `${rep.summary.fps} fps average`], ['Slow frames', `${rep.summary.slowFrames.over33ms} over 33 ms`]);
-  const lead = rep && fresh ? [['Save performance log', savePerfLog, true]] : [];   // just recorded: offer it first
-  if (rep && !fresh) buttons.push(['Save performance log', savePerfLog]);
-  if (!perfLog.recording) buttons.push([rep ? 'Record again' : 'Record performance', () => { perfLog.start(); session.resume(); hud.toast('Recording 30 s: drive as you normally would', 3); }]);
-  session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, lead, buttons });
+  const buttons = [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
+  session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
 function pause() {
   if (sound.isOpen) return;
@@ -209,21 +193,8 @@ function newRun() {
 function startRun(sel) { selection = sel; garage.hide(); session.state = 'play'; startAudio(); newRun(); sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
 
-// Inside the Android app (Capacitor) the game is already full screen and landscape, and Android's
-// back button pauses and resumes a run, closes the sound panel, or leaves the app from the garage.
-const app = window.Capacitor?.isNativePlatform?.() ? window.Capacitor : null;
-if (app) {
-  document.documentElement.classList.add('native-app');
-  app.Plugins.App?.addListener('backButton', () => {
-    if (sound.isOpen) document.getElementById('soundDone').click();
-    else if (session.state === 'play' || session.state === 'pause') pause();
-    else if (session.state === 'garage') app.Plugins.App.minimizeApp();
-  });
-}
-
 async function goFullscreen() {
   const el = document.documentElement;
-  if (app) return;
   try {
     if (document.fullscreenElement) { await document.exitFullscreen(); return; }
     if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
@@ -260,10 +231,8 @@ function adapt(dt) {
   slowT = frameAvg > slow ? slowT + dt : Math.max(0, slowT - dt);
   if (slowT > (TOUCH ? 2 : 3) && view.quality > 0.6) { view.quality = Math.max(0.6, view.quality - 0.15); slowT = 0; frameAvg = 1 / 60; pendingResize = true; }
 }
-const stats = { phys: 0, steps: 0 };
-let layerNext = false;
 function frame(now) {
-  const gap = now - last, dt = Math.min(8 * DT, gap / 1000); last = now;   // at most the 8 physics steps a frame may run
+  const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
   if (pendingResize) { pendingResize = false; resize(); }
   const playing = session.state === 'play';
   if (playing) {
@@ -275,9 +244,7 @@ function frame(now) {
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
     acc += dt; let n = 0;
-    const t0 = performance.now();
     while (acc >= DT && n < 8) { sim.step(DT); acc -= DT; n++; }
-    stats.phys = performance.now() - t0; stats.steps = n;
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     session.update(dt);
@@ -285,24 +252,15 @@ function frame(now) {
     hud.showAction(refueling ? `Refueling… ${Math.round(refueling.progress * 100)}%` : serviceJob(), !!refueling);
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
-  const t1 = performance.now(), layers = layerNext ? {} : null;
-  try { view.follow(dt); renderer.draw(dt, playing, layers); } finally { interp.restore(); }
-  const t2 = performance.now();
+  try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run });
-  const t3 = performance.now();
   audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x }, dt);
-  const t4 = performance.now();
-  if (perfLog.recording) {
-    layerNext = perfLog.frame({ dt, gap, phys: playing ? stats.phys : 0, steps: playing ? stats.steps : 0, draw: t2 - t1, hud: t3 - t2, audio: t4 - t3, layered: !!layers, layers });
-    recBadge.hidden = !perfLog.recording; recBadge.textContent = `● REC ${perfLog.remaining}s`;
-    if (!perfLog.recording && perfLog.report) showPause(true);   // done: pause and offer to save it
-  } else { layerNext = false; recBadge.hidden = true; }
   adapt(dt);
   requestAnimationFrame(frame);
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { sim, view, renderer, session, perfLog, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
+window.__haul = { sim, view, renderer, session, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

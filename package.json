@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "node tools/dev.js",
     "build": "node tools/build.js",
-    "build:app": "node tools/build.js --app && cap sync android",
-    "android:apk": "npm run build:app && cd android && ./gradlew assembleDebug",
     "test": "node --test tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js",
     "test:route": "node --test tests/route.test.js",
     "test:browser": "node --test tests/browser.test.js",
@@ -18,17 +16,9 @@
     "scaffold": "node tools/content/scaffold.js"
   },
   "devDependencies": {
-    "@capacitor/cli": "8.5.3",
     "esbuild": "0.24.0",
     "planck": "1.4.2",
     "playwright": "^1.64.1"
   },
-  "type": "module",
-  "dependencies": {
-    "@capacitor/android": "8.5.3",
-    "@capacitor/app": "8.1.2",
-    "@capacitor/core": "8.5.3",
-    "@capacitor/filesystem": "8.1.5",
-    "@capacitor/share": "8.0.3"
-  }
+  "type": "module"
 }

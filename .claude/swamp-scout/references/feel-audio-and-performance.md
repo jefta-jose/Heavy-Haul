@@ -172,7 +172,7 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
   Thumbs drifting on the old drag-to-ease pedal silently lost power.
 - Touch screens under 520 px tall cap the pixel ratio at 1.25, and adaptive quality steps down after
   2 s under 50 fps (desktop: 3 s under 40 fps).
-- Haptics (`src/game/haptics.js`, Android only): gear and drive-mode ticks, hard hits, winch hook-on,
+- Haptics (`src/game/haptics.js`, Android browsers only): gear and drive-mode ticks, hard hits, winch hook-on,
   low fuel.
 - Phone HUD (the block at the end of `game.css`): fuel bar, depot distance, service and pause buttons,
   big corner pedals, one dial, gears above the gas. Details, engine and fullscreen live in the pause
@@ -184,7 +184,8 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
 100-180 ms about once a second. Fixes: all 100 hinged bridge boards on the trail were simulated
 every step (a hinged chain never sleeps), so bridges were made rigid static decks, as in SnowRunner
 (`src/physics/bridges.js`; physics per step 0.73 → about 0.25 ms on desktop); road, forest-floor and mud chunks are built one ahead in the direction of travel,
-at most one per frame (`cache.built`). Record a log from the pause menu after performance changes.
+at most one per frame (`cache.built`). (The in-game recorder that produced that log was removed
+with the Android app on 2026-10-31; profile in desktop DevTools now.)
 
 Rules: never set a high smoothing quality on the main canvas, and never draw a full-screen layer or a
 clipped translucent pattern every frame when it could be cached in world-space or screen-space chunks.

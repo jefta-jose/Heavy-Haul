@@ -1,6 +1,6 @@
 // Short vibrations on touch devices: a tick for each gear or drive-mode change, a thud on hard hits
 // and when a rock breaks, a double pulse when the winch hooks on, and a warning when the tank runs
-// low. Android browsers and the Android app (WebView, VIBRATE permission) support it; iOS ignores it.
+// low. Android browsers support it; iOS ignores it.
 
 export function createHaptics() {
   const touch = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;

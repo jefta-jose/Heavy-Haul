@@ -19,33 +19,6 @@ tap fullscreen. `npm run build` writes `dist/heavy-haul.html` (the whole game in
 included; host it anywhere) and `dist/heavy-haul.artifact.html` (the same without the `<html>`
 wrapper). Fonts load from Google Fonts if available; everything else is embedded.
 
-## Android app
-
-The Play Store build wraps the game in a native Android app with [Capacitor](https://capacitorjs.com)
-(`capacitor.config.json`, `android/`). `npm run build:app` writes `dist/app/` (`index.html` plus
-the art, sound and fonts as files, so it works offline) and copies it into the Android project.
-The app runs full screen in landscape, keeps the screen on, and Android's back button pauses and
-resumes a run (from the garage it leaves the app).
-
-Every push to `main` builds a test APK on GitHub (`.github/workflows/android.yml`) and publishes it
-as the `latest-build` release. On the phone, open
-<https://github.com/jefta-jose/Heavy-Haul/releases/download/latest-build/heavy-haul.apk> and install
-it (the first time, allow installs from the browser).
-
-For updates to install over the previous build, every APK must have the same signature. Make a debug
-key once (needs Java 21) and store it as a repository secret:
-
-```bash
-keytool -genkeypair -keystore heavy-haul-debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Heavy Haul Debug"
-```
-```bash
-base64 -w0 heavy-haul-debug.keystore | gh secret set ANDROID_DEBUG_KEYSTORE
-```
-
-Copy the same file to `android/app/heavy-haul-debug.keystore` for local builds
-(`npm run android:apk`, which needs the Android SDK). Keys are git-ignored. The Play Store needs a
-separate upload key and a signed `.aab`, which are not set up yet.
-
 ## Layout
 
 ```
@@ -68,12 +41,11 @@ src/
   audio/                  recorded sound: engine.js (class engine voices), loop-player.js (seamless
                           beds), vehicle-audio.js (tires, water, mud, brakes, load, ambience, volumes)
   game/                   view (canvas + camera), input, hud, session (rules and flow)
-assets/                   cars (each drawn with its load), seasons, HUD, fonts (see assets/README.md)
-android/                  Capacitor Android project (MainActivity: full screen, screen on)
+assets/                   cars (each drawn with its load), seasons, HUD (see assets/README.md)
 docs/game-design.md       cars with loads, garage, fuel, service trucks and winching
 tests/                    vehicle behaviour, full-trail drive, browser regression
 tools/
-  build.js, dev.js        esbuild bundle into one HTML file (--app: dist/app/ for Android); dev server
+  build.js, dev.js        esbuild bundle into one HTML file; dev server
   lib/content.js          loads the selected car and season
   content/scaffold.js     folder per roster entry in cars.json, with its art brief
   report-feel.js          launch and mud numbers for tuning
