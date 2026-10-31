@@ -465,3 +465,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   #gauges { width: 88px; height: 88px; }
   .winch.hbrake, .winch.engine, .drive { bottom: 128px; }
 }
+
+/* the performance recorder's badge (perf-log.js) */
+.rec { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 62px; z-index: 5;
+  font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; color: #fff; background: rgba(192, 57, 43, 0.9); border-radius: 8px; padding: 3px 9px; pointer-events: none; }

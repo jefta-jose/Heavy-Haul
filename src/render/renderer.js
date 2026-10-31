@@ -45,34 +45,35 @@ export function createRenderer({ view, sim, content, onEvent }) {
     ctx.restore();
   }
 
-  function draw(dt, playing) {
+  // draw(dt, playing, layers): with a `layers` object the frame is drawn layer by layer, each followed
+  // by a GPU flush, and each layer's paint time in ms is added to it (the performance log does this
+  // on a few frames; the flushes make that frame slow, so it is left out of the frame statistics)
+  function draw(dt, playing, layers = null) {
     const { ctx, W, H, DPR } = view;
     if (!sceneryReady || !vehicles.ready || !sim.vehicles.length) {
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = '#354b43'; ctx.fillRect(0, 0, W, H);
       return;
     }
+    const layer = (name, fn) => {
+      if (!layers) return fn();
+      const t = performance.now(); fn(); ctx.getImageData(0, 0, 1, 1); layers[name] = (layers[name] ?? 0) + performance.now() - t;
+    };
     time += dt;
-    scene.cache.prepare();
+    layer('cache', () => scene.cache.prepare());
     // Sprites are cached at screen size, so plain bilinear filtering is enough; Chrome's 'medium'
     // mipmaps every draw and cost about 40% of the frame.
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';
-    drawBackground(scene);
+    layer('background', () => drawBackground(scene));
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
-    drawGround(scene);
+    layer('ground', () => drawGround(scene));
     if (playing) mud.update(dt);
-    props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
-    mud.surface(time);
-    props.drawBehind();
-    bridges.draw();
-    particles.update(playing ? dt : 0, playing); particles.draw('back');
-    vehicles.draw(playing ? dt : 0);
-    drawFrontLip(scene); props.drawLogEnds();
-    mud.foreground(); bridges.drawFront();
-    drawRefueling();
-    vehicles.contactAccents();
-    drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
-    props.drawFront();
-    drawForegroundShade(scene);
+    layer('mud', () => { props.drawHoles(); mud.surface(time); });   // holes under the ruts, so both wheel tracks dip into a hole
+    layer('props', () => { props.drawBehind(); bridges.draw(); });
+    layer('particles', () => { particles.update(playing ? dt : 0, playing); particles.draw('back'); });
+    layer('vehicles', () => vehicles.draw(playing ? dt : 0));
+    layer('foreground', () => { drawFrontLip(scene); props.drawLogEnds(); mud.foreground(); bridges.drawFront(); drawRefueling(); vehicles.contactAccents(); });
+    layer('water', () => { drawWater(scene, time); drawRipples(scene, time); particles.draw('front'); });
+    layer('front', () => { props.drawFront(); drawForegroundShade(scene); });
     frames++;
   }
 
