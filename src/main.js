@@ -43,8 +43,6 @@ const renderer = createRenderer({
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); }
-    else if (e.type === 'bridge-crack') audio.wood(0.5);
-    else if (e.type === 'bridge-break') { audio.wood(1.2); hud.toast('Bridge plank gave way! Keep it slow.', 2.5); }
   },
 });
 const garage = createGarage({ content, onStart: (selection, fullscreen) => { if (fullscreen) goFullscreen(); startRun(selection); } });

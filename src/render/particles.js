@@ -77,10 +77,6 @@ export function createParticles(scene, onEvent) {
     // crushed rocks burst into chunks and dust
     while (sim.events.length) {
       const e = sim.events.shift();
-      if (e.type === 'bridge-crack' || e.type === 'bridge-break') {
-        for (let k = 0; k < (e.type === 'bridge-break' ? 14 : 4); k++) emitChunk(e.x, e.y, (Math.random() - 0.5) * 2, Math.random() * 1.5, 0.025 + Math.random() * 0.04, k % 2 ? '#80613e' : '#ad8d5a');
-        onEvent(e); continue;
-      }
       if (e.type !== 'crush') continue;
       for (let k = 0; k < 12; k++) emitChunk(e.x + (Math.random() - 0.5) * e.w * 0.6, e.y + Math.random() * 0.15, (Math.random() - 0.5) * 3 + v.x * 0.3, 1 + Math.random() * 2.6, 0.035 + Math.random() * e.w * 0.09, Math.random() < 0.5 ? '#6e6a60' : '#8b867a');
       for (let k = 0; k < 5; k++) emitPuff('dust', e.x + (Math.random() - 0.5) * e.w, e.y, (Math.random() - 0.5) * 0.8, 0.3 + Math.random() * 0.5, 0.2, 0.9, 1.4, 0.4);

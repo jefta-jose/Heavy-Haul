@@ -161,9 +161,9 @@ Implementation: `src/render/layers/mud.js`, `src/render/particles.js`, `src/phys
 
 Keep the launch area clear; placing the first pile inside the baseline acceleration run invalidated that check. Verify a Scout can climb with an appropriate approach and that the weaker Mesa visibly struggles. Do not flatten the pile solely to make every truck cross at idle. Implementation: `src/physics/obstacles.js`, `src/render/layers/props.js`.
 
-**Suspended timber bridges:** author `trail.bridges` with `id`, `x0`, `x1`, `capacityT`, `sag` and `depth`. Current swamp spans are 364–378 m and 957–969 m. Excavate the ground below the span; a solid invisible road prevents meaningful bridge motion. Spawn against `terrain.driveH(x)` so checkpoint or service spawns do not start beneath the deck.
+**Timber bridges:** author `trail.bridges` with `id`, `x0`, `x1`, `sag` and `depth` (`capacityT` is no longer used). Current swamp spans are 364–378 m and 957–969 m. Excavate the ground below the span, so the bridge reads as a crossing over a gully. Spawn against `terrain.driveH(x)` so checkpoint or service spawns do not start beneath the deck.
 
-The current Planck implementation uses roughly 0.7 m boards, anchored end joints, limited hinges and damping. Map wood to each board's physical position and angle; follow those positions with ropes and cracks. Normal Scout loads should flex and cross. Sustained overload can release an interior connection and emit splinters/audio. Tie damage to contact impulse, time and capacity rather than making a decorative animation break on a timer. Implementation: `src/physics/bridges.js`, `src/render/layers/bridges.js`.
+Bridges are rigid, as in SnowRunner: roughly 0.7 m static boards laid along the deck line (with its sag), drawn at each board's position and angle. They never swing, flex or break (hinged, breakable boards were dropped on 2026-10-31: SnowRunner bridges do not swing, and they cost physics time on phones). A `missingBoard` is a sensor gap a tire falls through. Implementation: `src/physics/bridges.js`, `src/render/layers/bridges.js`.
 
 ## 5. Integrate and cache
 
@@ -208,12 +208,12 @@ Accept only after confirming:
 - Tree roots sit naturally in the distant ground and vegetation gaps have clean alpha.
 - Road texture remains anchored; small bumps do not warp the entire landscape.
 - Tire contact, mud sinking, obstacles and foreground occlusion agree with physics.
-- Deep bogs are visibly different before slowdown; splashes match mud or water, bridges physically flex, and normal/overload bridge behavior is tested separately.
+- Deep bogs are visibly different before slowdown; splashes match mud or water, and bridges are rigid and crossable.
 - Repeats and surface transitions do not form conspicuous seams or mirrored landmarks.
 - Palette, light and material scale agree across layers; snow or water does not resemble a pasted-on overlay.
 - Scrolling is smooth after caches warm, memory stays bounded, and startup has no black flashes.
 
-`tests/terrain.test.js` covers greater bog immersion, four physical logs per pile, Scout bridge crossing/flex and stable overload failure. Browser tests check bog labels, retained tracks, bridge surface state and clearing tracks on restart, alongside the existing service and viewport checks. Review `output/captures/08-bog-splash.png`, `09-swing-bridge.png` and the `terrain-` captures when available; a screenshot cannot prove motion or collision behavior.
+`tests/terrain.test.js` covers greater bog immersion, four physical logs per pile and a rigid Scout bridge crossing. Browser tests check bog labels, retained tracks, bridge surface state and clearing tracks on restart, alongside the existing service and viewport checks. Review `output/captures/08-bog-splash.png`, `09-swing-bridge.png` and the `terrain-` captures when available; a screenshot cannot prove motion or collision behavior.
 
 Profile using normal animation-frame pacing as well as CPU drawing time. Forcing dozens of complete renders inside one callback can stall while Canvas drains queued raster work and is not a meaningful FPS measurement. Compare the same viewport, zoom, renderer and device before and after the feature. Headless software rendering does not establish real-device frame rate.
 

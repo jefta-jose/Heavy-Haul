@@ -65,7 +65,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     ground.createFixture(new pl.Edge(V(X0, colH(X0)), V(X0, colH(X0) + 40)), { friction: 0.5 });
     ground.createFixture(new pl.Edge(V(X1, colH(X1)), V(X1, colH(X1) + 40)), { friction: 0.5 });
     obstacles = buildObstacles({ pl, world, terrain, trail, hulls: rockHulls });
-    bridgeSystem = buildBridges({ pl, world, terrain, events });
+    bridgeSystem = buildBridges({ pl, world, terrain });
 
     world.on('post-solve', (c, imp) => {
       const fa = c.getFixtureA(), fb = c.getFixtureB();
@@ -285,7 +285,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (const v of vehicles) stepVehicle(v, dt);
     load.clear();
     world.step(dt, 10, 6);
-    bridgeSystem.afterStep(dt, vehicles.map(v => v.parts.truck.getPosition().x));
     if (crushQueue.length) crushRocks();
   }
 

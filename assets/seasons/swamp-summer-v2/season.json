@@ -1337,6 +1337,7 @@
       "backdrop": 0.055,
       "midground": 0.24
     },
+    "forestFloor": false,
     "lane": {
       "materials": {
         "dirt": "ground",

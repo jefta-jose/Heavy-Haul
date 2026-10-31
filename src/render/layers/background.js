@@ -50,30 +50,34 @@ export function drawBackground(scene) {
   const { ctx, H, DPR, ppm, cam } = scene.view, C = scene.cache, render = scene.season.render;
   // The backdrop is opaque and covers the screen; the fog is baked into its cached copy.
   screenLayer(scene, C.img.backdrop, render.parallax.backdrop, H * 1.02);
-  // A continuous forest floor behind the bank. The panorama contains water below the roots;
-  // it must not become a hole in the trail when the foreground descends or the camera climbs.
+  // A continuous forest floor behind the bank (render.forestFloor, default on). A detailed panorama
+  // has water below the roots that must not show as a hole behind the trail when the foreground
+  // descends or the camera climbs. A season whose backdrop is already a calm, simple swamp turns it
+  // off: there the floor showed as a flat band of dirt rising behind the grass crest.
   // Draw before the transparent trees so their roots and vegetation soften the far boundary.
   // The tree PNG has transparent padding below its roots: their actual baseline is ~0.675 H,
   // not the image's 0.73 H placement. Begin the soil behind that baseline, not below it.
-  scene.view.worldTransform();
-  const [lo, hi] = scene.view.viewX(), horizon = cam.y + (H * 0.5 - H * 0.65) / ppm;
-  const depth = H * 0.35 / ppm + 0.3, fade = Math.min(0.8, H / ppm * 0.03), key = `${(ppm * DPR).toFixed(4)}|${H}`;
-  if (C.floorKey !== key) { C.floorKey = key; C.floorChunks = new Map(); }
-  const first = Math.floor(lo / FLOOR_CHUNK), last = Math.floor(hi / FLOOR_CHUNK);
-  const make = index => {
-    const canvas = floorChunk(scene, index, depth, fade); C.floorChunks.set(index, canvas); C.built = (C.built ?? 0) + 1;
-    // keep every chunk in view (zoomed out for a job there are many), or each frame rebuilds them
-    if (C.floorChunks.size > last - first + 6) C.floorChunks.delete(C.floorChunks.keys().next().value);
-    return canvas;
-  };
-  for (let index = first; index <= last; index++) {
-    const canvas = C.floorChunks.get(index) ?? make(index);
-    ctx.save(); ctx.translate(index * FLOOR_CHUNK, horizon + WAVE); ctx.scale(1, -1);
-    ctx.drawImage(canvas, 0, 0, FLOOR_CHUNK, WAVE + depth); ctx.restore();
+  if (render.forestFloor !== false) {
+    scene.view.worldTransform();
+    const [lo, hi] = scene.view.viewX(), horizon = cam.y + (H * 0.5 - H * 0.65) / ppm;
+    const depth = H * 0.35 / ppm + 0.3, fade = Math.min(0.8, H / ppm * 0.03), key = `${(ppm * DPR).toFixed(4)}|${H}`;
+    if (C.floorKey !== key) { C.floorKey = key; C.floorChunks = new Map(); }
+    const first = Math.floor(lo / FLOOR_CHUNK), last = Math.floor(hi / FLOOR_CHUNK);
+    const make = index => {
+      const canvas = floorChunk(scene, index, depth, fade); C.floorChunks.set(index, canvas); C.built = (C.built ?? 0) + 1;
+      // keep every chunk in view (zoomed out for a job there are many), or each frame rebuilds them
+      if (C.floorChunks.size > last - first + 6) C.floorChunks.delete(C.floorChunks.keys().next().value);
+      return canvas;
+    };
+    for (let index = first; index <= last; index++) {
+      const canvas = C.floorChunks.get(index) ?? make(index);
+      ctx.save(); ctx.translate(index * FLOOR_CHUNK, horizon + WAVE); ctx.scale(1, -1);
+      ctx.drawImage(canvas, 0, 0, FLOOR_CHUNK, WAVE + depth); ctx.restore();
+    }
+    // the next chunk in the direction of travel, ahead of time, if nothing was built this frame
+    const next = cam.vx < 0 ? first - 1 : last + 1;
+    if (!C.built && !C.floorChunks.has(next)) make(next);
   }
-  // the next chunk in the direction of travel, ahead of time, if nothing was built this frame
-  const next = cam.vx < 0 ? first - 1 : last + 1;
-  if (!C.built && !C.floorChunks.has(next)) make(next);
   screenLayer(scene, C.img.midground, render.parallax.midground, H * 0.73);
 }
 

@@ -28,7 +28,7 @@ The seeded route currently contains **110 collidable rocks**, including **75 gar
 - `trail.obstacleRuns`: nine log runs and six pipe runs. Every climbable crossing contains 4, 5 or 6 circles in a single ground-level line; isolated procedural logs and vertical stacks are removed. Each object's center follows its own local collision bed with the same shallow burial. `gap` is clear edge-to-edge spacing; `gaps` can vary it within a run. Tight spacing (as low as 0.15 m) creates sustained rolling climbs, while gaps up to 1.6 m let the tires drop and bounce between crests. The whole run is reserved against rock placement.
 - Complete log and pipe sprites register their near faces to the physical circles, with their bodies receding toward the far verge. Soil clips the buried portions. The pipe mouth is decorative, not a drive-through tunnel.
 - `trail.ramps`: three authored low rock ledges with sloped approaches and returns.
-- `trail.bridges`: timber crossing at 364–378 m, steel-framed crossing at 957–969 m, and damaged timber crossing at 1182–1190 m. Physical deck boards follow limited hinges above excavated gullies. The damaged crossing has one non-supporting deck segment, with a corresponding visible opening. The steel frame uses timber sleepers on its deck.
+- `trail.bridges`: timber crossing at 364–378 m, steel-framed crossing at 957–969 m, and damaged timber crossing at 1182–1190 m. Rigid deck boards (static, as in SnowRunner: no swing, flex or breaking since 2026-10-31) span excavated gullies. The damaged crossing has one non-supporting deck segment, with a corresponding visible opening. The steel frame uses timber sleepers on its deck.
 - `trail.recoverySections`: calmer stretches between challenges; these suppress incidental terrain noise without changing macro hills.
 
 ## Registration and rendering
@@ -39,6 +39,6 @@ Both the bank and collision field follow the same ground profile, with finite im
 
 ## Validation
 
-`npm test`, `npm run test:route` and `npm run test:browser` pass for this rebuild. The added terrain tests check suspension travel through repeated rocks, an actual tire dropping into and climbing out of a hole, pipe collision, tire-drop and spring travel over spaced pipes, and a non-supporting broken deck segment. Existing tests cover bog immersion, ground-level runs, loaded bridge flex and overload failure. The full-route check drives every leg with recovery support for the worst bogs.
+`npm test`, `npm run test:route` and `npm run test:browser` pass for this rebuild. The added terrain tests check suspension travel through repeated rocks, an actual tire dropping into and climbing out of a hole, pipe collision, tire-drop and spring travel over spaced pipes, and a non-supporting broken deck segment. Existing tests cover bog immersion, ground-level runs and rigid bridge crossing. The full-route check drives every leg with recovery support for the worst bogs.
 
 Desktop and phone captures, plus a review gallery, are under `output/road-review/`. `index.html` shows logs, rocks, holes, pipes, timber/steel/broken bridges and the washout. Inspect the real game at its normal camera scale when revising an asset; texture alone does not supply collision or motion.

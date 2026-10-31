@@ -3,8 +3,8 @@ import { hashRandom } from '../canvas-utils.js';
 // Bridges, after the reference's wooden and metal crossings: a deck of timber planks laid across the
 // road, each board's painted sleeper face (bridge-plank art) in front, a stringer beam under the
 // deck, the timber or steel support frame below, and a railing along the far side (behind the truck,
-// so it never covers the wheels). Every board reads its physical body's transform, so the deck
-// bounces, cracks and, on the broken crossing, shows its gap exactly where the physics has one.
+// so it never covers the wheels). Every board is drawn at its physical body's transform, so on the
+// broken crossing the gap shows exactly where the physics has one.
 
 const DECK = { front: 0.1, back: 0.65, skew: 0.18 };   // board-local: top surface from the front edge to the far edge
 const PLANK = 0.24;                                      // width of one deck plank along the road
@@ -55,10 +55,6 @@ export function createBridgeLayer(scene) {
       ctx.save(); ctx.scale(1, -1); ctx.drawImage(art, x0, y0, x1 - x0, 166, -L / 2, -0.1, L + 0.012, 0.2); ctx.restore();
     } else { ctx.fillStyle = rgb(mix(0.35)); ctx.fillRect(-L / 2, -0.1, L, 0.2); }
     ctx.strokeStyle = 'rgba(25,18,11,0.7)'; ctx.lineWidth = 0.012; ctx.strokeRect(-L / 2, -0.1, L + 0.01, 0.2);
-    if (plank.cracked) {
-      ctx.strokeStyle = '#1d150d'; ctx.lineWidth = 0.018 + plank.damage * 0.025; ctx.beginPath();
-      ctx.moveTo(-L * 0.35, back - 0.05); ctx.lineTo(-0.02, 0.35); ctx.lineTo(-0.08, 0.22); ctx.lineTo(L * 0.3, front); ctx.stroke();
-    }
     ctx.restore();
   }
 

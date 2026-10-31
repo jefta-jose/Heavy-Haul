@@ -181,10 +181,9 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
 
 **First phone log (Infinix X6531, Mali-G52, 4 GB, 90 Hz):** 23 fps. Physics took 22 ms a frame
 (4.9 ms per 120 Hz step, so frames fell behind and ran more steps), and new road chunks stalled
-100-180 ms about once a second. Fixes: bridges sleep while no vehicle is within 30 m
-(`src/physics/bridges.js`; a hinged board chain never sleeps by itself, so all 100 boards on the
-trail were simulated every step; physics per step went 0.73 → 0.25 ms on desktop, with identical
-bridge crossings); road, forest-floor and mud chunks are built one ahead in the direction of travel,
+100-180 ms about once a second. Fixes: all 100 hinged bridge boards on the trail were simulated
+every step (a hinged chain never sleeps), so bridges were made rigid static decks, as in SnowRunner
+(`src/physics/bridges.js`; physics per step 0.73 → about 0.25 ms on desktop); road, forest-floor and mud chunks are built one ahead in the direction of travel,
 at most one per frame (`cache.built`). Record a log from the pause menu after performance changes.
 
 Rules: never set a high smoothing quality on the main canvas, and never draw a full-screen layer or a
