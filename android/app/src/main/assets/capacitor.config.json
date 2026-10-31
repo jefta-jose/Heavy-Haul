@@ -1,8 +1,0 @@
-{
-	"appId": "com.jeftajose.heavyhaul",
-	"appName": "Heavy Haul",
-	"webDir": "dist/app",
-	"android": {
-		"backgroundColor": "#0b1420"
-	}
-}
