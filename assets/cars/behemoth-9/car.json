@@ -1,0 +1,268 @@
+{
+  "id": "behemoth-9",
+  "name": "Behemoth",
+  "number": 9,
+  "class": "heavy",
+  "drive": "8\u00d74",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Diesel locomotive heavy hauler",
+  "description": "Mustard yellow heavy-haul prime mover with a multi-axle lowbed, carrying a green-and-yellow diesel locomotive.",
+  "stats": {
+    "power": 53,
+    "speed": 64,
+    "grip": 81,
+    "capacity": 47,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1072,
+      534
+    ],
+    "pixelsPerMetre": 85.714286,
+    "axles": [
+      10.476667,
+      5.856667,
+      -8.47,
+      -10.476667
+    ],
+    "wheelY": [
+      0.011667,
+      0.011667,
+      -0.023333,
+      -0.023333
+    ],
+    "radius": 1.015,
+    "wheelScale": [
+      1.0,
+      1.0,
+      0.908046,
+      0.908046
+    ],
+    "wheelPivot": [
+      626,
+      628
+    ],
+    "wheelArtRadius": 597.5,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1970,
+        533,
+        90
+      ],
+      [
+        1574,
+        533,
+        90
+      ],
+      [
+        346,
+        536,
+        81
+      ],
+      [
+        174,
+        536,
+        81
+      ]
+    ],
+    "exhaust": [
+      8.726667,
+      3.896667
+    ],
+    "winch": [
+      12.022,
+      0.507
+    ],
+    "nose": 12.121667,
+    "tail": -11.818333
+  },
+  "camera": {
+    "zoom": 2.8
+  },
+  "physics": {
+    "mass": 47000.0,
+    "centreOfMass": [
+      7.91,
+      1.2179999999999997
+    ],
+    "size": [
+      23.94,
+      5.18
+    ],
+    "wheelMass": 403,
+    "bodyBoxes": [
+      [
+        -11.818333,
+        12.121667,
+        1.04545,
+        1.45145,
+        1
+      ],
+      [
+        -9.426667,
+        -7.035,
+        1.4007,
+        3.511667,
+        0.4
+      ],
+      [
+        -7.035,
+        -4.631667,
+        1.4007,
+        4.83,
+        0.4
+      ],
+      [
+        -4.631667,
+        -2.24,
+        1.4007,
+        4.795,
+        0.4
+      ],
+      [
+        -2.24,
+        0.151667,
+        1.4007,
+        4.725,
+        0.4
+      ],
+      [
+        0.151667,
+        2.543333,
+        1.4007,
+        4.958333,
+        0.4
+      ],
+      [
+        2.543333,
+        4.935,
+        1.4007,
+        3.581667,
+        0.4
+      ],
+      [
+        4.935,
+        7.338333,
+        1.4007,
+        1.995,
+        0.4
+      ],
+      [
+        7.338333,
+        9.73,
+        1.4007,
+        3.85,
+        0.4
+      ],
+      [
+        9.73,
+        12.121667,
+        1.4007,
+        3.313333,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 90,
+      "centreOfMass": [
+        -1.423333,
+        2.846667
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.760907,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 1370,
+    "exhaustBrake": 1781,
+    "gears": {
+      "H": 12.2234,
+      "L": 39.1149,
+      "R": 30.5585
+    },
+    "brakeTorque": 1091304,
+    "openDiffGrip": 1,
+    "fuelLitres": 1189,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Diesel locomotive",
+    "massT": 90
+  }
+}

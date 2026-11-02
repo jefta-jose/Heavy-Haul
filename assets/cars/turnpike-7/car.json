@@ -3,7 +3,7 @@
   "name": "Turnpike",
   "number": 7,
   "class": "highway",
-  "drive": "4×2",
+  "drive": "4×4",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Chrome highway tractor hauling a fuel tanker",

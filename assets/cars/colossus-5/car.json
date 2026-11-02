@@ -1,0 +1,240 @@
+{
+  "id": "colossus-5",
+  "name": "Colossus",
+  "number": 5,
+  "class": "heavy",
+  "drive": "6\u00d74",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Bridge beams heavy hauler",
+  "description": "Teal heavy-haul prime mover with a multi-axle lowbed, carrying three precast bridge beams.",
+  "stats": {
+    "power": 36,
+    "speed": 52,
+    "grip": 79,
+    "capacity": 28,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1033,
+      558
+    ],
+    "pixelsPerMetre": 125.465839,
+    "axles": [
+      6.69505,
+      -4.901733,
+      -6.69505
+    ],
+    "wheelY": [
+      0.039851,
+      -0.015941,
+      -0.015941
+    ],
+    "radius": 0.805,
+    "wheelScale": [
+      1.0,
+      0.851485,
+      0.950495
+    ],
+    "wheelPivot": [
+      626,
+      624
+    ],
+    "wheelArtRadius": 588.0,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1873,
+        553,
+        104
+      ],
+      [
+        418,
+        560,
+        89
+      ],
+      [
+        193,
+        560,
+        99
+      ]
+    ],
+    "exhaust": [
+      5.499505,
+      2.853366
+    ],
+    "winch": [
+      7.918,
+      0.403
+    ],
+    "nose": 8.018119,
+    "tail": -7.850743
+  },
+  "camera": {
+    "zoom": 2.4
+  },
+  "physics": {
+    "mass": 32600.0,
+    "centreOfMass": [
+      4.941584,
+      0.966
+    ],
+    "size": [
+      15.869,
+      3.738
+    ],
+    "wheelMass": 361,
+    "bodyBoxes": [
+      [
+        -7.850743,
+        8.018119,
+        0.82915,
+        1.1511500000000001,
+        1
+      ],
+      [
+        -7.850743,
+        -5.204604,
+        1.1109,
+        3.044653,
+        0.4
+      ],
+      [
+        -5.204604,
+        -2.558465,
+        1.1109,
+        3.044653,
+        0.4
+      ],
+      [
+        -2.558465,
+        0.087673,
+        1.1109,
+        3.044653,
+        0.4
+      ],
+      [
+        0.087673,
+        2.725842,
+        1.1109,
+        3.052624,
+        0.4
+      ],
+      [
+        2.725842,
+        5.37198,
+        1.1109,
+        2.454851,
+        0.4
+      ],
+      [
+        5.37198,
+        8.018119,
+        1.1109,
+        3.514901,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 55,
+      "centreOfMass": [
+        -1.857079,
+        1.976634
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.287523,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 876,
+    "exhaustBrake": 1139,
+    "gears": {
+      "H": 10.5757,
+      "L": 33.8424,
+      "R": 26.4394
+    },
+    "brakeTorque": 553425,
+    "openDiffGrip": 1,
+    "fuelLitres": 894,
+    "drivenAxles": [
+      0,
+      1,
+      2
+    ]
+  },
+  "load": {
+    "name": "Bridge beams",
+    "massT": 55
+  }
+}

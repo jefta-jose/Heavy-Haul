@@ -1,0 +1,268 @@
+{
+  "id": "bulwark-6",
+  "name": "Bulwark",
+  "number": 6,
+  "class": "heavy",
+  "drive": "8\u00d74",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Wind turbine blade heavy hauler",
+  "description": "Gunmetal grey heavy-haul prime mover with a multi-axle lowbed, carrying a 40 m white turbine blade in yellow frames.",
+  "stats": {
+    "power": 40,
+    "speed": 55,
+    "grip": 80,
+    "capacity": 33,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1060,
+      517
+    ],
+    "pixelsPerMetre": 98.285714,
+    "axles": [
+      8.922965,
+      4.161337,
+      -7.101744,
+      -8.922965
+    ],
+    "wheelY": [
+      0.010174,
+      0.0,
+      -0.010174,
+      0.010174
+    ],
+    "radius": 0.875,
+    "wheelScale": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "wheelPivot": [
+      628,
+      626
+    ],
+    "wheelArtRadius": 600.5,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1937,
+        516,
+        89
+      ],
+      [
+        1469,
+        517,
+        89
+      ],
+      [
+        362,
+        518,
+        89
+      ],
+      [
+        183,
+        516,
+        89
+      ]
+    ],
+    "exhaust": [
+      7.396802,
+      3.225291
+    ],
+    "winch": [
+      10.827,
+      0.438
+    ],
+    "nose": 10.927326,
+    "tail": -10.449128
+  },
+  "camera": {
+    "zoom": 2.5
+  },
+  "physics": {
+    "mass": 36100.0,
+    "centreOfMass": [
+      6.684593,
+      1.05
+    ],
+    "size": [
+      21.376,
+      3.917
+    ],
+    "wheelMass": 375,
+    "bodyBoxes": [
+      [
+        -10.449128,
+        10.927326,
+        0.90125,
+        1.25125,
+        1
+      ],
+      [
+        -10.449128,
+        -8.078488,
+        1.2075,
+        2.167151,
+        0.4
+      ],
+      [
+        -8.078488,
+        -5.697674,
+        1.2075,
+        2.167151,
+        0.4
+      ],
+      [
+        -5.697674,
+        -3.327035,
+        1.2075,
+        2.309593,
+        0.4
+      ],
+      [
+        -3.327035,
+        -0.946221,
+        1.2075,
+        2.319767,
+        0.4
+      ],
+      [
+        -0.946221,
+        1.424419,
+        1.2075,
+        2.553779,
+        0.4
+      ],
+      [
+        1.424419,
+        3.805233,
+        1.2075,
+        2.899709,
+        0.4
+      ],
+      [
+        3.805233,
+        6.175872,
+        1.2075,
+        3.255814,
+        0.4
+      ],
+      [
+        6.175872,
+        8.556686,
+        1.2075,
+        3.622093,
+        0.4
+      ],
+      [
+        8.556686,
+        10.927326,
+        1.2075,
+        3.459302,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 22,
+      "centreOfMass": [
+        -2.136628,
+        2.00436
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.405869,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 581,
+    "exhaustBrake": 755,
+    "gears": {
+      "H": 11.3238,
+      "L": 36.2362,
+      "R": 28.3095
+    },
+    "brakeTorque": 398973,
+    "openDiffGrip": 1,
+    "fuelLitres": 968,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Wind turbine blade",
+    "massT": 22
+  }
+}

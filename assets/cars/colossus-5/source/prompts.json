@@ -1,0 +1,63 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game vehicle Colossus: teal heavy-haul prime mover with a multi-axle lowbed, carrying three precast bridge beams secured with chains and appropriate cradles. Equipment: ladder to a high cab and huge mirrors; blank banners if any. Finish: heavy grime and chipped paint. Tires: 1.61 m all-terrain: blocky all-terrain tread with sipes. Exactly 3 near-side road wheels TOTAL for combined truck and lowbed, distribute axle positions between front cab at right and rear lowbed at left; all same size. Load stays attached as one illustration. Premium semi-realistic painted game illustration matching Swamp Scout, readable dark contours, fine mechanical details, rich weathered materials. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible, only side visible. All wheels perfectly circular with centered rims and entirely visible; hub centers horizontal, tire bottoms level, chassis and load horizontal. Soft even daylight. Whole vehicle and load within frame with generous 100 pixel transparent margins on every side, no cropping. Wide canvas at least 1500 pixels long. True transparent background, no ground or cast shadow, no halo, no checkerboard, no text, logos or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target vehicle-master-v2.png. Remove ALL road wheels and tires on truck AND lowbed, including far-side glimpses. Keep load, spare if any, body and equipment EXACTLY unchanged. Fill each wheel well with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to former hub line, including gaps between tandem arches. No transparency above hub line within arches. Below hub line and under chassis remains transparent. Preserve exact canvas dimensions, vehicle position, scale, camera, silhouette and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no ground or shadow. Do not move or redesign anything."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: road wheel on this vehicle master. Generate ONE matching tire and rim: 1.61 m all-terrain: blocky all-terrain tread with sipes. Match rim color, bolt pattern, hub, grime, tread and chain style of master exactly. Square PNG canvas at least 1500x1500, perfectly circular tire centered with equal clear margins, hub exactly at canvas center. Face-on side elevation, soft even ambient light suitable for spinning. Premium semi-realistic painted Swamp Scout game illustration, dark contours, detailed weathered material. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no body, axle, ground, shadow, halo, text, logos or watermark. OUTPUT RESOLUTION REQUIRED: 2048 x 2048 pixels.",
+    "reference": "vehicle-master-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Use case: stylized-concept. Game vehicle Colossus: teal heavy-haul prime mover with a multi-axle lowbed, carrying three precast bridge beams secured with chains and appropriate cradles. Equipment: ladder to a high cab and huge mirrors; blank banners if any. Finish: heavy grime and chipped paint. Tires: 1.61 m all-terrain: blocky all-terrain tread with sipes. Exactly 3 near-side road wheels TOTAL for combined truck and lowbed, distribute axle positions between front cab at right and rear lowbed at left; all same size. Load stays attached as one illustration. Premium semi-realistic painted game illustration matching Swamp Scout, readable dark contours, fine mechanical details, rich weathered materials. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible, only side visible. All wheels perfectly circular with centered rims and entirely visible; hub centers horizontal, tire bottoms level, chassis and load horizontal. Soft even daylight. Whole vehicle and load within frame with generous 100 pixel transparent margins on every side, no cropping. Wide canvas at least 1500 pixels long. True transparent background, no ground or cast shadow, no halo, no checkerboard, no text, logos or watermark. CORRECTION TO REFERENCE: Reference wrongly has TWO tires. ADD second rear road tire immediately beside rear left tire so there are EXACTLY THREE equally sized tires: TWO at left beneath trailer, ONE at right beneath cab. Each must be separate, fully visible, same perfect circle diameter. Keep everything inside canvas with 100 pixel margins; front bumper must not touch edge.",
+      "rejection_reason": "v1 incorrect road axle count."
+    },
+    {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Use case: precise-object-edit. Edit target vehicle-master-v2.png. Remove ALL road wheels and tires on truck AND lowbed, including far-side glimpses. Keep load, spare if any, body and equipment EXACTLY unchanged. Fill each wheel well with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to former hub line, including gaps between tandem arches. No transparency above hub line within arches. Below hub line and under chassis remains transparent. Preserve exact canvas dimensions, vehicle position, scale, camera, silhouette and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no ground or shadow. Do not move or redesign anything. CRITICAL output canvas dimensions EXACTLY 2072 pixels wide by 759 pixels high. Prior body output incorrectly lost one pixel of width. Use the original master as edit target, maintain exact registration and canvas dimensions.",
+      "rejection_reason": "v1 body one pixel narrower than master; requested exact dimensions."
+    }
+  ],
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v1.png"
+  },
+  "validation_notes": [
+    "Built-in image generation used; square wheel outputs are 1254x1254 despite requested minimum 1500 and explicit 2048x2048 retry. Resolution requirement remains unmet.",
+    "Body v1 and v2 dimensions require checking: built-in tool can return one pixel less width than master despite exact-size request."
+  ],
+  "validation": {
+    "dimensions": {
+      "body-v1.png": [
+        2071,
+        759
+      ],
+      "body-v2.png": [
+        2071,
+        759
+      ],
+      "vehicle-master-v2.png": [
+        2072,
+        759
+      ],
+      "wheel-v1.png": [
+        1254,
+        1254
+      ],
+      "vehicle-master-v1.png": [
+        2073,
+        758
+      ]
+    },
+    "master_body_dimensions_match": false,
+    "wheel_square": true,
+    "wheel_minimum_1500px": false
+  }
+}

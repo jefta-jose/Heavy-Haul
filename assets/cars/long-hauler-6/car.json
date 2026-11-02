@@ -3,7 +3,7 @@
   "name": "Long Hauler",
   "number": 6,
   "class": "highway",
-  "drive": "4×2",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Cobalt blue highway tractor with its semi-trailer",
@@ -215,7 +215,7 @@
         0
       ]
     ],
-    "torqueScale": 0.6082,
+    "torqueScale": 1.6082,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -229,7 +229,7 @@
     "exhaustBrake": 213,
     "gears": {
       "H": 6.297735841575159,
-      "L": 34,
+      "L": 44,
       "R": 26
     },
     "brakeTorque": 30030,

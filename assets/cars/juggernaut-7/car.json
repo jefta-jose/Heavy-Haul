@@ -1,0 +1,254 @@
+{
+  "id": "juggernaut-7",
+  "name": "Juggernaut",
+  "number": 7,
+  "class": "heavy",
+  "drive": "8\u00d74",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Ship propeller heavy hauler",
+  "description": "Teal heavy-haul prime mover with a multi-axle lowbed, carrying a giant bronze ship propeller standing in a frame.",
+  "stats": {
+    "power": 44,
+    "speed": 58,
+    "grip": 80,
+    "capacity": 38,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      963,
+      623
+    ],
+    "pixelsPerMetre": 101.604278,
+    "axles": [
+      7.932737,
+      4.714368,
+      -5.600158,
+      -7.932737
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.935,
+    "wheelScale": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "wheelPivot": [
+      628,
+      625
+    ],
+    "wheelArtRadius": 593.5,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1769,
+        623,
+        98
+      ],
+      [
+        1442,
+        623,
+        98
+      ],
+      [
+        394,
+        623,
+        98
+      ],
+      [
+        157,
+        623,
+        98
+      ]
+    ],
+    "exhaust": [
+      6.456421,
+      4.163211
+    ],
+    "winch": [
+      9.634,
+      0.468
+    ],
+    "nose": 9.733842,
+    "tail": -9.379526
+  },
+  "camera": {
+    "zoom": 2.4
+  },
+  "physics": {
+    "mass": 39700.0,
+    "centreOfMass": [
+      5.767474,
+      1.122
+    ],
+    "size": [
+      19.113,
+      5.413
+    ],
+    "wheelMass": 387,
+    "bodyBoxes": [
+      [
+        -9.379526,
+        9.733842,
+        0.9630500000000001,
+        1.33705,
+        1
+      ],
+      [
+        -9.379526,
+        -6.987895,
+        1.2903,
+        2.716421,
+        0.4
+      ],
+      [
+        -4.596263,
+        -2.214474,
+        1.2903,
+        5.354105,
+        0.4
+      ],
+      [
+        -2.214474,
+        0.177158,
+        1.2903,
+        5.206474,
+        0.4
+      ],
+      [
+        0.177158,
+        2.568789,
+        1.2903,
+        2.519579,
+        0.4
+      ],
+      [
+        2.568789,
+        4.950579,
+        1.2903,
+        2.027474,
+        0.4
+      ],
+      [
+        4.950579,
+        7.342211,
+        1.2903,
+        3.031368,
+        0.4
+      ],
+      [
+        7.342211,
+        9.733842,
+        1.2903,
+        3.651421,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 25,
+      "centreOfMass": [
+        -1.604263,
+        3.179
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.524215,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 647,
+    "exhaustBrake": 841,
+    "gears": {
+      "H": 11.7496,
+      "L": 37.5986,
+      "R": 29.3739
+    },
+    "brakeTorque": 474761,
+    "openDiffGrip": 1,
+    "fuelLitres": 1042,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Ship propeller",
+    "massT": 25
+  }
+}

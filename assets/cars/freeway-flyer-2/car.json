@@ -3,7 +3,7 @@
   "name": "Freeway Flyer",
   "number": 2,
   "class": "highway",
-  "drive": "4×2",
+  "drive": "4×4",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Olive highway tractor with its semi-trailer",

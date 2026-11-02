@@ -3,7 +3,7 @@
   "name": "Road Hawk",
   "number": 5,
   "class": "highway",
-  "drive": "4×2",
+  "drive": "4×4",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Sand beige highway tractor with its semi-trailer",
@@ -215,7 +215,7 @@
         0
       ]
     ],
-    "torqueScale": 0.5776,
+    "torqueScale": 1.5776,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -229,7 +229,7 @@
     "exhaustBrake": 213,
     "gears": {
       "H": 6.115192773703417,
-      "L": 34,
+      "L": 44,
       "R": 26
     },
     "brakeTorque": 26780,

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node tools/dev.js",
     "build": "node tools/build.js",
-    "test": "node --test tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js",
+    "test": "node --test tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js tests/heavy-trucks.test.js",
     "test:route": "node --test tests/route.test.js",
     "test:browser": "node --test tests/browser.test.js",
     "check": "npm test && npm run test:route && npm run test:browser",

@@ -1,0 +1,62 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Generate Mammoth heavy-haul game vehicle: olive prime mover with attached lowbed carrying one enormous 50-ton granite boulder chained securely into a steel frame. High cab ladder, huge mirrors, heavy grime and chipped paint. Exactly THREE road axle positions TOTAL across complete combined rig: one at front beneath cab at right, two supporting rear lowbed at left. Three identical 1.52m mud-terrain tires with twin-ring tractor chains and centered steel rims. Premium semi-realistic painted game illustration matching Swamp Scout, dark readable contours, rich weathered mechanical detail. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. Cab front face invisible; horizontal chassis and deck. Every tire fully visible and perfectly circular. Whole rig and load with clear margins. Wide PNG at least 1500 pixels long. True transparent background, no ground, shadows, halo, checkerboard, text, logos, watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target vehicle-master-v2.png. Remove ALL road wheels and tires on truck AND lowbed, including far-side glimpses. Keep load, spare if any, body and equipment EXACTLY unchanged. Fill each wheel well with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to former hub line, including gaps between tandem arches. No transparency above hub line within arches. Below hub line and under chassis remains transparent. Preserve exact canvas dimensions, vehicle position, scale, camera, silhouette and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no ground or shadow. Do not move or redesign anything."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: road wheel on this vehicle master. Generate ONE matching tire and rim: 1.52 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains. Match rim color, bolt pattern, hub, grime, tread and chain style of master exactly. Square PNG canvas at least 1500x1500, perfectly circular tire centered with equal clear margins, hub exactly at canvas center. Face-on side elevation, soft even ambient light suitable for spinning. Premium semi-realistic painted Swamp Scout game illustration, dark contours, detailed weathered material. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no body, axle, ground, shadow, halo, text, logos or watermark.",
+    "reference": "vehicle-master-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Use case: stylized-concept. Generate Mammoth heavy-haul game vehicle: olive prime mover with attached lowbed carrying one enormous 50-ton granite boulder chained securely into a steel frame. High cab ladder, huge mirrors, heavy grime and chipped paint. Exactly THREE road axle positions TOTAL across complete combined rig: one at front beneath cab at right, two supporting rear lowbed at left. Three identical 1.52m mud-terrain tires with twin-ring tractor chains and centered steel rims. Premium semi-realistic painted game illustration matching Swamp Scout, dark readable contours, rich weathered mechanical detail. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. Cab front face invisible; horizontal chassis and deck. Every tire fully visible and perfectly circular. Whole rig and load with clear margins. Wide PNG at least 1500 pixels long. True transparent background, no ground, shadows, halo, checkerboard, text, logos, watermark. REVISION: give generous 100-pixel transparent margins on ALL FOUR sides. The front bumper at right MUST be fully inside frame, no cropping. Cab front face must not be visible. Preserve entire vehicle otherwise.",
+      "rejection_reason": "v1 crops front bumper at right canvas edge."
+    },
+    {
+      "file": "wheel-v2.png",
+      "edit_of": "wheel-v1.png",
+      "prompt": "Use case: stylized-concept. Reference role: road wheel on this vehicle master. Generate ONE matching tire and rim: 1.52 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains. Match rim color, bolt pattern, hub, grime, tread and chain style of master exactly. Square PNG canvas at least 1500x1500, perfectly circular tire centered with equal clear margins, hub exactly at canvas center. Face-on side elevation, soft even ambient light suitable for spinning. Premium semi-realistic painted Swamp Scout game illustration, dark contours, detailed weathered material. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no body, axle, ground, shadow, halo, text, logos or watermark. Revision: output a high resolution 2048 x 2048 PNG, minimum 1500 pixels each side. Preserve perfect centered circle, improve resolution only.",
+      "rejection_reason": "v1 below 1500 pixel minimum; v2 request still returned 1254x1254."
+    }
+  ],
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v2.png"
+  },
+  "validation_notes": [
+    "Built-in image generation used; square wheel outputs are 1254x1254 despite requested minimum 1500 and explicit 2048x2048 retry. Resolution requirement remains unmet."
+  ],
+  "validation": {
+    "dimensions": {
+      "wheel-v2.png": [
+        1254,
+        1254
+      ],
+      "body-v1.png": [
+        1983,
+        793
+      ],
+      "vehicle-master-v2.png": [
+        1983,
+        793
+      ],
+      "wheel-v1.png": [
+        1254,
+        1254
+      ],
+      "vehicle-master-v1.png": [
+        1983,
+        793
+      ]
+    },
+    "master_body_dimensions_match": true,
+    "wheel_square": true,
+    "wheel_minimum_1500px": false
+  }
+}

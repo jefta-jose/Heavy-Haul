@@ -1,0 +1,275 @@
+{
+  "id": "monolith-11",
+  "name": "Monolith",
+  "number": 11,
+  "class": "heavy",
+  "drive": "8\u00d78",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Luxury yacht heavy hauler",
+  "description": "Cobalt blue heavy-haul prime mover with a multi-axle lowbed, carrying a sleek white yacht on cradles.",
+  "stats": {
+    "power": 61,
+    "speed": 70,
+    "grip": 91,
+    "capacity": 56,
+    "fuelEfficiency": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      994,
+      622
+    ],
+    "pixelsPerMetre": 78.733032,
+    "axles": [
+      10.262529,
+      6.29977,
+      -7.95092,
+      -10.249828
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 1.105,
+    "wheelScale": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "wheelPivot": [
+      628,
+      626
+    ],
+    "wheelArtRadius": 585.0,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1802,
+        622,
+        90
+      ],
+      [
+        1490,
+        622,
+        90
+      ],
+      [
+        368,
+        622,
+        90
+      ],
+      [
+        187,
+        622,
+        90
+      ]
+    ],
+    "exhaust": [
+      8.357356,
+      5.359885
+    ],
+    "winch": [
+      12.03,
+      0.552
+    ],
+    "nose": 12.129598,
+    "tail": -11.888276
+  },
+  "camera": {
+    "zoom": 2.8
+  },
+  "physics": {
+    "mass": 54600.0,
+    "centreOfMass": [
+      7.468276,
+      1.3259999999999998
+    ],
+    "size": [
+      24.018,
+      7.125
+    ],
+    "wheelMass": 421,
+    "bodyBoxes": [
+      [
+        -11.888276,
+        12.129598,
+        1.13815,
+        1.58015,
+        1
+      ],
+      [
+        -11.888276,
+        -9.487759,
+        1.5249,
+        3.518218,
+        0.4
+      ],
+      [
+        -9.487759,
+        -7.087241,
+        1.5249,
+        4.381897,
+        0.4
+      ],
+      [
+        -7.087241,
+        -4.686724,
+        1.5249,
+        6.490287,
+        0.4
+      ],
+      [
+        -4.686724,
+        -2.286207,
+        1.5249,
+        5.85523,
+        0.4
+      ],
+      [
+        -2.286207,
+        0.127011,
+        1.5249,
+        5.093161,
+        0.4
+      ],
+      [
+        0.127011,
+        2.527529,
+        1.5249,
+        4.229483,
+        0.4
+      ],
+      [
+        2.527529,
+        4.928046,
+        1.5249,
+        4.229483,
+        0.4
+      ],
+      [
+        4.928046,
+        7.328563,
+        1.5249,
+        4.216782,
+        0.4
+      ],
+      [
+        7.328563,
+        9.72908,
+        1.5249,
+        4.343793,
+        0.4
+      ],
+      [
+        9.72908,
+        12.129598,
+        1.5249,
+        4.242184,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 30,
+      "centreOfMass": [
+        -2.082989,
+        3.073678
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.995558,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 846,
+    "exhaustBrake": 1100,
+    "gears": {
+      "H": 12.775,
+      "L": 40.8799,
+      "R": 31.9374
+    },
+    "brakeTorque": 733655,
+    "openDiffGrip": 1,
+    "fuelLitres": 1336,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Luxury yacht",
+    "massT": 30
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Game vehicle Behemoth: mustard yellow heavy-haul prime mover with a multi-axle lowbed, carrying a green-and-yellow diesel locomotive secured with chains and appropriate cradles. Equipment: ladder to a high cab and huge mirrors; blank banners if any. Finish: heavy grime and chipped paint. Tires: 2.03 m all-terrain: blocky all-terrain tread with sipes. Exactly 4 near-side road wheels TOTAL for combined truck and lowbed, distribute axle positions between front cab at right and rear lowbed at left; all same size. Load stays attached as one illustration. Premium semi-realistic painted game illustration matching Swamp Scout, readable dark contours, fine mechanical details, rich weathered materials. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible, only side visible. All wheels perfectly circular with centered rims and entirely visible; hub centers horizontal, tire bottoms level, chassis and load horizontal. Soft even daylight. Whole vehicle and load within frame with generous 100 pixel transparent margins on every side, no cropping. Wide canvas at least 1500 pixels long. True transparent background, no ground or cast shadow, no halo, no checkerboard, no text, logos or watermark. Important wheel layout: EXACTLY FOUR road wheels visible: rear tandem pair at LEFT under trailer and two separated truck wheels at RIGHT. Four circles total, equal diameter. Leave broad empty margin outside vehicle."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Use case: precise-object-edit. Edit target vehicle-master-v1.png. Remove ALL road wheels and tires on truck AND lowbed, including far-side glimpses. Keep load, spare if any, body and equipment EXACTLY unchanged. Fill each wheel well with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to former hub line, including gaps between tandem arches. No transparency above hub line within arches. Below hub line and under chassis remains transparent. Preserve exact canvas dimensions, vehicle position, scale, camera, silhouette and every other pixel. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no ground or shadow. Do not move or redesign anything."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Reference role: road wheel on this vehicle master. Generate ONE matching tire and rim: 2.03 m all-terrain: blocky all-terrain tread with sipes. Match rim color, bolt pattern, hub, grime, tread and chain style of master exactly. Square PNG canvas at least 1500x1500, perfectly circular tire centered with equal clear margins, hub exactly at canvas center. Face-on side elevation, soft even ambient light suitable for spinning. Premium semi-realistic painted Swamp Scout game illustration, dark contours, detailed weathered material. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no body, axle, ground, shadow, halo, text, logos or watermark. Required image dimensions 2048 x 2048 pixels.",
+    "reference": "vehicle-master-v1.png"
+  },
+  "selected": {
+    "master": "vehicle-master-v1.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v1.png"
+  },
+  "validation_notes": [
+    "Built-in image generation used; square wheel outputs are 1254x1254 despite requested minimum 1500 and explicit 2048x2048 retry. Resolution requirement remains unmet."
+  ],
+  "validation": {
+    "dimensions": {
+      "body-v1.png": [
+        2172,
+        724
+      ],
+      "wheel-v1.png": [
+        1254,
+        1254
+      ],
+      "vehicle-master-v1.png": [
+        2172,
+        724
+      ]
+    },
+    "master_body_dimensions_match": true,
+    "wheel_square": true,
+    "wheel_minimum_1500px": false
+  }
+}
