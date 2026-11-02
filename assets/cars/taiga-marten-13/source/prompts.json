@@ -1,0 +1,33 @@
+{
+  "master": {
+    "prompt": "Create one complete loaded truck, taiga-marten-13. Brief: \n\n- Vehicle: safety orange 4×4 pickup scout with an open bed\n- Load (drawn as part of the vehicle): two brown-and-white calves behind wooden side rails\n- Equipment: roof rack with jerry cans and recovery boards\n- Finish: mud-caked lower panels\n- Tires: 1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)\n\n. Secure load with straps or rails, realistic proportions; higher tier stronger and better equipped.  strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Exactly two axles and TWO identical circular visible road wheels, centred rims, horizontal chassis and level tire bottoms. No cab front face visible. Premium semi-realistic painted game illustration in Swamp Scout style, dark contours, weathered materials, fine mechanical details, mud-caked lower panels. Soft even daylight, full object with generous margins all sides, true transparent background. No ground, cast shadow, text, logos, watermark. Wide PNG at least 1500 pixels across."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit target taiga-marten-13 master. Remove both ROAD tires and rims completely, keep spare if any. Replace upper arches with opaque painted wheel well liners, suspension, axles and chassis from fender lip down to original hub line, no transparency above hubs. Below hubs and under chassis stays transparent. Preserve EXACT canvas dimensions 1784x881, position, scale, camera, body, load and all equipment. No redesign. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background."
+  },
+  "wheel": {
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Reference role: the near-side road tire and rim on the supplied master for taiga-marten-13. Generate ONE matching tire, exact same tread, chain pattern or spikes as applicable, matching rim, bolts, hub, grime and painted finish. Brief: \n\n- Vehicle: safety orange 4×4 pickup scout with an open bed\n- Load (drawn as part of the vehicle): two brown-and-white calves behind wooden side rails\n- Equipment: roof rack with jerry cans and recovery boards\n- Finish: mud-caked lower panels\n- Tires: 1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)\n\n. Output only single wheel, perfectly circular outer silhouette, face-on centred hub, square transparent PNG canvas at least 1536x1536 pixels. Equal clear margins on all sides, soft even diffuse daylight for spinning. No axle, vehicle body, load, ground, drop shadow, lettering or logo. Premium semi-realistic painted game illustration. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "tool": "built-in image_gen",
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "source": "vehicle-master-v1.png",
+      "rejection_reason": "Generated body canvas differed from master by one pixel.",
+      "operation": "Lossless transparent padding: one row at bottom, 1784x881 to 1784x882; all existing pixels retain coordinates."
+    },
+    {
+      "file": "wheel-v2.png",
+      "source": "wheel-v1.png",
+      "rejection_reason": "Built-in tool returned 1254x1254 despite requested minimum 1536x1536.",
+      "operation": "Lossless canvas export: centre unchanged 1254x1254 generated pixels on 1536x1536 transparent canvas, 141 transparent pixels added on every side; no resampling or repainting."
+    }
+  ]
+}

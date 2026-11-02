@@ -1,0 +1,103 @@
+{
+  "master": "vehicle-master-v1.png",
+  "body": "body-v3.png",
+  "wheel": "wheel-v2.png",
+  "dimensions": {
+    "master": [
+      1864,
+      843
+    ],
+    "body": [
+      1864,
+      843
+    ],
+    "wheel": [
+      1536,
+      1536
+    ]
+  },
+  "wheel_regions": [
+    [
+      524,
+      667,
+      158
+    ],
+    [
+      1597,
+      667,
+      158
+    ]
+  ],
+  "donor": "body-v1.png",
+  "donor_sample_offset": [
+    1,
+    0
+  ],
+  "unchanged_rgba_pixels_outside_wheel_regions": true,
+  "changed_pixels_outside_wheel_regions": 0,
+  "upper_wheel_region_min_alpha": 255,
+  "lower_wheel_region_max_alpha": 0,
+  "tandem_gap_pixels_filled": 0,
+  "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+  "wheel_translation": [
+    142,
+    138
+  ],
+  "background": "Transparent alpha retained from built-in image generation.",
+  "arch_polygons": [
+    [
+      [
+        352,
+        667
+      ],
+      [
+        352,
+        619
+      ],
+      [
+        422,
+        484
+      ],
+      [
+        626,
+        484
+      ],
+      [
+        696,
+        619
+      ],
+      [
+        696,
+        667
+      ]
+    ],
+    [
+      [
+        1425,
+        667
+      ],
+      [
+        1425,
+        619
+      ],
+      [
+        1495,
+        484
+      ],
+      [
+        1699,
+        484
+      ],
+      [
+        1769,
+        619
+      ],
+      [
+        1769,
+        667
+      ]
+    ]
+  ],
+  "fill_method": "Use generated donor RGBA; missing upper interior pixels use dark opaque painted liner samples away from shocks and hubs. Extend only into transparent upper-arch gaps.",
+  "review": "body-review-v2.png"
+}

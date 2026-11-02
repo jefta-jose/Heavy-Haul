@@ -1,0 +1,107 @@
+{
+  "tool": "built-in image_gen",
+  "master": {
+    "file": "vehicle-master-v1.png",
+    "prompt": "Create a single complete loaded game vehicle Freeway Flyer, freeway-flyer-2. Brief: \n\n- Vehicle: olive highway tractor with its semi-trailer\n- Load (drawn as part of the vehicle): a flatbed semi-trailer stacked with square hay bales\n- Equipment: polished fuel tanks\n- Finish: polished paint with road dust\n- Tires: 1.00 m mud-terrain tires: deep chunky mud lugs with open voids\n\n. Tractor has exactly 2 axles; integrated semi-trailer has exactly TWO axles, making exactly 4 near-side road wheels in the whole assembled rig. Tractor and trailer road wheels must be identical diameter, all fully visible. Vehicle empty mass 7.4 tonnes; whole vehicle length about 6.7 metres. Its load is integrated securely using straps, chains, cradles or side rails. Draw the full coupled tractor AND trailer as ONE image when present, not separate parts. Keep all near-side tires unobstructed by steps. For banners or flags use blank bold colours, no lettering. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible. Exactly circular near tires, centred rims, level hub centres and tire bottoms. Horizontal chassis and deck, no yaw, no tilt. Premium semi-realistic painted game illustration in approved Swamp Scout style: dark readable contours, weathered materials, fine mechanical detail, rich natural texture. Soft even daylight. True transparent background, no ground, cast shadow, glow, lettering, logos or watermark. Entire object has generous clear margins on all four sides, occupies only central 85% of canvas width and 80% of height. Wide PNG at least 1500 pixels across.",
+    "rejection_reason": "Only three road wheels; required four."
+  },
+  "body": {
+    "file": "body-v1.png",
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Edit supplied Freeway Flyer master-v2. Remove ONLY all FOUR ground-contact road wheels and rims: two trailer, two tractor. Keep hay, straps, truck, deck, polished tanks, cab, equipment, exact canvas and position. Fill every upper wheel well with opaque painted dark inner liners, suspension, axles and chassis through ORIGINAL hub line, including tandem gaps. No transparent holes above hubs; below hubs and under chassis transparent. No remaining tires or rims. Keep camera, scale and every nonwheel pixel identical. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "role": "Generated wheel-well interior donor; composite preserves original non-wheel pixels."
+  },
+  "wheel": {
+    "file": "wheel-v1.png",
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Reference role: near-side road wheel on supplied freeway-flyer-2 truck. Generate just ONE matching tire and rim, same tread, chains or spikes as master, same rim holes, hub bolts, weathering and painted detail. Perfectly circular tire, centred hub, face-on on a SQUARE 1536x1536 true transparent PNG with equal clear margins. Soft even light for spinning. No vehicle, axle, load, ground, shadow, halo, lettering or logo. Premium semi-realistic painted game illustration. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Edit target supplied Freeway Flyer master. Add missing second trailer axle beside the existing rear trailer wheel. Final count FOUR identical near-side mud-terrain road wheels: TWO at the rear-left trailer, ONE tractor rear axle behind cab, ONE front steering axle under hood. Keep complete olive truck, hay load and straps. All four wheels equal size, hubs level. Also increase transparent margins slightly. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible. Exactly circular near tires, centred rims, level hub centres and tire bottoms. Horizontal chassis and deck, no yaw, no tilt. Premium semi-realistic painted game illustration in approved Swamp Scout style: dark readable contours, weathered materials, fine mechanical detail, rich natural texture. Soft even daylight. True transparent background, no ground, cast shadow, glow, lettering, logos or watermark. Entire object has generous clear margins on all four sides, occupies only central 85% of canvas width and 80% of height. Wide PNG at least 1500 pixels across.",
+      "rejection_reason": null
+    },
+    {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "source_interiors": "body-v1.png",
+      "method": "Local compositing explicitly authorized by user; start from untouched master, replace only wheel regions with generated opaque upper wheel-well interiors and transparent lower halves.",
+      "prompt": "Edit supplied Freeway Flyer master-v2. Remove ONLY all FOUR ground-contact road wheels and rims: two trailer, two tractor. Keep hay, straps, truck, deck, polished tanks, cab, equipment, exact canvas and position. Fill every upper wheel well with opaque painted dark inner liners, suspension, axles and chassis through ORIGINAL hub line, including tandem gaps. No transparent holes above hubs; below hubs and under chassis transparent. No remaining tires or rims. Keep camera, scale and every nonwheel pixel identical. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "validation": "validation.json",
+      "operation": {
+        "master": "vehicle-master-v2.png",
+        "body": "body-v2.png",
+        "wheel": "wheel-v2.png",
+        "dimensions": {
+          "master": [
+            1945,
+            809
+          ],
+          "body": [
+            1945,
+            809
+          ],
+          "wheel": [
+            1536,
+            1536
+          ]
+        },
+        "wheel_regions": [
+          [
+            217,
+            582,
+            115
+          ],
+          [
+            451,
+            582,
+            115
+          ],
+          [
+            1186,
+            582,
+            115
+          ],
+          [
+            1783,
+            582,
+            115
+          ]
+        ],
+        "donor": "body-v1.png",
+        "donor_sample_offset": [
+          0,
+          -1
+        ],
+        "unchanged_rgba_pixels_outside_wheel_regions": true,
+        "changed_pixels_outside_wheel_regions": 0,
+        "upper_wheel_region_min_alpha": 255,
+        "lower_wheel_region_max_alpha": 0,
+        "tandem_gap_pixels_filled": 2429,
+        "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+        "wheel_translation": [
+          142,
+          142
+        ],
+        "background": "Transparent alpha retained from built-in image generation."
+      }
+    },
+    {
+      "file": "wheel-v2.png",
+      "edit_of": "wheel-v1.png",
+      "method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+      "reason": "Built-in tool returned 1254-square canvas despite 1536 request; add transparent padding to meet minimum canvas size and centre the wheel.",
+      "translation": [
+        142,
+        142
+      ]
+    }
+  ]
+}

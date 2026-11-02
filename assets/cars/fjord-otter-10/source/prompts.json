@@ -1,0 +1,63 @@
+{
+  "master": {
+    "prompt": "Create one complete loaded truck, fjord-otter-10. Brief: \n\n- Vehicle: burnt orange 4×4 pickup scout with an open bed\n- Load (drawn as part of the vehicle): a white 1000 L water tank in a galvanized cage\n- Equipment: rock sliders and skid plates\n- Finish: mud-caked lower panels\n- Tires: 1.17 m mud-terrain: deep chunky mud lugs with open voids\n\n. Secure load with straps or rails, realistic proportions; higher tier stronger and better equipped.  strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Exactly two axles and TWO identical circular visible road wheels, centred rims, horizontal chassis and level tire bottoms. No cab front face visible. Premium semi-realistic painted game illustration in Swamp Scout style, dark contours, weathered materials, fine mechanical details, mud-caked lower panels. Soft even daylight, full object with generous margins all sides, true transparent background. No ground, cast shadow, text, logos, watermark. Wide PNG at least 1500 pixels across."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit target: Fjord Otter 10 master. Remove BOTH road tires and rims, no wheels remain. Replace every upper wheel arch with opaque painted dark inner liner, suspension, chassis and axle down to original hub line; no transparency above hubs. Below hub line and under chassis stays transparent. Preserve load, body, equipment, exact canvas 1983x793, pixel registration, position, scale, camera. No redesign. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background."
+  },
+  "wheel": {
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Reference role: the near-side road tire and rim on the supplied master for fjord-otter-10. Generate ONE matching tire, exact same tread, chain pattern or spikes as applicable, matching rim, bolts, hub, grime and painted finish. Brief: \n\n- Vehicle: burnt orange 4×4 pickup scout with an open bed\n- Load (drawn as part of the vehicle): a white 1000 L water tank in a galvanized cage\n- Equipment: rock sliders and skid plates\n- Finish: mud-caked lower panels\n- Tires: 1.17 m mud-terrain: deep chunky mud lugs with open voids\n\n. Output only single wheel, perfectly circular outer silhouette, face-on centred hub, square transparent PNG canvas at least 1536x1536 pixels. Equal clear margins on all sides, soft even diffuse daylight for spinning. No axle, vehicle body, load, ground, drop shadow, lettering or logo. Premium semi-realistic painted game illustration. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "tool": "built-in image_gen",
+  "selected": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v5.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "source": "vehicle-master-v1.png",
+      "rejection_reason": "Generated body canvas differed from master by one pixel.",
+      "operation": "Lossless transparent padding: one column at right, 1983x793 to 1984x793; all existing pixels retain coordinates."
+    },
+    {
+      "file": "wheel-v2.png",
+      "source": "wheel-v1.png",
+      "rejection_reason": "Built-in tool returned 1254x1254 despite requested minimum 1536x1536.",
+      "operation": "Lossless canvas export: centre unchanged 1254x1254 generated pixels on 1536x1536 transparent canvas, 141 transparent pixels added on every side; no resampling or repainting."
+    },
+    {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Precise object edit. Edit target supplied Fjord Otter master vehicle-master-v2.png, 1984x793 pixels. SURGICAL REMOVAL ONLY. Remove BOTH road tires and rims. Keep ALL other pixels fixed in place: no redraw, no recenter, no resizing, no cab movement. Cab rear edge at x~895, door handle x~990..1100 y~270, roof y~32; preserve these exact landmarks. Wheel hubs originally approximately (421,580) and (1615,580). Replace upper tire areas with opaque painted dark wheel-well liners, chassis, axle and suspension from fender lips down to original hub line y580. Never transparent above hubs within arches. Below hub line and under chassis remains transparent except retained mechanical parts. Keep tank, cage, straps, bed, cab, windows, hood, bumpers, rock sliders and skid plates EXACTLY unchanged at their original pixel coordinates. Retain exact 1984x793 canvas, composition, scale, lighting, texture and colours. This is a registered animation layer, any shift is a failure. Premium semi-realistic painted game illustration. True transparent background, no ground, shadow, text, logos, watermark. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "rejection_reason": "Generated canvas 1983x793 rather than 1984x793; cab best-match translation (-8,-2) px. Non-wheel artwork was redrawn and shifted."
+    },
+    {
+      "file": "body-v3.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Edit the supplied image IN PLACE: erase the rubber tires and wheel rims from the TWO road wheels, and paint dark opaque wheel-well interiors above the original hubs. Leave below the hubs transparent. Do not change ANYTHING outside those two tire circles. Retain ALL original pixels of the orange truck, white tank, cage, straps, cab, door, hood, windows and bumpers. EXACT SAME position and scale. The cab must not move even one pixel. Do not redraw the rest of the truck. Preserve input dimensions 1984 by 793 exactly. This is a sprite extraction, not a new illustration. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "rejection_reason": "Generated canvas 1983x793 rather than 1984x793; cab best-match translation (-1,-1) px. Non-wheel pixels still redrawn. Retained only as wheel-well interior donor."
+    },
+    {
+      "file": "body-v4.png",
+      "edit_of": "vehicle-master-v2.png",
+      "source_interiors": "body-v3.png",
+      "method": "User-authorized local compositing",
+      "rejection_reason": "Near-opaque donor pixels (alpha 253) were mistakenly treated as holes, replacing mechanical detail with repeated liner texture. Superseded by body-v5.png."
+    },
+    {
+      "file": "body-v5.png",
+      "edit_of": "vehicle-master-v2.png",
+      "source_interiors": "body-v3.png",
+      "method": "Local compositing explicitly authorized by user on 2026-11-01.",
+      "rejection_reason": "Replaces body-v1 cab registration failure; built-in-only attempts v2/v3 still shifted artwork, and first composite v4 mishandled near-opaque alpha.",
+      "operation": "Start from untouched 1984x793 master. Replace only disks centred at (421,580), radius 200, and (1650,580), radius 194. Inside upper halves through y580, sample donor at (x-1,y-1), correcting donor offset (+1,+1), and set alpha to 255. For sparse donor alpha below 128, sample opaque painted liner texture from that same generated wheel well. Set disk pixels below y580 transparent. Preserve all other master RGBA pixels exactly.",
+      "validation": "body-v5-validation.json",
+      "review": "body-v5-review.png",
+      "prompt": "Edit the supplied image IN PLACE: erase the rubber tires and wheel rims from the TWO road wheels, and paint dark opaque wheel-well interiors above the original hubs. Leave below the hubs transparent. Do not change ANYTHING outside those two tire circles. Retain ALL original pixels of the orange truck, white tank, cage, straps, cab, door, hood, windows and bumpers. EXACT SAME position and scale. The cab must not move even one pixel. Do not redraw the rest of the truck. Preserve input dimensions 1984 by 793 exactly. This is a sprite extraction, not a new illustration. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+    }
+  ]
+}

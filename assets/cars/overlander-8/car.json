@@ -1,0 +1,255 @@
+{
+  "id": "overlander-8",
+  "name": "Overlander",
+  "number": 8,
+  "class": "highway",
+  "drive": "6×2",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Charcoal black highway tractor with its semi-trailer",
+  "description": "Charcoal black highway tractor with its semi-trailer, carrying an aluminium livestock trailer full of cows.",
+  "stats": {
+    "power": 49,
+    "speed": 61,
+    "grip": 72,
+    "capacity": 42,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      965.0,
+      594
+    ],
+    "pixelsPerMetre": 132.85714285714286,
+    "axles": [
+      5.795698924731183,
+      0.9634408602150537,
+      -0.421505376344086,
+      -4.448387096774193,
+      -5.818279569892473
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      768,
+      770
+    ],
+    "wheelArtRadius": 556.5,
+    "farWheelOffset": [
+      0.1,
+      0.06
+    ],
+    "archCircles": [
+      [
+        1735,
+        594,
+        101
+      ],
+      [
+        1093,
+        594,
+        101
+      ],
+      [
+        909,
+        594,
+        101
+      ],
+      [
+        374,
+        594,
+        101
+      ],
+      [
+        192,
+        594,
+        101
+      ]
+    ],
+    "exhaust": [
+      4.995698924731183,
+      3.5586021505376344
+    ],
+    "winch": [
+      6.87258064516129,
+      0.4
+    ],
+    "nose": 7.02258064516129
+  },
+  "camera": {
+    "zoom": 1.96
+  },
+  "physics": {
+    "mass": 10000.0,
+    "centreOfMass": [
+      0.9634408602150537,
+      0.85
+    ],
+    "size": [
+      14.04516129032258,
+      3.8086021505376344
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.02258064516129,
+        7.02258064516129,
+        0.48,
+        0.78,
+        1
+      ],
+      [
+        -7.02258064516129,
+        -5.012903225806451,
+        0.78,
+        2.988172043010753,
+        0.4
+      ],
+      [
+        -5.012903225806451,
+        -3.010752688172043,
+        0.78,
+        2.988172043010753,
+        0.4
+      ],
+      [
+        -3.010752688172043,
+        -1.0010752688172042,
+        0.78,
+        2.9806451612903224,
+        0.4
+      ],
+      [
+        -1.0010752688172042,
+        1.0010752688172042,
+        0.78,
+        2.9806451612903224,
+        0.4
+      ],
+      [
+        1.0010752688172042,
+        3.010752688172043,
+        0.78,
+        3.2516129032258063,
+        0.4
+      ],
+      [
+        3.010752688172043,
+        5.012903225806451,
+        0.78,
+        3.311827956989247,
+        0.4
+      ],
+      [
+        5.012903225806451,
+        7.02258064516129,
+        0.78,
+        1.753763440860215,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 9,
+      "centreOfMass": [
+        -5.133333333333333,
+        2.2089892473118278
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6735,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 6.3890073755110315,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 24700,
+    "openDiffGrip": 1,
+    "fuelLitres": 521,
+    "drivenAxles": [
+      0,
+      1,
+      2
+    ]
+  },
+  "load": {
+    "name": "Cattle trailer",
+    "massT": 9
+  }
+}

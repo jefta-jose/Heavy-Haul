@@ -1,0 +1,27 @@
+{
+  "master": {
+    "prompt": "Generate one game vehicle asset: Marsh Fox 3, gunmetal grey 4x4 pickup scout open bed, olive supply crates secured under cargo net, side shovel and hi-lift jack, muddy lower panels, 0.93 m blocky siped all-terrain tires. Exactly TWO visible road wheels, two axles, identical circular tires and centred rims. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right, front face invisible, horizontal chassis, fully visible tires. Premium semi-realistic painted game illustration matching approved Swamp Scout: readable dark contours, weathered metal, fine mechanical details, rich natural texture. Soft even daylight. Entire truck including load within clear margins. True transparent background, no shadow, ground, text, logos or watermark. Wide PNG canvas at least 1500 pixels across. Save generated image."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit target: Marsh Fox master. Remove BOTH road wheels completely, including rubber and rims. Fill both wheel wells with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to original hub centre horizontal line. No transparent gaps above hubs. Below hub line and under chassis remain transparent. Preserve every other pixel, the load, exact canvas dimensions 1774x887, position, scale and camera. Do not redesign or shift anything. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Exactly two axles and TWO identical circular visible road wheels, centred rims, horizontal chassis and level tire bottoms. No cab front face visible. Premium semi-realistic painted game illustration in Swamp Scout style, dark contours, weathered materials, fine mechanical details, mud-caked lower panels. Soft even daylight, full object with generous margins all sides, true transparent background. No ground, cast shadow, text, logos, watermark. Wide PNG at least 1500 pixels across."
+  },
+  "wheel": {
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Reference role: road tire and rim on Marsh Fox master. Generate ONE matching blocky siped all-terrain road tire with same dark steel circular perforated rim, hub bolts and mud, face-on. Square 1536x1536 PNG canvas, perfect circle centred with equal generous margins, soft even light for spinning. Premium semi-realistic painted detailed game illustration. True transparent background, no body, axle, ground, shadow, lettering, logo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "tool": "built-in image_gen",
+  "selected": {
+    "master": "vehicle-master-v1.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "wheel-v2.png",
+      "source": "wheel-v1.png",
+      "rejection_reason": "Built-in tool returned 1254x1254 despite requested minimum 1536x1536.",
+      "operation": "Lossless canvas export: centre unchanged 1254x1254 generated pixels on 1536x1536 transparent canvas, 141 transparent pixels added on every side; no resampling or repainting."
+    }
+  ]
+}

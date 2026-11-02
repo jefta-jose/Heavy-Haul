@@ -1,0 +1,103 @@
+{
+  "master": "vehicle-master-v4.png",
+  "body": "body-v4.png",
+  "wheel": "wheel-v2.png",
+  "dimensions": {
+    "master": [
+      1774,
+      887
+    ],
+    "body": [
+      1774,
+      887
+    ],
+    "wheel": [
+      1536,
+      1536
+    ]
+  },
+  "wheel_regions": [
+    [
+      427,
+      669,
+      203
+    ],
+    [
+      1463,
+      669,
+      203
+    ]
+  ],
+  "donor": "body-v1.png",
+  "donor_sample_offset": [
+    0,
+    0
+  ],
+  "unchanged_rgba_pixels_outside_wheel_regions": true,
+  "changed_pixels_outside_wheel_regions": 0,
+  "upper_wheel_region_min_alpha": 255,
+  "lower_wheel_region_max_alpha": 0,
+  "tandem_gap_pixels_filled": 0,
+  "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+  "wheel_translation": [
+    142,
+    135
+  ],
+  "background": "Transparent alpha retained from built-in image generation.",
+  "arch_polygons": [
+    [
+      [
+        210,
+        669
+      ],
+      [
+        210,
+        621
+      ],
+      [
+        296,
+        441
+      ],
+      [
+        558,
+        441
+      ],
+      [
+        644,
+        621
+      ],
+      [
+        644,
+        669
+      ]
+    ],
+    [
+      [
+        1246,
+        669
+      ],
+      [
+        1246,
+        621
+      ],
+      [
+        1332,
+        441
+      ],
+      [
+        1594,
+        441
+      ],
+      [
+        1680,
+        621
+      ],
+      [
+        1680,
+        669
+      ]
+    ]
+  ],
+  "fill_method": "Continuous generated liner texture resampled once behind suspension; no tiled pattern. Remove residual isolated tire-edge pixels within radius+24 below hub+22.",
+  "review": "body-review-v3.png"
+}

@@ -1,0 +1,42 @@
+{
+  "master": "vehicle-master-v2.png",
+  "body": "body-v4.png",
+  "dimensions": [
+    1984,
+    793
+  ],
+  "method": "Generated wheel-well interiors composited into untouched master; user explicitly authorized local compositing.",
+  "source_interiors": "body-v3.png",
+  "interior_registration_offset": [
+    1,
+    1
+  ],
+  "edit_regions": {
+    "shape": "ellipse",
+    "circles": [
+      [
+        421,
+        580,
+        194
+      ],
+      [
+        1650,
+        580,
+        190
+      ]
+    ],
+    "upper_fill": "opaque generated painted liners through hub line y=580",
+    "lower_fill": "transparent below hub line"
+  },
+  "checks": {
+    "all_RGBA_pixels_outside_edit_regions_identical": true,
+    "cab_pixels_identical": true,
+    "tank_pixels_identical": true,
+    "bed_pixels_identical": true,
+    "upper_well_regions_fully_opaque": true,
+    "lower_wheel_regions_fully_transparent": true,
+    "master_body_dimensions_identical": true
+  },
+  "status": "rejected",
+  "rejection_reason": "Near-opaque donor alpha 253 was mistakenly classified as a hole; mechanical detail was replaced with repeated liner texture. Superseded by body-v5.png."
+}

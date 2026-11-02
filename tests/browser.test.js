@@ -35,9 +35,15 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // seasons on top, then the class tabs, then the chosen class's vehicles, planned ones locked
     assert.equal(await page.locator('.g-season.on').count(), 1, 'the season being played is selected');
     assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class');
-    assert(await page.locator('.gtile:not(.locked)').count() >= 1 && await page.locator('.gtile.locked').count() > 10, 'the class strip lists its roster, planned cars locked');
+    const scoutCounts = await page.evaluate(() => {
+      const cars = __haul.content.roster.cars.filter(c => c.class === 'scout');
+      return { playable: cars.filter(c => c.status === 'playable').length, planned: cars.filter(c => c.status !== 'playable').length };
+    });
+    assert.equal(await page.locator('.gtile:not(.locked)').count(), scoutCounts.playable, 'every playable scout is selectable');
+    assert.equal(await page.locator('.gtile.locked').count(), scoutCounts.planned, 'only unfinished scouts remain locked');
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
-    assert.equal(await page.locator('.gtile:not(.locked)').count(), 0, 'a class with no playable cars shows them all locked');
+    const heavyDutyCount = await page.evaluate(() => __haul.content.roster.cars.filter(c => c.class === 'heavy-duty' && c.status === 'playable').length);
+    assert.equal(await page.locator('.gtile:not(.locked)').count(), heavyDutyCount, 'class availability follows the current roster');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     await capture('00-garage');
     // tuning opens in the UPGRADE panel: five knobs, each can go to 100 in steps of 25; the run uses the tuned car

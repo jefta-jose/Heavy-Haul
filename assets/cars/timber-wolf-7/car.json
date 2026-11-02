@@ -1,0 +1,215 @@
+{
+  "id": "timber-wolf-7",
+  "name": "Timber Wolf",
+  "number": 7,
+  "class": "scout",
+  "drive": "4\u00d74",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Olive 4\u00d74 pickup scout with an open bed",
+  "description": "Olive 4\u00d74 pickup scout with an open bed, carrying two round hay bales wrapped in green film.",
+  "stats": {
+    "power": 44,
+    "speed": 58,
+    "grip": 84,
+    "capacity": 38,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      928.5,
+      660
+    ],
+    "pixelsPerMetre": 182.781457,
+    "axles": [
+      2.431865942028985,
+      -2.431865942028985
+    ],
+    "wheelY": [
+      0.0,
+      0.005471014492753623
+    ],
+    "radius": 0.755,
+    "wheelPivot": [
+      766.0,
+      770.5
+    ],
+    "wheelArtRadius": 574.0,
+    "farWheelOffset": [
+      0.12,
+      0.08
+    ],
+    "archCircles": [
+      [
+        1373,
+        660,
+        149
+      ],
+      [
+        484,
+        659,
+        149
+      ]
+    ],
+    "exhaust": [
+      -3.870742753623188,
+      0.15
+    ],
+    "winch": [
+      3.80356884057971,
+      0.35
+    ],
+    "nose": 3.90356884057971
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3000.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      8.211992753623187,
+      3.0364130434782606
+    ],
+    "wheelMass": 161,
+    "bodyBoxes": [
+      [
+        -4.3084239130434785,
+        3.90356884057971,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -4.3084239130434785,
+        -2.667119565217391,
+        0.5,
+        2.5385507246376813,
+        0.4
+      ],
+      [
+        -2.667119565217391,
+        -1.0258152173913042,
+        0.5,
+        2.5440217391304345,
+        0.4
+      ],
+      [
+        -1.0258152173913042,
+        0.6209601449275363,
+        0.5,
+        3.0309420289855074,
+        0.4
+      ],
+      [
+        0.6209601449275363,
+        2.2622644927536233,
+        0.5,
+        2.828514492753623,
+        0.4
+      ],
+      [
+        2.2622644927536233,
+        3.90356884057971,
+        0.5,
+        1.5154710144927537,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 0.5,
+      "centreOfMass": [
+        -2.431865942028985,
+        1.9969202898550724
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.229,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 6.546,
+      "L": 39.828,
+      "R": 31.17
+    },
+    "brakeTorque": 3333,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 104
+  },
+  "load": {
+    "name": "Hay bales",
+    "massT": 0.5
+  }
+}

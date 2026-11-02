@@ -1,0 +1,229 @@
+{
+  "id": "dune-jackal-18",
+  "name": "Dune Jackal",
+  "number": 18,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Burnt orange 4×4 pickup scout with an open bed",
+  "description": "Burnt orange 4×4 pickup scout with an open bed, carrying a folded white satellite dish on a cradle.",
+  "stats": {
+    "power": 90,
+    "speed": 91,
+    "grip": 93,
+    "capacity": 89,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v5.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      910.0,
+      647
+    ],
+    "pixelsPerMetre": 209.41176470588235,
+    "axles": [
+      2.7648876404494382,
+      -2.034269662921348
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      768,
+      773
+    ],
+    "wheelArtRadius": 598.0,
+    "farWheelOffset": [
+      0.1,
+      0.06
+    ],
+    "archCircles": [
+      [
+        1489,
+        647,
+        186
+      ],
+      [
+        484,
+        647,
+        186
+      ]
+    ],
+    "exhaust": [
+      1.9648876404494382,
+      2.6199438202247194
+    ],
+    "winch": [
+      4.090449438202247,
+      0.4
+    ],
+    "nose": 4.240449438202248
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 5100.0,
+    "centreOfMass": [
+      0,
+      0.45
+    ],
+    "size": [
+      8.480898876404495,
+      2.8699438202247194
+    ],
+    "wheelMass": 200,
+    "bodyBoxes": [
+      [
+        -4.240449438202248,
+        4.240449438202248,
+        0.22,
+        0.52,
+        1
+      ],
+      [
+        -4.240449438202248,
+        -3.0275280898876407,
+        0.52,
+        2.120224719101124,
+        0.4
+      ],
+      [
+        -3.0275280898876407,
+        -1.8193820224719102,
+        0.52,
+        2.822191011235955,
+        0.4
+      ],
+      [
+        -1.8193820224719102,
+        -0.6064606741573034,
+        0.52,
+        2.301685393258427,
+        0.4
+      ],
+      [
+        -0.6064606741573034,
+        0.6064606741573034,
+        0.52,
+        2.5691011235955057,
+        0.4
+      ],
+      [
+        0.6064606741573034,
+        1.8193820224719102,
+        0.52,
+        2.5308988764044944,
+        0.4
+      ],
+      [
+        1.8193820224719102,
+        3.0275280898876407,
+        0.52,
+        1.6331460674157303,
+        0.4
+      ],
+      [
+        3.0275280898876407,
+        4.240449438202248,
+        0.52,
+        1.4946629213483147,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 0.7,
+      "centreOfMass": [
+        0.36530898876404494,
+        1.6645674157303372
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.302,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 6.580514611894335,
+      "L": 40,
+      "R": 31
+    },
+    "brakeTorque": 7540,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 168
+  },
+  "load": {
+    "name": "Satellite dish",
+    "massT": 0.7
+  }
+}

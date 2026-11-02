@@ -27,11 +27,15 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => pads } });
   try {
     const actions = new Proxy({}, { get: () => () => {} }), input = createInput(els, actions);
-    const event = { preventDefault() {}, pointerId: 1, clientY: 100, pointerType: 'touch' };
+    const event = { preventDefault() {}, pointerId: 1, clientY: 100, pointerType: 'mouse' };
     els.gas.handlers.pointerdown(event);
     assert.equal(input.read().gas, 1);
     els.gas.handlers.pointermove({ ...event, clientY: 165 });
     assert(Math.abs(input.read().gas - 0.35) < 1e-9);
+    els.gas.handlers.pointerup();
+    els.gas.handlers.pointerdown({ ...event, pointerType: 'touch' });
+    els.gas.handlers.pointermove({ ...event, pointerType: 'touch', clientY: 165 });
+    assert.equal(input.read().gas, 1, 'touch stays at full pedal while held');
     els.gas.handlers.pointerup();
     const buttons = Array.from({ length: 8 }, () => ({ value: 0 }));
     buttons[7].value = 0.42; buttons[6].value = 0.27;

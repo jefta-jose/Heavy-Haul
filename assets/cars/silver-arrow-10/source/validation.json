@@ -1,0 +1,62 @@
+{
+  "master": "vehicle-master-v1.png",
+  "body": "body-v2.png",
+  "wheel": "wheel-v2.png",
+  "dimensions": {
+    "master": [
+      1916,
+      821
+    ],
+    "body": [
+      1916,
+      821
+    ],
+    "wheel": [
+      1536,
+      1536
+    ]
+  },
+  "wheel_regions": [
+    [
+      200,
+      576,
+      89
+    ],
+    [
+      389,
+      576,
+      89
+    ],
+    [
+      1042,
+      576,
+      89
+    ],
+    [
+      1218,
+      576,
+      89
+    ],
+    [
+      1760,
+      576,
+      89
+    ]
+  ],
+  "donor": "body-v1.png",
+  "donor_sample_offset": [
+    0,
+    0
+  ],
+  "unchanged_rgba_pixels_outside_wheel_regions": true,
+  "changed_pixels_outside_wheel_regions": 0,
+  "upper_wheel_region_min_alpha": 255,
+  "lower_wheel_region_max_alpha": 0,
+  "tandem_gap_pixels_filled": 3081,
+  "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+  "wheel_translation": [
+    141,
+    140
+  ],
+  "background": "Transparent alpha retained from built-in image generation."
+}

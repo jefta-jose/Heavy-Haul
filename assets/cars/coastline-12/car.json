@@ -1,0 +1,255 @@
+{
+  "id": "coastline-12",
+  "name": "Coastline",
+  "number": 12,
+  "class": "highway",
+  "drive": "6×2",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Chrome silver highway tractor with its semi-trailer",
+  "description": "Chrome silver highway tractor with its semi-trailer, carrying a flatbed semi-trailer of shrink-wrapped brick pallets.",
+  "stats": {
+    "power": 65,
+    "speed": 73,
+    "grip": 82,
+    "capacity": 61,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      980.5,
+      601
+    ],
+    "pixelsPerMetre": 128.2051282051282,
+    "axles": [
+      6.1815,
+      1.7901,
+      0.0429,
+      -4.5513,
+      -6.0723
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.78,
+    "wheelPivot": [
+      768,
+      770
+    ],
+    "wheelArtRadius": 546.0,
+    "farWheelOffset": [
+      0.1,
+      0.06
+    ],
+    "archCircles": [
+      [
+        1773,
+        601,
+        108
+      ],
+      [
+        1210,
+        601,
+        108
+      ],
+      [
+        986,
+        601,
+        108
+      ],
+      [
+        397,
+        601,
+        108
+      ],
+      [
+        202,
+        601,
+        108
+      ]
+    ],
+    "exhaust": [
+      5.3815,
+      3.7514000000000003
+    ],
+    "winch": [
+      7.2482999999999995,
+      0.4
+    ],
+    "nose": 7.3983
+  },
+  "camera": {
+    "zoom": 2.07
+  },
+  "physics": {
+    "mass": 11900.0,
+    "centreOfMass": [
+      1.7901,
+      0.85
+    ],
+    "size": [
+      14.7966,
+      4.0014
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.3983,
+        7.3983,
+        0.48,
+        0.78,
+        1
+      ],
+      [
+        -7.3983,
+        -5.2845,
+        0.78,
+        2.691,
+        0.4
+      ],
+      [
+        -5.2845,
+        -3.1707,
+        0.78,
+        2.691,
+        0.4
+      ],
+      [
+        -3.1707,
+        -1.0569,
+        0.78,
+        2.691,
+        0.4
+      ],
+      [
+        -1.0569,
+        1.0569,
+        0.78,
+        2.691,
+        0.4
+      ],
+      [
+        1.0569,
+        3.1707,
+        0.78,
+        2.691,
+        0.4
+      ],
+      [
+        3.1707,
+        5.2845,
+        0.78,
+        3.003,
+        0.4
+      ],
+      [
+        5.2845,
+        7.3983,
+        0.78,
+        1.9422,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -5.3118,
+        2.320812
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.802,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 7.119179646998008,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 41470,
+    "openDiffGrip": 1,
+    "fuelLitres": 647,
+    "drivenAxles": [
+      0,
+      1,
+      2
+    ]
+  },
+  "load": {
+    "name": "Brick pallets",
+    "massT": 20
+  }
+}

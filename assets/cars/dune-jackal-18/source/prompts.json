@@ -1,0 +1,332 @@
+{
+  "tool": "built-in image_gen",
+  "master": {
+    "file": "vehicle-master-v1.png",
+    "prompt": "Create a single complete loaded game vehicle Dune Jackal, dune-jackal-18. Brief: \n\n- Vehicle: burnt orange 4\u00d74 pickup scout with an open bed\n- Load (drawn as part of the vehicle): a folded white satellite dish on a cradle\n- Equipment: rear spare carrier and ladder\n- Finish: mud-caked lower panels\n- Tires: 1.49 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes\n\n. Exactly TWO near-side road wheels (two axles). Vehicle empty mass 5.1 tonnes; whole vehicle length about 6.2 metres. Its load is integrated securely using straps, chains, cradles or side rails. Draw the full coupled tractor AND trailer as ONE image when present, not separate parts. Keep all near-side tires unobstructed by steps. For banners or flags use blank bold colours, no lettering. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible. Exactly circular near tires, centred rims, level hub centres and tire bottoms. Horizontal chassis and deck, no yaw, no tilt. Premium semi-realistic painted game illustration in approved Swamp Scout style: dark readable contours, weathered materials, fine mechanical detail, rich natural texture. Soft even daylight. True transparent background, no ground, cast shadow, glow, lettering, logos or watermark. Entire object has generous clear margins on all four sides, occupies only central 85% of canvas width and 80% of height. Wide PNG at least 1500 pixels across.",
+    "rejection_reason": "Broad coloured background glow."
+  },
+  "body": {
+    "file": "body-v2.png",
+    "edit_of": "vehicle-master-v3.png",
+    "prompt": "Edit supplied Dune Jackal master-v3: remove ONLY both road tires, spikes and rims. Keep rear mounted spare, dish, cradle, straps, ladder, paint, chassis, position, scale, exact canvas and all other pixels. Fill upper wheel arches with opaque painted dark inner liners, suspension and axles from fender lip to original horizontal hub line. No transparency above hubs; below hub line and under chassis stays transparent. No remaining road tire, no shift or redesign. True transparent alpha background, no halo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "role": "Generated wheel-well interior donor; composite preserves original non-wheel pixels."
+  },
+  "wheel": {
+    "file": "wheel-v1.png",
+    "edit_of": "vehicle-master-v3.png",
+    "prompt": "Reference role: road tire and rim on supplied dune-jackal-18 master. Generate ONE matching spiked dark mud-terrain road tire, short steel spikes, same perforated rim, hub bolts, dirt and painted finish as reference. Only the wheel: perfectly circular, hub exactly centred, face-on on a SQUARE 1536x1536 PNG with generous equal clear margins and TRUE transparent alpha background. Soft even daylight suitable for rotation. No body, axle, ground, shadow, halo, writing or logo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "selected": {
+    "master": "vehicle-master-v3.png",
+    "body": "body-v5.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Edit target supplied vehicle master. Remove ALL coloured background, blurred glow and translucent halos. Isolate ONLY the solid vehicle including load, spare, flags, wheels and equipment, with crisp clean alpha edges and completely TRANSPARENT pixels everywhere else. NO studio backdrop, NO gradient, NO haze, NO glow. Preserve vehicle design, spiked tires and side camera. Every gap is true transparency. This is clean background extraction. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, cab front face invisible. Exactly circular near tires, centred rims, level hub centres and tire bottoms. Horizontal chassis and deck, no yaw, no tilt. Premium semi-realistic painted game illustration in approved Swamp Scout style: dark readable contours, weathered materials, fine mechanical detail, rich natural texture. Soft even daylight. True transparent background, no ground, cast shadow, glow, lettering, logos or watermark. Entire object has generous clear margins on all four sides, occupies only central 85% of canvas width and 80% of height. Wide PNG at least 1500 pixels across.",
+      "rejection_reason": "Coloured background glow remained after extraction."
+    },
+    {
+      "file": "vehicle-master-v3.png",
+      "prompt": "Create a fresh isolated game sprite Dune Jackal 18: burnt orange powerful 4x4 expedition pickup with open bed, a folded white satellite dish strapped on a metal cradle IN the bed, rear mounted spare and ladder, mud-caked lower panels. Exactly two identical large circular mud terrain road tires with short steel spikes and olive perforated steel rims. Premium semi-realistic painted game illustration, fine mechanical detail, readable dark contours and weathered texture. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Whole vehicle inside central 80% canvas, generous transparent margins. True transparent alpha background, absolutely no background gradient, haze or glow; no ground, cast shadow, text, logo or watermark. Wide PNG at least 1500px.",
+      "reason": "Fresh generation replaces glow-contaminated extraction."
+    },
+    {
+      "file": "body-v1.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Edit target dune-jackal-18 master-v2. Remove ONLY all 2 road tires and rims from the vehicle including trailer. Keep attached spare. Fill upper wheel wells with opaque painted dark inner liners, chassis, axle and suspension from fender lip to original hub line. Below hubs and under chassis stays transparent. Keep every non-wheel pixel, whole load, equipment, exact canvas size, position, scale and camera. Do not redesign or move the truck. True transparent background, no coloured halo or backdrop. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "rejection_reason": "Derived from glow-contaminated master, superseded by clean v3 master."
+    },
+    {
+      "file": "body-v3.png",
+      "edit_of": "vehicle-master-v3.png",
+      "source_interiors": "body-v2.png",
+      "method": "Local compositing explicitly authorized by user; start from untouched master, replace only wheel regions with generated opaque upper wheel-well interiors and transparent lower halves.",
+      "prompt": "Edit supplied Dune Jackal master-v3: remove ONLY both road tires, spikes and rims. Keep rear mounted spare, dish, cradle, straps, ladder, paint, chassis, position, scale, exact canvas and all other pixels. Fill upper wheel arches with opaque painted dark inner liners, suspension and axles from fender lip to original horizontal hub line. No transparency above hubs; below hub line and under chassis stays transparent. No remaining road tire, no shift or redesign. True transparent alpha background, no halo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "validation": "validation.json",
+      "operation": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v3.png",
+        "wheel": "wheel-v2.png",
+        "dimensions": {
+          "master": [
+            1816,
+            866
+          ],
+          "body": [
+            1816,
+            866
+          ],
+          "wheel": [
+            1536,
+            1536
+          ]
+        },
+        "wheel_regions": [
+          [
+            486,
+            648,
+            174
+          ],
+          [
+            1489,
+            648,
+            174
+          ]
+        ],
+        "donor": "body-v2.png",
+        "donor_sample_offset": [
+          0,
+          -1
+        ],
+        "unchanged_rgba_pixels_outside_wheel_regions": true,
+        "changed_pixels_outside_wheel_regions": 0,
+        "upper_wheel_region_min_alpha": 255,
+        "lower_wheel_region_max_alpha": 0,
+        "tandem_gap_pixels_filled": 0,
+        "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+        "wheel_translation": [
+          144,
+          146
+        ],
+        "background": "Transparent alpha retained from built-in image generation."
+      },
+      "rejection_reason": "Review exposed repeated suspension texture in fill and small transparent outer-arch gaps."
+    },
+    {
+      "file": "wheel-v2.png",
+      "edit_of": "wheel-v1.png",
+      "method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+      "reason": "Built-in tool returned 1254-square canvas despite 1536 request; add transparent padding to meet minimum canvas size and centre the wheel.",
+      "translation": [
+        144,
+        146
+      ]
+    },
+    {
+      "file": "body-v4.png",
+      "edit_of": "vehicle-master-v3.png",
+      "source_interiors": "body-v2.png",
+      "method": "User-authorized local compositing",
+      "operation": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v4.png",
+        "wheel": "wheel-v2.png",
+        "dimensions": {
+          "master": [
+            1816,
+            866
+          ],
+          "body": [
+            1816,
+            866
+          ],
+          "wheel": [
+            1536,
+            1536
+          ]
+        },
+        "wheel_regions": [
+          [
+            486,
+            648,
+            174
+          ],
+          [
+            1489,
+            648,
+            174
+          ]
+        ],
+        "donor": "body-v2.png",
+        "donor_sample_offset": [
+          0,
+          -1
+        ],
+        "unchanged_rgba_pixels_outside_wheel_regions": true,
+        "changed_pixels_outside_wheel_regions": 0,
+        "upper_wheel_region_min_alpha": 255,
+        "lower_wheel_region_max_alpha": 0,
+        "tandem_gap_pixels_filled": 0,
+        "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+        "wheel_translation": [
+          144,
+          146
+        ],
+        "background": "Transparent alpha retained from built-in image generation.",
+        "arch_polygons": [
+          [
+            [
+              298,
+              648
+            ],
+            [
+              298,
+              600
+            ],
+            [
+              373,
+              449
+            ],
+            [
+              599,
+              449
+            ],
+            [
+              674,
+              600
+            ],
+            [
+              674,
+              648
+            ]
+          ],
+          [
+            [
+              1301,
+              648
+            ],
+            [
+              1301,
+              600
+            ],
+            [
+              1376,
+              449
+            ],
+            [
+              1602,
+              449
+            ],
+            [
+              1677,
+              600
+            ],
+            [
+              1677,
+              648
+            ]
+          ]
+        ],
+        "fill_method": "Use generated donor RGBA; missing upper interior pixels use dark opaque painted liner samples away from shocks and hubs. Extend only into transparent upper-arch gaps.",
+        "review": "body-review-v2.png"
+      },
+      "prompt": "Edit supplied Dune Jackal master-v3: remove ONLY both road tires, spikes and rims. Keep rear mounted spare, dish, cradle, straps, ladder, paint, chassis, position, scale, exact canvas and all other pixels. Fill upper wheel arches with opaque painted dark inner liners, suspension and axles from fender lip to original horizontal hub line. No transparency above hubs; below hub line and under chassis stays transparent. No remaining road tire, no shift or redesign. True transparent alpha background, no halo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "validation": "validation-v2.json",
+      "rejection_reason": "Repeated liner texture visible and isolated tire-edge pixels remained."
+    },
+    {
+      "file": "body-v5.png",
+      "edit_of": "vehicle-master-v3.png",
+      "source_interiors": "body-v2.png",
+      "method": "User-authorized local compositing",
+      "operation": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v5.png",
+        "wheel": "wheel-v2.png",
+        "dimensions": {
+          "master": [
+            1816,
+            866
+          ],
+          "body": [
+            1816,
+            866
+          ],
+          "wheel": [
+            1536,
+            1536
+          ]
+        },
+        "wheel_regions": [
+          [
+            486,
+            648,
+            174
+          ],
+          [
+            1489,
+            648,
+            174
+          ]
+        ],
+        "donor": "body-v2.png",
+        "donor_sample_offset": [
+          0,
+          -1
+        ],
+        "unchanged_rgba_pixels_outside_wheel_regions": true,
+        "changed_pixels_outside_wheel_regions": 0,
+        "upper_wheel_region_min_alpha": 255,
+        "lower_wheel_region_max_alpha": 0,
+        "tandem_gap_pixels_filled": 0,
+        "wheel_canvas_method": "Original generated RGBA pixels pasted on 1536-square transparent canvas, no resampling.",
+        "wheel_translation": [
+          144,
+          146
+        ],
+        "background": "Transparent alpha retained from built-in image generation.",
+        "arch_polygons": [
+          [
+            [
+              298,
+              648
+            ],
+            [
+              298,
+              600
+            ],
+            [
+              373,
+              449
+            ],
+            [
+              599,
+              449
+            ],
+            [
+              674,
+              600
+            ],
+            [
+              674,
+              648
+            ]
+          ],
+          [
+            [
+              1301,
+              648
+            ],
+            [
+              1301,
+              600
+            ],
+            [
+              1376,
+              449
+            ],
+            [
+              1602,
+              449
+            ],
+            [
+              1677,
+              600
+            ],
+            [
+              1677,
+              648
+            ]
+          ]
+        ],
+        "fill_method": "Continuous generated liner texture resampled once behind suspension; no tiled pattern. Remove residual isolated tire-edge pixels within radius+24 below hub+22.",
+        "review": "body-review-v3.png"
+      },
+      "prompt": "Edit supplied Dune Jackal master-v3: remove ONLY both road tires, spikes and rims. Keep rear mounted spare, dish, cradle, straps, ladder, paint, chassis, position, scale, exact canvas and all other pixels. Fill upper wheel arches with opaque painted dark inner liners, suspension and axles from fender lip to original horizontal hub line. No transparency above hubs; below hub line and under chassis stays transparent. No remaining road tire, no shift or redesign. True transparent alpha background, no halo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+      "validation": "validation-v3.json"
+    }
+  ]
+}
