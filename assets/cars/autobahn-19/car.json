@@ -1,0 +1,248 @@
+{
+  "id": "autobahn-19",
+  "name": "Autobahn",
+  "number": 19,
+  "class": "highway",
+  "drive": "6\u00d74",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Charcoal black highway tractor with its semi-trailer",
+  "description": "Charcoal black highway tractor with its semi-trailer, carrying a stage trailer covered in banners, loudspeakers and lights.",
+  "stats": {
+    "power": 94,
+    "speed": 94,
+    "grip": 94,
+    "capacity": 94,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1041.5,
+      631
+    ],
+    "pixelsPerMetre": 119.75308642,
+    "axles": [
+      6.72634021,
+      0.52190722,
+      -6.72634021
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.00835052
+    ],
+    "radius": 0.81,
+    "wheelPivot": [
+      768,
+      768
+    ],
+    "wheelArtRadius": 700,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1847,
+        631,
+        104
+      ],
+      [
+        1104,
+        631,
+        104
+      ],
+      [
+        236,
+        630,
+        104
+      ]
+    ],
+    "exhaust": [
+      4.9263,
+      4.0337
+    ],
+    "winch": [
+      7.8373,
+      0.4
+    ],
+    "nose": 7.9873
+  },
+  "camera": {
+    "zoom": 1.97
+  },
+  "physics": {
+    "mass": 15500.0,
+    "centreOfMass": [
+      3.6241,
+      0.85
+    ],
+    "size": [
+      16.0163,
+      4.2337
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -8.029,
+        7.9873,
+        0.6,
+        0.95,
+        1
+      ],
+      [
+        -8.029,
+        -6.0249,
+        0.8999999999999999,
+        4.1085,
+        0.4
+      ],
+      [
+        -6.0249,
+        -4.0208,
+        0.8999999999999999,
+        4.05,
+        0.4
+      ],
+      [
+        -4.0208,
+        -2.025,
+        0.8999999999999999,
+        4.05,
+        0.4
+      ],
+      [
+        -2.025,
+        -0.0209,
+        0.8999999999999999,
+        4.05,
+        0.4
+      ],
+      [
+        -0.0209,
+        1.9832,
+        0.8999999999999999,
+        4.1586,
+        0.4
+      ],
+      [
+        1.9832,
+        3.979,
+        0.8999999999999999,
+        3.407,
+        0.4
+      ],
+      [
+        3.979,
+        5.9831,
+        0.8999999999999999,
+        3.3486,
+        0.4
+      ],
+      [
+        5.9831,
+        7.9873,
+        0.8999999999999999,
+        1.929,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -3.7536,
+        2.4556
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1918.029
+      ],
+      [
+        900,
+        2655.0
+      ],
+      [
+        1200,
+        2950.0
+      ],
+      [
+        1500,
+        2950.0
+      ],
+      [
+        1800,
+        2827.348
+      ],
+      [
+        2150,
+        1893.71
+      ],
+      [
+        2300,
+        0.0
+      ]
+    ],
+    "torqueScale": 0.945763,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 128,
+    "exhaustBrake": 166,
+    "gears": {
+      "H": 5.48699,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 28050,
+    "openDiffGrip": 1,
+    "fuelLitres": 868,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Campaign float",
+    "massT": 10
+  }
+}

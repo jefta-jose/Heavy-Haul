@@ -1,0 +1,248 @@
+{
+  "id": "highway-titan-20",
+  "name": "Highway Titan",
+  "number": 20,
+  "class": "highway",
+  "drive": "6\u00d74",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Charcoal black highway tractor with its semi-trailer",
+  "description": "Charcoal black highway tractor with its semi-trailer, carrying a flatbed with two giant copper cable drums.",
+  "stats": {
+    "power": 99,
+    "speed": 98,
+    "grip": 95,
+    "capacity": 99,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1073.0,
+      623
+    ],
+    "pixelsPerMetre": 123.17073171,
+    "axles": [
+      6.38950495,
+      0.25168317,
+      -6.38950495
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.8200000000000001,
+    "wheelPivot": [
+      768,
+      768
+    ],
+    "wheelArtRadius": 700,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1860,
+        623,
+        108
+      ],
+      [
+        1104,
+        623,
+        108
+      ],
+      [
+        286,
+        623,
+        108
+      ]
+    ],
+    "exhaust": [
+      4.5895,
+      3.8675
+    ],
+    "winch": [
+      7.3599,
+      0.4
+    ],
+    "nose": 7.5099
+  },
+  "camera": {
+    "zoom": 1.9
+  },
+  "physics": {
+    "mass": 16000.0,
+    "centreOfMass": [
+      3.3206,
+      0.85
+    ],
+    "size": [
+      15.4988,
+      4.0675
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -7.9889,
+        7.5099,
+        0.6,
+        0.95,
+        1
+      ],
+      [
+        -7.9889,
+        -6.0485,
+        0.8999999999999999,
+        1.9972,
+        0.4
+      ],
+      [
+        -6.0485,
+        -4.1162,
+        0.8999999999999999,
+        3.345,
+        0.4
+      ],
+      [
+        -4.1162,
+        -2.1758,
+        0.8999999999999999,
+        3.4424,
+        0.4
+      ],
+      [
+        -2.1758,
+        -0.2354,
+        0.8999999999999999,
+        3.3774,
+        0.4
+      ],
+      [
+        -0.2354,
+        1.6968,
+        0.8999999999999999,
+        1.7618,
+        0.4
+      ],
+      [
+        1.6968,
+        3.6372,
+        0.8999999999999999,
+        3.28,
+        0.4
+      ],
+      [
+        3.6372,
+        5.5695,
+        0.8999999999999999,
+        2.9877,
+        0.4
+      ],
+      [
+        5.5695,
+        7.5099,
+        0.8999999999999999,
+        1.778,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 26,
+      "centreOfMass": [
+        -3.8686,
+        2.3592
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1917.793
+      ],
+      [
+        900,
+        2655.084
+      ],
+      [
+        1200,
+        2950.0
+      ],
+      [
+        1500,
+        2773.218
+      ],
+      [
+        1800,
+        2311.573
+      ],
+      [
+        2150,
+        1548.31
+      ],
+      [
+        2300,
+        0.0
+      ]
+    ],
+    "torqueScale": 1.193559,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 210,
+    "exhaustBrake": 273,
+    "gears": {
+      "H": 5.46927,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 46200,
+    "openDiffGrip": 1,
+    "fuelLitres": 900,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Copper cable drums",
+    "massT": 26
+  }
+}

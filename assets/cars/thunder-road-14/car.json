@@ -1,0 +1,255 @@
+{
+  "id": "thunder-road-14",
+  "name": "Thunder Road",
+  "number": 14,
+  "class": "highway",
+  "drive": "6\u00d74",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Arctic white highway tractor with its semi-trailer",
+  "description": "Arctic white highway tractor with its semi-trailer, carrying two 20 ft containers on a skeletal trailer.",
+  "stats": {
+    "power": 74,
+    "speed": 79,
+    "grip": 83,
+    "capacity": 70,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1068.0,
+      603
+    ],
+    "pixelsPerMetre": 110.52631579,
+    "axles": [
+      7.88952381,
+      2.31619048,
+      -7.88952381
+    ],
+    "wheelY": [
+      0.0,
+      -0.00904762,
+      0.00904762
+    ],
+    "radius": 0.76,
+    "wheelPivot": [
+      768,
+      768
+    ],
+    "wheelArtRadius": 700,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1940,
+        603,
+        91
+      ],
+      [
+        1324,
+        604,
+        91
+      ],
+      [
+        196,
+        602,
+        91
+      ]
+    ],
+    "exhaust": [
+      6.0895,
+      3.8895
+    ],
+    "winch": [
+      9.0152,
+      0.4
+    ],
+    "nose": 9.1652
+  },
+  "camera": {
+    "zoom": 2.24
+  },
+  "physics": {
+    "mass": 12900.0,
+    "centreOfMass": [
+      5.1029,
+      0.85
+    ],
+    "size": [
+      18.24,
+      4.0895
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -9.0748,
+        9.1652,
+        0.6,
+        0.95,
+        1
+      ],
+      [
+        -9.0748,
+        -7.0481,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        -7.0481,
+        -5.0214,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        -5.0214,
+        -2.9948,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        -2.9948,
+        -0.9681,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        -0.9681,
+        1.0586,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        1.0586,
+        3.0852,
+        0.8999999999999999,
+        3.7186,
+        0.4
+      ],
+      [
+        3.0852,
+        5.1119,
+        0.8999999999999999,
+        4.0352,
+        0.4
+      ],
+      [
+        5.1119,
+        7.1386,
+        0.8999999999999999,
+        3.8271,
+        0.4
+      ],
+      [
+        7.1386,
+        9.1652,
+        0.8999999999999999,
+        1.9,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 24,
+      "centreOfMass": [
+        -3.3793,
+        2.3719
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1917.704
+      ],
+      [
+        900,
+        2655.204
+      ],
+      [
+        1200,
+        2950.0
+      ],
+      [
+        1500,
+        2760.27
+      ],
+      [
+        1800,
+        2300.225
+      ],
+      [
+        2150,
+        1540.284
+      ],
+      [
+        2300,
+        0.0
+      ]
+    ],
+    "torqueScale": 0.980339,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 184,
+    "exhaustBrake": 239,
+    "gears": {
+      "H": 5.4915,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 40590,
+    "openDiffGrip": 1,
+    "fuelLitres": 710,
+    "drivenAxles": [
+      0,
+      1
+    ]
+  },
+  "load": {
+    "name": "Double container",
+    "massT": 24
+  }
+}

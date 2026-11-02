@@ -1,0 +1,67 @@
+{
+  "master": {
+    "prompt": "Use case: stylized-concept. Complete Blacktop vehicle game sprite WITH load: arctic white highway tractor with its semi-trailer; an A-frame rack of huge glass panels, securely strapped/chained, 12 tonnes. Equipment: chrome bull bar and air horns. Finish: polished paint with road dust. Tires: 1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links). Exactly THREE road wheels total for whole assembled rig (three axles per brief), identical diameter round tires with centered matching rims, one trailer rear wheel at left, one tractor drive wheel, one front steering wheel at right. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Cab front face invisible. Horizontal deck and cargo, fully visible tires. Premium semi-realistic painted game illustration matching Swamp Scout, dark readable contours, fine mechanical detail, rich weathered textures, soft even daylight. Whole rig with generous clear margins all four sides. Wide transparent PNG at least 1500px across, true alpha background, no ground, shadow, halo, text, branding or watermark."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Use case: precise-object-edit. Edit target this assembled master vehicle-master-v2.png. Remove ONLY all THREE road tires and rims (truck and trailer); keep attached load, spare tire, equipment and every other pixel unmoved. Fill each wheel well with opaque painted dark inner liner/chassis/axle/suspension from fender lip down to original hub-center line, also gaps between tandem arches. No transparent holes above hub line. Below hub line and under chassis stays transparent except existing suspension. CRITICAL identical canvas width and height and pixel registration to input, no crop, no resizing, no movement, no redesign. True transparent PNG, no shadow halo or text. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "wheel": {
+    "prompt": "One wheel matching this Blacktop master; 1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links). Match reference rim color, hub design, bolt count and weathering. One perfect circle, centered hub, equal margins on SQUARE transparent 2048x2048 PNG, output at least 1500x1500. STRICTLY FACE-ON with no visible angled tread face or axle. Swamp Scout premium semi-realistic painted game art, readable dark contours, fine mechanical detail, natural wear and mud, even diffuse light suitable for rotation. No body, axle, ground, shadow, glow, text logos or watermark. True empty transparent alpha outside tire. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "revisions": {
+    "master_v2": {
+      "prompt": "Use case: stylized-concept. Complete Blacktop vehicle game sprite WITH load: arctic white highway tractor with its semi-trailer; an A-frame rack of huge glass panels, securely strapped/chained, 12 tonnes. Equipment: chrome bull bar and air horns. Finish: polished paint with road dust. Tires: 1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links). Exactly THREE road wheels total for whole assembled rig (three axles per brief), identical diameter round tires with centered matching rims, one trailer rear wheel at left, one tractor drive wheel, one front steering wheel at right. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Cab front face invisible. Horizontal deck and cargo, fully visible tires. Premium semi-realistic painted game illustration matching Swamp Scout, dark readable contours, fine mechanical detail, rich weathered textures, soft even daylight. Whole rig with generous clear margins all four sides. Wide transparent PNG at least 1500px across, true alpha background, no ground, shadow, halo, text, branding or watermark. CRITICAL correction: previous image cropped at canvas edges. Zoom out substantially; vehicle occupies central 70% width and 65% height of a 2560x1024 transparent canvas. At least 100 pixels of completely empty transparent margins on every side. No clipped exhaust or bumpers.",
+      "rejection_reason": "v1 too tightly framed with exhaust and bumpers touching canvas edges."
+    }
+  },
+  "generation_tool": "built-in image_gen",
+  "postprocessing_authorization": "User approved local image processing only to resize generated PNGs and align canvas dimensions; drawing and image edits remain generated.",
+  "selected": {
+    "master": "vehicle-master-v3.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v2.png"
+  },
+  "postprocessing": {
+    "master": {
+      "source": "vehicle-master-v2.png",
+      "operation": "Transparent canvas padding, 48 pixels on each edge; artwork unchanged."
+    },
+    "body": {
+      "source": "body-v1.png",
+      "operation": "Canvas aligned to padded master using upper-body silhouette translation only; no redrawing or retouching.",
+      "offset_relative_to_master": [
+        0,
+        2
+      ],
+      "canvas": [
+        2079,
+        889
+      ]
+    },
+    "wheel": {
+      "source": "wheel-v1.png",
+      "native_canvas": [
+        1254,
+        1254
+      ],
+      "operation": "Crop to alpha bounds, resize tire bounds to 1400x1400 and center on transparent 1536x1536 canvas with 68-pixel margins. Upsampled from native generation; no new drawn detail.",
+      "crop_box": [
+        0,
+        17,
+        1240,
+        1254
+      ]
+    }
+  },
+  "validation": {
+    "master_body_identical_dimensions": true,
+    "wheel_square": true,
+    "wheel_dimensions": [
+      1536,
+      1536
+    ],
+    "transparent_background": true,
+    "note": "Built-in generation with user-authorized canvas alignment and wheel resizing. Runtime integration remains with Claude per AGENTS.md."
+  }
+}
