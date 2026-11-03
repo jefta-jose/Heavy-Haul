@@ -5,6 +5,9 @@ node_modules/
 dist/
 output/
 
+# Capacitor web bundle (npm run android:web)
+www/
+
 # Python tooling (tools/art/*.py run through uv)
 __pycache__/
 *.py[cod]

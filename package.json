@@ -13,12 +13,19 @@
     "feel": "node tools/report-feel.js",
     "audio:preview": "node tools/audio-preview.js",
     "art:encode": "uv run --with pillow python tools/art/encode-webp.py",
-    "scaffold": "node tools/content/scaffold.js"
+    "scaffold": "node tools/content/scaffold.js",
+    "android:web": "npm run build && node -e \"require('fs').mkdirSync('www',{recursive:true});require('fs').copyFileSync('dist/heavy-haul.html','www/index.html')\"",
+    "android:sync": "npm run android:web && npx cap sync android"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.0",
     "esbuild": "0.24.0",
     "planck": "1.4.2",
     "playwright": "^1.64.1"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/core": "^8.6.0"
+  }
 }
