@@ -1,16 +1,16 @@
 {
   "id": "fuel-runner-6x6",
-  "name": "Fuel Runner 6×6",
+  "name": "Fuel Runner 6\u00d76",
   "number": null,
   "class": "heavy-duty",
-  "drive": "6×6",
+  "drive": "6\u00d76",
   "wheelType": "mud-terrain",
   "status": "playable",
   "audio": {
     "engine": "heavy-duty"
   },
   "tagline": "Heavy-duty fuel tanker that never gets stuck",
-  "description": "A green 6×6 off-road fuel tanker for the heavy-duty class. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
+  "description": "A green 6\u00d76 off-road fuel tanker for the heavy-duty class. Call it from the start of the trail and drive it to your truck to refuel it. It never gets stuck and never runs dry.",
   "stats": {
     "power": 95,
     "grip": 86,
@@ -203,7 +203,7 @@
         0
       ]
     ],
-    "torqueScale": 1.45,
+    "torqueScale": 3.0,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

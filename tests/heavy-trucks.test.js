@@ -7,6 +7,16 @@ import { newSim, spawn, advance } from './helpers.js';
 
 // Rim centres measured in the selected PNG masters, front axle first.
 const newDrops = {
+  'fieldmaster-5': [1531, 638, 336],
+  'stonebridge-6': [1596, 612, 361],
+  'bushline-9': [1531, 593, 287],
+  'rangeline-10': [1485, 579, 352],
+  'northgate-11': [1433, 572, 298],
+  'quarryman-13': [1494, 595, 290],
+  'timberjack-14': [1569, 599, 294],
+  'bedrock-15': [1651, 640, 356],
+  'boulder-boss-16': [1912, 632, 356],
+  'logger-king-17': [1707, 578, 290],
   'prairie-star-13': [1870, 1320, 253],
   'thunder-road-14': [1940, 1324, 196],
   'blacktop-15': [1765, 1131, 322],

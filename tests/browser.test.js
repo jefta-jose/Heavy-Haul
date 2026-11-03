@@ -294,6 +294,40 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.active.car.camera.zoom), 'the fuel truck uses its own zoom');
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, its zoom returns');
+    // Newly delivered heavy-duty trucks are selectable and run on the current map.
+    for (const id of ['fieldmaster-5', 'stonebridge-6', 'bushline-9', 'rangeline-10', 'northgate-11',
+      'quarryman-13', 'timberjack-14', 'bedrock-15', 'boulder-boss-16', 'logger-king-17']) {
+      await page.evaluate(id => {
+        __haul.garage.select(id); __haul.startRun(__haul.garage.selection);
+      }, id);
+      await page.waitForFunction(() => __haul.renderer.ready && Object.values(__haul.renderer.assetStatus()).every(Boolean));
+      const distance = await page.evaluate(() => {
+        const s = __haul.sim; s.respawn(30);
+        Object.assign(s.ctl, { gear: 'L', awd: true, diff: true });
+        for (let i = 0; i < 480; i++) s.step(1 / 120);
+        const x = s.truck.getPosition().x; s.ctl.gas = 1;
+        for (let i = 0; i < 1200; i++) s.step(1 / 120);
+        s.ctl.gas = 0; __haul.snap();
+        return s.truck.getPosition().x - x;
+      });
+      assert(distance > 5, `${id} drives on the map`);
+      for (const [width, height, label] of [[1440, 900, 'desktop'], [844, 390, 'phone']]) {
+        await page.setViewportSize({ width, height });
+        await page.evaluate(() => { __haul.sim.respawn(30); __haul.snap(); });
+        await page.waitForTimeout(150);
+        const fits = await page.evaluate(() => {
+          const { sim: s, view: v } = __haul, r = s.car.rig;
+          const left = r.nose - s.car.physics.size[0];
+          const xs = [left, r.nose].map(x => {
+            const p = s.truck.getWorldPoint(s.V(x, 0));
+            return (p.x - v.cam.x) * v.ppm + v.W / 2;
+          });
+          return xs[0] >= 0 && xs[1] <= v.W;
+        });
+        assert(fits, `${id} fits ${label}`);
+        await capture(`new-cars/${id}-${label}`);
+      }
+    }
     assert.deepEqual(errors, [], 'no runtime or artwork errors');
   } finally {
     await browser.close(); await new Promise(r => server.close(r));

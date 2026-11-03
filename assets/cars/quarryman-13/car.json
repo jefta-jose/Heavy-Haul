@@ -1,0 +1,221 @@
+{
+  "id": "quarryman-13",
+  "name": "Quarryman",
+  "number": 13,
+  "class": "heavy-duty",
+  "drive": "6\u00d76",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Forest green heavy-duty work truck",
+  "description": "Forest green heavy-duty work truck, carrying precast concrete wall panels on an A-frame.",
+  "stats": {
+    "power": 69,
+    "speed": 76,
+    "grip": 87,
+    "capacity": 66,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      892,
+      644
+    ],
+    "pixelsPerMetre": 180.319,
+    "axles": [
+      3.338527831,
+      -1.647081006,
+      -3.338527831
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.776,
+    "wheelPivot": [
+      627,
+      620
+    ],
+    "wheelArtRadius": 603,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1494,
+        644,
+        146
+      ],
+      [
+        595,
+        644,
+        146
+      ],
+      [
+        290,
+        644,
+        146
+      ]
+    ],
+    "nose": 4.708,
+    "exhaust": [
+      1.9521,
+      2.9171
+    ],
+    "winch": [
+      4.5583,
+      0.4
+    ]
+  },
+  "camera": {
+    "zoom": 1.65
+  },
+  "physics": {
+    "mass": 17200.0,
+    "centreOfMass": [
+      0.25,
+      0.75
+    ],
+    "size": [
+      9.406,
+      3.034
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -4.697,
+        4.708,
+        0.6,
+        0.95,
+        0.4
+      ],
+      [
+        -4.697,
+        -2.346,
+        0.9,
+        2.912,
+        0.4
+      ],
+      [
+        -2.346,
+        0.006,
+        0.9,
+        2.984,
+        0.4
+      ],
+      [
+        0.006,
+        2.357,
+        0.9,
+        2.851,
+        0.4
+      ],
+      [
+        2.357,
+        4.708,
+        0.9,
+        1.952,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 18,
+      "centreOfMass": [
+        -1.3837,
+        1.6
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.899322,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 6.93664,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 38720,
+    "openDiffGrip": 1,
+    "fuelLitres": 471,
+    "drivenAxles": [
+      0,
+      1,
+      2
+    ]
+  },
+  "load": {
+    "name": "Precast walls",
+    "massT": 18
+  }
+}

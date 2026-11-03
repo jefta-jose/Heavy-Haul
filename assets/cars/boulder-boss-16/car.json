@@ -1,0 +1,228 @@
+{
+  "id": "boulder-boss-16",
+  "name": "Boulder Boss",
+  "number": 16,
+  "class": "heavy-duty",
+  "drive": "6\u00d76",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Racing green heavy-duty work truck",
+  "description": "Racing green heavy-duty work truck, carrying painted steel bridge girders.",
+  "stats": {
+    "power": 82,
+    "speed": 85,
+    "grip": 93,
+    "capacity": 80,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v6.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1134,
+      555
+    ],
+    "pixelsPerMetre": 182.857,
+    "axles": [
+      4.254690824,
+      -2.745314645,
+      -4.254690824
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626,
+      628
+    ],
+    "wheelArtRadius": 586,
+    "farWheelOffset": [
+      0,
+      0
+    ],
+    "archCircles": [
+      [
+        1912,
+        555,
+        134
+      ],
+      [
+        632,
+        555,
+        134
+      ],
+      [
+        356,
+        555,
+        134
+      ]
+    ],
+    "nose": 5.43,
+    "exhaust": [
+      2.8875,
+      2.5867
+    ],
+    "winch": [
+      5.1766,
+      0.4
+    ]
+  },
+  "camera": {
+    "zoom": 1.79
+  },
+  "physics": {
+    "mass": 19300.0,
+    "centreOfMass": [
+      0.25,
+      0.75
+    ],
+    "size": [
+      11.468,
+      2.723
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -6.037,
+        5.43,
+        0.6,
+        0.95,
+        0.4
+      ],
+      [
+        -6.037,
+        -3.744,
+        0.9,
+        2.105,
+        0.4
+      ],
+      [
+        -3.744,
+        -1.45,
+        0.9,
+        1.991,
+        0.4
+      ],
+      [
+        -1.45,
+        0.843,
+        0.9,
+        1.887,
+        0.4
+      ],
+      [
+        0.843,
+        3.137,
+        0.9,
+        2.28,
+        0.4
+      ],
+      [
+        3.137,
+        5.43,
+        0.9,
+        2.177,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -2.4062,
+        1.6
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.959661,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 6.06956,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 43230,
+    "openDiffGrip": 1,
+    "fuelLitres": 526,
+    "drivenAxles": [
+      0,
+      1,
+      2
+    ]
+  },
+  "load": {
+    "name": "Steel girders",
+    "massT": 20
+  }
+}

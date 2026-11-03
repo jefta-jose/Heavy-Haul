@@ -1,0 +1,26 @@
+{
+  "master": {
+    "prompt": "Premium semi-realistic painted game illustration matching Swamp Scout: readable dark contours, weathered orange paint, dried mud, fine mechanical fittings, natural rich texture. One complete safety-orange Fieldmaster concrete mixer heavy-duty work truck, 8.1 m long, full concrete mixer drum and rear chute, facing right. Exactly THREE road axles: two rear tandem wheels at left, one steering wheel under cab at right; exactly three visible equal circular tires with centered steel rims. 1.17 m blocky all-terrain tires with sipes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Cab front face invisible. Chassis horizontal. Every near tire fully visible. Entire truck clear margins all sides. Soft even daylight. True transparent background, no ground, shadow, text, logo, watermark or halo. Wide PNG at least 1500 pixels long."
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit target image: remove ONLY the three road tires and rims. Fill wheel arches with opaque painted dark liner, axle and suspension from fender lip down to original hub line, including tandem arch gaps. No transparent holes above hubs. Below hub line and under chassis transparent. Keep exact canvas dimensions, position, scale, camera, concrete drum, chute and all other pixels unchanged. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background. At least 1500 px wide."
+  },
+  "wheel": {
+    "prompt": "One matching Fieldmaster road tire and weathered steel rim from reference, blocky all-terrain tread with sipes. Perfect circular silhouette, rim and hub centered, face-on, square 1536x1536 canvas with equal clear margins. Premium detailed semi-realistic painted game art, soft even light suitable for spinning. True transparent background. No axle, body, ground, shadow, text or logo. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires."
+  },
+  "revisions": [
+    {
+      "file": "wheel-v2.png",
+      "edit_of": "wheel-v1.png",
+      "prompt": "Return this identical wheel at HIGH RESOLUTION, 1536 x 1536 pixel square PNG minimum, requested export 2048x2048. Preserve circular tire, centered hub, equal margins, soft even lighting and true transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No text, ground, shadow.",
+      "rejection_reason": "wheel-v1 is 1254x1254, below required 1500px; retry also returned 1254x1254"
+    }
+  ],
+  "validation": {
+    "status": "needs_revision",
+    "wheel_resolution": "1254x1254; below required 1500px despite explicit 1536/2048 prompts",
+    "body_master_dimensions_match": true,
+    "generator": "built-in image_gen"
+  }
+}

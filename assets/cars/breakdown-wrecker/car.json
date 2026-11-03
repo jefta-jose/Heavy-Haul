@@ -3,14 +3,14 @@
   "name": "Breakdown Wrecker",
   "number": null,
   "class": "heavy-duty",
-  "drive": "6×6",
+  "drive": "6\u00d76",
   "wheelType": "mud-terrain",
   "status": "playable",
   "audio": {
     "engine": "heavy-duty"
   },
   "tagline": "Heavy-duty recovery truck that never gets stuck",
-  "description": "A red 6×6 wrecker for the heavy-duty class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "description": "A red 6\u00d76 wrecker for the heavy-duty class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
     "power": 96,
     "grip": 86,
@@ -197,7 +197,7 @@
         0
       ]
     ],
-    "torqueScale": 1.45,
+    "torqueScale": 3.0,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
