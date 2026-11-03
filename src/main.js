@@ -71,10 +71,13 @@ function setMode(key, on) {
   hud.hint(`${key}-${on}`, key === 'awd' ? (on ? '4×4 on: front axle engaged' : '4×4 off: rear axle only') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
 }
 // the pause menu also carries what the phone HUD leaves out: the truck's details and fullscreen
+// the Android app is always fullscreen (MainActivity), and its WebView refuses the browser's fullscreen
+const IN_APP = !!window.Capacitor?.isNativePlatform?.();
+if (IN_APP) for (const id of ['fsBtn', 'startFs']) document.getElementById(id).hidden = true;
 const showPause = () => {
   const E = hud.els, text = el => el.textContent.trim() || '–';
   const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Use', `${text(E.useTxt)} ${E.avgTxt.textContent}`.trim()], ['Coins', text(E.coinTxt)]];
-  const buttons = [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
+  const buttons = IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
   session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
 function pause() {

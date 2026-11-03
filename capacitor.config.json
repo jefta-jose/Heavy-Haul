@@ -1,5 +1,11 @@
 {
   "appId": "com.heavyhaul.game",
   "appName": "Heavy Haul",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "SystemBars": {
+      "hidden": true,
+      "insetsHandling": "disable"
+    }
+  }
 }

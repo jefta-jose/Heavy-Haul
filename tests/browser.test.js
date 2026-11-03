@@ -63,6 +63,15 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await otherEngine;
     await page.waitForFunction(mb => __haul.audio.status().decodedMB !== mb, scoutMB);
     assert.equal((await status()).error, null);
+    // inside the Android app the screen is already full, so no fullscreen buttons are offered
+    await page.addInitScript(() => { window.Capacitor = { isNativePlatform: () => true }; });
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForFunction(() => window.__haul?.renderer.ready);
+    assert(!await page.locator('#startFs').isVisible(), 'no fullscreen button in the garage');
+    await page.click('#startBtn');
+    assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
+    await page.click('#pauseBtn');
+    assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
 });
