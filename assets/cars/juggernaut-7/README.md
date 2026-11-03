@@ -1,6 +1,6 @@
 # Juggernaut 7
 
-Status: **planned** · class `heavy`, tier 7 of 20 · 8×4, 4 axles · 39.7 t empty · 747 kW · all-terrain tires, 1.87 m
+Status: **planned** · class `heavy`, tier 7 of 20 · 4×4, 4 axles · 39.7 t empty · 747 kW · all-terrain tires, 1.87 m
 Load: **Ship propeller**, 25 t
 
 ## Art brief

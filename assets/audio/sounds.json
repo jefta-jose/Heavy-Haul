@@ -1,5 +1,5 @@
 {
-  "about": "Recipe for the game's sound bank. tools/prepare-audio.py cuts these regions (seconds) out of the recordings in sources.json and writes assets/audio/bank/*.mp3 plus bank.json. loop: steady regions joined with crossfades and levelled, played by the seamless grain player. texture: a smooth bed built offline from many short overlapping grains of a rhythmic source (wading, mud). oneshots: the loudest separate events found in the regions. clip: one cut. Engine layers: hz is the firing frequency measured in the recording (rpm = hz * 120 / cylinders; `rpm` when it could not be measured), flatten [lo, hi] is the search band for following a rev sweep and resampling it to hz. on: part-throttle anchors by revs. pull: working hard. gears: top speed in km/h of each sound-only gear in H.",
+  "about": "Recipe for the game's sound bank. tools/prepare-audio.py cuts these regions (seconds) out of the recordings in sources.json and writes assets/audio/bank/*.mp3 plus bank.json. loop: steady regions joined with crossfades and levelled, played by the seamless grain player. texture: a smooth bed built offline from many short overlapping grains of a rhythmic source (wading, mud). oneshots: the loudest separate events found in the regions. clip: one cut. Engine layers: hz is the firing frequency measured in the recording (rpm = hz * 120 / cylinders; `rpm` when it could not be measured), flatten [lo, hi] is the search band for following a rev sweep and resampling it to hz. on: part-throttle anchors by revs. pull: working hard. gears: top speed in km/h of each sound-only gear in H, sized to how fast the class's trucks really accelerate. holdS: the least time in seconds between sound-gear shifts.",
   "engines": {
     "scout": {
       "name": "Dodge Ram 1500 V8",
@@ -7,12 +7,13 @@
       "idleRpm": 795,
       "governedRpm": 2300,
       "gears": [
-        11,
-        22,
-        36,
-        50
+        13,
+        26,
+        42,
+        60
       ],
       "shiftS": 0.3,
+      "holdS": 3,
       "revUp": 1.7,
       "revDown": 1.2,
       "stall": 0.36,
@@ -99,13 +100,13 @@
       "idleRpm": 700,
       "governedRpm": 2100,
       "gears": [
-        8,
-        15,
-        23,
-        33,
-        46
+        12,
+        22,
+        34,
+        50
       ],
       "shiftS": 0.42,
+      "holdS": 3,
       "revUp": 1.0,
       "revDown": 0.75,
       "stall": 0.32,
@@ -232,12 +233,12 @@
       "idleRpm": 856,
       "governedRpm": 2100,
       "gears": [
-        7,
-        14,
-        22,
-        33
+        15,
+        28,
+        50
       ],
       "shiftS": 0.45,
+      "holdS": 3,
       "revUp": 1.05,
       "revDown": 0.8,
       "stall": 0.3,
@@ -357,12 +358,12 @@
       "idleRpm": 885,
       "governedRpm": 2400,
       "gears": [
-        8,
-        16,
+        14,
         26,
-        38
+        48
       ],
       "shiftS": 0.4,
+      "holdS": 3,
       "revUp": 1.2,
       "revDown": 0.85,
       "stall": 0.34,
@@ -499,12 +500,12 @@
       "idleRpm": 880,
       "governedRpm": 1900,
       "gears": [
-        6,
-        12,
-        20,
-        32
+        16,
+        28,
+        44
       ],
       "shiftS": 0.55,
+      "holdS": 3.5,
       "revUp": 0.65,
       "revDown": 0.5,
       "stall": 0.28,

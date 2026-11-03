@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
-import { content } from './helpers.js';
+import { content, newSim, advance, DT } from './helpers.js';
 import { readSoundBank, resolveAudio } from '../tools/lib/content.js';
 import { engineProfile, engineMix, engineLoad, engineTelemetry, newRevs, stepRevs } from '../src/audio/engine.js';
 import { createInput } from '../src/game/input.js';
@@ -95,10 +95,58 @@ test('the sound revs flare, climb through the gears and shift, unlike the flat p
     const peaks = climb.map((s, i) => s.shifted ? [climb[i - 1].revs, climb[Math.min(i + 20, climb.length - 1)].revs] : null).filter(Boolean);
     for (const [before, after] of peaks) assert(after < before, `${cls}: the revs drop on a shift`);
     assert(Math.max(...climb.map(s => s.revs)) > 0.6 && Math.min(...climb.map(s => s.revs)) > 0.1, `${cls}: a real rev range`);
-    const down = run(pack, revs, 20, t => ({ pedal: 0, load: 0, kmh: top * (1 - t) }));
+    const down = run(pack, revs, 40, t => ({ pedal: 0, load: 0, kmh: top * (1 - t) }));
     assert(down.filter(s => s.shifted).length >= pack.gears.length - 1, `${cls}: downshifts slowing down`);
     run(pack, revs, 2, { pedal: 0, load: 0, kmh: 0 });
     assert(revs.revs < 0.02 && revs.gear === 0, `${cls}: back to idle in first`);
+  }
+});
+
+test('sound gears hold between shifts, and a bump or the gear lever cannot flip them', () => {
+  for (const cls of CLASSES) {
+    const pack = bank.engines[cls], revs = newRevs();
+    assert(pack.holdS >= 2.5, `${cls}: a hold`);
+    // far faster than any truck: the hold still spaces the shifts out
+    const log = run(pack, revs, 20, t => ({ pedal: 1, load: 0.8, kmh: pack.gears.at(-1) * Math.min(1, t * 4) }));
+    let last = -Infinity;
+    log.forEach((s, i) => { if (s.shifted) { assert(i / 60 - last >= pack.holdS - 0.02, `${cls}: shifts ${i / 60 - last} s apart`); last = i / 60; } });
+    // a two-tenths-of-a-second dip in speed over a bump does not downshift
+    const cruise = newRevs(), mid = pack.gears[1] * 0.8;
+    run(pack, cruise, 12, { pedal: 0.5, load: 0.4, kmh: mid });
+    const held = cruise.gear;
+    run(pack, cruise, 0.2, { pedal: 0.5, load: 0.4, kmh: 1 });
+    run(pack, cruise, 1, { pedal: 0.5, load: 0.4, kmh: mid });
+    assert.equal(cruise.gear, held, `${cls}: the bump leaves the gear alone`);
+    // braking hard to a stop is back in first straight away, with no downshifts during the pull-away
+    const stop = newRevs();
+    run(pack, stop, 20, { pedal: 1, load: 0.5, kmh: pack.gears.at(-1) * 0.9 });
+    assert(stop.gear > 0, `${cls}: up the gears`);
+    run(pack, stop, 1.5, { pedal: 0, load: 0, kmh: 0 });
+    assert.equal(stop.gear, 0, `${cls}: first after a stop`);
+    // H after L lands in the gear that fits at once, with no sound-gear shift
+    const lever = newRevs(), kmh = pack.gears[1] * 0.8;
+    run(pack, lever, 3, { pedal: 1, load: 0.5, kmh, tops: [20] });
+    const back = run(pack, lever, 0.1, { pedal: 1, load: 0.5, kmh });
+    assert(lever.gear >= 1 && back.every(s => !s.shifted), `${cls}: lands in gear ${lever.gear}`);
+  }
+});
+
+test('on a real truck at full pedal, gears are spaced out and the revs do not sit on the limiter', () => {
+  for (const id of ['swamp-scout-4', 'interstate-1', 'forester-1', 'mudlark-1', 'prime-mover-1']) {
+    const car = content.cars.find(c => c.id === id), pack = bank.engines[car.audio.engine];
+    const s = newSim(car); s.init(40); Object.assign(s.ctl, { gear: 'H', awd: true, diff: true, gas: 0, brake: 0 }); advance(s, 1.5);
+    s.ctl.gas = 1;
+    const v = s.active, revs = newRevs();
+    let shifts = 0, pinned = 0, last = -Infinity, steps = 0;
+    for (let t = 0; t < 25; t += 2 * DT) {
+      s.step(DT); s.step(DT); steps++;
+      const load = engineLoad(v.st.throttle, engineTelemetry(v).load);
+      stepRevs(revs, pack, { pedal: v.st.throttle, load, kmh: v.st.speed * 3.6, slip: v.st.slip, tops: pack.gears }, 2 * DT);
+      if (revs.revs >= 1) pinned++;
+      if (revs.shifted) { assert(t - last >= pack.holdS - 0.05, `${id}: shifts ${(t - last).toFixed(1)} s apart`); last = t; shifts++; }
+    }
+    assert(shifts >= 1, `${id}: it does shift`);
+    assert(pinned / steps < 0.12, `${id}: on the limiter ${(100 * pinned / steps).toFixed(0)}% of the time`);
   }
 });
 

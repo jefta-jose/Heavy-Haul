@@ -27,10 +27,10 @@ function wav(file, samples, sr) {
 // the drive each engine plays: [seconds, engine state, pedal, load, km/h from, km/h to, wheel slip m/s, gear]
 export const DRIVE = [
   [2.2, 'cranking', 0, 0, 0, 0, 0, 'H'], [3, 'on', 0, 0, 0, 0, 0, 'H'],
-  [14, 'on', 1, 0.8, 0, 40, 0, 'H'], [5, 'on', 0.5, 0.35, 40, 42, 0, 'H'], [4, 'on', 0, 0, 42, 22, 0, 'H'], [3, 'on', 0, 0, 22, 0, 0, 'H'], [2, 'on', 0, 0, 0, 0, 0, 'H'],
+  [4, 'on', 1, 0.8, 0, 24, 0, 'H'], [10, 'on', 1, 0.8, 24, 40, 0, 'H'], [5, 'on', 0.5, 0.35, 40, 42, 0, 'H'], [4, 'on', 0, 0, 42, 22, 0, 'H'], [3, 'on', 0, 0, 22, 0, 0, 'H'], [2, 'on', 0, 0, 0, 0, 0, 'H'],
   [5, 'on', 1, 1, 2, 6, 0, 'L'], [5, 'on', 1, 0.5, 2, 3, 6, 'L'], [2.5, 'on', 0, 0, 0, 0, 0, 'H'], [4, 'off', 0, 0, 0, 0, 0, 'H'],
 ];
-const PHASES = 'start / idle / pull away / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
+const PHASES = 'start / idle / pull away, as fast as real trucks do / climb / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
 
 export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'turbo', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');

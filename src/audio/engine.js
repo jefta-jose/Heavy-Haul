@@ -45,18 +45,29 @@ const gearTopKmh = (car, gear) => {
   return (dc.governedRpm ?? 2300) * 2 * Math.PI / 60 / ratio * (car.rig?.radius ?? 0.8) * 3.6;
 };
 
-export const newRevs = () => ({ revs: 0, gear: 0, shiftT: 0, boost: 0, shifted: false, chuff: false });
+export const newRevs = () => ({ revs: 0, gear: 0, shiftT: 0, holdT: 0, kmhAvg: 0, gears: 0, boost: 0, shifted: false, chuff: false });
 
 // One step of the sound's revs. revs is 0 at idle and 1 at the governor. i = { pedal, load, kmh, slip, tops },
 // tops = the top speed of each gear in km/h. Sets s.shifted / s.chuff for one step when they happen.
 export function stepRevs(s, pack, { pedal = 0, load = 0, kmh = 0, slip = 0, tops = pack.gears }, dt) {
   s.shifted = s.chuff = false;
-  s.gear = Math.min(s.gear, tops.length - 1);
   const wheel = g => Math.abs(kmh) / tops[g];
   // a light pedal shifts early; full pedal holds the gear near the top
   const upAt = 0.62 + 0.33 * pedal;
-  if (s.shiftT <= 0 && s.gear < tops.length - 1 && wheel(s.gear) > upAt) { s.gear++; s.shiftT = pack.shiftS; s.shifted = true; }
-  else if (s.shiftT <= 0 && s.gear > 0 && wheel(s.gear - 1) < 0.55) { s.gear--; s.shiftT = pack.shiftS * 0.6; s.shifted = true; }
+  // a gear is chosen from smoothed speed, so a bump can't flip it, and then held for holdS
+  s.kmhAvg += (Math.abs(kmh) - s.kmhAvg) * Math.min(1, dt / 0.5);
+  s.holdT = Math.max(0, s.holdT - dt);
+  const chosen = g => s.kmhAvg / tops[g];
+  if (s.gears !== tops.length) {
+    // the gear lever moved between H and L or R: land in the gear that fits, without a sound-gear shift
+    s.gears = tops.length; s.gear = 0;
+    while (s.gear < tops.length - 1 && wheel(s.gear) > upAt) s.gear++;
+  } else if (s.kmhAvg < 3) {
+    s.gear = 0;   // stopped: back in first, ready to pull away, however hard it braked
+  } else if (s.shiftT <= 0 && s.holdT <= 0) {
+    if (pedal > 0.05 && s.gear < tops.length - 1 && chosen(s.gear) > upAt) { s.gear++; s.shiftT = pack.shiftS; s.holdT = pack.holdS; s.shifted = true; }
+    else if (s.gear > 0 && chosen(s.gear - 1) < 0.45) { s.gear--; s.shiftT = pack.shiftS * 0.6; s.holdT = pack.holdS; s.shifted = true; }
+  }
   const shifting = s.shiftT > 0;
   s.shiftT = Math.max(0, s.shiftT - dt);
   // the converter holds it at the stall until the road speed takes over; spinning wheels let it race

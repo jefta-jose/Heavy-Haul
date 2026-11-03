@@ -1,5 +1,7 @@
 # Sound: real recordings, one engine per truck class
 
+**To tune anything, start with [SOUND-ENGINE.md](SOUND-ENGINE.md)**: how a sound gets from recording to speakers, what the gas and H / L / R do, and where to change each thing.
+
 Everything the game plays comes from field recordings on Freesound, CC0 except for one CC BY 4.0
 recording (the Dodge Ram, credited in the game's sound panel). There is no engine synthesis.
 
@@ -37,8 +39,8 @@ in `car.json` picks another, and `crankS`, `airBrakes` or `backupAlarm` there ov
   pull-away becomes a steady layer instead of revving by itself. Its value is the search band in Hz.
 - **Sound-only revs (`stepRevs`).** The physics rpm stays near 1350 at most speeds in H, so the voice has its
   own revs: converter stall from rest, a climb with road speed through the class's `gears` (top km/h of each),
-  a dip and clunk on each shift, racing when the wheels spin. L and R have one gear. `stall`, `revUp`,
-  `revDown` and `shiftS` give a class its weight. None of this touches the physics; the rev needle shows it.
+  a dip and clunk on each shift with at least `holdS` seconds between them, racing when the wheels spin. L and R
+  have one gear. `stall`, `revUp`, `revDown` and `shiftS` give a class its weight. None of this touches the physics; the rev needle shows it.
 - **Turbo.** Boost lags the load, brings in the `turbo` bed scaled by the class's `turbo`, and lifting off
   full boost chuffs once. Scouts have none.
 

@@ -1,6 +1,6 @@
 # Bulwark 6
 
-Status: **planned** · class `heavy`, tier 6 of 20 · 8×4, 4 axles · 36.1 t empty · 689 kW · all-terrain tires, 1.75 m
+Status: **planned** · class `heavy`, tier 6 of 20 · 4×4, 4 axles · 36.1 t empty · 689 kW · all-terrain tires, 1.75 m
 Load: **Wind turbine blade**, 22 t
 
 ## Art brief

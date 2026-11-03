@@ -1,6 +1,6 @@
 # Atlas 8
 
-Status: **planned** · class `heavy`, tier 8 of 20 · 8×4, 4 axles · 43.3 t empty · 805 kW · all-terrain tires, 1.92 m
+Status: **planned** · class `heavy`, tier 8 of 20 · 4×4, 4 axles · 43.3 t empty · 805 kW · all-terrain tires, 1.92 m
 Load: **Steam locomotive**, 70 t
 
 ## Art brief

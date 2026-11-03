@@ -284,7 +284,7 @@ def main():
         print(cls)
         cyl, pitch = e['cylinders'], e.get('pitch', 1)
         layer = lambda role, spec: engine_layer(cls, role, spec, cyl, pitch, clips, sources)
-        pack = {k: e[k] for k in ('name', 'idleRpm', 'governedRpm', 'gears', 'shiftS', 'revUp', 'revDown', 'stall', 'turbo', 'crankS', 'airBrakes', 'cutoff') if k in e}
+        pack = {k: e[k] for k in ('name', 'idleRpm', 'governedRpm', 'gears', 'shiftS', 'holdS', 'revUp', 'revDown', 'stall', 'turbo', 'crankS', 'airBrakes', 'cutoff') if k in e}
         pack['pitch'] = pitch
         pack['idle'] = layer('idle', e['idle'])
         pack['on'] = sorted((layer(f'on{i + 1}', spec) for i, spec in enumerate(e['on'])), key=lambda l: l['rpm'])

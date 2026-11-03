@@ -1000,12 +1000,13 @@
       "idleRpm": 795,
       "governedRpm": 2300,
       "gears": [
-        11,
-        22,
-        36,
-        50
+        13,
+        26,
+        42,
+        60
       ],
       "shiftS": 0.3,
+      "holdS": 3,
       "revUp": 1.7,
       "revDown": 1.2,
       "stall": 0.36,
@@ -1041,13 +1042,13 @@
       "idleRpm": 700,
       "governedRpm": 2100,
       "gears": [
-        8,
-        15,
-        23,
-        33,
-        46
+        12,
+        22,
+        34,
+        50
       ],
       "shiftS": 0.42,
+      "holdS": 3,
       "revUp": 1.0,
       "revDown": 0.75,
       "stall": 0.32,
@@ -1096,12 +1097,12 @@
       "idleRpm": 856,
       "governedRpm": 2100,
       "gears": [
-        7,
-        14,
-        22,
-        33
+        15,
+        28,
+        50
       ],
       "shiftS": 0.45,
+      "holdS": 3,
       "revUp": 1.05,
       "revDown": 0.8,
       "stall": 0.3,
@@ -1149,12 +1150,12 @@
       "idleRpm": 885,
       "governedRpm": 2400,
       "gears": [
-        8,
-        16,
+        14,
         26,
-        38
+        48
       ],
       "shiftS": 0.4,
+      "holdS": 3,
       "revUp": 1.2,
       "revDown": 0.85,
       "stall": 0.34,
@@ -1202,12 +1203,12 @@
       "idleRpm": 880,
       "governedRpm": 1900,
       "gears": [
-        6,
-        12,
-        20,
-        32
+        16,
+        28,
+        44
       ],
       "shiftS": 0.55,
+      "holdS": 3.5,
       "revUp": 0.65,
       "revDown": 0.5,
       "stall": 0.28,

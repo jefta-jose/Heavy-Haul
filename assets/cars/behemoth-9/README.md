@@ -1,6 +1,6 @@
 # Behemoth 9
 
-Status: **planned** · class `heavy`, tier 9 of 20 · 8×4, 4 axles · 47 t empty · 863 kW · all-terrain tires, 2.03 m
+Status: **planned** · class `heavy`, tier 9 of 20 · 4×4, 4 axles · 47 t empty · 863 kW · all-terrain tires, 2.03 m
 Load: **Diesel locomotive**, 90 t
 
 ## Art brief
