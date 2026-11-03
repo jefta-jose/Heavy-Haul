@@ -1,6 +1,6 @@
 # Autobahn 19
 
-Status: **planned** · class `highway`, tier 19 of 20 · 6×4, 3 axles · 15.5 t empty · 504 kW · chained tires, 1.15 m
+Status: **planned** · class `highway`, tier 19 of 20 · 6×6, 3 axles · 15.5 t empty · 504 kW · chained tires, 1.15 m
 Load: **Campaign float**, 10 t
 
 ## Art brief

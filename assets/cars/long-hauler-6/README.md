@@ -1,6 +1,6 @@
 # Long Hauler 6
 
-Status: **planned** · class `highway`, tier 6 of 20 · 4×2, 2 axles · 9.1 t empty · 298 kW · chained tires, 1.04 m
+Status: **planned** · class `highway`, tier 6 of 20 · 8×8, 2 axles · 9.1 t empty · 298 kW · chained tires, 1.04 m
 Load: **Steel coils**, 14 t
 
 ## Art brief

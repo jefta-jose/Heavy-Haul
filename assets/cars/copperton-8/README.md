@@ -1,6 +1,6 @@
 # Copperton 8
 
-Status: **planned** · class `heavy-duty`, tier 8 of 20 · 6×4, 3 axles · 14 t empty · 341 kW · mud-terrain tires, 1.22 m
+Status: **planned** · class `heavy-duty`, tier 8 of 20 · 6×6, 3 axles · 14 t empty · 341 kW · mud-terrain tires, 1.22 m
 Load: **Utility poles**, 12 t
 
 ## Art brief

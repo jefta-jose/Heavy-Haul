@@ -1,6 +1,6 @@
 # Rangeline 10
 
-Status: **planned** · class `heavy-duty`, tier 10 of 20 · 6×4, 3 axles · 15.3 t empty · 364 kW · mud-terrain tires, 1.23 m
+Status: **planned** · class `heavy-duty`, tier 10 of 20 · 6×6, 3 axles · 15.3 t empty · 364 kW · mud-terrain tires, 1.23 m
 Load: **Broken-down truck**, 12 t
 
 ## Art brief

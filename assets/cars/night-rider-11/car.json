@@ -3,7 +3,7 @@
   "name": "Night Rider",
   "number": 11,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "10×10",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Cobalt blue highway tractor with its semi-trailer",

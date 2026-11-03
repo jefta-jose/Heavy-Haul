@@ -42,6 +42,7 @@ const renderer = createRenderer({
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); }
+    else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
   },
 });
 const garage = createGarage({ content, onStart: (selection, fullscreen) => { if (fullscreen) goFullscreen(); startRun(selection); } });
@@ -84,8 +85,6 @@ function drive(v) {
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
   sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
-  // the 4×4 switch exists on all-wheel-drive vehicles (4×4, 6×6, 10×10...), not on a 4×2 or 6×4
-  { const [w, d] = v.car.drive.split('×').map(Number); hud.els.awdBtn.hidden = !(w > 0 && w === d); }
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
 }
 function switchVehicle() {

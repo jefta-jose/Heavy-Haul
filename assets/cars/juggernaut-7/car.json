@@ -3,7 +3,7 @@
   "name": "Juggernaut",
   "number": 7,
   "class": "heavy",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Ship propeller heavy hauler",

@@ -3,7 +3,7 @@
   "name": "Hercules",
   "number": 14,
   "class": "heavy",
-  "drive": "8×8",
+  "drive": "16×16",
   "wheelType": "giant",
   "status": "playable",
   "tagline": "Signal red heavy-haul prime mover with a multi-axle lowbed",

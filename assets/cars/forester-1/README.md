@@ -1,6 +1,6 @@
 # Forester 1
 
-Status: **planned** · class `heavy-duty`, tier 1 of 20 · 6×4, 3 axles · 10 t empty · 260 kW · all-terrain tires, 1.07 m
+Status: **planned** · class `heavy-duty`, tier 1 of 20 · 6×6, 3 axles · 10 t empty · 260 kW · all-terrain tires, 1.07 m
 Load: **Gravel**, 8 t
 
 ## Art brief

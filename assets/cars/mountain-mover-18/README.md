@@ -1,6 +1,6 @@
 # Mountain Mover 18
 
-Status: **planned** · class `heavy`, tier 18 of 20 · 10×10, 5 axles · 81.9 t empty · 1384 kW · giant tires, 2.96 m
+Status: **planned** · class `heavy`, tier 18 of 20 · 20×20, 5 axles · 81.9 t empty · 1384 kW · giant tires, 2.96 m
 Load: **Submarine**, 120 t
 
 ## Art brief

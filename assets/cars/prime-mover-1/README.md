@@ -1,6 +1,6 @@
 # Prime Mover 1
 
-Status: **planned** · class `heavy`, tier 1 of 20 · 6×4, 3 axles · 20 t empty · 400 kW · road tires, 1.2 m
+Status: **planned** · class `heavy`, tier 1 of 20 · 12×12, 3 axles · 20 t empty · 400 kW · road tires, 1.2 m
 Load: **Excavator**, 35 t
 
 ## Art brief

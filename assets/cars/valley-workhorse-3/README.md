@@ -1,6 +1,6 @@
 # Valley Workhorse 3
 
-Status: **planned** · class `heavy-duty`, tier 3 of 20 · 6×4, 3 axles · 11 t empty · 283 kW · all-terrain tires, 1.12 m
+Status: **planned** · class `heavy-duty`, tier 3 of 20 · 6×6, 3 axles · 11 t empty · 283 kW · all-terrain tires, 1.12 m
 Load: **Concrete blocks**, 10 t
 
 ## Art brief

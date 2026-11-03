@@ -3,7 +3,7 @@
   "name": "Coastline",
   "number": 12,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "10×10",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Chrome silver highway tractor with its semi-trailer",

@@ -1,6 +1,6 @@
 # Cedar Hauler 7
 
-Status: **planned** · class `heavy-duty`, tier 7 of 20 · 6×4, 3 axles · 13.4 t empty · 329 kW · mud-terrain tires, 1.19 m
+Status: **planned** · class `heavy-duty`, tier 7 of 20 · 10×10, 3 axles · 13.4 t empty · 329 kW · mud-terrain tires, 1.19 m
 Load: **Long logs**, 16 t
 
 ## Art brief

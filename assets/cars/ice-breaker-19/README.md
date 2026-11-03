@@ -1,6 +1,6 @@
 # Ice Breaker 19
 
-Status: **playable** · class `offroad`, tier 19 of 20 · 8×8, 8 axles · 23.1 t empty · 543 kW · spiked tires, 2 m
+Status: **playable** · class `offroad`, tier 19 of 20 · 16×16, 8 axles · 23.1 t empty · 543 kW · spiked tires, 2 m
 Load: **Orca aquarium**, 20 t
 
 ## Art brief

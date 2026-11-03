@@ -3,7 +3,7 @@
   "name": "Long Hauler",
   "number": 6,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Cobalt blue highway tractor with its semi-trailer",

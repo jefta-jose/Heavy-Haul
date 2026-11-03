@@ -1,6 +1,6 @@
 # Haulmaster 2
 
-Status: **planned** · class `heavy-duty`, tier 2 of 20 · 6×4, 3 axles · 10.5 t empty · 271 kW · all-terrain tires, 1.08 m
+Status: **planned** · class `heavy-duty`, tier 2 of 20 · 6×6, 3 axles · 10.5 t empty · 271 kW · all-terrain tires, 1.08 m
 Load: **Medium logs**, 10 t
 
 ## Art brief

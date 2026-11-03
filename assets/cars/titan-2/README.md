@@ -1,6 +1,6 @@
 # Titan 2
 
-Status: **planned** · class `heavy`, tier 2 of 20 · 6×4, 3 axles · 22.7 t empty · 457 kW · chained tires, 1.31 m
+Status: **planned** · class `heavy`, tier 2 of 20 · 14×14, 3 axles · 22.7 t empty · 457 kW · chained tires, 1.31 m
 Load: **Mining dump body**, 45 t
 
 ## Art brief

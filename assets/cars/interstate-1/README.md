@@ -1,6 +1,6 @@
 # Interstate 1
 
-Status: **planned** · class `highway`, tier 1 of 20 · 4×2, 2 axles · 7 t empty · 220 kW · road tires, 1 m
+Status: **planned** · class `highway`, tier 1 of 20 · 8×8, 2 axles · 7 t empty · 220 kW · road tires, 1 m
 Load: **Box freight**, 6 t
 
 ## Art brief

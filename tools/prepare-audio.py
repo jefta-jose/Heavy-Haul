@@ -250,7 +250,7 @@ def engine_layer(cls, role, spec, cylinders, pitch, clips, sources):
             y, med, lo, hi = flatten(y, hz, *spec['flatten'])
             print(f'  {cls}.{role} {a}-{b}: firing {lo:.0f}-{hi:.0f} Hz (median {med:.0f}), flattened to {hz}')
         parts.append(level(y, spec.get('leveling', 0.65)))
-    y = to_level(join(parts, 0.4), LEVEL['sub' if role == 'sub' else 'engine'])
+    y = to_level(join(parts, 0.4), LEVEL['sub' if role == 'sub' else 'engine'] * spec.get('gain', 1))
     name = f'engine-{cls}-{role}'
     clips[name] = {**encode(name, y, 128), 'kind': 'loop', 'sources': [spec['source']]}
     # the class's own pitch moves every layer together, keeping their rpm labels true to what plays
@@ -284,7 +284,7 @@ def main():
         print(cls)
         cyl, pitch = e['cylinders'], e.get('pitch', 1)
         layer = lambda role, spec: engine_layer(cls, role, spec, cyl, pitch, clips, sources)
-        pack = {k: e[k] for k in ('name', 'idleRpm', 'governedRpm', 'gears', 'shiftS', 'holdS', 'revUp', 'revDown', 'stall', 'turbo', 'crankS', 'airBrakes', 'cutoff') if k in e}
+        pack = {k: e[k] for k in ('name', 'idleRpm', 'governedRpm', 'gears', 'shiftS', 'holdS', 'grain', 'fade', 'revUp', 'revDown', 'stall', 'crankS', 'airBrakes', 'cutoff') if k in e}
         pack['pitch'] = pitch
         pack['idle'] = layer('idle', e['idle'])
         pack['on'] = sorted((layer(f'on{i + 1}', spec) for i, spec in enumerate(e['on'])), key=lambda l: l['rpm'])

@@ -8,6 +8,7 @@ import { createHash } from 'node:crypto';
 import { content, newSim, advance, DT } from './helpers.js';
 import { readSoundBank, resolveAudio } from '../tools/lib/content.js';
 import { engineProfile, engineMix, engineLoad, engineTelemetry, newRevs, stepRevs } from '../src/audio/engine.js';
+import { HIT_SOUNDS } from '../src/audio/vehicle-audio.js';
 import { createInput } from '../src/game/input.js';
 
 const bank = readSoundBank(), recipe = JSON.parse(fs.readFileSync(new URL('../assets/audio/sounds.json', import.meta.url)));
@@ -77,7 +78,7 @@ function run(pack, revs, seconds, input) {
   for (let t = 0; t < seconds; t += 1 / 60) {
     const i = typeof input === 'function' ? input(t / seconds) : input;
     stepRevs(revs, pack, i, 1 / 60);
-    log.push({ revs: revs.revs, gear: revs.gear, shifted: revs.shifted, chuff: revs.chuff });
+    log.push({ revs: revs.revs, gear: revs.gear, shifted: revs.shifted });
   }
   return log;
 }
@@ -85,9 +86,9 @@ function run(pack, revs, seconds, input) {
 test('the sound revs flare, climb through the gears and shift, unlike the flat physics rpm', () => {
   for (const cls of CLASSES) {
     const pack = bank.engines[cls], revs = newRevs(), top = pack.gears.at(-1);
-    const launch = run(pack, revs, 1.5, { pedal: 1, load: 0.8, kmh: 0 });
+    const launch = run(pack, revs, 1.5, { pedal: 1, kmh: 0 });
     assert(Math.abs(launch.at(-1).revs - pack.stall) < 0.05, `${cls}: full pedal at rest holds the converter stall`);
-    const climb = run(pack, revs, 25, t => ({ pedal: 1, load: 0.8, kmh: top * 0.98 * t }));
+    const climb = run(pack, revs, 25, t => ({ pedal: 1, kmh: top * 0.98 * t }));
     const shifts = climb.filter(s => s.shifted).length;
     assert.equal(shifts, pack.gears.length - 1, `${cls}: one shift per gear on the way up`);
     assert.equal(revs.gear, pack.gears.length - 1);
@@ -95,9 +96,9 @@ test('the sound revs flare, climb through the gears and shift, unlike the flat p
     const peaks = climb.map((s, i) => s.shifted ? [climb[i - 1].revs, climb[Math.min(i + 20, climb.length - 1)].revs] : null).filter(Boolean);
     for (const [before, after] of peaks) assert(after < before, `${cls}: the revs drop on a shift`);
     assert(Math.max(...climb.map(s => s.revs)) > 0.6 && Math.min(...climb.map(s => s.revs)) > 0.1, `${cls}: a real rev range`);
-    const down = run(pack, revs, 40, t => ({ pedal: 0, load: 0, kmh: top * (1 - t) }));
+    const down = run(pack, revs, 40, t => ({ pedal: 0, kmh: top * (1 - t) }));
     assert(down.filter(s => s.shifted).length >= pack.gears.length - 1, `${cls}: downshifts slowing down`);
-    run(pack, revs, 2, { pedal: 0, load: 0, kmh: 0 });
+    run(pack, revs, 2, { pedal: 0, kmh: 0 });
     assert(revs.revs < 0.02 && revs.gear === 0, `${cls}: back to idle in first`);
   }
 });
@@ -107,26 +108,26 @@ test('sound gears hold between shifts, and a bump or the gear lever cannot flip 
     const pack = bank.engines[cls], revs = newRevs();
     assert(pack.holdS >= 2.5, `${cls}: a hold`);
     // far faster than any truck: the hold still spaces the shifts out
-    const log = run(pack, revs, 20, t => ({ pedal: 1, load: 0.8, kmh: pack.gears.at(-1) * Math.min(1, t * 4) }));
+    const log = run(pack, revs, 20, t => ({ pedal: 1, kmh: pack.gears.at(-1) * Math.min(1, t * 4) }));
     let last = -Infinity;
     log.forEach((s, i) => { if (s.shifted) { assert(i / 60 - last >= pack.holdS - 0.02, `${cls}: shifts ${i / 60 - last} s apart`); last = i / 60; } });
     // a two-tenths-of-a-second dip in speed over a bump does not downshift
     const cruise = newRevs(), mid = pack.gears[1] * 0.8;
-    run(pack, cruise, 12, { pedal: 0.5, load: 0.4, kmh: mid });
+    run(pack, cruise, 12, { pedal: 0.5, kmh: mid });
     const held = cruise.gear;
-    run(pack, cruise, 0.2, { pedal: 0.5, load: 0.4, kmh: 1 });
-    run(pack, cruise, 1, { pedal: 0.5, load: 0.4, kmh: mid });
+    run(pack, cruise, 0.2, { pedal: 0.5, kmh: 1 });
+    run(pack, cruise, 1, { pedal: 0.5, kmh: mid });
     assert.equal(cruise.gear, held, `${cls}: the bump leaves the gear alone`);
     // braking hard to a stop is back in first straight away, with no downshifts during the pull-away
     const stop = newRevs();
-    run(pack, stop, 20, { pedal: 1, load: 0.5, kmh: pack.gears.at(-1) * 0.9 });
+    run(pack, stop, 20, { pedal: 1, kmh: pack.gears.at(-1) * 0.9 });
     assert(stop.gear > 0, `${cls}: up the gears`);
-    run(pack, stop, 1.5, { pedal: 0, load: 0, kmh: 0 });
+    run(pack, stop, 1.5, { pedal: 0, kmh: 0 });
     assert.equal(stop.gear, 0, `${cls}: first after a stop`);
     // H after L lands in the gear that fits at once, with no sound-gear shift
     const lever = newRevs(), kmh = pack.gears[1] * 0.8;
-    run(pack, lever, 3, { pedal: 1, load: 0.5, kmh, tops: [20] });
-    const back = run(pack, lever, 0.1, { pedal: 1, load: 0.5, kmh });
+    run(pack, lever, 3, { pedal: 1, kmh, tops: [20] });
+    const back = run(pack, lever, 0.1, { pedal: 1, kmh });
     assert(lever.gear >= 1 && back.every(s => !s.shifted), `${cls}: lands in gear ${lever.gear}`);
   }
 });
@@ -140,8 +141,7 @@ test('on a real truck at full pedal, gears are spaced out and the revs do not si
     let shifts = 0, pinned = 0, last = -Infinity, steps = 0;
     for (let t = 0; t < 25; t += 2 * DT) {
       s.step(DT); s.step(DT); steps++;
-      const load = engineLoad(v.st.throttle, engineTelemetry(v).load);
-      stepRevs(revs, pack, { pedal: v.st.throttle, load, kmh: v.st.speed * 3.6, slip: v.st.slip, tops: pack.gears }, 2 * DT);
+      stepRevs(revs, pack, { pedal: v.st.throttle, kmh: v.st.speed * 3.6, slip: v.st.slip, tops: pack.gears }, 2 * DT);
       if (revs.revs >= 1) pinned++;
       if (revs.shifted) { assert(t - last >= pack.holdS - 0.05, `${id}: shifts ${(t - last).toFixed(1)} s apart`); last = t; shifts++; }
     }
@@ -153,20 +153,32 @@ test('on a real truck at full pedal, gears are spaced out and the revs do not si
 test('spinning wheels race the engine; a stuck truck with grip lugs at the stall', () => {
   for (const cls of CLASSES) {
     const pack = bank.engines[cls], lug = newRevs(), spin = newRevs();
-    run(pack, lug, 3, { pedal: 1, load: 1, kmh: 0.5, slip: 0, tops: [20] });
-    run(pack, spin, 3, { pedal: 1, load: 0.4, kmh: 0.5, slip: 6, tops: [20] });
+    run(pack, lug, 3, { pedal: 1, kmh: 0.5, slip: 0, tops: [20] });
+    run(pack, spin, 3, { pedal: 1, kmh: 0.5, slip: 6, tops: [20] });
     assert(spin.revs > 0.9, `${cls}: wheelspin ${spin.revs}`);
     assert(lug.revs < 0.5, `${cls}: lugging ${lug.revs}`);
   }
 });
 
-test('the turbo spools with load and lets go once when lifting off', () => {
-  const pack = bank.engines.highway, revs = newRevs();
-  run(pack, revs, 4, { pedal: 1, load: 1, kmh: 25, tops: [30] });
-  assert(revs.boost > 0.6, 'boost builds');
-  const lift = run(pack, revs, 2, { pedal: 0, load: 0, kmh: 25, tops: [30] });
-  assert.equal(lift.filter(s => s.chuff).length, 1, 'one chuff per lift');
-  assert(revs.boost < 0.05, 'boost falls away');
+test('a tire touching a log, a pipe or a rock is reported, and nothing else is', () => {
+  const car = content.cars.find(c => c.id === 'prime-mover-1'), probe = newSim(car);
+  probe.init(40);
+  const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };
+  for (const [kind, o] of Object.entries(targets)) {
+    assert(o, `the trail has a ${kind}`);
+    const s = newSim(car); s.init(o.x - 40); Object.assign(s.ctl, { gear: 'L', awd: true, diff: true, gas: 1, brake: 0 });
+    s.events.length = 0;
+    advance(s, 14);
+    const hit = s.events.filter(e => e.type === 'hit');
+    assert(hit.length > 0, `${kind}: reported`);
+    assert(hit.every(e => e.tires === s.active.tireData), `${kind}: from this truck's tires`);
+  }
+});
+
+test('hitting an obstacle shakes the load of every class except scouts', () => {
+  assert.equal(HIT_SOUNDS.scout, undefined);
+  for (const cls of CLASSES.filter(c => c !== 'scout')) assert(bank.effects[HIT_SOUNDS[cls].effect], `${cls}: ${HIT_SOUNDS[cls].effect}`);
+  assert.equal(HIT_SOUNDS.heavy.effect, 'cable-strain');
 });
 
 test('every recording is licensed and credited, with where to fetch it and its hash', () => {
@@ -183,7 +195,7 @@ test('the bank matches its recipe: every clip exists and comes from a listed rec
     for (const id of clip.sources) assert(sources.some(s => s.id === id), `${name}: source ${id}`);
   }
   for (const name of Object.keys(recipe.effects)) assert(bank.effects[name]?.length, `${name}: built`);
-  for (const name of ['air-release', 'air-burst', 'air-pop', 'hydraulic-brake', 'handbrake-on', 'handbrake-off', 'gear-clunk', 'hook-clank', 'creak', 'splash', 'splash-small', 'cargo-light', 'cargo-chains', 'cargo-heavy-chains', 'cargo-metal', 'rattle', 'rattle-bed', 'underbody', 'crow', 'crow-far', 'wade', 'water-churn', 'mud', 'mud-spin', 'gravel', 'dirt', 'rocks', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'turbo', 'forest', 'frogs'])
+  for (const name of ['air-release', 'air-burst', 'air-pop', 'hydraulic-brake', 'handbrake-on', 'handbrake-off', 'gear-clunk', 'hook-clank', 'splash', 'splash-small', 'cargo-light', 'cargo-chains', 'cargo-heavy-chains', 'rattle', 'rattle-bed', 'underbody', 'crow', 'crow-far', 'wade', 'water-churn', 'mud', 'mud-spin', 'gravel', 'dirt', 'rocks', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'])
     assert(bank.effects[name], `the game plays ${name}`);
 });
 
@@ -243,7 +255,7 @@ test('revs and load move the engine smoothly between its layers, always in tune'
     }
     for (const r of [-1, 0, 0.5, 1, 9, NaN]) for (const l of [-1, 0, 1, NaN]) {
       const m = engineMix(pack, r, l);
-      for (const v of [m.idle, m.coast, m.sub, m.turbo, m.turboRate, m.cutoff, m.level, m.rpm, ...m.on, ...m.pull, ...m.rates.on, ...m.rates.pull]) assert(Number.isFinite(v), `${cls}: finite`);
+      for (const v of [m.idle, m.coast, m.sub, m.cutoff, m.level, m.rpm, ...m.on, ...m.pull, ...m.rates.on, ...m.rates.pull]) assert(Number.isFinite(v), `${cls}: finite`);
     }
     // equal power: no dips or jumps in level as the revs and load sweep
     for (let r = 0; r < 1; r += 0.02) for (const l of [0, 0.5, 1]) {

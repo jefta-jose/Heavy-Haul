@@ -1,6 +1,6 @@
 # Iron Horse 16
 
-Status: **planned** · class `highway`, tier 16 of 20 · 6×4, 3 axles · 13.9 t empty · 456 kW · chained tires, 1.15 m
+Status: **planned** · class `highway`, tier 16 of 20 · 6×6, 3 axles · 13.9 t empty · 456 kW · chained tires, 1.15 m
 Load: **Wind tower section**, 25 t
 
 ## Art brief

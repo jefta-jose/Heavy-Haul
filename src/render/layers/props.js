@@ -38,7 +38,7 @@ export function createProps(scene) {
   }
   function rocks() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), img = rockImage(), { visH } = scene.sim;
-    for (const r of scene.sim.rocks) if (r.x > lo - 2 && r.x < hi + 2 && r.alive !== false) {
+    for (const r of scene.sim.rocks) if (r.x > lo - r.w && r.x < hi + r.w && r.alive !== false) {
       const w = r.w, h = r.h, gy = visH(r.x);
       // seated in the ground: a soft contact shadow behind the base
       ctx.fillStyle = 'rgba(20,15,9,0.35)'; ctx.beginPath(); ctx.ellipse(r.x + w * 0.06, gy + 0.05, w * 0.62, 0.1 + h * 0.12, 0, 0, 7); ctx.fill();
@@ -105,7 +105,7 @@ export function createProps(scene) {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), pat = bark();
     const [dx, dy] = LOG_DEPTH, len = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
     for (const l of scene.sim.logs) {
-      if (l.x < lo - 2 || l.x > hi + 2) continue;
+      if (l.x < lo - l.r * 6 || l.x > hi + l.r * 3) continue;   // the sprite's long body trails to the right
       if (crossingSprite(l)) continue;
       ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a); ctx.imageSmoothingQuality = 'medium';   // shrunk bark texture
       pat.setTransform(new DOMMatrix([l.r * 2 / 110, 0, 0, l.r * 2 / 110, 0, -l.r]));
@@ -119,7 +119,7 @@ export function createProps(scene) {
   function logEnds() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     for (const l of scene.sim.logs) {
-      if (l.x < lo - 2 || l.x > hi + 2) continue;
+      if (l.x < lo - l.r * 2 || l.x > hi + l.r * 2) continue;
       if (crossingSprite(l, true)) continue;
       const r = l.r;
       const end = scene.cache.img.logEnd;

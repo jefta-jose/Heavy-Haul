@@ -3,11 +3,11 @@
   "name": "Copperton",
   "number": 8,
   "class": "heavy-duty",
-  "drive": "6×4",
+  "drive": "6×6",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Orange crane truck with utility poles",
-  "description": "A safety orange heavy-duty 6×4 with a knuckle-boom crane behind the cab and a stack of strapped utility poles, on mud-terrain tires.",
+  "description": "A safety orange heavy-duty 6×6 with a knuckle-boom crane behind the cab and a stack of strapped utility poles, on mud-terrain tires.",
   "stats": {
     "power": 49,
     "grip": 85,

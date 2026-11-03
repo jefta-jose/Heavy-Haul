@@ -1,6 +1,6 @@
 # Road Hawk 5
 
-Status: **planned** · class `highway`, tier 5 of 20 · 4×2, 2 axles · 8.6 t empty · 283 kW · mud-terrain tires, 1.08 m
+Status: **planned** · class `highway`, tier 5 of 20 · 8×8, 2 axles · 8.6 t empty · 283 kW · mud-terrain tires, 1.08 m
 Load: **Cement tanker**, 12 t
 
 ## Art brief

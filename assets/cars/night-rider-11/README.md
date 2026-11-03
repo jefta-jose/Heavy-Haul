@@ -1,6 +1,6 @@
 # Night Rider 11
 
-Status: **planned** · class `highway`, tier 11 of 20 · 4×4, 3 axles · 11.4 t empty · 377 kW · all-terrain tires, 1.07 m
+Status: **planned** · class `highway`, tier 11 of 20 · 10×10, 3 axles · 11.4 t empty · 377 kW · all-terrain tires, 1.07 m
 Load: **Supercar carrier**, 8 t
 
 ## Art brief

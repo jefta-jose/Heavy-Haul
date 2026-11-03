@@ -187,7 +187,7 @@
     },
     "engine-offroad-on1": {
       "file": "bank/engine-offroad-on1.mp3",
-      "seconds": 11.566,
+      "seconds": 24.6,
       "kind": "loop",
       "sources": [
         "fs-438083"
@@ -195,39 +195,15 @@
     },
     "engine-offroad-on2": {
       "file": "bank/engine-offroad-on2.mp3",
-      "seconds": 39.6,
+      "seconds": 47.6,
       "kind": "loop",
       "sources": [
         "fs-160357"
       ]
     },
-    "engine-offroad-pull1": {
-      "file": "bank/engine-offroad-pull1.mp3",
-      "seconds": 3.443,
-      "kind": "loop",
-      "sources": [
-        "fs-405086"
-      ]
-    },
-    "engine-offroad-pull2": {
-      "file": "bank/engine-offroad-pull2.mp3",
-      "seconds": 4.488,
-      "kind": "loop",
-      "sources": [
-        "fs-405086"
-      ]
-    },
-    "engine-offroad-pull3": {
-      "file": "bank/engine-offroad-pull3.mp3",
-      "seconds": 2.77,
-      "kind": "loop",
-      "sources": [
-        "fs-405086"
-      ]
-    },
     "engine-offroad-coast": {
       "file": "bank/engine-offroad-coast.mp3",
-      "seconds": 12.732,
+      "seconds": 24.6,
       "kind": "loop",
       "sources": [
         "fs-438083"
@@ -505,70 +481,6 @@
         "fs-453383"
       ]
     },
-    "cargo-metal-1": {
-      "file": "bank/cargo-metal-1.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-2": {
-      "file": "bank/cargo-metal-2.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-3": {
-      "file": "bank/cargo-metal-3.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-4": {
-      "file": "bank/cargo-metal-4.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-5": {
-      "file": "bank/cargo-metal-5.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-6": {
-      "file": "bank/cargo-metal-6.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-7": {
-      "file": "bank/cargo-metal-7.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
-    "cargo-metal-8": {
-      "file": "bank/cargo-metal-8.mp3",
-      "seconds": 1.2,
-      "kind": "clip",
-      "sources": [
-        "fs-689744"
-      ]
-    },
     "rattle-1": {
       "file": "bank/rattle-1.mp3",
       "seconds": 1.2,
@@ -825,14 +737,6 @@
         "fs-826445"
       ]
     },
-    "turbo": {
-      "file": "bank/turbo.mp3",
-      "seconds": 8.0,
-      "kind": "loop",
-      "sources": [
-        "fs-443319"
-      ]
-    },
     "air-pop": {
       "file": "bank/air-pop.mp3",
       "seconds": 0.75,
@@ -921,30 +825,6 @@
         "fs-406890"
       ]
     },
-    "creak-1": {
-      "file": "bank/creak-1.mp3",
-      "seconds": 1.6,
-      "kind": "clip",
-      "sources": [
-        "fs-834362"
-      ]
-    },
-    "creak-2": {
-      "file": "bank/creak-2.mp3",
-      "seconds": 1.6,
-      "kind": "clip",
-      "sources": [
-        "fs-834362"
-      ]
-    },
-    "creak-3": {
-      "file": "bank/creak-3.mp3",
-      "seconds": 1.6,
-      "kind": "clip",
-      "sources": [
-        "fs-834362"
-      ]
-    },
     "rattle-bed": {
       "file": "bank/rattle-bed.mp3",
       "seconds": 58.5,
@@ -1010,7 +890,6 @@
       "revUp": 1.7,
       "revDown": 1.2,
       "stall": 0.36,
-      "turbo": 0,
       "crankS": 1.1,
       "airBrakes": false,
       "cutoff": 7000,
@@ -1052,7 +931,6 @@
       "revUp": 1.0,
       "revDown": 0.75,
       "stall": 0.32,
-      "turbo": 0.55,
       "crankS": 1.9,
       "airBrakes": true,
       "cutoff": 6000,
@@ -1106,7 +984,6 @@
       "revUp": 1.05,
       "revDown": 0.8,
       "stall": 0.3,
-      "turbo": 0.5,
       "crankS": 1.7,
       "airBrakes": true,
       "cutoff": 5500,
@@ -1146,9 +1023,9 @@
       "start": "engine-heavy-duty-start"
     },
     "offroad": {
-      "name": "Military diesels: truck start, military idle, Humvee running, APC pulling",
+      "name": "Military diesels: truck start, military idle, Humvee and old truck running, played close to natural speed",
       "idleRpm": 885,
-      "governedRpm": 2400,
+      "governedRpm": 1700,
       "gears": [
         14,
         26,
@@ -1156,13 +1033,17 @@
       ],
       "shiftS": 0.4,
       "holdS": 3,
+      "grain": [
+        6,
+        12
+      ],
+      "fade": 1.2,
       "revUp": 1.2,
       "revDown": 0.85,
       "stall": 0.34,
-      "turbo": 0.3,
       "crankS": 1.7,
       "airBrakes": true,
-      "cutoff": 5000,
+      "cutoff": 9000,
       "pitch": 0.97,
       "idle": {
         "clip": "engine-offroad-idle",
@@ -1171,30 +1052,16 @@
       "on": [
         {
           "clip": "engine-offroad-on1",
-          "rpm": 1670
+          "rpm": 1216
         },
         {
           "clip": "engine-offroad-on2",
-          "rpm": 2149
-        }
-      ],
-      "pull": [
-        {
-          "clip": "engine-offroad-pull1",
-          "rpm": 990
-        },
-        {
-          "clip": "engine-offroad-pull2",
-          "rpm": 1237
-        },
-        {
-          "clip": "engine-offroad-pull3",
-          "rpm": 1485
+          "rpm": 1495
         }
       ],
       "coast": {
         "clip": "engine-offroad-coast",
-        "rpm": 1670
+        "rpm": 1216
       },
       "start": "engine-offroad-start"
     },
@@ -1212,7 +1079,6 @@
       "revUp": 0.65,
       "revDown": 0.5,
       "stall": 0.28,
-      "turbo": 0.45,
       "crankS": 2.0,
       "airBrakes": true,
       "cutoff": 4800,
@@ -1298,16 +1164,6 @@
       "cargo-heavy-chains-4",
       "cargo-heavy-chains-5"
     ],
-    "cargo-metal": [
-      "cargo-metal-1",
-      "cargo-metal-2",
-      "cargo-metal-3",
-      "cargo-metal-4",
-      "cargo-metal-5",
-      "cargo-metal-6",
-      "cargo-metal-7",
-      "cargo-metal-8"
-    ],
     "rattle": [
       "rattle-1",
       "rattle-2",
@@ -1364,9 +1220,6 @@
     "frogs": [
       "frogs"
     ],
-    "turbo": [
-      "turbo"
-    ],
     "air-pop": [
       "air-pop"
     ],
@@ -1383,11 +1236,6 @@
       "hook-clank-3",
       "hook-clank-4",
       "hook-clank-5"
-    ],
-    "creak": [
-      "creak-1",
-      "creak-2",
-      "creak-3"
     ],
     "rattle-bed": [
       "rattle-bed"

@@ -1,6 +1,6 @@
 # Overlander 8
 
-Status: **planned** · class `highway`, tier 8 of 20 · 4×4, 3 axles · 10 t empty · 330 kW · mud-terrain tires, 1.04 m
+Status: **planned** · class `highway`, tier 8 of 20 · 10×10, 3 axles · 10 t empty · 330 kW · mud-terrain tires, 1.04 m
 Load: **Cattle trailer**, 9 t
 
 ## Art brief

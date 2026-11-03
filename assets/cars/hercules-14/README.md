@@ -1,6 +1,6 @@
 # Hercules 14
 
-Status: **planned** · class `heavy`, tier 14 of 20 · 8×8, 4 axles · 66.1 t empty · 1152 kW · giant tires, 2.56 m
+Status: **planned** · class `heavy`, tier 14 of 20 · 16×16, 4 axles · 66.1 t empty · 1152 kW · giant tires, 2.56 m
 Load: **Rocket stage**, 30 t
 
 ## Art brief

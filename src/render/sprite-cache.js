@@ -32,19 +32,19 @@ export function createSceneryCache(scene) {
       g.fillStyle = fog; g.fillRect(0, 0, b.width, b.height);
     }
     C.rockSource ??= alphaCrop(A.rock);
-    C.img.rock = scaled(C.rockSource, Math.min(1, 2.6 * px / C.rockSource.width));
+    C.img.rock = scaled(C.rockSource, Math.min(1, 5 * px / C.rockSource.width));
     for (const key of ['logCrossing', 'bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'pipe']) if (A[key]) {
       // Preserve full canvases for registered near faces/plank edges. Only
       // support frames and terrain overlays use their visible alpha bounds.
       const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole'].includes(key);
       if (crop) { C[`${key}Source`] ??= alphaCrop(A[key]); }
       const source = crop ? C[`${key}Source`] : A[key];
-      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 9 : 4;
+      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 9 : key === 'bridgePlank' ? 4 : 5;
       C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
     }
     if (A.logEnd) {
       C.logEndSource ??= alphaCrop(A.logEnd);
-      C.img.logEnd = scaled(C.logEndSource, Math.min(1, 1.2 * px / C.logEndSource.width));
+      C.img.logEnd = scaled(C.logEndSource, Math.min(1, 1.5 * px / C.logEndSource.width));
     }
     if (A.deepMud) { C.deepMudPat = ctx.createPattern(A.deepMud, 'repeat'); C.deepMudPat.setTransform(new DOMMatrix([0.0034, 0, 0, -0.0013, 0, 0])); }
     if (A.bridgeWood) { C.bridgePat = ctx.createPattern(A.bridgeWood, 'repeat'); C.bridgePat.setTransform(new DOMMatrix([0.002, 0, 0, -0.001, 0, 0])); }

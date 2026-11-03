@@ -3,7 +3,7 @@
   "name": "Interstate",
   "number": 1,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Burnt orange highway tractor with its semi-trailer",

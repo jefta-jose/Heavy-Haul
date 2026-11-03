@@ -1,6 +1,6 @@
 # Stonebridge 6
 
-Status: **planned** · class `heavy-duty`, tier 6 of 20 · 6×4, 3 axles · 12.8 t empty · 317 kW · all-terrain tires, 1.21 m
+Status: **planned** · class `heavy-duty`, tier 6 of 20 · 6×6, 3 axles · 12.8 t empty · 317 kW · all-terrain tires, 1.21 m
 Load: **Bricks**, 11 t
 
 ## Art brief

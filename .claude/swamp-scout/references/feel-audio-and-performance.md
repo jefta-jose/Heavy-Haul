@@ -123,15 +123,16 @@ Read [assets/audio/README.md](../../../assets/audio/README.md) for the recording
   `on` anchors, hard-working `pull` anchors, coast, an optional sub rumble, plus start and stop clips.
 - **The physics rpm cannot drive the sound.** In H it sits at idle + 600 (1350) at nearly any speed, so a
   voice following it holds one note. `stepRevs` in `src/audio/engine.js` is a sound-only rev model:
-  converter stall, class gears with real shifts, wheelspin racing the engine, turbo lag. It never feeds
+  converter stall, class gears with real shifts, wheelspin racing the engine. It never feeds
   the physics; the rev needle shows it through `st.soundRpm`. The per-frame grain atlas it replaced
   (22 kHz, 0.1-0.2 s grains) was dropped on 2026-11-03.
 - **Never play a short recording on `loop = true`**: the user hears the restart. Every bed goes
   through `loop-player.js` (random-offset grains, equal-power crossfades). Prep levels each layer
   so grains match. Rhythmic sources (wading, mud footsteps) become `texture` beds offline. A layer that
   sweeps in pitch must be `flatten`ed, or its grains rev by themselves.
-- Rock hits and bumps play the underbody thump and the load shaking (chains, metal, wood by weight),
-  not a tone. Water is low-passed and smooth. The only synthesized sounds are the back-up beeper and
+- Breaking a rock plays the underbody thump and the load shaking (chains, rattle and wood by weight; the cable straining on the heavy class), not a tone.
+  **Hitting a log, pipe or rock has no thump:** it plays the load's sound by class (`HIT_SOUNDS`), a burst of `cable-strain` on heavy, and nothing on scouts. Check a hit sound isn't tonal before using it (`underbody` is). The user rejected the ringing "dong" (a tonal creak and ringing metal
+  clips, removed 2026-11-03). There is no turbo sound either: the user rejected its hiss as a snake sound. Water is low-passed and smooth. The only synthesized sounds are the back-up beeper and
   the ignition key tick.
 - No synthesis of engines, and no piercing tonal layers over the recordings. Avoid cab-interior recordings
   in a class's layers: their muffled timbre drops out audibly against the exterior ones, and avoid tracked

@@ -3,7 +3,7 @@
   "name": "Road Hawk",
   "number": 5,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Sand beige highway tractor with its semi-trailer",

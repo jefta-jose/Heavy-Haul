@@ -3,7 +3,7 @@
   "name": "Behemoth",
   "number": 9,
   "class": "heavy",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Diesel locomotive heavy hauler",

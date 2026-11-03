@@ -1,6 +1,6 @@
 # Prairie Star 13
 
-Status: **planned** · class `highway`, tier 13 of 20 · 4×4, 3 axles · 12.4 t empty · 409 kW · all-terrain tires, 1.13 m
+Status: **planned** · class `highway`, tier 13 of 20 · 6×6, 3 axles · 12.4 t empty · 409 kW · all-terrain tires, 1.13 m
 Load: **Lumber packs**, 20 t
 
 ## Art brief

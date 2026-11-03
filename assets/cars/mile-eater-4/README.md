@@ -1,6 +1,6 @@
 # Mile Eater 4
 
-Status: **planned** · class `highway`, tier 4 of 20 · 4×2, 2 axles · 8.2 t empty · 267 kW · spiked tires, 1.01 m
+Status: **planned** · class `highway`, tier 4 of 20 · 8×8, 2 axles · 8.2 t empty · 267 kW · spiked tires, 1.01 m
 Load: **Timber stack**, 10 t
 
 ## Art brief

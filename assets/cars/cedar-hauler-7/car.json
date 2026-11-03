@@ -3,11 +3,11 @@
   "name": "Cedar Hauler",
   "number": 7,
   "class": "heavy-duty",
-  "drive": "6×4",
+  "drive": "10×10",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Log truck with a pole trailer of long cedar",
-  "description": "An olive 6×4 log truck with a loader crane behind the cab, hauling long cedar logs chained to bunks on the truck and its pole trailer.",
+  "description": "An olive 10×10 log truck with a loader crane behind the cab, hauling long cedar logs chained to bunks on the truck and its pole trailer.",
   "stats": {
     "power": 64,
     "grip": 78,

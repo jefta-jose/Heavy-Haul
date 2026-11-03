@@ -3,7 +3,7 @@
   "name": "Asphalt King",
   "number": 3,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Olive tractor on ladder chains with a pipe load",

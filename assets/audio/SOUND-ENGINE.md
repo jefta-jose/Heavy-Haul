@@ -48,7 +48,7 @@ you can tune sound freely without touching the handling. Exhaust smoke still fol
 
 | To change | Edit | Then |
 | --- | --- | --- |
-| Which recording or seconds a sound uses, class settings (`gears`, `stall`, `revUp`, `turbo`, `pitch`...) | [`sounds.json`](sounds.json) | Rebuild the bank |
+| Which recording or seconds a sound uses, class settings (`gears`, `stall`, `revUp`, `pitch`...) | [`sounds.json`](sounds.json) | Rebuild the bank |
 | How revs and gears behave, how layers blend (all classes) | [`src/audio/engine.js`](../../src/audio/engine.js) | Save |
 | When an effect plays and how loud | [`src/audio/vehicle-audio.js`](../../src/audio/vehicle-audio.js) | Save |
 | Seamless looping | [`src/audio/loop-player.js`](../../src/audio/loop-player.js) | Save |
@@ -89,7 +89,6 @@ A truck plays its class's engine, service trucks included. `tools/lib/content.js
 | `on` | Part throttle, one or more recordings at different revs | Light to medium effort |
 | `pull` | Working hard, one or more at different revs | Heavy effort |
 | `sub` | Deep rumble under everything (heavy class only) | Always while running |
-| `turbo` | Air hiss, shared by all classes except scouts | Grows with boost |
 | `stop` | Recorded shutdown (highway only) | Engine off; the others wind down in pitch over 1.4 s |
 
 A layer's **rpm** is what it was recorded at. The game plays it at `current revs ÷ layer rpm`, so every layer stays
@@ -100,15 +99,15 @@ in tune with the others. That speed is limited to 0.62–1.55, because beyond th
 | Setting | Meaning | scout | highway | heavy-duty | offroad | heavy |
 | --- | --- | --- | --- | --- | --- | --- |
 | `idleRpm` | Revs at idle | 795 | 700 | 856 | 885 | 880 |
-| `governedRpm` | Revs at the top | 2300 | 2100 | 2100 | 2400 | 1900 |
+| `governedRpm` | Revs at the top | 2300 | 2100 | 2100 | 1700 | 1900 |
 | `gears` | Top km/h of each sound gear in H | 13, 26, 42, 60 | 12, 22, 34, 50 | 15, 28, 50 | 14, 26, 48 | 16, 28, 44 |
 | `shiftS` | Seconds a shift takes | 0.30 | 0.42 | 0.45 | 0.40 | 0.55 |
+| `grain`, `fade` | Optional. Seconds each piece of a driving layer plays and blends; longer hides looping. Offroad 6–12 and 1.2; the others use the default 2.5–5 and 0.5 | | | | | |
 | `holdS` | Least seconds between shifts | 3 | 3 | 3 | 3 | 3.5 |
 | `revUp` | Rev climb speed (share of range per second) | 1.7 | 1.0 | 1.05 | 1.2 | 0.65 |
 | `revDown` | Rev fall speed | 1.2 | 0.75 | 0.8 | 0.85 | 0.5 |
 | `stall` | Revs reached at full pedal from rest (0 idle, 1 top) | 0.36 | 0.32 | 0.30 | 0.34 | 0.28 |
-| `turbo` | Turbo loudness | 0 | 0.55 | 0.50 | 0.30 | 0.45 |
-| `cutoff` | Filter brightness in Hz (see [the mix](#the-mix)) | 7000 | 6000 | 5500 | 5000 | 4800 |
+| `cutoff` | Filter brightness in Hz (see [the mix](#the-mix)) | 7000 | 6000 | 5500 | 9000 | 4800 |
 | `pitch` | Lowers or raises the whole engine | 1 | 1 | 1 | 0.97 | 0.86 |
 | `crankS` | Starter time; **also sets the physics crank time** | 1.1 | 1.9 | 1.7 | 1.7 | 2.0 |
 | `airBrakes` | Air hiss, not a lever ratchet | no | yes | yes | yes | yes |
@@ -157,10 +156,11 @@ because the firing frequency couldn't be measured reliably.
 | --- | --- | --- |
 | start | | Diesel truck on dirt (`fs-406885`) |
 | idle | 912 | Military vehicle humming (`fs-182793`) |
-| on | 1670 | Old truck, with added lows (`fs-438083`) |
-| on | ~2149 | Humvee in a convoy (`fs-160357`) |
-| pull | 990, 1237, 1485 | APC revving hard, with added lows (`fs-405086`) |
-| coast | 1670 | Old truck, with added lows (`fs-438083`) |
+| on | ~1216 | Old truck, with added lows (`fs-438083`) |
+| on | ~1495 | Humvee in a convoy (`fs-160357`), the main driving sound, rumble cut below 130 Hz, `gain` 1.6 |
+| coast | ~1216 | Old truck, muffled (`fs-438083`) |
+
+Offroad has no `pull` layers: the short hard-revving APC clips looped and sounded strained. Its layers play close to natural speed.
 
 **Heavy: earthmovers, pitched down to 0.86**
 
@@ -232,9 +232,6 @@ So there are three things that can set the revs:
 - **Rolling:** `wheel` wins, so revs climb with speed and drop at each shift.
 - **Wheelspin:** `race` adds on top, so the engine screams toward the top without the truck moving.
 
-**Turbo:** boost chases `load × (0.25 + 0.75 × revs)`, taking about 0.9 s to build and 0.3 s to fall, and zero while shifting.
-Loudness is `turbo × boost^1.4`. Lifting off from a boost over 0.45 plays one air chuff.
-
 ## The mix
 
 `engineMix()` turns revs and load into a volume for each layer:
@@ -255,9 +252,8 @@ plays alone.
 | Volume | `0.78 + 0.42 × load` | About 3.7 dB louder from idle to full effort |
 | Brightness | `cutoff × (0.42 + 0.40 × load + 0.18 × revs)` | Opens up as you push; the main "muffled off-gas, open on-gas" feeling |
 | Sub | `0.55 + 0.45 × load` | Heavy class only |
-| Turbo pitch | `0.8 + 0.65 × revs` | Rises with revs |
 
-The turbo and the start and stop clips skip the brightness filter.
+The start and stop clips skip the brightness filter.
 
 ## What the gas pedal does
 
@@ -274,7 +270,7 @@ More pedal changes six things at once:
 need the truck to actually be working: demand over about 0.25 to start and over about 0.77 to fully arrive.
 
 **Lifting off** drops load to 0 right away, whatever the revs. You get `coast` at speed and `idle` when slow, the
-filter closes, the volume falls, and a boosted turbo chuffs.
+filter closes and the volume falls.
 
 ## What H, L and R do
 
@@ -350,12 +346,16 @@ Only the driven truck makes these sounds, apart from the engine, which every tru
 | Sound | Plays when | Volume |
 | --- | --- | --- |
 | `gear-clunk` | Sound-gear shift (0.38); 4×4 and DIFF (0.40 on, 0.32 off); H, L, R button | Lower pitch over 30 t |
-| `air-pop` | Each shift on air-brake trucks (0.14); turbo chuff | Chuff: `min(0.32, 0.1 + boost × 0.3)` |
-| `creak` | Body rocks sharply (over 3.5 rad/s² change) below 7 m/s, every 1.6–4.6 s at most | `min(0.55, 0.16 + change × 0.03)`; lower above 10 t and 30 t |
-| `underbody` + load shake | Hit: sudden vertical speed change, at most every 0.25 s; or crushing a rock | Scales with the hit |
+| `air-pop` | Each shift on air-brake trucks | 0.14 |
+| `underbody` + load shake | Crushing a rock | Scales with rock size |
+| Load sound, by class | A tire touches a log, pipe or rock while moving. Change them in `HIT_SOUNDS` at the top of `vehicle-audio.js` | `gain × min(1, 0.55 + m/s × 0.12)` |
+| `cargo-heavy-chains` | Highway, at most every 0.7 s | `gain` 0.65 |
+| `rattle` | Heavy duty, at most every 0.6 s | `gain` 0.7 |
+| `cargo-chains` | Off-road, at most every 0.6 s | `gain` 0.7 |
+| `cable-strain`, 2.5 s burst | Heavy, at most every 1.5 s | `gain` 0.8 |
 | `cargo-light`, `cargo-chains` | Load shake under 8 t | |
-| `rattle`, `cargo-heavy-chains` | Load shake 8–50 t | |
-| `cargo-metal`, `cargo-heavy-chains` | Load shake over 50 t | |
+| `rattle`, `cargo-heavy-chains` | Load shake, other trucks from 8 t | |
+| `rattle`, `cable-strain` | Load shake, heavy class including its service trucks | |
 | `hydraulic-brake` | Hard braking above 3 m/s, air-brake trucks | `min(0.7, 0.2 + m/s × 0.05)` |
 | `air-release`, `air-burst` | Stopped on the brakes, then released; also the handbrake on air-brake trucks | 0.55 and 0.30 (handbrake 0.70 and 0.50) |
 | `handbrake-on`, `handbrake-off` | Handbrake on scouts | 0.80 |
@@ -391,9 +391,9 @@ Effects go the same way through the Effects slider. Ambience skips the compresso
 | Rumble on another class | Add a `sub` block to that class in `sounds.json` `[rebuild]` |
 | A different recording for a layer | Change `source` and `regions`, plus `hz` or `rpm` `[rebuild]` |
 | A thin layer fuller | Add `"lowShelf": [220, 6]` (Hz, dB) to the layer `[rebuild]` |
+| One layer louder or quieter | Its `gain` in `sounds.json`, for example the offroad Humvee at 1.6 `[rebuild]` |
 | A class brighter or darker | `cutoff` `[rebuild]` |
 | A class to feel lighter or heavier | `revUp`, `revDown`, `shiftS` `[rebuild]` |
-| More or less turbo on a class | `turbo`, where 0 turns it off `[rebuild]` |
 | A shutdown clip on another class | Add a `stop` block, as on highway `[rebuild]` |
 
 **Gas and effort**
@@ -439,6 +439,7 @@ Effects go the same way through the Effects slider. Ambience skips the compresso
 | `hz` | engine layers | Firing frequency measured there; rpm = `hz × 120 ÷ cylinders` |
 | `rpm` | engine layers | Use when `hz` can't be measured |
 | `flatten` | engine layers | `[low, high]` Hz search band. Follows a rev sweep and resamples it to `hz`, so it doesn't rev by itself |
+| `gain` | engine layers | Makes one layer louder or quieter than the others, 1 is normal |
 | `leveling` | engine layers | 0–1, how much loudness swings are evened out (default 0.65) |
 | `highpass`, `lowpass`, `band` | all | Filters, in Hz |
 | `lowShelf` | all | `[Hz, dB]`, adds lows |
@@ -455,11 +456,10 @@ Found while measuring for this guide. None are fixed yet, and I can't judge any 
    (the limit is 0.62, and below about 1125 rpm its pitch stops following the revs). It stays in tune but may sound dragged. A heavy `pull` recorded at low
    revs would fix it. The Scout's single `on` and `pull` layers have the same limit near idle.
 3. **Heavy spends most of its time on one layer.** At full pedal in H, `pull1` is the main layer throughout. More anchors would add variety.
-4. **Short layers repeat sooner.** `pull2` on heavy, `pull1` on highway and several offroad `pull` layers are about 3–6 s. They rarely hold for long, but check them
+4. **Short layers repeat sooner.** `pull2` on heavy and `pull1` on highway are about 3–6 s. They rarely hold for long, but check them
    if you hear repetition.
 5. **Estimated rpms.** Values marked `~` above aren't measured, so they may be slightly out of tune against their neighbours.
 6. **All classes load at start.** Every clip is decoded when sound starts, even for classes not on the trail. That costs memory on phones.
-7. **`api.wood` is never called.** It's dead code in `vehicle-audio.js`. Its sounds are still used elsewhere.
 
 ## Files at a glance
 

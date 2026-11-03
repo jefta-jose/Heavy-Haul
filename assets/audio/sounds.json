@@ -17,7 +17,6 @@
       "revUp": 1.7,
       "revDown": 1.2,
       "stall": 0.36,
-      "turbo": 0,
       "crankS": 1.1,
       "airBrakes": false,
       "cutoff": 7000,
@@ -110,7 +109,6 @@
       "revUp": 1.0,
       "revDown": 0.75,
       "stall": 0.32,
-      "turbo": 0.55,
       "crankS": 1.9,
       "airBrakes": true,
       "cutoff": 6000,
@@ -242,7 +240,6 @@
       "revUp": 1.05,
       "revDown": 0.8,
       "stall": 0.3,
-      "turbo": 0.5,
       "crankS": 1.7,
       "airBrakes": true,
       "cutoff": 5500,
@@ -353,10 +350,10 @@
       }
     },
     "offroad": {
-      "name": "Military diesels: truck start, military idle, Humvee running, APC pulling",
+      "name": "Military diesels: truck start, military idle, Humvee and old truck running, played close to natural speed",
       "cylinders": 8,
       "idleRpm": 885,
-      "governedRpm": 2400,
+      "governedRpm": 1700,
       "gears": [
         14,
         26,
@@ -367,10 +364,9 @@
       "revUp": 1.2,
       "revDown": 0.85,
       "stall": 0.34,
-      "turbo": 0.3,
       "crankS": 1.7,
       "airBrakes": true,
-      "cutoff": 5000,
+      "cutoff": 9000,
       "pitch": 0.97,
       "start": {
         "source": "fs-406885",
@@ -394,85 +390,29 @@
           "source": "fs-438083",
           "regions": [
             [
-              40,
+              27,
               52
             ]
           ],
-          "hz": 108,
-          "flatten": [
-            95,
-            120
-          ],
+          "rpm": 1180,
           "lowShelf": [
             180,
             6
-          ]
+          ],
+          "leveling": 0.3
         },
         {
           "source": "fs-160357",
           "regions": [
             [
               36,
-              76
+              84
             ]
           ],
-          "rpm": 2085
-        }
-      ],
-      "pull": [
-        {
-          "source": "fs-405086",
-          "regions": [
-            [
-              11,
-              14.5
-            ]
-          ],
-          "hz": 64,
-          "flatten": [
-            42,
-            80
-          ],
-          "lowShelf": [
-            180,
-            6
-          ]
-        },
-        {
-          "source": "fs-405086",
-          "regions": [
-            [
-              52,
-              57
-            ]
-          ],
-          "hz": 80,
-          "flatten": [
-            65,
-            95
-          ],
-          "lowShelf": [
-            180,
-            6
-          ]
-        },
-        {
-          "source": "fs-405086",
-          "regions": [
-            [
-              14,
-              17
-            ]
-          ],
-          "hz": 96,
-          "flatten": [
-            70,
-            105
-          ],
-          "lowShelf": [
-            180,
-            6
-          ]
+          "rpm": 1450,
+          "leveling": 0.3,
+          "highpass": 130,
+          "gain": 1.6
         }
       ],
       "coast": {
@@ -480,19 +420,22 @@
         "regions": [
           [
             27,
-            40
+            52
           ]
         ],
-        "hz": 108,
-        "flatten": [
-          90,
-          122
-        ],
+        "rpm": 1180,
         "lowShelf": [
           180,
           6
-        ]
-      }
+        ],
+        "lowpass": 1300,
+        "leveling": 0.3
+      },
+      "grain": [
+        6,
+        12
+      ],
+      "fade": 1.2
     },
     "heavy": {
       "name": "Earthmovers: big diesel start, bulldozers, wheel loader, excavator, generator rumble",
@@ -509,7 +452,6 @@
       "revUp": 0.65,
       "revDown": 0.5,
       "stall": 0.28,
-      "turbo": 0.45,
       "crankS": 2.0,
       "airBrakes": true,
       "cutoff": 4800,
@@ -732,18 +674,6 @@
       "count": 5,
       "len": 1.5
     },
-    "cargo-metal": {
-      "kind": "oneshots",
-      "source": "fs-689744",
-      "regions": [
-        [
-          0,
-          373
-        ]
-      ],
-      "count": 8,
-      "len": 1.2
-    },
     "rattle": {
       "kind": "oneshots",
       "source": "fs-451895",
@@ -894,30 +824,6 @@
         ]
       ]
     },
-    "turbo": {
-      "kind": "texture",
-      "source": "fs-443319",
-      "regions": [
-        [
-          9.6,
-          11.2
-        ],
-        [
-          17.2,
-          18.3
-        ]
-      ],
-      "seconds": 8,
-      "grain": [
-        0.25,
-        0.5
-      ],
-      "density": 14,
-      "band": [
-        1800,
-        8000
-      ]
-    },
     "air-pop": {
       "kind": "clip",
       "source": "fs-504865",
@@ -951,19 +857,6 @@
       ],
       "count": 5,
       "len": 0.6
-    },
-    "creak": {
-      "kind": "oneshots",
-      "source": "fs-834362",
-      "regions": [
-        [
-          0.9,
-          7.5
-        ]
-      ],
-      "count": 3,
-      "len": 1.6,
-      "highpass": 200
     },
     "rattle-bed": {
       "kind": "loop",

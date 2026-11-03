@@ -1,6 +1,6 @@
 # Blacktop 15
 
-Status: **planned** · class `highway`, tier 15 of 20 · 6×4, 3 axles · 13.4 t empty · 441 kW · chained tires, 1.12 m
+Status: **planned** · class `highway`, tier 15 of 20 · 6×6, 3 axles · 13.4 t empty · 441 kW · chained tires, 1.12 m
 Load: **Glass panels**, 12 t
 
 ## Art brief

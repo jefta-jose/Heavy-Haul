@@ -1,6 +1,6 @@
 # Leviathan 10
 
-Status: **planned** · class `heavy`, tier 10 of 20 · 4×4, 4 axles · 50.8 t empty · 921 kW · chained tires, 2.16 m
+Status: **planned** · class `heavy`, tier 10 of 20 · 8×8, 4 axles · 50.8 t empty · 921 kW · chained tires, 2.16 m
 Load: **Fishing trawler**, 45 t
 
 ## Art brief

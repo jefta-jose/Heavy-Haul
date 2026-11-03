@@ -1,6 +1,6 @@
 # Colossus 5
 
-Status: **planned** · class `heavy`, tier 5 of 20 · 6×4, 3 axles · 32.6 t empty · 631 kW · all-terrain tires, 1.61 m
+Status: **planned** · class `heavy`, tier 5 of 20 · 6×6, 3 axles · 32.6 t empty · 631 kW · all-terrain tires, 1.61 m
 Load: **Bridge beams**, 55 t
 
 ## Art brief

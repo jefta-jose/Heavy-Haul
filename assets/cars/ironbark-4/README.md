@@ -1,6 +1,6 @@
 # Ironbark 4
 
-Status: **planned** · class `heavy-duty`, tier 4 of 20 · 6×4, 3 axles · 11.6 t empty · 294 kW · all-terrain tires, 1.18 m
+Status: **planned** · class `heavy-duty`, tier 4 of 20 · 6×6, 3 axles · 11.6 t empty · 294 kW · all-terrain tires, 1.18 m
 Load: **Rebar bundles**, 9 t
 
 ## Art brief

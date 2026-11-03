@@ -1,6 +1,6 @@
 # Highway Titan 20
 
-Status: **planned** · class `highway`, tier 20 of 20 · 6×4, 3 axles · 16 t empty · 520 kW · chained tires, 1.16 m
+Status: **planned** · class `highway`, tier 20 of 20 · 6×6, 3 axles · 16 t empty · 520 kW · chained tires, 1.16 m
 Load: **Copper cable drums**, 26 t
 
 ## Art brief

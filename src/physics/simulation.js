@@ -11,7 +11,7 @@ import { buildBridges } from './bridges.js';
 // A breakdown truck's winch (service trucks with `physics.winchForce`; fuel trucks have none) hooks
 // onto any vehicle within reach and tows it as the breakdown truck drives away; it is only strong on
 // trucks of its own class. Service trucks never get stuck (`physics.neverStuck`) and never run out of
-// fuel. One-off happenings (a rock breaking) go to `events`.
+// fuel. One-off happenings (a rock breaking, a tire hitting an obstacle) go to `events`.
 
 const GRIP_REFERENCE = 'mud-terrain';
 // the winch hook reaches a vehicle this close (metres between tow points), like SnowRunner
@@ -67,6 +67,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     obstacles = buildObstacles({ pl, world, terrain, trail, hulls: rockHulls });
     bridgeSystem = buildBridges({ pl, world, terrain });
 
+    // a tire touching a log, pipe or rock: for the sound only, it changes nothing in the physics
+    world.on('begin-contact', c => {
+      const a = c.getFixtureA().getUserData(), b = c.getFixtureB().getUserData();
+      if (a?.tire && b?.obstacle) events.push({ type: 'hit', tires: a });
+      else if (b?.tire && a?.obstacle) events.push({ type: 'hit', tires: b });
+    });
     world.on('post-solve', (c, imp) => {
       const fa = c.getFixtureA(), fb = c.getFixtureB();
       for (const f of [fa, fb]) {

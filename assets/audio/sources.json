@@ -81,20 +81,6 @@
       "sha256": "82f4913ecd1a33dbdf3a14a910408e914a6f0d97e3063a237fc1fc17b7cae6da"
     },
     {
-      "id": "fs-405086",
-      "group": "engine-offroad",
-      "purpose": "Military APC diesel, big revs",
-      "author": "kyles",
-      "title": "truck large diesel or military tank APC armored personnel carrier accelerate big rev and pull away then other distant engine rev and another one close pass by Saravena, Colombia 2016.flac",
-      "page": "https://freesound.org/people/kyles/sounds/405086/",
-      "license": "CC0-1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "download": "https://cdn.freesound.org/previews/405/405086_612689-hq.mp3",
-      "file": "source/405086-military-apc-diesel-big-revs.mp3",
-      "format": "Freesound public high-quality MP3 rendition",
-      "sha256": "38990361b03cac415372dfd3cd01aaa9a66ebd6c94028958531001cf479aa866"
-    },
-    {
       "id": "fs-160357",
       "group": "engine-offroad",
       "purpose": "Humvee driving, convoy",
@@ -135,20 +121,6 @@
       "file": "source/187563-excavator-engine-6-5-min.mp3",
       "format": "Freesound public high-quality MP3 rendition",
       "sha256": "6f5ead2fe666c33fac9393896e77b0af450abbdeb84dfc6a69ca80daf0b21e2b"
-    },
-    {
-      "id": "fs-689744",
-      "group": "engine-heavy",
-      "purpose": "Mine haul truck at the dump",
-      "author": "4Cairnz",
-      "title": "230524_0493-Moonta-Mines-Truck-Dump.MP3",
-      "page": "https://freesound.org/people/4Cairnz/sounds/689744/",
-      "license": "CC0-1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "download": "https://cdn.freesound.org/previews/689/689744_9437187-hq.mp3",
-      "file": "source/689744-mine-haul-truck-at-the-dump.mp3",
-      "format": "Freesound public high-quality MP3 rendition",
-      "sha256": "427f5a6e87290cf7b282a14de8687712d1576c63df4a6bc7bc05628a9b8255d2"
     },
     {
       "id": "fs-454420",
@@ -513,18 +485,6 @@
       "sha256": "908a05f04802a6a996f4add89816dddeac8290f3d91eb8f7784588b7bbcaeec6"
     },
     {
-      "id": "fs-443319",
-      "author": "DAVESTALKER",
-      "title": "Diesel Start-Idle-Revs MZ000004.wav",
-      "page": "https://freesound.org/people/DAVESTALKER/sounds/443319/",
-      "license": "CC0-1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "download": "https://cdn.freesound.org/previews/443/443319_2417207-hq.mp3",
-      "file": "source/443319.mp3",
-      "format": "Freesound public high-quality MP3 rendition",
-      "sha256": "8c4e1218c9043a37a328882120c43f5ea4e7b616f803fc14a801503335ee0b81"
-    },
-    {
       "id": "fs-453635",
       "author": "kyles",
       "title": "truck mack diesel semi engine nearby2.flac",
@@ -671,18 +631,6 @@
       "file": "source/787479.mp3",
       "format": "Freesound public high-quality MP3 rendition",
       "sha256": "381a4ab8b6182321f0b4330dbd0ec3ea1a53d2a17dfc4f413b00eb49abea372f"
-    },
-    {
-      "id": "fs-834362",
-      "author": "dbache",
-      "title": "Truck Tailgate Groaning, Dry, Needs Grease.",
-      "page": "https://freesound.org/people/dbache/sounds/834362/",
-      "license": "CC0-1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "download": "https://cdn.freesound.org/previews/834/834362_2290525-hq.mp3",
-      "file": "source/834362.mp3",
-      "format": "Freesound public high-quality MP3 rendition",
-      "sha256": "c70cb604d2a0692012b35162660add7f4d7fb37679851de2872c8a91614017b7"
     },
     {
       "id": "fs-870859",

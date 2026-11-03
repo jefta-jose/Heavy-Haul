@@ -3,11 +3,11 @@
   "name": "Mountain Mover",
   "number": 18,
   "class": "heavy",
-  "drive": "10×10",
+  "drive": "20×20",
   "wheelType": "giant",
   "status": "playable",
   "tagline": "Ten-axle transporter carrying a submarine",
-  "description": "A colossal 10×10 heavy-haul transporter on giant mining tires, with a decommissioned submarine chained to its deck.",
+  "description": "A colossal 20×20 heavy-haul transporter on giant mining tires, with a decommissioned submarine chained to its deck.",
   "stats": {
     "power": 90,
     "grip": 94,

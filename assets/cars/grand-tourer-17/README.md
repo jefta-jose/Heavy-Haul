@@ -1,6 +1,6 @@
 # Grand Tourer 17
 
-Status: **planned** · class `highway`, tier 17 of 20 · 6×4, 3 axles · 14.4 t empty · 472 kW · chained tires, 1.17 m
+Status: **planned** · class `highway`, tier 17 of 20 · 6×6, 3 axles · 14.4 t empty · 472 kW · chained tires, 1.17 m
 Load: **Steel beams**, 22 t
 
 ## Art brief

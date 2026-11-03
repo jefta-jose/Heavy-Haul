@@ -3,7 +3,7 @@
   "name": "Leviathan",
   "number": 10,
   "class": "heavy",
-  "drive": "4×4",
+  "drive": "8×8",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Fishing trawler heavy hauler",

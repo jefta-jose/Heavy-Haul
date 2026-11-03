@@ -26,7 +26,7 @@ in `car.json` picks another, and `crankS`, `airBrakes` or `backupAlarm` there ov
 | scout | Dodge Ram 1500 V8 (sketchy.dog, CC BY 4.0): start, idle, cruise, pulling hard |
 | highway | Ford LTL 9000 start and shutdown, deep inline-six semi idle, Mack and Peterbilt running and pulling away |
 | heavy-duty | Ram Cummins start, recovery-truck idle, construction truck, big diesel on a hill, dump trucks, old truck working hard |
-| offroad | diesel truck start, military idle, Humvee, old truck, APC pulling hard |
+| offroad | diesel truck start, military idle, Humvee and old truck played close to natural speed |
 | heavy | big diesel start, bulldozers, wheel loader, excavator, generator rumble; pitched down to 0.86 |
 
 ## How an engine plays (`src/audio/engine.js`)
@@ -41,8 +41,6 @@ in `car.json` picks another, and `crankS`, `airBrakes` or `backupAlarm` there ov
   own revs: converter stall from rest, a climb with road speed through the class's `gears` (top km/h of each),
   a dip and clunk on each shift with at least `holdS` seconds between them, racing when the wheels spin. L and R
   have one gear. `stall`, `revUp`, `revDown` and `shiftS` give a class its weight. None of this touches the physics; the rev needle shows it.
-- **Turbo.** Boost lags the load, brings in the `turbo` bed scaled by the class's `turbo`, and lifting off
-  full boost chuffs once. Scouts have none.
 
 ## No audible loops
 
@@ -55,17 +53,16 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 
 - Tires: `gravel`, `dirt`, `rocks`, `mud`; `mud-spin` grows with wheel slip in mud. Water: `wade` and
   `water-churn`; `splash` and `splash-small` on entry.
-- Chassis: `rattle-bed` follows speed, surface and how rough the ride is; `creak` when the body rocks at low
-  speed, lower on heavier trucks.
+- Chassis: `rattle-bed` follows speed, surface and how rough the ride is. Hitting a log, pipe or rock plays the load's sound by class (`HIT_SOUNDS` in `vehicle-audio.js`): `cargo-heavy-chains` on highway, `rattle` on heavy duty, `cargo-chains` on off-road and a 2.5 s burst of `cable-strain` on heavy. Scouts have none.
 - Gears and cab: `gear-clunk` for shifts and the 4×4 / DIFF / H-L levers, `air-pop` for the shift's air on air
-  brakes and the turbo chuff.
+  brakes.
 - Brakes on trucks with air brakes: `hydraulic-brake` hiss braking from speed, `air-release` when it
   stops, `air-burst` when the pedal lets go. Handbrake: `handbrake-on` / `-off` ratchet on scouts,
   `air-release` / `air-burst` on trucks.
 - Service work: `hook-clank` as the winch hooks on, `winch-motor` and `cable-strain` while the cable holds a
   load; `fuel-pump` and `fuel-flow` while refuelling.
-- Hits and breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and
-  `cargo-chains` on scouts, `rattle` and `cargo-heavy-chains` on trucks, `cargo-metal` on the heaviest.
+- Breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and `cargo-chains` on
+  light scouts, `rattle` and `cargo-heavy-chains` on other trucks, and on the heavy class `rattle` with `cable-strain`.
 - Ambience: `forest`, `frogs` beds and `crow` / `crow-far` calls, faded in by the season's
   `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`).
 - The back-up alarm and the ignition key tick are the only synthesized sounds.

@@ -3,7 +3,7 @@
   "name": "Titan",
   "number": 2,
   "class": "heavy",
-  "drive": "6×4",
+  "drive": "14×14",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Teal prime mover with a mining dump body",

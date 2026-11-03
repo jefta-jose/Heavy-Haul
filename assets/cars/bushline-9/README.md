@@ -1,6 +1,6 @@
 # Bushline 9
 
-Status: **planned** · class `heavy-duty`, tier 9 of 20 · 6×4, 3 axles · 14.6 t empty · 352 kW · mud-terrain tires, 1.25 m
+Status: **planned** · class `heavy-duty`, tier 9 of 20 · 6×6, 3 axles · 14.6 t empty · 352 kW · mud-terrain tires, 1.25 m
 Load: **Copper cable drum**, 15 t
 
 ## Art brief

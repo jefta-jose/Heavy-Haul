@@ -3,7 +3,7 @@
   "name": "Goliath",
   "number": 3,
   "class": "heavy",
-  "drive": "6×4",
+  "drive": "14×14",
   "wheelType": "spiked",
   "status": "playable",
   "tagline": "Mustard prime mover hauling a battle tank",

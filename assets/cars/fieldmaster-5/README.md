@@ -1,6 +1,6 @@
 # Fieldmaster 5
 
-Status: **planned** · class `heavy-duty`, tier 5 of 20 · 6×4, 3 axles · 12.2 t empty · 306 kW · all-terrain tires, 1.17 m
+Status: **planned** · class `heavy-duty`, tier 5 of 20 · 6×6, 3 axles · 12.2 t empty · 306 kW · all-terrain tires, 1.17 m
 Load: **Concrete**, 12 t
 
 ## Art brief

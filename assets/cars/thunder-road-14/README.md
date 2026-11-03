@@ -1,6 +1,6 @@
 # Thunder Road 14
 
-Status: **planned** · class `highway`, tier 14 of 20 · 6×4, 3 axles · 12.9 t empty · 425 kW · all-terrain tires, 1.14 m
+Status: **planned** · class `highway`, tier 14 of 20 · 6×6, 3 axles · 12.9 t empty · 425 kW · all-terrain tires, 1.14 m
 Load: **Double container**, 24 t
 
 ## Art brief

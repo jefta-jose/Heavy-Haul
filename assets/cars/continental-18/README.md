@@ -1,6 +1,6 @@
 # Continental 18
 
-Status: **planned** · class `highway`, tier 18 of 20 · 6×4, 3 axles · 15 t empty · 488 kW · chained tires, 1.22 m
+Status: **planned** · class `highway`, tier 18 of 20 · 6×6, 3 axles · 15 t empty · 488 kW · chained tires, 1.22 m
 Load: **Fuel double**, 28 t
 
 ## Art brief

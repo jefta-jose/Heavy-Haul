@@ -1,6 +1,6 @@
 # Asphalt King 3
 
-Status: **planned** · class `highway`, tier 3 of 20 · 4×2, 2 axles · 7.8 t empty · 251 kW · chained tires, 1.05 m
+Status: **planned** · class `highway`, tier 3 of 20 · 8×8, 2 axles · 7.8 t empty · 251 kW · chained tires, 1.05 m
 Load: **Pipe bundles**, 9 t
 
 ## Art brief

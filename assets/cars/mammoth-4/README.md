@@ -1,6 +1,6 @@
 # Mammoth 4
 
-Status: **planned** · class `heavy`, tier 4 of 20 · 6×4, 3 axles · 29.2 t empty · 573 kW · chained tires, 1.52 m
+Status: **planned** · class `heavy`, tier 4 of 20 · 6×6, 3 axles · 29.2 t empty · 573 kW · chained tires, 1.52 m
 Load: **Boulder**, 50 t
 
 ## Art brief

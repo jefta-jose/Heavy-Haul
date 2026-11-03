@@ -45,12 +45,12 @@ const gearTopKmh = (car, gear) => {
   return (dc.governedRpm ?? 2300) * 2 * Math.PI / 60 / ratio * (car.rig?.radius ?? 0.8) * 3.6;
 };
 
-export const newRevs = () => ({ revs: 0, gear: 0, shiftT: 0, holdT: 0, kmhAvg: 0, gears: 0, boost: 0, shifted: false, chuff: false });
+export const newRevs = () => ({ revs: 0, gear: 0, shiftT: 0, holdT: 0, kmhAvg: 0, gears: 0, shifted: false });
 
-// One step of the sound's revs. revs is 0 at idle and 1 at the governor. i = { pedal, load, kmh, slip, tops },
-// tops = the top speed of each gear in km/h. Sets s.shifted / s.chuff for one step when they happen.
-export function stepRevs(s, pack, { pedal = 0, load = 0, kmh = 0, slip = 0, tops = pack.gears }, dt) {
-  s.shifted = s.chuff = false;
+// One step of the sound's revs. revs is 0 at idle and 1 at the governor. i = { pedal, kmh, slip, tops },
+// tops = the top speed of each gear in km/h. Sets s.shifted for one step when it shifts.
+export function stepRevs(s, pack, { pedal = 0, kmh = 0, slip = 0, tops = pack.gears }, dt) {
+  s.shifted = false;
   const wheel = g => Math.abs(kmh) / tops[g];
   // a light pedal shifts early; full pedal holds the gear near the top
   const upAt = 0.62 + 0.33 * pedal;
@@ -76,11 +76,6 @@ export function stepRevs(s, pack, { pedal = 0, load = 0, kmh = 0, slip = 0, tops
   const target = clamp(Math.max(wheel(s.gear), free), 0, 1.04);
   const up = pack.revUp * (0.35 + 0.65 * pedal), down = pack.revDown * (shifting ? 3 : 1);
   s.revs = clamp(s.revs + clamp((target - s.revs) * 7, -down, up) * dt, 0, 1.05);
-  // turbo boost lags the load, and lifting off from full boost lets it chuff
-  const wanted = shifting ? 0 : load * (0.25 + 0.75 * s.revs), before = s.boost;
-  s.boost += (wanted - s.boost) * Math.min(1, dt / (wanted > s.boost ? 0.9 : 0.3));
-  if (before > 0.45 && wanted < 0.15 && !s.lifted) { s.chuff = true; s.lifted = true; }
-  if (wanted > 0.3) s.lifted = false;
   return s;
 }
 
@@ -100,7 +95,7 @@ function anchorWeights(list, rpm) {
 }
 
 // revs 0..1, load 0..1 -> every layer's gain and playback rate, the filter and the level
-export function engineMix(pack, revs, load, boost = 0) {
+export function engineMix(pack, revs, load) {
   revs = clamp(revs, 0, 1.05); load = clamp(load, 0, 1);
   const rpm = pack.idleRpm + revs * (pack.governedRpm - pack.idleRpm);
   const rate = layer => clamp(rpm / layer.rpm, 0.62, 1.55);
@@ -114,9 +109,7 @@ export function engineMix(pack, revs, load, boost = 0) {
     idle: offShare * Math.cos(coasting * Math.PI / 2) * 0.9,
     coast: offShare * Math.sin(coasting * Math.PI / 2) * 0.72,
     sub: pack.sub ? 0.55 + load * 0.45 : 0,
-    turbo: (pack.turbo ?? 0) * clamp(boost, 0, 1) ** 1.4,
     rates: { idle: rate(pack.idle), coast: rate(pack.coast), on: pack.on.map(rate), pull: (pack.pull ?? []).map(rate), sub: pack.sub ? rate(pack.sub) : 1 },
-    turboRate: 0.8 + 0.65 * clamp(revs, 0, 1),
     cutoff: pack.cutoff * (0.42 + 0.4 * load + 0.18 * clamp(revs, 0, 1)),
     level: 0.78 + load * 0.42,
   };
@@ -128,13 +121,11 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
   filter.connect(out); out.connect(destination);
   const silent = { car, profile, out, revs: newRevs(), onEvent: null, setLevel() {}, set() {}, update() {}, stop() { filter.disconnect(); out.disconnect(); } };
   if (!pack || !pack.on?.every(l => buffers[l.clip]) || !buffers[pack.idle?.clip]) return silent;
-  const player = (layer, opts) => createLoopPlayer(ac, buffers[layer.clip], filter, { grain: [2.5, 5], fade: 0.5, ...opts });
+  const player = (layer, opts) => createLoopPlayer(ac, buffers[layer.clip], filter, { grain: pack.grain ?? [2.5, 5], fade: pack.fade ?? 0.5, ...opts });
   const idle = player(pack.idle, { grain: [3, 6], fade: 0.8 }), coast = player(pack.coast);
   const on = pack.on.map(l => player(l)), pull = (pack.pull ?? []).map(l => player(l));
   const sub = pack.sub ? player(pack.sub, { grain: [4, 8], fade: 1.2 }) : null;
-  // the turbo's hiss skips the engine filter, which would close it off at part throttle
-  const turbo = pack.turbo && buffers.turbo ? createLoopPlayer(ac, buffers.turbo, out, { grain: [1.5, 3], fade: 0.5 }) : null;
-  const layers = [idle, coast, ...on, ...pull, ...(sub ? [sub] : []), ...(turbo ? [turbo] : [])];
+  const layers = [idle, coast, ...on, ...pull, ...(sub ? [sub] : [])];
   let state = null, oneShot = null, level = 1, muffle = 1, last = ac.currentTime;
   const revs = newRevs();
   function play(name) {
@@ -163,10 +154,9 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
       const pedal = clamp(st.throttle, 0, 1), gear = t.gear ?? 'H';
       // a shift eases the load off, so the note dips before it comes back in the next gear
       const load = revs.shiftT > 0 ? pedal * 0.12 : engineLoad(pedal, t.load);
-      stepRevs(revs, pack, { pedal, load, kmh: (st.speed ?? 0) * 3.6, slip: st.slip ?? 0, tops: gear === 'H' ? pack.gears : [gearTopKmh(car, gear)] }, dt);
+      stepRevs(revs, pack, { pedal, kmh: (st.speed ?? 0) * 3.6, slip: st.slip ?? 0, tops: gear === 'H' ? pack.gears : [gearTopKmh(car, gear)] }, dt);
       if (revs.shifted) voice.onEvent?.('shift');
-      if (revs.chuff && pack.turbo) voice.onEvent?.('chuff', revs.boost);
-      const m = engineMix(pack, revs.revs, load, revs.boost);
+      const m = engineMix(pack, revs.revs, load);
       // just started: the recorded catch is still ringing out, so the idle comes in gently
       const tau = oneShot ? 0.35 : 0.07;
       idle.setGain(m.idle, tau); idle.setRate(m.rates.idle);
@@ -174,7 +164,6 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
       on.forEach((l, i) => { l.setGain(m.on[i], tau); l.setRate(m.rates.on[i]); });
       pull.forEach((l, i) => { l.setGain(m.pull[i], tau); l.setRate(m.rates.pull[i]); });
       sub?.setGain(m.sub, 0.25); sub?.setRate(m.rates.sub);
-      turbo?.setGain(m.turbo, 0.12); turbo?.setRate(m.turboRate, 0.2);
       filter.frequency.setTargetAtTime(m.cutoff * muffle, now, 0.1);
       out.gain.setTargetAtTime(m.level * level, now, 0.08);
     },

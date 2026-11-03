@@ -3,7 +3,7 @@
   "name": "Colossus",
   "number": 5,
   "class": "heavy",
-  "drive": "4×4",
+  "drive": "6×6",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Bridge beams heavy hauler",

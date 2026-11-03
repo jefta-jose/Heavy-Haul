@@ -1,6 +1,6 @@
 # Goliath 3
 
-Status: **planned** · class `heavy`, tier 3 of 20 · 6×4, 3 axles · 25.9 t empty · 515 kW · spiked tires, 1.39 m
+Status: **planned** · class `heavy`, tier 3 of 20 · 14×14, 3 axles · 25.9 t empty · 515 kW · spiked tires, 1.39 m
 Load: **Battle tank**, 60 t
 
 ## Art brief

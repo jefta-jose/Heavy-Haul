@@ -32,7 +32,7 @@ export const DRIVE = [
 ];
 const PHASES = 'start / idle / pull away, as fast as real trucks do / climb / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
 
-export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'turbo', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
+export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');
   const bank = readSoundBank();
   classes ??= Object.keys(bank.engines);
@@ -45,7 +45,7 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
     const render = (fn, arg) => page.evaluate(fn, arg).then(r => ({ ...r, samples: Float32Array.from(r.samples) }));
     for (const cls of classes) {
       const pack = bank.engines[cls], layers = [pack.idle, pack.coast, ...pack.on, ...(pack.pull ?? []), ...(pack.sub ? [pack.sub] : [])];
-      const names = [...layers.map(l => l.clip), pack.start, ...(pack.stop ? [pack.stop] : []), ...(pack.turbo ? bank.effects.turbo : [])];
+      const names = [...layers.map(l => l.clip), pack.start, ...(pack.stop ? [pack.stop] : [])];
       const r = await render(async ({ cls, bank, clips, drive }) => {
         const sr = 44100, total = drive.reduce((n, s) => n + s[0], 0), ac = new OfflineAudioContext(1, Math.ceil(total * sr), sr), buffers = {};
         for (const [k, raw] of Object.entries(clips)) buffers[k] = await ac.decodeAudioData(Uint8Array.from(atob(raw), c => c.charCodeAt(0)).buffer);

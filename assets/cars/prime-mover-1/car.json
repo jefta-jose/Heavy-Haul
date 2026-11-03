@@ -3,7 +3,7 @@
   "name": "Prime Mover",
   "number": 1,
   "class": "heavy",
-  "drive": "6×4",
+  "drive": "12×12",
   "wheelType": "road",
   "status": "playable",
   "tagline": "Gunmetal grey heavy-haul prime mover with a multi-axle lowbed",

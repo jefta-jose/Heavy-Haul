@@ -3,7 +3,7 @@
   "name": "Overlander",
   "number": 8,
   "class": "highway",
-  "drive": "4×4",
+  "drive": "10×10",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Charcoal black highway tractor with its semi-trailer",

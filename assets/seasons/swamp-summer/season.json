@@ -493,6 +493,7 @@
     ],
     "seed": 20261026,
     "obstacleSeed": 4242,
+    "obstacleScale": 2,
     "bridges": [
       {
         "id": "creek-bridge",

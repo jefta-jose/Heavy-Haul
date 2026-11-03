@@ -3,7 +3,7 @@
   "name": "Atlas",
   "number": 8,
   "class": "heavy",
-  "drive": "4×4",
+  "drive": "16×16",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Prime mover hauling a steam locomotive",
