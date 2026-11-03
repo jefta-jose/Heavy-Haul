@@ -2,7 +2,8 @@ import { seededRandom } from './math.js';
 
 // Static obstacles on the trail. Every shape the tires hit is also what the renderer draws:
 // boulders use hulls traced from rock art, crushable shale breaks under the vehicle's weight,
-// and fallen logs are round bodies lying across the track.
+// and fallen logs are round bodies lying across the track. Which round and traced kinds exist, and
+// how each one breaks, is data: trail.obstacleKinds and trail.propKinds in season.json.
 
 export const CRUSH_IMPULSE = 900;   // N·s of accumulated tire impulse that breaks a crushable rock
 
@@ -19,12 +20,14 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   });
   const pad = 2 * S;   // room for a rock's half width around anything it must not sit on
   const gardenAt = x => (trail.rockGardens ?? []).find(g => x > g.x0 - pad && x < g.x1 + pad);
-  const reserved = x => runs.some(r => x > r.x0 - pad && x < r.x1 + pad) || terrain.nearHole(x, 1.5 * S) || (trail.bridges ?? []).some(b => x > b.x0 - 6 - pad && x < b.x1 + 3 + pad);
+  const propKinds = trail.propKinds ?? {};
+  const props = (trail.props ?? []).map(p => ({ x: p.x, kind: propKinds[p.kind], name: p.kind }));
+  const reserved = x => runs.some(r => x > r.x0 - pad && x < r.x1 + pad) || props.some(p => Math.abs(p.x - x) < p.kind.width * S / 2 + pad) || terrain.nearHole(x, 1.5 * S) || (trail.bridges ?? []).some(b => x > b.x0 - 6 - pad && x < b.x1 + 3 + pad);
 
   // Body from a traced hull, sitting `above` metres proud of the lowest ground under it.
-  const rockBody = (x, aboveM, widthM) => {
+  const rockBody = (x, aboveM, widthM, hull = null, canFlip = true) => {
     const above = aboveM * S, wM = widthM * S;
-    const sh = hulls[Math.floor(rr() * hulls.length)], s = wM / sh.w, flip = rr() < 0.5;
+    const sh = hull ?? hulls[Math.floor(rr() * hulls.length)], s = wM / sh.w, flip = rr() < 0.5 && canFlip;
     const g = Math.min(visH(x - wM * 0.35), visH(x), visH(x + wM * 0.35));
     const by = g + above - (sh.h - sh.top) * s;
     const verts = sh.hull.map(([px, py]) => V((px - sh.w / 2) * s * (flip ? -1 : 1), (sh.h - py) * s));
@@ -68,14 +71,24 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   // Every crossing is a horizontal run of 4–6 obstacles. Each circle sits on
   // its own local road bed; none rests on another log or pipe. Edge gaps are
   // explicit so a spaced run lets a tire return to the road between crests.
-  // Logs and pipes are both bedded into the road.
+  // Everything round is bedded into the road.
   for (const { spec, index, radius: r, positions } of runs) {
     for (const [order, x] of positions.entries()) {
       const y = Math.max(colH(x - r * 0.6), colH(x), colH(x + r * 0.6)) + r * 0.3;
       const body = world.createBody({ position: V(x, y) });
-      body.createFixture(new pl.Circle(r), { friction: spec.kind === 'pipe' ? 0.8 : 0.85, userData: { surf: spec.kind === 'pipe' ? 'rock' : 'wood', obstacle: true } });
-      logs.push({ x, y, r, seed: rr(), kind: spec.kind, run: index, order, body });
+      const kind = trail.obstacleKinds[spec.kind], rec = { x, y, r, seed: rr(), kind: spec.kind, run: index, order, body };
+      if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, above: r, w: 2 * r, surf: kind.surf, ...kind.crush });
+      body.createFixture(new pl.Circle(r), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
+      logs.push(rec);
     }
+  }
+  // Traced props: solid, or broken by tires.
+  for (const { x, kind, name } of props) {
+    const { body, verts, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
+    Object.assign(rec, { art: kind.art, prop: name, surf: kind.surf });
+    if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, body, ...kind.crush });
+    body.createFixture(new pl.Polygon(verts), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
+    rocks.push(rec);
   }
   return { rocks, logs };
 }

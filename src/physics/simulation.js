@@ -80,7 +80,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
         const b = f.getBody(), o = (f === fa ? fb : fa).getUserData();
         let n = 0; const ni = imp.normalImpulses; for (let i = 0; i < ni.length; i++) n += ni[i];
         const L = load.get(b) || { imp: 0, surf: null }; L.imp += n; if (o && o.surf) L.surf = o.surf; load.set(b, L);
-        if (o && o.crush && o.crush.alive) { o.crush.hit += n; if (o.crush.hit > CRUSH_IMPULSE) crushQueue.push(o.crush); }
+        if (o && o.crush && o.crush.alive && ud.massT >= (o.crush.minMassT ?? 0)) { o.crush.hit += n; if (o.crush.hit > (o.crush.impulse ?? CRUSH_IMPULSE)) crushQueue.push(o.crush); }
       }
     });
     world.on('pre-solve', c => {
@@ -98,7 +98,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (const r of crushQueue) {
       if (!r.alive) continue;
       r.alive = false; world.destroyBody(r.body); r.body = null;
-      events.push({ type: 'crush', x: r.x, y: r.y + r.above * 0.5, w: r.w });
+      events.push({ type: 'crush', x: r.x, y: r.y + r.above * 0.5, w: r.w, surf: r.surf });
     }
     crushQueue.length = 0;
   }
@@ -194,7 +194,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function newSt() { return { rpm: 750, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, inWater: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false }; }
 
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
-    const tireData = { tire: true }, grip = gripTable(car.wheelType);
+    const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
     if (car.physics.tireGrip && car.physics.tireGrip !== 1) tireData.gripScale = car.physics.tireGrip;   // garage tuning
     if (grip) tireData.grip = grip;
     if (car.physics.neverStuck) tireData.neverStuck = true;

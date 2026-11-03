@@ -37,9 +37,9 @@ export function createProps(scene) {
     return shaded;
   }
   function rocks() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), img = rockImage(), { visH } = scene.sim;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), stone = rockImage(), { visH } = scene.sim;
     for (const r of scene.sim.rocks) if (r.x > lo - r.w && r.x < hi + r.w && r.alive !== false) {
-      const w = r.w, h = r.h, gy = visH(r.x);
+      const w = r.w, h = r.h, gy = visH(r.x), img = r.art ? scene.cache.img[r.art] : stone;
       // seated in the ground: a soft contact shadow behind the base
       ctx.fillStyle = 'rgba(20,15,9,0.35)'; ctx.beginPath(); ctx.ellipse(r.x + w * 0.06, gy + 0.05, w * 0.62, 0.1 + h * 0.12, 0, 0, 7); ctx.fill();
       ctx.save(); ctx.beginPath();
@@ -47,12 +47,12 @@ export function createProps(scene) {
       for (let x = r.x - w; x <= r.x + w + 0.1; x += 0.1) ctx.lineTo(x, visH(x) - 0.035);
       ctx.lineTo(r.x + w, visH(r.x) + 10); ctx.lineTo(r.x - w, visH(r.x) + 10); ctx.closePath(); ctx.clip();
       ctx.translate(r.x, r.y); ctx.scale(r.flip ? -1 : 1, -1);
-      if (r.crush) ctx.globalAlpha = 0.95;
+      if (r.crush && !r.art) ctx.globalAlpha = 0.95;
       // natural proportions: the top matches the physical top and the extra height is buried, so a
       // low, wide collision shape still looks like a rounded boulder rather than a squashed slab
       const hv = Math.max(h, w * img.height / img.width);
       ctx.drawImage(img, -w / 2, -h, w, hv);
-      if (r.crush) {   // hairline cracks mark the breakable shale
+      if (r.crush && !r.art) {   // hairline cracks mark the breakable shale
         ctx.strokeStyle = 'rgba(30,26,20,0.55)'; ctx.lineWidth = 0.018; ctx.beginPath();
         ctx.moveTo(-w * 0.18, -h * 0.1); ctx.lineTo(-w * 0.04, -h * 0.5); ctx.lineTo(w * 0.12, -h * 0.35); ctx.moveTo(-w * 0.04, -h * 0.5); ctx.lineTo(0, -h * 0.85); ctx.stroke();
       }
@@ -64,7 +64,7 @@ export function createProps(scene) {
     }
   }
   function crossingSprite(l, faceOnly = false) {
-    const key = l.kind === 'pipe' ? 'pipe' : 'logCrossing', img = scene.cache.img[key];
+    const key = scene.season.trail.obstacleKinds[l.kind].art, img = scene.cache.img[key];
     if (!img) return false;
     const { ctx } = scene.view, [cx, cy, radius] = scene.season.render.obstacles[key].face;
     const original = scene.images[key], scale = l.r / radius;
@@ -105,7 +105,7 @@ export function createProps(scene) {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), pat = bark();
     const [dx, dy] = LOG_DEPTH, len = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
     for (const l of scene.sim.logs) {
-      if (l.x < lo - l.r * 6 || l.x > hi + l.r * 3) continue;   // the sprite's long body trails to the right
+      if (l.alive === false || l.x < lo - l.r * 8 || l.x > hi + l.r * 3) continue;   // the sprite's long body trails to the right
       if (crossingSprite(l)) continue;
       ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a); ctx.imageSmoothingQuality = 'medium';   // shrunk bark texture
       pat.setTransform(new DOMMatrix([l.r * 2 / 110, 0, 0, l.r * 2 / 110, 0, -l.r]));
@@ -119,7 +119,7 @@ export function createProps(scene) {
   function logEnds() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     for (const l of scene.sim.logs) {
-      if (l.x < lo - l.r * 2 || l.x > hi + l.r * 2) continue;
+      if (l.alive === false || l.x < lo - l.r * 2 || l.x > hi + l.r * 2) continue;
       if (crossingSprite(l, true)) continue;
       const r = l.r;
       const end = scene.cache.img.logEnd;

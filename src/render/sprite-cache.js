@@ -33,7 +33,8 @@ export function createSceneryCache(scene) {
     }
     C.rockSource ??= alphaCrop(A.rock);
     C.img.rock = scaled(C.rockSource, Math.min(1, 5 * px / C.rockSource.width));
-    for (const key of ['logCrossing', 'bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'pipe']) if (A[key]) {
+    const round = Object.values(season.trail.obstacleKinds ?? {}).map(k => k.art);
+    for (const key of ['bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', ...round]) if (A[key]) {
       // Preserve full canvases for registered near faces/plank edges. Only
       // support frames and terrain overlays use their visible alpha bounds.
       const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole'].includes(key);
@@ -41,6 +42,10 @@ export function createSceneryCache(scene) {
       const source = crop ? C[`${key}Source`] : A[key];
       const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 9 : key === 'bridgePlank' ? 4 : 5;
       C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
+    }
+    for (const { art } of Object.values(season.trail.propKinds ?? {})) {
+      C[`${art}Source`] ??= alphaCrop(A[art]);
+      C.img[art] = scaled(C[`${art}Source`], Math.min(1, 6 * px / C[`${art}Source`].width));
     }
     if (A.logEnd) {
       C.logEndSource ??= alphaCrop(A.logEnd);

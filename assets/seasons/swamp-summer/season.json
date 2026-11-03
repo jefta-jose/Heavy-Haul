@@ -559,19 +559,9 @@
         "gap": 2.7
       },
       {
-        "x0": 310,
-        "x1": 328,
-        "gap": 2.8
-      },
-      {
         "x0": 452,
         "x1": 472,
         "gap": 2.5
-      },
-      {
-        "x0": 495,
-        "x1": 516,
-        "gap": 2.7
       },
       {
         "x0": 850,
@@ -579,19 +569,9 @@
         "gap": 2.8
       },
       {
-        "x0": 1054,
-        "x1": 1085,
-        "gap": 2.6
-      },
-      {
         "x0": 1248,
         "x1": 1270,
         "gap": 2.9
-      },
-      {
-        "x0": 1300,
-        "x1": 1324,
-        "gap": 2.6
       },
       {
         "x0": 1700,
@@ -599,24 +579,9 @@
         "gap": 2.6
       },
       {
-        "x0": 1750,
-        "x1": 1776,
-        "gap": 2.8
-      },
-      {
-        "x0": 1972,
-        "x1": 1990,
-        "gap": 2.8
-      },
-      {
         "x0": 2114,
         "x1": 2134,
         "gap": 2.5
-      },
-      {
-        "x0": 2157,
-        "x1": 2178,
-        "gap": 2.7
       },
       {
         "x0": 2512,
@@ -624,19 +589,9 @@
         "gap": 2.8
       },
       {
-        "x0": 2716,
-        "x1": 2747,
-        "gap": 2.6
-      },
-      {
         "x0": 2910,
         "x1": 2932,
         "gap": 2.9
-      },
-      {
-        "x0": 2962,
-        "x1": 2986,
-        "gap": 2.6
       },
       {
         "x0": 3362,
@@ -883,11 +838,11 @@
     ],
     "obstacleRuns": [
       {
-        "id": "log-run-1",
+        "id": "log-60",
         "kind": "log",
         "x": 60,
         "count": 5,
-        "radius": 0.3,
+        "radius": 0.26,
         "gaps": [
           0.15,
           0.4,
@@ -896,11 +851,11 @@
         ]
       },
       {
-        "id": "log-run-2",
-        "kind": "log",
+        "id": "rottenLog-218",
+        "kind": "rottenLog",
         "x": 218,
         "count": 6,
-        "radius": 0.33,
+        "radius": 0.26,
         "gaps": [
           0.2,
           0.7,
@@ -910,93 +865,107 @@
         ]
       },
       {
-        "id": "pipe-run-3",
+        "id": "pipe-270",
         "kind": "pipe",
         "x": 270,
         "count": 4,
-        "radius": 0.34,
+        "radius": 0.26,
         "gap": 0.5
       },
       {
-        "id": "log-run-4",
-        "kind": "log",
+        "id": "corduroyLog-423",
+        "kind": "corduroyLog",
         "x": 423,
-        "count": 4,
-        "radius": 0.32,
-        "gap": 0.55
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
       },
       {
-        "id": "log-run-5",
+        "id": "log-540",
         "kind": "log",
         "x": 540,
         "count": 4,
-        "radius": 0.3,
+        "radius": 0.26,
         "gap": 0.4
       },
       {
-        "id": "pipe-run-6",
-        "kind": "pipe",
+        "id": "corduroyLog-595",
+        "kind": "corduroyLog",
+        "x": 595,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "oilDrum-682",
+        "kind": "oilDrum",
         "x": 682,
-        "count": 6,
-        "radius": 0.32,
-        "gap": 1
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
       },
       {
-        "id": "log-run-7",
-        "kind": "log",
+        "id": "rottenLog-727",
+        "kind": "rottenLog",
+        "x": 727,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "rottenLog-765",
+        "kind": "rottenLog",
         "x": 765,
-        "count": 5,
-        "radius": 0.34,
-        "gaps": [
-          0.3,
-          0.85,
-          0.35,
-          1.3
-        ]
-      },
-      {
-        "id": "pipe-run-8",
-        "kind": "pipe",
-        "x": 794,
-        "count": 5,
-        "radius": 0.36,
-        "gaps": [
-          0.4,
-          1.4,
-          0.4,
-          1.6
-        ]
-      },
-      {
-        "id": "log-run-9",
-        "kind": "log",
-        "x": 987,
-        "count": 6,
-        "radius": 0.32,
+        "count": 4,
+        "radius": 0.26,
         "gap": 0.8
       },
       {
-        "id": "pipe-run-10",
+        "id": "oilDrum-794",
+        "kind": "oilDrum",
+        "x": 794,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "corduroyLog-834",
+        "kind": "corduroyLog",
+        "x": 834,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "corduroyLog-987",
+        "kind": "corduroyLog",
+        "x": 987,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "pipe-1102",
         "kind": "pipe",
         "x": 1102,
         "count": 4,
-        "radius": 0.3,
+        "radius": 0.26,
         "gap": 0.6
       },
       {
-        "id": "log-run-11",
+        "id": "log-1214",
         "kind": "log",
         "x": 1214,
         "count": 4,
-        "radius": 0.31,
+        "radius": 0.26,
         "gap": 0.6
       },
       {
-        "id": "pipe-run-12",
+        "id": "pipe-1362",
         "kind": "pipe",
         "x": 1362,
         "count": 5,
-        "radius": 0.34,
+        "radius": 0.26,
         "gaps": [
           0.3,
           1.5,
@@ -1005,46 +974,35 @@
         ]
       },
       {
-        "id": "log-run-13",
-        "kind": "log",
+        "id": "rottenLog-1385",
+        "kind": "rottenLog",
+        "x": 1385,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "corduroyLog-1532",
+        "kind": "corduroyLog",
         "x": 1532,
-        "count": 5,
-        "radius": 0.32,
-        "gap": 0.7
-      },
-      {
-        "id": "pipe-run-14",
-        "kind": "pipe",
-        "x": 1606,
         "count": 6,
-        "radius": 0.32,
-        "gaps": [
-          0.3,
-          0.8,
-          0.4,
-          1.6,
-          0.3
-        ]
+        "radius": 0.26,
+        "gap": 0.2
       },
       {
-        "id": "log-run-15",
-        "kind": "log",
-        "x": 1645,
-        "count": 5,
-        "radius": 0.34,
-        "gaps": [
-          0.4,
-          1.6,
-          0.4,
-          1.6
-        ]
+        "id": "rottenLog-1574",
+        "kind": "rottenLog",
+        "x": 1574,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
       },
       {
-        "id": "log-run-2-2",
-        "kind": "log",
+        "id": "rottenLog-1880",
+        "kind": "rottenLog",
         "x": 1880,
         "count": 6,
-        "radius": 0.33,
+        "radius": 0.26,
         "gaps": [
           0.2,
           0.7,
@@ -1054,134 +1012,521 @@
         ]
       },
       {
-        "id": "pipe-run-3-2",
+        "id": "pipe-1932",
         "kind": "pipe",
         "x": 1932,
         "count": 4,
-        "radius": 0.34,
-        "gap": 0.5
-      },
-      {
-        "id": "log-run-4-2",
-        "kind": "log",
-        "x": 2085,
-        "count": 4,
-        "radius": 0.32,
-        "gap": 0.55
-      },
-      {
-        "id": "log-run-5-2",
-        "kind": "log",
-        "x": 2202,
-        "count": 4,
-        "radius": 0.3,
-        "gap": 0.4
-      },
-      {
-        "id": "pipe-run-6-2",
-        "kind": "pipe",
-        "x": 2344,
-        "count": 6,
-        "radius": 0.32,
-        "gap": 1
-      },
-      {
-        "id": "log-run-7-2",
-        "kind": "log",
-        "x": 2427,
-        "count": 5,
-        "radius": 0.34,
+        "radius": 0.26,
         "gaps": [
           0.3,
-          0.85,
-          0.35,
-          1.3
-        ]
-      },
-      {
-        "id": "pipe-run-8-2",
-        "kind": "pipe",
-        "x": 2456,
-        "count": 5,
-        "radius": 0.36,
-        "gaps": [
-          0.4,
-          1.4,
-          0.4,
-          1.6
-        ]
-      },
-      {
-        "id": "log-run-9-2",
-        "kind": "log",
-        "x": 2649,
-        "count": 6,
-        "radius": 0.32,
-        "gap": 0.8
-      },
-      {
-        "id": "pipe-run-10-2",
-        "kind": "pipe",
-        "x": 2764,
-        "count": 4,
-        "radius": 0.3,
-        "gap": 0.6
-      },
-      {
-        "id": "log-run-11-2",
-        "kind": "log",
-        "x": 2876,
-        "count": 4,
-        "radius": 0.31,
-        "gap": 0.6
-      },
-      {
-        "id": "pipe-run-12-2",
-        "kind": "pipe",
-        "x": 3024,
-        "count": 5,
-        "radius": 0.34,
-        "gaps": [
-          0.3,
-          1.5,
-          0.4,
-          1.3
-        ]
-      },
-      {
-        "id": "log-run-13-2",
-        "kind": "log",
-        "x": 3194,
-        "count": 5,
-        "radius": 0.32,
-        "gap": 0.7
-      },
-      {
-        "id": "pipe-run-14-2",
-        "kind": "pipe",
-        "x": 3268,
-        "count": 6,
-        "radius": 0.32,
-        "gaps": [
-          0.3,
-          0.8,
-          0.4,
-          1.6,
+          2,
           0.3
         ]
       },
       {
-        "id": "log-run-15-2",
+        "id": "corduroyLog-2085",
+        "kind": "corduroyLog",
+        "x": 2085,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "log-2202",
         "kind": "log",
-        "x": 3307,
+        "x": 2202,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.4
+      },
+      {
+        "id": "oilDrum-2256",
+        "kind": "oilDrum",
+        "x": 2256,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "oilDrum-2344",
+        "kind": "oilDrum",
+        "x": 2344,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "corduroyLog-2389",
+        "kind": "corduroyLog",
+        "x": 2389,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "oilDrum-2456",
+        "kind": "oilDrum",
+        "x": 2456,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "corduroyLog-2494",
+        "kind": "corduroyLog",
+        "x": 2494,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "rottenLog-2649",
+        "kind": "rottenLog",
+        "x": 2649,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.8
+      },
+      {
+        "id": "pipe-2764",
+        "kind": "pipe",
+        "x": 2764,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "log-2876",
+        "kind": "log",
+        "x": 2876,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "corduroyLog-3024",
+        "kind": "corduroyLog",
+        "x": 3024,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      },
+      {
+        "id": "rottenLog-3048",
+        "kind": "rottenLog",
+        "x": 3048,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "oilDrum-3060",
+        "kind": "oilDrum",
+        "x": 3060,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "rottenLog-3194",
+        "kind": "rottenLog",
+        "x": 3194,
         "count": 5,
-        "radius": 0.34,
-        "gaps": [
-          0.4,
-          1.6,
-          0.4,
-          1.6
-        ]
+        "radius": 0.26,
+        "gap": 0.7
+      },
+      {
+        "id": "corduroyLog-3236",
+        "kind": "corduroyLog",
+        "x": 3236,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.2
+      }
+    ],
+    "obstacleKinds": {
+      "log": {
+        "art": "logCrossing",
+        "surf": "wood",
+        "friction": 0.85
+      },
+      "pipe": {
+        "art": "pipe",
+        "surf": "rock",
+        "friction": 0.8
+      },
+      "oilDrum": {
+        "art": "oilDrum",
+        "surf": "rock",
+        "friction": 0.7
+      },
+      "corduroyLog": {
+        "art": "corduroyLog",
+        "surf": "wood",
+        "friction": 0.85
+      },
+      "rottenLog": {
+        "art": "rottenLog",
+        "surf": "wood",
+        "friction": 0.8,
+        "crush": {
+          "minMassT": 15,
+          "impulse": 150
+        }
+      }
+    },
+    "propKinds": {
+      "rootTangle": {
+        "art": "rootTangle",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.2,
+        "above": 0.3,
+        "hull": {
+          "w": 2149,
+          "h": 430,
+          "top": 0,
+          "hull": [
+            [
+              170,
+              230
+            ],
+            [
+              1020,
+              0
+            ],
+            [
+              1480,
+              30
+            ],
+            [
+              1880,
+              160
+            ],
+            [
+              2140,
+              350
+            ],
+            [
+              1840,
+              410
+            ],
+            [
+              430,
+              420
+            ],
+            [
+              20,
+              380
+            ]
+          ]
+        }
+      },
+      "concreteSlab": {
+        "art": "concreteSlab",
+        "surf": "rock",
+        "friction": 0.75,
+        "width": 1.6,
+        "above": 0.18,
+        "flip": false,
+        "hull": {
+          "w": 2066,
+          "h": 408,
+          "top": 10,
+          "hull": [
+            [
+              40,
+              70
+            ],
+            [
+              180,
+              10
+            ],
+            [
+              1850,
+              10
+            ],
+            [
+              1990,
+              110
+            ],
+            [
+              2060,
+              330
+            ],
+            [
+              2030,
+              400
+            ],
+            [
+              40,
+              400
+            ],
+            [
+              0,
+              260
+            ]
+          ]
+        }
+      },
+      "branchPile": {
+        "art": "branchPile",
+        "surf": "wood",
+        "friction": 0.8,
+        "width": 1.4,
+        "above": 0.18,
+        "crush": {
+          "impulse": 250
+        },
+        "hull": {
+          "w": 2113,
+          "h": 451,
+          "top": 0,
+          "hull": [
+            [
+              10,
+              400
+            ],
+            [
+              230,
+              220
+            ],
+            [
+              990,
+              40
+            ],
+            [
+              1580,
+              0
+            ],
+            [
+              2090,
+              370
+            ],
+            [
+              2060,
+              430
+            ],
+            [
+              1540,
+              450
+            ],
+            [
+              60,
+              430
+            ]
+          ]
+        }
+      }
+    },
+    "props": [
+      {
+        "kind": "rootTangle",
+        "x": 123
+      },
+      {
+        "kind": "branchPile",
+        "x": 257
+      },
+      {
+        "kind": "rootTangle",
+        "x": 314
+      },
+      {
+        "kind": "branchPile",
+        "x": 322
+      },
+      {
+        "kind": "branchPile",
+        "x": 498
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 505
+      },
+      {
+        "kind": "rootTangle",
+        "x": 512
+      },
+      {
+        "kind": "branchPile",
+        "x": 558
+      },
+      {
+        "kind": "branchPile",
+        "x": 612
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1041
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1058
+      },
+      {
+        "kind": "branchPile",
+        "x": 1066
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1073
+      },
+      {
+        "kind": "branchPile",
+        "x": 1080
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1304
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1312
+      },
+      {
+        "kind": "branchPile",
+        "x": 1320
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1400
+      },
+      {
+        "kind": "branchPile",
+        "x": 1592
+      },
+      {
+        "kind": "branchPile",
+        "x": 1610
+      },
+      {
+        "kind": "branchPile",
+        "x": 1618
+      },
+      {
+        "kind": "branchPile",
+        "x": 1630
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1650
+      },
+      {
+        "kind": "branchPile",
+        "x": 1754
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1762
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1771
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1787
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1976
+      },
+      {
+        "kind": "branchPile",
+        "x": 1985
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2161
+      },
+      {
+        "kind": "branchPile",
+        "x": 2168
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2174
+      },
+      {
+        "kind": "branchPile",
+        "x": 2188
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2220
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2275
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2430
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2703
+      },
+      {
+        "kind": "branchPile",
+        "x": 2720
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2728
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2736
+      },
+      {
+        "kind": "branchPile",
+        "x": 2743
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2947
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2966
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2974
+      },
+      {
+        "kind": "branchPile",
+        "x": 2982
+      },
+      {
+        "kind": "branchPile",
+        "x": 3250
+      },
+      {
+        "kind": "branchPile",
+        "x": 3272
+      },
+      {
+        "kind": "branchPile",
+        "x": 3280
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 3292
+      },
+      {
+        "kind": "rootTangle",
+        "x": 3312
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 3470
+      },
+      {
+        "kind": "rootTangle",
+        "x": 3482
       }
     ]
   },
@@ -1327,6 +1672,30 @@
     "pipe": {
       "file": "art/pipe.webp",
       "source": "source/pipe-v1.png"
+    },
+    "oilDrum": {
+      "file": "art/oil-drum.webp",
+      "source": "source/oil-drum.png"
+    },
+    "corduroyLog": {
+      "file": "art/corduroy-log.webp",
+      "source": "source/corduroy-log.png"
+    },
+    "rottenLog": {
+      "file": "art/rotten-log.webp",
+      "source": "source/rotten-log.png"
+    },
+    "rootTangle": {
+      "file": "art/root-tangle.webp",
+      "source": "source/root-tangle.png"
+    },
+    "concreteSlab": {
+      "file": "art/concrete-slab.webp",
+      "source": "source/concrete-slab.png"
+    },
+    "branchPile": {
+      "file": "art/branch-pile.webp",
+      "source": "source/branch-pile.png"
     }
   },
   "rockHulls": "rock-hulls.json",
@@ -1378,6 +1747,27 @@
         "nearRight": [
           1138,
           650
+        ]
+      },
+      "oilDrum": {
+        "face": [
+          467,
+          556,
+          450
+        ]
+      },
+      "corduroyLog": {
+        "face": [
+          224,
+          704,
+          178
+        ]
+      },
+      "rottenLog": {
+        "face": [
+          299,
+          686,
+          280
         ]
       }
     }

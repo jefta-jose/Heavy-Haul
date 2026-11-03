@@ -62,7 +62,7 @@ test('deep bogs have a deeper physical bed and visibly greater tire immersion', 
 test('all logs and pipes form ground-level runs of four to six with varied gaps', () => {
   const s = spawn(newSim(), 30), runs = content.season.trail.obstacleRuns;
   assert.equal(s.logs.length, runs.reduce((n, run) => n + run.count, 0), 'no isolated or extra stacked obstacles');
-  assert.deepEqual([...new Set(runs.map(r => r.count))].sort(), [4, 5, 6]);
+  assert.deepEqual([...new Set(runs.filter(r => ['log', 'pipe'].includes(r.kind)).map(r => r.count))].sort(), [4, 5, 6]);
   const gaps = [];
   for (const [index, spec] of runs.entries()) {
     const row = s.logs.filter(l => l.run === index).sort((a,b) => a.x-b.x);
