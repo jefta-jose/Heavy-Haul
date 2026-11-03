@@ -19,7 +19,7 @@ export const FRAMING = {
   keepIn: 0.45,                    // the car body's centre stays within this share of the half-height (clear of the HUD)
   job: { zoomScale: 2.0 },           // zoom during a winch or refuel job, times the truck's own
   maxDpr: 1.5,
-  phoneMaxDpr: 1.25,                // touch screens under 520 px tall: sharp enough there, and it holds 60 fps
+  phoneMaxDpr: 1.75,                // touch screens under 520 px tall: their trucks are small, so they need the pixels; main.js steps down if the phone can't hold it
 };
 
 export function createView(canvas, sim) {

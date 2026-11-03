@@ -228,21 +228,33 @@ window.addEventListener('resize', resize);
 
 // ---------- loop ----------
 // Physics runs at a fixed 120 Hz; rendering follows the display, drawn between steps (interpolate.js). If frames run long for a few
-// seconds the canvas resolution steps down. Start-up frames are slow while art caches build, so
+// seconds the canvas resolution steps down, and after a long steady spell it climbs back. Start-up frames are slow while art caches build, so
 // adaptation waits 5 s, and the resize happens before drawing (resizing clears the canvas).
 const DT = 1 / 120, TOUCH = matchMedia('(pointer: coarse)').matches;
+const MIN_QUALITY = TOUCH ? 0.8 : 0.6;   // a phone stays this sharp even if it can't hold 50 fps
 let last = performance.now(), acc = 0, slowT = 0, frameAvg = 1 / 60, pendingResize = false;
+// a climb that soon has to step down again means this phone can't hold it: wait twice as long next time
+let steadyT = 0, climbAfter = 20, climbedAt = -Infinity;
 function adapt(dt) {
-  if (session.state !== 'play' || session.run.time < 5) { frameAvg = 1 / 60; slowT = 0; return; }
+  if (session.state !== 'play' || session.run.time < 5) { frameAvg = 1 / 60; slowT = 0; steadyT = 0; return; }
   frameAvg += (dt - frameAvg) * 0.05;
   // touch devices step down sooner (under 50 fps for 2 s), so a phone holds 60 fps rather than ~40
   const slow = TOUCH ? 1 / 50 : 1 / 40;
   slowT = frameAvg > slow ? slowT + dt : Math.max(0, slowT - dt);
-  if (slowT > (TOUCH ? 2 : 3) && view.quality > 0.6) { view.quality = Math.max(0.6, view.quality - 0.15); slowT = 0; frameAvg = 1 / 60; pendingResize = true; }
+  steadyT = frameAvg < 1 / 55 ? steadyT + dt : 0;
+  if (slowT > (TOUCH ? 2 : 3) && view.quality > MIN_QUALITY) {
+    if (performance.now() - climbedAt < 30000) climbAfter *= 2;
+    view.quality = Math.max(MIN_QUALITY, view.quality - 0.15); slowT = steadyT = 0; frameAvg = 1 / 60; pendingResize = true;
+  } else if (steadyT > climbAfter && view.quality < 1) {
+    view.quality = Math.min(1, view.quality + 0.1); steadyT = 0; climbedAt = performance.now(); pendingResize = true;
+  }
 }
 function frame(now) {
   const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
-  if (pendingResize) { pendingResize = false; resize(); }
+  if (pendingResize) {   // only the pixel count changes, so the camera stays where it is
+    pendingResize = false;
+    const { x, y, vx, vy } = view.cam; resize(); Object.assign(view.cam, { x, y, vx, vy });
+  }
   const playing = session.state === 'play';
   if (playing) {
     const held = input.read();

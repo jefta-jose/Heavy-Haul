@@ -180,8 +180,10 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
   phone alternates one and two steps per frame and the truck stutters.
 - A finger is full pedal while it is down; only a mouse eases off by dragging and a pen uses pressure.
   Thumbs drifting on the old drag-to-ease pedal silently lost power.
-- Touch screens under 520 px tall cap the pixel ratio at 1.25, and adaptive quality steps down after
-  2 s under 50 fps (desktop: 3 s under 40 fps).
+- Touch screens under 520 px tall cap the pixel ratio at 1.75 (raised from 1.25 on 2026-11-04: trucks were
+  blurry; 1.5 is the fallback if phones get choppy). Adaptive quality steps down after 2 s under 50 fps
+  (desktop: 3 s under 40 fps), to 80% at the lowest on touch, and climbs back after 20 s over 55 fps,
+  waiting twice as long whenever a climb has to be undone within 30 s.
 - Haptics (`src/game/haptics.js`, Android browsers only): gear and drive-mode ticks, hard hits, winch hook-on,
   low fuel.
 - Phone HUD (the block at the end of `game.css`): fuel bar with the truck's name under it, depot distance,
