@@ -38,7 +38,6 @@ for (const [id, expected] of Object.entries(newDrops)) {
     rig.axles.forEach((ax, i) => assert(Math.abs(rig.bodyOrigin[0] + ax * rig.pixelsPerMetre - expected[i]) < 3, `axle ${i} matches its painted rim`));
     assert.equal(car.physics.load.massT, car.load.massT);
     assert(car.physics.load.massT > 0, 'cargo has physical mass');
-    if (car.class === 'highway') assert(!car.drivetrain.drivenAxles.includes(2), 'the trailer axle rolls freely');
     for (const art of Object.values(car.art)) assert(fs.statSync(path.join(ROOT, car.dir, art.file)).size > 1000, 'runtime artwork exists');
     const s = spawn(newSim(car), 30), x = s.truck.getPosition().x;
     s.ctl.gas = 1; advance(s, 10);

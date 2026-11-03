@@ -3,7 +3,7 @@
   "name": "Thunder Road",
   "number": 14,
   "class": "highway",
-  "drive": "6\u00d74",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Arctic white highway tractor with its semi-trailer",
@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 700,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -242,11 +242,7 @@
     },
     "brakeTorque": 40590,
     "openDiffGrip": 1,
-    "fuelLitres": 710,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 710
   },
   "load": {
     "name": "Double container",

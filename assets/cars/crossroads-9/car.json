@@ -3,7 +3,7 @@
   "name": "Crossroads",
   "number": 9,
   "class": "highway",
-  "drive": "6×2",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Signal red highway tractor with its semi-trailer",

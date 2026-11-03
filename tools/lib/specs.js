@@ -7,9 +7,8 @@ const round = (v, d = 0) => Math.round(v * 10 ** d) / 10 ** d;
 
 export function deriveSpecs(car) {
   const d = car.drivetrain, curve = d.torqueCurve.map(([rpm, t]) => [rpm, t * d.torqueScale]);
-  // top speed: the governed engine speed through high gear, on the rearmost driven axle's tires
-  const driven = d.drivenAxles ?? car.rig.axles.map((_, i) => i);
-  const R = wheelRadius(car.rig, driven.at(-1));
+  // top speed: the governed engine speed through high gear, on the rearmost axle's tires
+  const R = wheelRadius(car.rig, car.rig.axles.length - 1);
   const specs = {
     massT: round(car.physics.mass / 1000, 1),
     powerKw: round(Math.max(...curve.map(([rpm, t]) => t * rpm * 2 * Math.PI / 60 / 1000))),

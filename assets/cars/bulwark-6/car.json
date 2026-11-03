@@ -3,7 +3,7 @@
   "name": "Bulwark",
   "number": 6,
   "class": "heavy",
-  "drive": "8\u00d74",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Wind turbine blade heavy hauler",
@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 600.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -255,11 +255,7 @@
     },
     "brakeTorque": 398973,
     "openDiffGrip": 1,
-    "fuelLitres": 968,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 968
   },
   "load": {
     "name": "Wind turbine blade",

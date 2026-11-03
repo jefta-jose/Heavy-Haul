@@ -6,9 +6,6 @@
   "drive": "6\u00d76",
   "wheelType": "mud-terrain",
   "status": "playable",
-  "audio": {
-    "engine": "heavy-duty"
-  },
   "tagline": "Heavy-duty recovery truck that never gets stuck",
   "description": "A red 6\u00d76 wrecker for the heavy-duty class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {

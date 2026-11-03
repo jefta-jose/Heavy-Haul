@@ -90,7 +90,7 @@ provides 20% less wheel torque at the same engine torque. Changing `torqueScale`
 `drive`, `tagline`, `description`, `stats` and `biomes` describe it in the garage. Class also
 affects service recovery rules. `status` records content availability.
 
-`drive` is a label such as `4×4`; powered axles are controlled by `drivetrain.drivenAxles`.
+`drive` is a label such as `4×4`. Every axle is powered; 4×4 off leaves out only axle `0`.
 `stats.power` and `stats.grip` are display bars, not engine or friction controls. However,
 `stats.fuelEfficiency` **does affect fuel consumption**: adding 40 halves its fuel-burn multiplier.
 `wheelType` also affects actual traction, using the surface grip table in
@@ -118,7 +118,6 @@ affects service recovery rules. `status` records content availability.
 | `gears.H`, `gears.L`, `gears.R` | Reduction ratios: higher means stronger and slower; lower means faster and weaker. |
 | `brakeTorque` | Wheel brake torque limit, also used by the handbrake. |
 | `openDiffGrip` | Multiplier on the grip-based torque allowance with the differential unlocked. |
-| `drivenAxles` | Optional powered axle indexes, starting at `0`. Omit trailer axles. If absent, all axles are eligible; AWD off excludes axle `0`. |
 | `fuelLitres` | Fuel tank capacity in litres. |
 | `fuelBurn` | Optional fuel consumption multiplier, default `1`. |
 
@@ -176,7 +175,7 @@ to the hub line, including tandem gaps, with the separate tire dropped by a thir
 | `wheelScale` | Optional per-axle tire-radius multipliers; normally omit for equal tires. |
 | `wheelPivot` | Rotation centre `[x, y]` in wheel-image pixels. |
 | `wheelArtRadius` | Tire radius within the wheel image, in pixels; used to scale it to the physical radius. |
-| `farWheelOffset` | Visual offset for the far-side wheels. |
+| `farWheelOffset` | Visual offset for the far-side wheels. Always `[0.2, 0.13]` on every car: never tune it per car. |
 | `archCircles` | Body-image circles `[x, y, radius]` in pixels controlling fender overlays above the tires. |
 | `exhaust` | Exhaust particle emission point in local metres. |
 | `winch` | Winch cable attachment point in local metres. |

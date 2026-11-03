@@ -25,8 +25,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   nearest vehicle, and drive away to tow it. The cable never reels in. Service trucks never get stuck
   and never run out of fuel.
 - Cars have fixed tires and art. The garage **tuning** panel (`src/game/tuning.js`) scales any car's
-  specs: 5 knobs (engine, suspension, speed, grip, load weight), each 0 to 100 in steps of 25 and each
-  moving several car.json fields; every car can max all five. Saved per car in the browser. New cars
+  specs: 4 knobs (engine, suspension, speed, grip), each 0 to 100 in steps of 25 and each
+  moving several car.json fields; every car can max all four. Weight and load are never tuned: each car
+  keeps its own (the load-weight knob was removed on 2026-11-03). Saved per car in the browser. New cars
   need nothing; extend a knob's `apply` to tune something new.
 - Ruts are drawn only (`src/render/layers/mud.js`): they last the run and clear on a new run or the
   garage. Persistent physics ruts were tried and dropped on 2026-10-29 (they made the trail
@@ -65,7 +66,8 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    (fixed on 2026-10-31).
 4. **Write `car.json`** with `swamp-scout-4/car.json` as the template:
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
-     winch and nose points), and the card fields;
+     winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
+     car**, whatever its size; never tune it per car;
    - `camera.zoom`: the car's own view, set by the user per car (1.5 = 17.7 m of trail across the
      screen; long rigs need more, e.g. 3.4 for the Ice Breaker, 4.0 for the Mountain Mover). There is
      no zoom button. Check the whole rig fits with room ahead on desktop and phone;
@@ -73,9 +75,8 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
      body outline including the load, suspension sized to the loaded weight;
    - `drivetrain`: torque from `powerKw` / `torqueNm` sized for the loaded weight, gears for a
-     sensible top speed; for a rig with a trailer drawn in, list the powered axle indices in
-     `drivenAxles` (front first, so trailer axles roll free).
-   - sound comes from the car's class: each class has one recorded engine in the sound bank
+     sensible top speed. Every axle is powered, trailer axles included.
+   - sound comes from the car's class, service trucks included: each class has one recorded engine in the sound bank
      (`assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`). A car needs no audio
      block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
      `backupAlarm` override the class's. Never replace recordings with synthesis. See

@@ -46,16 +46,16 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.equal(await page.locator('.gtile:not(.locked)').count(), heavyDutyCount, 'class availability follows the current roster');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     await capture('00-garage');
-    // tuning opens in the UPGRADE panel: five knobs, each can go to 100 in steps of 25; the run uses the tuned car
+    // tuning opens in the UPGRADE panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
     assert(!await page.locator('.tune').first().isVisible(), 'the knobs stay hidden until UPGRADE');
     await page.click('#upgradeBtn');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
-    assert.deepEqual(await page.locator('.tune .tname b').allInnerTexts(), ['Engine', 'Suspension', 'Speed', 'Grip', 'Load weight']);
+    assert.deepEqual(await page.locator('.tune .tname b').allInnerTexts(), ['Engine', 'Suspension', 'Speed', 'Grip']);
     const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tstep', { hasText: '+' });
     for (let i = 0; i < 2; i++) await plus(engine).click();
     assert.equal(await engine.locator('.tval').innerText(), '50', 'two steps of 25');
     assert.equal(await engine.locator('.tbar').getAttribute('aria-valuenow'), '50');
-    for (const name of ['Suspension', 'Speed', 'Grip', 'Load weight']) {
+    for (const name of ['Suspension', 'Speed', 'Grip']) {
       const row = page.locator('.tune', { hasText: name });
       for (let i = 0; i < 4; i++) await plus(row).click();
       assert.equal(await row.locator('.tval').innerText(), '100', `${name}: four taps to 100`);

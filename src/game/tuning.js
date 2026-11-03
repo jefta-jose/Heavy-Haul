@@ -1,5 +1,5 @@
-// Garage tuning: five knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
-// take all five to 100. A knob moves several car.json values together (the twelve old single-purpose
+// Garage tuning: four knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
+// take all four to 100. A car's weight and load are never tuned: they stay as its car.json has them. A knob moves several car.json values together (the twelve old single-purpose
 // knobs, grouped), each from 1 at stock to its own `max` multiplier at 100, so every car, present or
 // future, tunes with no per-car code. `stat` names the garage stat bar a knob lifts.
 
@@ -23,12 +23,10 @@ export const KNOBS = [
     } },
   { id: 'speed', label: 'Speed', hint: 'longer gears: faster in high, low and reverse', stat: 'speed',
     apply: (c, t) => { scale(c.drivetrain.gears, 'H', 1 / part(1.7, t)); scale(c.drivetrain.gears, 'L', 1 / part(1.3, t)); scale(c.drivetrain.gears, 'R', 1 / part(1.3, t)); } },
-  { id: 'grip', label: 'Grip', hint: 'tire grip on every surface, and brakes', stat: 'grip',
-    apply: (c, t) => { c.physics.tireGrip = (c.physics.tireGrip ?? 1) * part(1.8, t); scale(c.drivetrain, 'brakeTorque', part(2.5, t)); } },
-  { id: 'load', label: 'Load weight', hint: 'carries a heavier load on a lighter frame', stat: 'capacity',
+  { id: 'grip', label: 'Grip', hint: 'grip, brakes, mud pull in L', stat: 'grip',
     apply: (c, t) => {
-      scale(c.physics, 'mass', 1 / part(1.7, t));
-      if (c.physics.load) scale(c.physics.load, 'massT', part(2.5, t)); if (c.load) scale(c.load, 'massT', part(2.5, t));
+      c.physics.tireGrip = (c.physics.tireGrip ?? 1) * part(1.8, t); scale(c.drivetrain, 'brakeTorque', part(2.5, t));
+      c.physics.mudPull = (c.physics.mudPull ?? 1) * part(2, t);
     } },
 ];
 

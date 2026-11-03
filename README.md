@@ -38,8 +38,9 @@ src/
     sprite-cache.js       sprites resampled once per zoom level
     particles.js          smoke, dust, mud, splashes, rock debris
     layers/               background, ground (bank + road lane), props, vehicle, water
-  audio/                  recorded sound: engine.js (class engine voices), loop-player.js (seamless
-                          beds), vehicle-audio.js (tires, water, mud, brakes, load, ambience, volumes)
+  audio/                  recorded sound: engine.js (class engine voices and the sound-only rev model),
+                          loop-player.js (seamless beds), vehicle-audio.js (tires, chassis, water, mud,
+                          brakes, load, winch, pump, ambience, volumes)
   game/                   view (canvas + camera), input, hud, session (rules and flow)
 assets/                   cars (each drawn with its load), seasons, HUD (see assets/README.md)
 docs/game-design.md       cars with loads, garage, fuel, service trucks and winching
@@ -93,7 +94,7 @@ Browser captures are written to `output/captures/` for visual review.
 | Framing | `FRAMING` in `src/game/view.js` (`front`, ground line, default `zoom`) |
 | Zoom per car | `camera.zoom` in the car's `car.json` (1.5 = 17.7 m of trail across the screen; higher shows more) |
 | Take-off and cruise | `drivetrain` in `car.json`: `converterBoost`, `driveRamp`, `throttleRise`, `gears` |
-| Power, speed, grip, weight of one car | its own `car.json` only: `drivetrain.torqueScale`, `gears`, `governedRpm`, `physics.tireGrip`, `physics.mass`, `physics.load.massT`; roster numbers follow automatically (`tools/lib/specs.js`) |
+| Power, speed, grip, weight of one car | its own `car.json` only: `drivetrain.torqueScale`, `gears`, `governedRpm`, `physics.tireGrip`, `physics.mudPull` (divides mud drag in L only, 1 = stock), `physics.mass`, `physics.load.massT`; roster numbers follow automatically (`tools/lib/specs.js`) |
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink`; heavy-mud pits only: `heavySink`, `heavyDrag` (drag as a share of tire load), `heavyGrip` (grip left at the pit centre); `bogRefT` (tire load in t below which bog drag shrinks, so light trucks wiggle through) |
 | Suspension | `physics.suspension` in `car.json` |
 | Trail shape | `trail` in `season.json`; obstacle generation in `terrain.js` / `obstacles.js` |

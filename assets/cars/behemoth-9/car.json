@@ -3,7 +3,7 @@
   "name": "Behemoth",
   "number": 9,
   "class": "heavy",
-  "drive": "8\u00d74",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Diesel locomotive heavy hauler",
@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 597.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -255,11 +255,7 @@
     },
     "brakeTorque": 1091304,
     "openDiffGrip": 1,
-    "fuelLitres": 1189,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1189
   },
   "load": {
     "name": "Diesel locomotive",

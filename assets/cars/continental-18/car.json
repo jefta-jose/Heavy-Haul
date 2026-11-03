@@ -3,7 +3,7 @@
   "name": "Continental",
   "number": 18,
   "class": "highway",
-  "drive": "6\u00d74",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Forest green highway tractor with its semi-trailer",
@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 700,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -242,11 +242,7 @@
     },
     "brakeTorque": 47300,
     "openDiffGrip": 1,
-    "fuelLitres": 836,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 836
   },
   "load": {
     "name": "Fuel double",

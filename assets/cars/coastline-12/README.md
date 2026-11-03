@@ -1,6 +1,6 @@
 # Coastline 12
 
-Status: **planned** · class `highway`, tier 12 of 20 · 6×2, 3 axles · 11.9 t empty · 393 kW · all-terrain tires, 1.13 m
+Status: **planned** · class `highway`, tier 12 of 20 · 4×4, 3 axles · 11.9 t empty · 393 kW · all-terrain tires, 1.13 m
 Load: **Brick pallets**, 20 t
 
 ## Art brief

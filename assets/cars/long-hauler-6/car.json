@@ -59,8 +59,8 @@
     ],
     "wheelArtRadius": 547.5,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -229,16 +229,12 @@
     "exhaustBrake": 213,
     "gears": {
       "H": 6.297735841575159,
-      "L": 44,
+      "L": 34,
       "R": 26
     },
     "brakeTorque": 30030,
     "openDiffGrip": 1,
-    "fuelLitres": 457,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 457
   },
   "load": {
     "name": "Steel coils",

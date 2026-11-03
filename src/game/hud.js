@@ -114,13 +114,14 @@ export function createHud({ sim, season }) {
   function drawGauges() {
     const w = els.gauges.width, h = els.gauges.height; gx.clearRect(0, 0, w, h);
     const r = Math.min(w / 4.25, h / 2.02), kmh = Math.abs(sim.st.speed * 3.6), gov = (sim.car.drivetrain.governedRpm ?? 2300) / 1000;
+    const rpm = (sim.st.soundRpm ?? sim.st.rpm) / 1000;   // the revs you hear, when the sound is running
     // phones get one compact dial (CSS makes the canvas square): the RPM needle around the speed
     if (w < h * 1.5) {
       const R = Math.min(w, h) / 2.02;
-      dial(w / 2, h / 2, R, sim.st.rpm / 1000, 3, { label: 'km/h', majors: 3, minors: 5, redFrom: gov / 3, readout: String(Math.round(kmh)), lit: ['#f2b705', '#ff7a1a'] });
+      dial(w / 2, h / 2, R, rpm, 3, { label: 'km/h', majors: 3, minors: 5, redFrom: gov / 3, readout: String(Math.round(kmh)), lit: ['#f2b705', '#ff7a1a'] });
       return;
     }
-    dial(w / 2 - r * 1.06, h / 2, r, sim.st.rpm / 1000, 3, { label: 'RPM ×1000', majors: 3, minors: 5, redFrom: gov / 3, readout: sim.ctl.gear, lit: ['#f2b705', '#ff7a1a'] });
+    dial(w / 2 - r * 1.06, h / 2, r, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 5, redFrom: gov / 3, readout: sim.ctl.gear, lit: ['#f2b705', '#ff7a1a'] });
     dial(w / 2 + r * 1.06, h / 2, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
   }
 

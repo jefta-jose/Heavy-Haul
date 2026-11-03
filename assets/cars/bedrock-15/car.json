@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 594,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -207,12 +207,7 @@
     },
     "brakeTorque": 38060,
     "openDiffGrip": 1,
-    "fuelLitres": 507,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 507
   },
   "load": {
     "name": "Drill pipes",

@@ -3,7 +3,7 @@
   "name": "Coastline",
   "number": 12,
   "class": "highway",
-  "drive": "6×2",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Chrome silver highway tractor with its semi-trailer",
@@ -61,8 +61,8 @@
     ],
     "wheelArtRadius": 546.0,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,12 +241,7 @@
     },
     "brakeTorque": 41470,
     "openDiffGrip": 1,
-    "fuelLitres": 647,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 647
   },
   "load": {
     "name": "Brick pallets",

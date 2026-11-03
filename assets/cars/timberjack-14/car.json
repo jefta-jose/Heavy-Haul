@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 614,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -207,12 +207,7 @@
     },
     "brakeTorque": 41690,
     "openDiffGrip": 1,
-    "fuelLitres": 489,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 489
   },
   "load": {
     "name": "Boulders",

@@ -59,8 +59,8 @@
     ],
     "wheelArtRadius": 567.0,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -234,11 +234,7 @@
     },
     "brakeTorque": 26780,
     "openDiffGrip": 1,
-    "fuelLitres": 426,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 426
   },
   "load": {
     "name": "Cement tanker",

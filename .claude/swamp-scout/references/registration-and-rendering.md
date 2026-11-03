@@ -45,7 +45,7 @@ The default profile without that option remains the old heavy hauler for legacy 
 Current scout baseline:
 
 - The load is part of the car: its art is in the body image and its mass is `physics.load`. A rig
-  with a trailer drawn in is one body with all its axles and `drivetrain.drivenAxles`.
+  with a trailer drawn in is one body with all its axles, all of them powered.
 - Two physical axle/wheel bodies represent four visible road tires on a single travel line.
 - Chassis mass 3800 kg plus two 180 kg axle/wheel bodies; approximately 4.2 t total.
 - Brisk take-off, smooth drive: torque curve 0.17 x the heavy diesel with torque-converter
@@ -64,8 +64,7 @@ Current scout baseline:
   4×4 and differential lock. Toggling either flashes a green (on) or red (off) outline around the vehicle.
 
 For different vehicles, recompute mass, clearance, axle positions, spring loading and torque to fit the
-new rig. Rear axle load distribution must use the actual axle count. Derive driven wheel indices from
-available wheels; the old three-axle `[0,1,2]` assumption fails on this two-axle scout. Hiding a trailer
+new rig. Rear axle load distribution must use the actual axle count. Hiding a trailer
 sprite is insufficient when its physical body and mass are still attached.
 
 ## Preserve layer order
@@ -85,9 +84,9 @@ The active sequence is:
 Every sprite is drawn from canvases resampled once per zoom level in `prepare()`, never from the full
 source images. See [feel, audio and performance](feel-audio-and-performance.md).
 
-Far tires currently use a constant world projection offset `(0.2, 0.13)`, radius factor `0.95` and a
-pre-darkened copy of the wheel (no per-frame `ctx.filter`, which was a major frame-time cost). These are
-tuning values for this art and camera, not universal offsets for every vehicle.
+Far tires use the same world projection offset on every car (hard rule: `rig.farWheelOffset` is
+`[0.2, 0.13]`, never tuned per car), radius factor `0.95` and a pre-darkened copy of the wheel (no
+per-frame `ctx.filter`, which was a major frame-time cost).
 
 The fender redraw is the body with the `archCircles` (body pixels `[x, y, r]` in `car.json` `rig`) cut out.
 It restores the flares over the near tires while springs and liners inside the arch stay behind the

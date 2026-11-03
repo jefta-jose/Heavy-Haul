@@ -3,7 +3,7 @@
   "name": "Silver Arrow",
   "number": 10,
   "class": "highway",
-  "drive": "6×2",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Burnt orange highway tractor with its semi-trailer",
@@ -61,8 +61,8 @@
     ],
     "wheelArtRadius": 575.0,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,12 +241,7 @@
     },
     "brakeTorque": 35100,
     "openDiffGrip": 1,
-    "fuelLitres": 584,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 584
   },
   "load": {
     "name": "Reefer freight",

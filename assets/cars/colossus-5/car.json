@@ -3,7 +3,7 @@
   "name": "Colossus",
   "number": 5,
   "class": "heavy",
-  "drive": "6\u00d74",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Bridge beams heavy hauler",
@@ -62,8 +62,8 @@
     ],
     "wheelArtRadius": 588.0,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -226,12 +226,7 @@
     },
     "brakeTorque": 553425,
     "openDiffGrip": 1,
-    "fuelLitres": 894,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 894
   },
   "load": {
     "name": "Bridge beams",

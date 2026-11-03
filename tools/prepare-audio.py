@@ -3,11 +3,15 @@ the CC0 / CC BY field recordings listed in assets/audio/sources.json.
 
     uv run --with numpy --with scipy --with imageio-ffmpeg python tools/prepare-audio.py
 
+The masters live outside the repo (HAUL_AUDIO_MASTERS, default ~/heavy-haul-archive/audio-masters); one
+that is missing is fetched from its `download` URL, and every file must match its SHA-256.
+
 Reads the recipe assets/audio/sounds.json and writes assets/audio/bank/*.mp3 plus bank.json:
-- engines: per truck class, a start clip, idle / drive / pull layers (steady regions joined with
-  crossfades and levelled, so the game's grain player can play any part of them) and an optional
-  shutdown clip. The start clip's tail and the stop clip's head are matched to the idle level so the
-  hand-over is smooth.
+- engines: per truck class, recorded layers at their measured revs (idle, part-throttle `on` anchors, hard-working
+  `pull` anchors, coast and an optional sub rumble) plus start and stop clips. A layer's `hz` is the firing frequency measured in the
+  recording, so its true rpm is hz * 120 / cylinders and the game can pitch it to any revs in tune.
+  `flatten` follows that frequency through a rev sweep and resamples it to one steady pitch, so a real
+  pull-away becomes a layer that stays where the game puts it instead of revving by itself.
 - effects: `clip` (one cut), `loop` (joined steady regions), `texture` (a smooth bed made offline from
   many short overlapping grains of a rhythmic recording, so footsteps become an even wade or squelch)
   and `oneshots` (the loudest separate events, each cut with fades).
@@ -15,32 +19,46 @@ Reads the recipe assets/audio/sounds.json and writes assets/audio/bank/*.mp3 plu
 from pathlib import Path
 import hashlib
 import json
+import os
 import subprocess
 import tempfile
+import urllib.request
 import wave
 import numpy as np
-from scipy.signal import butter, sosfiltfilt, resample_poly
+from scipy.signal import butter, sosfilt, sosfiltfilt, resample_poly, medfilt
 import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'assets/audio'
 OUT = BASE / 'bank'
+MASTERS = Path(os.environ.get('HAUL_AUDIO_MASTERS', Path.home() / 'heavy-haul-archive/audio-masters'))
 SR = 44100
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 RNG = np.random.default_rng(7)
-LEVEL = {'idle': 0.11, 'drive': 0.15, 'pull': 0.17, 'loop': 0.12, 'texture': 0.12}
+# loudness targets (weighted RMS, see loudness()): the game sets the mix, so every layer starts level
+LEVEL = {'engine': 0.10, 'sub': 0.05, 'loop': 0.12, 'texture': 0.12}
 
 _decoded = {}
 
 
+def master(src):
+    """A master's path, downloaded first if it is not on this machine, checked against its hash."""
+    path = MASTERS / Path(src['file']).name
+    if not path.exists():
+        MASTERS.mkdir(parents=True, exist_ok=True)
+        print(f'fetching {src["id"]} from {src["download"]}')
+        req = urllib.request.Request(src['download'], headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=300) as r:
+            path.write_bytes(r.read())
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == src['sha256'], f'{path} does not match sources.json'
+    return path
+
+
 def decode(sid, sources):
     if sid not in _decoded:
-        src = sources[sid]
-        path = BASE / src['file']
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == src['sha256'], f'{path} does not match sources.json'
-        raw = subprocess.check_output([FF, '-v', 'error', '-i', str(path), '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'])
+        raw = subprocess.check_output([FF, '-v', 'error', '-i', str(master(sources[sid])), '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'])
         x = np.frombuffer(raw, dtype='<f4').astype(np.float64)
-        _decoded[sid] = sosfiltfilt(butter(2, 32, 'highpass', fs=SR, output='sos'), x)
+        _decoded[sid] = sosfiltfilt(butter(2, 28, 'highpass', fs=SR, output='sos'), x)
     return _decoded[sid]
 
 
@@ -49,6 +67,12 @@ def filt(x, spec):
         x = sosfiltfilt(butter(2, spec['highpass'], 'highpass', fs=SR, output='sos'), x)
     if spec.get('lowpass'):
         x = sosfiltfilt(butter(2, spec['lowpass'], 'lowpass', fs=SR, output='sos'), x)
+    if spec.get('band'):
+        x = sosfiltfilt(butter(2, spec['band'], 'bandpass', fs=SR, output='sos'), x)
+    if spec.get('lowShelf'):
+        # add body to a thin recording: its own lows mixed back in, louder
+        hz, db = spec['lowShelf']
+        x = x + (10 ** (db / 20) - 1) * sosfiltfilt(butter(2, hz, 'lowpass', fs=SR, output='sos'), x)
     return x
 
 
@@ -58,6 +82,13 @@ def cut(x, lo, hi):
 
 def rms(x):
     return float(np.sqrt(np.mean(x * x)) + 1e-9)
+
+
+def loudness(x):
+    """RMS as the ear weighs it (roughly K-weighting): the sub-bass that fills up a recording counts
+    for little, so a boomy cab recording and a bright exterior one come out equally loud."""
+    y = sosfilt(butter(2, 80, 'highpass', fs=SR, output='sos'), x)
+    return rms(y + 0.6 * sosfilt(butter(1, 1500, 'highpass', fs=SR, output='sos'), y))
 
 
 def level(x, strength=0.65, win=1.0):
@@ -74,6 +105,49 @@ def smooth(x, n):
     i = np.arange(len(x))
     lo, hi = np.clip(i - n // 2, 0, len(x)), np.clip(i + n // 2 + 1, 0, len(x))
     return (c[hi] - c[lo]) / (hi - lo)
+
+
+def track_pitch(x, lo, hi):
+    """The firing frequency over time: harmonic sum on a grid, joined by dynamic programming so one
+    loud rattle or an octave error cannot throw the track. Returns (frame times, hz)."""
+    down = 8
+    y = sosfiltfilt(butter(4, 1200, 'lowpass', fs=SR, output='sos'), x)[::down]
+    sr = SR / down
+    win, hop = round(0.5 * sr), round(0.05 * sr)
+    grid = np.arange(lo, hi + 0.25, 0.25)
+    freqs = np.fft.rfftfreq(16384, 1 / sr)
+    frames = range(0, max(1, len(y) - win), hop)
+    score = np.zeros((len(frames), len(grid)))
+    w = np.hanning(win)
+    for k, s in enumerate(frames):
+        z = y[s:s + win]
+        p = np.abs(np.fft.rfft(z * w[:len(z)], 16384)) ** 2
+        score[k] = sum(np.interp(grid * h, freqs, p) / h for h in range(1, 7))
+        score[k] /= score[k].max() + 1e-12
+    # best path, penalising jumps (firing frequency cannot leap between 50 ms frames)
+    jump = np.abs(grid[:, None] - grid[None, :]) * 0.12
+    best = score[0].copy()
+    back = np.zeros(score.shape, dtype=int)
+    for k in range(1, len(score)):
+        cand = best[None, :] - jump
+        back[k] = np.argmax(cand, axis=1)
+        best = score[k] + cand[np.arange(len(grid)), back[k]]
+    path = np.zeros(len(score), dtype=int)
+    path[-1] = int(np.argmax(best))
+    for k in range(len(score) - 1, 0, -1):
+        path[k - 1] = back[k, path[k]]
+    hz = medfilt(grid[path], 9 if len(path) > 9 else 1)
+    return (np.array(list(frames)) + win / 2) / sr, hz
+
+
+def flatten(x, target, lo, hi):
+    """Resample a rev sweep to one steady firing frequency."""
+    times, hz = track_pitch(x, lo, hi)
+    t = np.arange(len(x)) / SR
+    ratio = np.interp(t, times, hz) / target
+    pos = np.cumsum(1 / np.maximum(ratio, 0.2)) / SR   # output time for each input sample
+    out_t = np.arange(0, pos[-1], 1 / SR)
+    return np.interp(out_t, pos, x), float(np.median(hz)), float(hz.min()), float(hz.max())
 
 
 def join(parts, fade=0.5):
@@ -96,8 +170,11 @@ def fades(x, fin=0.005, fout=0.08):
     return x
 
 
-def to_rms(x, target, peak=0.89):
-    return x * min(target / rms(x), peak / max(float(np.max(np.abs(x))), 1e-9))
+def to_level(x, target, peak=0.89):
+    """Reach the loudness target; a soft limiter rounds any peak that would clip instead of the whole
+    clip being turned down, so a clip with one rattle in it is not quieter than its neighbours."""
+    y = x * target / loudness(x)
+    return np.where(np.abs(y) > 0.6, np.sign(y) * (0.6 + (peak - 0.6) * np.tanh((np.abs(y) - 0.6) / (peak - 0.6))), y)
 
 
 def to_rms_soft(x, target):
@@ -162,45 +239,71 @@ def encode(name, x, kbps):
     return {'file': f'bank/{name}.mp3', 'seconds': round(len(x) / SR, 3)}
 
 
+def engine_layer(cls, role, spec, cylinders, pitch, clips, sources):
+    """One steady recorded layer of an engine, with the revs it was recorded at."""
+    x = decode(spec['source'], sources)
+    parts, hz = [], spec.get('hz')
+    for a, b in spec['regions']:
+        y = filt(cut(x, a, b), spec)
+        if spec.get('flatten'):
+            # search around the wanted frequency so the track locks on to the firing order
+            y, med, lo, hi = flatten(y, hz, *spec['flatten'])
+            print(f'  {cls}.{role} {a}-{b}: firing {lo:.0f}-{hi:.0f} Hz (median {med:.0f}), flattened to {hz}')
+        parts.append(level(y, spec.get('leveling', 0.65)))
+    y = to_level(join(parts, 0.4), LEVEL['sub' if role == 'sub' else 'engine'])
+    name = f'engine-{cls}-{role}'
+    clips[name] = {**encode(name, y, 128), 'kind': 'loop', 'sources': [spec['source']]}
+    # the class's own pitch moves every layer together, keeping their rpm labels true to what plays
+    rpm = spec['rpm'] if 'rpm' in spec else hz * 120 / cylinders
+    return {'clip': name, 'rpm': round(rpm / pitch)}
+
+
+def engine_clip(cls, role, spec, idle_level, clips, sources):
+    x = cut(decode(spec['source'], sources), *spec['region'])
+    x = filt(x, spec)
+    if spec.get('pitch'):
+        x = resample_poly(x, 100, round(spec['pitch'] * 100))
+    x = fades(x, 0.01, 0.25 if role == 'start' else 0.4)
+    # match the running level: the start's tail and the stop's head sit at idle loudness
+    edge = x[-round(0.8 * SR):-round(0.25 * SR)] if role == 'start' else x[:round(0.6 * SR)]
+    y = x * min(idle_level * 1.1 / loudness(edge), 0.89 / max(float(np.max(np.abs(x))), 1e-9))
+    name = f'engine-{cls}-{role}'
+    clips[name] = {**encode(name, y, 128), 'kind': 'clip', 'sources': [spec['source']]}
+    return name
+
+
 def main():
     sources = {s['id']: s for s in json.loads((BASE / 'sources.json').read_text())['sources']}
     recipe = json.loads((BASE / 'sounds.json').read_text())
     clips, engines, effects = {}, {}, {}
+    # nothing stale: the bank is exactly what this recipe builds
+    OUT.mkdir(exist_ok=True)
+    for old in OUT.iterdir():
+        old.unlink()
     for cls, e in recipe['engines'].items():
-        layers = {}
-        for role in ('idle', 'drive', 'pull'):
-            if role not in e:
-                continue
-            spec = e[role]
-            x = decode(spec['source'], sources)
-            parts = [level(filt(cut(x, a, b), spec)) for a, b in spec['regions']]
-            y = to_rms(join(parts), LEVEL[role])
-            name = f'engine-{cls}-{role}'
-            clips[name] = {**encode(name, y, 112), 'kind': 'loop', 'sources': [spec['source']]}
-            layers[role] = name
-        idle_rms = LEVEL['idle']
-        for role in ('start', 'stop'):
-            if role not in e:
-                continue
-            spec = e[role]
-            x = cut(decode(spec['source'], sources), *spec['region'])
-            if spec.get('pitch'):
-                p = round(spec['pitch'] * 100)
-                x = resample_poly(x, 100, p)
-            x = fades(x, 0.01, 0.25 if role == 'start' else 0.4)
-            # match the running level: the start's tail and the stop's head sit at idle loudness
-            edge = x[-round(0.8 * SR):-round(0.25 * SR)] if role == 'start' else x[:round(0.6 * SR)]
-            x = x * min(idle_rms * 1.1 / rms(edge), 0.89 / max(float(np.max(np.abs(x))), 1e-9))
-            name = f'engine-{cls}-{role}'
-            clips[name] = {**encode(name, x, 112), 'kind': 'clip', 'sources': [spec['source']]}
-            layers[role] = name
-        engines[cls] = {'name': e['name'], 'layers': layers, **{k: e[k] for k in ('crankS', 'pitch', 'cutoff', 'airBrakes')}}
+        print(cls)
+        cyl, pitch = e['cylinders'], e.get('pitch', 1)
+        layer = lambda role, spec: engine_layer(cls, role, spec, cyl, pitch, clips, sources)
+        pack = {k: e[k] for k in ('name', 'idleRpm', 'governedRpm', 'gears', 'shiftS', 'revUp', 'revDown', 'stall', 'turbo', 'crankS', 'airBrakes', 'cutoff') if k in e}
+        pack['pitch'] = pitch
+        pack['idle'] = layer('idle', e['idle'])
+        pack['on'] = sorted((layer(f'on{i + 1}', spec) for i, spec in enumerate(e['on'])), key=lambda l: l['rpm'])
+        if 'pull' in e:
+            pack['pull'] = sorted((layer(f'pull{i + 1}', spec) for i, spec in enumerate(e['pull'])), key=lambda l: l['rpm'])
+        pack['coast'] = layer('coast', e['coast'])
+        if 'sub' in e:
+            pack['sub'] = layer('sub', e['sub'])
+        pack['start'] = engine_clip(cls, 'start', e['start'], LEVEL['engine'], clips, sources)
+        if 'stop' in e:
+            pack['stop'] = engine_clip(cls, 'stop', e['stop'], LEVEL['engine'], clips, sources)
+        engines[cls] = pack
     for name, spec in recipe['effects'].items():
         x = filt(decode(spec['source'], sources), spec)
         kind = spec['kind']
         if kind == 'clip':
-            y = fades(cut(x, *spec['region']), 0.004, 0.15)
-            ys = [to_rms(y, 0.12, 0.9) if rms(y) * 6 < np.max(np.abs(y)) else y * 0.85 / max(float(np.max(np.abs(y))), 1e-9)]
+            y = fades(cut(x, *spec['region']), 0.004, spec.get('fadeOut', 0.15))
+            peak = max(float(np.max(np.abs(y))), 1e-9)
+            ys = [y * min(0.12 / rms(y), 0.9 / peak) if rms(y) * 6 < peak else y * 0.85 / peak]
         elif kind == 'loop':
             ys = [to_rms_soft(join([level(cut(x, a, b)) for a, b in spec['regions']]), LEVEL['loop'])]
         elif kind == 'texture':
@@ -214,8 +317,6 @@ def main():
             names.append(n)
         effects[name] = names
     bank = {'about': 'Generated by tools/prepare-audio.py from sounds.json; do not edit.', 'clips': clips, 'engines': engines, 'effects': effects}
-    from engine_atlas import build_atlases
-    bank = build_atlases(bank, recipe, sources)
     (OUT / 'bank.json').write_text(json.dumps(bank, indent=2) + '\n')
     size = sum((BASE / c['file']).stat().st_size for c in clips.values())
     print(f'Built {len(clips)} clips ({size / 1e6:.2f} MB MP3) for {len(engines)} engine classes and {len(effects)} effects.')

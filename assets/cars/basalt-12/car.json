@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 600.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,11 +241,7 @@
     },
     "brakeTorque": 1096460,
     "openDiffGrip": 1,
-    "fuelLitres": 1410,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1410
   },
   "load": {
     "name": "Ship hull section",

@@ -18,7 +18,7 @@ export function createGarage({ content, onStart }) {
   const order = [...content.cars].sort((a, b) => (rosterOf(a.id)?.order ?? 0) - (rosterOf(b.id)?.order ?? 0));
   let car = playable.get(content.defaultCar) ?? order[0], cls = car.class;
   const tuning = loadTuning();
-  // saved levels are trimmed to the five knobs when read
+  // saved levels are trimmed to the four knobs when read
   const tuneOf = id => (tuning[id] = validLevels(playable.get(id) ?? car, tuning[id] ?? {}));
   const tuned = () => applyTuning(car, tuning[car.id]);
   const bg = content.hud['garage-background'];

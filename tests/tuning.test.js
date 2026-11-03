@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 import { KNOBS, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
 import { content, newSim, spawn, advance } from './helpers.js';
 
-test('five knobs, levels in steps of 10, and every car can take all five to 100', () => {
-  assert.deepEqual(KNOBS.map(k => k.id), ['engine', 'suspension', 'speed', 'grip', 'load']);
+test('four knobs, levels in steps of 25, and every car can take all four to 100', () => {
+  assert.deepEqual(KNOBS.map(k => k.id), ['engine', 'suspension', 'speed', 'grip']);
   assert.equal(clampLevel(37), 25); assert.equal(clampLevel(40), 50); assert.equal(clampLevel(-20), 0); assert.equal(clampLevel(250), 100); assert.equal(clampLevel('x'), 0);
   const all = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
   assert.deepEqual(validLevels(content.car, all), all, 'no limit on how many knobs are full');
-  assert.deepEqual(validLevels(content.car, { power: 100, gearbox: 60, engine: 30 }), { engine: 25 }, 'old knob ids are dropped');
+  assert.deepEqual(validLevels(content.car, { power: 100, load: 100, engine: 30 }), { engine: 25 }, 'old knob ids are dropped');
   assert.equal(tunedStat(40, {}, 'power'), 40); assert.equal(tunedStat(40, { engine: 100 }, 'power'), 100); assert.equal(tunedStat(40, { engine: 50 }, 'power'), 70);
   assert.equal(levelColor(0), 'rgb(233,156,25)'); assert.equal(levelColor(100), 'rgb(57,214,106)');
 });
@@ -18,17 +18,18 @@ test('five knobs, levels in steps of 10, and every car can take all five to 100'
 test('each knob tunes every playable car and leaves the original alone', () => {
   for (const car of [...content.cars, ...content.service]) {
     const before = JSON.stringify(car);
-    const e = applyTuning(car, { engine: 100, speed: 100 }), c = applyTuning(car, { grip: 100, load: 100 }), s = applyTuning(car, { suspension: 100 });
+    const e = applyTuning(car, { engine: 100, speed: 100 }), c = applyTuning(car, { grip: 100 }), s = applyTuning(car, { suspension: 100 });
     const full = applyTuning(car, Object.fromEntries(KNOBS.map(k => [k.id, 100])));
     assert.equal(JSON.stringify(car), before, `${car.id}: original untouched`);
     assert.equal(e.drivetrain.torqueScale, car.drivetrain.torqueScale * 2.5, `${car.id}: engine power`);
     assert(e.drivetrain.throttleRise > car.drivetrain.throttleRise && e.drivetrain.fuelBurn < 1, `${car.id}: response and economy`);
     assert(Math.abs(e.drivetrain.gears.H - car.drivetrain.gears.H / 1.7) < 1e-9 && e.drivetrain.gears.L < car.drivetrain.gears.L, `${car.id}: speed`);
     assert(c.physics.tireGrip > 1.7 && c.drivetrain.brakeTorque > car.drivetrain.brakeTorque, `${car.id}: grip and brakes`);
-    assert(c.physics.mass < car.physics.mass, `${car.id}: lighter frame`);
+    assert.equal(c.physics.mudPull, (car.physics.mudPull ?? 1) * 2, `${car.id}: mud pull`);
+    assert.equal(full.physics.mass, car.physics.mass, `${car.id}: frame weight stays stock`);
+    assert.equal(full.physics.load?.massT, car.physics.load?.massT, `${car.id}: load stays stock`);
     assert(s.physics.suspension.travelUp > car.physics.suspension.travelUp, `${car.id}: suspension`);
     assert(e.tuned && c.tuned);
-    assert(c.physics.load ? c.physics.load.massT > car.physics.load.massT : true, `${car.id}: heavier load`);
     for (const t of [e, c, s, full]) { const sim = newSim(t); sim.init(30); advance(sim, 1); assert(Number.isFinite(sim.truck.getPosition().y), `${car.id}: tuned car simulates`); }
   }
   assert.equal(applyTuning(content.car, {}).tuned, false, 'level 0 is stock');
@@ -40,6 +41,10 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
   const flat = car => { const sim = spawn(newSim(car), 30, { gear: 'H', awd: true, diff: false }); sim.ctl.gas = 1; advance(sim, 2); return sim.st.speed; };
   assert(flat(applyTuning(stock, { engine: 50 })) > flat(stock) * 1.3, 'engine 50 accelerates harder');
   assert(metres(applyTuning(stock, { grip: 100 }), 600) > metres(stock, 600), 'full grip goes further in mud');
+  const pulling = structuredClone(stock); pulling.physics.mudPull = 2;
+  assert(metres(pulling, 600) > metres(stock, 600), 'mud pull alone goes further in mud');
+  const inGear = (car, gear) => { const sim = spawn(newSim(car), 600, { gear }); sim.ctl.gas = 1; advance(sim, 10); return sim.truck.getPosition().x; };
+  for (const gear of ['H', 'R']) assert.equal(inGear(pulling, gear), inGear(stock, gear), `mud pull does nothing in ${gear}`);
   const burn = car => { const sim = spawn(newSim(car), 440); const f0 = sim.st.fuel; sim.ctl.gas = 1; advance(sim, 8); return f0 - sim.st.fuel; };
   // economy rides on the engine knob, which also adds power (and so burn); per metre it still saves
   const perMetre = car => { const sim = spawn(newSim(car), 440); const f0 = sim.st.fuel, x0 = sim.truck.getPosition().x; sim.ctl.gas = 1; advance(sim, 8); return (f0 - sim.st.fuel) / Math.max(1, sim.truck.getPosition().x - x0); };

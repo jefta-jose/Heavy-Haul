@@ -3,7 +3,7 @@
   "name": "Overlander",
   "number": 8,
   "class": "highway",
-  "drive": "6×2",
+  "drive": "4×4",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Charcoal black highway tractor with its semi-trailer",
@@ -61,8 +61,8 @@
     ],
     "wheelArtRadius": 556.5,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,12 +241,7 @@
     },
     "brakeTorque": 24700,
     "openDiffGrip": 1,
-    "fuelLitres": 521,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 521
   },
   "load": {
     "name": "Cattle trailer",

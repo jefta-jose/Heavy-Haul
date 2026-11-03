@@ -1,6 +1,6 @@
 # Crossroads 9
 
-Status: **planned** · class `highway`, tier 9 of 20 · 6×2, 3 axles · 10.5 t empty · 346 kW · all-terrain tires, 1.11 m
+Status: **planned** · class `highway`, tier 9 of 20 · 4×4, 3 axles · 10.5 t empty · 346 kW · all-terrain tires, 1.11 m
 Load: **Shipping container**, 18 t
 
 ## Art brief

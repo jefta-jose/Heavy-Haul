@@ -1,15 +1,16 @@
 // Game audio from real recordings (assets/audio/sounds.json → assets/audio/bank, credits in
-// sources.json). Engines are per truck class (src/audio/engine.js). The driven vehicle adds tires on
-// the ground under it, a smooth wade and churn in water, a squelch in mud that grows when the wheels
-// spin, air or hydraulic brakes, the handbrake, its load shaking when it hits rocks and bumps, and the
-// back-up alarm. The season's ambience zones bring in forest birds, frogs and crows.
+// sources.json). Engines are per truck class (src/audio/engine.js); service trucks play their class's.
+// The driven vehicle adds tires on the ground under it, chassis rattle and creaks that follow the road,
+// a smooth wade and churn in water, squelch and spinning wheels in mud, gear changes, air or hydraulic
+// brakes, the handbrake, its load shaking when it hits rocks and bumps, and the back-up alarm. Winching
+// has the motor and the cable straining; refuelling has the pump and the fuel running. The season's
+// ambience zones bring in forest birds, frogs and crows.
 // Long beds play through the seamless loop player, so nothing audibly repeats.
 //
 // Volumes: master, engines, effects and ambience, 0..1 each plus mute, saved in the browser.
 
-import { createEngineVoice, engineProfile } from './engine.js';
+import { createEngineVoice, engineProfile, engineTelemetry } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
-import { engineTelemetry } from './rpm-engine.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
 export const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, muted: false };
@@ -23,9 +24,9 @@ const pick = list => list[Math.floor(Math.random() * list.length)];
 
 export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}, effects: {} }, ambience = [] } = {}) {
   const api = { ok: false, mode: null, ready: null, error: null, volumes: loadVolumes() };
-  let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, beds = {}, ground = {}, water = {}, alarm = null;
+  let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, beds = {}, ground = {}, water = {}, work = {}, alarm = null;
   const voices = new Map();      // vehicle -> engine voice
-  let alarmT = 0, bumpCool = 0, jolt = { v: null, vy: 0 }, brakeState = { v: null }, crowT = 3;
+  let alarmT = 0, bumpCool = 0, creakCool = 2, rough = 0, jolt = { v: null, vy: 0, av: 0 }, brakeState = { v: null }, crowT = 3, wasFuelling = false;
 
   function applyVolumes() {
     if (!ac) return;
@@ -68,6 +69,11 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       for (const name of new Set(Object.values(GROUNDS))) ground[name] = loop(name, fxBus, { grain: [2, 4.5], fade: 0.7 });
       water = { wade: loop('wade', fxBus, { grain: [2, 4], fade: 0.8 }), churn: loop('water-churn', fxBus, { grain: [1.2, 2.2], fade: 0.6 }) };
       for (const name of BEDS) beds[name] = loop(name, ambBus, { grain: [6, 12], fade: 2.5 });
+      work = {
+        rattle: loop('rattle-bed', fxBus, { grain: [2, 4], fade: 0.6 }), spin: loop('mud-spin', fxBus, { grain: [1.5, 3], fade: 0.5 }),
+        winch: loop('winch-motor', fxBus, { grain: [2, 4], fade: 0.6 }), cable: loop('cable-strain', fxBus, { grain: [1.5, 3], fade: 0.5 }),
+        pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
+      };
       api.mode = 'recorded'; api.ok = true;
     }).catch(error => { api.error = error.message; api.mode = 'unavailable'; console.warn('Sound bank could not load:', error); });
     return api.ready;
@@ -94,16 +100,24 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     o.connect(g); g.connect(fxBus); o.start(t); o.stop(t + decay + 0.05);
   }
   const heaviness = v => (v.car.spec?.massT ?? 5) + (v.car.load?.massT ?? 0);
+  // what the engine voice reports: a gear change, or the turbo letting go of its boost
+  function engineEvent(kind, boost, v) {
+    const air = engineProfile(v.car, bank).airBrakes;
+    if (kind === 'shift') { play('gear-clunk', 0.38, { rate: heaviness(v) > 30 ? 0.8 : 1 }); if (air) play('air-pop', 0.14, { rate: 1.15 }); }
+    else if (kind === 'chuff') play('air-pop', Math.min(0.32, 0.1 + boost * 0.3), { rate: 1.3 });
+  }
 
   // cab switches and levers
-  api.clunk = on => tick(on ? 110 : 80, 0.3, 0.16);
-  api.shift = gear => { tick(gear === 'H' ? 140 : 95, 0.25, 0.12); setTimeout(() => tick(70, 0.15, 0.18), 110); };
+  api.clunk = on => play('gear-clunk', on ? 0.4 : 0.32, { rate: on ? 1.25 : 1.05 });
+  api.shift = gear => { play('gear-clunk', 0.6, { rate: gear === 'H' ? 1 : 0.85 }); setTimeout(() => play('gear-clunk', 0.3, { rate: 0.8 }), 130); };
   api.key = () => tick(1800, 0.05, 0.04);
   // the handbrake: a ratchet lever on scouts, an air hiss on trucks with air brakes
   api.handbrake = (on, car) => {
     if (engineProfile(car, bank).airBrakes) play(on ? 'air-release' : 'air-burst', on ? 0.7 : 0.5);
     else play(on ? 'handbrake-on' : 'handbrake-off', 0.8);
   };
+  // the winch hook going on the tow point or coming off, with the chain settling
+  api.hook = on => { play('hook-clank', on ? 0.85 : 0.6); if (on) setTimeout(() => play('cargo-heavy-chains', 0.4), 90); };
   // one-shots from the world
   api.splash = power => power < 0.6 ? play('splash-small', 0.4 + power * 0.6) : play('splash', Math.min(1, 0.5 + power * 0.35), { rate: power > 1.2 ? 0.85 : 1 });
   // a rock breaking under a tire, or a hard hit: the thump underneath and the load shaking on its bed
@@ -123,7 +137,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     return Math.max(0, Math.min(1, (x - a + f) / f, (b + f - x) / f));
   }
 
-  // Every frame: s = { playing, vehicles, active, water, camX }.
+  // Every frame: s = { playing, vehicles, active, water, camX, refueling }.
   api.update = (s, dt) => {
     if (!api.ok) return;
     const t = ac.currentTime, live = s.playing;
@@ -134,10 +148,14 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       seen.add(v);
       let voice = voices.get(v);
       if (!voice || voice.car !== v.car) { voice?.stop(); voice = createEngineVoice(ac, buffers, v.car, bank, engineBus); voices.set(v, voice); }
-      // parked vehicles idle in the distance
-      const dist = Math.abs(v.parts.truck.getPosition().x - s.camX);
-      voice.setLevel(live ? (v === s.active ? 1 : 0.8 / (1 + dist / 10)) : 0);
+      voice.onEvent = v === s.active ? (kind, boost) => engineEvent(kind, boost, v) : null;
+      // parked vehicles idle in the distance, volume and top end falling away with it
+      const dist = Math.abs(v.parts.truck.getPosition().x - s.camX), far = v !== s.active;
+      voice.setLevel(live ? (far ? 0.8 / (1 + dist / 10) : 1) : 0, far ? 1 / (1 + dist / 18) : 1);
       voice.set(v.st, engineTelemetry(v)); voice.update();
+      // the needle shows the revs you hear (the physics never reads this)
+      const dc = v.car.drivetrain;
+      v.st.soundRpm = v.st.engine === 'on' ? dc.idleRpm + voice.revs.revs * (dc.governedRpm - dc.idleRpm) : undefined;
     }
     for (const [v, voice] of voices) if (!seen.has(v)) { voice.stop(); voices.delete(v); }
 
@@ -153,6 +171,30 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       if (name === 'mud' && st.surf === 'mud' && live) g = Math.max(g, Math.min(0.8, st.slip * 0.18 + roll * 0.4));   // churning in the muck
       p.setGain(g, 0.25); p.setRate(name === 'mud' ? 0.9 + Math.min(0.3, st.slip * 0.05) : rate, 0.3); p.update();
     }
+    // the chassis: a rattle that follows speed and how rough the ride is
+    const vy = v.parts.truck.getLinearVelocity().y, av = v.parts.truck.getAngularVelocity();
+    if (jolt.v !== v) jolt = { v, vy, av };
+    const dv = Math.abs(vy - jolt.vy) / Math.max(dt, 1 / 240), dav = Math.abs(av - jolt.av) / Math.max(dt, 1 / 240);
+    jolt.vy = vy; jolt.av = av;
+    rough += (Math.min(1, dv / 14) - rough) * Math.min(1, dt / 0.25);
+    const surfRough = { rock: 1, gravel: 0.75, wood: 0.7, dirt: 0.55, mud: 0.35 }[st.surf] ?? 0.5;
+    if (work.rattle) { work.rattle.setGain(live && !inWater ? Math.min(0.75, (Math.min(1, speed / 7) * 0.32 + rough * 0.55) * surfRough) : 0, 0.15); work.rattle.setRate(Math.max(0.8, Math.min(1.2, 0.85 + speed * 0.03)), 0.3); work.rattle.update(); }
+    // wheels spinning in mud, over the squelch
+    if (work.spin) { work.spin.setGain(live && st.surf === 'mud' ? Math.min(0.85, Math.max(0, st.slip - 0.5) * 0.28) : 0, 0.2); work.spin.setRate(0.85 + Math.min(0.35, st.slip * 0.06), 0.25); work.spin.update(); }
+    // the frame flexing: a creak when the body rocks at low speed, lower on heavier trucks
+    creakCool -= dt;
+    if (live && dav > 3.5 && speed < 7 && creakCool <= 0) { play('creak', Math.min(0.55, 0.16 + dav * 0.03), { rate: massT > 30 ? 0.72 : massT > 10 ? 0.86 : 1 }); creakCool = 1.6 + Math.random() * 3; }
+
+    // the winch: the motor runs and the cable strains while it holds a load
+    const hauling = live && s.vehicles.some(o => o.cable?.taut);
+    if (work.winch) { work.winch.setGain(hauling ? 0.32 : 0, 0.25); work.winch.update(); }
+    if (work.cable) { work.cable.setGain(hauling ? 0.55 : 0, 0.15); work.cable.update(); }
+    // refuelling: the pump runs and the fuel flows, with a clank as the hose connects and comes off
+    const fuelling = live && !!s.refueling;
+    if (fuelling !== wasFuelling) { play('hook-clank', 0.5, { rate: 1.1 }); wasFuelling = fuelling; }
+    if (work.pump) { work.pump.setGain(fuelling ? 0.42 : 0, 0.3); work.pump.update(); }
+    if (work.flow) { work.flow.setGain(fuelling ? 0.4 : 0, 0.3); work.flow.update(); }
+
     // water: a smooth wade that follows the depth, and a churn that follows the speed
     const depth = live ? Math.min(1, s.water * 0.8) : 0;
     if (water.wade) { water.wade.setGain(depth * (0.35 + Math.min(0.5, speed * 0.15)), 0.35); water.wade.setRate(0.85 + Math.min(0.25, speed * 0.05), 0.4); water.wade.update(); }
@@ -174,9 +216,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     alarm.g.gain.setTargetAtTime(alarmT > 0 && alarmT % 1 < 0.5 ? 0.035 : 0, t, 0.01);
 
     // suspension: a sharp change in the body's vertical speed is a hit, and the load shakes
-    const vy = v.parts.truck.getLinearVelocity().y;
-    if (jolt.v !== v) jolt = { v, vy };
-    const dv = Math.abs(vy - jolt.vy) / Math.max(dt, 1 / 240); jolt.vy = vy;
     bumpCool -= dt;
     if (live && dv > 9 && bumpCool <= 0) { api.bump(Math.min(1, (dv - 9) / 25), massT); bumpCool = 0.25; }
 

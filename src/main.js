@@ -127,6 +127,7 @@ function winch() {
   if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'Fuel trucks have no winch. Call the breakdown truck to tow.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
   const r = sim.toggleWinch(v), name = o => o === sim.main ? 'your truck' : `the ${o.car.name}`;
   if (r.ok && r.attached) haptics.hooked();
+  if (r.ok) audio.hook(r.attached);
   if (r.ok) hud.hint(r.attached ? 'winch-on' : 'winch-off', r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
   else if (r.reason === 'far') hud.toast(`Too far away (${Math.round(r.gap)} m). Get within ${sim.winchReach} m of ${name(r.target)} to hook the winch.`, 2.5);
   else hud.toast('Nothing to hook the winch to.', 2);
@@ -254,7 +255,7 @@ function frame(now) {
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
   try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run });
-  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x }, dt);
+  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling }, dt);
   adapt(dt);
   requestAnimationFrame(frame);
 }

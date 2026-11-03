@@ -21,8 +21,7 @@ each:
 | Off-road | 2–20 t on a 6×6 / 8×8 | expedition supplies, an elephant, a space capsule, an orca aquarium |
 | Heavy | 11–150 t on a multi-axle lowbed drawn in | ship hull, rocket, locomotive, reactor vessel |
 
-A rig with a trailer drawn in is one rigid body with all its axles. Its car.json lists its powered
-axles in `drivenAxles`, so the trailer axles roll free. Tires are fixed per car (`wheelType`, see
+A rig with a trailer drawn in is one rigid body with all its axles, and every axle is powered. Tires are fixed per car (`wheelType`, see
 `assets/cars/wheel-types.json`): to get something stronger, switch to a different car.
 
 ## Garage
@@ -32,19 +31,19 @@ the load and the gross weight. Delivering pays the trail bonus plus the load's v
 
 ## Tuning
 
-In the garage every car has five tuning knobs, each grouping several specs:
+In the garage every car has four tuning knobs, each grouping several specs. A car's weight and load
+are not tunable: every car runs the ones it comes with.
 
 | Knob | Moves (multiplier at level 100) |
 | --- | --- |
 | Engine | torque ×2.5, throttle response ×2, fuel economy ×1.6 |
 | Suspension | travel ×1.8, softer springs ×1.6, firmer shocks ×1.8 |
 | Speed | longer gears: top ×1.7, low range and reverse ×1.3 |
-| Grip | tire grip ×1.8, brakes ×2.5 |
-| Load weight | load capacity ×2.5, empty frame lighter ÷1.7 |
+| Grip | tire grip ×1.8, brakes ×2.5, mud pull ×2 (mud drag halved, in L only) |
 
 Each knob goes from 0 (stock) to 100 in steps of 25 (four taps to full) with − / + (or a tap on the bar), and every car
-can take all five to 100. The Power, Speed, Grip and Capacity stat bars grow with Engine, Speed, Grip
-and Load weight. Levels are saved per car in the browser (saves from the older 12-knob panel are
+can take all four to 100. The Power, Speed and Grip stat bars grow with Engine, Speed and Grip; the
+Capacity bar shows the car's own load and does not change. Levels are saved per car in the browser (saves from the older 12-knob panel are
 dropped), and the run uses the tuned copy. The knobs live in `src/game/tuning.js` and scale car.json
 fields, so they work for every car, including future ones.
 

@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 609,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -207,12 +207,7 @@
     },
     "brakeTorque": 28490,
     "openDiffGrip": 1,
-    "fuelLitres": 434,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 434
   },
   "load": {
     "name": "Broken-down campaign truck",

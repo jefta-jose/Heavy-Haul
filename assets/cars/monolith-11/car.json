@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 585.0,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -262,11 +262,7 @@
     },
     "brakeTorque": 733655,
     "openDiffGrip": 1,
-    "fuelLitres": 1336,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1336
   },
   "load": {
     "name": "Luxury yacht",

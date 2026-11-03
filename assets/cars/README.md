@@ -14,7 +14,7 @@ reference; its sections are:
 | --- | --- |
 | card fields | `name`, `number`, `class`, `drive`, `tagline`, `description`, `stats`, `biomes` |
 | `art` | `master` (start screen), `body` (road wheels removed), `wheel`: `{file, source}` |
-| `rig` | image registration: body origin and pixels per metre, axle x and hub height (metres, front first), tire radius, wheel pivot and art radius, far-wheel offset, `archCircles` (body pixels `[x, y, r]`, the fender cut-outs), exhaust, winch and nose points |
+| `rig` | image registration: body origin and pixels per metre, axle x and hub height (metres, front first), tire radius, wheel pivot and art radius, far-wheel offset (`farWheelOffset`, always `[0.2, 0.13]`), `archCircles` (body pixels `[x, y, r]`, the fender cut-outs), exhaust, winch and nose points |
 | `physics` | empty mass, centre of mass, size, wheel mass, collision boxes, suspension; `load` (mass and centre of mass of the load drawn in); service trucks also `winchForce` |
 | `drivetrain` | torque curve × `torqueScale`, converter boost, drive-speed ramp, throttle rise, gears, brakes, open-diff grip, fuel |
 

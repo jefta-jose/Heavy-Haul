@@ -3,7 +3,7 @@
   "name": "Leviathan",
   "number": 10,
   "class": "heavy",
-  "drive": "8\u00d74",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Fishing trawler heavy hauler",
@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 601.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -248,11 +248,7 @@
     },
     "brakeTorque": 811985,
     "openDiffGrip": 1,
-    "fuelLitres": 1263,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1263
   },
   "load": {
     "name": "Fishing trawler",

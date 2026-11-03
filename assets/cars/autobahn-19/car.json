@@ -3,7 +3,7 @@
   "name": "Autobahn",
   "number": 19,
   "class": "highway",
-  "drive": "6\u00d74",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Charcoal black highway tractor with its semi-trailer",
@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 700,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -235,11 +235,7 @@
     },
     "brakeTorque": 28050,
     "openDiffGrip": 1,
-    "fuelLitres": 868,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 868
   },
   "load": {
     "name": "Campaign float",

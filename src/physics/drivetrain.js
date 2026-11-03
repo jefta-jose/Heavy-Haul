@@ -27,10 +27,8 @@ export function createDrivetrain(cfg) {
     st.rpmCmd = st.throttle > 0.01 ? Math.max(wheelRpm, Math.min(cfg.governedRpm, wheelRpm + ramp.maxSlipRpm, (st.rpmCmd || 0) + (ramp.base + ramp.launch * Math.max(0, 1 - wheelRpm / ramp.launchUntilRpm)) * dt * st.throttle)) : wheelRpm;
     const driveOmega = Math.min(govOmega, st.rpmCmd * 2 * Math.PI / 60 / ratio);
     const tEng = engineTorque(Math.max(st.rpm, 900)) * st.throttle * (1 + cfg.converterBoost * Math.max(0, 1 - wheelRpm / cfg.converterCoupleRpm));
-    // 4x4 off: only the rear axles are driven. 4x4 on: the front axle is engaged too. A rig with
-    // unpowered axles (a semi-trailer drawn as part of the truck) lists its driven ones.
-    const powered = cfg.drivenAxles ?? wheels.map((_, i) => i);
-    const driven = powered.filter(i => ctl.awd || i > 0);
+    // Every axle is powered, trailer axles included. 4x4 off: all but the front axle. 4x4 on: all of them.
+    const driven = wheels.map((_, i) => i).filter(i => ctl.awd || i > 0);
     const perWheel = tEng * ratio * cfg.efficiency / driven.length;
     // Open differentials send equal torque to every driven wheel, so the wheel with the least grip
     // limits all of them. Grip comes from each tire's measured load (gripOf).

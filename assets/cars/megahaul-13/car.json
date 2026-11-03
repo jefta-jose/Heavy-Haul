@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 610.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,11 +241,7 @@
     },
     "brakeTorque": 1457248,
     "openDiffGrip": 1,
-    "fuelLitres": 1484,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1484
   },
   "load": {
     "name": "Transformer",

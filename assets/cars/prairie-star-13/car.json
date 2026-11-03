@@ -3,7 +3,7 @@
   "name": "Prairie Star",
   "number": 13,
   "class": "highway",
-  "drive": "6\u00d72",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Forest green highway tractor with its semi-trailer",
@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 700,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -235,11 +235,7 @@
     },
     "brakeTorque": 35640,
     "openDiffGrip": 1,
-    "fuelLitres": 678,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 678
   },
   "load": {
     "name": "Lumber packs",

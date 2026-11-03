@@ -3,7 +3,7 @@
   "name": "Night Rider",
   "number": 11,
   "class": "highway",
-  "drive": "6×2",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Cobalt blue highway tractor with its semi-trailer",
@@ -61,8 +61,8 @@
     ],
     "wheelArtRadius": 569.0,
     "farWheelOffset": [
-      0.1,
-      0.06
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -241,12 +241,7 @@
     },
     "brakeTorque": 25220,
     "openDiffGrip": 1,
-    "fuelLitres": 615,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 615
   },
   "load": {
     "name": "Supercar carrier",

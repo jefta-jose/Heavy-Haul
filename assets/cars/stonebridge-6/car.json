@@ -3,7 +3,7 @@
   "name": "Stonebridge",
   "number": 6,
   "class": "heavy-duty",
-  "drive": "6\u00d74",
+  "drive": "4×4",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Racing green heavy-duty work truck",
@@ -57,8 +57,8 @@
     ],
     "wheelArtRadius": 600,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -214,12 +214,7 @@
     },
     "brakeTorque": 26180,
     "openDiffGrip": 1,
-    "fuelLitres": 342,
-    "drivenAxles": [
-      0,
-      1,
-      2
-    ]
+    "fuelLitres": 342
   },
   "load": {
     "name": "Bricks",

@@ -35,7 +35,7 @@ master (tire edges on rows just above the ground, cross-checked against the rim 
 converted with `bodyOrigin` and `pixelsPerMetre`, within 3 px. A wheel even 10-15 px off its hub reads
 as sitting forward or back in its arch. See step 3 of the hook-up list in CLAUDE.md.
 
-Far tires use a pre-darkened copy of the wheel, offset `(0.2, 0.13)`, scale 0.95.
+Far tires use a pre-darkened copy of the wheel, scale 0.95. **Hard rule:** `rig.farWheelOffset` is `[0.2, 0.13]` on every car.
 
 ## Driving feel: brisk take-off, smooth drive
 
@@ -119,17 +119,26 @@ a handbrake with its sound, smoother water and mud, and birds and crows in certa
 Read [assets/audio/README.md](../../../assets/audio/README.md) for the recordings and the recipe.
 
 - One engine per class from `assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`
-  (MP3 + bank.json, ~10 MB). Layers idle / drive / pull plus start and optional stop clips.
+  (MP3 + bank.json, about 15 MB). Service trucks play their class's engine. Layers: idle, part-throttle
+  `on` anchors, hard-working `pull` anchors, coast, an optional sub rumble, plus start and stop clips.
+- **The physics rpm cannot drive the sound.** In H it sits at idle + 600 (1350) at nearly any speed, so a
+  voice following it holds one note. `stepRevs` in `src/audio/engine.js` is a sound-only rev model:
+  converter stall, class gears with real shifts, wheelspin racing the engine, turbo lag. It never feeds
+  the physics; the rev needle shows it through `st.soundRpm`. The per-frame grain atlas it replaced
+  (22 kHz, 0.1-0.2 s grains) was dropped on 2026-11-03.
 - **Never play a short recording on `loop = true`**: the user hears the restart. Every bed goes
   through `loop-player.js` (random-offset grains, equal-power crossfades). Prep levels each layer
-  so grains match. Rhythmic sources (wading, mud footsteps) become `texture` beds offline.
+  so grains match. Rhythmic sources (wading, mud footsteps) become `texture` beds offline. A layer that
+  sweeps in pitch must be `flatten`ed, or its grains rev by themselves.
 - Rock hits and bumps play the underbody thump and the load shaking (chains, metal, wood by weight),
   not a tone. Water is low-passed and smooth. The only synthesized sounds are the back-up beeper and
-  the cab switch clicks.
-- No synthesis of engines, and no piercing tonal layers over the recordings.
+  the ignition key tick.
+- No synthesis of engines, and no piercing tonal layers over the recordings. Avoid cab-interior recordings
+  in a class's layers: their muffled timbre drops out audibly against the exterior ones, and avoid tracked
+  machines' clanks on wheeled trucks.
 - ENGINE / I, PARK / B (handbrake holds all wheels), starter state, parked engines and volume
   persistence (master, engine, effects, ambience) are covered by tests.
-- `npm run audio:preview` renders each engine's drive and 40 s of every bed through the game's own code
+- `npm run audio:preview` renders each engine's drive (start, gears, lift off, low-range grind, wheelspin, shutdown) and 40 s of every bed through the game's own code
   to `output/audio/` with a loudness report (the quietest over the loudest second shows unevenness).
   Numbers cannot approve timbre: listen on speakers and headphones.
 

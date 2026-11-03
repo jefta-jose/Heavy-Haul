@@ -65,8 +65,8 @@
     ],
     "wheelArtRadius": 571.5,
     "farWheelOffset": [
-      0,
-      0
+      0.2,
+      0.13
     ],
     "archCircles": [
       [
@@ -248,11 +248,7 @@
     },
     "brakeTorque": 851822,
     "openDiffGrip": 1,
-    "fuelLitres": 1631,
-    "drivenAxles": [
-      0,
-      1
-    ]
+    "fuelLitres": 1631
   },
   "load": {
     "name": "Space telescope",
