@@ -32,8 +32,8 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     page.on('pageerror', e => errors.push(e.stack || e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
-    const bodies = new Set();
-    page.on('request', r => { if (r.url().includes('/art/body')) bodies.add(r.url()); });
+    const bodies = new Set(), sounds = new Set();
+    page.on('request', r => { if (r.url().includes('/art/body')) bodies.add(r.url()); if (r.url().endsWith('.mp3')) sounds.add(r.url()); });
     await page.goto(`http://127.0.0.1:${server.address().port}/`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.__haul?.renderer.ready && window.__haul.renderer.frames > 2);
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads from its file');
@@ -47,7 +47,22 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.waitForFunction(n => __haul.renderer.frames > n + 2, frames);
     assert.equal(bodies.size, 3, 'the main car plus its class\'s two service trucks');
     await page.evaluate(() => __haul.audio.start());
-    assert.equal(await page.evaluate(() => __haul.audio.status().decoded), Object.keys(readSoundBank().clips).length, 'every clip decodes from its file');
+    await page.waitForFunction(() => __haul.audio.status().voices.includes('scout'));
+    const status = () => page.evaluate(() => __haul.audio.status());
+    assert.equal((await status()).error, null, 'clips decode from their files');
+    assert(sounds.size < Object.keys(readSoundBank().clips).length, 'only the clips this run needs are fetched');
+    assert(![...sounds].some(s => /engine-(highway|heavy|offroad)/.test(s)), 'no other class\'s engine is fetched');
+    // a bed decodes when it is first heard
+    for (let i = 0; i < 100 && ![...sounds].some(s => /\/(forest|frogs|rattle-bed|dirt|gravel|rocks|mud)\.mp3$/.test(s)); i++) await page.waitForTimeout(100);
+    assert([...sounds].some(s => /\/(forest|frogs|rattle-bed|dirt|gravel|rocks|mud)\.mp3$/.test(s)), 'the beds in earshot are fetched');
+    assert(![...sounds].some(s => /\/(winch-motor|fuel-pump|fuel-flow)\.mp3$/.test(s)), 'beds not yet heard are not');
+    // picking another class drops the old engine for the new one
+    const scoutMB = (await status()).decodedMB, otherEngine = page.waitForResponse(/engine-heavy-duty/);
+    await page.evaluate(() => { __haul.garage.show(); });
+    await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
+    await otherEngine;
+    await page.waitForFunction(mb => __haul.audio.status().decodedMB !== mb, scoutMB);
+    assert.equal((await status()).error, null);
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
 });
@@ -143,8 +158,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await capture('02-close');
     // the engine switch: off stops the truck from driving, on cranks it first; each truck has its own engine voice
     await page.waitForFunction(() => __haul.audio.mode === 'recorded');
-    assert.equal(await page.evaluate(() => __haul.audio.status().decoded), Object.keys(readSoundBank().clips).length, 'every recorded clip decodes offline');
-    assert.equal(await page.evaluate(() => __haul.audio.status().error), null);
+    await page.waitForFunction(() => __haul.audio.status().voices.length > 0);
+    assert.equal(await page.evaluate(() => __haul.audio.status().error), null, 'the clips in use decode offline');
     assert.deepEqual(await page.evaluate(() => __haul.audio.status().voices), ['scout'], 'the scout plays the scout engine');
     // the handbrake: PARK holds the truck against the throttle, B releases it
     await page.click('#handbrakeBtn');

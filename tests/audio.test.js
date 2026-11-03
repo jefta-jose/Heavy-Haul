@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { content, newSim, advance, DT } from './helpers.js';
 import { readSoundBank, resolveAudio } from '../tools/lib/content.js';
-import { engineProfile, engineMix, engineLoad, engineTelemetry, newRevs, stepRevs } from '../src/audio/engine.js';
+import { engineProfile, engineMix, engineLoad, engineTelemetry, newRevs, stepRevs, packClips } from '../src/audio/engine.js';
 import { HIT_SOUNDS } from '../src/audio/vehicle-audio.js';
 import { createInput } from '../src/game/input.js';
 
@@ -208,6 +208,12 @@ test('nothing unused ships: every clip in the bank is an engine layer or an effe
   assert.deepEqual(sources.map(s => s.id).filter(id => !used.has(id)), []);
   const files = new Set(fs.readdirSync(file('bank')).filter(f => f !== 'bank.json').map(f => `bank/${f}`));
   assert.deepEqual([...files].sort(), Object.values(bank.clips).map(c => c.file).sort(), 'no stray files in the bank folder');
+});
+
+test('every clip is decoded by one of the three routes: an engine pack, an up-front effect or a bed', () => {
+  const engines = Object.values(bank.engines).flatMap(packClips), effects = Object.values(bank.effects).flat();
+  assert.deepEqual([...new Set([...engines, ...effects])].sort(), Object.keys(bank.clips).sort());
+  for (const cls of CLASSES) for (const clip of packClips(bank.engines[cls])) assert(bank.clips[clip], `${cls}: ${clip}`);
 });
 
 test('each truck class has a full engine at its measured revs, the scouts a Dodge Ram', () => {

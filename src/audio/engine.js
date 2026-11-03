@@ -25,6 +25,9 @@ export function engineProfile(car, bank) {
   };
 }
 
+// Every clip an engine pack plays.
+export const packClips = pack => !pack ? [] : [pack.start, pack.stop, ...[pack.idle, pack.coast, pack.sub, ...pack.on, ...(pack.pull ?? [])].map(l => l?.clip)].filter(Boolean);
+
 // How hard the engine is working, 0..1: the wheel joints' reaction torque against what it can deliver.
 export function engineTelemetry(vehicle) {
   const { st, car, ctl, parts } = vehicle;

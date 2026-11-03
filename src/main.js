@@ -46,7 +46,11 @@ const renderer = createRenderer({
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
   },
 });
-const garage = createGarage({ content, onStart: (selection, fullscreen) => { if (fullscreen) goFullscreen(); startRun(selection); } });
+const garage = createGarage({
+  content,
+  onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
+  onStart: (selection, fullscreen) => { if (fullscreen) goFullscreen(); startRun(selection); },
+});
 const session = createSession({ sim, hud, season, onRestart: () => newRun(), onGarage: () => openGarage() });
 session.onRecover = x => { sim.respawn(x); view.snap(); setGear('H'); };
 session.onResume = () => audio.resume();

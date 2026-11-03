@@ -10,7 +10,7 @@ import { KNOBS, STEP, MAX_LEVEL, applyTuning, clampLevel, tunedStat, levelColor,
 const $ = id => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
-export function createGarage({ content, onStart }) {
+export function createGarage({ content, onSelect, onStart }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
   const rosterOf = id => content.roster.cars.find(c => c.id === id);
   const playable = new Map(content.cars.map(c => [c.id, c]));
@@ -133,7 +133,7 @@ export function createGarage({ content, onStart }) {
   $('gStripPrev').addEventListener('click', () => scrollStrip(-1));
   $('gStripNext').addEventListener('click', () => scrollStrip(1));
 
-  function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); }
+  function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); onSelect(car); }
   render();
 
   $('startBtn').addEventListener('click', () => onStart({ car: tuned() }, false));

@@ -7,15 +7,21 @@
 // ambience zones bring in forest birds, frogs and crows.
 // Long beds play through the seamless loop player, so nothing audibly repeats.
 //
+// Decoded sound takes far more memory than the files, so clips are decoded as they are needed: the
+// short effects up front (they must play the moment they happen), the engines of the car picked in the
+// garage (prepare), and each long bed the first time it is heard.
+//
 // Volumes: master, engines, effects and ambience, 0..1 each plus mute, saved in the browser.
 
-import { createEngineVoice, engineProfile, engineTelemetry } from './engine.js';
+import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
 export const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 const BEDS = ['forest', 'frogs'];
+// long clips only ever played as beds, decoded when first heard
+const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'winch-motor', 'fuel-pump', 'fuel-flow']);
 // The load shaking when a tire hits a log, pipe or rock, by class. Scouts have none. gain is at full speed,
 // gap is the least seconds between hits, and seconds plays a burst of a clip much longer than the moment.
 export const HIT_SOUNDS = {
@@ -32,7 +38,8 @@ const pick = list => list[Math.floor(Math.random() * list.length)];
 
 export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}, effects: {} }, ambience = [] } = {}) {
   const api = { ok: false, mode: null, ready: null, error: null, volumes: loadVolumes() };
-  let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, beds = {}, ground = {}, water = {}, work = {}, alarm = null;
+  let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, loading = {}, beds = {}, ground = {}, water = {}, work = {}, alarm = null;
+  const engineClips = new Set(Object.values(bank.engines).flatMap(packClips));
   const voices = new Map();      // vehicle -> engine voice
   let alarmT = 0, bumpCool = 0, rough = 0, jolt = { v: null, vy: 0 }, brakeState = { v: null }, crowT = 3, wasFuelling = false;
 
@@ -51,9 +58,31 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   };
   Object.defineProperty(api, 'muted', { get: () => api.volumes.muted, set: m => { if (m !== api.volumes.muted) api.setVolume('muted', m); } });
 
-  api.start = () => {
-    if (ac) { if (ac.state === 'suspended') ac.resume(); return api.ready; }
-    try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+  // fetch and decode a clip once; a clip dropped by prepare while decoding is not kept
+  const load = name => loading[name] ??= (async () => {
+    // a data URI in the one-file build, a file path in the app build
+    const uri = clips[name], raw = uri.startsWith('data:') ? Uint8Array.from(atob(uri.split(',')[1]), c => c.charCodeAt(0)).buffer : await (await fetch(uri)).arrayBuffer();
+    const buffer = await ac.decodeAudioData(raw);
+    if (loading[name]) buffers[name] = buffer;
+  })().catch(error => { api.error = error.message; console.warn(`Sound ${name} could not load:`, error); });
+
+  // a bed that decodes its clip the first time it is asked to sound, and joins in once that is done
+  function loop(name, bus, opts) {
+    if (!clips[name]) return null;
+    let player = null, asked = false;
+    return {
+      setGain(g, tau) {
+        if (player) player.setGain(g, tau);
+        else if (g > 0 && !asked) { asked = true; load(name).then(() => { if (buffers[name]) player = createLoopPlayer(ac, buffers[name], bus, opts); }); }
+      },
+      setRate(r, tau) { player?.setRate(r, tau); },
+      update() { player?.update(); },
+    };
+  }
+
+  function init() {
+    if (ac) return;
+    try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { ac = null; return; }
     const comp = ac.createDynamicsCompressor(); comp.threshold.value = -12; comp.ratio.value = 3; comp.attack.value = 0.01; comp.release.value = 0.25;
     master = ac.createGain(); engineBus = ac.createGain(); fxBus = ac.createGain(); ambBus = ac.createGain();
     engineBus.connect(comp); fxBus.connect(comp); ambBus.connect(master); comp.connect(master); master.connect(ac.destination);
@@ -66,33 +95,43 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       alarm = { g };
     }
     api.mode = 'loading';
-    api.ready = Promise.all(Object.entries(clips).map(async ([key, uri]) => {
-      // a data URI in the one-file build, a file path in the app build
-      const raw = uri.startsWith('data:') ? Uint8Array.from(atob(uri.split(',')[1]), c => c.charCodeAt(0)).buffer : await (await fetch(uri)).arrayBuffer();
-      return [key, await ac.decodeAudioData(raw)];
-    })).then(entries => {
-      if (!entries.length) throw new Error('No sound bank embedded');
-      buffers = Object.fromEntries(entries);
-      const loop = (name, bus, opts) => buffers[name] && createLoopPlayer(ac, buffers[name], bus, opts);
-      for (const name of new Set(Object.values(GROUNDS))) ground[name] = loop(name, fxBus, { grain: [2, 4.5], fade: 0.7 });
-      water = { wade: loop('wade', fxBus, { grain: [2, 4], fade: 0.8 }), churn: loop('water-churn', fxBus, { grain: [1.2, 2.2], fade: 0.6 }) };
-      for (const name of BEDS) beds[name] = loop(name, ambBus, { grain: [6, 12], fade: 2.5 });
-      work = {
-        rattle: loop('rattle-bed', fxBus, { grain: [2, 4], fade: 0.6 }), spin: loop('mud-spin', fxBus, { grain: [1.5, 3], fade: 0.5 }),
-        winch: loop('winch-motor', fxBus, { grain: [2, 4], fade: 0.6 }), cable: loop('cable-strain', fxBus, { grain: [1.5, 3], fade: 0.5 }),
-        pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
-      };
+    for (const name of new Set(Object.values(GROUNDS))) ground[name] = loop(name, fxBus, { grain: [2, 4.5], fade: 0.7 });
+    water = { wade: loop('wade', fxBus, { grain: [2, 4], fade: 0.8 }), churn: loop('water-churn', fxBus, { grain: [1.2, 2.2], fade: 0.6 }) };
+    for (const name of BEDS) beds[name] = loop(name, ambBus, { grain: [6, 12], fade: 2.5 });
+    work = {
+      rattle: loop('rattle-bed', fxBus, { grain: [2, 4], fade: 0.6 }), spin: loop('mud-spin', fxBus, { grain: [1.5, 3], fade: 0.5 }),
+      winch: loop('winch-motor', fxBus, { grain: [2, 4], fade: 0.6 }), cable: loop('cable-strain', fxBus, { grain: [1.5, 3], fade: 0.5 }),
+      pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
+    };
+    const shots = Object.values(bank.effects).flat().filter(name => clips[name] && !BED_CLIPS.has(name));
+    api.ready = Promise.all(shots.map(load)).then(() => {
+      if (!shots.length) throw new Error('No sound bank embedded');
       api.mode = 'recorded'; api.ok = true;
     }).catch(error => { api.error = error.message; api.mode = 'unavailable'; console.warn('Sound bank could not load:', error); });
+  }
+
+  api.start = () => {
+    init();
+    if (ac?.state === 'suspended') ac.resume();
     return api.ready;
+  };
+
+  // Decode the engines these cars play and drop any other engine. Called from the garage, ahead of the
+  // tap on DRIVE, so the crank is ready to be heard. A context made before any tap stays suspended until start().
+  api.prepare = cars => {
+    init();
+    if (!ac) return Promise.resolve();
+    const want = new Set(cars.flatMap(car => packClips(engineProfile(car, bank).pack)));
+    for (const name of engineClips) if (!want.has(name)) { delete buffers[name]; delete loading[name]; }
+    return Promise.all([...want].map(load));
   };
 
   // one-shot from the bank: a named effect picks one of its variants. `seconds` plays a burst of that
   // length from a random place, fading out, for a clip much longer than the moment
   function play(effect, gain, { rate = 1, bus = fxBus, pan = 0, seconds = 0 } = {}) {
     if (!api.ok) return;
-    const names = bank.effects[effect] ?? [effect], b = buffers[pick(names)];
-    if (!b) return;
+    const names = bank.effects[effect] ?? [effect], name = pick(names), b = buffers[name];
+    if (!b) { if (clips[name]) load(name); return; }
     const s = ac.createBufferSource(), g = ac.createGain();
     s.buffer = b; s.playbackRate.value = rate * (0.95 + Math.random() * 0.1); g.gain.value = gain;
     let node = g;
@@ -172,7 +211,13 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     for (const v of s.vehicles) {
       seen.add(v);
       let voice = voices.get(v);
-      if (!voice || voice.car !== v.car) { voice?.stop(); voice = createEngineVoice(ac, buffers, v.car, bank, engineBus); voices.set(v, voice); }
+      if (!voice || voice.car !== v.car) {
+        voice?.stop(); voices.delete(v);
+        // a car the garage did not prepare: its voice starts once its engine has decoded
+        const need = packClips(engineProfile(v.car, bank).pack);
+        if (!need.every(name => buffers[name])) { if (live) need.forEach(load); continue; }
+        voice = createEngineVoice(ac, buffers, v.car, bank, engineBus); voices.set(v, voice);
+      }
       voice.onEvent = v === s.active ? kind => engineEvent(kind, v) : null;
       // parked vehicles idle in the distance, volume and top end falling away with it
       const dist = Math.abs(v.parts.truck.getPosition().x - s.camX), far = v !== s.active;
@@ -254,6 +299,9 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   };
   api.suspend = () => { if (ac && ac.state === 'running') ac.suspend(); };
   api.resume = () => { if (ac && ac.state === 'suspended') ac.resume(); };
-  api.status = () => ({ mode: api.mode, decoded: Object.keys(buffers).length, voices: [...voices.values()].map(v => v.profile.engine), error: api.error });
+  api.status = () => ({
+    mode: api.mode, decoded: Object.keys(buffers).length, voices: [...voices.values()].map(v => v.profile.engine), error: api.error,
+    decodedMB: Object.values(buffers).reduce((sum, b) => sum + b.length * b.numberOfChannels * 4, 0) / 1e6,
+  });
   return api;
 }
