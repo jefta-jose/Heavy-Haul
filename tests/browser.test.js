@@ -70,6 +70,15 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     assert(!await page.locator('#startFs').isVisible(), 'no fullscreen button in the garage');
     await page.click('#startBtn');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
+    // the phone HUD: the truck's name under the fuel bar, both dials, no checkpoints and no pedal labels
+    const hud = await page.evaluate(() => {
+      const box = id => document.getElementById(id).getBoundingClientRect(), name = document.getElementById('carName');
+      return { name: name.textContent, below: box('carName').top >= box('fuelFill').bottom, wide: box('gauges').width > box('gauges').height * 1.5, marks: document.querySelectorAll('.mk.cp').length, pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
+    });
+    assert(hud.name && hud.below, 'the truck name sits under the fuel bar');
+    assert(hud.wide, 'two dials fit between the pedals');
+    assert.equal(hud.marks, 0, 'no checkpoints on the progress map');
+    assert.equal(hud.pedalText, '', 'the pedals carry no text');
     await page.click('#pauseBtn');
     assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');
     assert.deepEqual(errors, []);

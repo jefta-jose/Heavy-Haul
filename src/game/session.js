@@ -45,7 +45,7 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     const coins = ['Your coins', wallet.toLocaleString('en-US')];
     if (kind === 'roll') {
       const cost = 600;
-      hud.showMessage('Rolled over', 'The vehicle is on its side', 'Pay to be towed back to the last checkpoint, or start the run again.', [['Recovery fee', `${cost} coins`], coins], [
+      hud.showMessage('Rolled over', 'The vehicle is on its side', 'Pay to be towed back up the trail, or start the run again.', [['Recovery fee', `${cost} coins`], coins], [
         ['Tow me back', () => recover(cost), true, wallet < cost], restartButton(), garageButton,
       ]);
     } else if (kind === 'fuel') {
@@ -76,7 +76,7 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     run.lastX = p.x;
     if (run.time > 6) hud.setCardVisible(false);
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
-    for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) { run.checkpoint = c; hud.toast(`Checkpoint · ${Math.round(c)} m`); }
+    for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
     if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Get within ${sim.winchReach} m, tap WINCH, then drive away to tow your truck free` : ctl.gear === 'H' ? 'Not enough pull. Shift to L (low range)' : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage 4×4 for front-axle drive' : 'Stuck? Call the breakdown truck to winch you out', 3);

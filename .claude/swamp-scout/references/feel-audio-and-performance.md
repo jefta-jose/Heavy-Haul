@@ -184,8 +184,9 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
   2 s under 50 fps (desktop: 3 s under 40 fps).
 - Haptics (`src/game/haptics.js`, Android browsers only): gear and drive-mode ticks, hard hits, winch hook-on,
   low fuel.
-- Phone HUD (the block at the end of `game.css`): fuel bar, depot distance, service and pause buttons,
-  big corner pedals, one dial, gears above the gas. Details, engine and fullscreen live in the pause
+- Phone HUD (the block at the end of `game.css`): fuel bar with the truck's name under it, depot distance,
+  service and pause buttons, corner pedals, both dials, gears above the gas. The pedals carry no text
+  (tire-tread slabs: amber lugs for gas, red blocks for brake), and checkpoints are never shown (user, 2026-11-04). Details, engine and fullscreen live in the pause
   menu; ENGINE shows on the HUD only while the engine is off; status toasts are `hud.hint`s shown
   three times per device. Keep new HUD items off phones unless a thumb needs them while driving.
 

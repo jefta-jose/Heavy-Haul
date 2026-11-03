@@ -50,10 +50,18 @@ canvas#view { position: absolute; inset: 0; width: 100%; height: 100%; display: 
 .toast.on { opacity: 1; }
 .bottom { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between;
   padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.pedal { pointer-events: auto; touch-action: none; width: clamp(78px, 11vw, 104px); height: clamp(100px, 15vw, 134px); border-radius: 14px; border: 2px solid #5b6168; cursor: pointer; position: relative;
-  background: radial-gradient(circle at 50% 50%, #1d2024 0 5px, transparent 6px) 0 0 / 20px 20px, linear-gradient(#a7adb3, #6d737a); box-shadow: inset 0 2px 0 rgba(255,255,255,0.35), 0 4px 0 #2b2f34; transition: transform .06s; }
-.pedal span { position: absolute; left: 8px; right: 8px; bottom: 8px; background: #b9bec3; border-radius: 6px; padding: 2px 0; text-align: center; font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: 0.08em; color: #1a1d21; text-shadow: 0 1px 0 rgba(255,255,255,0.4); }
-.pedal.down { transform: translateY(4px) scaleY(0.96); box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 0 0 #2b2f34; filter: brightness(1.12); }
+/* Pedals: slabs of tire rubber, hinged at the bottom edge so they tip away under a thumb. The gas has
+   tractor lugs pointing up the screen, the brake road-tire blocks; a light bar along the bottom says
+   which is which, and the whole tread lights up in that colour while pressed. */
+.pedal { --lit: var(--hazard); --lit-hi: #ffd25a; pointer-events: auto; touch-action: none; width: clamp(78px, 11vw, 104px); height: clamp(100px, 15vw, 134px); border-radius: 22px 22px 12px 12px; cursor: pointer; position: relative; transform-origin: 50% 100%;
+  background: linear-gradient(rgba(44,48,53,.94), rgba(18,20,23,.94)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), inset 0 2px 0 rgba(255,255,255,.14), inset 0 -5px 0 var(--lit), 0 5px 0 #0a0c0e, 0 9px 14px rgba(0,0,0,.4); transition: transform .07s, box-shadow .07s; }
+#brake { --lit: #e8392c; --lit-hi: #ff7a66; }
+.pedal::before { content: ''; position: absolute; inset: 9px 9px 14px; background: linear-gradient(#7d848b, #474c52);
+  -webkit-mask: var(--tread) center top / 100% auto round; mask: var(--tread) center top / 100% auto round;
+  --tread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Cpath d='M1 24 18 11V2L1 15zM39 24 22 11V2L39 15z'/%3E%3C/svg%3E"); }
+#brake::before { --tread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect x='1' y='1' width='17' height='10' rx='2'/%3E%3Crect x='22' y='1' width='17' height='10' rx='2'/%3E%3Crect x='11.5' y='14' width='17' height='10' rx='2'/%3E%3Crect x='-8' y='14' width='16' height='10' rx='2'/%3E%3Crect x='32' y='14' width='16' height='10' rx='2'/%3E%3C/svg%3E"); }
+.pedal.down { transform: perspective(240px) rotateX(18deg); box-shadow: inset 0 0 0 1px var(--lit), inset 0 -5px 0 var(--lit-hi), 0 1px 0 #0a0c0e, 0 0 20px var(--lit); }
+.pedal.down::before { background: linear-gradient(var(--lit-hi), var(--lit)); }
 .side { display: flex; align-items: flex-end; gap: 10px; }
 .drive { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
 .modes { display: flex; flex-direction: column; gap: 6px; }
@@ -169,8 +177,6 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .mk { position: absolute; top: 50%; transform: translate(-50%, -50%); }
 .mk.pit { height: 8px; transform: translate(0, -50%); border-radius: 3px; background: repeating-linear-gradient(135deg, #5b3d22 0 3px, #7a5431 3px 6px); }
 .mk.bridge { height: 4px; transform: translate(0, -50%); border-radius: 2px; background: #c9a46a; }
-.mk.cp { width: 12px; height: 12px; border-radius: 50%; background: #0c1624; border: 2px solid #b7c3cf; }
-.mk.cp.passed { background: var(--fuel); border-color: #c9f7bd; box-shadow: 0 0 6px rgba(98,210,75,0.7); }
 .mk.depot { width: 3px; height: 22px; top: 4px; transform: translate(-50%, -100%); background: var(--ink); border-radius: 1px; }
 .mk.depot::after { content: ''; position: absolute; left: 3px; top: 0; border-left: 11px solid var(--hazard); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
 .mk.me { width: 16px; height: 16px; z-index: 2; border-radius: 4px 50% 50% 4px; background: var(--hazard); border: 2px solid #2a1a00; box-shadow: 0 0 8px rgba(242,183,5,0.8); transition: left .1s linear; }
@@ -179,7 +185,6 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .mk.svc.breakdown { background: #ff7a1a; }
 .mk.active:not(.me) { box-shadow: 0 0 0 3px rgba(255,255,255,0.55); }
 .tripline { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tripline .next { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
 .tripline b { color: var(--ink); font-size: 17px; }
 .tripline svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
 @media (min-width: 601px) and (min-height: 521px) {
@@ -209,7 +214,6 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .gear button + button { border-top: 0; border-left: 1px solid rgba(255,255,255,0.07); }
 }
 @media (max-height: 430px) { #gauges { width: 176px; height: 84px; } }
-@media (max-width: 760px) and (max-height: 520px) { .tripline .next { display: none; } }
 /* portrait phone: status beside the buttons, the progress map full width below, toasts under it */
 @media (max-width: 600px) and (min-height: 521px) {
   .status { min-width: 0; width: 100%; }
@@ -382,40 +386,42 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
    the brake), so the bottom row is just brake, gauges and gas and fits a 320 px screen; the vehicle
    card keeps its name and tagline only */
 @media (max-width: 600px) and (min-height: 521px) {
-  .drive { position: absolute; right: 16px; bottom: 118px; align-items: flex-end; }
-  #gauges { width: min(170px, calc(100vw - 32px - 2 * 64px - 16px)); height: min(82px, calc((100vw - 32px - 2 * 64px - 16px) * 0.48)); }
+  .drive { position: absolute; right: 16px; bottom: 104px; align-items: flex-end; }
+  .pedal { width: 56px; height: 86px; }
+  #gauges { width: min(170px, calc(100vw - 32px - 2 * 56px - 16px)); height: min(82px, calc((100vw - 32px - 2 * 56px - 16px) * 0.48)); }
   .mapcard .card-stats, .mapcard .card-biomes { display: none; }
   .mapcard { padding-bottom: 12px; }
   .mapcard h2 { margin-bottom: 0; }
 }
 @media (max-width: 360px) and (min-height: 521px) {
-  .pedal { width: 58px; height: 92px; }
-  #gauges { width: calc(100vw - 32px - 2 * 58px - 12px); height: calc((100vw - 32px - 2 * 58px - 12px) * 0.48); }
+  .pedal { width: 50px; height: 78px; }
+  #gauges { width: min(170px, calc(100vw - 32px - 2 * 50px - 12px)); height: min(82px, calc((100vw - 32px - 2 * 50px - 12px) * 0.48)); }
   .srow { grid-template-columns: 14px 40px minmax(0, 1fr) auto; }
   .srow b { font-size: 11px; }
 }
 @media (max-height: 520px) and (max-width: 760px) { .mapcard { top: 128px; } }
 @media (max-width: 600px) and (min-height: 521px) {
-  .winch.engine { bottom: 118px; } .winch.hbrake { bottom: 170px; }
+  .winch.engine { bottom: 104px; } .winch.hbrake { bottom: 156px; }
 }
 @media (max-width: 600px) and (min-height: 521px) and (max-height: 600px) { .mapcard h2 { display: none; } }
 @media (max-height: 340px) { .mapcard h2 { display: none; } }
 
 
 /* ---------- phones: a Hill Climb Racing-style HUD ----------
-   Only what a thumb-driver needs on screen: a fuel bar, a thin progress line with the distance to the
-   depot, the service-truck and pause buttons, big corner pedals, one compact dial, and the gears and
-   drive modes above the gas. The truck's name, fuel litres, fuel use and cargo are in the pause menu
-   (with the engine switch and fullscreen), the spec card is in the garage, the surface chip appears
+   Only what a thumb-driver needs on screen: a fuel bar with the truck's name under it, a thin progress
+   line with the distance to the depot, the service-truck and pause buttons, corner pedals, the two
+   dials, and the gears and drive modes above the gas. Fuel litres, fuel use and cargo are in the pause
+   menu (with the engine switch and fullscreen), the spec card is in the garage, the surface chip appears
    only for a warning, ENGINE appears only while the engine is off, and the teaching toasts show the
    first few times. */
 @media (max-height: 520px), (max-width: 600px) {
-  .status { min-width: 0; width: auto; padding: 0; }
-  .status .sname, .status .srow ~ .srow, .status .srow b, #fuelTxt { display: none; }
-  .status .srow { grid-template-columns: 16px 96px; gap: 7px; padding: 6px 10px; }
+  .status { min-width: 0; width: auto; padding: 0; display: flex; flex-direction: column; }
+  .status .srow ~ .srow, .status .srow b, #fuelTxt { display: none; }
+  .status .srow { grid-template-columns: 16px 96px; gap: 7px; padding: 6px 10px 3px; }
   .status .srow .fuelbar { height: 10px; }
+  .status .sname { order: 1; max-width: 133px; padding: 0 10px 5px; border: 0; font-size: 13px; font-weight: 600; color: var(--ink-dim); }
   #surfChip:not(.warn):not(.bog):not(.bridge) { display: none; }
-  #drivenTxt, #nextTxt { display: none; }
+  #drivenTxt { display: none; }
   .tripline { justify-content: center; }
   .top > .right > .pill, #fsBtn { display: none; }
   .mapcard { display: none !important; }
@@ -439,19 +445,19 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .trip { padding: 3px 10px 5px; } .track { margin: 11px 4px 6px; }
   .toast { top: 58px; }
   .ibtn { width: 36px; height: 36px; } .ibtn svg { width: 18px; height: 18px; }
-  /* big pedals, and each reaches to its screen corner so a thumb cannot miss it */
-  .pedal { width: 104px; height: 140px; }
+  /* each pedal reaches to its screen corner so a thumb cannot miss it */
+  .pedal { width: 86px; height: 114px; }
   .pedal::after { content: ''; position: absolute; top: -12px; bottom: -40px; }
   #brake::after { left: -60px; right: -8px; }
   #gas::after { left: -8px; right: -60px; }
-  /* one compact dial between the pedals */
-  #gauges { width: 100px; height: 100px; }
+  /* the two dials between the pedals */
+  #gauges { width: 216px; height: 104px; }
   /* PARK (and ENGINE while it is off) small above the brake; gears and drive modes above the gas */
   .bottom > .side { position: relative; }
-  .winch.hbrake, .winch.engine { position: absolute; bottom: 152px; width: 46px; height: 46px; font-size: 8px; }
+  .winch.hbrake, .winch.engine { position: absolute; bottom: 126px; width: 46px; height: 46px; font-size: 8px; }
   .winch.hbrake { left: 0; } .winch.engine { left: 54px; }
   .winch.hbrake svg, .winch.engine svg { width: 18px; height: 18px; margin-bottom: -5px; }
-  .drive { position: absolute; right: 0; bottom: 152px; flex-direction: column; align-items: flex-end; gap: 5px; }
+  .drive { position: absolute; right: 0; bottom: 126px; flex-direction: column; align-items: flex-end; gap: 5px; }
   .modes { flex-direction: row; gap: 5px; }
   .mode { height: 28px; min-width: 46px; font-size: 11px; }
   .gear { flex-direction: row; }
@@ -459,7 +465,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .gear button + button { border-top: 0; border-left: 1px solid rgba(255,255,255,0.07); }
 }
 @media (max-height: 380px) {
-  .pedal { width: 92px; height: 118px; }
-  #gauges { width: 88px; height: 88px; }
-  .winch.hbrake, .winch.engine, .drive { bottom: 128px; }
+  .pedal { width: 76px; height: 98px; }
+  #gauges { width: 180px; height: 87px; }
+  .winch.hbrake, .winch.engine, .drive { bottom: 110px; }
 }

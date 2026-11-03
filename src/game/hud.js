@@ -1,5 +1,5 @@
 // Everything drawn in HTML over the canvas: the status panel (fuel, fuel use, cargo), the trail
-// progress map (checkpoints, mud pits, bridges, depot, the trucks), the trip line,
+// progress map (mud pits, bridges, depot, the trucks), the trip line,
 // coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
 // message overlays.
 
@@ -7,7 +7,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['carName', 'fuelFill', 'fuelTxt', 'useTxt', 'avgTxt', 'track', 'trackDone', 'drivenTxt', 'nextTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['carName', 'fuelFill', 'fuelTxt', 'useTxt', 'avgTxt', 'track', 'trackDone', 'drivenTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'fuelCallBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -21,7 +21,6 @@ export function createHud({ sim, season }) {
   };
   for (const x of trail.heavyMud ?? []) mark('pit', x - 10, 'Deep mud', 20);
   for (const b of trail.bridges ?? []) mark('bridge', b.x0, 'Bridge', b.x1 - b.x0);
-  const checkpoints = trail.checkpoints.filter(c => c > trail.start && c < trail.depot).map(c => ({ x: c, el: mark('cp', c, `Checkpoint · ${Math.round(c)} m`) }));
   mark('depot', trail.depot, `Depot · ${Math.round(trail.depot)} m`);
   const vehMarks = new Map();   // vehicle -> marker, rebuilt as service trucks are called
   function vehicleMarker(v) {
@@ -115,12 +114,6 @@ export function createHud({ sim, season }) {
     const w = els.gauges.width, h = els.gauges.height; gx.clearRect(0, 0, w, h);
     const r = Math.min(w / 4.25, h / 2.02), kmh = Math.abs(sim.st.speed * 3.6), gov = (sim.car.drivetrain.governedRpm ?? 2300) / 1000;
     const rpm = (sim.st.soundRpm ?? sim.st.rpm) / 1000;   // the revs you hear, when the sound is running
-    // phones get one compact dial (CSS makes the canvas square): the RPM needle around the speed
-    if (w < h * 1.5) {
-      const R = Math.min(w, h) / 2.02;
-      dial(w / 2, h / 2, R, rpm, 3, { label: 'km/h', majors: 3, minors: 5, redFrom: gov / 3, readout: String(Math.round(kmh)), lit: ['#f2b705', '#ff7a1a'] });
-      return;
-    }
     dial(w / 2 - r * 1.06, h / 2, r, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 5, redFrom: gov / 3, readout: sim.ctl.gear, lit: ['#f2b705', '#ff7a1a'] });
     dial(w / 2 + r * 1.06, h / 2, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
   }
@@ -141,16 +134,13 @@ export function createHud({ sim, season }) {
       const litres = (run?.fuelUsed ?? 0) * mainCap / 100, dist = (run?.odometer ?? 0) / 1000;
       els.avgTxt.textContent = dist > 0.05 ? `avg ${(litres / dist).toFixed(1)} L/km` : '';
     }
-    // trail progress: markers, the filled part, checkpoints passed, and the trip line
+    // trail progress: markers, the filled part, and the trip line
     const mx = sim.main.parts.truck.getPosition().x, left = Math.max(0, trail.depot - mx);
     els.trackDone.style.width = `${frac(mx) * 100}%`;
     for (const v of sim.vehicles) { const m = vehicleMarker(v); m.style.left = `${frac(v.parts.truck.getPosition().x) * 100}%`; m.classList.toggle('active', v === sim.active); }
     for (const [v, m] of vehMarks) if (!sim.vehicles.includes(v)) { m.remove(); vehMarks.delete(v); }
-    for (const c of checkpoints) c.el.classList.toggle('passed', (run?.checkpoint ?? trail.start) >= c.x);
     els.distTxt.textContent = km(left);
     els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
-    const ahead = [...checkpoints.map(c => [c.x, 'Checkpoint']), [trail.depot, 'Depot']].filter(([x]) => x > mx + 2).sort((a, b) => a[0] - b[0])[0];
-    els.nextTxt.textContent = ahead ? `${ahead[1]} in ${km(ahead[0] - mx)}` : 'At the depot';
     els.coinTxt.textContent = coins.toLocaleString('en-US');
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
