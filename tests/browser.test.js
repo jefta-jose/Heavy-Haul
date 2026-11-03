@@ -73,11 +73,12 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     // the phone HUD: the truck's name under the fuel bar, both dials, no checkpoints and no pedal labels
     const hud = await page.evaluate(() => {
       const box = id => document.getElementById(id).getBoundingClientRect(), name = document.getElementById('carName');
-      return { name: name.textContent, below: box('carName').top >= box('fuelFill').bottom, wide: box('gauges').width > box('gauges').height * 1.5, marks: document.querySelectorAll('.mk.cp').length, pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
+      return { name: name.textContent, below: box('carName').top >= box('fuelFill').bottom, wide: box('gauges').width > box('gauges').height * 1.5, marks: document.querySelectorAll('.mk:not(.me):not(.depot)').length, engine: getComputedStyle(document.getElementById('engineBtn')).display !== 'none', pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
     });
     assert(hud.name && hud.below, 'the truck name sits under the fuel bar');
     assert(hud.wide, 'two dials fit between the pedals');
-    assert.equal(hud.marks, 0, 'no checkpoints on the progress map');
+    assert.equal(hud.marks, 0, 'only the truck and the flag on the progress map');
+    assert(hud.engine, 'the engine button stays on the phone HUD');
     assert.equal(hud.pedalText, '', 'the pedals carry no text');
     await page.click('#pauseBtn');
     assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');

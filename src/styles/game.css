@@ -13,6 +13,7 @@
   --body: "Barlow", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color-scheme: dark;
 }
+* { -webkit-tap-highlight-color: transparent; }   /* no flash on a touched button: the buttons show their own state */
 html, body { height: 100%; }
 [hidden] { display: none !important; }
 body { margin: 0; background: var(--night); color: var(--ink); font-family: var(--body); overflow: hidden; -webkit-user-select: none; user-select: none; touch-action: none; }
@@ -171,20 +172,17 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .sval { font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sval.cargo { grid-column: 3 / 5; overflow: hidden; text-overflow: ellipsis; }
 .ssub { font-size: 14px; color: var(--ink-dim); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.trip { flex: 1 1 auto; max-width: 600px; min-width: 0; margin: 0 6px; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 12px; padding: 4px 14px 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
-.track { position: relative; height: 8px; margin: 18px 6px 9px; border-radius: 4px; background: rgba(255,255,255,0.13); }
+/* no panel of its own: the distance, then the bar with the truck running along it to the flag */
+.trip { flex: 1 1 auto; max-width: 600px; min-width: 0; margin: 0 6px; padding: 0 12px; }
+.track { position: relative; height: 8px; margin: 10px 6px 8px; border-radius: 4px; background: rgba(12,22,36,0.6); box-shadow: 0 0 0 1px rgba(255,255,255,0.22), 0 1px 5px rgba(0,0,0,0.45); }
 .track .done { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: linear-gradient(90deg, #c98f04, var(--hazard)); }
 .mk { position: absolute; top: 50%; transform: translate(-50%, -50%); }
-.mk.pit { height: 8px; transform: translate(0, -50%); border-radius: 3px; background: repeating-linear-gradient(135deg, #5b3d22 0 3px, #7a5431 3px 6px); }
-.mk.bridge { height: 4px; transform: translate(0, -50%); border-radius: 2px; background: #c9a46a; }
 .mk.depot { width: 3px; height: 22px; top: 4px; transform: translate(-50%, -100%); background: var(--ink); border-radius: 1px; }
 .mk.depot::after { content: ''; position: absolute; left: 3px; top: 0; border-left: 11px solid var(--hazard); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
 .mk.me { width: 16px; height: 16px; z-index: 2; border-radius: 4px 50% 50% 4px; background: var(--hazard); border: 2px solid #2a1a00; box-shadow: 0 0 8px rgba(242,183,5,0.8); transition: left .1s linear; }
-.mk.svc { width: 10px; height: 10px; z-index: 1; border-radius: 50%; border: 2px solid #0c1624; transition: left .1s linear; }
-.mk.svc.fuel { background: var(--fuel); }
-.mk.svc.breakdown { background: #ff7a1a; }
-.mk.active:not(.me) { box-shadow: 0 0 0 3px rgba(255,255,255,0.55); }
-.tripline { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tripline { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.65); }
+.tripline > span:last-child { grid-column: 2; }
+.tripline svg { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.9)); }
 .tripline b { color: var(--ink); font-size: 17px; }
 .tripline svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
 @media (min-width: 601px) and (min-height: 521px) {
@@ -206,7 +204,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .srow svg { width: 15px; height: 15px; }
   .srow b { font-size: 11px; } .sval { font-size: 14px; } .ssub { font-size: 12px; }
   .sname { padding: 3px 9px 2px; font-size: 14px; }
-  .trip { padding: 2px 10px 4px; } .track { margin: 14px 4px 6px; height: 6px; }
+  .trip { padding: 0 8px; } .track { margin: 7px 4px 6px; height: 6px; }
   .tripline { font-size: 12px; } .tripline b { font-size: 13px; }
   .mapcard { top: 112px; }
   .toast { top: 80px; }
@@ -338,7 +336,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .tval { font-family: var(--display); font-size: 16px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
 
 /* engine switch: green while running, pulsing while cranking, dim when off */
-.winch.engine { color: var(--ink-dim); }
+.winch.engine { color: var(--ink-dim); letter-spacing: 0.02em; }
 .winch.engine.on { border-color: #62d24b; color: #9cf08a; }
 .winch.engine.cranking { border-color: var(--hazard); color: var(--hazard); animation: pulse 0.5s ease-in-out infinite; }
 .winch.engine svg { margin-bottom: -8px; }
@@ -373,7 +371,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .status { min-width: 196px; }
   .srow { grid-template-columns: 14px 40px minmax(0, 1fr) auto; padding: 2px 8px; }
   .top { gap: 6px; }
-  .trip { min-width: 150px; margin: 0; padding: 2px 8px 4px; }
+  .trip { min-width: 150px; margin: 0; }
   .top>.right { gap: 5px; }
   .top>.right>.pill { display: none; }
   .ibtn { width: 34px; height: 34px; } .ibtn svg { width: 17px; height: 17px; }
@@ -410,23 +408,20 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 /* ---------- phones: a Hill Climb Racing-style HUD ----------
    Only what a thumb-driver needs on screen: a fuel bar with the truck's name under it, a thin progress
    line with the distance to the depot, the service-truck and pause buttons, corner pedals, the two
-   dials, and the gears and drive modes above the gas. Fuel litres, fuel use and cargo are in the pause
-   menu (with the engine switch and fullscreen), the spec card is in the garage, the surface chip appears
-   only for a warning, ENGINE appears only while the engine is off, and the teaching toasts show the
-   first few times. */
+   dials, PARK and ENGINE above the brake, and the gears and drive modes above the gas. Fuel litres, fuel
+   use and cargo are in the pause menu, the spec card is in the garage, the surface chip appears
+   only for a warning, and the teaching toasts show the first few times. */
 @media (max-height: 520px), (max-width: 600px) {
   .status { min-width: 0; width: auto; padding: 0; display: flex; flex-direction: column; }
   .status .srow ~ .srow, .status .srow b, #fuelTxt { display: none; }
   .status .srow { grid-template-columns: 16px 96px; gap: 7px; padding: 6px 10px 3px; }
   .status .srow .fuelbar { height: 10px; }
-  .status .sname { order: 1; max-width: 133px; padding: 0 10px 5px; border: 0; font-size: 13px; font-weight: 600; color: var(--ink-dim); }
+  .status .sname { order: 1; padding: 0 10px 5px; border: 0; font-size: 13px; font-weight: 600; color: var(--ink-dim); }
   #surfChip:not(.warn):not(.bog):not(.bridge) { display: none; }
   #drivenTxt { display: none; }
-  .tripline { justify-content: center; }
   .top > .right > .pill, #fsBtn { display: none; }
   .mapcard { display: none !important; }
   .toast { font-size: 14px; padding: 5px 12px; white-space: normal; text-align: center; width: max-content; max-width: min(70vw, 480px); }
-  .winch.engine.on:not(.cranking) { display: none; }
 }
 /* short screens: a compact message card (pause menu, run end) that scrolls rather than losing its top */
 @media (max-height: 520px) {
@@ -442,7 +437,6 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 /* landscape phones: the controls */
 @media (max-height: 520px) {
   .top { gap: 8px; }
-  .trip { padding: 3px 10px 5px; } .track { margin: 11px 4px 6px; }
   .toast { top: 58px; }
   .ibtn { width: 36px; height: 36px; } .ibtn svg { width: 18px; height: 18px; }
   /* each pedal reaches to its screen corner so a thumb cannot miss it */
@@ -452,7 +446,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   #gas::after { left: -8px; right: -60px; }
   /* the two dials between the pedals */
   #gauges { width: 216px; height: 104px; }
-  /* PARK (and ENGINE while it is off) small above the brake; gears and drive modes above the gas */
+  /* PARK and ENGINE small above the brake; gears and drive modes above the gas */
   .bottom > .side { position: relative; }
   .winch.hbrake, .winch.engine { position: absolute; bottom: 126px; width: 46px; height: 46px; font-size: 8px; }
   .winch.hbrake { left: 0; } .winch.engine { left: 54px; }

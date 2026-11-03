@@ -188,8 +188,10 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
   low fuel.
 - Phone HUD (the block at the end of `game.css`): fuel bar with the truck's name under it, depot distance,
   service and pause buttons, corner pedals, both dials, gears above the gas. The pedals carry no text
-  (tire-tread slabs: amber lugs for gas, red blocks for brake), and checkpoints are never shown (user, 2026-11-04). Details, engine and fullscreen live in the pause
-  menu; ENGINE shows on the HUD only while the engine is off; status toasts are `hud.hint`s shown
+  (tire-tread slabs: amber lugs for gas, red blocks for brake), and checkpoints are never shown (user, 2026-11-04).
+  The progress map has no panel and only the truck and the flag on it, and the floor sits higher on phones
+  (`FRAMING.groundPhone`) to leave a gap above the dials (user, 2026-11-04). Details and fullscreen live in the pause
+  menu; PARK and ENGINE stay above the brake; status toasts are `hud.hint`s shown
   three times per device. Keep new HUD items off phones unless a thumb needs them while driving.
 
 **First phone log (Infinix X6531, Mali-G52, 4 GB, 90 Hz):** 23 fps. Physics took 22 ms a frame

@@ -1,5 +1,5 @@
 // Everything drawn in HTML over the canvas: the status panel (fuel, fuel use, cargo), the trail
-// progress map (mud pits, bridges, depot, the trucks), the trip line,
+// progress map (the truck on its way to the depot flag), the trip line,
 // coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
 // message overlays.
 
@@ -14,20 +14,12 @@ export function createHud({ sim, season }) {
 
   // ---------- trail progress map: start to depot, built once from the season ----------
   const span = trail.depot - trail.start, frac = x => Math.max(0, Math.min(1, (x - trail.start) / span));
-  const mark = (cls, x, title, w) => {
+  const mark = (cls, x) => {
     const m = document.createElement('i'); m.className = `mk ${cls}`; m.style.left = `${frac(x) * 100}%`;
-    if (w) m.style.width = `${Math.max(0.6, w / span * 100)}%`;
-    if (title) m.title = title; els.track.append(m); return m;
+    els.track.append(m); return m;
   };
-  for (const x of trail.heavyMud ?? []) mark('pit', x - 10, 'Deep mud', 20);
-  for (const b of trail.bridges ?? []) mark('bridge', b.x0, 'Bridge', b.x1 - b.x0);
-  mark('depot', trail.depot, `Depot · ${Math.round(trail.depot)} m`);
-  const vehMarks = new Map();   // vehicle -> marker, rebuilt as service trucks are called
-  function vehicleMarker(v) {
-    let m = vehMarks.get(v);
-    if (!m) { m = mark(v.role === 'main' ? 'me' : `svc ${v.car.role}`, trail.start, v.car.name); vehMarks.set(v, m); }
-    return m;
-  }
+  mark('depot', trail.depot);
+  const truckMark = mark('me', trail.start);
 
   // ---------- fuel use: litres per km while moving, litres per hour while standing ----------
   const use = { samples: [], t: 0 };
@@ -137,8 +129,7 @@ export function createHud({ sim, season }) {
     // trail progress: markers, the filled part, and the trip line
     const mx = sim.main.parts.truck.getPosition().x, left = Math.max(0, trail.depot - mx);
     els.trackDone.style.width = `${frac(mx) * 100}%`;
-    for (const v of sim.vehicles) { const m = vehicleMarker(v); m.style.left = `${frac(v.parts.truck.getPosition().x) * 100}%`; m.classList.toggle('active', v === sim.active); }
-    for (const [v, m] of vehMarks) if (!sim.vehicles.includes(v)) { m.remove(); vehMarks.delete(v); }
+    truckMark.style.left = `${frac(mx) * 100}%`;
     els.distTxt.textContent = km(left);
     els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
     els.coinTxt.textContent = coins.toLocaleString('en-US');
@@ -188,8 +179,8 @@ export function createHud({ sim, season }) {
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     showCalled,
-    // a new run: forget the fuel-use window and the vehicle markers
-    resetTrip() { use.samples.length = 0; for (const m of vehMarks.values()) m.remove(); vehMarks.clear(); },
+    // a new run: forget the fuel-use window
+    resetTrip() { use.samples.length = 0; },
     setCar,
     get toastActive() { return toastT > 0; },
     setCardVisible(on) { els.mapcard.style.opacity = on ? 1 : 0; },

@@ -1,7 +1,7 @@
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
 // Framing: the vehicle's nose sits at FRAMING.front of the screen width and the ground at
-// FRAMING.ground of the height from the bottom. Each car sets its own zoom in car.json
+// FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each car sets its own zoom in car.json
 // (`camera.zoom`, 1.5 = 17.7 m of trail across the screen; higher shows more), applied whenever
 // that car is driven. A car without one gets a zoom sized to its length.
 // The camera follows with a critically damped spring fed the vehicle's velocity, so it keeps
@@ -12,7 +12,7 @@
 // the view switches at once to `job.zoomScale` times the driven truck's own zoom, and back after.
 
 export const FRAMING = {
-  front: 0.60, ground: 0.30, groundShort: 0.31,
+  front: 0.60, ground: 0.30, groundPhone: 0.42,
   zoom: 1.5,
   width: 11.8, height: 6.0, shortHeight: 6.7,
   spring: { x: 2.2, y: 1.35 },
@@ -36,7 +36,7 @@ export function createView(canvas, sim) {
     const phone = matchMedia('(pointer: coarse)').matches && Math.min(view.W, view.H) < 520;
     view.DPR = Math.min(phone ? FRAMING.phoneMaxDpr : FRAMING.maxDpr, window.devicePixelRatio || 1) * view.quality;
     canvas.width = Math.round(view.W * view.DPR); canvas.height = Math.round(view.H * view.DPR);
-    view.groundFrac = view.H < 520 ? FRAMING.groundShort : FRAMING.ground;
+    view.groundFrac = view.H < 520 || view.W <= 600 ? FRAMING.groundPhone : FRAMING.ground;
     scale();
     if (sim.vehicles.length) view.snap();
   };
