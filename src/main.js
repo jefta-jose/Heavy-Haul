@@ -17,7 +17,8 @@ import { createHaptics } from './game/haptics.js';
 // and breakdown truck once each: they start at the beginning of the trail and are driven out to the
 // main truck, the fuel truck to refuel it, the breakdown truck to hook its winch and tow it free.
 // After that the buttons switch between them; a service truck stays parked where it was left.
-// Content (JSON + artwork) is embedded by tools/build.js.
+// Content comes from tools/build.js: the JSON is on the page, the artwork and audio are data URIs in
+// the one-file build and relative file paths in the app build.
 
 // The season: the one picked in the garage (remembered on this device), else the build's default.
 // Every playable season is in the build; shared art is stored once in content.seasonAssets.
@@ -183,6 +184,7 @@ const input = createInput(hud.els, {
 function newRun() {
   stopRefueling();
   sim.init(sim.trail.start, selection); session.reset(); hud.resetTrip();
+  renderer.warmVehicles(['fuel', 'breakdown'].map(serviceFor));   // so a called truck appears at once
   for (const role of ['fuel', 'breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
   drive(sim.main);
   setGear('H'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);

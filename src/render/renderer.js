@@ -75,6 +75,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
   return {
     draw,
     flash: on => vehicles.flash(on),
+    warmVehicles: items => vehicles.warm(items),
     setRefueling(job) { refueling = job; },
     get refueling() { return refueling; },
     get ready() { return sceneryReady && vehicles.ready; },

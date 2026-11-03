@@ -7,11 +7,50 @@ import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 import { chromium } from 'playwright';
-import { build } from '../tools/build.js';
+import { build, buildApp } from '../tools/build.js';
 import { ROOT, loadContentWithArt, readSoundBank } from '../tools/lib/content.js';
 import { build as bundle } from 'esbuild';
 
 const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures');
+
+test('the app build loads its art and audio from separate files', { timeout: 120000 }, async () => {
+  await buildApp();
+  const www = path.join(ROOT, 'www');
+  assert(!fs.readFileSync(path.join(www, 'index.html'), 'utf8').includes(';base64,'), 'nothing is embedded in the page');
+  const TYPES = { '.html': 'text/html', '.webp': 'image/webp', '.mp3': 'audio/mpeg' };
+  const server = http.createServer((req, res) => {
+    const f = path.join(www, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    fs.readFile(f.endsWith(path.sep) ? path.join(f, 'index.html') : f, (err, body) => {
+      if (err) { res.writeHead(404); res.end(); return; }
+      res.writeHead(200, { 'Content-Type': TYPES[path.extname(f) || '.html'] ?? 'application/octet-stream' }); res.end(body);
+    });
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true }), errors = [];
+    page.on('pageerror', e => errors.push(e.stack || e.message));
+    page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
+    const bodies = new Set();
+    page.on('request', r => { if (r.url().includes('/art/body')) bodies.add(r.url()); });
+    await page.goto(`http://127.0.0.1:${server.address().port}/`, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => window.__haul?.renderer.ready && window.__haul.renderer.frames > 2);
+    assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads from its file');
+    assert.equal(bodies.size, 1, 'startup loads only the default car, not the whole roster');
+    // a run also brings in its class's service trucks, and draws a truck called from them
+    await page.evaluate(() => __haul.startRun(__haul.garage.selection));
+    await page.waitForFunction(() => __haul.renderer.ready);
+    await page.evaluate(() => __haul.summon('breakdown'));
+    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
+    const frames = await page.evaluate(() => __haul.renderer.frames);
+    await page.waitForFunction(n => __haul.renderer.frames > n + 2, frames);
+    assert.equal(bodies.size, 3, 'the main car plus its class\'s two service trucks');
+    await page.evaluate(() => __haul.audio.start());
+    assert.equal(await page.evaluate(() => __haul.audio.status().decoded), Object.keys(readSoundBank().clips).length, 'every clip decodes from its file');
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); server.close(); }
+});
 
 test('the game loads, drives and fits every viewport', { timeout: 180000 }, async () => {
   await build();

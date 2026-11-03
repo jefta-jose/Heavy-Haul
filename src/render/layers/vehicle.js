@@ -6,11 +6,9 @@ import { wheelRadius } from '../../physics/vehicle.js';
 // body follows its physics body; each tire follows its own wheel body's position and spin.
 
 export function createVehicleLayer(scene) {
-  const { view, content } = scene;
+  const { view } = scene;
   const caches = new Map();
   const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri)); return caches.get(item.id); };
-  // warm every cache so images are decoded before the first run
-  for (const item of [...content.cars, ...content.service]) rigCache(item);
   let flash = null;
 
   function drawBody(rig, C, body, src, dx = 0, dy = 0) {
@@ -63,6 +61,8 @@ export function createVehicleLayer(scene) {
       for (const v of list) { if (v === sim.active) border(v, dt); drawVehicle(v); }
       for (const v of sim.vehicles) winchCable(v);
     },
-    get ready() { return [...caches.values()].every(c => c.loaded()); },
+    // art loads per vehicle when first needed: load it ahead for vehicles a run may bring in later
+    warm(items) { for (const item of items) if (item) rigCache(item); },
+    get ready() { return scene.sim.vehicles.every(v => rigCache(v.car).loaded()); },
   };
 }

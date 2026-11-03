@@ -2,7 +2,10 @@
 // every playable car, service vehicle, trailer and load plus the season (JSON + artwork) embedded,
 // HUD icons inlined. The content (tens of MB of data URIs) goes into its own JSON block on the page,
 // not through esbuild, so a rebuild only bundles the code and takes well under a second.
+// The app build keeps the art and audio as separate files beside the page, so a phone only reads and
+// decodes what it shows or plays instead of parsing every asset as text at startup.
 //   node tools/build.js            -> dist/heavy-haul.html and dist/heavy-haul.artifact.html
+//   node tools/build.js --app      -> www/index.html and www/assets/ (the Capacitor web bundle)
 //   HAUL_CAR=<id> picks the garage's default car; HAUL_SEASON=<id> the season.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -48,7 +51,28 @@ export async function build() {
   return { mb: (doc.length / 1e6).toFixed(2), cars: content.cars.length, season: content.season.id };
 }
 
+export async function buildApp() {
+  const files = new Set();
+  const content = loadContentWithArt({ asset: f => { const file = path.posix.normalize(f); files.add(file); return file; } });
+  const { doc } = await page(content);
+  const www = path.join(ROOT, 'www');
+  fs.rmSync(www, { recursive: true, force: true });
+  let bytes = 0;
+  for (const f of files) {
+    fs.mkdirSync(path.dirname(path.join(www, f)), { recursive: true });
+    fs.copyFileSync(path.join(ROOT, f), path.join(www, f));
+    bytes += fs.statSync(path.join(ROOT, f)).size;
+  }
+  fs.writeFileSync(path.join(www, 'index.html'), doc);
+  return { mb: (doc.length / 1e6).toFixed(2), files: files.size, assetsMb: (bytes / 1e6).toFixed(1), cars: content.cars.length, season: content.season.id };
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === path.join(ROOT, 'tools/build.js')) {
-  const r = await build();
-  console.log(`Built dist/heavy-haul.html (${r.mb} MB) · ${r.cars} playable cars · season ${r.season}`);
+  if (process.argv.includes('--app')) {
+    const r = await buildApp();
+    console.log(`Built www/index.html (${r.mb} MB) + ${r.files} asset files (${r.assetsMb} MB) · ${r.cars} playable cars · season ${r.season}`);
+  } else {
+    const r = await build();
+    console.log(`Built dist/heavy-haul.html (${r.mb} MB) · ${r.cars} playable cars · season ${r.season}`);
+  }
 }

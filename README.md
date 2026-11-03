@@ -19,6 +19,10 @@ tap fullscreen. `npm run build` writes `dist/heavy-haul.html` (the whole game in
 included; host it anywhere) and `dist/heavy-haul.artifact.html` (the same without the `<html>`
 wrapper). Fonts load from Google Fonts if available; everything else is embedded.
 
+The Android app uses a separate build: `npm run android:web` writes `www/index.html` with the art
+and audio as separate files in `www/assets/`, so the phone only loads what it needs, and
+`npm run android:sync` also copies that into the Capacitor project.
+
 ## Layout
 
 ```
