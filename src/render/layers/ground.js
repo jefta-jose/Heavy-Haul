@@ -134,6 +134,16 @@ export function drawGround(scene) {
   bank(scene, xa, xb, true);
 }
 
+// The same for a far tire, whose ground line sits `rise` higher: everything under that line is repainted,
+// over the tire's sunk bottom and before the truck's body goes on top.
+export function drawFarLip(scene, x, half, rise, over) {
+  const { ctx, cam, H, ppm } = scene.view, { visH } = scene.sim, lo = x - half, hi = x + half, bottom = cam.y - H / ppm - 5;
+  ctx.save(); ctx.beginPath();
+  for (let t = lo; t <= hi + 0.08; t += 0.08) { const lip = visH(t) + rise - 0.04 + Math.sin(t * 18.7) * 0.018 + Math.sin(t * 7.3) * 0.027; if (t === lo) ctx.moveTo(t, lip); else ctx.lineTo(t, lip); }
+  ctx.lineTo(hi + 0.1, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip();
+  bank(scene, lo, hi); over(lo, hi); ctx.restore();
+}
+
 // Restores real mud in front of the sunk tire bottoms along an irregular lip, near the vehicle only.
 export function drawFrontLip(scene) {
   const { ctx, cam, H, ppm } = scene.view, { visH } = scene.sim;

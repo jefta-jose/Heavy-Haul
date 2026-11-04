@@ -11,7 +11,7 @@ import { roadSpan } from './ground.js';
 // they are cleared only when a new run starts or the player goes back to the garage.
 const RES = 0.1;
 const GIVE = { mud: 1, creek: 0.8, dirt: 0.45, gravel: 0.25 };
-const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the lane's elevated view
+export const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the lane's elevated view
 export function createMudLayer(scene) {
   const { ctx } = scene.view, sim = scene.sim;
   let world = null, ruts = null, lastCell = new WeakMap();
@@ -158,7 +158,8 @@ export function createMudLayer(scene) {
     const next = scene.view.cam.vx < 0 ? first - 1 : last + 1;
     if (ahead && !C.built && !C.mudChunks.has(next)) make(next);
   }
-  function surface(time) {
+  // `under` draws between the mud and the ruts: mud holes, so both wheel tracks run across them
+  function surface(time, under) {
     const [lo, hi] = scene.view.viewX();
     cachedSurface(lo, hi, true);
     // Slow bubbles make the deep slurry read as liquid (no reflections: the user removed them).
@@ -169,8 +170,11 @@ export function createMudLayer(scene) {
       const phase = (time * 0.4 + Math.abs(Math.sin(x * 7))) % 1;
       ctx.strokeStyle = `rgba(166,161,116,${m.heavy * (1 - phase) * 0.15})`; ctx.lineWidth = 0.012; ctx.beginPath(); ctx.ellipse(x + 0.3, y + 0.12, 0.04 + phase * 0.12, 0.015 + phase * 0.025, 0, 0, 7); ctx.stroke();
     }
+    under?.();
     drawRuts(lo - 1, hi + 1);
   }
+  // the wet mud, then `under`, then the far wheel track: repainted over a far tire's sunk bottom
+  function surfaceOnly(lo, hi, under) { cachedSurface(lo, hi); under?.(); drawRuts(lo, hi, [RUT_OFFSETS[0]]); }
   // The mud and the near wheel track again, in front of the sunk tire bottoms, rocks and log ends.
   // The far track and the bubbles sit above the lip, so they are not drawn twice.
   function foreground() {
@@ -181,7 +185,7 @@ export function createMudLayer(scene) {
     cachedSurface(lo, hi); drawRuts(lo - 1, hi + 1, [RUT_OFFSETS[1]]); ctx.restore();
   }
   return {
-    update, surface, foreground, clear,
+    update, surface, surfaceOnly, foreground, clear,
     // metres of trail carrying a rut, and the deepest rut at x (for tests)
     get trackCount() { return ruts ? Math.round(ruts.count * RES) : 0; },
     rutAt: x => (ruts ? ruts.depth[cellOf(x)] ?? 0 : 0),

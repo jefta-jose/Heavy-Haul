@@ -120,6 +120,7 @@ Obstacles are big enough to read at game scale and to work the suspension.
 - `trail.props` (52): traced shapes `rootTangle`, `concreteSlab` and `branchPile`, defined in `trail.propKinds` with
   their collision hulls.
 - `render.obstacles`: where each round sprite's near face is, in source pixels, so art lines up with its physics circle.
+- **Two wheel tracks:** a rock or prop is drawn twice, on the near track and again on the far track behind the truck, because one flat image cannot span the road. The far copy has no collision of its own: the far tire rides with the near one, so it rises over it at the same moment. Round sprites already recede across the road.
 
 A truck has to get over these, so size them against tires: tires under about 1.3 m
 cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstacles are one size for everyone. A bigger scale or a new kind needs route tests. Keep the launch area clear.
@@ -132,6 +133,7 @@ cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstac
 - `trail.holes` (14): **one mud hole per pit, and none anywhere else.** They are 0.3 m deep, and deeper ones stopped
   service trucks. The drawn size does not depend on that depth: on a thick road the art keeps its true proportions and
   is sized to the road, drawn on top of the mud with its near half over the tires.
+- **Both tires sink:** near tires are buried by the front lip, and far tires by a lip of their own, drawn before the truck's body (`drawFarLip` in `ground.js`).
 - The dark `art.deepMud` material spreads across the road where the pit is, so a bog reads before it slows you.
 
 ## What this season deliberately leaves out

@@ -24,7 +24,14 @@ export function createVehicleLayer(scene) {
   function drawVehicle(v) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts;
-    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i)); drawBody(rig, C, truck, C.body);
+    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));
+    // a far tire sinks like the near one: ground over its bottom, behind the body
+    const [fx, fy] = rig.farWheelOffset;
+    wheels.forEach((w, i) => {
+      const p = w.getPosition(), r = wheelRadius(rig, i), x = p.x + fx;
+      if (p.y - r + 0.03 < scene.sim.visH(x)) layer.farLip?.(x, r * 1.1, fy);
+    });
+    drawBody(rig, C, truck, C.body);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i));
   }
 
@@ -53,7 +60,7 @@ export function createVehicleLayer(scene) {
     ctx.fillStyle = '#e0a020'; ctx.beginPath(); ctx.arc(t.x, t.y, 0.08, 0, 7); ctx.fill();
   }
 
-  return {
+  const layer = {
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
@@ -65,4 +72,5 @@ export function createVehicleLayer(scene) {
     warm(items) { for (const item of items) if (item) rigCache(item); },
     get ready() { return scene.sim.vehicles.every(v => rigCache(v.car).loaded()); },
   };
+  return layer;
 }

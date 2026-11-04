@@ -1,7 +1,7 @@
 import { loadImages } from './canvas-utils.js';
 import { createSceneryCache } from './sprite-cache.js';
 import { drawBackground, drawForegroundShade } from './layers/background.js';
-import { drawGround, drawFrontLip } from './layers/ground.js';
+import { drawGround, drawFrontLip, drawFarLip } from './layers/ground.js';
 import { createProps } from './layers/props.js';
 import { createVehicleLayer } from './layers/vehicle.js';
 import { drawWaterBack, drawWater, drawRipples } from './layers/water.js';
@@ -26,6 +26,9 @@ export function createRenderer({ view, sim, content, onEvent }) {
   const bridges = createBridgeLayer(scene), mud = createMudLayer(scene);
   let sceneryReady = false, frames = 0, time = 0, refueling = null;
   scenery.ready.then(() => { sceneryReady = scenery.allLoaded(); });
+
+  // ground, mud and holes repainted over a far tire's sunk bottom
+  vehicles.farLip = (x, half, rise) => drawFarLip(scene, x, half, rise, (lo, hi) => mud.surfaceOnly(lo, hi, scene.season.render.road ? () => props.drawHoles() : null));
 
   function drawRefueling() {
     if (!refueling) return;
@@ -61,10 +64,9 @@ export function createRenderer({ view, sim, content, onEvent }) {
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
     drawGround(scene);
     if (playing) mud.update(dt);
-    // a thick road's deep mud would paint over its holes, so there they go on top of the mud
+    // a thick road's deep mud would paint over its holes, so there they go on top of the mud and under the ruts
     if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
-    mud.surface(time);
-    if (scene.season.render.road) props.drawHoles();
+    mud.surface(time, scene.season.render.road ? () => props.drawHoles() : null);
     props.drawBehind(); bridges.draw(); drawWaterBack(scene, time);
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);

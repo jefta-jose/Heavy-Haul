@@ -1,3 +1,4 @@
+import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
 
@@ -39,32 +40,37 @@ export function createProps(scene) {
     }
     return shaded;
   }
-  function rocks() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), stone = rockImage(), { visH } = scene.sim;
-    for (const r of scene.sim.rocks) if (r.x > lo - r.w && r.x < hi + r.w && r.alive !== false) {
-      const w = r.w, h = r.h, gy = visH(r.x), img = r.art ? scene.cache.img[r.art] : stone;
-      // seated in the ground: a soft contact shadow behind the base
-      ctx.fillStyle = 'rgba(20,15,9,0.35)'; ctx.beginPath(); ctx.ellipse(r.x + w * 0.06, gy + 0.05, w * 0.62, 0.1 + h * 0.12, 0, 0, 7); ctx.fill();
-      ctx.save(); ctx.beginPath();
-      ctx.moveTo(r.x - w, visH(r.x - w) - 0.035);
-      for (let x = r.x - w; x <= r.x + w + 0.1; x += 0.1) ctx.lineTo(x, visH(x) - 0.035);
-      ctx.lineTo(r.x + w, visH(r.x) + 10); ctx.lineTo(r.x - w, visH(r.x) + 10); ctx.closePath(); ctx.clip();
-      ctx.translate(r.x, r.y); ctx.scale(r.flip ? -1 : 1, -1);
-      if (r.crush && !r.art) ctx.globalAlpha = 0.95;
-      // natural proportions: the top matches the physical top and the extra height is buried, so a
-      // low, wide collision shape still looks like a rounded boulder rather than a squashed slab
-      const hv = Math.max(h, w * img.height / img.width);
-      ctx.drawImage(img, -w / 2, -h, w, hv);
-      if (r.crush && !r.art) {   // hairline cracks mark the breakable shale
-        ctx.strokeStyle = 'rgba(30,26,20,0.55)'; ctx.lineWidth = 0.018; ctx.beginPath();
-        ctx.moveTo(-w * 0.18, -h * 0.1); ctx.lineTo(-w * 0.04, -h * 0.5); ctx.lineTo(w * 0.12, -h * 0.35); ctx.moveTo(-w * 0.04, -h * 0.5); ctx.lineTo(0, -h * 0.85); ctx.stroke();
-      }
-      ctx.restore();
-      // soil pushed up around the front of the base
-      ctx.fillStyle = 'rgba(52,40,26,0.8)'; ctx.beginPath(); ctx.ellipse(r.x, gy - 0.005, w * 0.5, 0.045, 0, 0, Math.PI); ctx.fill();
-      ctx.fillStyle = 'rgba(70,55,36,0.55)';
-      for (const k of [-0.35, 0.05, 0.3]) { ctx.beginPath(); ctx.ellipse(r.x + w * k, gy + 0.012, w * 0.09, 0.03, 0, 0, 7); ctx.fill(); }
+  // One rock or prop on one wheel track. `rise` lifts it to the far track, behind the truck.
+  function rock(r, stone, rise) {
+    const { ctx } = scene.view, { visH } = scene.sim;
+    const w = r.w, h = r.h, gy = visH(r.x) + rise, img = r.art ? scene.cache.img[r.art] : stone;
+    // seated in the ground: a soft contact shadow behind the base
+    ctx.fillStyle = 'rgba(20,15,9,0.35)'; ctx.beginPath(); ctx.ellipse(r.x + w * 0.06, gy + 0.05, w * 0.62, 0.1 + h * 0.12, 0, 0, 7); ctx.fill();
+    ctx.save(); ctx.beginPath();
+    ctx.moveTo(r.x - w, visH(r.x - w) + rise - 0.035);
+    for (let x = r.x - w; x <= r.x + w + 0.1; x += 0.1) ctx.lineTo(x, visH(x) + rise - 0.035);
+    ctx.lineTo(r.x + w, gy + 10); ctx.lineTo(r.x - w, gy + 10); ctx.closePath(); ctx.clip();
+    ctx.translate(r.x, r.y + rise); ctx.scale(r.flip ? -1 : 1, -1);
+    if (r.crush && !r.art) ctx.globalAlpha = 0.95;
+    // natural proportions: the top matches the physical top and the extra height is buried, so a
+    // low, wide collision shape still looks like a rounded boulder rather than a squashed slab
+    const hv = Math.max(h, w * img.height / img.width);
+    ctx.drawImage(img, -w / 2, -h, w, hv);
+    if (r.crush && !r.art) {   // hairline cracks mark the breakable shale
+      ctx.strokeStyle = 'rgba(30,26,20,0.55)'; ctx.lineWidth = 0.018; ctx.beginPath();
+      ctx.moveTo(-w * 0.18, -h * 0.1); ctx.lineTo(-w * 0.04, -h * 0.5); ctx.lineTo(w * 0.12, -h * 0.35); ctx.moveTo(-w * 0.04, -h * 0.5); ctx.lineTo(0, -h * 0.85); ctx.stroke();
     }
+    ctx.restore();
+    // soil pushed up around the front of the base
+    ctx.fillStyle = 'rgba(52,40,26,0.8)'; ctx.beginPath(); ctx.ellipse(r.x, gy - 0.005, w * 0.5, 0.045, 0, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = 'rgba(70,55,36,0.55)';
+    for (const k of [-0.35, 0.05, 0.3]) { ctx.beginPath(); ctx.ellipse(r.x + w * k, gy + 0.012, w * 0.09, 0.03, 0, 0, 7); ctx.fill(); }
+  }
+  // Both wheel tracks: a flat image cannot span the road, so each obstacle also shows on the far track. It has
+  // no collision of its own, and the far tire rises over it because it rides with the near tire.
+  function rocks() {
+    const [lo, hi] = scene.view.viewX(), stone = rockImage();
+    for (const r of scene.sim.rocks) if (r.x > lo - r.w && r.x < hi + r.w && r.alive !== false) { rock(r, stone, RUT_OFFSETS[0]); rock(r, stone, 0); }
   }
   function crossingSprite(l, faceOnly = false) {
     const key = scene.season.trail.obstacleKinds[l.kind].art, img = scene.cache.img[key];
