@@ -69,6 +69,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.waitForFunction(() => window.__haul?.renderer.ready);
     assert(!await page.locator('#startFs').isVisible(), 'no fullscreen button in the garage');
     await page.click('#startBtn');
+    await page.waitForFunction(() => __haul.session.state === 'play');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
     // the phone HUD: the truck's name under the fuel bar, both dials, no checkpoints and no pedal labels
     const hud = await page.evaluate(() => {
@@ -119,11 +120,10 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.equal(await page.locator('.gtile:not(.locked)').count(), heavyDutyCount, 'class availability follows the current roster');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     await capture('00-garage');
-    // tuning opens in the UPGRADE panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
-    assert(!await page.locator('.tune').first().isVisible(), 'the knobs stay hidden until UPGRADE');
-    await page.click('#upgradeBtn');
+    // tuning sits in the garage's panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
+    assert(await page.locator('.tune').first().isVisible(), 'the knobs are on the garage screen');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
-    assert.deepEqual(await page.locator('.tune .tname b').allInnerTexts(), ['Engine', 'Suspension', 'Speed', 'Grip']);
+    assert.deepEqual(await page.locator('.tune .tname b').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
     const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tstep', { hasText: '+' });
     for (let i = 0; i < 2; i++) await plus(engine).click();
     assert.equal(await engine.locator('.tval').innerText(), '50', 'two steps of 25');
@@ -135,9 +135,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
       assert(await plus(row).isDisabled(), `${name} stops at 100`);
     }
     await capture('00b-tuning');
-    await page.click('#upgradeDone');
-    assert(await page.locator('#upgradeOv').isHidden(), 'Done closes the upgrade panel');
-    await page.click('#startBtn'); await page.waitForTimeout(500);
+    await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
     assert(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.sim.car.id].grip === 100), 'levels saved per car');
     await page.evaluate(() => localStorage.removeItem('hh_tuning_levels'));
@@ -224,7 +222,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
 
     // stuck in a heavy-mud pit: call the scouts' breakdown truck, which starts at the beginning of the
     // trail, drive it out, winch the truck back out of the pit and switch back
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn');
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.heavyMud[0] - 6); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.waitForTimeout(150); await capture('03-deep-mud');
     const x0 = await page.evaluate(() => __haul.sim.main.parts.truck.getPosition().x);
@@ -352,7 +350,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.evaluate(() => { __haul.garage.select('swamp-scout-4'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForTimeout(400);
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
     await page.setViewportSize({ width: 844, height: 390 }); await page.waitForTimeout(200);
     const groundY = await page.evaluate(() => { const { H, ppm, cam } = __haul.view; return H / 2 - (__haul.sim.visH(__haul.sim.truck.getPosition().x) - cam.y) * ppm; });
     assert(groundY < (await page.locator('#gas').boundingBox()).y + 4, 'phone pedals leave tire contact visible');
@@ -360,13 +358,13 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(100);
     for (const id of ['#pauseBtn', '#gas', '#brake']) { const b = await page.locator(id).boundingBox(); assert(b.x >= 0 && b.x + b.width <= 391, `${id} fits portrait`); }
     await capture('07-portrait');
-    // the long rigs and the service trucks frame with their own zoom; switching vehicles re-frames
+    // the main truck's zoom holds for the whole run: service trucks do not change it
     await page.setViewportSize({ width: 844, height: 390 });
     const scoutZoom = await page.evaluate(() => __haul.view.zoom);
     await page.evaluate(() => __haul.summon('fuel'));
-    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.active.car.camera.zoom), 'the fuel truck uses its own zoom');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'the fuel truck keeps the main truck\'s zoom');
     await page.evaluate(() => __haul.switchVehicle());
-    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, its zoom returns');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
     // Newly delivered heavy-duty trucks are selectable and run on the current map.
     for (const id of ['fieldmaster-5', 'stonebridge-6', 'bushline-9', 'rangeline-10', 'northgate-11',
       'quarryman-13', 'timberjack-14', 'bedrock-15', 'boulder-boss-16', 'logger-king-17']) {

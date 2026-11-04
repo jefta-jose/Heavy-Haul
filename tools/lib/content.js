@@ -78,6 +78,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   const soundCredits = sources.filter(s => used.has(s.id)).map(({ title, author, page, license }) => ({ title, author, page, license }));
   const hud = {};
   for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = asset(`assets/hud/art/${a.id}.webp`);
+  const loaders = Object.fromEntries(Object.entries(readJson('assets/loaders/loaders.json').art).filter(([, a]) => exists(`assets/loaders/${a.file}`)).map(([k, a]) => [k, asset(`assets/loaders/${a.file}`)]));
   const seasonArt = Object.fromEntries(Object.entries(c.season.art).map(([k, a]) => [k, asset(`${c.seasonDir}/${a.file}`)]));
   // every playable season, so the garage can switch between them: its JSON, rock hulls and art paths.
   // Art shared between seasons (one season reusing another's road art) is shipped once, in
@@ -107,7 +108,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   const content = {
-    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud,
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders,
     cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };

@@ -2,7 +2,9 @@
 the garage / menu art listed in assets/hud/hud.json.
 
 Each "art" entry maps a key to {"file": "art/x.webp", "source": "source/x.png"}. A WebP is
-re-encoded only when its source is newer. Dimensions and composition are never changed.
+re-encoded only when its source is newer. Dimensions and composition are never changed, unless the
+entry asks for it: the loading screens (assets/loaders/loaders.json) set "crop", "width" and "quality"
+because they must show at once.
 
     uv run --with pillow python tools/art/encode-webp.py      (or: npm run art:encode)
 """
@@ -11,7 +13,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-SPECS = ['assets/cars/*/car.json', 'assets/seasons/*/season.json']
+SPECS = ['assets/cars/*/car.json', 'assets/seasons/*/season.json', 'assets/loaders/loaders.json']
 jobs = []
 for spec in sorted(p for g in SPECS for p in ROOT.glob(g)):
     for key, entry in json.loads(spec.read_text()).get('art', {}).items():
@@ -30,6 +32,10 @@ for spec, key, entry in jobs:
     dst.parent.mkdir(parents=True, exist_ok=True)
     tmp = dst.with_suffix('.webp.tmp')   # write then swap, so a build never reads half a file
     with Image.open(src) as image:
-        image.save(tmp, 'WEBP', quality=94, method=6)
+        if 'crop' in entry:
+            image = image.crop(entry['crop'])
+        if 'width' in entry and image.width > entry['width']:
+            image = image.resize((entry['width'], round(image.height * entry['width'] / image.width)), Image.LANCZOS)
+        image.save(tmp, 'WEBP', quality=entry.get('quality', 94), method=6)
     tmp.replace(dst)
     print(f'encoded {dst.relative_to(ROOT)}')

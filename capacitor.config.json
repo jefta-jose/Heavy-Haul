@@ -2,6 +2,7 @@
   "appId": "com.heavyhaul.game",
   "appName": "Heavy Haul",
   "webDir": "www",
+  "backgroundColor": "#0b1420",
   "plugins": {
     "SystemBars": {
       "hidden": true,

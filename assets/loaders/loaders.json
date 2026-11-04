@@ -1,0 +1,10 @@
+{
+  "about": "Loading screens: a painted background per moment, and the progress bar's frame and fill. Encoded small (width, quality) and cropped to the art (crop = left, top, right, bottom in source pixels) because they must show at once. The PNGs here are the masters.",
+  "art": {
+    "launch": { "source": "Amber Dawn Logging Truck in the Swamp.png", "file": "art/launch.webp", "width": 1280, "quality": 72 },
+    "drive": { "source": "Misty Cypress Swamp Trail at Sunrise.png", "file": "art/drive.webp", "width": 1280, "quality": 72 },
+    "garage": { "source": "Rainy Twilight Garage Workshop in the Marsh.png", "file": "art/garage.webp", "width": 1280, "quality": 72 },
+    "bar-frame": { "source": "Rusty Industrial Hazard Progress Bar.png", "file": "art/bar-frame.webp", "crop": [48, 274, 2125, 451], "width": 1040, "quality": 85 },
+    "bar-fill": { "source": "Weathered Amber Hazard Stripe Bar.png", "file": "art/bar-fill.webp", "crop": [7, 322, 2165, 402], "width": 960, "quality": 85 }
+  }
+}

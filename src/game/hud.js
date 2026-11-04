@@ -20,6 +20,16 @@ export function createHud({ sim, season }) {
   };
   mark('depot', trail.depot);
   const truckMark = mark('me', trail.start);
+  // a called fuel or breakdown truck gets its own dot, and only while it is on the trail
+  const serviceMarks = {};
+  function updateServiceMarks() {
+    for (const role of ['fuel', 'breakdown']) {
+      const v = sim.vehicles.find(o => o.role === 'service' && o.car.role === role);
+      if (!v) { serviceMarks[role]?.remove(); delete serviceMarks[role]; continue; }
+      serviceMarks[role] ??= mark(role, trail.start);
+      serviceMarks[role].style.left = `${frac(v.parts.truck.getPosition().x) * 100}%`;
+    }
+  }
 
   // ---------- fuel use: litres per km while moving, litres per hour while standing ----------
   const use = { samples: [], t: 0 };
@@ -130,6 +140,7 @@ export function createHud({ sim, season }) {
     const mx = sim.main.parts.truck.getPosition().x, left = Math.max(0, trail.depot - mx);
     els.trackDone.style.width = `${frac(mx) * 100}%`;
     truckMark.style.left = `${frac(mx) * 100}%`;
+    updateServiceMarks();
     els.distTxt.textContent = km(left);
     els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
     els.coinTxt.textContent = coins.toLocaleString('en-US');

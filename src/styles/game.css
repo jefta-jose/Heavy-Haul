@@ -180,6 +180,10 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .mk.depot { width: 3px; height: 22px; top: 4px; transform: translate(-50%, -100%); background: var(--ink); border-radius: 1px; }
 .mk.depot::after { content: ''; position: absolute; left: 3px; top: 0; border-left: 11px solid var(--hazard); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
 .mk.me { width: 16px; height: 16px; z-index: 2; border-radius: 4px 50% 50% 4px; background: var(--hazard); border: 2px solid #2a1a00; box-shadow: 0 0 8px rgba(242,183,5,0.8); transition: left .1s linear; }
+/* called service trucks: smaller than the main truck's marker, which stays on top */
+.mk.fuel, .mk.breakdown { width: 12px; height: 12px; box-sizing: border-box; z-index: 1; border-radius: 50%; border: 2px solid #000; transition: left .1s linear; }
+.mk.fuel { background: #e5322d; }
+.mk.breakdown { background: #35c44a; }
 .tripline { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.65); }
 .tripline > span:last-child { grid-column: 2; }
 .tripline svg { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.9)); }
@@ -223,117 +227,178 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .mapcard { top: 290px; }
 }
 
-/* Garage: a workshop. Seasons on top, then the class tabs, the class's vehicles in a strip, and the
-   chosen vehicle on the turntable floor beside its spec and tuning panel. */
-.garage { display: grid; grid-template-rows: auto auto auto minmax(0, 1fr); gap: 10px; place-items: stretch; overflow: hidden;
-  background: #0b1420 no-repeat center 72% / cover;
-  background-image: linear-gradient(rgba(6,12,20,.7), rgba(6,12,20,.15) 32%, rgba(6,12,20,0) 70%, rgba(6,12,20,.45)), var(--garage-bg, none); }
+/* Garage: a workshop. Seasons on top, the class tabs, the class's vehicles in a strip, the chosen
+   vehicle on the workshop floor, then its details and tuning beside the Drive / Sound buttons. */
+.garage { display: grid; grid-template-rows: auto auto auto auto minmax(0, 1fr) auto; gap: 10px; place-items: stretch; overflow: hidden;
+  background: #0b1420 no-repeat center 62% / cover;
+  background-image: linear-gradient(rgba(6,12,20,.55), rgba(6,12,20,.1) 32%, rgba(6,12,20,0) 56%, rgba(6,12,20,.72)), var(--garage-bg, none); }
 .garage button { font-family: var(--display); color: var(--ink); }
-.g-seasons { display: flex; justify-content: safe center; gap: 8px; }   /* centred; "safe" keeps the first one reachable when the row scrolls */
-.g-season { flex: 0 1 260px; min-width: 0; height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 14px; text-align: left; cursor: pointer;
-  border-radius: 10px; border: 1px solid var(--panel-edge); background: linear-gradient(90deg, rgba(10,18,30,.94) 45%, rgba(10,18,30,.5)), var(--thumb, none) center / cover, rgba(10,18,30,.9); }
-.g-season b { font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.g-season small { font-size: 12px; color: var(--ink-dim); }
-.g-season.on { border-color: var(--hazard); box-shadow: 0 0 0 1px var(--hazard), 0 0 14px rgba(242,183,5,.25); }
-.g-season.on small { color: var(--hazard); }
-.g-season.locked { opacity: .5; cursor: not-allowed; }
-.g-classes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
-.g-class { display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 14px; min-width: 0; text-align: left; cursor: pointer;
-  border-radius: 10px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.88); }
-.g-class svg { width: 30px; height: 30px; flex: none; color: var(--ink-dim); }
-.g-class span { display: flex; flex-direction: column; min-width: 0; }
-.g-class b { font-size: 20px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.g-class small { font-size: 12px; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.g-class.on { border-color: var(--hazard); background: linear-gradient(rgba(242,183,5,.16), rgba(242,183,5,.06)), rgba(10,18,30,.9); box-shadow: 0 0 0 1px var(--hazard); }
-.g-class.on b, .g-class.on svg { color: var(--hazard); }
-.g-class.empty b { color: var(--ink-dim); }
-.g-strip { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 6px; }
+.garage svg { flex: none; }
+.g-seasons { display: flex; justify-content: safe center; gap: 12px; }   /* centred; "safe" keeps the first one reachable when the row scrolls */
+/* seasons and class tabs lean slightly; their contents lean back */
+.g-season { flex: 0 1 280px; min-width: 0; height: 46px; display: grid; place-items: center; padding: 0 14px; cursor: pointer; transform: skewX(-5deg);
+  border-radius: 8px; border: 1px solid var(--panel-edge); background: linear-gradient(rgba(6,12,20,.45), rgba(6,12,20,.6)), var(--thumb, var(--tint, none)) center / cover, rgba(10,18,30,.9); }
+.g-season[data-season="spring-thaw"] { --tint: linear-gradient(100deg, #29402f, #4c6d66 55%, #6f8b95); }
+.g-season[data-season="autumn-forest"] { --tint: linear-gradient(100deg, #3c2412, #8a4716 55%, #b9791f); }
+.g-season[data-season="winter-ice-road"] { --tint: linear-gradient(100deg, #1f3347, #55748d 55%, #9db7c8); }
+.g-season b { display: block; max-width: 100%; transform: skewX(5deg); font-size: 19px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 4px #000; }
+.g-season.on { border-color: var(--hazard); box-shadow: 0 0 0 1px var(--hazard), 0 0 14px rgba(242,183,5,.3); }
+.g-season.locked { cursor: not-allowed; }
+.g-heading { display: flex; align-items: center; gap: 12px; margin: -2px 0; font-family: var(--display); font-size: 36px; font-weight: 700; line-height: 1; letter-spacing: 0.05em; text-transform: uppercase; text-shadow: 0 2px 6px #000; }
+.g-heading svg { width: 38px; height: 38px; }
+.g-classes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 0 44px; }
+.g-class { display: flex; align-items: center; justify-content: center; gap: 12px; height: 46px; padding: 0 12px; min-width: 0; cursor: pointer; transform: skewX(-5deg);
+  border-radius: 8px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.9); }
+.g-class svg { width: 28px; height: 28px; color: var(--ink-dim); transform: skewX(5deg); }
+.g-class b { transform: skewX(5deg); font-size: 20px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-class.on { border-color: var(--hazard); background: var(--hazard); }
+.garage .g-class.on b, .g-class.on svg { color: #1c1300; }
+.g-class.empty:not(.on) b { color: var(--ink-dim); }
+.g-strip { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 8px; }
 .g-cars { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding: 2px; }
 .g-cars::-webkit-scrollbar { display: none; }
-.gtile { flex: none; width: 168px; display: grid; grid-template-rows: 58px auto auto; gap: 1px; padding: 6px 10px 8px; text-align: left; cursor: pointer; scroll-snap-align: start;
-  border-radius: 10px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.9); color: var(--ink); }
-.gthumb { display: grid; place-items: center; min-height: 0; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
+.gtile { position: relative; flex: 1 0 186px; max-width: 220px; height: 84px; padding: 4px 10px 24px; cursor: pointer; scroll-snap-align: start; overflow: hidden;
+  border-radius: 8px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.9); color: var(--ink); }
+.gthumb { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; height: 100%; font-family: var(--display); font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); }
+.gthumb svg { width: 16px; height: 16px; }
 .gthumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.gtile b { font-size: 15px; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gtile > span:last-child { font-family: var(--body); font-size: 12px; color: var(--ink-dim); }
+.gtile b { position: absolute; left: 10px; right: 10px; bottom: 5px; text-align: left; font-size: 17px; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gtile.on { border-color: var(--hazard); box-shadow: 0 0 0 1px var(--hazard), 0 0 14px rgba(242,183,5,.25); }
-.gtile.locked { opacity: .42; cursor: not-allowed; }
-.g-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.85); font-size: 26px; line-height: 1; padding: 0 0 3px; cursor: pointer; }
-.g-arrow:hover, .g-class:hover, .gtile:not(.locked):hover { border-color: var(--hazard); }
-.g-main { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 14px; min-height: 0; }
-/* the truck stands on the turntable, well back from the bottom edge */
-.g-show { position: relative; display: flex; align-items: flex-end; justify-content: center; min-height: 0; padding-bottom: var(--floor, 14%); }
+.gtile.locked { cursor: not-allowed; }
+.gtile.locked b, .gtile.locked .gthumb { opacity: .5; }
+.g-arrow { width: 36px; height: 44px; border-radius: 8px; border: 1px solid var(--panel-edge); background: rgba(10,18,30,.9); font-size: 28px; line-height: 1; padding: 0 0 3px; cursor: pointer; }
+.g-arrow:hover, .g-class:not(.on):hover, .gtile:not(.locked):hover { border-color: var(--hazard); }
+/* the truck stands on the workshop floor, just above the panel */
+.g-show { position: relative; min-height: 0; --floor: 8px; }
 /* parked by size: width grows with the square root of the rig's length in metres (--len): a 5 m scout
-   about half the floor, a 32 m lowbed nearly all of it */
-.g-car { width: calc(14% + sqrt(var(--len, 6)) * 14.5%); max-width: 96%; max-height: 78%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 22px 16px rgba(0,0,0,.6)); }
-.g-show .g-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; font-size: 30px; }
-.g-prev { left: 4px; } .g-next { right: 4px; }
-.g-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.g-title h3 { margin: 0; font-family: var(--display); font-size: 30px; line-height: 1; text-transform: uppercase; }
-.g-badge { flex: none; padding: 4px 10px; border: 1px solid var(--hazard); border-radius: 6px; color: var(--hazard); font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
-.g-stats { display: grid; gap: 7px; }
-.g-stats > div { display: grid; grid-template-columns: 76px minmax(0, 1fr) 30px; align-items: center; gap: 10px; font-family: var(--display); font-size: 15px; font-weight: 600; }
-.g-stats i { display: block; height: 9px; border-radius: 5px; background: rgba(202,211,206,.17); overflow: hidden; }
-.g-stats i b { display: block; height: 100%; border-radius: 5px; }
-.g-stats em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
-#upgradeOv .keys summary { cursor: pointer; font-family: var(--display); font-weight: 600; color: var(--ink); }
-.g-actions { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
-.g-actions .btn { padding: 13px 8px; background: rgba(10,18,30,.92); font-size: 17px; }
-.g-actions #startBtn { font-size: 28px; padding: 18px 8px; background: var(--hazard); }
-/* the Upgrade pop-up: details on the left, the knobs on the right */
-.card.upgrade { width: min(900px, 100%); grid-template-columns: 1fr 1.1fr; max-height: 100%; overflow-y: auto; }
-.card.upgrade .cbody + .cbody { border-left: 1px solid var(--panel-edge); }
-.card.upgrade .g-title h3 { font-size: 30px; }
-@media (max-width: 760px) { .card.upgrade { grid-template-columns: 1fr; } .card.upgrade .cbody + .cbody { border-left: 0; border-top: 1px solid var(--panel-edge); } }
-@media (max-height: 520px) { .card.upgrade .cbody { padding: 12px 14px; gap: 8px; } .card.upgrade .g-title h3 { font-size: 22px; } .card.upgrade p, .card.upgrade .keys { display: none; } }
-/* short screens (phones on their side): compact rows, no subtitles */
+   about a third of the floor, a 32 m lowbed about two thirds */
+.g-car { position: absolute; left: 0; right: 0; bottom: var(--floor); margin: 0 auto; width: calc(8% + sqrt(var(--len, 6)) * 10%); max-width: 92%; max-height: calc(100% - var(--floor)); object-fit: contain; object-position: bottom; filter: drop-shadow(0 18px 14px rgba(0,0,0,.6)); }
+/* The bottom of the garage: no panel. The nameplate stands on the floor, then one gauge pod per
+   tuning knob (they echo the driving dials), then Drive and Sound. */
+.g-bottom { display: grid; grid-template-columns: minmax(230px, 330px) minmax(0, 1fr) 200px; gap: 18px; align-items: end; }
+.g-plate { display: grid; justify-items: start; gap: 5px; min-width: 0; text-shadow: 0 1px 5px #000, 0 0 2px #000; }
+.g-plate h3 { max-width: 100%; margin: 0; font-family: var(--display); font-size: 44px; font-weight: 700; line-height: .95; letter-spacing: .01em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-badge { padding: 2px 9px; border-radius: 4px; background: var(--hazard); color: #1c1300; text-shadow: none; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; transform: skewX(-5deg); }
+.g-spec { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 2px 8px; width: 100%; margin: 3px 0 0; }
+.g-spec dt { display: grid; place-items: center; }
+.g-spec dd { margin: 0; font-family: var(--display); font-size: 17px; font-weight: 600; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-spec svg { width: 17px; height: 17px; color: var(--hazard); filter: drop-shadow(0 1px 2px #000); }
+.g-upgrade { display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; min-width: 0; }
+.g-actions { display: flex; flex-direction: column; gap: 8px; }
+.g-actions .btn { display: flex; align-items: center; justify-content: center; gap: 12px; white-space: nowrap; padding: 9px 8px; border-radius: 8px; background: rgba(10,18,30,.92); font-size: 18px; transform: skewX(-5deg); }
+.g-actions .btn > * { transform: skewX(5deg); }
+.g-actions .btn svg { width: 20px; height: 20px; }
+.garage .g-actions #startBtn { font-size: 34px; padding: 20px 8px; background: var(--hazard); color: #1c1300; box-shadow: 0 6px 22px rgba(242,183,5,.28); }
+.g-actions #startBtn svg { width: 34px; height: 34px; }
+.keys summary { cursor: pointer; font-family: var(--display); font-weight: 600; color: var(--ink); }
+/* Gauge pods */
+.tunehead { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 26px; }
+.tunehead h4 { display: flex; align-items: center; gap: 7px; margin: 0; font-family: var(--display); font-size: 19px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--hazard); text-shadow: 0 1px 4px #000; }
+.tunehead h4 svg { width: 18px; height: 18px; }
+.btn.tiny { font-size: 13px; padding: 3px 10px; background: rgba(10,18,30,.9); }
+#tuneReset { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+#tuneReset[hidden] { display: none; }
+#tuneReset svg { width: 13px; height: 13px; }
+.tunes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.tune { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 2px; padding: 8px 8px 7px; border-radius: 10px; border: 1px solid var(--panel-edge); background: linear-gradient(rgba(16,26,40,.95), rgba(8,14,23,.95)); }
+.tune.changed { border-color: rgba(242,183,5,.45); }
+.tname { display: flex; align-items: center; justify-content: center; gap: 7px; max-width: 100%; min-width: 0; }
+.tname svg { width: 17px; height: 17px; color: var(--ink-dim); }
+.tname b { font-family: var(--display); font-size: 17px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tdial { display: grid; grid-template-columns: 30px minmax(0, 1fr) 30px; align-items: end; gap: 3px; width: 100%; }
+.tstep { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--panel-edge); background: rgba(255,255,255,.06); color: var(--ink); font-size: 19px; line-height: 1; cursor: pointer; padding: 0 0 2px; }
+.tstep:disabled { opacity: .3; cursor: default; }
+.tbar { position: relative; width: 100%; max-width: 92px; justify-self: center; }
+.tbar svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tseg { fill: none; stroke: rgba(202,211,206,.18); stroke-width: 10; cursor: pointer; transition: stroke .15s; }
+.tval { position: absolute; left: 0; right: 0; bottom: -2px; text-align: center; font-family: var(--display); font-size: 21px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.tread { margin-top: 3px; font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* smaller windows: no heading, and tighter rows */
+@media (max-height: 760px) {
+  .garage { grid-template-rows: auto auto auto minmax(0, 1fr) auto; gap: 7px; padding-top: 10px; padding-bottom: 10px; }
+  .g-heading { display: none; }
+  .g-season { height: 38px; } .g-class { height: 40px; } .gtile { height: 72px; padding-bottom: 22px; }
+  .g-plate h3 { font-size: 36px; }
+  .garage .g-actions #startBtn { font-size: 28px; padding: 14px 8px; }
+}
+/* narrower landscape windows: the columns give way to the pods */
+@media (max-width: 1180px) and (orientation: landscape) {
+  .g-classes { padding: 0; }
+  .g-class b { font-size: 16px; } .g-season b { font-size: 16px; }
+  .g-bottom { grid-template-columns: minmax(150px, 230px) minmax(0, 1fr) 130px; gap: 10px; }
+  .g-plate h3 { font-size: 28px; } .g-spec dd { font-size: 14px; }
+  .tunes { gap: 5px; } .tune { padding: 6px 4px; } .tname b { font-size: 14px; }
+  .g-actions .btn { gap: 8px; font-size: 16px; } .garage .g-actions #startBtn { font-size: 22px; } .g-actions #startBtn svg { width: 24px; height: 24px; }
+}
+/* phones on their side: every row at its smallest, so the truck keeps what is left */
 @media (max-height: 520px) {
-  .garage { gap: 6px; padding-top: 8px; padding-bottom: 8px; }
-  .g-season { height: 30px; padding: 0 10px; } .g-season small { display: none; } .g-season b { font-size: 13px; }
-  .g-class { height: 38px; gap: 8px; padding: 0 10px; } .g-class small { display: none; } .g-class b { font-size: 14px; } .g-class svg { width: 20px; height: 20px; }
-  .g-strip { grid-template-columns: 28px minmax(0, 1fr) 28px; } .g-arrow { width: 28px; height: 28px; font-size: 22px; }
-  .gtile { width: 118px; grid-template-rows: 30px auto; padding: 4px 8px 5px; } .gtile b { font-size: 12px; } .gtile > span:last-child { display: none; }
-  .g-main { grid-template-columns: minmax(0, 1fr) 130px; gap: 8px; --floor: 6%; }
-  .g-show .g-arrow { width: 34px; height: 34px; font-size: 24px; }
-  .tune { padding: 1px 4px; } .tname small { display: none; }
-  .g-actions { gap: 6px; } .g-actions .btn { padding: 7px 4px; font-size: 13px; } .g-actions #startBtn { font-size: 19px; padding: 10px 4px; }
+  .garage { gap: 4px; padding-top: max(5px, env(safe-area-inset-top, 0px)); padding-bottom: max(5px, env(safe-area-inset-bottom, 0px)); }
+  .g-seasons { gap: 6px; } .g-season { height: 24px; padding: 0 6px; } .g-season b { font-size: 13px; letter-spacing: 0.01em; }
+  .g-classes { gap: 6px; } .g-class { height: 26px; gap: 6px; padding: 0 6px; } .g-class b { font-size: 13px; letter-spacing: 0.01em; } .g-class svg { width: 16px; height: 16px; }
+  .g-strip { grid-template-columns: 26px minmax(0, 1fr) 26px; gap: 4px; } .g-arrow { width: 26px; height: 34px; font-size: 20px; }
+  .g-cars { gap: 5px; } .gtile { flex-basis: 104px; min-width: 0; height: 44px; padding: 2px 6px 15px; } .gtile b { left: 6px; right: 6px; bottom: 2px; font-size: 12px; }
+  .gthumb { font-size: 9px; gap: 0; } .gthumb svg { width: 10px; height: 10px; }
+  .g-show { --floor: 2px; }
+  .g-bottom { grid-template-columns: minmax(110px, 170px) minmax(0, 1fr) 92px; gap: 6px; }
+  .g-plate { gap: 2px; } .g-plate h3 { font-size: 19px; } .g-badge { padding: 0 5px; font-size: 10px; }
+  .g-spec { grid-template-columns: 12px minmax(0, 1fr); gap: 0 4px; margin: 0; } .g-spec dd { font-size: 12px; line-height: 1.15; } .g-spec svg { width: 11px; height: 11px; }
+  .g-upgrade { gap: 2px; }
+  .tunehead { position: absolute; width: 0; height: 0; min-height: 0; } .tunehead h4 { display: none; }
+  #tuneReset { position: fixed; right: calc(max(16px, env(safe-area-inset-right, 0px)) + 98px); bottom: 70px; font-size: 10px; padding: 2px 6px; letter-spacing: 0; } #tuneReset svg { display: none; }
+  .tunes { gap: 4px; } .tune { gap: 0; padding: 3px 2px; border-radius: 8px; }
+  .tname svg { display: none; } .tname b { font-size: 11px; letter-spacing: .02em; }
+  .tdial { grid-template-columns: 26px minmax(0, 1fr) 26px; gap: 1px; align-items: center; }
+  .tstep { width: 26px; height: 26px; font-size: 16px; } .tbar { max-width: 46px; } .tseg { stroke-width: 12; } .tval { font-size: 13px; bottom: 0; }
+  .tread { margin-top: 1px; font-size: 10px; line-height: 1.1; }
+  .g-actions { gap: 4px; } .g-actions .btn { padding: 5px 2px; font-size: 12px; gap: 4px; } .g-actions .btn svg { width: 13px; height: 13px; }
+  .garage .g-actions #startBtn { font-size: 18px; padding: 12px 2px; } .g-actions #startBtn svg { width: 17px; height: 17px; }
 }
-/* narrow screens held upright: one column that scrolls, the Drive bar stays at the bottom */
+/* narrow screens held upright: one column that scrolls, with Drive right under the truck */
 @media (orientation: portrait) and (max-width: 1100px) and (min-height: 521px) {
-  .garage { display: flex; flex-direction: column; overflow-y: auto; gap: 8px; }
-  .g-seasons, .g-classes { display: flex; overflow-x: auto; scrollbar-width: none; flex: none; }
-  .g-season { flex: none; width: 150px; } .g-class { flex: none; height: 50px; } .g-class b { font-size: 16px; }
-  .g-strip { flex: none; } .gtile { width: 132px; grid-template-rows: 44px auto auto; }
-  .g-main { display: flex; flex-direction: column; gap: 8px; flex: none; }
+  .garage { display: flex; flex-direction: column; overflow-y: auto; gap: 8px; padding-top: max(10px, env(safe-area-inset-top, 0px)); }
   .garage { background-image: linear-gradient(rgba(6,12,20,.82), rgba(6,12,20,.82)), var(--garage-bg, none); }
+  .g-heading { display: none; }
+  .g-seasons, .g-classes { display: flex; overflow-x: auto; scrollbar-width: none; flex: none; padding: 0 3px; }
+  .g-season { flex: none; width: 170px; height: 40px; } .g-season b { font-size: 16px; } .g-class { flex: none; height: 42px; } .g-class b { font-size: 17px; }
+  .g-strip { flex: none; grid-template-columns: 28px minmax(0, 1fr) 28px; gap: 4px; } .g-arrow { width: 28px; } .gtile { flex-basis: 140px; height: 74px; }
   /* the showroom gets its own crop of the workshop, floor at the bottom, so the car stands on it */
-  .g-car { width: calc(20% + sqrt(var(--len, 6)) * 13.5%); max-width: 98%; }
-  .g-show { height: 48vh; flex: none; --floor: 6%; border-radius: 12px; border: 1px solid var(--panel-edge); background: #0b1420 var(--garage-bg, none) center 92% / cover no-repeat; }
-  .g-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; gap: 8px; }
-  .g-actions #startBtn { grid-column: 1 / -1; font-size: 24px; padding: 14px; } .g-actions .btn { padding: 10px 4px; font-size: 14px; }
-  .g-actions .rotate { grid-column: 1 / -1; text-align: center; }
+  .g-show { height: 30vh; flex: none; --floor: 8%; border-radius: 12px; border: 1px solid var(--panel-edge); background: #0b1420 var(--garage-bg, none) center 92% / cover no-repeat; }
+  .g-car { width: calc(18% + sqrt(var(--len, 6)) * 13.5%); max-width: 98%; }
+  .g-bottom { display: flex; flex-direction: column; align-items: stretch; gap: 10px; flex: none; }
+  .g-actions { order: -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .garage .g-actions #startBtn { grid-column: span 2; font-size: 24px; padding: 12px; } .g-actions #startBtn svg { width: 24px; height: 24px; }
+  .g-actions .btn { padding: 10px 4px; font-size: 16px; }
+  .g-actions .rotate { grid-column: 1 / -1; text-align: center; transform: none; }
+  .g-plate h3 { font-size: 32px; }
+  .tunes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* Loading screens: launch, after DRIVE, back to the garage (src/game/loader.js). The bar is revealed by
+   two opposite slides, so it runs on the compositor and keeps moving while the main thread is busy. */
+.loader { position: fixed; inset: 0; z-index: 100; --p: 0; display: grid; align-content: end; justify-items: center; gap: 3px; padding: 0 16px max(18px, 4.5vh); pointer-events: auto; touch-action: none; transition: opacity .3s;
+  background: #0b1420 no-repeat center 62% / cover; }
+.loader[data-kind="launch"] { background-image: var(--loader-launch); }
+.loader[data-kind="drive"] { background-image: var(--loader-drive); }
+.loader[data-kind="garage"] { background-image: var(--loader-garage); }
+.loader.out { opacity: 0; pointer-events: none; }
+.loader-info { display: flex; justify-content: space-between; width: min(66vw, 570px); font-family: var(--display); font-size: 20px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); text-shadow: 0 1px 5px #000; font-variant-numeric: tabular-nums; }
+.loader-bar { position: relative; width: min(74vw, 640px); aspect-ratio: 2077 / 177; background: var(--loader-bar-frame) center / 100% 100% no-repeat; }
+.loader-window { position: absolute; left: 7.2%; right: 7.1%; top: 20.3%; bottom: 25.4%; overflow: hidden; clip-path: polygon(1.2% 0, 98.8% 0, 100% 25%, 100% 75%, 98.8% 100%, 1.2% 100%, 0 75%, 0 25%); }
+.loader-fill { position: absolute; inset: 0; overflow: hidden; transform: translateX(calc((var(--p) - 1) * 100%)); transition: transform .3s linear; }
+.loader-fill i { position: absolute; inset: 0; background: var(--loader-bar-fill) center / 100% 100% no-repeat; transform: translateX(calc((1 - var(--p)) * 100%)); transition: transform .3s linear; }
+.loader.snap .loader-fill, .loader.snap .loader-fill i { transition: none; }
+/* before any script has run: creep up to 30% */
+.loader.crawl .loader-fill { animation: loader-crawl 5s ease-out forwards; }
+.loader.crawl .loader-fill i { animation: loader-crawl-back 5s ease-out forwards; }
+@keyframes loader-crawl { from { transform: translateX(-100%); } to { transform: translateX(-70%); } }
+@keyframes loader-crawl-back { from { transform: translateX(100%); } to { transform: translateX(70%); } }
+@media (max-height: 520px) { .loader-info { font-size: 15px; } .loader { padding-bottom: 12px; } }
+@media (orientation: portrait) { .loader-bar { width: 88vw; } .loader-info { width: 78vw; } }
+
 /* Service call action */
 .dash { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
 .action { pointer-events: auto; font-size: 22px; padding: 12px 26px; white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 @media (max-width: 600px), (max-height: 520px) { .action { font-size: 16px; padding: 8px 16px; } .dash { gap: 6px; } }
-
-/* Garage tuning */
-.tunehead { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-.tunehead h4 { margin: 0; font-family: var(--display); font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hazard); }
-.btn.tiny { font-size: 13px; padding: 4px 10px; }
-.tunes { display: grid; gap: 4px; }
-.tune { display: grid; grid-template-columns: minmax(0, 1.15fr) 28px minmax(80px, 1fr) 30px 28px; align-items: center; gap: 6px; padding: 3px 6px; border-radius: 8px; }
-.tune.changed { background: rgba(242, 183, 5, 0.12); }
-.tname { display: flex; flex-direction: column; min-width: 0; }
-.tname b { font-family: var(--display); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tname small { font-size: 11px; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tstep:disabled { opacity: 0.35; cursor: default; }
-.tstep { height: 28px; border-radius: 7px; border: 1px solid var(--panel-edge); background: var(--panel); color: var(--ink); font-size: 18px; cursor: pointer; padding: 0; }
-.tbar { position: relative; height: 10px; border-radius: 5px; background: rgba(202, 211, 206, 0.17); overflow: hidden; cursor: pointer; }
-.tbar i { position: absolute; inset: 0 auto 0 0; border-radius: 5px; transition: width .15s, background .15s; }
-.ttick { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(11, 20, 32, 0.55); }
-.tval { font-family: var(--display); font-size: 16px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
 
 /* engine switch: green while running, pulsing while cranking, dim when off */
 .winch.engine { color: var(--ink-dim); letter-spacing: 0.02em; }
@@ -446,10 +511,10 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   #gas::after { left: -8px; right: -60px; }
   /* the two dials between the pedals */
   #gauges { width: 216px; height: 104px; }
-  /* PARK and ENGINE small above the brake; gears and drive modes above the gas */
+  /* ENGINE on top of PARK, small, above the brake; gears and drive modes above the gas */
   .bottom > .side { position: relative; }
   .winch.hbrake, .winch.engine { position: absolute; bottom: 126px; width: 46px; height: 46px; font-size: 8px; }
-  .winch.hbrake { left: 0; } .winch.engine { left: 54px; }
+  .winch.hbrake, .winch.engine { left: 0; } .winch.engine { bottom: 180px; }
   .winch.hbrake svg, .winch.engine svg { width: 18px; height: 18px; margin-bottom: -5px; }
   .drive { position: absolute; right: 0; bottom: 126px; flex-direction: column; align-items: flex-end; gap: 5px; }
   .modes { flex-direction: row; gap: 5px; }
@@ -461,5 +526,5 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 @media (max-height: 380px) {
   .pedal { width: 76px; height: 98px; }
   #gauges { width: 180px; height: 87px; }
-  .winch.hbrake, .winch.engine, .drive { bottom: 110px; }
+  .winch.hbrake, .drive { bottom: 110px; } .winch.engine { bottom: 164px; }
 }

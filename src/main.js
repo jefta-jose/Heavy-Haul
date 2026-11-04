@@ -8,6 +8,7 @@ import { createInput } from './game/input.js';
 import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
 import { createGarage } from './game/garage.js';
+import { createLoader } from './game/loader.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -28,6 +29,7 @@ import { createHaptics } from './game/haptics.js';
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
 const { season, rockHulls, wheelTypes } = content;
+const loader = createLoader();
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps
 const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
@@ -49,9 +51,9 @@ const renderer = createRenderer({
 const garage = createGarage({
   content,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
-  onStart: (selection, fullscreen) => { if (fullscreen) goFullscreen(); startRun(selection); },
+  onStart: selection => driveOff(selection),
 });
-const session = createSession({ sim, hud, season, onRestart: () => newRun(), onGarage: () => openGarage() });
+const session = createSession({ sim, hud, season, onRestart: () => newRun(), onGarage: () => backToGarage() });
 session.onRecover = x => { sim.respawn(x); view.snap(); setGear('H'); };
 session.onResume = () => audio.resume();
 session.onCall = role => summon(role);
@@ -59,8 +61,6 @@ session.canCall = role => !!called[role] || !!serviceFor(role);
 
 let selection = garage.selection;
 let refueling = null, returnVehicle = null;
-// the camera zooms out for a job: a refuel running, or the driven truck's winch cable hooked on
-view.inJob = () => !!refueling || !!sim.active?.cable;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
@@ -73,7 +73,7 @@ function setMode(key, on) {
 // the pause menu also carries what the phone HUD leaves out: the truck's details and fullscreen
 // the Android app is always fullscreen (MainActivity), and its WebView refuses the browser's fullscreen
 const IN_APP = !!window.Capacitor?.isNativePlatform?.();
-if (IN_APP) for (const id of ['fsBtn', 'startFs']) document.getElementById(id).hidden = true;
+if (IN_APP) document.getElementById('fsBtn').hidden = true;
 const showPause = () => {
   const E = hud.els, text = el => el.textContent.trim() || '–';
   const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Use', `${text(E.useTxt)} ${E.avgTxt.textContent}`.trim()], ['Coins', text(E.coinTxt)]];
@@ -92,7 +92,7 @@ function drive(v) {
   stopRefueling();
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
-  sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
+  sim.setActive(v); view.setZoom(zoomFor(sim.main.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
 }
 function switchVehicle() {
@@ -199,8 +199,45 @@ function newRun() {
   if (selection.car.load) hud.toast(`Deliver the ${selection.car.load.name.toLowerCase()} to the depot`, 3);
 }
 // a run starts with the engine off and the starter cranking, like turning the key
-function startRun(sel) { selection = sel; garage.hide(); session.state = 'play'; startAudio(); newRun(); sim.stopEngine(sim.main); sim.startEngine(sim.main); }
+function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
+function goRun() { session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
+function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
 function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
+
+// ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
+const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
+const decoded = (urls, ms = 3000) => Promise.race([Promise.all(urls.filter(Boolean).map(u => { const i = new Image(); i.src = u; return i.decode?.().catch(() => {}); })), new Promise(r => setTimeout(r, ms))]);
+const framesDrawn = n => { const to = renderer.frames + n; return until(() => renderer.frames >= to, 8000); };
+let loading = false;
+async function driveOff(sel) {
+  if (loading) return; loading = true;
+  startAudio();   // inside the tap, or the phone will not play it
+  loader.show('drive'); await loader.painted();
+  prepareRun(sel); loader.set(0.35);
+  await until(() => renderer.ready, 15000); loader.set(0.65);
+  await framesDrawn(2); loader.set(0.9);   // the first frames build the sprites for this truck's zoom
+  goRun(); loading = false;
+  loader.hide();
+}
+async function backToGarage() {
+  if (loading) return; loading = true;
+  loader.show('garage'); await loader.painted();
+  openGarage(); loader.set(0.5);
+  await decoded([selection.car.artUri?.master, content.hud['garage-background']]); loader.set(0.85);
+  loading = false;
+  loader.hide(700);
+}
+// launch: the bar follows the artwork as it loads, then the first frames, then the garage's own art
+let launching = true;
+const launchStarted = performance.now();
+function launchProgress() {
+  const status = Object.values(renderer.assetStatus());
+  loader.set(0.3 + 0.55 * status.filter(Boolean).length / Math.max(1, status.length));
+  // a failed image must not hold the game behind the screen for ever
+  if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
+  launching = false;
+  decoded([selection.car.artUri?.master, content.hud['garage-background']]).then(() => loader.hide(1000));
+}
 
 async function goFullscreen() {
   const el = document.documentElement;
@@ -251,6 +288,7 @@ function adapt(dt) {
 }
 function frame(now) {
   const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
+  if (launching) launchProgress();
   if (pendingResize) {   // only the pixel count changes, so the camera stays where it is
     pendingResize = false;
     const { x, y, vx, vy } = view.cam; resize(); Object.assign(view.cam, { x, y, vx, vy });
@@ -281,7 +319,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { sim, view, renderer, session, audio, sound, garage, content, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
+window.__haul = { sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);
