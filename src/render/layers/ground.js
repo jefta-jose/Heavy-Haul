@@ -32,6 +32,7 @@ function paintBank(scene, lo, hi, ctx, world) {
   ctx.setTransform(...world);
 }
 
+
 // Bank chunks (bank art, deep soil and the lane) for [lo, hi]. `ahead`: also build the next chunk in
 // the direction of travel, if no chunk was built yet this frame (see renderer.js, cache.built), so
 // chunks are ready before they scroll in instead of several being painted in one frame.
