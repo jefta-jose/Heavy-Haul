@@ -328,7 +328,7 @@
       [
         340,
         420,
-        "creek"
+        "mud"
       ],
       [
         420,
@@ -348,7 +348,7 @@
       [
         900,
         1030,
-        "creek"
+        "mud"
       ],
       [
         1030,
@@ -388,7 +388,7 @@
       [
         2002,
         2082,
-        "creek"
+        "mud"
       ],
       [
         2082,
@@ -408,7 +408,7 @@
       [
         2562,
         2692,
-        "creek"
+        "mud"
       ],
       [
         2692,
@@ -441,43 +441,20 @@
         "gravel"
       ]
     ],
-    "waters": [
-      {
-        "x0": 345,
-        "x1": 415,
-        "depth": 0.45,
-        "kind": "swamp",
-        "drag": 0.2
-      },
-      {
-        "x0": 910,
-        "x1": 1020,
-        "depth": 0.55,
-        "kind": "swamp",
-        "drag": 0.22
-      },
-      {
-        "x0": 2007,
-        "x1": 2077,
-        "depth": 0.45,
-        "kind": "swamp",
-        "drag": 0.2
-      },
-      {
-        "x0": 2572,
-        "x1": 2682,
-        "depth": 0.55,
-        "kind": "swamp",
-        "drag": 0.22
-      }
-    ],
+    "waters": [],
     "heavyMud": [
       180,
+      380,
       650,
+      925,
+      958,
       1150,
       1495,
       1842,
+      2042,
       2312,
+      2587,
+      2620,
       2812,
       3157
     ],
@@ -492,66 +469,23 @@
       3012
     ],
     "seed": 20261026,
+    "rollers": {
+      "seed": 7717,
+      "height": [
+        0.45,
+        0.85
+      ],
+      "wave": [
+        6.5,
+        11
+      ],
+      "fade": 2.5,
+      "mud": 0.85,
+      "intensity": 1.5
+    },
     "obstacleSeed": 4242,
     "obstacleScale": 2,
-    "bridges": [
-      {
-        "id": "creek-bridge",
-        "x0": 364,
-        "x1": 378,
-        "capacityT": 14,
-        "sag": 0.28,
-        "depth": 2.3,
-        "style": "timber"
-      },
-      {
-        "id": "old-timber-bridge",
-        "x0": 957,
-        "x1": 969,
-        "capacityT": 55,
-        "sag": 0.1,
-        "depth": 2.5,
-        "style": "steel"
-      },
-      {
-        "id": "broken-road-bridge",
-        "x0": 1182,
-        "x1": 1190,
-        "style": "timber",
-        "capacityT": 12,
-        "sag": 0.15,
-        "depth": 2.2,
-        "missingBoard": 5
-      },
-      {
-        "id": "creek-bridge-2",
-        "x0": 2026,
-        "x1": 2040,
-        "capacityT": 14,
-        "sag": 0.28,
-        "depth": 2.3,
-        "style": "timber"
-      },
-      {
-        "id": "old-timber-bridge-2",
-        "x0": 2619,
-        "x1": 2631,
-        "capacityT": 55,
-        "sag": 0.1,
-        "depth": 2.5,
-        "style": "steel"
-      },
-      {
-        "id": "broken-road-bridge-2",
-        "x0": 2844,
-        "x1": 2852,
-        "style": "timber",
-        "capacityT": 12,
-        "sag": 0.15,
-        "depth": 2.2,
-        "missingBoard": 5
-      }
-    ],
+    "bridges": [],
     "rockGardens": [
       {
         "x0": 78,
@@ -606,136 +540,88 @@
     ],
     "holes": [
       {
-        "x": 142,
+        "x": 180,
         "width": 6,
-        "depth": 0.7,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 208,
-        "width": 7,
-        "depth": 0.85,
-        "kind": "mud"
-      },
-      {
-        "x": 284,
+        "x": 380,
         "width": 6,
-        "depth": 0.6,
-        "kind": "pothole"
-      },
-      {
-        "x": 575,
-        "width": 7,
-        "depth": 0.8,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 710,
+        "x": 650,
         "width": 6,
-        "depth": 0.65,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 889,
+        "x": 925,
         "width": 6,
-        "depth": 0.6,
-        "kind": "pothole"
-      },
-      {
-        "x": 1116,
-        "width": 7,
-        "depth": 0.85,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 1420,
-        "width": 7,
-        "depth": 0.8,
-        "kind": "mud"
-      },
-      {
-        "x": 1555,
-        "width": 7,
-        "depth": 0.9,
-        "kind": "mud"
-      },
-      {
-        "x": 1684,
+        "x": 958,
         "width": 6,
-        "depth": 0.65,
-        "kind": "pothole"
+        "depth": 0.3,
+        "kind": "mud"
       },
       {
-        "x": 1734,
-        "width": 9,
-        "depth": 1,
-        "kind": "washout"
-      },
-      {
-        "x": 1804,
+        "x": 1150,
         "width": 6,
-        "depth": 0.7,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 1870,
-        "width": 7,
-        "depth": 0.85,
-        "kind": "mud"
-      },
-      {
-        "x": 1946,
+        "x": 1495,
         "width": 6,
-        "depth": 0.6,
-        "kind": "pothole"
-      },
-      {
-        "x": 2237,
-        "width": 7,
-        "depth": 0.8,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 2372,
+        "x": 1842,
         "width": 6,
-        "depth": 0.65,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 2551,
+        "x": 2042,
         "width": 6,
-        "depth": 0.6,
-        "kind": "pothole"
-      },
-      {
-        "x": 2778,
-        "width": 7,
-        "depth": 0.85,
+        "depth": 0.3,
         "kind": "mud"
       },
       {
-        "x": 3082,
-        "width": 7,
-        "depth": 0.8,
-        "kind": "mud"
-      },
-      {
-        "x": 3217,
-        "width": 7,
-        "depth": 0.9,
-        "kind": "mud"
-      },
-      {
-        "x": 3346,
+        "x": 2312,
         "width": 6,
-        "depth": 0.65,
-        "kind": "pothole"
+        "depth": 0.3,
+        "kind": "mud"
       },
       {
-        "x": 3396,
-        "width": 9,
-        "depth": 1,
-        "kind": "washout"
+        "x": 2587,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2620,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2812,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 3157,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
       }
     ],
     "ramps": [
@@ -937,14 +823,6 @@
         "gap": 0.2
       },
       {
-        "id": "corduroyLog-987",
-        "kind": "corduroyLog",
-        "x": 987,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      },
-      {
         "id": "pipe-1102",
         "kind": "pipe",
         "x": 1102,
@@ -1078,14 +956,6 @@
         "count": 6,
         "radius": 0.26,
         "gap": 0.2
-      },
-      {
-        "id": "rottenLog-2649",
-        "kind": "rottenLog",
-        "x": 2649,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.8
       },
       {
         "id": "pipe-2764",
@@ -1528,7 +1398,19 @@
         "kind": "rootTangle",
         "x": 3482
       }
-    ]
+    ],
+    "crushables": {
+      "rock": [
+        2.5,
+        5
+      ],
+      "dirt": [
+        4,
+        8
+      ],
+      "room": 0.4,
+      "pileEvery": 3
+    }
   },
   "surfaces": {
     "gravel": {
@@ -1603,11 +1485,9 @@
   "art": {
     "backdrop": {
       "file": "art/backdrop.webp",
-      "source": "source/backdrop-v3.png"
-    },
-    "midground": {
-      "file": "art/midground.webp",
-      "source": "source/midground-v2.png"
+      "source": "art/Warm Summer Swamp Panorama.png",
+      "width": 1800,
+      "quality": 82
     },
     "bank": {
       "file": "art/bank.webp",
@@ -1616,6 +1496,36 @@
     "ground": {
       "file": "art/ground.webp",
       "source": "source/ground-v1.png"
+    },
+    "roadEdge": {
+      "file": "art/road-edge.webp",
+      "source": "art/Mossy Swamp Mud Platform Tile.png",
+      "crop": [
+        0,
+        287,
+        2172,
+        500
+      ],
+      "width": 1600,
+      "quality": 86
+    },
+    "roadFar": {
+      "file": "art/road-far.webp",
+      "source": "art/Swampy Grass and Reed Border.png",
+      "crop": [
+        0,
+        395,
+        2172,
+        580
+      ],
+      "width": 1600,
+      "quality": 86
+    },
+    "roadSoil": {
+      "file": "art/road-soil.webp",
+      "source": "art/Hand-Painted Dark Swamp Soil Texture.png",
+      "width": 1024,
+      "quality": 80
     },
     "reeds": {
       "file": "art/reeds.webp",
@@ -1708,6 +1618,13 @@
       "midground": 0.24
     },
     "forestFloor": false,
+    "road": {
+      "far": 0.12,
+      "near": 0.1,
+      "edge": 0.09,
+      "farEdge": 0.1,
+      "soilTileM": 18
+    },
     "lane": {
       "materials": {
         "dirt": "ground",
@@ -1770,7 +1687,10 @@
           280
         ]
       }
-    }
+    },
+    "midground": false,
+    "backdropHorizon": 0.665,
+    "backdropFloor": "#8a9b7c"
   },
   "ambience": [
     {

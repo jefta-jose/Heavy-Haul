@@ -33,12 +33,50 @@ function paintBank(scene, lo, hi, ctx, world) {
 }
 
 
+// The thick road (season.render.road): instead of the painted bank, a band of road in front of and
+// behind the line the tires roll on, a mossy edge strip along its front, reeds along its back and
+// plain soil below. Its sizes are shares of the screen height, so it reads as thick at every truck's
+// zoom. Nothing here touches the physics: the tires still roll on visH.
+export function roadSpan(scene) {
+  const road = scene.season.render.road; if (!road) return null;
+  const metres = scene.view.H / scene.view.ppm;
+  return { far: road.far * metres, near: road.near * metres, edge: road.edge * metres, farEdge: road.farEdge * metres };
+}
+const roadMid = (visH, x) => (visH(x - 1) + 2 * visH(x) + visH(x + 1)) / 4;
+const roadFarLine = (visH, x, span) => Math.max(roadMid(visH, x) + span.far + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08, visH(x) + 0.3);
+const roadNearLine = (visH, x, span) => Math.min(roadMid(visH, x) - span.near, visH(x) - 0.2);
+
+// a strip of art bent along a line, column by column; every other tile is mirrored, so the joins match
+function paintStrip(ctx, world, img, line, height, lo, hi) {
+  const tile = height * img.width / img.height, NCOL = Math.max(1, Math.round(tile / COL)), sw = img.width / NCOL;
+  for (let column = Math.floor(lo / COL); column < Math.ceil(hi / COL) + 1; column++) {
+    const x = column * COL, top = line(x), slope = (line(x + COL) - top) / COL;
+    const tileIndex = Math.floor(column / NCOL), local = ((column % NCOL) + NCOL) % NCOL, mirror = Math.abs(tileIndex % 2) === 1;
+    ctx.setTransform(...world); ctx.translate(x, top); ctx.transform(1, slope, 0, -1, 0, 0);
+    if (mirror) { ctx.translate(COL, 0); ctx.scale(-1, 1); }
+    ctx.drawImage(img, (mirror ? NCOL - 1 - local : local) * sw, 0, sw, img.height, 0, 0, COL + 0.015, height);
+  }
+}
+function paintRoad(scene, g, world, lo, hi, span) {
+  const { visH } = scene.sim, { roadFar, roadEdge } = scene.images, C = scene.cache;
+  if (roadFar) paintStrip(g, world, roadFar, x => roadFarLine(visH, x, span) + span.farEdge * 0.86, span.farEdge, lo, hi);
+  g.setTransform(...world);
+  // opaque road first, since no painted bank lies under it now; the zones' materials go over it
+  g.beginPath();
+  for (let x = lo - COL; x <= hi + COL; x += COL) g.lineTo(x, roadFarLine(visH, x, span));
+  for (let x = hi + COL; x >= lo - COL; x -= COL) g.lineTo(x, roadNearLine(visH, x, span));
+  g.closePath(); g.fillStyle = C.lanePat.dirt ?? C.deepPat; g.fill();
+  paintLane(scene, g, lo, hi, span);
+  if (roadEdge) paintStrip(g, world, roadEdge, x => roadNearLine(visH, x, span) + span.edge * 0.08, span.edge, lo, hi);
+  g.setTransform(...world);
+}
+
 // Bank chunks (bank art, deep soil and the lane) for [lo, hi]. `ahead`: also build the next chunk in
 // the direction of travel, if no chunk was built yet this frame (see renderer.js, cache.built), so
 // chunks are ready before they scroll in instead of several being painted in one frame.
 function bank(scene, lo, hi, ahead = false) {
   const { ctx, ppm, DPR = 1, cam } = scene.view, px = ppm * DPR, C = scene.cache;
-  const key = `${px.toFixed(4)}:${scene.season.render.bankTile}`;
+  const span = roadSpan(scene), key = `${px.toFixed(4)}:${scene.season.render.bankTile}:${scene.view.H}`;
   if (C.bankKey !== key) { C.bankKey = key; C.bankChunks = new Map(); }
   const chunkWidth = scene.season.render.bankTile / 2, { visH } = scene.sim;
   const first = Math.floor(lo / chunkWidth), last = Math.floor(hi / chunkWidth);
@@ -46,17 +84,18 @@ function bank(scene, lo, hi, ahead = false) {
     const x = index * chunkWidth, end = x + chunkWidth;
     let low = Infinity, high = -Infinity;
     for (let t = x - 3; t <= end + 3; t += COL) { low = Math.min(low, visH(t)); high = Math.max(high, visH(t)); }
-    const img = scene.images.bank, r = scene.season.render, scale = r.bankTile / img.width;
-    const top = high + r.bankContactRow * scale + 0.1;
-    const bottom = low - (img.height - r.bankContactRow) * scale - 0.1;
+    const img = scene.images.bank, r = scene.season.render, scale = span ? 0 : r.bankTile / img.width;
+    const top = span ? high + span.far + span.farEdge + 0.4 : high + r.bankContactRow * scale + 0.1;
+    const bottom = span ? low - span.near - span.edge - 0.4 : low - (img.height - r.bankContactRow) * scale - 0.1;
     const canvas = makeCanvas(Math.ceil(chunkWidth * px), Math.ceil((top - bottom) * px));
     const g = canvas.getContext('2d'); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
     // deep soil under the contour first: the bank art is not quite opaque (alpha 252)
     g.setTransform(px, 0, 0, -px, -x * px, top * px); g.beginPath();
     for (let t = x - COL; t <= end + COL; t += COL) g.lineTo(t, visH(t) + 0.1);
     g.lineTo(end + COL, bottom); g.lineTo(x - COL, bottom); g.closePath(); g.fillStyle = scene.cache.deepPat; g.fill();
-    paintBank(scene, x, end, g, [px, 0, 0, -px, -x * px, top * px]);
-    paintLane(scene, g, x, end);
+    const world = [px, 0, 0, -px, -x * px, top * px];
+    if (span) paintRoad(scene, g, world, x, end, span);
+    else { paintBank(scene, x, end, g, world); paintLane(scene, g, x, end); }
     const tile = { canvas, x, top }; C.bankChunks.set(index, tile); C.built = (C.built ?? 0) + 1;
     // Keep memory bounded while crossing a long trail or teleporting between checkpoints.
     if (C.bankChunks.size > Math.max(20, last - first + 6)) C.bankChunks.delete(C.bankChunks.keys().next().value);
@@ -77,7 +116,8 @@ export function drawGround(scene) {
   // bottom edge, so fill only below the bank's own lowest contour (its broad contour, less its depth).
   // A single height sampled at the camera centre leaves wedges on slopes; this follows the contour
   // and always extends beyond the viewport bottom.
-  const img = scene.images.bank, r = scene.season.render, depth = (img.height - r.bankContactRow) * r.bankTile / img.width - 0.05;
+  const span = roadSpan(scene), img = scene.images.bank, r = scene.season.render;
+  const depth = span ? span.near + span.edge + 0.3 : (img.height - r.bankContactRow) * r.bankTile / img.width - 0.05;
   const broad = x => (visH(x - 3) + 2 * visH(x - 1.5) + 3 * visH(x) + 2 * visH(x + 1.5) + visH(x + 3)) / 9 - depth;
   const bottom = cam.y - H / ppm - 2;
   let visible = false;
@@ -107,16 +147,17 @@ export function drawFrontLip(scene) {
 // world-anchored; there is no solid dark ribbon or ruler-straight outline over the painted bank.
 // It never changes, so it is painted into the cached bank chunks (live, its clipped translucent
 // bands were the second most expensive thing on screen in Chrome).
-function paintLane(scene, ctx, lo, hi) {
+function paintLane(scene, ctx, lo, hi, span = null) {
   const { visH, terrain } = scene.sim, C = scene.cache, tints = scene.season.render.lane.tints;
   const x0 = Math.floor(lo / COL) * COL, x1 = Math.ceil(hi / COL) * COL, BLEND = 2;
-  const laneTop = x => (visH(x - 1) + 2 * visH(x) + visH(x + 1)) / 4 + 0.82 + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08;
+  const laneTop = x => span ? roadFarLine(visH, x, span) : roadMid(visH, x) + 0.82 + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08;
+  const laneBottom = x => span ? roadNearLine(visH, x, span) : visH(x) - 0.13;
   const lanePath = (a, b) => {
     ctx.beginPath();
     for (let x = a; x < b; x += COL) ctx.lineTo(x, laneTop(x));
-    ctx.lineTo(b, laneTop(b)); ctx.lineTo(b, visH(b) - 0.13);
-    for (let x = Math.floor(b / COL) * COL; x > a; x -= COL) ctx.lineTo(x, visH(x) - 0.13);
-    ctx.lineTo(a, visH(a) - 0.13); ctx.closePath();
+    ctx.lineTo(b, laneTop(b)); ctx.lineTo(b, laneBottom(b));
+    for (let x = Math.floor(b / COL) * COL; x > a; x -= COL) ctx.lineTo(x, laneBottom(x));
+    ctx.lineTo(a, laneBottom(a)); ctx.closePath();
   };
   // zone ends cross-fade in slices so material changes are gradual
   for (const [a, b, s] of terrain.zones) {
@@ -130,7 +171,7 @@ function paintLane(scene, ctx, lo, hi) {
         const offset = band * 0.025;
         ctx.beginPath();
         for (let x = p; x <= q + COL; x += COL) ctx.lineTo(x, laneTop(Math.min(x, q)) - offset);
-        for (let x = q; x >= p - COL; x -= COL) ctx.lineTo(x, visH(Math.max(x, p)) - 0.13 + offset);
+        for (let x = q; x >= p - COL; x -= COL) ctx.lineTo(x, laneBottom(Math.max(x, p)) + offset);
         ctx.closePath(); ctx.globalAlpha = alpha / 6; ctx.fillStyle = C.lanePat[s]; ctx.fill();
         ctx.globalAlpha = alpha / 9; ctx.fillStyle = tints[s]; ctx.fill();
       }

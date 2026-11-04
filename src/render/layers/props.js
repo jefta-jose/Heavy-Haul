@@ -1,3 +1,4 @@
+import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
 
 // Scenery and obstacles: reeds and logs behind and in front of the trail, boulders and
@@ -8,8 +9,8 @@ export function createProps(scene) {
   const { X0, X1 } = scene.sim.terrain;
   for (let x = X0 + 10; x < X1; x += 2.7) {
     const r = hashRandom(x + 11);
-    if (r > 0.42) back.push({ x: x + hashRandom(x + 5), key: r > 0.9 ? 'log' : 'reeds', w: r > 0.9 ? 2.8 : 0.8 + hashRandom(x + 7) * 0.8, y: 1.5, flip: hashRandom(x + 1) > 0.5 });
-    if (hashRandom(x + 19) > 0.4) front.push({ x: x + hashRandom(x + 3), key: hashRandom(x + 23) > 0.85 ? 'log' : 'reeds', w: 0.55 + hashRandom(x + 27) * 0.85, y: -0.9 - hashRandom(x + 8) * 1.4, flip: hashRandom(x + 4) > 0.5 });
+    if (r > 0.42 && r <= 0.9) back.push({ x: x + hashRandom(x + 5), key: 'reeds', w: 0.8 + hashRandom(x + 7) * 0.8, y: 1.5, flip: hashRandom(x + 1) > 0.5 });
+    if (hashRandom(x + 19) > 0.4) front.push({ x: x + hashRandom(x + 3), key: 'reeds', w: 0.55 + hashRandom(x + 27) * 0.85, y: -0.9 - hashRandom(x + 8) * 1.4, flip: hashRandom(x + 4) > 0.5 });
   }
   let barkPattern = null;
   const LOG_DEPTH = [0.32, 0.8];   // across the road, so trunks have convincing volume
@@ -22,7 +23,9 @@ export function createProps(scene) {
   }
   function drawList(list) {
     const [lo, hi] = scene.view.viewX(), { visH } = scene.sim;
-    for (const p of list) if (p.x > lo - 3 && p.x < hi + 3) sprite(p.key, p.x, visH(p.x) + p.y, p.w, p.flip);
+    const span = roadSpan(scene);
+    if (span && list === front) return;   // a thick road: nothing grows out of the soil in front of it
+    for (const p of list) if (p.x > lo - 3 && p.x < hi + 3) sprite(p.key, p.x, visH(p.x) + (span ? span.far : p.y), p.w, p.flip);
   }
   // the rock art in the scene's shaded light: a darker copy made once per zoom level (a per-frame
   // ctx.filter is far too slow)
@@ -82,15 +85,19 @@ export function createProps(scene) {
     const img = scene.cache.img.mudHole; if (!img) return;
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     for (const hole of scene.sim.terrain.holes) {
-      if (hole.x + hole.width < lo || hole.x - hole.width > hi) continue;
-      const width = hole.width + 0.8, height = hole.depth + 0.8, floor = scene.sim.visH(hole.x);
+      if (hole.x + hole.width * 3 < lo || hole.x - hole.width * 3 > hi) continue;
+      // on a thick road a hole is drawn true to its art (cropped to the pit by the cache) and sized to the
+      // road, whatever its physical depth
+      const span = roadSpan(scene), floor = scene.sim.visH(hole.x);
+      const height = span ? (span.far + span.near) * 0.85 : hole.depth + 0.8, width = span ? height * img.width / img.height : hole.width + 0.8;
+      const top = span ? floor + (span.far - span.near) / 2 + height / 2 : floor + hole.depth + 0.45;
       ctx.save();
       if (front) {
         ctx.beginPath();
         for (let x = hole.x - width / 2; x <= hole.x + width / 2 + 0.05; x += 0.05) ctx.lineTo(x, scene.sim.visH(x) - 0.035);
         ctx.lineTo(hole.x + width / 2, floor - 3); ctx.lineTo(hole.x - width / 2, floor - 3); ctx.closePath(); ctx.clip();
       }
-      ctx.translate(hole.x - width / 2, floor + hole.depth + 0.45); ctx.scale(1, -1);
+      ctx.translate(hole.x - width / 2, top); ctx.scale(1, -1);
       ctx.drawImage(img, 0, 0, width, height); ctx.restore();
     }
   }

@@ -1,6 +1,8 @@
 import { wheelRadius } from '../../physics/vehicle.js';
 import { makeCanvas } from '../canvas-utils.js';
 
+import { roadSpan } from './ground.js';
+
 // Wet mud patches and the ruts the tires leave. Ruts are a depth profile along the trail (every
 // RES metres) that tires press into as they roll: deeper where they sink (the same surface/collision
 // separation that sinks them in the physics), deeper again with every pass and while a wheel spins,
@@ -101,15 +103,17 @@ export function createMudLayer(scene) {
     }
   }
   function paintSurface(ctx, lo, hi) {
+    // mud spreads across the whole road: over the thick road's span when the season has one
+    const span = roadSpan(scene), UP = span ? span.far * 0.95 : 1.45, DOWN = span ? span.near * 0.95 : 0.65, UP_F = UP / 8, DOWN_F = DOWN / 6.5;
     const patch = (a, b, strength, shape) => {
       a = Math.max(a, lo); b = Math.min(b, hi); if (b <= a) return;
       ctx.save();
       for (let feather = 0; feather < 3; feather++) {
         ctx.beginPath();
-        for (let x = a; x < b; x += 0.25) ctx.lineTo(x, sim.visH(x) + (1.45 - feather * 0.18) * shape(x));
-        ctx.lineTo(b, sim.visH(b) + (1.45 - feather * 0.18) * shape(b));
-        for (let x = b; x > a; x -= 0.25) ctx.lineTo(x, sim.visH(x) - (0.65 - feather * 0.1) * shape(x));
-        ctx.lineTo(a, sim.visH(a) - (0.65 - feather * 0.1) * shape(a)); ctx.closePath();
+        for (let x = a; x < b; x += 0.25) ctx.lineTo(x, sim.visH(x) + (UP - feather * UP_F) * shape(x));
+        ctx.lineTo(b, sim.visH(b) + (UP - feather * UP_F) * shape(b));
+        for (let x = b; x > a; x -= 0.25) ctx.lineTo(x, sim.visH(x) - (DOWN - feather * DOWN_F) * shape(x));
+        ctx.lineTo(a, sim.visH(a) - (DOWN - feather * DOWN_F) * shape(a)); ctx.closePath();
         ctx.globalAlpha = strength; ctx.fillStyle = scene.cache.deepMudPat ?? '#382f20'; ctx.fill();
       }
       ctx.restore();
@@ -124,7 +128,7 @@ export function createMudLayer(scene) {
   }
   // ahead: also build the next chunk in the direction of travel if nothing was built this frame
   function cachedSurface(lo, hi, ahead = false) {
-    const C = scene.cache, px = scene.view.ppm * scene.view.DPR, key = px.toFixed(4), width = 7;
+    const C = scene.cache, px = scene.view.ppm * scene.view.DPR, key = `${px.toFixed(4)}:${scene.view.H}`, width = 7, span = roadSpan(scene);
     if (C.mudKey !== key) { C.mudKey = key; C.mudChunks = new Map(); }
     const first = Math.floor(lo / width), last = Math.floor(hi / width);
     const make = index => {
@@ -134,9 +138,9 @@ export function createMudLayer(scene) {
         low = Math.min(low, sim.visH(t)); high = Math.max(high, sim.visH(t));
         wet ||= sim.terrain.mudAt(t).intensity > 0;
       }
-      const tile = { x, top: high + 1.65, canvas: null };
+      const tile = { x, top: high + (span ? span.far + 0.2 : 1.65), canvas: null };
       if (wet) {
-        tile.canvas = makeCanvas(Math.ceil(width * px), Math.ceil((high - low + 2.5) * px));
+        tile.canvas = makeCanvas(Math.ceil(width * px), Math.ceil((high - low + (span ? span.far + span.near + 0.4 : 2.5)) * px));
         const g = tile.canvas.getContext('2d'); g.setTransform(px, 0, 0, -px, -x * px, tile.top * px);
         paintSurface(g, x, end); C.built = (C.built ?? 0) + 1;
       }

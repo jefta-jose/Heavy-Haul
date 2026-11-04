@@ -46,15 +46,27 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     rocks.push(rec);
   };
 
+  // Traced props: solid, or broken by tires.
+  const placeProp = (x, kind, name) => {
+    const { body, verts, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
+    Object.assign(rec, { art: kind.art, prop: name, surf: kind.surf });
+    if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, body, ...kind.crush });
+    body.createFixture(new pl.Polygon(verts), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
+    rocks.push(rec);
+  };
+  // trail.crushables: how close together things that break under the tires lie, per surface (metres, [min, max])
+  const crushables = trail.crushables ?? {};
+  const between = ([a, b]) => a + rr() * (b - a);
+
   // climbable boulders on every firm section
   for (const [z0, z1, s] of zones) {
     if (s === 'mud') continue;
-    const gap = (s === 'rock' ? 5 : 11) * Math.sqrt(S);
+    const gap = (s === 'rock' ? 5 : 11) * Math.sqrt(S) * (crushables[s] ? 2 : 1);   // fewer hard boulders where the crushables go
     for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 8 + pad)) boulder(x, s === 'creek' ? 0.16 + rr() * 0.13 : 0.2 + rr() * 0.2, 1.1 + rr() * 0.9);
   }
   for (const [z0, z1, s] of zones) {
     if (s === 'mud') continue;
-    for (let x = z0 + 8; x < z1 - 8; x += ((s === 'rock' ? 7 : 11) + rr() * 10) * Math.sqrt(S)) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6 + pad) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + pad)) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
+    for (let x = z0 + 8; x < z1 - 8; x += crushables[s] ? between(crushables[s]) : ((s === 'rock' ? 7 : 11) + rr() * 10) * Math.sqrt(S)) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6 + pad) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + (crushables[s] ? crushables.room : pad))) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
   }
   // Repeated low crests articulate the suspension; occasional larger stones
   // punctuate a garden without turning the whole road into a wall of boulders.
@@ -64,7 +76,9 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
       if (reserved(x) || nearCalm(x, 5 + pad)) continue;
       const large = index++ % 5 === 4;
       // rounder stones that stand proud of the mud (still within reach of the tires)
-      boulder(x, large ? 0.5 : 0.3 + rr() * 0.12, large ? 1.9 : 1.25 + rr() * 0.4);
+      // every other small stone in a garden breaks under the tires
+      if (crushables.rock && !large && index % 2 === 1) crushable(x, 0.3 + rr() * 0.12, 1.25 + rr() * 0.4);
+      else boulder(x, large ? 0.5 : 0.3 + rr() * 0.12, large ? 1.9 : 1.25 + rr() * 0.4);
       rocks.at(-1).garden = true;
     }
   }
@@ -82,13 +96,11 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
       logs.push(rec);
     }
   }
-  // Traced props: solid, or broken by tires.
-  for (const { x, kind, name } of props) {
-    const { body, verts, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
-    Object.assign(rec, { art: kind.art, prop: name, surf: kind.surf });
-    if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, body, ...kind.crush });
-    body.createFixture(new pl.Polygon(verts), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
-    rocks.push(rec);
+  for (const { x, kind, name } of props) placeProp(x, kind, name);
+  // every few crushables along the rock and dirt, a branch pile instead of a stone
+  if (crushables.pileEvery && propKinds.branchPile) {
+    const stones = rocks.filter(r => r.crush && !r.prop && !r.garden && crushables[zones.find(z => r.x >= z[0] && r.x < z[1])?.[2]]);
+    stones.forEach((r, i) => { if (i % crushables.pileEvery === 0) { const x = r.x; world.destroyBody(r.body); rocks.splice(rocks.indexOf(r), 1); placeProp(x, propKinds.branchPile, 'branchPile'); } });
   }
   return { rocks, logs };
 }

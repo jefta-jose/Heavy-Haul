@@ -49,7 +49,9 @@ function floorChunk(scene, index, depth, fade) {
 export function drawBackground(scene) {
   const { ctx, H, DPR, ppm, cam } = scene.view, C = scene.cache, render = scene.season.render;
   // The backdrop is opaque and covers the screen; the fog is baked into its cached copy.
-  screenLayer(scene, C.img.backdrop, render.parallax.backdrop, H * 1.02);
+  // a backdrop shorter than the screen stands on its own ground colour, for when the road dips below it
+  if (render.backdropFloor) { ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = render.backdropFloor; ctx.fillRect(0, C.backdropBottom - 1, scene.view.W, H); }
+  screenLayer(scene, C.img.backdrop, render.parallax.backdrop, C.backdropBottom);
   // A continuous forest floor behind the bank (render.forestFloor, default on). A detailed panorama
   // has water below the roots that must not show as a hole behind the trail when the foreground
   // descends or the camera climbs. A season whose backdrop is already a calm, simple swamp turns it
@@ -78,7 +80,7 @@ export function drawBackground(scene) {
     const next = cam.vx < 0 ? first - 1 : last + 1;
     if (!C.built && !C.floorChunks.has(next)) make(next);
   }
-  screenLayer(scene, C.img.midground, render.parallax.midground, H * 0.73);
+  if (C.img.midground) screenLayer(scene, C.img.midground, render.parallax.midground, H * 0.73);
 }
 
 // Mild foreground shade keeps the wet terrain readable behind the touch controls.

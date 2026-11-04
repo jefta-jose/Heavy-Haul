@@ -4,7 +4,7 @@ import { drawBackground, drawForegroundShade } from './layers/background.js';
 import { drawGround, drawFrontLip } from './layers/ground.js';
 import { createProps } from './layers/props.js';
 import { createVehicleLayer } from './layers/vehicle.js';
-import { drawWater, drawRipples } from './layers/water.js';
+import { drawWaterBack, drawWater, drawRipples } from './layers/water.js';
 import { createParticles } from './particles.js';
 import { createBridgeLayer } from './layers/bridges.js';
 import { createMudLayer } from './layers/mud.js';
@@ -61,9 +61,11 @@ export function createRenderer({ view, sim, content, onEvent }) {
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
     drawGround(scene);
     if (playing) mud.update(dt);
-    props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
+    // a thick road's deep mud would paint over its holes, so there they go on top of the mud
+    if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time);
-    props.drawBehind(); bridges.draw();
+    if (scene.season.render.road) props.drawHoles();
+    props.drawBehind(); bridges.draw(); drawWaterBack(scene, time);
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
     drawFrontLip(scene); props.drawLogEnds(); mud.foreground(); bridges.drawFront(); drawRefueling();

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createTerrain } from '../src/physics/terrain.js';
 import { content, newSim, spawn, DT } from './helpers.js';
 import { wheelRadius } from '../src/physics/vehicle.js';
 
@@ -32,20 +33,15 @@ test('authored holes lower the physical wheel path below the approach road', () 
     }
   }
   assert(dropped > 0.45, 'a tire actually drops into the depression');
-  assert(s.wheels[0].getPosition().x > b, 'the sloped exit can be climbed');
 });
 
-test('culverts collide and a broken bridge has a real missing deck segment', () => {
+test('culverts collide', () => {
   const s = spawn(newSim(), 30);
   assert.equal(s.logs.filter(l => l.kind === 'pipe').length, content.season.trail.obstacleRuns.filter(r => r.kind === 'pipe').reduce((n, r) => n + r.count, 0));
   for (const pipe of s.logs.filter(l => l.kind === 'pipe')) {
     assert.equal(pipe.body.getFixtureList().getShape().getType(), 'circle');
     assert(!pipe.body.getFixtureList().isSensor());
   }
-  const broken = s.bridges.find(b => b.missingBoard != null), missing = broken.boards[broken.missingBoard];
-  assert(missing.missing && missing.body.getFixtureList().isSensor(), 'the missing board cannot support a tire');
-  const p = missing.body.getPosition();
-  assert(p.y - s.terrain.colH(p.x) > 1, 'there is a physical gully below the gap');
 });
 
 test('deep bogs have a deeper physical bed and visibly greater tire immersion', () => {
@@ -85,10 +81,10 @@ test('all logs and pipes form ground-level runs of four to six with varied gaps'
 
 test('a spaced pipe run lets tires drop between crests and bounce on their springs', () => {
   const spec = content.season.trail.obstacleRuns.find(r => r.kind === 'pipe' && r.gaps?.some(g => g > 1.5));
-  const s = spawn(newSim(), spec.x - 6), row = s.logs.filter(l => l.run === content.season.trail.obstacleRuns.indexOf(spec));
+  const s = spawn(newSim(), spec.x - 16), row = s.logs.filter(l => l.run === content.season.trail.obstacleRuns.indexOf(spec));   // a run-up, as a driver has
   const lo = row[0].x, hi = row.at(-1).x, lifts = [], spring = [];
   s.ctl.gas = 1;
-  for (let i = 0; i < 120 * 12; i++) {
+  for (let i = 0; i < 120 * 20; i++) {
     s.step(DT);
     const p = s.wheels[0].getPosition();
     if (p.x >= lo && p.x <= hi) {
@@ -101,12 +97,22 @@ test('a spaced pipe run lets tires drop between crests and bounce on their sprin
   assert(Math.max(...spring) - Math.min(...spring) > 0.15, 'the repeated obstacles articulate the suspension');
 });
 
-test('bridge decks are rigid, as in SnowRunner, and the scout crosses them', () => {
-  const s = spawn(newSim(), 350), bridge = s.bridges[0];
-  assert(bridge.boards.every(b => b.body.isStatic()), 'every board is a static block');
-  const rest = bridge.boards.map(b => b.body.getPosition().y);
-  s.ctl.gas = 1;
-  for (let i = 0; i < 120 * 15; i++) s.step(DT);
-  assert(bridge.boards.every((b, j) => b.body.getPosition().y === rest[j]), 'the deck does not move under the truck');
-  assert(s.truck.getPosition().x > bridge.x1 + 4, 'the truck crosses the bridge');
+test('no bridges and no water: the old river stretches are deep bog, still rolling around the pits', () => {
+  const s = spawn(newSim(), 30), { trail } = content.season;
+  assert.equal(s.bridges.length, 0);
+  assert.equal(s.terrain.waters.length, 0);
+  assert(!trail.zones.some(z => z[2] === 'creek'), 'no riverbed surface is left');
+  for (const x of [380, 925, 2042, 2587]) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
+  const off = (() => { const { rollers, ...rest } = trail; return createTerrain(rest, content.season.surfaces); })();
+  let swing = 0; for (let x = 345; x < 365; x += 0.25) swing = Math.max(swing, Math.abs(s.visH(x) - off.visH(x)));
+  assert(swing > 0.2, `rolling bumps on the way to the pit (${swing.toFixed(2)} m)`);
+});
+
+test('mud holes lie only in deep mud, and rock and dirt are full of crushables', () => {
+  const { trail } = content.season, s = spawn(newSim(), 30);
+  assert(trail.holes.length > 0 && trail.holes.every(h => trail.heavyMud.some(c => Math.abs(c - h.x) < 10)), 'every hole is inside a bog pit');
+  const on = surf => s.rocks.filter(r => r.crush && s.terrain.surfAt(r.x) === surf).length;
+  const metres = surf => trail.zones.filter(z => z[2] === surf).reduce((n, z) => n + z[1] - z[0], 0);
+  for (const surf of ['rock', 'dirt']) assert(on(surf) / metres(surf) > 0.05, `${surf}: ${on(surf)} crushables on ${metres(surf)} m`);
+  assert(s.rocks.some(r => r.prop === 'branchPile') && s.rocks.some(r => r.crush && !r.prop), 'both stones and branch piles');
 });

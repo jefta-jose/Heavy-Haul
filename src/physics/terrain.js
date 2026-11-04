@@ -16,7 +16,9 @@ export function createTerrain(trail, surfaces) {
   const features = [];
   const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
   const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
-  const authored = x => nearHole(x, 2) || gardens.some(g => x > g.x0 - 2 && x < g.x1 + 2) || (trail.ramps ?? []).some(r => x > r.x - 2 && x < r.x + r.face + r.plateau + r.back + 2);
+  const authored = x => nearHole(x, 2) || gardens.some(g => x > g.x0 - 2 && x < g.x1 + 2) || (trail.ramps ?? []).some(r => x > r.x - 2 && x < r.x + r.face + r.plateau + r.back + 2)
+    // a step or pothole under a run of logs or pipes could make it too tall to climb at all
+    || (trail.obstacleRuns ?? []).some(r => x > r.x - 8 && x < r.x + (r.gaps ?? []).reduce((a, b) => a + b, 0) + 2 * (r.radius ?? 0.5) * (trail.obstacleScale ?? 1) * r.count + 3);
   const rnd = seededRandom(trail.seed);
 
   const surfAt = x => { for (const z of ZONES) if (x >= z[0] && x < z[1]) return z[2]; return 'dirt'; };
@@ -102,8 +104,49 @@ export function createTerrain(trail, surfaces) {
     }
     return y;
   }
+  // Rolling bumps (trail.rollers) along every stretch with nothing else to do, riverbeds and the water
+  // over them included: uneven humps, trough to trough, faded out around bridges, bog pits, obstacles and
+  // the calm places. A stream of its own random numbers, so the authored features stay where they are.
+  function rollersAt() {
+    const R = trail.rollers, out = new Float32Array(N); if (!R) return out;
+
+    // adding this guy here to manipulate the bumps
+    const BUMP_INTENSITY = R.intensity ?? 1.0;
+
+    const S = trail.obstacleScale ?? 1, inWater = ([a, b]) => (trail.waters ?? []).some(w => a >= w.x0 && b <= w.x1);
+    const keep = CALM.filter(c => !inWater(c));   // a recovery spot in a riverbed still rolls
+    for (const b of trail.bridges ?? []) keep.push([b.x0 - 4, b.x1 + 4]);
+    for (const c of HEAVY_MUD) keep.push([c - 12, c + 12]);
+    for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
+    for (const g of gardens) keep.push([g.x0, g.x1]);
+    for (const r of trail.ramps ?? []) keep.push([r.x, r.x + r.face + r.plateau + r.back]);
+    for (const r of trail.obstacleRuns ?? []) keep.push([r.x - 1, r.x + (r.gaps ?? []).reduce((a, b) => a + b, 0) + 2 * (r.radius ?? 0.5) * S * r.count + 1]);
+    for (const p of trail.props ?? []) { const w = (trail.propKinds?.[p.kind]?.width ?? 2) * S; keep.push([p.x - w / 2, p.x + w / 2]); }
+    for (const f of features) {
+      if (f.type === 'ledge') keep.push([f.x0, f.x0 + f.face + f.plat + Math.min(f.back, 6)]);
+      else if (f.type === 'ramp') keep.push([f.x0, f.x0 + f.len]);
+      else if (f.type === 'slab') keep.push([f.c - f.w / 2, f.c + f.w / 2]);
+    }
+    const next = seededRandom(R.seed), between = ([a, b]) => a + next() * (b - a), mean = (R.height[0] + R.height[1]) / 2, F = R.fade;
+    let x = X0, i = 0;
+    while (x < X1) {
+      const L = between(R.wave), H = between(R.height) * Math.min(1, L / 9), crest = 0.4 + next() * 0.2;   // the crest falls off-centre, so no two humps match
+      for (; i < N && X0 + i * DX < x + L; i++) {
+        const X = X0 + i * DX, t = (X - x) / L;
+        const y = H * 0.5 * (1 - Math.cos(Math.PI * (t < crest ? t / crest : (1 - t) / (1 - crest)))) - mean / 2;
+        let open = surfAt(X) === 'mud' ? R.mud : 1;
+        for (const [a, b] of keep) { if (X > a - F && X < b + F) open = Math.min(open, 1 - sm((X - a + F) / F) * sm((b + F - X) / F)); }
+        
+        // manipulation is done here
+        out[i] = y * open * BUMP_INTENSITY;
+      }
+      x += L;
+    }
+    return out;
+  }
   function buildHeights() {
     buildFeatures();
+    const rollers = rollersAt();
     const amps = [0, 1, 2].map(() => new Float32Array(N)), sink = new Float32Array(N);
     for (let i = 0; i < N; i++) {
       const x = X0 + i * DX, s = surfAt(x), a = surfaces[s].noise;
@@ -122,7 +165,7 @@ export function createTerrain(trail, surfaces) {
       const x = X0 + i * DX, c = calm(x);
       const broad = (valueNoise(x / 38, 1) * 0.7 + valueNoise(x / 17, 2) * 0.35) * c;
       const n = valueNoise(x / 9, 3) * A[0][i] + (valueNoise(x / 2.2, 4) * 0.7 + valueNoise(x / 1.3, 5) * 0.3) * A[1][i] + valueNoise(x / 0.7, 6) * A[2][i];
-      HV[i] = macro(x) + broad + n * (0.25 + 0.75 * c) + featureAt(x) * c;
+      HV[i] = macro(x) + broad + n * (0.25 + 0.75 * c) + featureAt(x) * c + rollers[i];
       HC[i] = HV[i] - sink[i];
     }
   }

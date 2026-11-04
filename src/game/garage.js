@@ -4,6 +4,7 @@
 // its own load (part of its art and weight), so the pick is the job. Planned vehicles and seasons show locked. Each car can be tuned
 // (tuning.js): the run uses the tuned copy, and the settings are saved per car.
 
+import { deriveSpecs } from '../../tools/lib/specs.js';
 import { KNOBS, STEP, MAX_LEVEL, applyTuning, clampLevel, tunedStat, levelColor, loadTuning, saveTuning, validLevels } from './tuning.js';
 
 const $ = id => document.getElementById(id);
@@ -74,7 +75,9 @@ export function createGarage({ content, onSelect, onStart }) {
       else { b.disabled = true; b.title = `${r.name}: not in the garage yet`; }
       list.append(b);
     }
-    list.querySelector('.gtile.on')?.scrollIntoView?.({ block: 'nearest', inline: 'center' });
+    // centre the chosen tile in the strip only: scrollIntoView would also scroll every box around it, the whole game included
+    const on = list.querySelector('.gtile.on');
+    if (on) { const a = on.getBoundingClientRect(), b = list.getBoundingClientRect(); list.scrollLeft += a.left + a.width / 2 - b.left - b.width / 2; }
   }
 
   // a stat with the tuning tied to it, out of 10
@@ -87,6 +90,12 @@ export function createGarage({ content, onSelect, onStart }) {
     $('garageArt').style.setProperty('--len', r.lengthM ?? 6);   // parked to scale
     $('gName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
     $('gBadge').textContent = `${classes[rank[car.class]]?.name ?? car.class} · tier ${car.number ?? '-'}`;
+    // the phone layout's readout on the workshop wall: live numbers, so an upgrade shows up here at once
+    const tele = $('gTele'), live = deriveSpecs(tuned()); tele.innerHTML = '';
+    for (const [k, v, unit] of [['Power', live.powerKw, 'kW'], ['Torque', live.torqueNm, 'Nm'], ['Top speed', live.topSpeedKmh, 'km/h'], ['Length', r.lengthM ?? live.lengthM, 'm']]) {
+      const dd = el('dd', null, String(v)); dd.append(el('small', null, ` ${unit}`));
+      tele.append(el('dt', null, k), dd);
+    }
     const spec = $('gSpec'); spec.innerHTML = '';
     const t = tuned(), mass = (t.physics.mass + t.physics.wheelMass * t.rig.axles.length) / 1000 + (t.physics.load?.massT ?? 0);
     const load = t.load ?? r.load;

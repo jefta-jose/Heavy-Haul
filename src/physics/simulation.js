@@ -263,18 +263,24 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       slip = Math.max(slip, Math.abs(Math.abs(w.getAngularVelocity() * R) - Math.abs(fwd)));
       if (s === 'mud' && !v.tireData.neverStuck) mudDrag(w, dt, ctl.gear === 'L' ? car.physics.mudPull : 1);
     }
-    let water = 0;
-    for (const b of [truck, ...wheels]) {
+    let water = 0, waterDrag = 0;
+    for (const [i, b] of [truck, ...wheels].entries()) {
       const p = b.getPosition();
       for (const wb of waters) {
-        if (p.x > wb.x0 && p.x < wb.x1 && p.y < wb.level) {
-          const d = Math.min(1.5, wb.level - p.y);
-          const m = b.getMass(), bv = b.getLinearVelocity();
-          b.applyForceToCenter(V(-bv.x * m * wb.drag * d, m * 1.6 * d - bv.y * m * 0.4), true);
-          water = Math.max(water, d);
+        if (p.x > wb.x0 && p.x < wb.x1) {
+          // water counts from the bottom of a tire; only what is under the surface floats
+          if (i > 0) { const tire = wb.level - (p.y - wheelRadius(car.rig, i - 1)); if (tire > 0) { water = Math.max(water, Math.min(1.5, tire)); waterDrag = wb.drag; } }
+          if (p.y < wb.level) {
+            const d = Math.min(1.5, wb.level - p.y);
+            const m = b.getMass(), bv = b.getLinearVelocity();
+            b.applyForceToCenter(V(-bv.x * m * wb.drag * d, m * 1.6 * d - bv.y * m * 0.4), true);
+            water = Math.max(water, d);
+          }
         }
       }
     }
+    // wading: the water holds the whole truck back, in step with how deep the tires are in
+    if (water > 0) truck.applyForceToCenter(V(-truck.getLinearVelocity().x * truck.getMass() * waterDrag * water, 0), true);
     // fuel: litres from engine power, more with 4x4, more again climbing with a heavy load, less
     // for an efficient engine; the tank's size turns litres into the % the HUD shows
     const climb = 1 + 3 * Math.max(0, Math.sin(ang) * Math.sign(fwd || 1)), haul = 1 + 1.5 * loadMass(v) / vehicleMass(v);

@@ -13,19 +13,26 @@ export function createSceneryCache(scene) {
   const { view, season, images: A } = scene;
   const render = season.render;
   const C = { key: '' };
+  // render.backdropHorizon: a full scene with its own waterline (a share of its height), sized so the
+  // top of the image is the top of the screen and that line sits just under the road's far edge
+  const backdropHeight = () => {
+    const { H, groundFrac } = view, fit = render.backdropHorizon;
+    if (!fit) return Math.round(H * view.DPR * 1.04) / view.DPR;
+    return Math.round(H * (1 - groundFrac - (render.road?.far ?? 0) + 0.03) / fit * view.DPR) / view.DPR;
+  };
   C.prepare = () => {
     const { ctx, W, H, DPR, ppm } = view, px = ppm * DPR, key = zoomKey(view);
     if (C.key === key) return; C.key = key;
     C.img = {
       reeds: scaled(A.reeds, Math.min(1, 1.7 * px / A.reeds.width)),
-      log: scaled(A.log, Math.min(1, 3 * px / A.log.width)),
       rock: null,
-      midground: faded(scaled(A.midground, Math.round(H * DPR * 0.55) / A.midground.height), 0.72),   // its on-screen height
-      backdrop: scaled(A.backdrop, Math.round(H * DPR * 1.04) / A.backdrop.height),
+      midground: render.midground === false ? null : faded(scaled(A.midground, Math.round(H * DPR * 0.55) / A.midground.height), 0.72),   // its on-screen height
+      backdrop: scaled(A.backdrop, backdropHeight() * DPR / A.backdrop.height),
     };
+    C.backdropBottom = render.backdropHorizon ? backdropHeight() : H * 1.02;
     // Haze baked into the backdrop, which is drawn H * 1.04 tall from y = -0.02 H: the band from
-    // 0.25 H to 0.74 H of the screen. One full-screen pass per frame fewer.
-    {
+    // 0.25 H to 0.74 H of the screen. One full-screen pass per frame fewer. A full scene keeps its own light.
+    if (!render.backdropHorizon) {
       const b = C.img.backdrop, g = b.getContext('2d'), row = y => (y + 0.02) / 1.04 * b.height;
       const fog = g.createLinearGradient(0, row(0.25), 0, row(0.74));
       fog.addColorStop(0, 'rgba(169,193,195,0)'); fog.addColorStop(0.7, 'rgba(151,177,177,0.13)'); fog.addColorStop(1, 'rgba(148,167,157,0)');
@@ -40,7 +47,7 @@ export function createSceneryCache(scene) {
       const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole'].includes(key);
       if (crop) { C[`${key}Source`] ??= alphaCrop(A[key]); }
       const source = crop ? C[`${key}Source`] : A[key];
-      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 9 : key === 'bridgePlank' ? 4 : 5;
+      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 14 : key === 'bridgePlank' ? 4 : 5;
       C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
     }
     for (const { art } of Object.values(season.trail.propKinds ?? {})) {
@@ -60,6 +67,16 @@ export function createSceneryCache(scene) {
       const pat = ctx.createPattern(A[k], 'repeat'); pat.setTransform(new DOMMatrix([0.0026, 0, 0, -0.00105, 0, 0])); C.lanePat[s] = pat;
     }
     C.deepPat = ctx.createPattern(A.ground, 'repeat'); C.deepPat.setTransform(new DOMMatrix([0.004, 0, 0, -0.004, 0, 0]));
+    // the thick road's soil: mirrored both ways, so its light-to-dark shading has no seam
+    if (render.road && A.roadSoil) {
+      if (!C.soilSource) {
+        const w = A.roadSoil.width, h = A.roadSoil.height; C.soilSource = makeCanvas(w * 2, h * 2);
+        const g = C.soilSource.getContext('2d');
+        for (const [sx, sy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) { g.setTransform(sx, 0, 0, sy, sx < 0 ? w * 2 : 0, sy < 0 ? h * 2 : 0); g.drawImage(A.roadSoil, 0, 0); }
+      }
+      const s = render.road.soilTileM / C.soilSource.width;
+      C.deepPat = ctx.createPattern(C.soilSource, 'repeat'); C.deepPat.setTransform(new DOMMatrix([s, 0, 0, -s, 0, 0]));
+    }
     C.forestPat = ctx.createPattern(A.ground, 'repeat'); C.forestPat.setTransform(new DOMMatrix([0.004, 0, 0, -0.0012, 0, 0]));
   };
   return C;

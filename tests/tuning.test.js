@@ -57,7 +57,7 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
   const scout = content.cars.find(c => c.id === 'swamp-scout-4'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
-  const metres = car => [640, 1110, 1420].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
+  const metres = car => [640, 1135, 1480].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
 });

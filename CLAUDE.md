@@ -132,6 +132,15 @@ archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 Seasons follow **simple scenery, detailed road** (the hard rule in `assets/seasons/SKILL.md`): flat, hazy
 backdrop and trees, `render.forestFloor: false`, full detail only on the road layers.
 
+A season with `render.road` draws the **thick road** instead of its painted bank (`src/render/layers/ground.js`): art
+`roadFar` (reeds behind), `roadEdge` (mossy front lip), `roadSoil` (earth below), with the road's lane materials between.
+Its sizes are shares of the screen height, so it looks the same at every truck's zoom. It is drawing only: tires still roll on `visH`.
+
+The swamp has no bridges and no water (both dropped 2026-11-04; the engine stays for data that lists some): the old river stretches are mud
+with heavy-mud pits. Mud holes (`trail.holes`) lie only in those pits. `trail.rollers` is the rolling bumps on every open stretch, and
+`trail.crushables` is how close together things that break under the tires lie on rock and dirt. The fallen-tree art (`log.webp`) is no longer
+placed on the map; its bark is still cropped as the texture for round logs.
+
 Write `season.json` from the swamp-summer template: the trail (keys, zones, waters, heavy-mud pits,
 checkpoints, depot; no fuel stations: refuelling is by fuel truck only), surfaces, the art map, the bank contact row, lane materials and the
 `ambience` zones (forest, swamp, frogs beds and crow calls, by trail position). Trace

@@ -163,7 +163,7 @@ test('spinning wheels race the engine; a stuck truck with grip lugs at the stall
 test('a tire touching a log, a pipe or a rock is reported, and nothing else is', () => {
   const car = content.cars.find(c => c.id === 'prime-mover-1'), probe = newSim(car);
   probe.init(40);
-  const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };
+  const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300 && !content.season.trail.heavyMud.some(c => c < l.x && c > l.x - 60)), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };
   for (const [kind, o] of Object.entries(targets)) {
     assert(o, `the trail has a ${kind}`);
     const s = newSim(car); s.init(o.x - 40); Object.assign(s.ctl, { gear: 'L', awd: true, diff: true, gas: 1, brake: 0 });

@@ -308,11 +308,10 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'the ruts are deep in the bog');
     await capture('08-bog-splash');
     await page.evaluate(() => {
-      const s = __haul.sim, b = s.bridges[0]; s.respawn((b.x0 + b.x1) / 2);
+      const s = __haul.sim; s.respawn(380);
       for (let i = 0; i < 120; i++) s.step(1 / 120); __haul.snap();
     });
-    await page.waitForFunction(() => __haul.sim.st.surf === 'wood');
-    await capture('09-swing-bridge');
+    await capture('09-old-river-bog');
     // a minute later and somewhere else, the ruts are still where they were left
     await page.evaluate(() => { for (let i = 0; i < 120 * 60; i++) __haul.sim.step(1 / 120); for (let f = 0; f < 30; f++) __haul.renderer.draw(1 / 60, true); });
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
@@ -418,7 +417,7 @@ test('terrain stays opaque below uphill, downhill and valley contours', { timeou
     await page.addScriptTag({ content: code.outputFiles[0].text });
     const gaps = await page.evaluate(async ({ art, render }) => {
       const images = {};
-      for (const key of ['bank', 'ground']) {
+      for (const key of ['bank', 'ground', 'roadEdge', 'roadFar']) {
         const img = new Image(); img.src = art[key]; await img.decode(); images[key] = img;
       }
       const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
