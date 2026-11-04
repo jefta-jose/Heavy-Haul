@@ -45,7 +45,7 @@ const cars = readJson('assets/cars/cars.json');
 // the wheel layout each kind of vehicle must have (the hard rule in AGENTS.md)
 const wheelLayout = c => {
   const layout = c.class === 'heavy'
-    ? 'Lay it out like the Prime Mover and Atlas in `assets/references/wheel-layouts/`: steer axle, a close drive tandem on the tractor, then a close group of 3 or 4 axles at the rear under the load.'
+    ? 'Lay it out like the Prime Mover and Atlas (`assets/cars/prime-mover-1/art/master.webp`, `assets/cars/atlas-8/art/master.webp`): steer axle, a close drive tandem on the tractor, then a close group of 3 or 4 axles at the rear under the load.'
     : c.class === 'highway'
       ? 'Tractor with a steer axle and a drive axle or close drive tandem under the hitch; a close tandem on the trailer under the rear of the load. Never one lone axle at the far end of a long trailer.'
       : 'Lay it out like the Fieldmaster 5, Swamp Ox 3 and Crag Crusher 11: wheels under the load, a close rear tandem or evenly spaced axles.';

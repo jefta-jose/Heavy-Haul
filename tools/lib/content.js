@@ -7,7 +7,7 @@ import { deriveSpecs } from './specs.js';
 export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
 const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 const exists = f => fs.existsSync(path.join(ROOT, f));
-const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' };
+const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
 const dataUri = f => `data:${MIME[path.extname(f)]};base64,` + fs.readFileSync(path.join(ROOT, f)).toString('base64');
 
 // a roster entry is playable when its definition file exists and says so. Its spec numbers
@@ -108,9 +108,9 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   const content = {
-    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders,
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, loaderTips: readJson('assets/loaders/loaders.json').tips, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
     cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
-    defaultCar: c.car.id, audio, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
+    defaultCar: c.car.id, audio, music: { garage: asset('assets/audio/music/garage.mp3'), drive: asset('assets/audio/music/drive.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };
   // the default season's art, for Node-side tools and tests; not serialized (seasonAssets has it)
   Object.defineProperty(content, 'seasonArt', { value: seasonArt, enumerable: false });

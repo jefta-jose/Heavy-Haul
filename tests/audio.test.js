@@ -235,7 +235,7 @@ test('each truck class has a full engine at its measured revs, the scouts a Dodg
 
 test('every truck plays its class\'s engine, service trucks too; others get a diesel sized to their power', () => {
   for (const car of trucks) assert.equal(car.audio.engine, car.class, `${car.id} plays its class`);
-  for (const cls of new Set(content.cars.map(c => c.class))) assert(content.service.filter(c => c.class === cls).length >= 2, `${cls}: a fuel and a breakdown truck`);
+  for (const cls of new Set(content.cars.map(c => c.class))) assert(content.service.some(c => c.class === cls && c.role === 'breakdown'), `${cls}: a breakdown truck`);
   const odd = [{ spec: { class: 'mystery', powerKw: 1500 } }, { spec: { class: 'mystery', powerKw: 200 } }, { spec: { class: 'highway' }, audio: { engine: 'offroad', crankS: 0.8 } }];
   resolveAudio(odd, bank);
   assert.deepEqual(odd.map(c => c.audio.engine), ['heavy', 'heavy-duty', 'offroad']);

@@ -1,3 +1,4 @@
+import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_ON_MAXED_SHARE } from '../game-config.js';
 // Garage tuning: four knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
 // take all four to 100. A car's weight and load are never tuned: they stay as its car.json has them. A knob moves several car.json values together (the twelve old single-purpose
 // knobs, grouped), each from 1 at stock to its own `max` multiplier at 100, so every car, present or
@@ -8,11 +9,19 @@ const scale = (obj, key, k) => { if (obj && typeof obj[key] === 'number') obj[ke
 // a part's own multiplier at the knob's multiplier t (0..1 of the way to full)
 const part = (max, t) => 1 + (max - 1) * t;
 
+// What going between two levels costs a car: positive to buy, negative for what selling refunds.
+export function upgradeCost(car, from, to) {
+  const k = UPGRADE_COST_BY_CLASS[car.class] ?? 1, step = i => UPGRADE_STEP_COSTS[i] * k, lo = Math.min(from, to) / STEP, hi = Math.max(from, to) / STEP;
+  let total = 0; for (let i = lo; i < hi; i++) total += step(i);
+  return to >= from ? total : -total;
+}
+
 export const KNOBS = [
   { id: 'engine', label: 'Engine', hint: 'power, throttle response, fuel economy', stat: 'power',
     apply: (c, t) => {
       const p = part(2.5, t), r = part(2, t);
       scale(c.drivetrain, 'torqueScale', p); scale(c.drivetrain, 'throttleRise', r);
+      c.drivetrain.torqueTune = (c.drivetrain.torqueTune ?? 1) * p;   // so the class's minimum pull (simulation.js) is judged on the stock engine, and upgrades add on top
       scale(c.drivetrain.driveRamp, 'base', p * r); scale(c.drivetrain.driveRamp, 'launch', p * r);
       c.drivetrain.fuelBurn = (c.drivetrain.fuelBurn ?? 1) / part(1.6, t);
     } },
@@ -39,6 +48,15 @@ export function applyTuning(car, levels = {}) {
   const c = structuredClone(car), valid = validLevels(car, levels);
   for (const knob of KNOBS) { const level = valid[knob.id] ?? 0; if (level > 0) knob.apply(c, level / MAX_LEVEL); }
   c.tuned = Object.keys(valid).length > 0;
+  c.levels = valid;
+  Object.defineProperty(c, 'stock', { value: car.stock ?? car });   // hidden, so copies of the car stay small
+  return c;
+}
+
+// The car as it drives under superpowers (a list of knob ids): each of those upgrades at full, or past full if it already was.
+export function withPowers(car, ids) {
+  const levels = car.levels ?? {}, c = applyTuning(car.stock ?? car, { ...levels, ...Object.fromEntries(ids.map(id => [id, MAX_LEVEL])) });
+  for (const knob of KNOBS) if (ids.includes(knob.id) && levels[knob.id] === MAX_LEVEL) knob.apply(c, POWER_ON_MAXED_SHARE);
   return c;
 }
 

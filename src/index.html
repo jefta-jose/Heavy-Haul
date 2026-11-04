@@ -1,37 +1,46 @@
 <title>Heavy Haul</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap">
 <style>
 /*CSS*/
 </style>
 
 <!-- first in the page, so it shows before anything else has loaded (src/game/loader.js) -->
 <div class="loader crawl" id="loader" data-kind="launch">
+  <div class="loader-slide on" style="background-image: var(--loader-launch)"></div>
+  <div class="loader-slide"></div>
+  <div class="loader-foot"></div>
+  <div class="loader-fact" id="loaderFact"></div>
+  <div class="loader-rut" role="progressbar" aria-label="Loading">
+    <div class="rut-bed"></div>
+    <div class="rut-fill"><i></i></div>
+    <div class="rut-run"><div class="rut-wheel" id="loaderWheel"></div></div>
+  </div>
   <div class="loader-info"><span id="loaderLabel">Loading</span><span id="loaderPct"></span></div>
-  <div class="loader-bar" role="progressbar" aria-label="Loading"><div class="loader-window"><div class="loader-fill"><i></i></div></div></div>
 </div>
 
 <div id="game">
   <canvas id="view" aria-label="Heavy Haul game view"></canvas>
+  <template id="stationIcon"><!--icon:fuel--></template>
   <div class="hud" id="hud">
     <div class="top">
       <div class="stack">
         <div class="status" aria-label="Truck status">
           <div class="sname" id="carName" title="The vehicle you are driving"></div>
           <div class="srow" title="Fuel in the tank"><!--icon:fuel--><b>Fuel</b><div class="fuelbar"><i id="fuelFill"></i></div><span class="sval" id="fuelTxt">100/100 L</span></div>
-          <div class="srow" title="Fuel use right now, and the average for this run"><!--icon:engine--><b>Use</b><span class="sval" id="useTxt">–</span><span class="ssub" id="avgTxt"></span></div>
+          <div class="dmgrow" title="Damage: at 100% the engine dies"><!--icon:damage--><div class="fuelbar"><i id="damageFill"></i></div></div>
+          <div class="srow" title="Distance to the next fuel station"><!--icon:fuel--><b>Next</b><span class="sval" id="useTxt">–</span></div>
           <div class="srow" title="What the truck is carrying"><!--icon:load-condition--><b>Cargo</b><span class="sval cargo" id="loadChip"></span></div>
         </div>
         <span class="chip" id="surfChip">Dirt</span>
       </div>
       <div class="trip" aria-label="Trail progress">
-        <div class="tripline"><span id="drivenTxt">0.00 km driven</span><span><!--icon:distance--><b id="distTxt"></b> to depot</span></div>
+        <div class="tripline"><span id="drivenTxt">0.00 km driven</span><span><!--icon:distance--><b id="distTxt"></b> to depot</span><span class="stationnext" title="Next fuel station"><!--icon:fuel--><b id="stationTxt"></b></span></div>
         <div class="track" id="track"><i class="done" id="trackDone"></i></div>
       </div>
       <div class="right">
-        <div class="pill" title="Coins"><!--icon:coin--><span id="coinTxt">0</span></div>
-        <button class="ibtn" id="fuelCallBtn" aria-label="Call the fuel truck" title="Call the fuel truck"><!--icon:summon-fuel--></button>
+        <div class="pill" title="Coins"><i class="coinic"></i><span id="coinTxt">0</span></div>
         <button class="ibtn" id="breakdownCallBtn" aria-label="Call the breakdown truck" title="Call the breakdown truck"><!--icon:summon-breakdown--></button>
         <button class="ibtn" id="switchBtn" aria-label="Switch vehicle" title="Switch vehicle (V)" hidden><!--icon:switch-vehicle--></button>
         <button class="ibtn" id="fsBtn" aria-label="Fullscreen"><!--icon:fullscreen--></button>
@@ -43,6 +52,7 @@
       <div class="card-stats" id="cardStats"></div>
       <p class="card-biomes" id="cardBiomes"></p>
     </div>
+    <div class="powers" id="powers"></div>
     <div class="toast" id="toast"></div>
     <div class="bottom">
       <div class="side">
@@ -62,9 +72,6 @@
             <button class="mode" id="awdBtn" aria-pressed="false" title="Four-wheel drive (Q)">4×4</button>
             <button class="mode" id="diffBtn" aria-pressed="false" title="Differential lock (E)">DIFF</button>
           </div>
-          <div class="gear" role="group" aria-label="Gear">
-            <button data-g="H" class="on" title="High range (H)">H</button><button data-g="L" title="Low range (L)">L</button><button data-g="R" title="Reverse (R)">R</button>
-          </div>
         </div>
         <div class="pedal" id="gas" role="button" aria-label="Gas"></div>
       </div>
@@ -75,31 +82,50 @@
     <!-- icons the build found (assets/hud/icons/class-*.svg, garage-*.svg), copied in by garage.js -->
     <template id="classIcons"><!--icons:class--></template>
     <template id="garageIcons"><!--icons:garage--></template>
-    <nav class="g-seasons" id="gSeasons" aria-label="Season"></nav>
-    <h2 class="g-heading"><!--icon:garage-door-->Garage</h2>
-    <nav class="g-classes" id="gClasses" aria-label="Vehicle class"></nav>
-    <div class="g-strip">
-      <button class="g-arrow" id="gStripPrev" aria-label="Scroll vehicles left">‹</button>
-      <div class="g-cars" id="garageList" aria-label="Vehicles"></div>
-      <button class="g-arrow" id="gStripNext" aria-label="Scroll vehicles right">›</button>
+    <div class="g-show" id="gShow">
+      <div class="g-stencil" aria-hidden="true"><b id="gStencil"></b><span>Heavy Haul</span></div>
+      <img class="g-car" id="garageArt" alt="">
+      <button class="g-arrow prev" id="gPrev" aria-label="Previous truck">‹</button>
+      <button class="g-arrow next" id="gNext" aria-label="Next truck">›</button>
+      <div class="g-name"><h3 id="gName"></h3><div class="g-badge" id="gBadge"></div></div>
     </div>
-    <div class="g-show"><img class="g-car" id="garageArt" alt=""><dl class="g-tele" id="gTele"></dl></div>
-    <div class="g-bottom">
-      <section class="g-plate">
-        <div class="g-badge" id="gBadge"></div>
-        <h3 id="gName"></h3>
-        <dl class="g-spec" id="gSpec"></dl>
-      </section>
-      <section class="g-upgrade">
-        <div class="tunehead"><h4><!--icon:garage-gear-->Upgrade</h4><button class="btn tiny" id="tuneReset" hidden><!--icon:garage-reset-->Reset to stock</button></div>
-        <div class="tunes" id="tuneList"></div>
-      </section>
-      <aside class="g-actions">
-        <button class="btn primary" id="startBtn"><!--icon:garage-wheel--><span>Drive ›</span></button>
-        <button class="btn" id="garageSoundBtn" aria-label="Sound"><!--icon:garage-sound--><span>Sound</span></button>
-        <div class="rotate">Turn your phone sideways for the best view.</div>
-      </aside>
+    <div class="g-dust" id="gDust" aria-hidden="true"></div>
+    <div class="g-scrim"></div>
+    <header class="g-top">
+      <div class="g-band">
+        <div class="g-logo"><b>Heavy Haul</b><span>Trucks</span></div>
+        <nav class="g-seasons" id="gSeasons" aria-label="Season"></nav>
+        <nav class="g-classes" id="gClasses" aria-label="Vehicle class"></nav>
+        <div class="g-coins" id="gCoinsBox" title="Your coins"><i class="coinic"></i><b id="gCoins"></b></div>
+      </div>
+      <div class="g-carsrow">
+        <button class="g-rowbtn" id="gRowPrev" aria-label="Scroll the list back">‹</button>
+        <div class="g-cars" id="garageList" aria-label="Vehicles"></div>
+        <button class="g-rowbtn" id="gRowNext" aria-label="Scroll the list on">›</button>
+      </div>
+    </header>
+    <nav class="g-menu" aria-label="Garage">
+      <button class="g-item" id="gMenuTune"><!--icon:garage-gear--><span>Upgrades</span></button>
+      <button class="g-item" id="garageSoundBtn"><!--icon:garage-sound--><span>Sound</span></button>
+    </nav>
+    <footer class="g-bar">
+      <dl class="g-spec" id="gSpec"></dl>
+      <button class="g-levels" id="gLevels" aria-label="Upgrades"></button>
+      <button class="g-drive" id="startBtn"><span>Drive</span></button>
+    </footer>
+    <div class="overlay" id="tuneOv" hidden>
+      <div class="card slim">
+        <div class="cbody">
+          <div class="tunehead">
+            <div><div class="eyebrow" id="tuneFor"></div><h3>Upgrades</h3></div>
+            <div class="g-coins"><i class="coinic"></i><b id="tuneCoins"></b></div>
+          </div>
+          <div class="tunes" id="tuneList"></div>
+          <div class="btns"><button class="btn" id="tuneReset" hidden>Reset to stock</button><button class="btn primary" id="tuneDone">Done</button></div>
+        </div>
+      </div>
     </div>
+    <div class="rotate">Turn your phone sideways for the best view.</div>
   </div>
 
   <div class="overlay" id="soundOv" hidden>
@@ -109,7 +135,7 @@
         <h3>Sound</h3>
         <p>Each class of truck has its own recorded engine. Effects are tires, water, mud, brakes and the load; ambience is the birds and the swamp.</p>
         <div class="vols" id="volList"></div>
-        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals. For mud and rock: L, 4×4 and DIFF. Empty? Call your class's fuel truck from the top bar and drive it to your truck. Stuck? Call the breakdown truck, back it within 5 m of your truck, tap WINCH to hook on, then drive away to tow it free (tap again to unhook). Each comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, H / L / R gears, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
+        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. For mud and rock: 4×4 and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
         <details class="credits"><summary>Sound credits (Freesound)</summary><ul id="soundCredits"></ul></details>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>
@@ -117,7 +143,8 @@
   </div>
 
   <div class="overlay" id="msgOv" hidden>
-    <div class="card slim">
+    <div class="card slim" id="msgCard">
+      <div class="msgart" id="msgArt" hidden><i class="msgpic"></i></div>
       <div class="cbody">
         <div class="eyebrow" id="msgEyebrow"></div>
         <h3 id="msgTitle"></h3>

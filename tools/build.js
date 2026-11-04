@@ -31,12 +31,14 @@ async function page(content) {
   });
   const js = out.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
   // the loading screens' art goes in the page's CSS, ahead of the content, so it paints first
-  const { loaders, ...rest } = content;
+  const { loaders, fonts, ...rest } = content;
+  // the display font comes with the game, so it shows offline and on the first paint
+  const fontFaces = Object.entries(fonts).map(([key, uri]) => `@font-face { font-family: "Barlow Condensed"; font-weight: ${parseInt(key)}; font-style: ${key.endsWith('i') ? 'italic' : 'normal'}; font-display: block; src: url("${uri}") format("woff2"); }\n`).join('');
   const loaderArt = `:root { ${Object.entries(loaders).map(([k, uri]) => `--loader-${k}: url("${uri}");`).join(' ')} }\n`;
   // JSON with every '<' escaped can sit safely inside a script element
   const data = JSON.stringify(rest).replace(/</g, '\\u003c');
   let html = read('src/index.html')
-    .replace('/*CSS*/', () => loaderArt + read('src/styles/game.css'))
+    .replace('/*CSS*/', () => fontFaces + loaderArt + read('src/styles/game.css'))
     .replace(/<!--icon:([a-z-]+)-->/g, (_, name) => read(`assets/hud/icons/${name}.svg`).trim())
     // every icon whose name starts with the prefix, each in a <span data-icon>; missing ones are simply absent
     .replace(/<!--icons:([a-z-]+)-->/g, (_, prefix) => fs.readdirSync(path.join(ROOT, 'assets/hud/icons')).filter(f => f.startsWith(prefix) && f.endsWith('.svg'))

@@ -1,0 +1,135 @@
+{
+  "master": {
+    "file": "vehicle-master-v2.png",
+    "prompt": "Correct this master. Keep its 5 road axles in same grouped arrangement, but all road tires MUST be EXACTLY identical in diameter. Enlarge trailer tires to match tractor tires, same circular rims centered at same horizontal hub height, same level tire bottoms. mud-terrain wrapped in heavy twin-ring tractor chains. Ensure real scale: whole rig including load at most 16.8m, tire diameter 1.52m; rig length max 11.05 tire diameters. Shorten deck gaps and load proportionately as necessary to meet this ratio, with heavy load supported by wheel groups. Place entire object within central 85% of canvas with generous transparent margins, especially mast tips. Remove ALL colored edge fringe, red/green/yellow halos and stray pixels around and within silhouette. Clean neutral alpha edges. Keep design, load, cab, chains and weathered painted style. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No cab front face. True transparent background, no text, shadow or ground."
+  },
+  "body": {
+    "file": "body-v2.png",
+    "edit_of": "vehicle-master-v2.png",
+    "prompt": "Edit exact master. Remove all 5 road wheels, tires and rims on truck AND trailer. Keep wheels belonging to carried locomotive, and keep all load, straps, cab, deck, equipment. Fill all road arches opaque dark painted inner liners, chassis, axle and suspension from fender lip DOWN TO HUB LINE including grouped axle gaps, no transparent holes above hub line. Below hubs and under chassis transparent. Preserve EXACT canvas dimensions, position, scale, camera and design, no movement. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background with clean alpha edges, no colored fringe."
+  },
+  "wheel": {
+    "file": "wheel-v1.png",
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Generate ONE road wheel matching this master: mud-terrain wrapped in heavy twin-ring tractor chains, olive painted steel rim with centered bolt hub, dark rubber and realistic grime. Square 1536x1536 transparent PNG, perfectly circular tire EXACTLY centered with equal margins. Premium semi-realistic painted game illustration, fine mechanical detail, natural dark contours. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Face-on rim, soft even light suitable for spinning. No axle, body, ground, cast shadow, text, logo, colored edge fringe or halo."
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v1.png",
+      "prompt": "Production game vehicle master, PNG at least 2000px wide. ONE complete olive heavy-haul tractor at RIGHT with attached multi-axle lowbed extending LEFT, carrying enormous granite boulder chained to a steel cradle frame. Equipment high cab access ladder and huge mirrors. Premium semi-realistic painted game illustration matching Swamp Scout, rich weathered material texture, dark contours, mechanical detail, grime and chipped paint. Whole rig and load physically 16.8m maximum, tires 1.52m diameter: overall length approximately 11.1 tire diameters. EXACTLY 5 visible road tires total, layout: two close trailer axles directly under boulder at LEFT, two close tractor drive axles, one steer axle at RIGHT. All 5 tires identical diameter, tread and rim, mud-terrain wrapped in heavy twin-ring tractor chains. Wheels support each heavy part. Cab front face invisible, horizontal chassis and load. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Perfect circular tires and centered rims, fully visible. Clear transparent margins minimum 100px on EVERY side. Soft even daylight, no cast shadow. True transparent background. No ground, text, logos, watermark, colored halo or fringe."
+    },
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Correct this master. Keep its 5 road axles in same grouped arrangement, but all road tires MUST be EXACTLY identical in diameter. Enlarge trailer tires to match tractor tires, same circular rims centered at same horizontal hub height, same level tire bottoms. mud-terrain wrapped in heavy twin-ring tractor chains. Ensure real scale: whole rig including load at most 16.8m, tire diameter 1.52m; rig length max 11.05 tire diameters. Shorten deck gaps and load proportionately as necessary to meet this ratio, with heavy load supported by wheel groups. Place entire object within central 85% of canvas with generous transparent margins, especially mast tips. Remove ALL colored edge fringe, red/green/yellow halos and stray pixels around and within silhouette. Clean neutral alpha edges. Keep design, load, cab, chains and weathered painted style. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No cab front face. True transparent background, no text, shadow or ground.",
+      "rejection_reason": "Residual colored alpha fringe; dimensional scale still requires review."
+    },
+    {
+      "file": "body-v1.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Edit this master. Remove all 5 ROAD wheels, tires and rims from trailer AND tractor, including far-side glimpses. Keep the load and any wheels or tracks belonging to load. Fill every wheel arch with opaque painted dark liner, chassis, axle and suspension FROM FENDER LIP DOWN TO HUB LINE including gaps between grouped arches. No transparent upper arches. Below hub line and under chassis stays transparent. Preserve EXACT canvas dimensions, body position, scale, camera, all load, chains, panels and equipment, no redesign or movement. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, clean alpha with no colored fringe.",
+      "rejection_reason": "Superseded with body derived from revised master."
+    }
+  ],
+  "size": {
+    "maxLengthM": 16.8,
+    "tireDiameterM": 1.52,
+    "axles": 5
+  },
+  "review": {
+    "status": "registered_for_runtime_review",
+    "notes": [
+      "1254x1254 road-wheel resolution accepted by user.",
+      "PNG originals preserved; runtime body aligned with measured affine registration.",
+      "Offline registered wheel composites reviewed; original red-edge reports were not confirmed in background composites."
+    ],
+    "measurements": "See integration record."
+  },
+  "tool": "built-in image_gen",
+  "integration": {
+    "master": "vehicle-master-v2.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v1.png",
+    "masterCanvas": [
+      2172,
+      724
+    ],
+    "sourceBodyCanvas": [
+      2172,
+      724
+    ],
+    "registeredBodyCanvas": [
+      2172,
+      724
+    ],
+    "registration": {
+      "canvas": [
+        2172,
+        724
+      ],
+      "matrix": [
+        0.99978859,
+        3.884e-05,
+        0.22808159,
+        -3.884e-05,
+        0.99978859,
+        0.04269456
+      ]
+    },
+    "registrationInliers": 881,
+    "registrationMedianErrorPx": 0.141,
+    "masterHubXFrontFirst": [
+      1850,
+      1478,
+      1268,
+      580,
+      382
+    ],
+    "masterHubY": 550,
+    "tireRadiusPx": 107,
+    "lengthM": 12.437009,
+    "tireDiameterM": 1.52,
+    "wheelCanvas": [
+      1254,
+      1254
+    ],
+    "wheelResolutionException": "User-approved native 1254x1254, 2026-11-04",
+    "status": "registered_pending_final_checks"
+  },
+  "cabRevision": {
+    "master": {
+      "file": "vehicle-master-v3.png",
+      "edit_of": "vehicle-master-v2.png",
+      "prompt": "Edit only the tractor cab front, mirror mounts and front fender of this olive heavy hauler. Replace the oversized floating mirror and its long tangled arms with ONE modest vertical rectangular truck mirror housing on two short straight brackets attached to the door A-pillar. Rebuild the cab front as a believable conventional short-bonnet heavy truck, rounded steel front fender and a separate blunt bumper. No wedge-shaped body panels. Ordinary correctly scaled side mirror with short rigid door/A-pillar brackets. Premium semi-realistic painted game illustration, existing weathered materials, dark contours and fine mechanical detail. Preserve the original load, trailer, chassis, paint colour, ALL 5 road wheels and their exact hub positions, tire sizes, tire design and axle grouping. Fit the new short bonnet inside the existing tractor footprint; do not lengthen the vehicle. Keep total rig under 16.8m. Preserve original canvas, scale and position. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Only the near side is seen; no cab front face. Full vehicle with clear margins, true transparent background, soft even daylight. No ground, shadow, text, logo, halo. No axe shapes, sharp wedges, melted panels, floating mirrors or long tangled mirror arms.",
+      "status": "visually_reviewed"
+    },
+    "body": {
+      "file": "body-v3.png",
+      "edit_of": "vehicle-master-v3.png",
+      "status": "visually_reviewed",
+      "prompt": "Edit this inspected master into its body sprite. Remove all FIVE road wheels and tires from tractor and trailer. Keep boulder, chains, new realistic short-bonnet cab, rounded fenders and compact door-mounted mirror EXACTLY as drawn. Fill every road wheel arch with opaque painted dark inner liner, chassis, axle and suspension from fender lip down to hub line, including tandem gaps. No transparency above hubs; below hubs and under chassis remains transparent. Preserve exact canvas dimensions, scale, position, load and camera. No redesign, no remaining tire or rim, no changes to cab or mirrors. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no shadow, text or halo."
+    },
+    "wheel": {
+      "file": "wheel-v1.png",
+      "action": "reuse"
+    },
+    "rejection_reason": "User rejected unrealistic mirror and cab front.",
+    "validation": {
+      "masterCanvas": [
+        2172,
+        724
+      ],
+      "bodyCanvas": [
+        2172,
+        724
+      ],
+      "roadAxles": 5,
+      "cab": "short bonnet and rounded front fender",
+      "mirror": "compact housing on short door-mounted brackets",
+      "roadWheelsRemovedFromBody": true,
+      "wheelAssetReused": "wheel-v1.png",
+      "runtimeSelection": "unchanged; source revision only; measure registration before use"
+    },
+    "status": "cab_revision_saved_for_integration_review"
+  }
+}

@@ -1402,7 +1402,45 @@
       ],
       "room": 0.4,
       "pileEvery": 3
-    }
+    },
+    "powerups": [
+      { "x": 168, "kind": "grip" },
+      { "x": 408, "kind": "engine" },
+      { "x": 532, "kind": "suspension" },
+      { "x": 757, "kind": "suspension" },
+      { "x": 912, "kind": "grip" },
+      { "x": 975, "kind": "speed" },
+      { "x": 1204, "kind": "engine" },
+      { "x": 1354, "kind": "suspension" },
+      { "x": 1482, "kind": "grip" },
+      { "x": 1590, "kind": "speed" },
+      { "x": 2070, "kind": "engine" },
+      { "x": 2196, "kind": "suspension" },
+      { "x": 2300, "kind": "grip" },
+      { "x": 2575, "kind": "grip" },
+      { "x": 2640, "kind": "speed" },
+      { "x": 2868, "kind": "engine" },
+      { "x": 3016, "kind": "suspension" },
+      { "x": 3145, "kind": "grip" },
+      { "x": 3250, "kind": "speed" }
+    ],
+    "stations": [
+      {
+        "x": 815
+      },
+      {
+        "x": 1290
+      },
+      {
+        "x": 1740
+      },
+      {
+        "x": 2478
+      },
+      {
+        "x": 2996
+      }
+    ]
   },
   "surfaces": {
     "gravel": {
@@ -1570,6 +1608,18 @@
     "branchPile": {
       "file": "art/branch-pile.webp",
       "source": "source/branch-pile.png"
+    },
+    "fuelStation": {
+      "file": "art/fuel-station.webp",
+      "source": "source/fuel-station-v1.png",
+      "crop": [
+        10,
+        195,
+        1432,
+        895
+      ],
+      "width": 1200,
+      "quality": 86
     }
   },
   "rockHulls": "rock-hulls.json",

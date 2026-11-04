@@ -23,7 +23,10 @@ style of the approved Swamp Scout: [assets/references/four-scout-trucks.png](ass
 - **True transparent background** for every object (vehicles, wheels, props). No
   checkerboard, no colored halo or glow around the edges, no ground or drop shadow, no text, logos or
   watermarks. Show the whole object with clear margins.
-- PNG, at least 1500 px on the long side.
+- PNG, at least 1500 px on the long side. **User-approved exception (2026-11-04):**
+  square road-wheel sprites returned by the built-in generator at **1254 × 1254 px** are
+  accepted at native resolution. Do not regenerate or upscale them solely to reach 1500 px.
+  Masters and bodies still require at least 1500 px on the long side; all other art checks apply.
 
 ## Hard rule for every vehicle image: wheels that make sense
 
@@ -32,7 +35,7 @@ redrawn, so check it before you report. Look at the approved layouts first:
 
 - `assets/cars/fieldmaster-5/source/` and `assets/cars/swamp-ox-3/source/`: a close rear tandem right under the load.
 - `assets/cars/crag-crusher-11/source/`: big, evenly spaced axles along the whole truck.
-- `assets/references/wheel-layouts/prime-mover-1.webp` and `atlas-8.webp`: a lowbed with a steer axle, a close drive tandem and a close
+- `assets/cars/prime-mover-1/art/master.webp` and `assets/cars/atlas-8/art/master.webp`: a lowbed with a steer axle, a close drive tandem and a close
   group of 3 or 4 axles at the rear.
 
 The rules:
@@ -46,6 +49,23 @@ The rules:
   least 5 on a heavy lowbed, more for a bigger load.
 - **Tires in proportion** to the truck and the same on every axle, neither oversized nor undersized for the body.
 - **The body has no defects:** clean panels, cab and fenders with no melted, fused or nonsensical shapes.
+
+### Hard rule: believable cabs, front fenders and mirrors
+
+- Use real heavy-truck construction and proportions. Default to a conventional cab with a
+  visible short bonnet in side profile; do not invent a flat vertical cab front unless the
+  brief explicitly calls for a cab-over. The bonnet, radiator housing, bumper, headlamp and
+  front fender must be distinct, mechanically plausible parts with clean seams.
+- Front wheel arches must follow the tire's round clearance. No axe-head shapes, pointed
+  wedges, fused bumper/fender blocks, or melted panels above or ahead of the tire. Give the
+  bumper a blunt, practical end and keep the complete road tire visible.
+- Mirrors must be plausible side-view truck mirrors: correctly scaled rectangular housing,
+  attached near the door/A-pillar by short rigid brackets. No floating mirrors, huge paddles,
+  tangled or excessively long arms, or brackets that merge into ladders or fenders.
+- Inspect the cab, mirror mounts and both ends of the front fender at full resolution before
+  deriving a body. Include these construction requirements in every new vehicle prompt.
+  Retain the strict perpendicular side camera: a believable bonnet does not permit a visible
+  front grille face or a three-quarter camera.
 
 Before reporting, look at the finished master and ask whether a truck driver would believe those wheels hold that load. If not, redraw it.
 
@@ -76,12 +96,12 @@ check your own output against this list first and regenerate before reporting.
   and under the chassis, stays transparent.
 - **The wheel is a square canvas, the tire a perfect circle centred in it,** seen face-on, matching
   the master's tires.
-- **Fuel trucks have no winch;** breakdown trucks show the rear winch drum, cable and hook.
+- **Breakdown trucks** show the rear winch drum, cable and hook.
 
 Put these words in every vehicle prompt: "strictly flat 2D side profile, camera perpendicular to the
 near side at hub height, no perspective, all tires the same size on one level line, no far-side tires".
 Approved examples of the right camera: `assets/cars/bog-wrecker/source/` and
-`assets/cars/fuel-runner-6x6/source/`.
+`assets/cars/breakdown-wrecker/source/`.
 
 ## What to generate
 
@@ -122,10 +142,9 @@ The brief is in `assets/cars/<id>/README.md`. Cars are ordered weakest to strong
 tier). Make stronger tiers look bigger and better equipped, and draw the tires the brief names (see
 `assets/cars/wheel-types.json`). **Every new truck gets off-road tires:** plain mud-terrain, chained
 (vary the chain style: ladder, diamond, V-bar or twin-ring tractor chains), steel spikes, all-terrain,
-flotation or giant mining tires. No smooth highway road tires on new art (decided 2026-10-31). Service trucks (a fuel and a breakdown truck per class, growing from
+flotation or giant mining tires. No smooth highway road tires on new art (decided 2026-10-31). Service trucks (a breakdown truck per class, from
 scout-sized pickups to 10×10 mining giants, each in its own colour and tires). Breakdown trucks carry a winch at
-the **rear**: show the drum and hook clearly. Fuel trucks only refuel: hose reels and beacons, no
-winch.
+the **rear**: show the drum and hook clearly.
 
 1. `vehicle-master-v1.png`: the complete vehicle with its load and every wheel, facing right. For a
    tractor with a trailer, the trailer is part of this one image.
@@ -173,6 +192,49 @@ and ready prompts are in `assets/seasons/SKILL.md`. **Hard rule: a simple, life-
 - `mudHole`, `reeds`, `rock`, round obstacles and traced props: transparent.
 
 Name them `<role>-v1.png` and record the prompts in `prompts.json`.
+
+## Hard rule: validate one set before spending on a batch
+
+Prompts are requests, not proof that the output meets the brief. Never generate a whole batch
+and discover the same defect in every truck afterwards.
+
+1. Before generating, record the exact axle count, tire diameter, maximum total length (load
+   included), axle groups and intended canvas dimensions in `source/prompts.json`. Resolve any
+   conflicting brief against the project-wide rules first. Specify total length in tire diameters
+   (`totalLengthM / tireDiameterM`), not just a length in metres.
+2. Prove the output path with ONE matching wheel first: inspect the actual PNG header and alpha,
+   not the size written in the prompt. It must be square, at least 1500 pixels on each side
+   (or native 1254 × 1254 under the user-approved wheel exception), circular and centred,
+   with clean true transparency. If the tool returns an image below the applicable minimum,
+   do not generate the remaining wheels with the same request and hope they will be larger.
+3. Generate ONE master, inspect and measure it, then edit that accepted master into its body.
+   Do not derive bodies from rejected masters. Do not start the next truck until this complete
+   master/body/wheel set passes all checks below.
+4. Check actual PNG dimensions: master and body must match exactly; every PNG must be at least
+   1500 pixels on its long side, except native 1254 × 1254 road-wheel sprites as approved above.
+   Inspect alpha edges on light and dark backgrounds, including
+   internal gaps. Reject opaque backgrounds, colored fringe, halos, shadows and stray pixels.
+5. Count road axles separately from wheels belonging to the load. Measure road tire diameters,
+   hub centres and tire bottoms in the master. Check equal round tires, level hubs, exact axle
+   count, close groups supporting the load, strict side profile and clear canvas margins.
+   Calculate depicted total length from measured end-to-end pixels divided by measured tire
+   diameter in pixels, multiplied by tire diameter in metres. It must be no more than 16.8 m;
+   a length written in a prompt is not a measurement.
+6. Compare master and body registration directly: identical dimensions alone are insufficient.
+   Cab, load, panels and equipment must stay in the same pixel positions. Check all road tires
+   are removed, load wheels remain, upper wheel wells and tandem gaps are opaque down to the
+   hubs, and clearance below hubs stays transparent.
+7. Save exact prompts, references/edit targets, measurements and pass/fail results immediately
+   after each output. Mark failures `needs_revision`; never call them approved, ready or playable.
+   Keep earlier versions and rejection reasons. Never discard prompt text because a batch is
+   still running.
+
+**Retry limit for a repeated defect:** make at most one targeted correction for the same failed
+check in this workflow. If it fails again, stop dependent generation and report the specific tool
+limitation and saved files. Do not repeat equivalent prompts, fan the failure out across the batch,
+silently relax the rules, switch generators, or upscale an undersized image to claim compliance.
+Resume only with a concrete changed method that addresses the failure. This does not waive any
+quality requirement or make a failed asset acceptable.
 
 ## Revisions
 

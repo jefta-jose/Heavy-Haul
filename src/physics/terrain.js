@@ -1,4 +1,5 @@
 import { smoothstep as sm, seededRandom, valueNoise } from './math.js';
+import { STATION_BAY_M } from '../game-config.js';
 
 // One height profile shared by physics and rendering. The macro shape comes from the trail keys
 // (monotone cubic, so slopes run continuously), plus value noise scaled by surface, plus authored
@@ -44,7 +45,8 @@ export function createTerrain(trail, surfaces) {
   }
 
   // places kept calm so the start, fuel stop and depot stay drivable
-  const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? [])];
+  const stations = trail.stations ?? [];
+  const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? []), ...stations.map(s => [s.x - STATION_BAY_M / 2 - 2, s.x + STATION_BAY_M / 2 + 2])];
   const calm = x => { let c = 1; for (const [a, b] of CALM) c = Math.min(c, 1 - sm((x - a + 6) / 6) * sm((b + 6 - x) / 6)); return c; };
   const nearCalm = (x, pad) => CALM.some(([a, b]) => x > a - pad && x < b + pad);
 
@@ -200,5 +202,6 @@ export function createTerrain(trail, surfaces) {
     wb.level = lo + wb.depth;
   }
 
-  return { X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
+  const stationAt = x => stations.find(s => Math.abs(x - s.x) <= STATION_BAY_M / 2);
+  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
 }

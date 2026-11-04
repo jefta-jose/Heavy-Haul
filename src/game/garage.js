@@ -1,16 +1,38 @@
-// The garage: a workshop with the chosen vehicle parked big on the turntable. Top to bottom: the
-// season row, the class tabs (weakest to strongest), a strip with that class's vehicles, the vehicle,
-// then its nameplate on the floor, a gauge pod per tuning knob, and the Drive / Sound buttons. Every car carries
+// The garage: a dark warehouse bay with the chosen truck parked on the floor and its name at its wheels. Across the top the picking
+// goes from wide to narrow: the seasons, the classes, then the class's trucks; previous and next buttons stand either side of the truck. A bar along the floor
+// shows the truck's numbers and upgrade levels and ends in Drive; the Upgrades card pops up with a row per tuning knob. Every car carries
 // its own load (part of its art and weight), so the pick is the job. Planned vehicles and seasons show locked. Each car can be tuned
 // (tuning.js): the run uses the tuned copy, and the settings are saved per car.
 
 import { deriveSpecs } from '../../tools/lib/specs.js';
-import { KNOBS, STEP, MAX_LEVEL, applyTuning, clampLevel, tunedStat, levelColor, loadTuning, saveTuning, validLevels } from './tuning.js';
+import { wallet } from './wallet.js';
+import { KNOBS, upgradeCost, STEP, MAX_LEVEL, applyTuning, clampLevel, loadTuning, saveTuning, validLevels } from './tuning.js';
 
 const $ = id => document.getElementById(id);
+// a car's whole weight on the road: empty, wheels and load
+export const grossTonnes = c => (c.physics.mass + c.physics.wheelMass * c.rig.axles.length) / 1000 + (c.physics.load?.massT ?? 0);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+// what a step of each knob adds, as read from the tuned car: real numbers where the car has them, else against stock
+// How much of a car's picture is truck: art comes with empty canvas around it, different on every car. Measured from the
+// picture itself, so a new car needs no numbers to sit on the turntable and fit the screen.
+const inks = new Map();
+function inkOf(img, id) {
+  if (inks.has(id)) return inks.get(id);
+  const aspect = img.naturalHeight / img.naturalWidth, w = 160, h = Math.max(1, Math.round(w * aspect));
+  let top = 0, bottom = h;
+  try {
+    const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+    const g = canvas.getContext('2d', { willReadFrequently: true }); g.drawImage(img, 0, 0, w, h);
+    const a = g.getImageData(0, 0, w, h).data, solid = y => { for (let x = 0; x < w; x++) if (a[(y * w + x) * 4 + 3] > 128) return true; return false; };
+    while (top < h - 1 && !solid(top)) top++;
+    while (bottom > top + 1 && !solid(bottom - 1)) bottom--;
+  } catch (e) {}   // unreadable: the whole picture counts as truck
+  const ink = { aspect, height: (bottom - top) / h, below: (h - bottom) / h };
+  inks.set(id, ink);
+  return ink;
+}
 
-export function createGarage({ content, onSelect, onStart }) {
+export function createGarage({ content, onSelect, onStart, onBuy }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
   const rosterOf = id => content.roster.cars.find(c => c.id === id);
   const playable = new Map(content.cars.map(c => [c.id, c]));
@@ -21,8 +43,8 @@ export function createGarage({ content, onSelect, onStart }) {
   // saved levels are trimmed to the four knobs when read
   const tuneOf = id => (tuning[id] = validLevels(playable.get(id) ?? car, tuning[id] ?? {}));
   const tuned = () => applyTuning(car, tuning[car.id]);
-  const bg = content.hud['garage-background'];
-  if (bg) $('garage').style.setProperty('--garage-bg', `url(${bg})`);
+  // all the screen art, for the style sheet
+  for (const [id, uri] of Object.entries(content.hud)) document.documentElement.style.setProperty(`--hud-${id}`, `url("${uri}")`);
   const icon = id => $('classIcons').content.querySelector(`[data-icon="class-${id}"] svg`)?.cloneNode(true);
   const gIcon = id => $('garageIcons').content.querySelector(`[data-icon="garage-${id}"] svg`)?.cloneNode(true) ?? '';
 
@@ -30,13 +52,12 @@ export function createGarage({ content, onSelect, onStart }) {
   function renderSeasons() {
     const box = $('gSeasons'); box.innerHTML = '';
     for (const s of content.seasons ?? [{ id: content.season.id, name: content.season.name, status: 'playable' }]) {
-      const on = s.id === content.season.id, b = el('button', 'g-season' + (on ? ' on' : '') + (s.status === 'playable' ? '' : ' locked'));
+      const on = s.id === content.season.id, open = s.status === 'playable', b = el('button', 'g-season' + (on ? ' on' : '') + (open ? '' : ' locked'));
       b.dataset.season = s.id;
-      if (on && content.seasonArt?.backdrop) b.style.setProperty('--thumb', `url(${content.seasonArt.backdrop})`);
+      if (!open) { b.append(gIcon('lock')); b.disabled = true; b.title = `${s.name}: coming later`; }
       b.append(el('b', null, s.name));
-      if (s.status !== 'playable') { b.disabled = true; b.title = 'Coming soon'; }
       // another open season: remember it on this device and restart the game in it
-      else if (!on) b.addEventListener('click', () => { try { localStorage.setItem('haul.season', s.id); } catch (e) {} location.reload(); });
+      if (open && !on) b.addEventListener('click', () => { try { localStorage.setItem('haul.season', s.id); } catch (e) {} location.reload(); });
       b.setAttribute('aria-pressed', String(on));
       box.append(b);
     }
@@ -55,8 +76,7 @@ export function createGarage({ content, onSelect, onStart }) {
       b.addEventListener('click', () => {
         cls = c.id;
         const first = order.find(x => x.class === cls);
-        if (first && car.class !== cls) car = first;
-        render();
+        if (first && car.class !== cls) pick(first); else render();
       });
       box.append(b);
     }
@@ -69,83 +89,119 @@ export function createGarage({ content, onSelect, onStart }) {
       const p = playable.get(r.id), b = el('button', 'gtile' + (p ? '' : ' locked') + (r.id === car.id ? ' on' : ''));
       const thumb = el('span', 'gthumb');
       if (p) { const img = el('img'); img.src = p.artUri.master; img.alt = ''; img.loading = 'lazy'; thumb.append(img); }
-      else thumb.append(gIcon('lock'), 'Coming soon');
+      else thumb.append(gIcon('lock'));
       b.append(thumb, el('b', null, r.name));
-      if (p) b.addEventListener('click', () => { car = p; render(); });
+      if (p) b.addEventListener('click', () => pick(p));
       else { b.disabled = true; b.title = `${r.name}: not in the garage yet`; }
       list.append(b);
     }
-    // centre the chosen tile in the strip only: scrollIntoView would also scroll every box around it, the whole game included
+    // centre the chosen tile in the row only: scrollIntoView would also scroll every box around it, the whole game included
     const on = list.querySelector('.gtile.on');
     if (on) { const a = on.getBoundingClientRect(), b = list.getBoundingClientRect(); list.scrollLeft += a.left + a.width / 2 - b.left - b.width / 2; }
   }
 
-  // a stat with the tuning tied to it, out of 10
-  const statOf = key => { const r = rosterOf(car.id) ?? {}; return tunedStat(r.stats?.[key] ?? car.stats?.[key] ?? 50, tuning[car.id] ?? {}, key) / 10; };
-
-  // the nameplate: name, class and tier, and the facts the pods do not show
+  // the truck: parked, named, and a spec sheet of live numbers, so an upgrade shows up at once
+  let enterBack = false;
   function renderDetail() {
     const r = rosterOf(car.id) ?? {};
-    $('garageArt').src = car.artUri.master; $('garageArt').alt = car.name;
-    $('garageArt').style.setProperty('--len', r.lengthM ?? 6);   // parked to scale
-    $('gName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
-    $('gBadge').textContent = `${classes[rank[car.class]]?.name ?? car.class} · tier ${car.number ?? '-'}`;
-    // the phone layout's readout on the workshop wall: live numbers, so an upgrade shows up here at once
-    const tele = $('gTele'), live = deriveSpecs(tuned()); tele.innerHTML = '';
-    for (const [k, v, unit] of [['Power', live.powerKw, 'kW'], ['Torque', live.torqueNm, 'Nm'], ['Top speed', live.topSpeedKmh, 'km/h'], ['Length', r.lengthM ?? live.lengthM, 'm']]) {
-      const dd = el('dd', null, String(v)); dd.append(el('small', null, ` ${unit}`));
-      tele.append(el('dt', null, k), dd);
+    const art = $('garageArt');
+    if (art.dataset.car !== car.id) {   // the new truck rolls in, seated by where its picture actually has truck
+      const id = car.id, back = enterBack; art.dataset.car = id; art.alt = car.name;
+      art.onload = () => {
+        if (art.dataset.car !== id) return;
+        const ink = inkOf(art, id), show = $('gShow');
+        show.style.setProperty('--ar', ink.aspect.toFixed(4)); show.style.setProperty('--ink-h', ink.height.toFixed(4)); show.style.setProperty('--ink-b', ink.below.toFixed(4));
+        art.classList.remove('enter', 'back'); void art.offsetWidth; art.classList.add('enter'); art.classList.toggle('back', back);
+      };
+      art.src = car.artUri.master;
     }
-    const spec = $('gSpec'); spec.innerHTML = '';
-    const t = tuned(), mass = (t.physics.mass + t.physics.wheelMass * t.rig.axles.length) / 1000 + (t.physics.load?.massT ?? 0);
-    const load = t.load ?? r.load;
-    for (const [k, ic, v] of [['Drive', 'drive', `${car.drive} · ${car.wheelType} tires`], ['Load', 'load', load ? `${load.name} · ${load.massT} t` : 'No load'], ['Gross weight', 'weight', `${mass.toFixed(1)} t gross`], ['Capacity', 'capacity', `Capacity ${statOf('capacity').toFixed(1)}`]]) {
-      const dt = el('dt'); dt.append(gIcon(ic)); dt.title = k; dt.setAttribute('aria-label', k);
-      spec.append(dt, el('dd', null, v));
+    $('gName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
+    const t = tuned(), live = deriveSpecs(t), load = t.load ?? r.load;
+    $('gBadge').textContent = `${classes[rank[car.class]]?.name ?? car.class} · tier ${car.number ?? '-'}${load ? ` · ${load.name}` : ''}`;
+    const spec = $('gSpec'), before = Object.fromEntries([...spec.querySelectorAll('dd')].map(d => [d.dataset.k, d.textContent])), same = spec.dataset.car === car.id;
+    spec.dataset.car = car.id; spec.innerHTML = '';
+    for (const [k, v] of [['Power', `${live.powerKw} kW`], ['Torque', `${live.torqueNm} Nm`], ['Top speed', `${live.topSpeedKmh} km/h`], ['Length', `${r.lengthM ?? live.lengthM} m`], ['Gross', `${grossTonnes(t).toFixed(1)} t`], ['Drive', car.drive]]) {
+      const dd = el('dd', null, v); dd.dataset.k = k;
+      if (same && before[k] && before[k] !== v) { dd.classList.add('up'); requestAnimationFrame(() => requestAnimationFrame(() => dd.classList.remove('up'))); }
+      const cell = el('div', 'g-cell'); cell.append(el('dt', null, k), dd); spec.append(cell);
     }
   }
 
-  // half-dial segment i of n, as a path around the centre (50, 52) with radius 42
-  const arcPath = (i, n) => {
-    const at = f => { const a = Math.PI * (1 - f); return `${(50 + 42 * Math.cos(a)).toFixed(2)} ${(52 - 42 * Math.sin(a)).toFixed(2)}`; };
-    return `M${at((i + 0.03) / n)}A42 42 0 0 1 ${at((i + 0.97) / n)}`;
-  };
-  // tuning: one gauge pod per knob, 0 (stock) to 100 in steps of 25, lighting from orange to green.
-  // A pod also reads out the stat the knob moves, so each number appears once.
+  // upgrades: a row per knob with its icon, four level segments and a button that buys the next step.
+  // Selling a step back refunds it.
   function renderTuning() {
     const box = $('tuneList'), t = tuneOf(car.id), n = MAX_LEVEL / STEP; box.innerHTML = '';
     for (const knob of KNOBS) {
       const level = clampLevel(t[knob.id]), row = el('div', 'tune' + (level ? ' changed' : ''));
-      const name = el('span', 'tname'); name.append(gIcon(knob.id), el('b', null, knob.label)); name.title = knob.hint;
-      const set = v => { const c = clampLevel(v); if (c) t[knob.id] = c; else delete t[knob.id]; saveTuning(tuning); renderTuning(); renderDetail(); };
-      const bar = el('div', 'tbar'), svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('viewBox', '0 0 100 58');
-      for (let i = 0; i < n; i++) {
-        const seg = document.createElementNS('http://www.w3.org/2000/svg', 'path'), lit = (i + 1) * STEP <= level;
-        seg.setAttribute('d', arcPath(i, n)); seg.setAttribute('class', 'tseg');
-        if (lit) seg.style.stroke = levelColor(level);
-        // tapping a segment jumps to that step
-        seg.addEventListener('click', () => set((i + 1) * STEP));
-        svg.append(seg);
+      const set = v => {
+        const c = clampLevel(v), cost = upgradeCost(car, level, c);
+        if (cost > 0 && !wallet.spend(cost)) return;
+        if (cost < 0) wallet.add(-cost);
+        if (c) t[knob.id] = c; else delete t[knob.id];
+        saveTuning(tuning); if (cost > 0) onBuy?.(); renderTuning(); renderDetail();
+      };
+      const pic = el('i', 'tpic'); pic.append(gIcon(knob.id));
+      const name = el('span', 'tname'); name.append(el('b', null, knob.label)); name.title = knob.hint;
+      if (level > 0) {
+        const minus = el('button', 'tstep tminus', '−'); minus.setAttribute('aria-label', `Lower ${knob.label}`);
+        minus.addEventListener('click', () => set(level - STEP)); name.append(minus);
       }
-      bar.append(svg, el('span', 'tval', String(level)));
+      const bar = el('div', 'tbar');
+      for (let i = 0; i < n; i++) bar.append(el('i', 'pip' + ((i + 1) * STEP <= level ? ' on' : '')));
       bar.setAttribute('role', 'meter'); bar.setAttribute('aria-valuemin', '0'); bar.setAttribute('aria-valuemax', String(MAX_LEVEL)); bar.setAttribute('aria-valuenow', String(level)); bar.setAttribute('aria-label', knob.label);
-      const minus = el('button', 'tstep', '−'), plus = el('button', 'tstep', '+');
-      minus.disabled = level <= 0; plus.disabled = level >= MAX_LEVEL;
-      minus.setAttribute('aria-label', `Lower ${knob.label}`); plus.setAttribute('aria-label', `Raise ${knob.label}`);
-      minus.addEventListener('click', () => set(level - STEP));
-      plus.addEventListener('click', () => set(level + STEP));
-      const dial = el('div', 'tdial'); dial.append(minus, bar, plus);
-      const read = { power: 'Power', speed: 'Top speed', grip: 'Traction' }[knob.stat];
-      row.append(name, dial, el('small', 'tread', read ? `${read} ${statOf(knob.stat).toFixed(1)}` : (level ? 'Tuned' : 'Stock')));
+      const full = level >= MAX_LEVEL, price = full ? 0 : upgradeCost(car, level, level + STEP), canBuy = wallet.coins >= price;
+      const buy = el('button', 'tstep tbuy' + (full ? ' max' : canBuy ? '' : ' poor'));
+      buy.setAttribute('aria-label', `Raise ${knob.label}`);
+      if (full) { buy.append(el('span', null, 'Max')); buy.disabled = true; }
+      else {
+        buy.append(el('i', 'coinic'), el('span', null, price.toLocaleString('en-US')));
+        if (canBuy) buy.addEventListener('click', () => set(level + STEP));
+        else { buy.setAttribute('aria-disabled', 'true'); buy.addEventListener('click', () => { const c = $('tuneCoins').parentElement; c.classList.remove('short'); void c.offsetWidth; c.classList.add('short'); }); }
+      }
+      row.append(pic, name, bar, buy);
       box.append(row);
     }
+    // the levels again on the bar, so a truck's upgrades show without opening the panel
+    const levels = $('gLevels'); levels.innerHTML = '';
+    for (const knob of KNOBS) {
+      const row = el('span', 'glv'), level = clampLevel(t[knob.id]); row.title = knob.label; row.append(gIcon(knob.id));
+      for (let i = 0; i < n; i++) row.append(el('i', 'pip' + ((i + 1) * STEP <= level ? ' on' : '')));
+      levels.append(row);
+    }
     $('tuneReset').hidden = !Object.keys(t).length;
+    $('gCoins').textContent = wallet.coins.toLocaleString('en-US');
+    $('tuneCoins').textContent = $('gCoins').textContent;
+    $('tuneFor').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
   }
-  $('tuneReset').addEventListener('click', () => { tuning[car.id] = {}; saveTuning(tuning); render(); });
-  const scrollStrip = d => $('garageList').scrollBy({ left: d * $('garageList').clientWidth * 0.8, behavior: 'smooth' });
-  $('gStripPrev').addEventListener('click', () => scrollStrip(-1));
-  $('gStripNext').addEventListener('click', () => scrollStrip(1));
+  // back to stock, with everything refunded
+  $('tuneReset').addEventListener('click', () => {
+    const t = tuneOf(car.id); for (const knob of KNOBS) wallet.add(-upgradeCost(car, clampLevel(t[knob.id]), 0));
+    tuning[car.id] = {}; saveTuning(tuning); render();
+  });
+  // the Upgrades card pops up over the garage, as Sound does, and the truck stays where it is
+  const tuneOv = $('tuneOv');
+  $('gMenuTune').addEventListener('click', () => { tuneOv.hidden = false; });
+  $('gLevels').addEventListener('click', () => { tuneOv.hidden = false; });
+  $('tuneDone').addEventListener('click', () => { tuneOv.hidden = true; });
+
+  // previous and next: through the chosen class's playable trucks, and round again
+  function pick(next, back = false) { enterBack = back; car = next; cls = next.class; render(); }
+  function step(d) {
+    const all = order.filter(x => x.class === cls);
+    if (all.length) pick(all[(Math.max(all.indexOf(car), d < 0 ? 0 : -1) + d + all.length) % all.length], d < 0);
+  }
+  $('gPrev').addEventListener('click', () => step(-1));
+  $('gNext').addEventListener('click', () => step(1));
+  // the arrows on the row only scroll the list: the truck changes when one is tapped
+  const scrollRow = d => $('garageList').scrollBy({ left: d * $('garageList').clientWidth * 0.8 });
+  $('gRowPrev').addEventListener('click', () => scrollRow(-1));
+  $('gRowNext').addEventListener('click', () => scrollRow(1));
+  $('gStencil').textContent = content.season.name.split(' ')[0];
+  // dust hanging in the lamplight: a few specks, placed once
+  for (let i = 0; i < 16; i++) {
+    const d = el('i'); d.style.cssText = `left:${20 + Math.random() * 70}%;top:${25 + Math.random() * 55}%;--t:${16 + Math.random() * 18}s;--d:${-Math.random() * 30}s;--dx:${(Math.random() - 0.5) * 70}px`;
+    $('gDust').append(d);
+  }
 
   function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); onSelect(car); }
   render();

@@ -77,7 +77,7 @@ export function createParticles(scene, onEvent) {
     // crushed rocks burst into chunks and dust
     while (sim.events.length) {
       const e = sim.events.shift();
-      if (e.type === 'hit') onEvent(e);
+      if (e.type === 'hit' || e.type === 'damage' || e.type === 'power') onEvent(e);
       if (e.type !== 'crush') continue;
       for (let k = 0; k < 12; k++) emitChunk(e.x + (Math.random() - 0.5) * e.w * 0.6, e.y + Math.random() * 0.15, (Math.random() - 0.5) * 3 + v.x * 0.3, 1 + Math.random() * 2.6, 0.035 + Math.random() * e.w * 0.09, Math.random() < 0.5 ? (e.surf === 'wood' ? '#5e4630' : '#6e6a60') : (e.surf === 'wood' ? '#8a6c48' : '#8b867a'));
       for (let k = 0; k < 5; k++) emitPuff('dust', e.x + (Math.random() - 0.5) * e.w, e.y, (Math.random() - 0.5) * 0.8, 0.3 + Math.random() * 0.5, 0.2, 0.9, 1.4, 0.4);

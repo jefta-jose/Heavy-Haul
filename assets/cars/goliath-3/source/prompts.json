@@ -1,0 +1,131 @@
+{
+  "master": {
+    "file": "vehicle-master-v1.png",
+    "prompt": "Production game vehicle master, PNG at least 2000px wide. ONE complete mustard yellow heavy-haul tractor at RIGHT with attached multi-axle lowbed extending LEFT, carrying olive battle tank with barrel secured horizontally entirely inside the rig footprint. Equipment high cab access ladder and huge mirrors. Premium semi-realistic painted game illustration matching Swamp Scout, rich weathered material texture, dark contours, mechanical detail, grime and chipped paint. Whole rig and load physically 16.8m maximum, tires 1.39m diameter: overall length approximately 12.1 tire diameters. EXACTLY 7 visible road tires total, layout: four close trailer axles under tank at LEFT, two close tractor drive axles, one steer axle at RIGHT. All 7 tires identical diameter, tread and rim, mud-terrain studded with short steel spikes. Wheels support each heavy part. Cab front face invisible, horizontal chassis and load. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Perfect circular tires and centered rims, fully visible. Clear transparent margins minimum 100px on EVERY side. Soft even daylight, no cast shadow. True transparent background. No ground, text, logos, watermark, colored halo or fringe."
+  },
+  "body": {
+    "file": "body-v1.png",
+    "edit_of": "vehicle-master-v1.png",
+    "prompt": "Edit this master. Remove all 7 ROAD wheels, tires and rims from trailer AND tractor, including far-side glimpses. Keep the load and any wheels or tracks belonging to load. Fill every wheel arch with opaque painted dark liner, chassis, axle and suspension FROM FENDER LIP DOWN TO HUB LINE including gaps between grouped arches. No transparent upper arches. Below hub line and under chassis stays transparent. Preserve EXACT canvas dimensions, body position, scale, camera, all load, chains, panels and equipment, no redesign or movement. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, clean alpha with no colored fringe."
+  },
+  "wheel": {
+    "file": "wheel-v1.png",
+    "reference": "vehicle-master-v1.png",
+    "prompt": "Generate ONE road wheel matching this master: mud-terrain studded with short steel spikes, mustard yellow painted steel rim with centered bolt hub, dark rubber and realistic grime. Square 1536x1536 transparent PNG, perfectly circular tire EXACTLY centered with equal margins. Premium semi-realistic painted game illustration, fine mechanical detail, natural dark contours. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Face-on rim, soft even light suitable for spinning. No axle, body, ground, cast shadow, text, logo, colored edge fringe or halo."
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v1.png",
+      "prompt": "Production game vehicle master, PNG at least 2000px wide. ONE complete mustard yellow heavy-haul tractor at RIGHT with attached multi-axle lowbed extending LEFT, carrying olive battle tank with barrel secured horizontally entirely inside the rig footprint. Equipment high cab access ladder and huge mirrors. Premium semi-realistic painted game illustration matching Swamp Scout, rich weathered material texture, dark contours, mechanical detail, grime and chipped paint. Whole rig and load physically 16.8m maximum, tires 1.39m diameter: overall length approximately 12.1 tire diameters. EXACTLY 7 visible road tires total, layout: four close trailer axles under tank at LEFT, two close tractor drive axles, one steer axle at RIGHT. All 7 tires identical diameter, tread and rim, mud-terrain studded with short steel spikes. Wheels support each heavy part. Cab front face invisible, horizontal chassis and load. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Perfect circular tires and centered rims, fully visible. Clear transparent margins minimum 100px on EVERY side. Soft even daylight, no cast shadow. True transparent background. No ground, text, logos, watermark, colored halo or fringe."
+    },
+    {
+      "file": "vehicle-master-v2.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Correct this master. Keep its 7 road axles in same grouped arrangement, but all road tires MUST be EXACTLY identical in diameter. Enlarge trailer tires to match tractor tires, same circular rims centered at same horizontal hub height, same level tire bottoms. mud-terrain studded with short steel spikes. Ensure real scale: whole rig including load at most 16.8m, tire diameter 1.39m; rig length max 12.09 tire diameters. Shorten deck gaps and load proportionately as necessary to meet this ratio, with heavy load supported by wheel groups. Place entire object within central 85% of canvas with generous transparent margins, especially mast tips. Remove ALL colored edge fringe, red/green/yellow halos and stray pixels around and within silhouette. Clean neutral alpha edges. Keep design, load, cab, chains and weathered painted style. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No cab front face. True transparent background, no text, shadow or ground.",
+      "rejection_reason": "Lost a drive axle: six instead of seven."
+    }
+  ],
+  "size": {
+    "maxLengthM": 16.8,
+    "tireDiameterM": 1.39,
+    "axles": 7
+  },
+  "review": {
+    "status": "registered_for_runtime_review",
+    "notes": [
+      "1254x1254 road-wheel resolution accepted by user.",
+      "PNG originals preserved; runtime body aligned with measured affine registration.",
+      "Offline registered wheel composites reviewed; original red-edge reports were not confirmed in background composites."
+    ],
+    "measurements": "See integration record."
+  },
+  "tool": "built-in image_gen",
+  "integration": {
+    "master": "vehicle-master-v1.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v1.png",
+    "masterCanvas": [
+      2172,
+      724
+    ],
+    "sourceBodyCanvas": [
+      2172,
+      724
+    ],
+    "registeredBodyCanvas": [
+      2172,
+      724
+    ],
+    "registration": {
+      "canvas": [
+        2172,
+        724
+      ],
+      "matrix": [
+        1.00525956,
+        -0.00012818,
+        -2.06681821,
+        0.00012818,
+        1.00525956,
+        -2.01648609
+      ]
+    },
+    "registrationInliers": 542,
+    "registrationMedianErrorPx": 0.858,
+    "masterHubXFrontFirst": [
+      2002,
+      1596,
+      1382,
+      886,
+      683,
+      478,
+      272
+    ],
+    "masterHubY": 536,
+    "tireRadiusPx": 94,
+    "lengthM": 15.593138,
+    "tireDiameterM": 1.39,
+    "wheelCanvas": [
+      1254,
+      1254
+    ],
+    "wheelResolutionException": "User-approved native 1254x1254, 2026-11-04",
+    "status": "registered_pending_final_checks"
+  },
+  "cabRevision": {
+    "master": {
+      "file": "vehicle-master-v3.png",
+      "edit_of": "vehicle-master-v1.png",
+      "prompt": "Edit only the tractor cab front, mirror mounts and front fender of this mustard yellow heavy hauler. Remove the axe-head or pointed wedge shape ahead of and above the front steering tire. Rebuild that area as a realistic rounded steel wheel arch with a clean fender lip, separate compact blunt bumper, short horizontal bonnet and practical headlamp housing. Make the cab a believable conventional short-bonnet heavy truck. Ordinary correctly scaled side mirror with short rigid door/A-pillar brackets. Premium semi-realistic painted game illustration, existing weathered materials, dark contours and fine mechanical detail. Preserve the original load, trailer, chassis, paint colour, ALL 7 road wheels and their exact hub positions, tire sizes, tire design and axle grouping. Fit the new short bonnet inside the existing tractor footprint; do not lengthen the vehicle. Keep total rig under 16.8m. Preserve original canvas, scale and position. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Only the near side is seen; no cab front face. Full vehicle with clear margins, true transparent background, soft even daylight. No ground, shadow, text, logo, halo. No axe shapes, sharp wedges, melted panels, floating mirrors or long tangled mirror arms.",
+      "status": "visually_reviewed"
+    },
+    "body": {
+      "file": "body-v2.png",
+      "edit_of": "vehicle-master-v3.png",
+      "status": "visually_reviewed",
+      "prompt": "Edit this exact master into its matching body layer. Remove all SEVEN ROAD tires and rims: four trailer wheels, two tractor drive wheels, one front steering wheel. KEEP the tank and ALL tank tracks and track wheels unchanged. Preserve the corrected short bonnet, smooth rounded front fender, compact blunt bumper, side mirror, cab and load. Fill each road arch opaque with painted dark inner liner, axle and suspension from fender lip down to hub line including tandem/four-axle gaps. Below hubs and under chassis transparent. Same exact canvas dimensions, position, scale, camera and all other pixels. No redesign or movement. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no shadow, text or halo."
+    },
+    "wheel": {
+      "file": "wheel-v1.png",
+      "action": "reuse"
+    },
+    "rejection_reason": "User rejected axe-like bodywork ahead of the front wheel and unrealistic cab head.",
+    "validation": {
+      "masterCanvas": [
+        2172,
+        724
+      ],
+      "bodyCanvas": [
+        2172,
+        724
+      ],
+      "roadAxles": 7,
+      "front": "rounded fender, short bonnet, separate blunt bumper; axe-shaped panel removed",
+      "roadWheelsRemovedFromBody": true,
+      "loadTracksPreserved": true,
+      "wheelAssetReused": "wheel-v1.png",
+      "runtimeSelection": "unchanged; source revision only; measure registration before use"
+    },
+    "status": "cab_revision_saved_for_integration_review"
+  }
+}

@@ -1,6 +1,7 @@
 // The vehicle as rigid bodies: one chassis plus one wheel body per axle, joined by sprung
 // wheel joints. Two physical axles carry the four visible tires of a two-axle car; more axles
 // work the same way. All geometry comes from the car's measured registration (car.json `rig`).
+import { WHEEL_RISE_MAX_SHARE } from '../game-config.js';
 
 export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: true } }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -45,15 +46,24 @@ export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: t
     setMass(w, physics.wheelMass);
     const sp = springFor(M, com, size, ax, physics.wheelMass, load, susp);
     const j = world.createJoint(new pl.WheelJoint({ enableMotor: true, maxMotorTorque: 0, motorSpeed: 0, frequencyHz: sp.hz, dampingRatio: sp.zeta }, truck, w, p, AXIS));
-    wheels.push(w); joints.push(j); springs.push({ j, body: truck, wheel: w, k: sp.k, c: sp.c });
+    wheels.push(w); joints.push(j); springs.push({ j, body: truck, wheel: w, k: sp.k, c: sp.c, axleX: ax, load });
   });
 
   function setMass(body, m) { setWheelMass(V, body, m); }
   function setMassExplicit(body, m, cm, sz) { setBodyMass(V, body, m, cm, sz); }
-  const bumpStops = dt => applyBumpStops(V, springs, susp, dt);
+  let liveSusp = susp;
+  const bumpStops = dt => applyBumpStops(V, springs, liveSusp, dt);
+  // softer or firmer springs while driving: a suspension superpower
+  function setSuspension(next) {
+    liveSusp = next;
+    for (const sp of springs) {
+      const n = springFor(M, com, size, sp.axleX, physics.wheelMass, sp.load, next);
+      sp.j.setSpringFrequencyHz(n.hz); sp.j.setSpringDampingRatio(n.zeta); sp.k = n.k; sp.c = n.c;
+    }
+  }
   function destroy() { for (const b of [truck, ...wheels]) world.destroyBody(b); }
 
-  return { truck, wheels, joints, springs, bumpStops, destroy };
+  return { truck, wheels, joints, springs, bumpStops, setSuspension, destroy };
 }
 
 // tires sit in their own collision category
@@ -96,6 +106,27 @@ export function applyBumpStops(V, springs, susp, dt) {
     sp.wheel.applyForceToCenter(V(ax.x * F, ax.y * F), true);
     sp.body.applyForce(V(-ax.x * F, -ax.y * F), sp.wheel.getPosition(), true);
   }
+}
+
+// How the body is drawn over wheels that have risen too far. Near tires draw in front of the body, so a wheel far above its
+// ride height sits on the cab door. A hard stop in the physics flips the truck, so the picture settles it instead: the body is drawn
+// lifted and tilted, by as little as it takes, until no wheel is more than WHEEL_RISE_MAX_SHARE of its radius above its ride
+// height. It rocks about its far axles, as a truck does going over a log. Drawing only: the physics never sees this.
+// rises[i]: wheel i's height above its ride height, in body metres. Returns y = lift + tilt * x, in body metres.
+export function drawnBodyLift(rig, rises) {
+  const excess = rises.map((r, i) => Math.max(0, r - wheelRadius(rig, i) * WHEEL_RISE_MAX_SHARE));
+  const top = Math.max(...excess);
+  if (top <= 0) return { lift: 0, tilt: 0 };
+  // the lowest line that clears every wheel's excess: the flat one, or one through two of them
+  let best = { lift: top, tilt: 0 }, least = top * excess.length;
+  const xs = rig.axles;
+  for (let i = 0; i < xs.length; i++) for (let j = i + 1; j < xs.length; j++) {
+    const tilt = (excess[j] - excess[i]) / (xs[j] - xs[i]), lift = excess[i] - tilt * xs[i];
+    let sum = 0, clears = true;
+    for (let n = 0; n < xs.length && clears; n++) { const y = lift + tilt * xs[n]; clears = y >= excess[n] - 1e-9; sum += y; }
+    if (clears && sum < least) { least = sum; best = { lift, tilt }; }
+  }
+  return best;
 }
 
 // Box2D's wheel-joint spring is defined by the frequency and damping ratio of the joint's

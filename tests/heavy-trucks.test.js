@@ -44,3 +44,42 @@ test('no vehicle is longer than the size cap, so obstacles never need scaling pe
   assert(cap > 0, 'the roster sets a cap');
   for (const car of [...content.cars, ...content.service]) assert(Math.round(car.physics.size[0] * 10) / 10 <= cap, `${car.id}: ${car.physics.size[0]} m is over the cap of ${cap} m`);   // to the 0.1 m the cap is stated in
 });
+
+// Hub caps painted in each registered body: the game draws the body, so its wheels go here, not at the master's hubs.
+const heavyDrops = {
+  'prime-mover-1': [1968, 1561, 1375, 607, 444, 279],
+  'titan-2': [2020, 1613, 1422, 770, 581, 391, 201],
+  'goliath-3': [2028, 1613, 1387, 892, 688, 481, 276],
+  'mammoth-4': [1881, 1487, 1271, 582, 381],
+  'colossus-5': [1978, 1665, 1501, 395, 233],
+  'bulwark-6': [1938, 1550, 1372, 422, 247],
+  'juggernaut-7': [1868, 1511, 1326, 516, 335],
+  'atlas-8': [1866, 1685, 1428, 1254, 929, 755, 582, 407],
+  'behemoth-9': [1846, 1572, 1378, 556, 362],
+  'leviathan-10': [1826, 1509, 1312, 554, 371],
+};
+
+for (const [id, hubs] of Object.entries(heavyDrops)) {
+  test(`${id}: loaded heavy hauler is selectable, registered and drives`, () => {
+    const { car, roster } = loadContent({ carId: id }), rig = car.rig;
+    assert.equal(roster.cars.find(c => c.id === id).status, 'playable');
+    assert.equal(rig.axles.length, hubs.length);
+    rig.axles.forEach((x, i) => assert(Math.abs(rig.bodyOrigin[0] + x * rig.pixelsPerMetre - hubs[i]) < 3, 'axle sits on the hub painted in the body'));
+    assert.deepEqual(rig.farWheelOffset, [0.2, 0.13]);
+    assert(car.physics.size[0] <= 16.8, 'whole rig fits size cap');
+    assert.equal(car.physics.load.massT, car.load.massT);
+    assert(car.physics.load.massT >= 22, 'cargo retains its heavy load');
+    const size = file => {
+      const png = fs.readFileSync(path.join(ROOT, car.dir, file));
+      return [png.readUInt32BE(16), png.readUInt32BE(20)];
+    };
+    assert.deepEqual(car.art.body.registration.canvas, size(car.art.master.source), 'registered body uses exact master canvas');
+    assert.deepEqual(size(car.art.wheel.source), [1254, 1254], 'native wheel resolution uses approved exception');
+    for (const art of Object.values(car.art)) assert(fs.statSync(path.join(ROOT, car.dir, art.file)).size > 1000);
+    const s = spawn(newSim(car), 30), x = s.truck.getPosition().x;
+    s.ctl.gas = 1; advance(s, 10);
+    assert(s.truck.getPosition().x > x + 5, 'loaded truck drives on the trail');
+    assert(Math.abs(s.truck.getAngle()) < .7, 'cargo stays upright');
+    assert.equal(s.wheels.length, hubs.length);
+  });
+}

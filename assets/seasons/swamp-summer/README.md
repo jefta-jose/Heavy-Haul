@@ -136,6 +136,10 @@ cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstac
 - **Both tires sink:** near tires are buried by the front lip, and far tires by a lip of their own, drawn before the truck's body (`drawFarLip` in `ground.js`).
 - The dark `art.deepMud` material spreads across the road where the pit is, so a bog reads before it slows you.
 
+## 7. Fuel stations
+
+`trail.stations` (5, at 815, 1290, 1740, 2478 and 2996 m): the only place to refuel and repair. Keep them on clear ground, none more than about 800 m apart, and the terrain flattens itself around each one. A truck stopped in the marked bay fills up; a dry or badly damaged one gets towed there by the breakdown truck. The building is `art.fuelStation`, and a plain drawn stand-in shows until a season has one. Timing is in `src/game-config.js`.
+
 ## What this season deliberately leaves out
 
 All tried here and dropped. Do not bring them back unless asked.
@@ -168,6 +172,7 @@ older generation history and still mentions art deleted since.
 | Rock surface | `granite` | `granite-v1.png` | Opaque top-down tile |
 | Deep bog | `deepMud` | `deep-mud-v2.png` | Opaque top-down tile |
 | Mud hole | `mudHole` | `mud-hole-v1.png` | Transparent |
+| Fuel station | `fuelStation` | `fuel-station-v1.png` | Transparent |
 | Roadside plant | `reeds` | `reeds-v4.png` | Transparent |
 | Rock and breakable stone | `rock` | `rock-v2.png` | Transparent, hulls in `rock-hulls.json` |
 | Round obstacles | `logCrossing`, `corduroyLog`, `rottenLog`, `pipe`, `oilDrum` | Same name in `source/` | Transparent |
@@ -204,3 +209,7 @@ should be trimmed or kept small.
 6. **Check it.** Run `npm run build` with `HAUL_SEASON=<id>` and look at it on phone and desktop. Then run
    `HAUL_SEASON=<id> npm run test:route` for a scout and the longest truck, adjust the trail until both clear it, and set
    `status: "playable"`. Some tests in `tests/` use swamp positions, so expect to adapt them for a season they cover.
+
+## Superpower pickups
+
+`trail.powerups` is a list of `{ "x", "kind" }`, with `kind` one of `engine`, `suspension`, `speed` or `grip`. Place one roughly every 180 m, by purpose: Engine just before a steep climb, Suspension just before an obstacle run, Speed at the start of a long open stretch, Grip about 12 m before a deep bog. Keep them out of station bays.

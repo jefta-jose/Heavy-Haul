@@ -1,3 +1,7 @@
+import { POWER_LOOK } from '../../game-config.js';
+
+const POWERUP_SIZE_M = 2.3, POWERUP_HEIGHT_M = 2.7, BAY_LINE_LEAN = 0.35;
+import { STATION_BAY_M } from '../../game-config.js';
 import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
@@ -107,6 +111,79 @@ export function createProps(scene) {
       ctx.drawImage(img, 0, 0, width, height); ctx.restore();
     }
   }
+  // A fuel station: its building on the road's far edge, and a marked bay on the road. Art is `art.fuelStation`;
+  // until a season has it, a simple drawn stand-in.
+  // The bays are separate because the road repainted around the tires has to get them back.
+  function stationBays() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
+    const filling = scene.sim.main?.st.filling, pulse = 0.55 + 0.25 * Math.sin(performance.now() / 180);
+    for (const st of scene.sim.terrain.stations) {
+      const half = STATION_BAY_M / 2; if (st.x + half + 8 < lo || st.x - half - 8 > hi) continue;
+      // the bay: a soft patch across the road that fades out at both ends, with a painted checkered line where it starts and stops
+      const inBay = filling && Math.abs(scene.sim.main.parts.truck.getPosition().x - st.x) <= half;
+      const a = st.x - half, b = st.x + half, tint = inBay ? [98, 210, 75, pulse * 0.45] : [242, 183, 5, 0.17], rgba = o => `rgba(${tint[0]},${tint[1]},${tint[2]},${o})`;
+      const fade = ctx.createLinearGradient(a - 1.6, 0, b + 1.6, 0), soft = 1.6 / (b - a + 3.2);
+      fade.addColorStop(0, rgba(0)); fade.addColorStop(soft * 1.4, rgba(tint[3])); fade.addColorStop(1 - soft * 1.4, rgba(tint[3])); fade.addColorStop(1, rgba(0));
+      ctx.beginPath();
+      for (let x = a - 1.6; x <= b + 1.61; x += 0.25) ctx.lineTo(x, visH(x) + rise * 0.92);
+      for (let x = b + 1.6; x >= a - 1.61; x -= 0.25) ctx.lineTo(x, visH(x) - down * 0.9);
+      ctx.closePath(); ctx.fillStyle = fade; ctx.fill();
+      for (const edge of [a, b]) {
+        const y0 = visH(edge), top = rise * 0.9, bottom = -down * 0.88, rows = 8, cell = (top - bottom) / rows, wide = 0.42, lean = BAY_LINE_LEAN;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < 2; c++) {
+          const d = bottom + r * cell, x = edge - wide + c * wide;
+          ctx.beginPath(); ctx.moveTo(x + d * lean, y0 + d); ctx.lineTo(x + wide + d * lean, y0 + d); ctx.lineTo(x + wide + (d + cell) * lean, y0 + d + cell); ctx.lineTo(x + (d + cell) * lean, y0 + d + cell); ctx.closePath();
+          ctx.fillStyle = (r + c) % 2 ? 'rgba(24,22,16,0.62)' : 'rgba(250,244,226,0.72)'; ctx.fill();
+        }
+      }
+    }
+  }
+  // Superpower pickups: the kind's glossy orb with the upgrade's picture on it and a soft glow behind, built once per kind.
+  const powerBadges = {};
+  function powerBadge(kind) {
+    if (powerBadges[kind]) return powerBadges[kind];
+    const orb = scene.hud[`g2-orb-${kind}`], pic = scene.hud[`g2-icon-${kind}`], color = POWER_LOOK[kind].color;
+    if (!orb?.complete || !orb.naturalWidth || !pic?.complete || !pic.naturalWidth) return null;
+    const c = makeCanvas(256, 256), g = c.getContext('2d'), m = 128;
+    const glow = g.createRadialGradient(m, m, 70, m, m, m); glow.addColorStop(0, color); glow.addColorStop(1, color + '00');
+    g.fillStyle = glow; g.fillRect(0, 0, 256, 256);
+    g.drawImage(orb, 28, 28, 200, 200);
+    const fit = 124 / Math.max(pic.width, pic.height), w = pic.width * fit, h = pic.height * fit;
+    g.drawImage(pic, m - w / 2, m - h / 2, w, h);
+    return (powerBadges[kind] = c);
+  }
+  function powerups() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, now = performance.now();
+    for (const p of scene.sim.powerups) {
+      if (p.x < lo - 3 || p.x > hi + 3) continue;
+      const img = powerBadge(p.kind); if (!img) continue;
+      let size = POWERUP_SIZE_M, alpha = 1, rise = 0;
+      if (p.taken) {   // bursts upward as it is picked up
+        p.goneAt ??= now; const t = (now - p.goneAt) / 350; if (t >= 1) continue;
+        const burst = scene.hud['g2-burst'];
+        if (burst?.complete && burst.naturalWidth) { const b = size * (0.8 + t * 1.6), y0 = visH(p.x) + POWERUP_HEIGHT_M; ctx.save(); ctx.globalAlpha = 1 - t; ctx.translate(p.x - b / 2, y0 + b / 2); ctx.scale(1, -1); ctx.drawImage(burst, 0, 0, b, b); ctx.restore(); }
+        size *= 1 + t * 0.9; alpha = 1 - t; rise = t * 1.5;
+      } else p.goneAt = undefined;
+      const y = visH(p.x) + POWERUP_HEIGHT_M + rise + Math.sin(now / 320 + p.x) * 0.14;
+      ctx.save(); ctx.globalAlpha = alpha; ctx.translate(p.x - size / 2, y + size / 2); ctx.scale(1, -1); ctx.drawImage(img, 0, 0, size, size); ctx.restore();
+    }
+  }
+  function stations() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
+    const img = scene.cache.img.fuelStation;
+    stationBays();
+    for (const st of scene.sim.terrain.stations) {
+      const half = STATION_BAY_M / 2; if (st.x + half + 8 < lo || st.x - half - 8 > hi) continue;
+      const base = visH(st.x) + rise * 0.96;
+      if (img) { const w = 12, h = w * img.height / img.width; ctx.save(); ctx.translate(st.x - w / 2, base + h); ctx.scale(1, -1); ctx.drawImage(img, 0, 0, w, h); ctx.restore(); continue; }
+      ctx.fillStyle = '#3a4a3c'; for (const dx of [-3.4, 3.4]) ctx.fillRect(st.x + dx - 0.12, base, 0.24, 3);
+      ctx.fillStyle = '#e24a2c'; ctx.fillRect(st.x - 4.2, base + 3, 8.4, 0.55);
+      ctx.fillStyle = '#f2b705'; ctx.fillRect(st.x - 4.2, base + 2.9, 8.4, 0.12);
+      ctx.fillStyle = '#d9dfd6'; ctx.fillRect(st.x - 0.6, base, 1.2, 1.9);
+      ctx.fillStyle = '#e24a2c'; ctx.fillRect(st.x - 0.6, base + 1.5, 1.2, 0.4);
+      ctx.fillStyle = '#20282a'; ctx.fillRect(st.x - 0.38, base + 0.8, 0.76, 0.5);
+    }
+  }
   function bark() {
     if (barkPattern) return barkPattern;
     const img = scene.images.log, c = makeCanvas(420, 110);
@@ -154,7 +231,9 @@ export function createProps(scene) {
 
   return {
     drawHoles() { holes(); },
-    drawBehind() { drawList(back); rocks(); logsBehind(); },
+    drawBehind() { drawList(back); stations(); rocks(); logsBehind(); },
+    drawPowerups: powerups,
+    stationBays,
     drawLogEnds() { holes(true); logEnds(); },
     drawFront() { drawList(front); },
   };

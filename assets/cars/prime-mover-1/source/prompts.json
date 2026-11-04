@@ -1,0 +1,126 @@
+{
+  "master": {
+    "prompt": "Edit this master only to correct its road wheel geometry and edges. Exactly six identical 1.3m diameter road wheels, COPY THE LEFTMOST TRAILER TIRE SIZE to all other five tires, keeping every hub on same horizontal line and bottoms level. Reduce three tractor tires to precisely match three trailer tires; fill newly exposed fender interiors with dark painted chassis. Keep six axle positions, excavator, cab, deck, load, chains, paint, camera and canvas unchanged. Remove red and green edge fringes completely, clean alpha edges. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no shadows or text. Preserve margins.",
+    "edit_of": "vehicle-master-v2.png",
+    "file": "vehicle-master-v3.png"
+  },
+  "body": {
+    "edit_of": "vehicle-master-v3.png"
+  },
+  "wheel": {
+    "reference": "vehicle-master-v3.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v1.png",
+      "prompt": "Generate a production game vehicle master PNG, at least 2000px wide, wide canvas. Premium semi-realistic painted illustration matching approved Swamp Scout: dark readable contours, weathered gunmetal paint, fine mechanical details, natural material texture. ONE complete gunmetal grey heavy-haul tractor facing RIGHT with attached hydraulic gooseneck lowbed carrying a yellow tracked excavator secured with chains, boom folded within rig footprint. Overall physical length 16.0m including load, six road axles, road tire diameter 1.3m, thus total length about 12.3 tire diameters. EXACTLY SIX visible near-side road tires: from left to right close rear trailer TRIPLE beneath excavator, gap, close tractor drive TANDEM, gap, single front steering tire under right cab. All six matching chunky mud-terrain tires with dark steel rims; excavator tracks stay on deck. Every tire unobscured and fully visible. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Cab front face invisible. Horizontal deck, round centered rims. Soft even daylight. True transparent background, no ground, shadows, text, logos, watermark, halo. Whole rig including boom with clear margins.",
+      "rejection_reason": "Unequal road tire diameters; insufficient right margin."
+    },
+    {
+      "file": "vehicle-master-v2.png",
+      "prompt": "Generate a production game vehicle master PNG, at least 2000px wide, wide canvas. Premium semi-realistic painted illustration matching approved Swamp Scout: dark readable contours, weathered gunmetal paint, fine mechanical details, natural material texture. ONE complete gunmetal grey heavy-haul tractor facing RIGHT with attached hydraulic gooseneck lowbed carrying a yellow tracked excavator secured with chains, boom folded within rig footprint. Overall physical length 16.0m including load, six road axles, road tire diameter 1.3m, thus total length about 12.3 tire diameters. EXACTLY SIX visible near-side road tires: from left to right close rear trailer TRIPLE beneath excavator, gap, close tractor drive TANDEM, gap, single front steering tire under right cab. All six matching chunky mud-terrain tires with dark steel rims; excavator tracks stay on deck. Every tire unobscured and fully visible. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Cab front face invisible. Horizontal deck, round centered rims. Soft even daylight. True transparent background, no ground, shadows, text, logos, watermark, halo. Whole rig including boom with clear margins. REVISION: generous empty transparent margins of at least 100 pixels on every side. All six tires MUST be identical diameter, including front steering wheel. Absolutely no colored edge pixels, red speckles, green fringe or halo. Use same dark muddy rubber on every tire. Keep vehicle small enough in canvas to preserve margins.",
+      "rejection_reason": "Tractor tires larger than trailer tires; colored alpha fringe."
+    }
+  ],
+  "size": {
+    "maxLengthM": 16.8,
+    "intendedLengthM": 16,
+    "tireDiameterM": 1.3,
+    "axles": 6
+  },
+  "tool": "built-in image_gen",
+  "review": {
+    "status": "registered_for_runtime_review",
+    "notes": [
+      "1254x1254 road-wheel resolution accepted by user.",
+      "PNG originals preserved; runtime body aligned with measured affine registration.",
+      "Offline registered wheel composites reviewed; original red-edge reports were not confirmed in background composites."
+    ],
+    "measurements": "See integration record."
+  },
+  "regeneration": {
+    "wheel": {
+      "file": "wheel-v2.png",
+      "prompt": "Use case: stylized-concept. Production rotating wheel sprite for Heavy Haul Prime Mover. Reference image supplies tire/rim design and premium semi-realistic painted finish ONLY. Generate a NEW high-resolution 2048 by 2048 pixel square PNG, actual output must exceed 1500 pixels on BOTH axes. One dark charcoal chunky mud-terrain tire with weathered dark steel recessed rim and centered bolt hub matching reference, accurate circular concentric geometry. Entire tire perfectly circular centered at canvas center with equal clear margins. Soft even diffuse daylight suitable for rotation, detailed rubber lugs, subtle dirt, readable dark contours. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Face-on rim. Genuine transparent alpha background, including margins; clean neutral antialiased edges, no colored fringe, no glow, no backdrop, no ground, no shadow, no axle, no body, no text, logo or watermark. Output resolution 2048x2048, not 1254x1254.",
+      "reference": "wheel-v1.png",
+      "status": "rejected",
+      "validation": {
+        "actualWidthPx": 1254,
+        "actualHeightPx": 1254,
+        "square": true,
+        "minimumSidePx": 1500,
+        "minimumResolutionPassed": false,
+        "remainingChecks": "Not accepted; stop dependent generation at failed resolution gate."
+      },
+      "rejection_reason": "Built-in image_gen returned 1254x1254 again despite explicit 2048x2048 request. Repeated output-resolution failure; do not generate remaining batch through unchanged method."
+    },
+    "preflight": {
+      "axles": 6,
+      "tireDiameterM": 1.3,
+      "maxLengthM": 16.8,
+      "intendedLengthM": 16,
+      "lengthInTireDiameters": 12.307692307692307,
+      "axleGroups": "rear trailer triple; tractor drive tandem; front steer",
+      "wheelCanvas": [
+        2048,
+        2048
+      ],
+      "masterCanvas": [
+        2400,
+        1000
+      ]
+    },
+    "status": "stopped_at_wheel_resolution_gate"
+  },
+  "integration": {
+    "master": "vehicle-master-v3.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v2.png",
+    "masterCanvas": [
+      2172,
+      724
+    ],
+    "sourceBodyCanvas": [
+      2172,
+      724
+    ],
+    "registeredBodyCanvas": [
+      2172,
+      724
+    ],
+    "registration": {
+      "canvas": [
+        2172,
+        724
+      ],
+      "matrix": [
+        1.00518462,
+        0.00042799,
+        -3.95614288,
+        -0.00042799,
+        1.00518462,
+        -1.6214293
+      ]
+    },
+    "registrationInliers": 626,
+    "registrationMedianErrorPx": 0.898,
+    "masterHubXFrontFirst": [
+      1968,
+      1560,
+      1376,
+      606,
+      442,
+      276
+    ],
+    "masterHubY": 546,
+    "tireRadiusPx": 81,
+    "lengthM": 16.55493775,
+    "tireDiameterM": 1.3,
+    "wheelCanvas": [
+      1254,
+      1254
+    ],
+    "wheelResolutionException": "User-approved native 1254x1254, 2026-11-04",
+    "status": "registered_pending_final_checks"
+  }
+}

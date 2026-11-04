@@ -1,0 +1,274 @@
+{
+  "id": "mammoth-4",
+  "name": "Mammoth",
+  "number": 4,
+  "class": "heavy",
+  "drive": "10\u00d710",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Boulder heavy hauler",
+  "description": "olive heavy-haul prime mover with a multi-axle lowbed, carrying one enormous granite boulder chained to a frame.",
+  "stats": {
+    "power": 32,
+    "speed": 49,
+    "grip": 71,
+    "capacity": 24,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png",
+      "registration": {
+        "canvas": [
+          2172,
+          724
+        ],
+        "matrix": [
+          1.009406261,
+          1.752e-05,
+          -21.970303871,
+          -1.752e-05,
+          1.009406261,
+          -2.740405814
+        ]
+      }
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v3.png",
+      "registration": {
+        "canvas": [
+          2172,
+          724
+        ],
+        "matrix": [
+          1.009651905,
+          -0.001488739,
+          -21.277164506,
+          0.001488739,
+          1.009651905,
+          -3.67171049
+        ]
+      }
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1116,
+      550
+    ],
+    "pixelsPerMetre": 140.789474,
+    "axles": [
+      5.433645,
+      2.63514,
+      1.100935,
+      -3.792897,
+      -5.220561
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.76,
+    "wheelPivot": [
+      626,
+      632
+    ],
+    "wheelArtRadius": 597.0,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1881,
+        550,
+        112
+      ],
+      [
+        1487,
+        550,
+        112
+      ],
+      [
+        1271,
+        550,
+        112
+      ],
+      [
+        582,
+        550,
+        112
+      ],
+      [
+        381,
+        550,
+        112
+      ]
+    ],
+    "nose": 6.825794377213171,
+    "tail": -6.243364471977499,
+    "exhaust": [
+      4.148037,
+      3.011589
+    ],
+    "winch": [
+      6.115514,
+      0.5
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 29200.0,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      13.069158849190671,
+      3.224673
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "bodyBoxes": [
+      [
+        -6.243364471977499,
+        6.825794377213171,
+        0.646,
+        0.95,
+        0.4
+      ],
+      [
+        -6.250467,
+        -4.176449,
+        0.912,
+        2.670654,
+        0.4
+      ],
+      [
+        -4.176449,
+        -2.10243,
+        0.912,
+        3.153645,
+        0.4
+      ],
+      [
+        -2.10243,
+        -0.028411,
+        0.912,
+        2.642243,
+        0.4
+      ],
+      [
+        -0.028411,
+        2.038505,
+        0.912,
+        2.017196,
+        0.4
+      ],
+      [
+        2.038505,
+        4.112523,
+        0.912,
+        2.834019,
+        0.4
+      ],
+      [
+        4.112523,
+        6.186542,
+        0.912,
+        3.153645,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 50,
+      "centreOfMass": [
+        -2.519364,
+        1.612336
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2277966,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 217,
+    "exhaustBrake": 290,
+    "gears": {
+      "H": 10.29657,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 295242,
+    "openDiffGrip": 1,
+    "fuelLitres": 821
+  },
+  "load": {
+    "name": "Boulder",
+    "massT": 50
+  }
+}

@@ -24,29 +24,11 @@ export function createRenderer({ view, sim, content, onEvent }) {
   scene.vehicleLayer = vehicles;
   const particles = createParticles(scene, onEvent);
   const bridges = createBridgeLayer(scene), mud = createMudLayer(scene);
-  let sceneryReady = false, frames = 0, time = 0, refueling = null;
+  let sceneryReady = false, frames = 0, time = 0;
   scenery.ready.then(() => { sceneryReady = scenery.allLoaded(); });
 
   // ground, mud and holes repainted over a far tire's sunk bottom
-  vehicles.farLip = (x, half, rise) => drawFarLip(scene, x, half, rise, (lo, hi) => mud.surfaceOnly(lo, hi, scene.season.render.road ? () => props.drawHoles() : null));
-
-  function drawRefueling() {
-    if (!refueling) return;
-    const { ctx } = view, { source, target, elapsed, progress } = refueling;
-    const port = v => v.parts.truck.getWorldPoint(sim.V(...(v.car.rig.refuelPoint ?? [-v.car.rig.nose * 0.45, 0.9])));
-    const a = port(source), b = port(target), sag = Math.min(a.y, b.y) - 0.55;
-    ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    const hose = () => { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.bezierCurveTo(a.x, sag, b.x, sag, b.x, b.y); };
-    hose(); ctx.strokeStyle = '#171c18'; ctx.lineWidth = 0.085; ctx.stroke();
-    hose(); ctx.strokeStyle = '#59685b'; ctx.lineWidth = 0.045; ctx.stroke();
-    ctx.setLineDash([0.12, 0.2]); ctx.lineDashOffset = -elapsed * 1.1;
-    hose(); ctx.strokeStyle = '#a6d57a'; ctx.lineWidth = 0.025; ctx.stroke(); ctx.setLineDash([]);
-    for (const p of [a, b]) { ctx.fillStyle = '#c3b678'; ctx.beginPath(); ctx.arc(p.x, p.y, 0.065, 0, Math.PI * 2); ctx.fill(); }
-    const y = b.y + 1.1, w = 1.7;
-    ctx.fillStyle = 'rgba(10,22,17,.85)'; ctx.fillRect(b.x - w / 2 - 0.04, y - 0.04, w + 0.08, 0.21);
-    ctx.fillStyle = '#62d24b'; ctx.fillRect(b.x - w / 2, y, w * progress, 0.13);
-    ctx.restore();
-  }
+  vehicles.farLip = (x, half, rise) => drawFarLip(scene, x, half, rise, (lo, hi) => { mud.surfaceOnly(lo, hi, scene.season.render.road ? () => props.drawHoles() : null); props.stationBays(); });
 
   function draw(dt, playing) {
     const { ctx, W, H, DPR } = view;
@@ -70,18 +52,17 @@ export function createRenderer({ view, sim, content, onEvent }) {
     props.drawBehind(); bridges.draw(); drawWaterBack(scene, time);
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
-    drawFrontLip(scene); props.drawLogEnds(); mud.foreground(); bridges.drawFront(); drawRefueling();
+    drawFrontLip(scene, props.stationBays); props.drawLogEnds(); mud.foreground(); bridges.drawFront();
     drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
-    props.drawFront(); drawForegroundShade(scene);
+    props.drawFront(); props.drawPowerups(); drawForegroundShade(scene);
     frames++;
   }
 
   return {
     draw,
     flash: on => vehicles.flash(on),
+    hitGlow: () => vehicles.hitGlow(),
     warmVehicles: items => vehicles.warm(items),
-    setRefueling(job) { refueling = job; },
-    get refueling() { return refueling; },
     get ready() { return sceneryReady && vehicles.ready; },
     get frames() { return frames; },
     get water() { return particles.water; },

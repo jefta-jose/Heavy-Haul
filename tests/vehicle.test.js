@@ -2,7 +2,9 @@
 // drivetrain feel, 4x4 / DIFF effect in mud, obstacles and trail stability.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { content, newSim, spawn, advance } from './helpers.js';
+import { content, newSim, spawn, advance, DT } from './helpers.js';
+import { drawnBodyLift } from '../src/physics/vehicle.js';
+import { WHEEL_RISE_MAX_SHARE } from '../src/game-config.js';
 
 const { car } = content;
 const speedAfter = (sim, seconds) => { advance(sim, seconds); return sim.st.speed * 3.6; };
@@ -16,6 +18,17 @@ test('settles upright with every wheel in its painted arch', () => {
     assert(Math.abs(p.x - car.rig.axles[i]) < 0.025, 'wheel stays under its arch');
     assert(Math.abs(p.y - car.rig.wheelY[i]) < 0.08, 'spring settles at the registered ride height');
   });
+});
+
+test('a wheel never looks to climb out of its arch: the body is drawn lifted over it', () => {
+  const rig = { axles: [6, 3, -5], radius: 0.8 }, cap = 0.8 * WHEEL_RISE_MAX_SHARE;
+  assert.deepEqual(drawnBodyLift(rig, [cap, 0, -0.2]), { lift: 0, tilt: 0 }, 'wheels within the limit leave the body alone');
+  for (const rises of [[0.5, 0, 0], [0, 0, 0.6], [0.5, 0.4, -0.1], [0.7, 0.1, 0.5]]) {
+    const { lift, tilt } = drawnBodyLift(rig, rises);
+    rises.forEach((r, i) => assert(r - (lift + tilt * rig.axles[i]) <= cap + 1e-9, `axle ${i} stays in its arch for ${rises}`));
+  }
+  const { lift, tilt } = drawnBodyLift(rig, [0.5, 0, 0]);
+  assert(Math.abs(lift + tilt * -5) < 1e-9 && tilt > 0, 'a high front wheel rocks the body about the far axle');
 });
 
 test('suspension articulates and settles after a hit', () => {
@@ -71,14 +84,11 @@ test('makes progress through every kind of section', () => {
   }
 });
 
-test('a car carries its load: heavier, and it burns more fuel climbing', () => {
+test('a car carries its load: it adds to its mass', () => {
   const mesa = content.cars.find(c => c.id === 'mesa-coyote-8');
   if (!mesa) return;
-  const burn = car => { const s = spawn(newSim(car), 470, { gear: 'L' }); const f0 = s.st.fuel; s.ctl.gas = 1; advance(s, 8); return f0 - s.st.fuel; };
-  const empty = { ...mesa, physics: { ...mesa.physics, load: undefined } };
   const s = newSim(mesa); s.init(30);
   assert(s.truck.getMass() > mesa.physics.mass, 'the load adds to the chassis mass');
-  assert(burn(mesa) > burn(empty), 'climbing with the load burns more fuel');
 });
 
 // the main truck's breakdown truck, or (until its art exists) the nearest class's as a stand-in for
@@ -143,13 +153,13 @@ test('a service truck is the most powerful of its class but not the fastest', ()
     assert(pull(svc) > pull(c), `${svc.name} pulls harder than the ${c.name}`);
 });
 
-test('every class has a fuel truck and a breakdown truck, bigger class by class', () => {
-  const { classes, service } = content.roster;
-  const last = { fuel: 0, breakdown: 0 };
+test('every class has a breakdown truck, bigger class by class, and fuel trucks are gone', () => {
+  const { classes, service } = content.roster; let last = 0;
+  assert(!service.some(s => s.role === 'fuel'), 'no fuel trucks');
   for (const cls of classes) {
     const mine = service.filter(s => s.class === cls.id);
-    assert.deepEqual(mine.map(s => s.role).sort(), ['breakdown', 'fuel'], `${cls.name}: one of each`);
-    for (const s of mine) { assert(s.massT >= last[s.role], `the ${cls.name} ${s.role} truck is at least as big as the class before`); last[s.role] = s.massT; }
+    assert.deepEqual(mine.map(s => s.role), ['breakdown'], `${cls.name}: one breakdown truck`);
+    assert(mine[0].massT >= last, `the ${cls.name} one is at least as big as the class before`); last = mine[0].massT;
   }
 });
 
@@ -161,14 +171,6 @@ test('the winch is strong on its own class and weak on any other', () => {
   else assert(F < 0.5 * (s.vehicleMass(main) + s.loadMass(main)) * 9.81 * 0.7, `cross-class pull is only a share of what the ${main.car.name} needs (${Math.round(F)} N)`);
   const own = content.service.find(c => c.class === main.car.class && c.role === 'breakdown');
   if (own) { const o = serviceAhead(s, own, 20); s.setActive(o); assert.equal(s.winchForce(main), own.physics.winchForce, 'its own class gets the full winch'); }
-});
-
-test('fuel trucks only refuel: no winch', () => {
-  const fuel = content.service.find(c => c.role === 'fuel');
-  const s = spawn(newSim(), 60), v = serviceAhead(s, fuel, 3);
-  assert(!s.canWinch(v), 'a fuel truck has no winch');
-  assert.equal(s.toggleWinch(v).reason, 'no-winch');
-  assert.equal(s.nearestHook(v), null);
 });
 
 test('service trucks never run out of fuel', () => {
@@ -196,19 +198,6 @@ test('the winch hook only reaches a vehicle within 5 m', () => {
   assert(Math.abs(main.parts.truck.getPosition().x - x0) < 0.2, 'driving off without a hook tows nothing');
 });
 
-test('a service truck can tow another service truck', () => {
-  const wrecker = content.service.find(c => c.role === 'breakdown'), fuel = content.service.find(c => c.role === 'fuel');
-  const s = spawn(newSim(), 60);
-  const f = serviceAhead(s, fuel, 8), x0 = f.parts.truck.getPosition().x;
-  const front = f.parts.truck.getWorldPoint(s.V(f.car.rig.winch[0], 0)).x;
-  const w = s.spawnService(wrecker, front + 3 - wrecker.rig.towRear); advance(s, 2);
-  s.setActive(w); Object.assign(w.ctl, { gear: 'L', awd: true, diff: true });
-  const r = s.toggleWinch();
-  assert(r.ok && r.target === f, 'hooks the nearest vehicle: the fuel truck');
-  w.ctl.gas = 1; advance(s, 6);
-  assert(f.parts.truck.getPosition().x - x0 > 3, 'the fuel truck is towed along');
-});
-
 test('the engine switch: off means no drive and no fuel burn; starting cranks first', () => {
   const s = spawn(newSim(), 60), x0 = s.truck.getPosition().x, f0 = s.st.fuel;
   s.stopEngine(); s.ctl.gas = 1; advance(s, 3);
@@ -230,4 +219,46 @@ test('the handbrake holds the truck on a slope and against the throttle', () => 
   assert(Math.abs(s.truck.getPosition().x - x0) < 0.15, 'held against full throttle');
   s.ctl.handbrake = false; advance(s, 3);
   assert(s.truck.getPosition().x > x0 + 2, 'released, it drives');
+});
+
+test('hitting a solid obstacle at speed damages the truck, and a damaged truck is slower', () => {
+  const run = content.season.trail.obstacleRuns.find(r => r.kind === 'pipe');
+  const ram = kmh => { const s = spawn(newSim(), run.x - 8), v = kmh / 3.6; for (const b of [s.truck, ...s.wheels]) b.setLinearVelocity(s.V(v, 0)); advance(s, 2); return s.st.damage; };
+  assert.equal(ram(6), 0, 'a slow crawl over it does no harm');
+  assert(ram(40) > 0, 'a fast hit does');
+  const metres = damage => { const s = spawn(newSim(), content.season.trail.start, { gear: 'H', awd: true, diff: false }), x0 = s.truck.getPosition().x; s.st.damage = damage; s.ctl.gas = 1; advance(s, 6); return s.truck.getPosition().x - x0; };
+  assert(metres(90) < metres(0) * 0.85, 'a badly damaged truck covers less ground');
+  const s = spawn(newSim(), content.season.trail.start); s.st.damage = 100; advance(s, 0.1);
+  assert.equal(s.st.engine, 'off', 'at 100% the engine dies');
+});
+
+test('automatic gears: short gear from rest, long gear at speed, and the brake reverses at a standstill', () => {
+  const s = spawn(newSim(), content.season.trail.start, { gear: 'L' }); s.ctl.auto = true; s.ctl.gas = 1;
+  const seen = new Set(); for (let i = 0; i < 120 * 12; i++) { s.step(DT); seen.add(s.ctl.gear); }
+  assert(seen.has('L') && seen.has('H'), `shifted through ${[...seen]}`);
+  const r = spawn(newSim(), 3300, { gear: 'L' }); r.ctl.auto = true; r.ctl.brake = 1; const x0 = r.truck.getPosition().x; advance(r, 4);
+  assert.equal(r.ctl.gear, 'R', 'holding the brake at a stop selects reverse');
+  assert(r.truck.getPosition().x < x0 - 1, 'and the truck backs up');
+  r.ctl.brake = 0; r.ctl.gas = 1; advance(r, 4);
+  assert.notEqual(r.ctl.gear, 'R', 'the gas pedal goes forward again');
+});
+
+test('a bog never damages the truck, whatever the gear', () => {
+  const s = spawn(newSim(), content.season.trail.heavyMud[0], { gear: 'H' }); s.ctl.gas = 1; advance(s, 3);
+  assert.equal(s.st.damage, 0);
+});
+
+test('stopped in a station bay a truck refuels and repairs; driving through does not; fuel burns over time', () => {
+  const st = content.season.trail.stations[0], s = spawn(newSim(), st.x); s.ctl.gear = 'L'; s.st.fuel = 20; s.st.damage = 60;
+  advance(s, 2);
+  assert(s.st.filling && s.st.fuel > 40 && s.st.damage < 60, 'filling and repairing');
+  advance(s, 12);
+  assert.equal(s.st.fuel, 100); assert.equal(s.st.damage, 0);
+  assert(!s.st.filling, 'done');
+  const m = spawn(newSim(), st.x - 3); m.st.fuel = 50; m.ctl.gas = 1; advance(m, 2);
+  assert(m.st.fuel < 50, 'with the gas down it does not fill');
+  const idle = spawn(newSim(), content.season.trail.start), f0 = idle.st.fuel; advance(idle, 10);
+  assert(idle.st.fuel < f0, 'a running engine burns fuel while standing still');
+  const off = spawn(newSim(), content.season.trail.start); off.stopEngine(off.main); const f1 = off.st.fuel; advance(off, 10);
+  assert.equal(off.st.fuel, f1, 'a stopped engine does not');
 });

@@ -1,5 +1,5 @@
 {
- "about": "HUD icons are 24×24 SVG files in icons/ (currentColor, simple strokes). Garage and menu art are painted PNG masters in source/, encoded to art/.",
+ "about": "HUD icons are 24\u00d724 SVG files in icons/ (currentColor, simple strokes). Garage and menu art are painted PNG masters in source/, encoded to art/. Only what is listed here goes in the build.",
  "icons": [
   {
    "id": "class-scout",
@@ -50,10 +50,6 @@
    "brief": "tire icon for giant tires"
   },
   {
-   "id": "summon-fuel",
-   "brief": "fuel truck call button"
-  },
-  {
    "id": "summon-breakdown",
    "brief": "breakdown truck call button"
   },
@@ -84,14 +80,82 @@
  ],
  "art": [
   {
-   "id": "garage-background",
-   "file": "source/garage-background-v1.png",
-   "brief": "wide painted interior of a big muddy truck garage with tools, tires and a turntable floor, warm lights, empty centre for the vehicle, matching the Swamp Scout style, opaque"
+   "id": "g2-coin",
+   "file": "source/g2-coin.png",
+   "width": 200,
+   "quality": 90
   },
   {
-   "id": "garage-turntable",
-   "file": "source/garage-turntable-v1.png",
-   "brief": "side view of a round steel vehicle turntable platform, transparent"
+   "id": "g2-icon-engine",
+   "file": "source/g2-icon-engine.png",
+   "width": 240,
+   "quality": 90
+  },
+  {
+   "id": "g2-icon-suspension",
+   "file": "source/g2-icon-suspension.png",
+   "width": 240,
+   "quality": 90
+  },
+  {
+   "id": "g2-icon-speed",
+   "file": "source/g2-icon-speed.png",
+   "width": 240,
+   "quality": 90
+  },
+  {
+   "id": "g2-icon-grip",
+   "file": "source/g2-icon-grip.png",
+   "width": 240,
+   "quality": 90
+  },
+  {
+   "id": "g2-orb-engine",
+   "file": "source/g2-orb-engine.png",
+   "width": 256,
+   "quality": 90
+  },
+  {
+   "id": "g2-orb-suspension",
+   "file": "source/g2-orb-suspension.png",
+   "width": 256,
+   "quality": 90
+  },
+  {
+   "id": "g2-orb-speed",
+   "file": "source/g2-orb-speed.png",
+   "width": 256,
+   "quality": 90
+  },
+  {
+   "id": "g2-orb-grip",
+   "file": "source/g2-orb-grip.png",
+   "width": 256,
+   "quality": 90
+  },
+  {
+   "id": "g2-burst",
+   "file": "source/g2-burst.png",
+   "width": 420,
+   "quality": 90
+  },
+  {
+   "id": "g2-wreck",
+   "file": "source/g2-wreck.png",
+   "width": 460,
+   "quality": 90
+  },
+  {
+   "id": "g2-trophy",
+   "file": "source/g2-trophy.png",
+   "width": 460,
+   "quality": 90
+  },
+  {
+   "id": "garage-bay",
+   "file": "source/garage-bay-v1.png",
+   "width": 1672,
+   "quality": 88
   }
  ]
 }

@@ -37,6 +37,7 @@ Aim for at least 1500 pixels on the long side.
 | Road surfaces | `ground`, `wetmud`, `granite` or the season's own | Square tile | Opaque, top-down |
 | Deep bog | `deepMud` | Square or 2:1 tile | Opaque, top-down |
 | Mud hole | `mudHole` | 2:1 | Transparent |
+| Fuel station | `fuelStation` | 3:2 | Transparent |
 | Roadside plant | `reeds` | Square | Transparent |
 | Rock | `rock` | 2:1 | Transparent |
 | Round obstacles | `logCrossing`, `corduroyLog`, `rottenLog`, `pipe`, `oilDrum` | 2:1 | Transparent |
@@ -97,6 +98,17 @@ Style: rich, hand-painted, gritty game art, simple and understated. No text.
 **Road surface or deep bog tile**
 ```
 Top-down orthographic seamless [material] texture, uniform scale and soft even lighting. Fine natural variation, no perspective, horizon, large landmarks, road borders, cast shadows or text. Both pairs of opposite edges must connect. For deep bog: visibly darker, wetter and softer than the normal surface, matte, with no sky reflections or bright glints.
+```
+
+**Fuel station**
+```
+Create a single game prop on a truly transparent background (real alpha, no checkerboard, no ground, no shadow outside the shape): a small roadside fuel and repair stop for trucks in a [season and biome], seen in a flat straight-on side view with no perspective.
+
+Subject: a simple open canopy on two posts over one old fuel pump, with a small workshop shed to one side, a stack of tires, oil drums and a tool rack. Built from [local materials], weathered and lived in, with [season's plants or snow] growing around its base. A bright, cheerful [accent colour] canopy makes it easy to spot from far away.
+
+All of it stands on one straight, level base line at the bottom of the object, so it can sit on a road edge. The space under the canopy stays open so a truck can be seen through it. No vehicles, no people, no text, no logos, no numbers, no ground slab.
+
+Style: clean painted game illustration, bright and full of life, with readable shapes and soft, even light. It should match the [season]'s background.
 ```
 
 **Rock, obstacle, mud hole or plant**

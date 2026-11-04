@@ -1,10 +1,67 @@
 {
-  "about": "Loading screens: a painted background per moment, and the progress bar's frame and fill. Encoded small (width, quality) and cropped to the art (crop = left, top, right, bottom in source pixels) because they must show at once. The PNGs here are the masters.",
+  "about": "Loading screens: slides (a painted background per moment), the mud rut the wheel rolls along, the launch wheel, and the driving tips shown under the slides. Encoded small (width, quality) and cropped to the art (crop = left, top, right, bottom in source pixels) because they must show at once. The PNGs are the masters.",
   "art": {
-    "launch": { "source": "Amber Dawn Logging Truck in the Swamp.png", "file": "art/launch.webp", "width": 1280, "quality": 72 },
-    "drive": { "source": "Misty Cypress Swamp Trail at Sunrise.png", "file": "art/drive.webp", "width": 1280, "quality": 72 },
-    "garage": { "source": "Rainy Twilight Garage Workshop in the Marsh.png", "file": "art/garage.webp", "width": 1280, "quality": 72 },
-    "bar-frame": { "source": "Rusty Industrial Hazard Progress Bar.png", "file": "art/bar-frame.webp", "crop": [48, 274, 2125, 451], "width": 1040, "quality": 85 },
-    "bar-fill": { "source": "Weathered Amber Hazard Stripe Bar.png", "file": "art/bar-fill.webp", "crop": [7, 322, 2165, 402], "width": 960, "quality": 85 }
-  }
+    "launch": {
+      "source": "Amber Dawn Logging Truck in the Swamp.png",
+      "file": "art/launch.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "drive": {
+      "source": "Misty Cypress Swamp Trail at Sunrise.png",
+      "file": "art/drive.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "garage": {
+      "source": "Rainy Twilight Garage Workshop in the Marsh.png",
+      "file": "art/garage.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "winch": {
+      "source": "source/slide-winch.png",
+      "file": "art/winch.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "fuel": {
+      "source": "source/slide-fuel.png",
+      "file": "art/fuel.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "bog": {
+      "source": "source/slide-bog.png",
+      "file": "art/bog.webp",
+      "width": 1280,
+      "quality": 72
+    },
+    "rut": {
+      "source": "source/rut-track.png",
+      "file": "art/rut.webp",
+      "crop": [
+        4,
+        268,
+        2168,
+        461
+      ],
+      "width": 1100,
+      "quality": 85
+    },
+    "wheel": {
+      "source": "../cars/swamp-scout-4/source/wheel-v2.png",
+      "file": "art/wheel.webp",
+      "width": 256,
+      "quality": 85
+    }
+  },
+  "tips": [
+    "Stuck in a bog? Drop to L and switch on 4×4 and DIFF before you call for help.",
+    "The breakdown truck comes from the start of the trail, and you can call it once per run.",
+    "Back the breakdown truck within 5 m of a stuck rig, tap WINCH to hook it, then drive away to tow it.",
+    "Fuel stations refuel and repair your truck. The trip line shows how far the next one is.",
+    "Coins add up as you go: new ground, things you crush and deep bogs you clear all pay.",
+    "Upgrades are saved per truck, and selling a step back refunds it."
+  ]
 }

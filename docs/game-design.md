@@ -26,8 +26,7 @@ A rig with a trailer drawn in is one rigid body with all its axles, and every ax
 
 ## Garage
 
-Pick a car. Locked silhouettes show the roster still to come. The card shows class, tier, tires,
-the load and the gross weight. Delivering pays the trail bonus plus the load's value.
+A dark truck bay with the chosen car parked on the floor and its name at its wheels. Every car parks in the same box whatever its length, and the previous and next buttons either side of it never move. Across the top: the four seasons, the classes, then the class's cars (locked entries for what is still to come); the arrows on that row only scroll it. A bar along the floor always shows the car's spec numbers and upgrade levels, with Drive at the end. The menu at the side pops up the Upgrades card (the tuning knobs) and the Sound card over the garage. Delivering pays the trail bonus plus the load's value.
 
 ## Tuning
 
@@ -53,22 +52,19 @@ they do not change the physics.
 
 ## Fuel
 
-Burn follows engine power. 4×4 adds about 8%. Climbing multiplies it (up to ×4 on steep grades),
-and so does the load (`1 + 1.5 × load / empty mass`). The burn is in litres and comes out of the car's
-own tank (`drivetrain.fuelLitres`), so a bigger tank lasts longer. The card's `stats.fuelEfficiency`
-scales it: 70 is the reference, and every 40 points halves or doubles the burn (90 burns ×0.71, 45 burns
-×1.54). The only way to refill is the fuel truck: there are no fuel stations on the trail.
+Fuel burns over time, not distance: a full tank lasts about 340 seconds at full gas, less burn at idle, none with the engine off. Being stuck drains the tank. A better engine and the card's `stats.fuelEfficiency` make it last longer.
+
+**Fuel stations** are the only way to refill. There are five on the swamp trail, marked on the progress bar, with the distance to the next one always on screen. Stop in a station's marked bay and the truck refuels and repairs together, over a few seconds; leave early and you keep what you got. A towed truck counts too, and its engine restarts by itself. All the numbers are in `src/game-config.js`.
 
 ## Service trucks
 
-There are no winch posts and no damage: trucks never break, and nothing needs repairing. Every class
-has two service trucks (`cars.json` → `service`), bigger, stronger and differently painted and shod
+There are no winch posts. Trucks take damage from hard hits and from straining the long gear in a bog; see Damage below. Every class
+has a breakdown truck (`cars.json` → `service`), bigger, stronger and differently painted and shod
 class by class, from scout-sized pickups to 10×10 mining giants:
 
-- **Fuel truck** (top-bar fuel button): only refuels. It has no winch.
 - **Breakdown truck** (top-bar breakdown button): only winches and tows.
 
-The buttons call the main truck's own class's trucks. Each can be called **once per run**, and it
+The button calls the main truck's own class's truck. It can be called **once per run**, and it
 starts at the **beginning of the trail**: the player drives it all the way out to the main truck.
 After that the button switches to it (a green dot marks it), and tapping it again while driving it
 returns to the main truck. Calling is free.
@@ -89,11 +85,11 @@ greyed out and says "Not available"; no other class's truck is sent instead.
    rear, one behind from its front). The cable is a stiff, tension-only spring capped at the winch's
    force, and both vehicles feel it. A towed vehicle's parking brake and engine braking let go so it
    rolls. Tap WINCH again to unhook.
-3. Stopped next to the truck, the fuel truck's action button offers **Refuel truck**.
+3. Tow the truck into a fuel station's bay to refuel and repair it. This is the way out when the tank is dry or the damage is getting close to 100%, so tow early.
 4. Control returns to the main truck. The service truck **stays parked** where it was left.
    **V** or the swap button switches vehicles at any time.
 
-A truck that rolls over is towed back to the last checkpoint for a fee, or the run restarts.
+A truck that rolls over, or reaches 100% damage, ends the run: it restarts from the beginning of the trail.
 
 ## Sound, engine and handbrake
 
@@ -145,3 +141,23 @@ Every map follows Blackwater Swamp: a simple, living background, a thick road th
 ## Truck sizes
 
 No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits them all. The heavy class has no trucks in the game right now: its art, the Ice Breaker's and ten highway trucks' were deleted on 2026-11-04, and they will be redrawn within that cap. Their wheels have to make sense for the truck and load (the hard rule in `AGENTS.md`).
+
+## Damage
+
+Hitting a solid obstacle at speed damages the truck: a red glow, a damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+
+## Controls
+
+The player has gas, brake, 4×4 and DIFF. Gears shift themselves: the short gear from rest, the long gear once it runs out of revs. Holding the brake at a stop starts reversing. Each class has a minimum pull, so no truck feels dead. All the numbers are in `src/game-config.js`.
+
+## Coins
+
+Coins add themselves: 0.5 per metre of new ground, 5 per thing crushed, 50 per deep bog cleared, plus the delivery pay at the depot. They are kept when a run ends early. They buy upgrades in the garage: four steps of 400, 800, 1,400 and 2,400, costing more on bigger classes, and selling a step refunds it. All the numbers are in `src/game-config.js`.
+
+## Superpowers
+
+Pickups on the trail (`trail.powerups` in `season.json`) give 12 seconds of an upgrade at full, or about double if that upgrade is already full. They sit where they are useful: Engine before steep climbs, Suspension before obstacle runs, Speed on open road, Grip before deep bogs. While any power is running, hits do no damage and do not throw the truck, so a power never gets you hurt. A violet glow around the truck shows this, and it flickers for the last 3 seconds. Several can run at once, a second of the same kind fills the timer back up, and a towed truck picks nothing up. Each pickup works once per run. Only the main truck uses them. The numbers are in `src/game-config.js`.
+
+## Garage, screens and music
+
+The garage art is listed in `assets/hud/hud.json`; every entry reaches the style sheet as `--hud-<id>`. Heavy trucks, heavy screens: nothing in the garage bounces or gleams, and it moves slowly or not at all. Loading screens (`src/game/loader.js`, `assets/loaders/loaders.json`) show panning slides, a fact (the rig and trail after DRIVE, else a driving tip from `tips`), and the truck's own wheel rolling along a mud rut as the progress bar; a tap skips the wait once loading is done. The loading screen fades in over the garage on DRIVE and fades out to it on the way back. Two music tracks in `assets/audio/music/` play one at a time, garage and road, with their own Music volume; their settings are in `src/game-config.js`.

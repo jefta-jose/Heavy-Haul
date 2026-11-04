@@ -12,15 +12,16 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 ## Ground rules
 
+- **Tuning lives in one file:** `src/game-config.js`, one setting per line. Add new gameplay numbers there. Damage is described in `docs/game-design.md`.
+
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add
   engine features only when the data cannot express something, and keep them generic.
 - **Every car carries its load as part of its own art and mass.** There are no separate trailers
   or loads to combine, loads never fall off, and loads are not animated (animated load layers were
   tried and dropped on 2026-10-29). A tractor and its semi-trailer, or a prime mover and
   its lowbed, are one image and one rigid body with all their axles.
-- Winching belongs to the breakdown trucks: there are no winch posts, and there is no damage or
-  repair. Each class has a fuel truck (refuels only, no winch) and a breakdown truck (winches only).
-  The top-bar buttons call the main truck's class's pair, once per run each, from the start of the
+- Winching belongs to the breakdown trucks: there are no winch posts. Each class has a breakdown truck; fuel trucks were removed on 2026-11-04, and refuelling and repairs happen at fuel stations (`trail.stations`).
+  The top-bar button calls the main truck's class's one, once per run, from the start of the
   trail; afterwards they switch to them. Back the breakdown truck within 5 m, tap WINCH to hook the
   nearest vehicle, and drive away to tow it. The cable never reels in. Service trucks never get stuck
   and never run out of fuel.
@@ -42,12 +43,46 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 ## Hook up a car
 
+### Hard rule: integrate efficiently
+
+- Work only on the requested cars. Reuse accepted art, existing car templates, measured hubs
+  and saved registrations. Do not regenerate art during integration unless the user requests
+  it or a specific visible defect prevents a usable result. Native 1254 px wheel sprites are
+  already accepted; do not spend tokens revisiting that exception.
+- Review each changed asset once and save measurements. Correct small placement drift with
+  the existing export registration; do not repeatedly reread full documents or remeasure
+  unchanged assets. Check cab/fender/mirror construction against AGENTS.md before integration.
+- Encode only the requested/changed cars with `--cars ... --method 2`; never run a full-library
+  export for a car-only change. Do not re-encode unchanged assets during tuning.
+- Use a short loaded-driving check to catch setup problems, then run the required checks once
+  on the finished batch. Re-run only checks affected by a new fix or an unresolved failure.
+  Inspect failures before repeating commands; distinguish pre-existing failures from regressions
+  and do not expand into unrelated repairs. Save logs and report concise results instead of
+  streaming large files, base64 images or repeated test output into the conversation.
+- Playable cars appear on existing maps through the garage automatically. Do not edit map,
+  renderer or engine code merely to add a car if data and the existing pipeline suffice.
+
+### Integration steps
+
 1. **Review the drop** in `source/`: master, body and wheel exist; body and master have identical
    dimensions; the wheel is square and centred; transparency is real, with no halo, checkerboard or
    ground; and every vehicle image passes the **flat side profile** hard rule in AGENTS.md (equal round
    tires on one level line, rims centred, no far-side tires, no visible cab front, nothing touching the
    canvas edge). It must also pass the **wheels that make sense** hard rule there: wheels under the load, close tandems, never one lone axle at the end of a long trailer. Look at every image. If one is wrong, write the exact re-generation request for Codex,
    naming the rule it broke, and stop.
+   **Hard gate:** require the measured validation record from AGENTS.md's "validate one set before
+   spending on a batch" rule. Masters and bodies need a long side of at least 1500 px. Square road
+   wheels need at least 1500 px per side, **except native 1254 × 1254 px built-in generator wheels,
+   accepted by the user on 2026-11-04**. Do not regenerate or upscale wheels solely for this size.
+   All other art checks still apply, and measured length including load must fit 16.8 m.
+   Verify body registration as well as dimensions. Prompt claims and a pile of generated files do
+   not count as passed review. Never encode, register or mark a failed set playable. Resolve a
+   recurring generator limitation on one set before requesting another batch.
+   For small source placement drift or transparent-margin differences, a measured
+   `art.body.registration` (`canvas` plus output-to-source affine `matrix`) may align the runtime
+   body to the master during encoding. Preserve the PNG originals; preview-car.py uses that same
+   transform. Validate the registered body and wheel fit before marking it playable. This fixes
+   registration, and does not excuse perspective, missing equipment or incorrect axle counts.
 2. **Measure** the body: hub centres, the fender flare's inner edge (fit `archCircles` `[x, y, r]` in
    body pixels), the ground line and the body length. Choose `pixelsPerMetre` from `lengthM` in
    `cars.json`. Measure the wheel's pivot and artwork radius (tire edge, not canvas margin).
@@ -81,21 +116,25 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
      `backupAlarm` override the class's. Never replace recordings with synthesis. See
      `assets/audio/README.md`.
-   - service trucks also get `class` (the class they serve), `role` (`fuel` / `breakdown`), `size`,
+   - service trucks also get `class` (the class they serve), `role` (`breakdown`), `size`,
      `rig.towRear` (the rear winch point) and `physics.neverStuck: true`; breakdown trucks also
-     `towMassT` and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`). Fuel trucks have no
-     winch. Tune them to out-pull every car
+     `towMassT` and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`). Tune them to out-pull every car
      of their class in L but stay slower than its fastest (`npm test` checks the roster and the pits).
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
    the approved feel: brisk take-off, smooth drive, and 4×4 / DIFF clearly felt in mud. Heavier
    classes are slower but must still clear the trail with L, 4×4, DIFF and their own class's
    breakdown-truck winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
+   **For a car-only drop, scope the export:** `npm run art:encode -- --cars <id> <id> --method 2`.
+   This retains quality 94 and source dimensions while reducing compression effort; it skips
+   unrelated cars, seasons and HUD art. Reuse measured registrations and run checks once after
+   the batch. Regenerate only an actual visible defect, never an accepted resolution exception
+   or placement drift that can be corrected and verified at export.
 6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
    the car's `camera.zoom` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
-Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a fuel
-and a breakdown truck per class) are hooked up the same way; once playable, the top-bar buttons call
+Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a breakdown
+truck per class) are hooked up the same way; once playable, the top-bar buttons call
 them for their class (until then the class's button is greyed out and says "Not available").
 
 `tools/art/measure-vehicle.py <folder> --preview out.png` finds the wheel circles (pixels in the
@@ -112,6 +151,10 @@ collision boxes from those circles (`--hubs x,... --hub-y Y --tire-px R` when ti
 box sits at the body's lowest edge: raise it to about one tire radius above the hubs for anything long,
 or the rig bellies out on crests and the pipe runs. Tires under about 1.3 m cannot climb the swamp trail's pipes: pick `pixelsPerMetre`
 so the drawn tires reach that size.
+
+## Garage and loading screens
+
+Heavy, dark and SnowRunner-inspired, on the user's direction (2026-11-04): an arcade look with rays, gloss and bouncing was built and rejected as wrong for the name Heavy Haul. Keep motion slow, and keep the empty space filled: seasons, classes and cars across the top, specs and Drive on the bar along the floor. See `docs/game-design.md`.
 
 ## Rosters
 

@@ -10,11 +10,12 @@ import json
 import sys
 from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw
+from registration import registered_image
 
 folder, out = Path(sys.argv[1]), sys.argv[2]
 car = json.loads((folder / 'car.json').read_text())
 rig = car['rig']
-body = Image.open(folder / car['art']['body']['source']).convert('RGBA')
+body = registered_image(Image.open(folder / car['art']['body']['source']).convert('RGBA'), car['art']['body'])
 wheel = Image.open(folder / car['art']['wheel']['source']).convert('RGBA')
 ppm, (ox, oy) = rig['pixelsPerMetre'], rig['bodyOrigin']
 scales = rig.get('wheelScale') or [1] * len(rig['axles'])

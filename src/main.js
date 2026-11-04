@@ -7,17 +7,18 @@ import { createView, zoomFor } from './game/view.js';
 import { createInput } from './game/input.js';
 import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
-import { createGarage } from './game/garage.js';
+import { createGarage, grossTonnes } from './game/garage.js';
+import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
+import { COINS_PER_CRUSH } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
-// car and drives the fixed-step game loop. During a run the player can call the class's fuel truck
-// and breakdown truck once each: they start at the beginning of the trail and are driven out to the
-// main truck, the fuel truck to refuel it, the breakdown truck to hook its winch and tow it free.
-// After that the buttons switch between them; a service truck stays parked where it was left.
+// car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
+// once: it starts at the beginning of the trail and is driven out to the main truck, to hook its winch and tow
+// it to a fuel station. After that its button switches to it; it stays parked where it was left.
 // Content comes from tools/build.js: the JSON is on the page, the artwork and audio are data URIs in
 // the one-file build and relative file paths in the app build.
 
@@ -29,7 +30,7 @@ import { createHaptics } from './game/haptics.js';
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
 const { season, rockHulls, wheelTypes } = content;
-const loader = createLoader();
+const loader = createLoader({ tips: content.loaderTips });
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps
 const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
@@ -39,28 +40,33 @@ const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank
 const haptics = createHaptics();
 // hard hits felt in the hand as well as heard (the audio detects them from the suspension)
 { const bump = audio.bump; audio.bump = (strength, massT) => { haptics.hit(strength); bump(strength, massT); }; }
+const music = createMusic(content.music, audio.volumes);
+music.play('garage');
+{ const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); }; }
 const hud = createHud({ sim, season });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
-    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); }
+    else if (e.type === 'power') { haptics.hit(0.4); }
+    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') session.earn(COINS_PER_CRUSH, true); }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
+    else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
 const garage = createGarage({
   content,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
+  onBuy: () => haptics.tick(),
 });
 const session = createSession({ sim, hud, season, onRestart: () => newRun(), onGarage: () => backToGarage() });
-session.onRecover = x => { sim.respawn(x); view.snap(); setGear('H'); };
 session.onResume = () => audio.resume();
 session.onCall = role => summon(role);
 session.canCall = role => !!called[role] || !!serviceFor(role);
 
 let selection = garage.selection;
-let refueling = null, returnVehicle = null;
+let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
@@ -76,7 +82,7 @@ const IN_APP = !!window.Capacitor?.isNativePlatform?.();
 if (IN_APP) document.getElementById('fsBtn').hidden = true;
 const showPause = () => {
   const E = hud.els, text = el => el.textContent.trim() || '–';
-  const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Use', `${text(E.useTxt)} ${E.avgTxt.textContent}`.trim()], ['Coins', text(E.coinTxt)]];
+  const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Next station', text(E.useTxt)], ['Coins', text(E.coinTxt)]];
   const buttons = IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
   session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
@@ -89,7 +95,6 @@ function resize() { view.resize(); hud.resizeGauges(view.DPR); }
 
 // ---------- vehicles: the main truck and summoned service trucks ----------
 function drive(v) {
-  stopRefueling();
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
   sim.setActive(v); view.setZoom(zoomFor(sim.main.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
@@ -100,14 +105,14 @@ function switchVehicle() {
   const i = sim.vehicles.indexOf(sim.active), next = returnVehicle ?? sim.vehicles[(i + 1) % sim.vehicles.length];
   drive(next); hud.toast(`Driving the ${next.car.name}`, 1.5);
 }
-// Each class has one fuel truck and one breakdown truck. A run can call each once: it starts at the
+// Each class has one breakdown truck. A run can call it once: it starts at the
 // beginning of the trail and has to be driven out to the main truck; after that its button switches
 // to it. A class whose truck has no art yet has none: its button is greyed out and says so.
 const className = id => content.roster.classes.find(c => c.id === id)?.name ?? id;
 const called = {};   // role -> the service vehicle called this run
 const serviceFor = role => content.service.find(c => c.role === role && c.class === sim.main.car.class);
-const roleName = role => role === 'fuel' ? 'fuel truck' : 'breakdown truck';
-// the fuel or breakdown button: call that truck the first time, switch to it afterwards (and back)
+const roleName = () => 'breakdown truck';
+// the breakdown button: call the truck the first time, switch to it afterwards (and back)
 function summon(role) {
   if (session.state !== 'play') return;
   const have = called[role];
@@ -115,23 +120,16 @@ function summon(role) {
   const car = serviceFor(role);
   if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName(role)} yet`, 2.5); return; }
   const main = sim.main, v = sim.spawnService(car, sim.startSpot(car));
-  v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
+  v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
   called[role] = v; hud.showCalled(role, true);
   const far = Math.round(sim.distance(v, main));
-  drive(v); hud.toast(`${car.name} is at the trail start, ${far} m away. ${role === 'fuel' ? 'Drive it to your truck to refuel.' : 'Drive it out, hook on, tow.'}`, 4.5);
-}
-// a fuel truck stopped next to the main one offers to refuel it
-function serviceJob() {
-  const v = sim.active, main = sim.main;
-  if (refueling || returnVehicle === main || v.role !== 'service' || v.car.role !== 'fuel' || session.state !== 'play') return null;
-  if (sim.distance(v, main) > 8 || Math.abs(v.st.speed) > 2 || Math.abs(main.st.speed) > 2) return null;
-  return main.st.fuel < 99.9 ? 'Refuel truck' : null;
+  drive(v); hud.toast(`${car.name} is at the trail start, ${far} m away. Drive it out, hook on, and tow your truck to a station.`, 4.5);
 }
 // tap WINCH: hook the nearest vehicle within reach, or unhook
 function winch() {
   if (session.state !== 'play') return;
   const v = sim.active;
-  if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'Fuel trucks have no winch. Call the breakdown truck to tow.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
+  if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'This truck has no winch.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
   const r = sim.toggleWinch(v), name = o => o === sim.main ? 'your truck' : `the ${o.car.name}`;
   if (r.ok && r.attached) haptics.hooked();
   if (r.ok) audio.hook(r.attached);
@@ -144,7 +142,7 @@ function engine() {
   if (session.state !== 'play') return;
   const v = sim.active;
   if (v.st.engine === 'off') {
-    if (v.st.fuel <= 0) { hud.toast('The tank is empty. Call a fuel truck.', 2); return; }
+    if (v.st.fuel <= 0) { hud.toast('The tank is empty. Call the breakdown truck to tow you to a station.', 2.5); return; }
     audio.key(); sim.startEngine(v); hud.hint('engine-on', `Starting the ${v.car.name}…`, 1.2);
   } else { audio.key(); sim.stopEngine(v); hud.hint('engine-off', 'Engine off', 1.2); }
 }
@@ -155,64 +153,42 @@ function handbrake() {
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
   hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
-function doServiceJob() {
-  if (!serviceJob()) return;
-  const v = sim.active, main = sim.main;
-  refueling = { source: v, target: main, startFuel: main.st.fuel, elapsed: 0, duration: 4, progress: 0 };
-  v.ctl.gas = main.ctl.gas = 0; v.ctl.brake = main.ctl.brake = 1;
-  renderer.setRefueling(refueling);
-  hud.showAction('Refueling… 0%', true);
-  hud.toast('Refueling your truck. Keep both vehicles parked.', 2.5);
-}
-
-function stopRefueling() {
-  refueling = null; renderer.setRefueling(null); hud.showAction(null);
-}
-function serviceComplete(message) {
-  returnVehicle = sim.main; hud.highlightSwitch(true);
-  hud.toast(`${message} Tap the glowing switch button to return to your truck.`, 4);
-}
-function updateRefueling(dt) {
-  if (!refueling) return;
-  const job = refueling;
-  if (sim.active !== job.source || sim.distance(job.source, job.target) > 8 || Math.abs(job.target.st.speed) > 2) {
-    stopRefueling(); hud.toast('Refueling stopped. Park nearby to continue.', 2.5); return;
-  }
-  job.elapsed = Math.min(job.duration, job.elapsed + dt);
-  job.progress = job.elapsed / job.duration;
-  job.target.st.fuel = job.startFuel + (100 - job.startFuel) * job.progress;
-  if (job.progress >= 1) { stopRefueling(); serviceComplete('Tank filled.'); }
-}
-
 const input = createInput(hud.els, {
-  gear: setGear, toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
 });
 
 function newRun() {
-  stopRefueling();
   sim.init(sim.trail.start, selection); session.reset(); hud.resetTrip();
-  renderer.warmVehicles(['fuel', 'breakdown'].map(serviceFor));   // so a called truck appears at once
-  for (const role of ['fuel', 'breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
+  renderer.warmVehicles(['breakdown'].map(serviceFor));   // so a called truck appears at once
+  for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
   drive(sim.main);
-  setGear('H'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
+  sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);
   if (selection.car.load) hud.toast(`Deliver the ${selection.car.load.name.toLowerCase()} to the depot`, 3);
 }
 // a run starts with the engine off and the starter cranking, like turning the key
 function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
-function goRun() { session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
+function goRun() { music.play('drive'); session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
-function openGarage() { renderer.clearTracks(); stopRefueling(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); }
+function openGarage() { renderer.clearTracks(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
 const decoded = (urls, ms = 3000) => Promise.race([Promise.all(urls.filter(Boolean).map(u => { const i = new Image(); i.src = u; return i.decode?.().catch(() => {}); })), new Promise(r => setTimeout(r, ms))]);
 const framesDrawn = n => { const to = renderer.frames + n; return until(() => renderer.frames >= to, 8000); };
 let loading = false;
+// what the loading screen says about the run ahead, from the truck and the trail themselves
+function runFacts(car) {
+  const r = content.roster.cars.find(c => c.id === car.id) ?? {}, load = car.load ?? r.load, stops = season.trail.stations?.length ?? 0;
+  return [
+    ['Your rig', `${car.name}: ${r.lengthM} m long, ${grossTonnes(car).toFixed(1)} t gross.${load ? ` Load: ${load.name.toLowerCase()}.` : ''}`],
+    ['The trail', `${((season.trail.depot - season.trail.start) / 1000).toFixed(2)} km to the depot, with ${stops} fuel station${stops === 1 ? '' : 's'} on the way.`],
+  ];
+}
 async function driveOff(sel) {
   if (loading) return; loading = true;
   startAudio();   // inside the tap, or the phone will not play it
-  loader.show('drive'); await loader.painted();
+  loader.show('drive', { wheel: sel.car.artUri?.wheel, facts: runFacts(sel.car) }); await loader.painted();
   prepareRun(sel); loader.set(0.35);
   await until(() => renderer.ready, 15000); loader.set(0.65);
   await framesDrawn(2); loader.set(0.9);   // the first frames build the sprites for this truck's zoom
@@ -221,11 +197,11 @@ async function driveOff(sel) {
 }
 async function backToGarage() {
   if (loading) return; loading = true;
-  loader.show('garage'); await loader.painted();
+  loader.show('garage', { wheel: selection.car.artUri?.wheel }); await loader.painted();
   openGarage(); loader.set(0.5);
-  await decoded([selection.car.artUri?.master, content.hud['garage-background']]); loader.set(0.85);
+  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]); loader.set(0.85);
+  await loader.hide();
   loading = false;
-  loader.hide(700);
 }
 // launch: the bar follows the artwork as it loads, then the first frames, then the garage's own art
 let launching = true;
@@ -236,7 +212,7 @@ function launchProgress() {
   // a failed image must not hold the game behind the screen for ever
   if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
   launching = false;
-  decoded([selection.car.artUri?.master, content.hud['garage-background']]).then(() => loader.hide(1000));
+  decoded([selection.car.artUri?.master, content.hud['garage-bay']]).then(() => loader.hide());
 }
 
 async function goFullscreen() {
@@ -253,12 +229,9 @@ const E = hud.els;
 E.fsBtn.addEventListener('click', goFullscreen);
 E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
-for (const b of document.querySelectorAll('.gear button')) b.addEventListener('click', () => setGear(b.dataset.g));
 E.pauseBtn.addEventListener('click', pause);
-E.fuelCallBtn.addEventListener('click', () => summon('fuel'));
 E.breakdownCallBtn.addEventListener('click', () => summon('breakdown'));
 E.switchBtn.addEventListener('click', switchVehicle);
-E.actionBtn.addEventListener('click', doServiceJob);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
 document.addEventListener('visibilitychange', () => { if (document.hidden && session.state === 'play') pause(); });
 window.addEventListener('resize', resize);
@@ -286,6 +259,7 @@ function adapt(dt) {
     view.quality = Math.min(1, view.quality + 0.1); steadyT = 0; climbedAt = performance.now(); pendingResize = true;
   }
 }
+let lastGear = 'L';
 function frame(now) {
   const dt = Math.min(8 * DT, (now - last) / 1000); last = now;   // at most the 8 physics steps a frame may run
   if (launching) launchProgress();
@@ -296,10 +270,10 @@ function frame(now) {
   const playing = session.state === 'play';
   if (playing) {
     const held = input.read();
-    sim.ctl.gas = refueling ? 0 : Number(held.gas);   // retain analog pedal position
+    sim.ctl.gas = Number(held.gas);   // retain analog pedal position
     if (held.gas && sim.ctl.handbrake && sim.st.engine === 'on' && Math.abs(sim.st.speed) < 0.5 && !hud.toastActive) hud.toast('The handbrake is on. Tap PARK (B) to release it.', 2);
-    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is off. Tap ENGINE (I) to start it.' : 'The tank is empty. Call a fuel truck.', 2);
-    sim.ctl.brake = refueling ? 1 : Number(held.brake);
+    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is off. Tap ENGINE (I) to start it.' : 'The tank is empty. Call the breakdown truck to tow you to a station.', 2);
+    sim.ctl.brake = Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
     acc += dt; let n = 0;
@@ -307,19 +281,19 @@ function frame(now) {
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     session.update(dt);
-    if (session.state === 'play') updateRefueling(dt);
-    hud.showAction(refueling ? `Refueling… ${Math.round(refueling.progress * 100)}%` : serviceJob(), !!refueling);
+    if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
+    { const m = sim.main.st; hud.showAction(m.filling ? `Refuelling and repairing: fuel ${Math.round(m.fuel)}%, damage ${Math.round(m.damage)}%` : null, true); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
   try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run });
-  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling }, dt);
+  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling: sim.main.st.filling }, dt);
   adapt(dt);
   requestAnimationFrame(frame);
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, doServiceJob, serviceJob, startRun, snap: () => view.snap() };
+window.__haul = { music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

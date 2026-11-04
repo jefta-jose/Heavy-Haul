@@ -1,3 +1,4 @@
+import { CRACKS_AT_DAMAGE, CRACK_COUNTS, SHIELD_COLOR, SHIELD_WIDTH_M } from '../game-config.js';
 import { makeCanvas, scaled, tinted, loadImages, alphaCrop } from './canvas-utils.js';
 
 // a copy with its opacity multiplied in, so it is drawn without globalAlpha
@@ -41,13 +42,13 @@ export function createSceneryCache(scene) {
     C.rockSource ??= alphaCrop(A.rock);
     C.img.rock = scaled(C.rockSource, Math.min(1, 5 * px / C.rockSource.width));
     const round = Object.values(season.trail.obstacleKinds ?? {}).map(k => k.art);
-    for (const key of ['bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', ...round]) if (A[key]) {
+    for (const key of ['bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'fuelStation', ...round]) if (A[key]) {
       // Preserve full canvases for registered near faces/plank edges. Only
       // support frames and terrain overlays use their visible alpha bounds.
-      const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole'].includes(key);
+      const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'fuelStation'].includes(key);
       if (crop) { C[`${key}Source`] ??= alphaCrop(A[key]); }
       const source = crop ? C[`${key}Source`] : A[key];
-      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 14 : key === 'bridgePlank' ? 4 : 5;
+      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 14 : key === 'fuelStation' ? 15 : key === 'bridgePlank' ? 4 : 5;
       C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
     }
     for (const { art } of Object.values(season.trail.propKinds ?? {})) {
@@ -95,7 +96,49 @@ export function createRigCache(view, rig, sources) {
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);
     const f = C.wheelFar.getContext('2d'); f.drawImage(C.wheel, 0, 0); f.globalCompositeOperation = 'source-atop'; f.fillStyle = 'rgba(10,12,8,0.4)'; f.fillRect(0, 0, C.wheelFar.width, C.wheelFar.height);
-    C.outline = {};
+    C.outline = {}; C.cracked = {}; C.shield = null;
+  };
+  // The body with damage drawn on it, built once per set of cracks. Cracks are jagged lines painted only where the
+  // body is opaque, so they never spill off the truck; each truck's come from its own id.
+  C.bodyAtDamage = (damage, id) => {
+    const tier = CRACKS_AT_DAMAGE.filter(d => damage >= d).length;
+    if (!tier) return C.body;
+    if (C.cracked[tier]) return C.cracked[tier];
+    const c = makeCanvas(C.body.width, C.body.height), g = c.getContext('2d'), W = c.width, H = c.height;
+    g.drawImage(C.body, 0, 0); g.globalCompositeOperation = 'source-atop';
+    g.fillStyle = `rgba(24,12,6,${0.06 * tier})`; g.fillRect(0, 0, W, H);
+    let n = 7; for (const ch of id) n = (n * 31 + ch.charCodeAt(0)) >>> 0;
+    const rnd = () => { n = (n * 1664525 + 1013904223) >>> 0; return n / 4294967296; };
+    const unit = Math.max(1.3, H / 110);
+    // every crack starts on the truck, not in the empty canvas around it
+    const alpha = C.body.getContext('2d').getImageData(0, 0, W, H).data;
+    const onTruck = () => { for (let t = 0; t < 40; t++) { const x = Math.floor(rnd() * W), y = Math.floor(rnd() * H); if (alpha[(y * W + x) * 4 + 3] > 200) return [x, y]; } return [W / 2, H / 2]; };
+    const crack = (x, y, a, len, width, branches) => {
+      const pts = [[x, y]], steps = 4 + Math.floor(rnd() * 3);
+      for (let i = 0; i < steps; i++) { a += (rnd() - 0.5) * 1.5; x += Math.cos(a) * len / steps; y += Math.sin(a) * len / steps; pts.push([x, y]); }
+      const stroke = (dx, dy, style, w) => { g.strokeStyle = style; g.lineWidth = w; g.beginPath(); pts.forEach(([px, py], i) => (i ? g.lineTo(px + dx, py + dy) : g.moveTo(px + dx, py + dy))); g.stroke(); };
+      stroke(unit * 0.6, unit * 0.6, 'rgba(255,235,210,0.28)', width);
+      stroke(0, 0, 'rgba(12,7,4,0.92)', width);
+      for (let b = 0; b < branches; b++) { const p = pts[1 + Math.floor(rnd() * (pts.length - 1))]; crack(p[0], p[1], a + (rnd() < 0.5 ? 1 : -1) * (0.6 + rnd()), len * 0.45, width * 0.65, 0); }
+    };
+    g.lineCap = 'round'; g.lineJoin = 'round';
+    for (let i = 0; i < CRACK_COUNTS[tier - 1]; i++) { const [x, y] = onTruck(); crack(x, y, rnd() * 6.28, H * (0.1 + rnd() * 0.16), unit * (1 + rnd() * 0.8), 1 + Math.floor(rnd() * 2)); }
+    return (C.cracked[tier] = c);
+  };
+  // The no-damage glow, a soft halo around the silhouette. Built once per zoom: the stacked copies are too many to draw each frame.
+  // `pad` is how many sprite pixels it adds on every side.
+  C.shieldOf = (metresPerBodyPx, metresPerWheelPx) => {
+    if (C.shield) return C.shield;
+    const halo = (src, metresPerPx) => {
+      const pad = Math.ceil(SHIELD_WIDTH_M / metresPerPx), c = makeCanvas(src.width + pad * 2, src.height + pad * 2), g = c.getContext('2d');
+      const violet = tinted(src, SHIELD_COLOR), pale = tinted(src, '#f3e4ff');
+      for (const [reach, alpha, sprite] of [[1, 0.1, violet], [0.72, 0.16, violet], [0.45, 0.28, violet], [0.2, 0.55, pale]]) {
+        g.globalAlpha = alpha;
+        for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8; g.drawImage(sprite, pad + Math.cos(a) * pad * reach, pad + Math.sin(a) * pad * reach); }
+      }
+      return { canvas: c, pad };
+    };
+    return (C.shield = { body: halo(C.body, metresPerBodyPx), wheel: halo(C.wheel, metresPerWheelPx) });
   };
   C.outlineOf = color => { if (!C.outline[color]) C.outline[color] = { body: tinted(C.body, color), wheel: tinted(C.wheel, color) }; return C.outline[color]; };
   return C;

@@ -145,12 +145,12 @@ export function drawFarLip(scene, x, half, rise, over) {
 }
 
 // Restores real mud in front of the sunk tire bottoms along an irregular lip, near the vehicle only.
-export function drawFrontLip(scene) {
+export function drawFrontLip(scene, over) {
   const { ctx, cam, H, ppm } = scene.view, { visH } = scene.sim;
   const x = scene.sim.truck.getPosition().x, lo = x - 5, hi = x + 5, bottom = cam.y - H / ppm - 5;
   ctx.save(); ctx.beginPath();
   for (let t = lo; t <= hi + 0.08; t += 0.08) { const lip = visH(t) - 0.04 + Math.sin(t * 18.7) * 0.018 + Math.sin(t * 7.3) * 0.027; if (t === lo) ctx.moveTo(t, lip); else ctx.lineTo(t, lip); }
-  ctx.lineTo(hi + 0.1, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip(); bank(scene, lo, hi); ctx.restore();
+  ctx.lineTo(hi + 0.1, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip(); bank(scene, lo, hi); over?.(); ctx.restore();
 }
 
 // A broad worn trail blended into its shoulders, with two irregular tire ruts. Materials remain

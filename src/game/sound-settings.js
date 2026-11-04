@@ -2,7 +2,7 @@
 // and the credits for the recordings the game plays. Opened from the pause menu and the garage.
 export function createSoundSettings({ audio, credits = [], onClose }) {
   const $ = id => document.getElementById(id), ov = $('soundOv'), list = $('volList'), mute = $('muteBtn');
-  const rows = [['master', 'Master'], ['engine', 'Engines'], ['effects', 'Effects'], ['ambience', 'Ambience']];
+  const rows = [['master', 'Master'], ['engine', 'Engines'], ['effects', 'Effects'], ['ambience', 'Ambience'], ['music', 'Music']];
   function render() {
     list.innerHTML = '';
     for (const [key, label] of rows) {
@@ -13,7 +13,7 @@ export function createSoundSettings({ audio, credits = [], onClose }) {
       const val = document.createElement('b'); val.textContent = `${input.value}%`;
       input.addEventListener('input', () => { audio.setVolume(key, input.value / 100); val.textContent = `${input.value}%`; });
       // a short sound so the effects level can be heard while setting it
-      input.addEventListener('change', () => { if (key !== 'engine') audio.clunk(true); });
+      input.addEventListener('change', () => { if (key !== 'engine' && key !== 'music') audio.clunk(true); });
       row.append(name, input, val); list.append(row);
     }
     const box = $('soundCredits'); box.innerHTML = '';

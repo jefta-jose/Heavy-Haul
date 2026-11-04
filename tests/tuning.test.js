@@ -2,7 +2,7 @@
 // code). Stock stays untouched, and the levels really change how the car drives.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { KNOBS, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
+import { KNOBS, upgradeCost, withPowers, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
 import { content, newSim, spawn, advance } from './helpers.js';
 
 test('four knobs, levels in steps of 25, and every car can take all four to 100', () => {
@@ -60,4 +60,45 @@ test('a fully tuned scout covers the mud a stock one bogs down in', () => {
   const metres = car => [640, 1135, 1480].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
+});
+
+test('upgrades cost more each step and more on bigger classes, and selling refunds exactly', () => {
+  const scout = { class: 'scout' }, heavy = { class: 'heavy' };
+  assert.equal(upgradeCost(scout, 0, 25), 400);
+  assert(upgradeCost(scout, 75, 100) > upgradeCost(scout, 0, 25), 'later steps cost more');
+  assert(upgradeCost(heavy, 0, 25) > upgradeCost(scout, 0, 25), 'bigger classes cost more');
+  assert.equal(upgradeCost(scout, 100, 0), -upgradeCost(scout, 0, 100), 'selling refunds what it cost');
+});
+
+test('a superpower lifts an upgrade to full, past full when already maxed, without touching the car', () => {
+  const stock = content.car, torque = c => c.drivetrain.torqueScale;
+  const mid = applyTuning(stock, { engine: 25 }), full = applyTuning(stock, { engine: 100 });
+  assert.equal(torque(withPowers(mid, ['engine'])), torque(full), 'a part-tuned engine gets the full upgrade');
+  const past = torque(withPowers(full, ['engine'])) / torque(full);
+  assert(past > 1.8 && past < 2.2, `a maxed engine about doubles: ${past.toFixed(2)}`);
+  assert.equal(torque(mid), torque(applyTuning(stock, { engine: 25 })), 'the car itself is unchanged');
+});
+
+test('driving through a pickup gives 12 seconds of its power, and any power blocks hit damage', () => {
+  const s = newSim(content.car, { powers: true }), x = content.season.trail.powerups[0].x;
+  spawn(s, x - 3); const first = s.powerups[0];
+  assert(s.powerups.length, 'the trail has pickups');
+  assert(first.taken, 'picked up'); assert.equal(Object.keys(s.main.st.powers)[0], first.kind); assert(s.main.boosted, 'the truck drives boosted');
+  advance(s, 13);
+  assert.deepEqual(s.main.st.powers, {}, 'it runs out'); assert.equal(s.main.boosted, null, 'and the truck goes back to normal');
+  s.init(); assert(!s.powerups[0].taken, 'a new run puts the pickups back');
+  // into the first logs at speed, with and without a power
+  const crash = power => { const c = spawn(newSim(content.car), 40); c.main.st.powers = power ? { [power]: 99 } : {}; c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
+  assert(crash(null) > 0, 'a hard hit hurts');
+  for (const k of KNOBS) assert.equal(crash(k.id), 0, `not under the ${k.id} power`);
+});
+
+test('mud pull only works in the short gear, except under the grip power', () => {
+  const car = applyTuning(content.car, { grip: 100 }), x = content.season.trail.heavyMud[0] - 8;
+  const metres = (gear, power) => {
+    const s = spawn(newSim(car), x, { gear }); s.main.st.powers = power ? { grip: 99 } : {};
+    const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 8); return s.truck.getPosition().x - x0;
+  };
+  assert(metres('H', true) > metres('H', false), 'in the long gear only the power brings it');
+  assert.equal(metres('L', true), metres('L', false), 'in the short gear it works either way');
 });
