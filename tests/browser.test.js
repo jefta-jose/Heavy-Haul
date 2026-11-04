@@ -304,7 +304,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     });
     await page.waitForFunction(() => document.getElementById('surfChip').classList.contains('bog'));
     assert(await page.evaluate(() => __haul.renderer.mudTracks > 0.5), 'moving tires leave mud ruts');
-    const rutX = await page.evaluate(() => __haul.sim.trail.heavyMud[0] + 0.5);
+    const rutX = await page.evaluate(() => __haul.sim.main.parts.wheels[0].getPosition().x);   // under a tire: deep mud may barely let the truck roll
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'the ruts are deep in the bog');
     await capture('08-bog-splash');
     await page.evaluate(() => {
