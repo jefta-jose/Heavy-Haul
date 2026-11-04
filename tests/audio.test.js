@@ -133,7 +133,7 @@ test('sound gears hold between shifts, and a bump or the gear lever cannot flip 
 });
 
 test('on a real truck at full pedal, gears are spaced out and the revs do not sit on the limiter', () => {
-  for (const id of ['swamp-scout-4', 'interstate-1', 'forester-1', 'mudlark-1', 'prime-mover-1']) {
+  for (const id of ['swamp-scout-4', 'interstate-1', 'forester-1', 'mudlark-1', 'fieldmaster-5']) {
     const car = content.cars.find(c => c.id === id), pack = bank.engines[car.audio.engine];
     const s = newSim(car); s.init(40); Object.assign(s.ctl, { gear: 'H', awd: true, diff: true, gas: 0, brake: 0 }); advance(s, 1.5);
     s.ctl.gas = 1;
@@ -161,7 +161,7 @@ test('spinning wheels race the engine; a stuck truck with grip lugs at the stall
 });
 
 test('a tire touching a log, a pipe or a rock is reported, and nothing else is', () => {
-  const car = content.cars.find(c => c.id === 'prime-mover-1'), probe = newSim(car);
+  const car = content.cars.find(c => c.id === 'crossroads-9'), probe = newSim(car);
   probe.init(40);
   const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300 && !content.season.trail.heavyMud.some(c => c < l.x && c > l.x - 60)), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };
   for (const [kind, o] of Object.entries(targets)) {
@@ -235,14 +235,14 @@ test('each truck class has a full engine at its measured revs, the scouts a Dodg
 
 test('every truck plays its class\'s engine, service trucks too; others get a diesel sized to their power', () => {
   for (const car of trucks) assert.equal(car.audio.engine, car.class, `${car.id} plays its class`);
-  assert(content.service.length >= CLASSES.length * 2, 'a fuel and a breakdown truck per class');
+  for (const cls of new Set(content.cars.map(c => c.class))) assert(content.service.filter(c => c.class === cls).length >= 2, `${cls}: a fuel and a breakdown truck`);
   const odd = [{ spec: { class: 'mystery', powerKw: 1500 } }, { spec: { class: 'mystery', powerKw: 200 } }, { spec: { class: 'highway' }, audio: { engine: 'offroad', crankS: 0.8 } }];
   resolveAudio(odd, bank);
   assert.deepEqual(odd.map(c => c.audio.engine), ['heavy', 'heavy-duty', 'offroad']);
   assert.equal(odd[2].audio.crankS, 0.8, 'a car can override its crank time');
   assert.equal(engineProfile(trucks.find(c => c.id === 'swamp-scout-4'), bank).airBrakes, false, 'scouts: no air brakes');
   assert.equal(engineProfile(trucks.find(c => c.id === 'mechanic-scout'), bank).airBrakes, false, 'nor their service trucks');
-  assert.equal(engineProfile(trucks.find(c => c.id === 'mountain-mover-18'), bank).airBrakes, true);
+  assert.equal(engineProfile(trucks.find(c => c.id === 'interstate-1'), bank).airBrakes, true);
 });
 
 test('revs and load move the engine smoothly between its layers, always in tune', () => {

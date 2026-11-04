@@ -43,9 +43,9 @@ rules should not override the supplied scout reference or the user's current ins
    body, roof gear and chassis. Generate a matching centered wheel separately with soft even lighting.
    Preserve the body canvas, pose and scale. Measure the arches and hub pivots; update registration
    before assembling the rig. See [generation and iteration](references/generation-and-iteration.md).
-4. **Generate the environment as separate assets.** Use an opaque panorama, transparent midground trees,
-   a side-view bank strip, a top-down soil tile, and transparent reeds, logs and rocks. Keep their camera,
-   lighting and style coherent. Genuine alpha and clean silhouettes matter at game scale.
+4. **Generate the environment as separate assets.** Follow the reference season,
+   `assets/seasons/swamp-summer/README.md`: a living panorama, strips for the thick road, soil, top-down surface
+   tiles, and transparent obstacles. Genuine alpha and clean silhouettes matter at game scale.
 5. **Fit the wheels to the arches.** Measure each flare's inner edge, store `archCircles`, and size
    the tire radius and hub height so the tread fills the arch with no gap under the fender. Verify an
    offline composite before playing.

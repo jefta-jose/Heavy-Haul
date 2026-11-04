@@ -3,6 +3,10 @@
 Status: **planned** · class `offroad`, tier 14 of 20 · 8×8, 4 axles · 18.9 t empty · 462 kW · chained tires, 1.81 m
 Load: **Cattle**, 8 t
 
+**Size cap: 16.8 m long at most, load included.** Draw the vehicle at that scale or smaller, with `pixelsPerMetre` and `physics.size` to match, so it needs no higher zoom than other trucks. Obstacles are one size for every truck: there is no per-truck scaling of the world, so never exceed this cap. Keep the tires big enough to climb the trail (about 1.3 m or more).
+
+**Wheels (hard rule, see AGENTS.md):** the wheels must make sense for this truck and its load, and carry the weight where the load sits. Lay it out like the Fieldmaster 5, Swamp Ox 3 and Crag Crusher 11: wheels under the load, a close rear tandem or evenly spaced axles.
+
 ## Art brief
 
 - Vehicle: rust red all-terrain 6×6 cargo truck

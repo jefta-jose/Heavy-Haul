@@ -71,6 +71,8 @@ sprite is insufficient when its physical body and mass are still attached.
 
 The active sequence is:
 
+> **Out of date for landscapes (2026-11-04):** the bank, midground, bridges and water below were replaced by the thick road and living panorama. For maps, use `assets/seasons/swamp-summer/README.md`.
+
 1. Opaque distant panorama, subtle atmospheric haze, transparent midground trees.
 2. World-space painted bank, then the per-surface road lane (ruts and far edge).
 3. Back props, collision-rock art and log bark bands.

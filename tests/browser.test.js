@@ -317,13 +317,13 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
-    // the Ice Breaker draws as one image, its orca and tank part of the body art
-    await page.evaluate(() => { __haul.garage.select('ice-breaker-19'); __haul.startRun(__haul.garage.selection); });
+    // an off-road truck gets its own class's service trucks
+    await page.evaluate(() => { __haul.garage.select('mire-king-6'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await page.evaluate(() => { __haul.sim.respawn(30); for (let i = 0; i < 120; i++) __haul.sim.step(1 / 120); __haul.snap(); });
-    await capture('10-ice-breaker');
+    await capture('10-mire-king');
     // a class without a truck of that role gets a greyed-out button that calls nothing; one with it,
-    // a live button (the Ice Breaker's off-road class: a breakdown truck, no fuel truck yet)
+    // a live button (the off-road class)
     const has = await page.evaluate(() => Object.fromEntries(['fuel', 'breakdown'].map(r => [r, __haul.content.service.some(c => c.role === r && c.class === __haul.sim.main.car.class)])));
     for (const [role, id] of [['fuel', '#fuelCallBtn'], ['breakdown', '#breakdownCallBtn']]) {
       assert.equal(await page.locator(id).evaluate(e => e.classList.contains('unavailable')), !has[role], `${id} is greyed out exactly when the class has no ${role} truck`);
@@ -331,21 +331,14 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
       await page.click(id);
       assert(await page.evaluate(() => __haul.sim.vehicles.length === 1 && __haul.sim.active === __haul.sim.main), `${id} calls no other class's truck`);
       assert.match(await page.locator('#toast').innerText(), /Not available: the Off-road class has no/);
-      await capture('10b-ice-breaker-no-service');
+      await capture('10b-no-service');
     }
     await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Ice Breaker gets the off-road Bog Wrecker');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Mire King gets the off-road Bog Wrecker');
     await page.waitForTimeout(150); await capture('10c-bog-wrecker');
     await page.click('#fuelCallBtn');
     assert(await page.evaluate(() => __haul.sim.active.car.id === 'titan-tanker'), 'and the off-road Titan Tanker');
     await page.waitForTimeout(150); await capture('10d-titan-tanker');
-    // the heavy class: the Mountain Mover gets the Colossus Wrecker
-    await page.evaluate(() => { __haul.garage.select('mountain-mover-18'); __haul.startRun(__haul.garage.selection); });
-    await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
-    await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.id === 'colossus-wrecker'), 'the Mountain Mover gets the heavy Colossus Wrecker');
-    await page.evaluate(() => { const s = __haul.sim; s.ctl.gas = 1; for (let i = 0; i < 120 * 3; i++) s.step(1 / 120); s.ctl.gas = 0; for (let i = 0; i < 120; i++) s.step(1 / 120); __haul.snap(); });
-    await page.waitForTimeout(150); await capture('10e-colossus-wrecker');
     await page.evaluate(() => { __haul.garage.select('swamp-scout-4'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
@@ -417,7 +410,7 @@ test('terrain stays opaque below uphill, downhill and valley contours', { timeou
     await page.addScriptTag({ content: code.outputFiles[0].text });
     const gaps = await page.evaluate(async ({ art, render }) => {
       const images = {};
-      for (const key of ['bank', 'ground', 'roadEdge', 'roadFar']) {
+      for (const key of ['ground', 'roadEdge', 'roadFar']) {
         const img = new Image(); img.src = art[key]; await img.decode(); images[key] = img;
       }
       const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });

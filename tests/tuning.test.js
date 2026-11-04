@@ -45,9 +45,9 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
   assert(metres(pulling, 600) > metres(stock, 600), 'mud pull alone goes further in mud');
   const inGear = (car, gear) => { const sim = spawn(newSim(car), 600, { gear }); sim.ctl.gas = 1; advance(sim, 10); return sim.truck.getPosition().x; };
   for (const gear of ['H', 'R']) assert.equal(inGear(pulling, gear), inGear(stock, gear), `mud pull does nothing in ${gear}`);
-  const burn = car => { const sim = spawn(newSim(car), 440); const f0 = sim.st.fuel; sim.ctl.gas = 1; advance(sim, 8); return f0 - sim.st.fuel; };
+  const burn = car => { const sim = spawn(newSim(car), 1650); const f0 = sim.st.fuel; sim.ctl.gas = 1; advance(sim, 8); return f0 - sim.st.fuel; };
   // economy rides on the engine knob, which also adds power (and so burn); per metre it still saves
-  const perMetre = car => { const sim = spawn(newSim(car), 440); const f0 = sim.st.fuel, x0 = sim.truck.getPosition().x; sim.ctl.gas = 1; advance(sim, 8); return (f0 - sim.st.fuel) / Math.max(1, sim.truck.getPosition().x - x0); };
+  const perMetre = car => { const sim = spawn(newSim(car), 1650); const f0 = sim.st.fuel, x0 = sim.truck.getPosition().x; sim.ctl.gas = 1; advance(sim, 8); return (f0 - sim.st.fuel) / Math.max(1, sim.truck.getPosition().x - x0); };
   assert(burn(stock) > 0);
   assert(perMetre(applyTuning(stock, { engine: 100 })) < perMetre(stock), 'a tuned engine burns less per metre');
 });

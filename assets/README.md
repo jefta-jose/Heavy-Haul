@@ -14,10 +14,10 @@ assets/
       art/*.webp           runtime images (master, body, wheel)
       source/              PNG masters, prompts.json, art direction
       README.md            planned cars: art brief and checklist
-  seasons/
+  seasons/                 swamp-summer/README.md is the reference for every new map
     <season-id>/
       season.json          trail layout, surfaces, art map and render settings
-      art/*.webp           backdrop, midground, bank, ground, props, lane materials
+      art/*.webp           backdrop, road strips and soil, lane materials, obstacles
       source/              PNG masters and prompts.json
       rock-hulls.json      collision outlines for rocks
   audio/

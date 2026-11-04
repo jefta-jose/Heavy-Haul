@@ -6,14 +6,6 @@ Ice roads over frozen lakes, snow drifts and packed-snow climbs; pale overcast s
 
 ## Needed to become playable
 
-Use `../swamp-summer` as the template (its `season.json` documents every field).
-Scenery is **extremely simple** (gradient sky, flat hazy silhouette layers, a calm lower band; set
-`render.forestFloor` to `false`); only the road layers get full detail. See the hard rule in `../SKILL.md`.
+Follow the recipe in [`../swamp-summer/README.md`](../swamp-summer/README.md), with the art list and prompts in [`../SKILL.md`](../SKILL.md). Blackwater Swamp is the reference for how this map should work.
 
-- [ ] `source/*.png` masters and `source/prompts.json` for: backdrop (opaque panorama), midground
-      (transparent trees), bank (side-view ground strip, tire-contact row recorded in `render.bankContactRow`),
-      ground (top-down tile), reeds/props, log, rock, and the lane materials
-- [ ] `art/*.webp` encoded with `npm run art:encode`
-- [ ] `rock-hulls.json` traced from the rock art with `tools/art/trace-hulls.py`
-- [ ] `season.json` with the trail (keys, zones, waters, heavy-mud pits, checkpoints, stations),
-      surface grip and noise, art map and render settings; set `status` to `playable`
+Already here: the panorama, `Sunlit Winter Marsh Road.png`. Move it to `source/` when this season is built.

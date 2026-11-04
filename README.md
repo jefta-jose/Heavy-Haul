@@ -41,7 +41,7 @@ src/
     renderer.js           layer order and per-frame composition
     sprite-cache.js       sprites resampled once per zoom level
     particles.js          smoke, dust, mud, splashes, rock debris
-    layers/               background, ground (bank + road lane), props, vehicle, water
+    layers/               background, ground (thick road), props, vehicle, water
   audio/                  recorded sound: engine.js (class engine voices and the sound-only rev model),
                           loop-player.js (seamless beds), vehicle-audio.js (tires, chassis, water, mud,
                           brakes, load, winch, pump, ambience, volumes)
@@ -68,7 +68,7 @@ or `HAUL_CAR` / `HAUL_SEASON`). Cars have fixed tires: to get something stronger
 
 - **One terrain for physics and drawing.** `terrain.js` builds a height profile every 0.25 m from
   the season's trail keys, value noise per surface and authored obstacles. Physics uses it as
-  chain shapes; the renderer shears the painted bank along the same line. Mud collision sits
+  chain shapes; the renderer bends the thick road's edge strips along the same line. Mud collision sits
   below the drawn surface so tires sink.
 - **Vehicle from the art.** `car.json` `rig` holds the measured registration: axle positions, hub
   height, tire radius and the wheel-arch circles. The body's arches are cut out and redrawn over

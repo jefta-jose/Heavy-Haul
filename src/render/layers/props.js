@@ -109,11 +109,12 @@ export function createProps(scene) {
   }
   // the bark length recedes toward the far verge, behind the vehicle
   function logsBehind() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), pat = bark();
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     const [dx, dy] = LOG_DEPTH, len = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
     for (const l of scene.sim.logs) {
       if (l.alive === false || l.x < lo - l.r * 8 || l.x > hi + l.r * 3) continue;   // the sprite's long body trails to the right
       if (crossingSprite(l)) continue;
+      const pat = bark();   // only a log with no sprite of its own
       ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(a); ctx.imageSmoothingQuality = 'medium';   // shrunk bark texture
       pat.setTransform(new DOMMatrix([l.r * 2 / 110, 0, 0, l.r * 2 / 110, 0, -l.r]));
       ctx.beginPath(); ctx.ellipse(len, 0, l.r * 0.55, l.r, 0, -Math.PI / 2, Math.PI / 2); ctx.lineTo(0, l.r); ctx.lineTo(0, -l.r); ctx.closePath();

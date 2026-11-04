@@ -1,7 +1,11 @@
 # Iron Horse 16
 
-Status: **planned** · class `highway`, tier 16 of 20 · 6×6, 3 axles · 13.9 t empty · 456 kW · chained tires, 1.15 m
+Status: **planned** · class `highway`, tier 16 of 20 · 10×10, 5 axles · 13.9 t empty · 456 kW · chained tires, 1.15 m
 Load: **Wind tower section**, 25 t
+
+**Size cap: 16.8 m long at most, load included.** Draw the vehicle at that scale or smaller, with `pixelsPerMetre` and `physics.size` to match, so it needs no higher zoom than other trucks. Obstacles are one size for every truck: there is no per-truck scaling of the world, so never exceed this cap. Keep the tires big enough to climb the trail (about 1.3 m or more).
+
+**Wheels (hard rule, see AGENTS.md):** the wheels must make sense for this truck and its load, and carry the weight where the load sits. Tractor with a steer axle and a drive axle or close drive tandem under the hitch; a close tandem on the trailer under the rear of the load. Never one lone axle at the far end of a long trailer.
 
 ## Art brief
 
@@ -10,6 +14,7 @@ Load: **Wind tower section**, 25 t
 - Equipment: chrome bull bar and air horns
 - Finish: polished paint with road dust
 - Tires: 1.15 m off-road mud-terrain tires wrapped in heavy steel diamond-pattern chains
+- Note: Needs more wheels: the rejected version had one lone axle at the far end of a long trailer and a single drive axle, so the load hung over nothing. Draw 5 axles: steer plus a close drive tandem on the tractor, and a close tandem on the trailer under the rear of the load.
 
 ## Codex delivers (see AGENTS.md)
 

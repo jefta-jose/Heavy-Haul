@@ -46,7 +46,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    dimensions; the wheel is square and centred; transparency is real, with no halo, checkerboard or
    ground; and every vehicle image passes the **flat side profile** hard rule in AGENTS.md (equal round
    tires on one level line, rims centred, no far-side tires, no visible cab front, nothing touching the
-   canvas edge). Look at every image. If one is wrong, write the exact re-generation request for Codex,
+   canvas edge). It must also pass the **wheels that make sense** hard rule there: wheels under the load, close tandems, never one lone axle at the end of a long trailer. Look at every image. If one is wrong, write the exact re-generation request for Codex,
    naming the rule it broke, and stop.
 2. **Measure** the body: hub centres, the fender flare's inner edge (fit `archCircles` `[x, y, r]` in
    body pixels), the ground line and the body length. Choose `pixelsPerMetre` from `lengthM` in
@@ -69,7 +69,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
      car**, whatever its size; never tune it per car;
    - `camera.zoom`: the car's own view, set by the user per car (1.5 = 17.7 m of trail across the
-     screen; long rigs need more, e.g. 3.4 for the Ice Breaker, 4.0 for the Mountain Mover). There is
+     screen; long rigs need more, e.g. 2.3 for the Crossroads). There is
      no zoom button. Check the whole rig fits with room ahead on desktop and phone;
    - `physics`: empty mass and centre of mass from `massT`, plus `physics.load` (`massT` from the
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
@@ -110,8 +110,7 @@ from its `car.json` registration: check it before playing. Long rigs need a high
 `tools/art/draft-rig.py <folder> --tire-m <roster tire>` drafts the `rig` (hubs, arches, origin, nose) and
 collision boxes from those circles (`--hubs x,... --hub-y Y --tire-px R` when tires merge). Its chassis
 box sits at the body's lowest edge: raise it to about one tire radius above the hubs for anything long,
-or the rig bellies out on crests and the pipe runs. Tires under about 1.3 m (scouts) or 2.2 m (rigs over
-30 m) cannot climb the swamp trail's pipes or out of a broken bridge's creek: pick `pixelsPerMetre`
+or the rig bellies out on crests and the pipe runs. Tires under about 1.3 m cannot climb the swamp trail's pipes: pick `pixelsPerMetre`
 so the drawn tires reach that size.
 
 ## Rosters
@@ -127,22 +126,18 @@ in the roster. `status: "needs-art"` marks a car whose delivered art has to be r
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 
+**Size cap (2026-11-04): nothing is longer than 16.8 m, load included.** Obstacles are one size for every truck, so a longer rig would need a higher zoom and the road would look like a model.
+The cap is the top-level `maxLengthM` in `cars.json`, and `npm test` enforces it. The heavy class's art and registrations were deleted on
+2026-11-04: its 20 cars and 2 service trucks are planned again, to be redrawn within the cap, and so are the Ice Breaker and ten highway trucks rejected for their wheels or bodies (each README says why). Do not add per-truck world scaling.
+
 ## Hook up a season
 
-Seasons follow **simple scenery, detailed road** (the hard rule in `assets/seasons/SKILL.md`): flat, hazy
-backdrop and trees, `render.forestFloor: false`, full detail only on the road layers.
+**Blackwater Swamp is the reference for every map.** Study [`assets/seasons/swamp-summer/README.md`](assets/seasons/swamp-summer/README.md)
+and its `season.json`, and follow the recipe at the end of that README. [`assets/seasons/SKILL.md`](assets/seasons/SKILL.md) has the art
+prompts and the checks.
 
-A season with `render.road` draws the **thick road** instead of its painted bank (`src/render/layers/ground.js`): art
-`roadFar` (reeds behind), `roadEdge` (mossy front lip), `roadSoil` (earth below), with the road's lane materials between.
-Its sizes are shares of the screen height, so it looks the same at every truck's zoom. It is drawing only: tires still roll on `visH`.
-
-The swamp has no bridges and no water (both dropped 2026-11-04; the engine stays for data that lists some): the old river stretches are mud
-with heavy-mud pits. Mud holes (`trail.holes`) lie only in those pits. `trail.rollers` is the rolling bumps on every open stretch, and
-`trail.crushables` is how close together things that break under the tires lie on rock and dirt. The fallen-tree art (`log.webp`) is no longer
-placed on the map; its bark is still cropped as the texture for round logs.
-
-Write `season.json` from the swamp-summer template: the trail (keys, zones, waters, heavy-mud pits,
-checkpoints, depot; no fuel stations: refuelling is by fuel truck only), surfaces, the art map, the bank contact row, lane materials and the
-`ambience` zones (forest, swamp, frogs beds and crow calls, by trail position). Trace
-`rock-hulls.json` with `tools/art/trace-hulls.py`. Run `npm run test:route` with `HAUL_SEASON=<id>`
-and adjust the trail until the reference car clears it.
+The recipe: a simple, life-giving panorama (`render.backdropHorizon`, no tree layer, no haze), a thick road (`render.road`:
+drawing only, tires still roll on `visH`), rolling bumps on every open stretch (`trail.rollers`), lots of breakables on rock and dirt
+(`trail.crushables`), huge logs, rocks and pipes (`trail.obstacleScale`, `trail.obstacleRuns`), and deep bogs with one mud hole
+each and none elsewhere (`trail.heavyMud`, `trail.holes`). The swamp has no bridges, water, painted bank or fallen trees. Run
+`npm run test:route` with `HAUL_SEASON=<id>` and adjust the trail until a scout and the longest truck clear it.

@@ -25,6 +25,30 @@ style of the approved Swamp Scout: [assets/references/four-scout-trucks.png](ass
   watermarks. Show the whole object with clear margins.
 - PNG, at least 1500 px on the long side.
 
+## Hard rule for every vehicle image: wheels that make sense
+
+The wheels must suit the truck and its load, as on a real truck. Wheel layout is the most common reason a truck gets rejected and
+redrawn, so check it before you report. Look at the approved layouts first:
+
+- `assets/cars/fieldmaster-5/source/` and `assets/cars/swamp-ox-3/source/`: a close rear tandem right under the load.
+- `assets/cars/crag-crusher-11/source/`: big, evenly spaced axles along the whole truck.
+- `assets/references/wheel-layouts/prime-mover-1.webp` and `atlas-8.webp`: a lowbed with a steer axle, a close drive tandem and a close
+  group of 3 or 4 axles at the rear.
+
+The rules:
+
+- **Wheels carry the weight where it sits.** Every heavy part of the load has wheels under or right beside it. If you could
+  remove the wheels and wonder what holds the load up, it is wrong.
+- **Never one lone axle at the far end of a long trailer.** A trailer has at least a close tandem, set under the rear of the load.
+- **Group wheels in close sets.** Axles in a tandem or bogie sit nearly tire to tire. Two sets of wheels spread far apart with a
+  long empty stretch between them is fine; single axles scattered along the deck are not.
+- **Long or heavy rigs get more axles:** at least 5 on a highway semi with a long trailer (steer, drive tandem, trailer tandem), and at
+  least 5 on a heavy lowbed, more for a bigger load.
+- **Tires in proportion** to the truck and the same on every axle, neither oversized nor undersized for the body.
+- **The body has no defects:** clean panels, cab and fenders with no melted, fused or nonsensical shapes.
+
+Before reporting, look at the finished master and ask whether a truck driver would believe those wheels hold that load. If not, redraw it.
+
 ## Hard rule for every vehicle image: a flat side profile
 
 Every vehicle picture (master, body, wheel, and any redo) must pass these checks before you report it.
@@ -133,22 +157,20 @@ dimensions and that the wheel is square. Long rigs need a wide canvas; keep at l
 - Art in `hud.json` → `art`: painted PNG masters at the listed `file` paths under `assets/hud/`,
   in the Swamp Scout style.
 
+## Size cap
+
+No vehicle may be longer than 16.8 m, load included. The heavy class, the Ice Breaker and ten highway trucks are being redrawn within it, so draw those rigs at that scale or smaller, keeping tires at about 1.3 m or more. Each planned truck's `README.md` repeats this.
+
 ## Seasons: `assets/seasons/<id>/source/`
 
-Follow the list in the season's `README.md`, with `swamp-summer` as the template. **Hard rule: simple
-scenery, detailed road.** The backdrop, midground trees, the bank's far verge and props such as reeds
-are extremely simple (gradient sky, two or three flat hazy silhouette layers, few tones, smooth
-gradients, no fine texture, low contrast); only the road gets full detail (the bank's driving band,
-lane materials, mud, rocks, logs, holes, pipes, bridges). See `assets/seasons/SKILL.md`.
+Blackwater Swamp (`assets/seasons/swamp-summer/`) is the reference: copy its set of images for the new biome. The role list
+and ready prompts are in `assets/seasons/SKILL.md`. **Hard rule: a simple, life-giving background behind a thick, detailed road.**
 
-
-- `backdrop`: opaque panorama;
-- `midground`: transparent trees, rooted on a horizontal baseline;
-- `bank`: a wide side-view ground strip, transparent above an irregular far crest, opaque below,
-  with a broad drivable band;
-- `ground`: a top-down seamless tile;
-- props (reeds/shrubs), a `log` and a `rock`: transparent;
-- lane materials: top-down seamless tiles for each surface.
+- `backdrop`: an opaque panorama, simple but full of life, with a flat calm band across the bottom third;
+- `roadEdge`, `roadFar`: transparent strips for the road's front lip and far edge;
+- `roadSoil`: opaque dark earth, calm enough for the HUD to sit on;
+- road surfaces and `deepMud`: top-down seamless tiles;
+- `mudHole`, `reeds`, `rock`, round obstacles and traced props: transparent.
 
 Name them `<role>-v1.png` and record the prompts in `prompts.json`.
 

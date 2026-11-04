@@ -137,3 +137,11 @@ Built:
 Not built yet:
 - tire-type grip on new surfaces (snow, ice, asphalt);
 - the upgrade economy.
+
+## Maps
+
+Every map follows Blackwater Swamp: a simple, living background, a thick road that rolls in uneven bumps, deep bogs with mud holes, huge logs, rocks and pipes, and plenty of breakables. See `assets/seasons/swamp-summer/README.md`.
+
+## Truck sizes
+
+No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits them all. The heavy class has no trucks in the game right now: its art, the Ice Breaker's and ten highway trucks' were deleted on 2026-11-04, and they will be redrawn within that cap. Their wheels have to make sense for the truck and load (the hard rule in `AGENTS.md`).

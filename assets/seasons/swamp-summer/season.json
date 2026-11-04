@@ -902,14 +902,6 @@
         ]
       },
       {
-        "id": "corduroyLog-2085",
-        "kind": "corduroyLog",
-        "x": 2085,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      },
-      {
         "id": "log-2202",
         "kind": "log",
         "x": 2202,
@@ -1485,13 +1477,9 @@
   "art": {
     "backdrop": {
       "file": "art/backdrop.webp",
-      "source": "art/Warm Summer Swamp Panorama.png",
+      "source": "source/backdrop-v4.png",
       "width": 1800,
       "quality": 82
-    },
-    "bank": {
-      "file": "art/bank.webp",
-      "source": "source/bank-v3.png"
     },
     "ground": {
       "file": "art/ground.webp",
@@ -1499,7 +1487,7 @@
     },
     "roadEdge": {
       "file": "art/road-edge.webp",
-      "source": "art/Mossy Swamp Mud Platform Tile.png",
+      "source": "source/road-edge-v1.png",
       "crop": [
         0,
         287,
@@ -1511,7 +1499,7 @@
     },
     "roadFar": {
       "file": "art/road-far.webp",
-      "source": "art/Swampy Grass and Reed Border.png",
+      "source": "source/road-far-v1.png",
       "crop": [
         0,
         395,
@@ -1523,17 +1511,13 @@
     },
     "roadSoil": {
       "file": "art/road-soil.webp",
-      "source": "art/Hand-Painted Dark Swamp Soil Texture.png",
+      "source": "source/road-soil-v1.png",
       "width": 1024,
       "quality": 80
     },
     "reeds": {
       "file": "art/reeds.webp",
       "source": "source/reeds-v4.png"
-    },
-    "log": {
-      "file": "art/log.webp",
-      "source": "source/log-v1.png"
     },
     "rock": {
       "file": "art/rock.webp",
@@ -1551,29 +1535,9 @@
       "file": "art/deepMud.webp",
       "source": "source/deep-mud-v2.png"
     },
-    "logEnd": {
-      "file": "art/logEnd.webp",
-      "source": "source/log-end-v2.png"
-    },
-    "bridgeWood": {
-      "file": "art/bridgeWood.webp",
-      "source": "source/bridge-wood-v1.png"
-    },
     "logCrossing": {
       "file": "art/log-crossing.webp",
       "source": "source/log-crossing-v1.png"
-    },
-    "bridgePlank": {
-      "file": "art/bridge-plank.webp",
-      "source": "source/bridge-plank-v2.png"
-    },
-    "bridgeFrame": {
-      "file": "art/bridge-frame.webp",
-      "source": "source/bridge-frame-v1.png"
-    },
-    "bridgeSteelFrame": {
-      "file": "art/bridge-steel-frame.webp",
-      "source": "source/bridge-steel-frame-v1.png"
     },
     "mudHole": {
       "file": "art/mud-hole.webp",
@@ -1612,10 +1576,8 @@
   "render": {
     "sky": "#8dabb5",
     "bankTile": 14,
-    "bankContactRow": 500,
     "parallax": {
-      "backdrop": 0.055,
-      "midground": 0.24
+      "backdrop": 0.055
     },
     "forestFloor": false,
     "road": {
@@ -1654,16 +1616,6 @@
           565,
           463,
           375
-        ]
-      },
-      "bridgePlank": {
-        "nearLeft": [
-          410,
-          650
-        ],
-        "nearRight": [
-          1138,
-          650
         ]
       },
       "oilDrum": {
