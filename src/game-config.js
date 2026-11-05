@@ -33,7 +33,7 @@ export const STATION_REPAIR_SECONDS = 10;     // 100% damage to none
 export const MIN_PULL_BY_CLASS = { scout: 0.9, highway: 0.7, 'heavy-duty': 0.65, offroad: 0.8, heavy: 0.6 };
 
 // ---------- coins ----------
-export const STARTING_COINS = 200000;
+export const STARTING_COINS = 20000000;
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
