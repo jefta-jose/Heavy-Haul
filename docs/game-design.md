@@ -148,7 +148,7 @@ Hitting a solid obstacle at speed damages the truck: a red glow, a damage bar, c
 
 ## Controls
 
-The player has gas, brake, 4×4 and DIFF. Gears shift themselves: the short gear from rest, the long gear once it runs out of revs. Holding the brake at a stop starts reversing. Each class has a minimum pull, so no truck feels dead. All the numbers are in `src/game-config.js`.
+The player has gas, brake, AWD and DIFF. Gears shift themselves: the short gear from rest, the long gear once it runs out of revs. Holding the brake at a stop starts reversing. Each class has a minimum pull, so no truck feels dead. All the numbers are in `src/game-config.js`.
 
 ## Speed limit signs
 
@@ -182,4 +182,4 @@ The numbers are in `src/game-config.js`. Nitro adds no sound, as a turbo sound w
 
 ## Garage, screens and music
 
-The garage art is listed in `assets/hud/hud.json`; every entry reaches the style sheet as `--hud-<id>`. Heavy trucks, heavy screens: nothing in the garage bounces or gleams, and it moves slowly or not at all. Loading screens (`src/game/loader.js`, `assets/loaders/loaders.json`) show panning slides, a fact (the rig and trail after DRIVE, else a driving tip from `tips`), and the truck's own wheel rolling along a mud rut as the progress bar; a tap skips the wait once loading is done. The loading screen fades in over the garage on DRIVE and fades out to it on the way back. Two music tracks in `assets/audio/music/` play one at a time, garage and road, with their own Music volume; their settings are in `src/game-config.js`.
+The garage art is listed in `assets/hud/hud.json`; every entry reaches the style sheet as `--hud-<id>`. Heavy trucks, heavy screens: nothing in the garage bounces or gleams, and it moves slowly or not at all. Loading screens (`src/game/loader.js`, `assets/loaders/loaders.json`) show painted how-to-play slides (labelled arrows over the scene) that pan and cross-fade, each with its own title and list of facts from `slides`; after DRIVE the run's own facts (rig and trail) come first. There is no progress bar: the truck's own wheel spins on a mud mound at the bottom left, throwing mud. Each screen stays up long enough to read (`LOADER_MIN_MS_*` and `LOADER_SLIDE_MS` in `src/game-config.js`), and a tap skips the wait once loading is done. The loading screen fades in over the garage on DRIVE and fades out to it on the way back. Two music tracks in `assets/audio/music/` play one at a time, garage and road, with their own Music volume; their settings are in `src/game-config.js`.

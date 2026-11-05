@@ -54,7 +54,7 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 - Tires: `gravel`, `dirt`, `rocks`, `mud`; `mud-spin` grows with wheel slip in mud. Water: `wade` and
   `water-churn`; `splash` and `splash-small` on entry.
 - Chassis: `rattle-bed` follows speed, surface and how rough the ride is. Hitting a log, pipe or rock plays the load's sound by class (`HIT_SOUNDS` in `vehicle-audio.js`): `cargo-heavy-chains` on highway, `rattle` on heavy duty, `cargo-chains` on off-road and a 2.5 s burst of `cable-strain` on heavy. Scouts have none.
-- Gears and cab: `gear-clunk` for shifts and the 4×4 / DIFF / H-L levers, `air-pop` for the shift's air on air
+- Gears and cab: `gear-clunk` for shifts and the AWD / DIFF / H-L levers, `air-pop` for the shift's air on air
   brakes.
 - Brakes on trucks with air brakes: `hydraulic-brake` hiss braking from speed, `air-release` when it
   stops, `air-burst` when the pedal lets go. Handbrake: `handbrake-on` / `-off` ratchet on scouts,

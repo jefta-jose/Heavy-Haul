@@ -7,17 +7,17 @@
 </style>
 
 <!-- first in the page, so it shows before anything else has loaded (src/game/loader.js) -->
-<div class="loader crawl" id="loader" data-kind="launch">
-  <div class="loader-slide on" style="background-image: var(--loader-launch)"></div>
+<div class="loader" id="loader" data-kind="launch">
+  <div class="loader-slide on" style="background-image: var(--loader-bog)"></div>
   <div class="loader-slide"></div>
   <div class="loader-foot"></div>
-  <div class="loader-fact" id="loaderFact"></div>
-  <div class="loader-rut" role="progressbar" aria-label="Loading">
-    <div class="rut-bed"></div>
-    <div class="rut-fill"><i></i></div>
-    <div class="rut-run"><div class="rut-wheel" id="loaderWheel"></div></div>
+  <div class="loader-text"><h2 id="loaderTitle"></h2><ul id="loaderFacts"></ul></div>
+  <div class="loader-mud" role="status" aria-live="polite">
+    <i class="mud-splash s1"></i><i class="mud-splash s2"></i><i class="mud-splash s3"></i>
+    <div class="mud-wheel" id="loaderWheel"></div>
+    <i class="mud-mound"></i>
+    <span class="loader-label" id="loaderLabel">Loading</span>
   </div>
-  <div class="loader-info"><span id="loaderLabel">Loading</span><span id="loaderPct"></span></div>
 </div>
 
 <div id="game">
@@ -73,7 +73,7 @@
         <button class="winch" id="winch" aria-label="Winch: hook or unhook" aria-pressed="false"><!--icon:winch-->WINCH</button>
         <div class="drive">
           <div class="modes" role="group" aria-label="Drive modes">
-            <button class="mode" id="awdBtn" aria-pressed="false" title="Four-wheel drive (Q)">4×4</button>
+            <button class="mode" id="awdBtn" aria-pressed="false" title="All-wheel drive (Q)">AWD</button>
             <button class="mode" id="diffBtn" aria-pressed="false" title="Differential lock (E)">DIFF</button>
           </div>
         </div>
@@ -150,7 +150,7 @@
         <h3>Sound</h3>
         <p>Each class of truck has its own recorded engine. Effects are tires, water, mud, brakes and the load; ambience is the birds and the swamp.</p>
         <div class="vols" id="volList"></div>
-        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. With the Invincible or Nitro power, tap its button (S) to use it. Instant brakes work by braking above the speed limit on the signs. For mud and rock: 4×4 and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
+        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. With the Invincible or Nitro power, tap its button (S) to use it. Instant brakes work by braking above the speed limit on the signs. For mud and rock: AWD and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
         <details class="credits"><summary>Sound credits (Freesound)</summary><ul id="soundCredits"></ul></details>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>

@@ -36,7 +36,7 @@ export function scaled(img, k) {
   return out;
 }
 
-// Solid-color silhouette of a sprite (used for the 4x4 / DIFF outline).
+// Solid-color silhouette of a sprite (used for the AWD / DIFF outline).
 export function tinted(src, color) {
   const c = makeCanvas(src.width, src.height), g = c.getContext('2d');
   g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-in';

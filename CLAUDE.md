@@ -121,8 +121,8 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      `towMassT` and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`). Tune them to out-pull every car
      of their class in L but stay slower than its fastest (`npm test` checks the roster and the pits).
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
-   the approved feel: brisk take-off, smooth drive, and 4×4 / DIFF clearly felt in mud. Heavier
-   classes are slower but must still clear the trail with L, 4×4, DIFF and their own class's
+   the approved feel: brisk take-off, smooth drive, and AWD / DIFF clearly felt in mud. Heavier
+   classes are slower but must still clear the trail with L, AWD, DIFF and their own class's
    breakdown-truck winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
    **For a car-only drop, scope the export:** `npm run art:encode -- --cars <id> <id> --method 2`.
    This retains quality 94 and source dimensions while reducing compression effort; it skips

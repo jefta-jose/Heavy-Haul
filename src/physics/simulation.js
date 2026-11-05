@@ -335,7 +335,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       } else if (st.throttle > 0.01 && driven.includes(i)) {
         j.setMotorSpeed(dir * driveOmega * health); j.setMaxMotorTorque(caps[i] * health);
       } else if (st.throttle > 0.01) {
-        j.setMotorSpeed(0); j.setMaxMotorTorque(40);          // front axle free-wheeling with 4x4 off
+        j.setMotorSpeed(0); j.setMaxMotorTorque(40);          // front axle free-wheeling with AWD off
       } else if (v.winched) {
         j.setMotorSpeed(0); j.setMaxMotorTorque(40);          // towed on the cable: rolls freely
       } else {

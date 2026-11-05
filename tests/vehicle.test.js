@@ -1,5 +1,5 @@
 // Vehicle behaviour on the current car and season: registration, suspension, traction, brakes,
-// drivetrain feel, 4x4 / DIFF effect in mud, obstacles and trail stability.
+// drivetrain feel, AWD / DIFF effect in mud, obstacles and trail stability.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { content, newSim, spawn, advance, DT } from './helpers.js';
@@ -65,12 +65,12 @@ test('brakes stop it and reverse backs up', () => {
   r.ctl.gas = 1; advance(r, 5); assert(r.truck.getPosition().x < x0 - 2, 'reverse moves backward');
 });
 
-test('4x4 and DIFF clearly change progress in deep mud', () => {
+test('AWD and DIFF clearly change progress in deep mud', () => {
   const metres = (awd, diff) => { const s = spawn(newSim(), 600, { awd, diff }), x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 15); return s.truck.getPosition().x - x0; };
   const none = metres(false, false), awd = metres(true, false), both = metres(true, true);
-  assert(none < 6, `stuck without 4x4 or DIFF (${none.toFixed(1)} m)`);
-  assert(awd > none, `4x4 helps (${awd.toFixed(1)} m vs ${none.toFixed(1)} m)`);
-  assert(both > awd * 3 && both > 25, `4x4 + DIFF gets through (${both.toFixed(1)} m)`);
+  assert(none < 6, `stuck without AWD or DIFF (${none.toFixed(1)} m)`);
+  assert(awd > none, `AWD helps (${awd.toFixed(1)} m vs ${none.toFixed(1)} m)`);
+  assert(both > awd * 3 && both > 25, `AWD + DIFF gets through (${both.toFixed(1)} m)`);
 });
 
 test('trail has climbable obstacles and rocks break under the tires', () => {

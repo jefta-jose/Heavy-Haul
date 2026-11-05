@@ -53,15 +53,15 @@ Current scout baseline:
   spools at 1.8/s, and the commanded drive speed climbs fast from rest then at ~420 rpm/s once
   rolling (`npm run feel` prints the curves).
 - Mud is patchy per tire (`mudPatch`) with a bog drag, and the open differential is capped by the
-  weakest tire, so 4x4 and DIFF each change progress clearly in deep mud.
+  weakest tire, so AWD and DIFF each change progress clearly in deep mud.
 - Crushable rocks (`rock.crush`) break after about 900 N·s of tire impulse and emit `S.events`.
 - Obstacles: climbable boulders on every firm section, fallen logs (`S.logs`, static circles; half
   sunk in mud), deep potholes (2.8-4 m wide, 0.42-0.64 m deep) and washboard. Service trucks winch
   out of the four heavy-mud pits; there are no winch posts.
 - Suspension sag `0.16 m`, upward travel `0.32 m`, downward travel `0.38 m`, damping ratio `0.48`.
 - Mud collision sink `0.26 m`; visible mud surface remains on `sim.visH(x)`.
-- Governor 2300 rpm. The scout starts with 4×4 and DIFF off; the deep-mud start selects low range,
-  4×4 and differential lock. Toggling either flashes a green (on) or red (off) outline around the vehicle.
+- Governor 2300 rpm. The scout starts with AWD and DIFF off; the deep-mud start selects low range,
+  AWD and differential lock. Toggling either flashes a green (on) or red (off) outline around the vehicle.
 
 For different vehicles, recompute mass, clearance, axle positions, spring loading and torque to fit the
 new rig. Rear axle load distribution must use the actual axle count. Hiding a trailer
@@ -78,7 +78,7 @@ The active sequence is:
 3. Back props, collision-rock art and log bark bands.
 4. Exhaust smoke and haze (behind the vehicle). No vehicle shadows: the user removed the ground,
    chassis and tire contact shadows (2026-10-31); do not add them back.
-5. The 4x4/DIFF outline (only while flashing), far tires, body, then near tires in front of the body.
+5. The AWD/DIFF outline (only while flashing), far tires, body, then near tires in front of the body.
 6. Service winch cables, the foreground bank lip (only near the vehicle), then the log end caps.
 7. Water surface, ripples, dust, spray, drops and chunks, front props.
 8. Mild bottom-screen shading, then the HUD.

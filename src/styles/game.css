@@ -457,42 +457,42 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .msgart.wreck .msgpic { background-image: var(--hud-g2-wreck); }
 @media (max-height: 520px) { .card.hasart { grid-template-columns: 130px minmax(0, 1fr); width: min(600px, 100%); } .msgart, .msgpic { min-height: 110px; } .overlay:not(.garage) .btn { min-height: 34px; font-size: 14px; } }
 .keys summary { cursor: pointer; font-family: var(--display); font-weight: 600; color: var(--ink); }
-/* Loading screens: launch, after DRIVE, back to the garage (src/game/loader.js). Painted slides pan slowly and cross-fade over a
-   dark foot with a fact, and a truck's wheel grinds along a mud rut, leaving its tread behind as progress. The wheel and the tread
-   are moved by two opposite slides and a spin on the compositor, so they keep going while the main thread is busy. */
-.loader { position: fixed; inset: 0; z-index: 100; --p: 0; --rut-w: min(78vw, 720px); --rut-h: calc(var(--rut-w) * .0445); display: grid; align-content: end; justify-items: center; gap: 6px; padding: 0 16px max(26px, 5vh); overflow: hidden; pointer-events: auto; touch-action: none; background: #090b0e; transition: opacity .3s; }
+/* Loading screens: launch, after DRIVE, back to the garage (src/game/loader.js). A painted how-to-play slide pans slowly and
+   cross-fades over a dark foot, with its title and a few facts listed over it. At the bottom left the truck's wheel spins on a
+   mound of mud, throwing mud back in three splashes; there is no progress bar. Everything moves on the compositor, so it keeps
+   going while the main thread is busy. --w is the wheel's diameter; the mud block is 2 wheels wide. */
+.loader { position: fixed; inset: 0; z-index: 100; --w: clamp(64px, 15vh, 140px); --gut: max(16px, env(safe-area-inset-left)); --base: max(30px, 5vh); overflow: hidden; pointer-events: auto; touch-action: none; background: #090b0e; transition: opacity .3s; }
 .loader.out { opacity: 0; pointer-events: none; }
-.loader-slide { position: absolute; inset: -5%; background: #090b0e no-repeat center 62% / cover; opacity: 0; transition: opacity 1.1s; will-change: transform, opacity; }
-.loader-slide.on { opacity: 1; animation: slidepan 16s linear forwards; }
+.loader-slide { position: absolute; inset: -3%; background: #090b0e no-repeat center 62% / cover; opacity: 0; transition: opacity 1.1s; will-change: transform, opacity; }
+.loader-slide.on { opacity: 1; animation: slidepan 18s linear forwards; }
 .loader-slide.alt.on { animation-name: slidepanback; }
-@keyframes slidepan { from { transform: translateX(-2.5%) scale(1); } to { transform: translateX(2.5%) scale(1.03); } }
-@keyframes slidepanback { from { transform: translateX(2.5%) scale(1.03); } to { transform: translateX(-2.5%) scale(1); } }
-.loader-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(0deg, rgba(6,7,9,.96) 45%, transparent); }
-.loader > :not(.loader-slide):not(.loader-foot) { position: relative; }
-.loader-fact { width: var(--rut-w); min-height: 3.6em; margin-bottom: calc(var(--rut-h) * 1.8); font-family: var(--display); color: #e4e7ea; animation: factin .5s ease-out; }
-@keyframes factin { from { opacity: 0; transform: translateY(5px); } }
-.loader-fact small { display: block; font-size: 15px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #f2c21a; }
-.loader-fact p { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.2; }
-.loader-rut { width: var(--rut-w); height: var(--rut-h); }
-.rut-bed, .rut-fill i { position: absolute; inset: 0; background: var(--loader-rut) center / 100% 100% no-repeat; }
-.rut-bed { opacity: .3; }
-.rut-fill { position: absolute; inset: 0; overflow: hidden; transform: translateX(calc((var(--p) - 1) * 100%)); transition: transform .5s linear; }
-.rut-fill i { filter: brightness(.72) saturate(.85); transform: translateX(calc((1 - var(--p)) * 100%)); transition: transform .5s linear; }
-.rut-run { position: absolute; inset: 0; transform: translateX(calc((var(--p) - 1) * 100%)); transition: transform .5s linear; pointer-events: none; }
-/* the wheel's picture is square and centred, so it can simply turn; its tire stands in the rut */
-.rut-wheel { position: absolute; right: 0; bottom: 12%; width: calc(var(--rut-h) * 2.5); aspect-ratio: 1; margin-right: calc(var(--rut-h) * -1.25); background: var(--loader-wheel) center / contain no-repeat; animation: rutspin 2.4s linear infinite; }
-@keyframes rutspin { to { transform: rotate(360deg); } }
-.loader.done .rut-wheel { animation-play-state: paused; }
-.loader-info { display: flex; justify-content: space-between; width: var(--rut-w); margin-top: 8px; font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9aa3ad; font-variant-numeric: tabular-nums; }
-.loader.snap .rut-fill, .loader.snap .rut-fill i, .loader.snap .rut-run { transition: none; }
-/* before any script has run: creep up to 30% */
-.loader.crawl .rut-fill, .loader.crawl .rut-run { animation: loader-crawl 5s ease-out forwards; }
-.loader.crawl .rut-fill i { animation: loader-crawl-back 5s ease-out forwards; }
-@keyframes loader-crawl { from { transform: translateX(-100%); } to { transform: translateX(-70%); } }
-@keyframes loader-crawl-back { from { transform: translateX(100%); } to { transform: translateX(70%); } }
-@media (max-height: 520px) { .loader { padding-bottom: 12px; gap: 3px; } .loader-fact { min-height: 3em; } .loader-fact small { font-size: 12px; } .loader-fact p { font-size: 17px; } .loader-info { font-size: 13px; margin-top: 5px; } }
-@media (orientation: portrait) { .loader { --rut-w: 84vw; } .loader-slide { background-position: 42% 40%; } }
-@media (prefers-reduced-motion: reduce) { .loader-slide.on { animation: none; } }
+@keyframes slidepan { from { transform: translateX(-1.5%) scale(1); } to { transform: translateX(1.5%) scale(1.025); } }
+@keyframes slidepanback { from { transform: translateX(1.5%) scale(1.025); } to { transform: translateX(-1.5%) scale(1); } }
+.loader-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 44%; background: linear-gradient(0deg, rgba(6,7,9,.97) 50%, transparent); }
+.loader-text { position: absolute; left: calc(var(--gut) + var(--w) * 2.75); right: max(24px, env(safe-area-inset-right)); bottom: var(--base); max-width: 860px; font-family: var(--display); color: #e4e7ea; animation: factin .6s ease-out; }
+@keyframes factin { from { opacity: 0; transform: translateY(6px); } }
+.loader-text h2 { margin: 0 0 6px; font-size: 17px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #f2a531; }
+.loader-text ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; }
+.loader-text li { position: relative; padding-left: 18px; font-size: 23px; font-weight: 600; line-height: 1.22; }
+.loader-text li::before { content: ''; position: absolute; left: 2px; top: .5em; width: 7px; height: 7px; background: #f2a531; transform: rotate(45deg); }
+.loader-text li b { color: #f2a531; font-weight: 700; }
+.loader-mud { position: absolute; left: calc(var(--gut) + var(--w) * .45); bottom: calc(var(--base) + 1.6em); width: calc(var(--w) * 2); height: calc(var(--w) * 1.25); pointer-events: none; }
+.mud-mound { position: absolute; left: 0; bottom: 0; width: 100%; aspect-ratio: 1410 / 198; z-index: 3; background: var(--loader-mound) center / 100% 100% no-repeat; }
+/* the wheel's picture is square and centred, so it can simply turn; its tire sits a little into the mound */
+.mud-wheel { position: absolute; left: calc(50% - var(--w) / 2); bottom: calc(var(--w) * .07); width: var(--w); aspect-ratio: 1; z-index: 2; background: var(--loader-wheel) center / contain no-repeat; animation: mudspin .9s linear infinite; }
+@keyframes mudspin { to { transform: rotate(360deg); } }
+/* each splash springs from its bottom-right corner, at the back of the tire's contact patch, in turn */
+.mud-splash { position: absolute; left: calc(var(--w) * -.42); bottom: 0; width: calc(var(--w) * 1.3); aspect-ratio: 1; z-index: 1; opacity: 0; transform-origin: 86% 87%; animation: mudsplash .9s linear infinite; }
+.mud-splash.s1 { background: var(--loader-splash1) center / contain no-repeat; }
+.mud-splash.s2 { background: var(--loader-splash2) center / contain no-repeat; animation-delay: .3s; }
+.mud-splash.s3 { background: var(--loader-splash3) center / contain no-repeat; animation-delay: .6s; }
+@keyframes mudsplash { 0% { opacity: 0; transform: scale(.75); } 8% { opacity: 1; } 33% { opacity: 1; transform: translate(-4%, -3%) scale(1); } 46%, 100% { opacity: 0; transform: translate(-7%, -2%) scale(1.04); } }
+.loader-label { position: absolute; left: 0; right: 0; top: calc(100% + 8px); text-align: center; white-space: nowrap; font-family: var(--display); font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #9aa3ad; }
+.loader.done .loader-label { color: #f2a531; animation: tappulse 1.6s ease-in-out infinite; }
+@keyframes tappulse { 50% { opacity: .55; } }
+@media (max-height: 520px) { .loader { --w: clamp(48px, 15vh, 70px); --base: 12px; } .loader-text h2 { font-size: 12px; margin-bottom: 3px; } .loader-text ul { gap: 2px; } .loader-text li { font-size: 15px; padding-left: 14px; } .loader-text li::before { width: 5px; height: 5px; } .loader-label { font-size: 12px; top: calc(100% + 4px); } }
+@media (orientation: portrait) { .loader { --w: clamp(56px, 18vw, 96px); } .loader-slide { background-position: 42% 40%; } .loader-foot { height: 58%; } .loader-text { left: var(--gut); right: var(--gut); bottom: calc(var(--base) + var(--w) * 1.25 + 3.4em); } .loader-text li { font-size: 18px; } }
+@media (prefers-reduced-motion: reduce) { .loader-slide.on, .mud-splash { animation: none; } .mud-wheel { animation-duration: 3s; } }
 
 /* Service call action */
 .dash { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }

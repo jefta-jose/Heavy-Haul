@@ -27,7 +27,7 @@ export function createDrivetrain(cfg) {
     st.rpmCmd = st.throttle > 0.01 ? Math.max(wheelRpm, Math.min(cfg.governedRpm, wheelRpm + ramp.maxSlipRpm, (st.rpmCmd || 0) + (ramp.base + ramp.launch * Math.max(0, 1 - wheelRpm / ramp.launchUntilRpm)) * dt * st.throttle)) : wheelRpm;
     const driveOmega = Math.min(govOmega, st.rpmCmd * 2 * Math.PI / 60 / ratio);
     const tEng = engineTorque(Math.max(st.rpm, 900)) * st.throttle * (1 + cfg.converterBoost * Math.max(0, 1 - wheelRpm / cfg.converterCoupleRpm));
-    // Every axle is powered, trailer axles included. 4x4 off: all but the front axle. 4x4 on: all of them.
+    // Every axle is powered, trailer axles included. AWD off: all but the front axle. AWD on: all of them.
     const driven = wheels.map((_, i) => i).filter(i => ctl.awd || i > 0);
     const perWheel = tEng * ratio * cfg.efficiency / driven.length;
     // Open differentials send equal torque to every driven wheel, so the wheel with the least grip

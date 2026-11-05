@@ -1,67 +1,66 @@
 {
-  "about": "Loading screens: slides (a painted background per moment), the mud rut the wheel rolls along, the launch wheel, and the driving tips shown under the slides. Encoded small (width, quality) and cropped to the art (crop = left, top, right, bottom in source pixels) because they must show at once. The PNGs are the masters.",
+  "about": "Loading screens: a painted how-to-play slide per topic, with its own title and facts listed under it, and the truck's wheel spinning on a mud mound at the bottom left, throwing mud. Encoded small (width, quality), cropped where noted (crop = left, top, right, bottom in source pixels), because they must show at once. The PNGs in source/ are the masters; source/prompts.json records how they were made.",
   "art": {
-    "launch": {
-      "source": "Amber Dawn Logging Truck in the Swamp.png",
-      "file": "art/launch.webp",
-      "width": 1280,
-      "quality": 72
-    },
-    "drive": {
-      "source": "Misty Cypress Swamp Trail at Sunrise.png",
-      "file": "art/drive.webp",
-      "width": 1280,
-      "quality": 72
-    },
-    "garage": {
-      "source": "Rainy Twilight Garage Workshop in the Marsh.png",
-      "file": "art/garage.webp",
-      "width": 1280,
-      "quality": 72
+    "bog": { "source": "source/slide-bog-v3.png", "file": "art/bog.webp", "width": 1280, "quality": 78 },
+    "winch": { "source": "source/slide-winch-v4.png", "file": "art/winch.webp", "width": 1280, "quality": 78 },
+    "fuel": { "source": "source/slide-fuel-v2.png", "file": "art/fuel.webp", "width": 1280, "quality": 78 },
+    "obstacles": { "source": "source/slide-obstacles.png", "file": "art/obstacles.webp", "width": 1280, "quality": 78 },
+    "coins": { "source": "source/slide-coins-v3.png", "file": "art/coins.webp", "width": 1280, "quality": 78 },
+    "garage": { "source": "source/slide-garage-v2.png", "file": "art/garage.webp", "width": 1280, "quality": 78 },
+    "mound": { "source": "source/loader-mud-mound.png", "file": "art/mound.webp", "crop": [96, 210, 1506, 408], "width": 700, "quality": 85 },
+    "splash1": { "source": "source/loader-splash-1.png", "file": "art/splash1.webp", "width": 384, "quality": 85 },
+    "splash2": { "source": "source/loader-splash-2.png", "file": "art/splash2.webp", "width": 384, "quality": 85 },
+    "splash3": { "source": "source/loader-splash-3.png", "file": "art/splash3.webp", "width": 384, "quality": 85 },
+    "wheel": { "source": "../cars/swamp-scout-4/source/wheel-v2.png", "file": "art/wheel.webp", "width": 256, "quality": 85 }
+  },
+  "first": { "launch": "bog", "drive": "obstacles", "garage": "garage" },
+  "slides": {
+    "bog": {
+      "title": "Deep mud",
+      "facts": [
+        "Drop to L before you reach the bog, not once you are stuck in it.",
+        "AWD drives every axle. DIFF LOCK turns all the wheels together, so one spinning tire cannot waste the power.",
+        "Light trucks can wiggle through. A loaded rig may need its breakdown truck."
+      ]
     },
     "winch": {
-      "source": "source/slide-winch.png",
-      "file": "art/winch.webp",
-      "width": 1280,
-      "quality": 72
+      "title": "Breakdown truck",
+      "facts": [
+        "Call it from the top bar, once per run. It comes from the start of the trail.",
+        "Back it within 5 m of the stuck truck and tap WINCH to hook on.",
+        "Drive away to tow. The cable never reels in, and the breakdown truck never gets stuck."
+      ]
     },
     "fuel": {
-      "source": "source/slide-fuel.png",
-      "file": "art/fuel.webp",
-      "width": 1280,
-      "quality": 72
+      "title": "Fuel stations",
+      "facts": [
+        "Stop in a station's bay to refuel and repair.",
+        "The trip line shows how far away the next station is.",
+        "Run the tank dry and the engine stops. The breakdown truck can tow you in."
+      ]
     },
-    "bog": {
-      "source": "source/slide-bog.png",
-      "file": "art/bog.webp",
-      "width": 1280,
-      "quality": 72
+    "obstacles": {
+      "title": "Logs, rocks and pipes",
+      "facts": [
+        "Big tires climb pipes and logs. Small ones hang up on them.",
+        "Take them slowly in L, so the tires can grip and climb.",
+        "Hard hits add damage. A fuel station repairs it."
+      ]
     },
-    "rut": {
-      "source": "source/rut-track.png",
-      "file": "art/rut.webp",
-      "crop": [
-        4,
-        268,
-        2168,
-        461
-      ],
-      "width": 1100,
-      "quality": 85
+    "coins": {
+      "title": "Coins",
+      "facts": [
+        "New ground, things you crush and deep bogs you clear all pay.",
+        "Spend coins in the garage on tuning and powers."
+      ]
     },
-    "wheel": {
-      "source": "../cars/swamp-scout-4/source/wheel-v2.png",
-      "file": "art/wheel.webp",
-      "width": 256,
-      "quality": 85
+    "garage": {
+      "title": "Garage tuning",
+      "facts": [
+        "Each truck has four knobs: engine, suspension, speed and grip.",
+        "Upgrades are saved per truck, and selling a step back refunds it.",
+        "Pick one power per truck: Invincible, Nitro or Instant brakes."
+      ]
     }
-  },
-  "tips": [
-    "Stuck in a bog? Drop to L and switch on 4×4 and DIFF before you call for help.",
-    "The breakdown truck comes from the start of the trail, and you can call it once per run.",
-    "Back the breakdown truck within 5 m of a stuck rig, tap WINCH to hook it, then drive away to tow it.",
-    "Fuel stations refuel and repair your truck. The trip line shows how far the next one is.",
-    "Coins add up as you go: new ground, things you crush and deep bogs you clear all pay.",
-    "Upgrades are saved per truck, and selling a step back refunds it."
-  ]
+  }
 }

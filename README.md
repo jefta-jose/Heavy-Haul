@@ -75,7 +75,7 @@ or `HAUL_CAR` / `HAUL_SEASON`). Cars have fixed tires: to get something stronger
   the tires, so each tire sits inside its fender. Springs are sized from each axle's static load.
 - **Drivetrain feel.** A torque converter multiplies torque at launch and the commanded drive
   speed ramps fast from rest then gently: a brisk take-off and a smooth drive. Open diffs are
-  limited by the weakest tire; mud grip is patchy per tire, so 4×4 and DIFF clearly matter.
+  limited by the weakest tire; mud grip is patchy per tire, so AWD and DIFF clearly matter.
 - **Rendering.** Sprites are resampled per zoom level, with no per-frame filters, and the canvas
   resolution adapts if frames run long (never during the first 5 s, and never mid-draw).
 
@@ -86,7 +86,7 @@ npm test               # vehicle behaviour (fast)
 npm run test:route     # drives the whole trail checkpoint to checkpoint
 npm run test:browser   # headless Chromium: loads offline, drives, layouts (first: npx playwright install chromium)
 npm run check          # all of the above
-npm run feel           # prints launch speeds and deep-mud progress per 4×4 / DIFF combination
+npm run feel           # prints launch speeds and deep-mud progress per AWD / DIFF combination
 ```
 
 Browser captures are written to `output/captures/` for visual review.

@@ -53,7 +53,7 @@ rules should not override the supplied scout reference or the user's current ins
    from its physics axle. Add far tires, foreground mud and layered scenery (vehicles cast no
    shadows, and the near tires draw in front of the body). Keep terrain anchored to the physical height field. Read
    [registration and rendering](references/registration-and-rendering.md) for the exact implementation.
-7. **Tune the feel, sound and frame rate.** Aim for a brisk take-off and a smooth drive. 4x4 and DIFF
+7. **Tune the feel, sound and frame rate.** Aim for a brisk take-off and a smooth drive. AWD and DIFF
    must change mud progress clearly and show a green or red outline when toggled. Give the trail
    obstacles that are physical. Use the class's recorded engine from the sound bank (assets/audio), never synthesized engines.
    Keep frames steady by caching resampled sprites and avoiding per-frame filters. Read
@@ -78,7 +78,7 @@ capability accurately. A finished existing asset does not need regeneration mere
 - The actual playable vehicle and environment carry the reference's detail and palette.
 - The body and wheels animate independently; tires spin about their hub without obvious wobble.
 - Each tire fills its arch: no gap under the fender, and no springs or liners drawn over the tread.
-- The vehicle takes off briskly, then drives smoothly. 4x4 and DIFF are clearly felt in mud and flash a
+- The vehicle takes off briskly, then drives smoothly. AWD and DIFF are clearly felt in mud and flash a
   green or red outline. Logs, boulders, potholes and bumps are physical and climbable.
 - Sound: ignition, a V8 engine without whistle, gear and drivetrain clunks, reverse, splashes, crunches,
   at a comfortable volume.

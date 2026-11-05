@@ -1,4 +1,4 @@
-// Drives the whole trail checkpoint to checkpoint like a sensible player: low range, 4x4 + DIFF in
+// Drives the whole trail checkpoint to checkpoint like a sensible player: low range, AWD + DIFF in
 // mud and rock or when stuck, backing up for another run when it stalls on the level, and calling a breakdown
 // truck to tow it out on the winch when it is properly stuck (the heavy-mud pits). Every section must finish.
 import test from 'node:test';

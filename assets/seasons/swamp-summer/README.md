@@ -137,7 +137,7 @@ cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstac
 ## 6. Deep bogs and mud holes
 
 - `trail.heavyMud` (10 pit centres): each pit is about 20 m long, sunk by `surfaces.mud.sink` plus `heavySink`, and held
-  by `bog`, `suction` and `heavyDrag`. Light tires are held less (`bogRefT`). L, 4×4 and DIFF matter here, and a bad
+  by `bog`, `suction` and `heavyDrag`. Light tires are held less (`bogRefT`). L, AWD and DIFF matter here, and a bad
   run needs the breakdown truck, but service trucks must always cross. There are about 980 m of mud zones in all.
 - `trail.holes` (10): **one mud hole per pit, and none anywhere else.** They are 0.3 m deep, and deeper ones stopped
   service trucks. The drawn size does not depend on that depth: on a thick road the art keeps its true proportions and

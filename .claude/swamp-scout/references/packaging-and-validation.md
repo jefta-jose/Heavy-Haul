@@ -40,8 +40,8 @@ Rendering or art: build and run the browser check. Vehicle, terrain or physics: 
 tests and the full-trail drive. Documentation-only work needs no simulation run.
 
 ```sh
-npm test               # vehicle behaviour: registration, suspension, feel, brakes, 4x4/DIFF in mud, obstacles
-npm run feel           # launch speeds and deep-mud progress per 4x4/DIFF combination
+npm test               # vehicle behaviour: registration, suspension, feel, brakes, AWD/DIFF in mud, obstacles
+npm run feel           # launch speeds and deep-mud progress per AWD/DIFF combination
 npm run test:route     # drives the whole trail
 npx playwright install chromium   # first browser setup only
 npm run test:browser   # captures go to output/captures (HAUL_CAPTURES=<dir> to change)
@@ -53,9 +53,9 @@ through the `window.__haul` handle and checks that:
 - every selected image loads with external network requests disabled, and the start card is filled
   from `car.json`;
 - an upward chassis impulse moves the body relative to the tires while the camera stays still;
-- keyboard throttle and brake, touch throttle, gears, 4x4 and DIFF buttons work, and the tires spin;
+- keyboard throttle and brake, touch throttle, gears, AWD and DIFF buttons work, and the tires spin;
 - the close camera keeps the nose in frame and pause stops physics;
-- the deep-mud start sets low range, 4x4 and DIFF;
+- the deep-mud start sets low range, AWD and DIFF;
 - terrain sections render, phone-landscape pedals leave tire contact visible, and portrait controls fit.
 
 A passing run still needs a visual review.
@@ -67,7 +67,7 @@ cohesion), `02-close` (wheel registration and detail), `03-deep-mud` and `04-wat
 wet effects), `05-rocks`, `06-phone` and `07-portrait` (visibility and control layout).
 
 Also drive the real game. Listen for ignition, engine, gear clunks and splashes. Watch the first five
-seconds for black flashes, cross a log, a boulder and a deep pothole, and toggle 4x4 and DIFF in mud.
+seconds for black flashes, cross a log, a boulder and a deep pothole, and toggle AWD and DIFF in mud.
 
 Look for colored cutout edges, clipped tires, gaps between tire and fender, wheel wobble, floating
 props, mismatched viewpoints, straight mud cutoffs, hard repeating seams, roof/body clipping and

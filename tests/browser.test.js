@@ -199,9 +199,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.keyboard.down('ArrowLeft'); await page.waitForFunction(() => __haul.sim.ctl.brake === 1); await step(360); await page.keyboard.up('ArrowLeft');
     assert.equal(await page.evaluate(() => __haul.sim.ctl.gear), 'R', 'holding the brake stops the truck, then reverses it');
 
-    // 4x4 / DIFF buttons toggle the drivetrain; the gears shift themselves
+    // AWD / DIFF buttons toggle the drivetrain; the gears shift themselves
     await page.click('#awdBtn'); await page.click('#diffBtn');
-    assert(await page.evaluate(() => __haul.sim.ctl.awd && __haul.sim.ctl.diff), '4x4 and DIFF buttons engage');
+    assert(await page.evaluate(() => __haul.sim.ctl.awd && __haul.sim.ctl.diff), 'AWD and DIFF buttons engage');
 
     // The camera uses the car's own zoom from car.json; there is no zoom button any more.
     assert.equal(await page.locator('#cameraBtn').count(), 0, 'no zoom button');

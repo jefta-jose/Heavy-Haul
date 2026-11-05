@@ -89,7 +89,7 @@ export function createSceneryCache(scene) {
 }
 
 // A vehicle (its load drawn in): body,
-// near and pre-darkened far wheel, and solid outlines for the 4x4 / DIFF flash.
+// near and pre-darkened far wheel, and solid outlines for the AWD / DIFF flash.
 export function createRigCache(view, rig, sources) {
   const loader = loadImages(sources);
   const C = { key: '', outline: {}, halos: {}, images: loader.images, ready: loader.ready, loaded: loader.allLoaded };

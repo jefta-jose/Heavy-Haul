@@ -61,9 +61,9 @@ a smooth rise toward 20-23 km/h. L reaches about 16 km/h within 1-2 s. Limit acc
 commanded drive speed and the converter, not only by cutting torque. Cutting torque alone made mud and
 climbs impossible and the launch sluggish.
 
-## 4x4 and DIFF must be felt
+## AWD and DIFF must be felt
 
-**Feedback:** toggling 4x4 and DIFF changed nothing. The user asked to feel it, plus a green outline
+**Feedback:** toggling AWD and DIFF changed nothing. The user asked to feel it, plus a green outline
 when switched on and a red one when switched off.
 
 - Mud grip is patchy per tire. A `pre-solve` listener sets contact friction to `mu * mudPatch(x)`
@@ -71,7 +71,7 @@ when switched on and a red one when switched off.
   `tanh(v / 0.35)`) plus a 700 N·s/m suction.
 - An open diff caps every driven wheel to the weakest tire's grip (factor 1.0 for the scout).
 - The scout starts with both modes off. Deep-mud progress over 15 s in L should be roughly: off/off 3 m,
-  4x4 only 7 m, DIFF only 5 m, both on 40+ m. Keep that spread when retuning.
+  AWD only 7 m, DIFF only 5 m, both on 40+ m. Keep that spread when retuning.
 - Feedback when toggling: `renderer.flash(on)` traces the body and near-tire silhouettes, offset in eight
   directions at 0.075 m and 0.04 m, in green `#39e66a` or red `#ff3b30`, pulsing for 1.5 s. The audio
   plays a clunk at the same time.

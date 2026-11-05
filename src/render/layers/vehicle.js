@@ -100,7 +100,7 @@ export function createVehicleLayer(scene) {
     if (glow?.kind === 'invincible') drawSparkles(v, glow.strength);
   }
 
-  // 4x4 / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
+  // AWD / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
   function border(v, dt) {
     if (!flash) return;
     flash.t -= Math.min(0.05, dt || 1 / 60);

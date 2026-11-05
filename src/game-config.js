@@ -72,8 +72,10 @@ export const HIT_GLOW_SECONDS = 0.7;          // how long the red glow lasts aft
 export const HIT_GLOW_COLOR = '#ff2a1a';
 
 // ---------- loading screens ----------
-export const LOADER_MIN_MS = 2500;            // how long a loading screen stays up so its fact can be read; a tap skips the rest once loaded
-export const LOADER_SLIDE_MS = 4500;          // how long each slide and fact shows if loading takes longer
+export const LOADER_MIN_MS_LAUNCH = 6000;     // how long the launch loading screen stays up so its facts can be read; a tap skips the rest once loaded
+export const LOADER_MIN_MS_DRIVE = 5000;      // the same after tapping DRIVE
+export const LOADER_MIN_MS_GARAGE = 3500;     // the same on the way back to the garage
+export const LOADER_SLIDE_MS = 8000;          // how long each slide and its facts show if loading takes longer
 
 // ---------- highway ----------
 export const HIGHWAY_SIGN_WIDTH_M = 8.5;      // how wide the sign at the start of a highway is drawn

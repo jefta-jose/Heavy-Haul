@@ -31,7 +31,7 @@ import { createSpeedTrap } from './game/speed-trap.js';
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
 const { season, rockHulls, wheelTypes } = content;
-const loader = createLoader({ tips: content.loaderTips });
+const loader = createLoader(content.loaderText);
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps
 const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
@@ -74,7 +74,7 @@ function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audi
 function setMode(key, on) {
   sim.ctl[key] = on; hud.showMode(key, on);
   renderer.flash(on); audio.clunk(on); haptics.toggle();
-  hud.hint(`${key}-${on}`, key === 'awd' ? (on ? '4×4 on: front axle engaged' : '4×4 off: rear axle only') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
+  hud.hint(`${key}-${on}`, key === 'awd' ? (on ? 'AWD on: every axle driven' : 'AWD off: front axle free-wheels') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
 }
 // the pause menu also carries what the phone HUD leaves out: the truck's details and fullscreen
 // the Android app is always fullscreen (MainActivity), and its WebView refuses the browser's fullscreen

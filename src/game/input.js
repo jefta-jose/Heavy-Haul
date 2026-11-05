@@ -1,8 +1,8 @@
 // Keyboard and touch input. Hold controls (gas, brake) are polled each frame; discrete actions
-// (winch hook / unhook, gears, 4x4, DIFF, pause) fire callbacks.
+// (winch hook / unhook, gears, AWD, DIFF, pause) fire callbacks.
 //
 // Keys: → / ↑ / D gas, ← / ↓ / A brake, W / Space winch hook on / off, I engine on / off, B handbrake, S shield, H / F high, L low, R reverse,
-// Q 4x4, E DIFF, V switch vehicle, Esc / P pause.
+// Q AWD, E DIFF, V switch vehicle, Esc / P pause.
 
 export function createInput(els, actions) {
   const keys = {}, held = { gas: 0, brake: 0 };

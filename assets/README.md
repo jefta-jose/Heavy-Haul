@@ -90,7 +90,7 @@ provides 20% less wheel torque at the same engine torque. Changing `torqueScale`
 `drive`, `tagline`, `description`, `stats` and `biomes` describe it in the garage. Class also
 affects service recovery rules. `status` records content availability.
 
-`drive` is a label such as `4×4`. Every axle is powered; 4×4 off leaves out only axle `0`.
+`drive` is a label such as `4×4`. Every axle is powered; AWD off leaves out only axle `0`.
 `stats.power` and `stats.grip` are display bars, not engine or friction controls. However,
 `stats.fuelEfficiency` **does affect fuel consumption**: adding 40 halves its fuel-burn multiplier.
 `wheelType` also affects actual traction, using the surface grip table in

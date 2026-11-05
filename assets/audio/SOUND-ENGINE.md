@@ -345,7 +345,7 @@ Only the driven truck makes these sounds, apart from the engine, which every tru
 
 | Sound | Plays when | Volume |
 | --- | --- | --- |
-| `gear-clunk` | Sound-gear shift (0.38); 4×4 and DIFF (0.40 on, 0.32 off); H, L, R button | Lower pitch over 30 t |
+| `gear-clunk` | Sound-gear shift (0.38); AWD and DIFF (0.40 on, 0.32 off); H, L, R button | Lower pitch over 30 t |
 | `air-pop` | Each shift on air-brake trucks | 0.14 |
 | `underbody` + load shake | Crushing a rock | Scales with rock size |
 | Load sound, by class | A tire touches a log, pipe or rock while moving. Change them in `HIT_SOUNDS` at the top of `vehicle-audio.js` | `gain × min(1, 0.55 + m/s × 0.12)` |
