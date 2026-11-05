@@ -1,0 +1,553 @@
+{
+  "specification": {
+    "axleCount": 3,
+    "tireDiameterM": 1.35,
+    "maximumTotalLengthM": 16.8,
+    "intendedTotalLengthM": 8.1,
+    "totalLengthInTireDiameters": 6,
+    "axleGroups": "one front steer axle and close rear tandem directly beneath folded drill rig",
+    "intendedCanvas": {
+      "master": [
+        2048,
+        1024
+      ],
+      "body": [
+        2048,
+        1024
+      ],
+      "wheel": [
+        1536,
+        1536
+      ]
+    },
+    "wheelException": "native 1254 x 1254 accepted"
+  },
+  "status": "pass",
+  "references": [
+    "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+    "assets/cars/swamp-ox-3/source/vehicle-master-v1.png"
+  ],
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Generate one production game road-wheel sprite for Bogmaster 2, chrome silver all-terrain 6x6 cargo truck. Reference image is illustration style only: approved Swamp Scout. One 1.35 m mud-terrain tire with deep chunky dark charcoal mud lugs and open voids, thick dried mud in recesses, weathered silver steel heavy-truck rim, centered bolted hub. Premium semi-realistic painted game illustration, readable dark contours, fine mechanical detail and rich natural textures. Face-on perfect circle with hub exactly centered, equal clear margins on all four sides. Square PNG canvas intended 1536 x 1536 pixels (native 1254 x 1254 acceptable). Soft even ambient daylight suitable for spinning. True transparent background including all outside margins, no ground or drop shadow, no glow, no checkerboard, no text logos watermark, no axle or body. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires",
+    "status": "pass",
+    "reference": "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "colorType": 6,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelCount": 480307,
+      "opaqueBBox": [
+        43,
+        34,
+        1211,
+        1226
+      ],
+      "silhouetteCenter": [
+        627.0,
+        630.0
+      ],
+      "silhouetteSize": [
+        1168,
+        1192
+      ]
+    },
+    "visualReview": "Face-on circular tire, centered hub, clear transparent margins; dark contours match reference; no shadow or halo visible.",
+    "outputFile": "wheel-v1.png",
+    "selectedOutput": "wheel-v4.png"
+  },
+  "master": {
+    "prompt": "Use case: stylized-concept. Production complete vehicle master for Bogmaster 2. Reference 1 approved Swamp Scout defines premium semi-realistic painted game illustration, readable dark contours, weathered surfaces and fine mechanical detail. Reference 2 Swamp Ox defines ONLY perpendicular camera and realistic close rear tandem layout, NOT tanker load. Reference 3 is exact matching road tire/rim design. Draw a chrome silver conventional short-bonnet all-terrain 6x6 cargo truck carrying a folded water-drilling rig securely strapped horizontally inside a low canvas-sided cargo bed with exposed bows so folded drill mast, hoses and drilling machinery are visible. Thick dried mud. Exactly THREE visible near-side road wheels: close rear tandem underneath heavy drilling machinery at left, one front steer wheel beneath cab at right. Identical 1.35 m chunky mud-terrain tires matching wheel reference, centered circular silver rims. Total vehicle 8.1 metres, exactly SIX tire diameters bumper-to-bumper, absolutely below 16.8 m. Intended wide PNG 2048 x 1024, whole vehicle with clear margins four sides. Horizontal chassis, bed and folded drill mast; all hubs precisely horizontal, all tire bottoms on a level line. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, front grille face NOT visible and no visible bed end face. Real heavy-truck conventional cab with distinct short bonnet, radiator housing, blunt practical bumper, headlamp and round-clearance front fender, clean seams; no fused melted wedge panels. All road tires completely visible; steps do not obscure them. Small correctly scaled rectangular mirror near A-pillar on short rigid brackets, no long arms. Soft even daylight, true transparent background and internal gaps. No text logos watermarks ground drop shadow checkerboard halo glow or scenery.",
+    "status": "pass_after_tool_correction",
+    "references": [
+      "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+      "assets/cars/swamp-ox-3/source/vehicle-master-v1.png",
+      "assets/cars/bogmaster-2/source/wheel-v1.png"
+    ],
+    "measurements": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "alphaZeroCount": 659657,
+      "partialAlphaCount": 913549,
+      "opaqueBBox": [
+        63,
+        106,
+        1738,
+        809
+      ],
+      "margins": [
+        63,
+        106,
+        36,
+        78
+      ],
+      "nearSideAxles": 3,
+      "hubCentersPx": [
+        [
+          310,
+          660
+        ],
+        [
+          609,
+          660
+        ],
+        [
+          1518,
+          660
+        ]
+      ],
+      "tireDiametersPx": [
+        294,
+        294,
+        294
+      ],
+      "tireBottomsPx": [
+        807,
+        807,
+        807
+      ],
+      "measurementMethod": "full-resolution visual pixel estimates",
+      "depictedLengthM": 7.691326530612246
+    },
+    "visualReview": "Strict right-facing side profile; level round tires; close tandem carries folded drilling rig; plausible distinct bonnet, blunt bumper, round front fender and short mirror mounts; clear margins and transparent internal gaps.",
+    "outputFile": "vehicle-master-v1.png",
+    "selectedOutput": "vehicle-master-v5.png"
+  },
+  "body": {
+    "edit_of": "vehicle-master-v5.png",
+    "method": "authorized deterministic mask/composite",
+    "paintedMaterial": "assets/cars/bogmaster-2/source/body-v3.png",
+    "regions": [
+      [
+        151,
+        501,
+        470,
+        820
+      ],
+      [
+        450,
+        501,
+        769,
+        820
+      ],
+      [
+        1359,
+        501,
+        1678,
+        820
+      ]
+    ],
+    "output": "body-v4.png",
+    "prompt": "Remove all road tires; retain cab/load/equipment exactly outside wheel regions; fill upper wells with generated painted liner and suspension through measured hub line, including tandem gaps; clear below hubs.",
+    "registeredOutput": "body-v5.png"
+  },
+  "revisions": [
+    {
+      "file": "body-v2.png",
+      "edit_of": "body-v1.png",
+      "prompt": "Use case: precise-object-edit. Correct ONLY the underside of the provided Bogmaster body-v1 image. Keep EXACT 1774 x 887 canvas and preserve every existing cab/load/bed/equipment pixel position. The three circular silver hub assemblies centered at (310,660), (609,660), (1518,660) are unwanted leftovers. REMOVE these three complete circular silver hub discs and their surrounding black bolt rings, and remove every dangling part below horizontal pixel y660 in these three wheel-well regions. Leave no circular hub, rim, tire, or painted material below hub line y660. The wheel-well dark painted liner MUST end on a clean horizontal lower boundary at y660 with true alpha=0 underneath. Keep upper arches and tandem inter-arch gaps fully OPAQUE painted dark liner and suspension through y660 (alpha 255 inside, not semitransparent). This is the only requested change; do not repaint, move or resize the rest of the vehicle. True transparency outside body and below hubs, no shadow ground glow checkerboard text or logos. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Preserve the conventional short bonnet, mechanically separate radiator/bumper/headlamp, round front fender and small mirror on short rigid mounts. Premium semi-realistic painted style and soft even daylight.",
+      "reason": "Remove hanging hub discs and restore transparent clearance below hub line",
+      "status": "needs_revision",
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaZeroCount": 790296,
+        "partialAlphaCount": 783041,
+        "opaqueBBox": [
+          63,
+          104,
+          1737,
+          650
+        ],
+        "margins": [
+          63,
+          104,
+          37,
+          237
+        ],
+        "wheelWellAlphaSamples": [
+          {
+            "point": [
+              310,
+              540
+            ],
+            "alpha": 253
+          },
+          {
+            "point": [
+              460,
+              550
+            ],
+            "alpha": 253
+          },
+          {
+            "point": [
+              1518,
+              620
+            ],
+            "alpha": 253
+          },
+          {
+            "point": [
+              310,
+              655
+            ],
+            "alpha": 1
+          }
+        ]
+      },
+      "rejectionReasons": [
+        "Upper wheel wells are alpha 253 rather than fully opaque 255.",
+        "Painted well fill ends around y650, above master hub line y660, leaving transparent gaps above hubs.",
+        "Unchanged body silhouette also drifts 1-2 pixels versus master; exact registration is not proven."
+      ]
+    },
+    {
+      "files": [
+        "vehicle-master-v2.png",
+        "body-v3.png",
+        "wheel-v2.png"
+      ],
+      "derived_from": [
+        "vehicle-master-v1.png",
+        "body-v2.png",
+        "wheel-v1.png"
+      ],
+      "processing": {
+        "method": "Authorized deterministic image processing: normalized alpha; generated body-v2 painted well material masked into original master; extended painted liner to hub line; cleared wheel regions below hubs; composited identical normalized wheel-v2 at all three measured hubs.",
+        "dimensions": [
+          1774,
+          887
+        ],
+        "hubsPx": [
+          [
+            310,
+            660
+          ],
+          [
+            609,
+            660
+          ],
+          [
+            1518,
+            660
+          ]
+        ],
+        "tireDiameterPx": 294,
+        "tireDiameterM": 1.35,
+        "wheelCanvas": [
+          1254,
+          1254
+        ],
+        "wheelArtworkBBox": [
+          37,
+          37,
+          1217,
+          1217
+        ],
+        "roadAxles": 3,
+        "wellRegions": [
+          [
+            157,
+            508,
+            464,
+            812
+          ],
+          [
+            456,
+            508,
+            763,
+            812
+          ],
+          [
+            1365,
+            508,
+            1672,
+            812
+          ]
+        ],
+        "unchangedOutsideWheelRegions": true,
+        "masterBodyRegistration": "Same pixel canvas; all differences restricted to road-wheel regions.",
+        "wheelWellAlpha": 255,
+        "clearanceAlpha": 0,
+        "depictedLengthM": 7.705102040816327,
+        "status": "pass",
+        "visualReview": "Master/body inspected at native resolution. Equal identical circular tires on level hubs; well liner opaque through hub line, no road tires in body, transparent clearance; cab/load/equipment preserved outside wheel regions."
+      }
+    }
+  ],
+  "batch": {
+    "requestedCount": 10,
+    "selected": [
+      "bogmaster-2",
+      "rockhopper-4",
+      "quagmire-5",
+      "ravine-beast-8",
+      "floodwalker-9",
+      "moraine-10",
+      "sludge-hammer-12",
+      "wetland-titan-13",
+      "sinkhole-14",
+      "tundra-mule-15"
+    ],
+    "generatedTruckCount": 10,
+    "completePassingSets": 10,
+    "stoppedReason": null,
+    "toolLimitation": "Built-in image edit does not enforce exact alpha=255 well fill through specified hub coordinates or exact pixel registration.",
+    "resumeRequires": null,
+    "methodChange": "User authorized deterministic image processing and continued corrections.",
+    "status": "complete"
+  },
+  "validationPreview": {
+    "file": "validation-preview-v1.png",
+    "purpose": "inspection only: master, body-v2, wheel-v1, each on light then dark backgrounds; reduced-scale diagnostic, not game art",
+    "review": "Light and dark composites inspected: no obvious background halo or ground shadow; body-v2 fails well opacity and hub-line fill checks as recorded."
+  },
+  "selected": {
+    "master": "vehicle-master-v5.png",
+    "body": "body-v5.png",
+    "wheel": "wheel-v4.png"
+  },
+  "validation": {
+    "status": "pass",
+    "method": "Built-in generated master edited deterministically with painted wheel-well material from Bogmaster body-v3. Alpha repaired; wheel normalized circular and centered; identical wheel composited at each road hub. Unchanged master pixels retained outside listed regions.",
+    "rawMaster": "vehicle-master-v1.png",
+    "rawWheel": "wheel-v1.png",
+    "wellMaterial": "assets/cars/bogmaster-2/source/body-v3.png",
+    "dimensions": [
+      1787,
+      887
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "wheelArtworkBBox": [
+      38,
+      38,
+      1216,
+      1216
+    ],
+    "wheelPivotPx": [
+      627.0,
+      627.0
+    ],
+    "hubCentersPx": [
+      [
+        310,
+        660
+      ],
+      [
+        609,
+        660
+      ],
+      [
+        1518,
+        660
+      ]
+    ],
+    "roadAxleCount": 3,
+    "tireDiameterPx": 294,
+    "tireDiameterM": 1.35,
+    "tireBottomsPx": [
+      807,
+      807,
+      807
+    ],
+    "depictedLengthM": 7.705102040816327,
+    "vehicleBBox": [
+      61,
+      105,
+      1739,
+      810
+    ],
+    "marginsPx": [
+      61,
+      105,
+      48,
+      77
+    ],
+    "wheelRegions": [
+      [
+        151,
+        501,
+        470,
+        820
+      ],
+      [
+        450,
+        501,
+        769,
+        820
+      ],
+      [
+        1359,
+        501,
+        1678,
+        820
+      ]
+    ],
+    "outsideWheelRegionsPixelIdentical": true,
+    "upperWellAlpha255": true,
+    "belowHubsAlpha0": true,
+    "sourceHubsMeasuredBy": "Native image rim center inspection and lower tire silhouette; final hubs standardized to listed coordinates.",
+    "selected": {
+      "master": "vehicle-master-v5.png",
+      "body": "body-v5.png",
+      "wheel": "wheel-v4.png"
+    },
+    "padding": {
+      "source": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v4.png",
+        "wheel": "wheel-v3.png"
+      },
+      "offsetPx": [
+        0,
+        0
+      ],
+      "addedLTRB": [
+        0,
+        0,
+        13,
+        0
+      ]
+    },
+    "visualReview": "Inspected native master, body and wheel: correct load/equipment, conventional plausible cab and mirror/fender, strict side camera, exact road axle count, identical level round tires, no far-side tires, clear margins, opaque upper wells and transparent lower clearance; master/body registration verified by pixel comparison. Light/dark and suspension-drop diagnostics saved.",
+    "wheelCenterCorrection": {
+      "beforePx": [
+        628.5,
+        621.5
+      ],
+      "afterPx": [
+        625.5,
+        626.5
+      ],
+      "pivotPx": [
+        627.0,
+        627.0
+      ],
+      "correctionsPx": [
+        [
+          -1.5,
+          5.5
+        ]
+      ],
+      "method": "Hough hub-cap circle; smooth radial displacement of rim/inner sidewall, zero displacement at outer tread."
+    },
+    "finalAudit": {
+      "status": "pass",
+      "dimensions": [
+        1787,
+        887
+      ],
+      "wheelDimensions": [
+        1254,
+        1254
+      ],
+      "measuredTireDimensionsPx": [
+        293,
+        293
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          164,
+          514,
+          457,
+          807
+        ],
+        [
+          463,
+          514,
+          756,
+          807
+        ],
+        [
+          1372,
+          514,
+          1665,
+          807
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        807,
+        807,
+        807
+      ],
+      "identicalRoundRoadTires": true,
+      "levelHubs": true,
+      "noOverlappingRoadTires": true,
+      "masterExactlyEqualsBodyPlusSelectedWheelInstances": true,
+      "fullyOpaqueUpperWells": true,
+      "transparentClearanceBelowHubs": true,
+      "closeAxleGroups": [
+        {
+          "axles": [
+            0,
+            1
+          ],
+          "centerSpacingPx": 299,
+          "tireGapPx": 6,
+          "opaqueUpperGap": true
+        }
+      ],
+      "vehicleBBoxAlpha128": [
+        63,
+        106,
+        1738,
+        807
+      ],
+      "clearMarginsPx": [
+        63,
+        106,
+        49,
+        80
+      ],
+      "measuredLengthM": 7.717576791808874,
+      "maximumLengthM": 16.8,
+      "alphaEdgeReview": "Light/dark and suspension-drop composites saved and inspected; no opaque background, ground shadow or colored fringe.",
+      "finalContactSheetReview": "pass"
+    }
+  },
+  "history": [
+    {
+      "selected": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v4.png",
+        "wheel": "wheel-v3.png"
+      },
+      "status": "superseded",
+      "reason": "Added transparent margins without resampling artwork; master/body shifted identically."
+    },
+    {
+      "selected": {
+        "master": "vehicle-master-v4.png",
+        "body": "body-v5.png",
+        "wheel": "wheel-v3.png"
+      },
+      "status": "superseded",
+      "reason": "Measured hub center corrected inside rim; outer tire silhouette unchanged."
+    }
+  ],
+  "processingDetails": {
+    "alphaNormalization": "alpha <=8 to0; >=240 to255; values between linearly mapped to0..255; zero-alpha RGB cleared",
+    "wellSourceCrop": [
+      157,
+      508,
+      464,
+      661
+    ],
+    "wellSource": "assets/cars/bogmaster-2/source/body-v3.png",
+    "bodyDerivation": "Generated painted wheel-well material resampled into measured road-wheel masks; tire pixels below hubs cleared; detached generated outline fragments removed; master assembled by compositing selected identical wheel at saved hubs.",
+    "versions": "Earlier originals, failures and intermediate repairs retained. Use selected map only."
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "id": "ravine-beast-8",
+  "name": "Ravine Beast",
+  "number": 8,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Olive 6×6 carrying pipeline sections",
+  "description": "An olive all-terrain 6×6 cargo truck with front and rear winches, carrying large steel pipeline sections.",
+  "stats": {
+    "power": 49,
+    "speed": 61,
+    "grip": 87,
+    "capacity": 42,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v3.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      930,
+      673
+    ],
+    "pixelsPerMetre": 192.903,
+    "axles": [
+      2.9393,
+      -1.3426,
+      -2.9341
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1497,
+        673,
+        152
+      ],
+      [
+        671,
+        673,
+        152
+      ],
+      [
+        364,
+        673,
+        152
+      ]
+    ],
+    "nose": 4.497,
+    "exhaust": [
+      2.867,
+      2.701
+    ],
+    "winch": [
+      4.397,
+      0.542
+    ]
+  },
+  "camera": {
+    "zoom": 2.2
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      0.663,
+      0.975
+    ],
+    "size": [
+      9.067,
+      2.944
+    ],
+    "wheelMass": 320,
+    "bodyBoxes": [
+      [
+        -4.57,
+        4.497,
+        0.775,
+        1.275,
+        1
+      ],
+      [
+        -4.567,
+        -2.302,
+        1.275,
+        2.483,
+        0.4
+      ],
+      [
+        -2.302,
+        -0.036,
+        1.275,
+        2.483,
+        0.4
+      ],
+      [
+        -0.036,
+        2.229,
+        1.275,
+        2.903,
+        0.4
+      ],
+      [
+        2.229,
+        4.494,
+        1.275,
+        2.867,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.638,
+        1.854
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.041,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 284,
+    "exhaustBrake": 366,
+    "gears": {
+      "H": 13.44,
+      "L": 41.13,
+      "R": 32.25
+    },
+    "brakeTorque": 27714,
+    "openDiffGrip": 1,
+    "fuelLitres": 447
+  },
+  "load": {
+    "name": "Pipe sections",
+    "massT": 10
+  }
+}

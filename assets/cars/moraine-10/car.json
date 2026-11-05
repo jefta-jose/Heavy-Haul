@@ -1,0 +1,215 @@
+{
+  "id": "moraine-10",
+  "name": "Moraine",
+  "number": 10,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Safety orange 6×6 carrying ore sacks",
+  "description": "A safety orange all-terrain 6×6 with an expedition box, ladders and lights, carrying heavy ore sacks.",
+  "stats": {
+    "power": 57,
+    "speed": 67,
+    "grip": 88,
+    "capacity": 52,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v3.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      894,
+      713
+    ],
+    "pixelsPerMetre": 185.802,
+    "axles": [
+      3.2562,
+      -1.6146,
+      -3.2615
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.81,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1499,
+        713,
+        152
+      ],
+      [
+        594,
+        713,
+        152
+      ],
+      [
+        288,
+        713,
+        152
+      ]
+    ],
+    "nose": 4.588,
+    "exhaust": [
+      2.793,
+      2.244
+    ],
+    "winch": [
+      4.488,
+      0.567
+    ]
+  },
+  "camera": {
+    "zoom": 2.2
+  },
+  "physics": {
+    "mass": 15600.0,
+    "centreOfMass": [
+      0.502,
+      1.01
+    ],
+    "size": [
+      9.133,
+      3.574
+    ],
+    "wheelMass": 360,
+    "bodyBoxes": [
+      [
+        -4.545,
+        4.588,
+        0.81,
+        1.31,
+        1
+      ],
+      [
+        -4.548,
+        -2.266,
+        1.31,
+        2.793,
+        0.4
+      ],
+      [
+        -2.266,
+        0.016,
+        1.31,
+        2.793,
+        0.4
+      ],
+      [
+        0.016,
+        2.298,
+        1.31,
+        3.224,
+        0.4
+      ],
+      [
+        2.298,
+        4.58,
+        1.31,
+        3.057,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 11,
+      "centreOfMass": [
+        -1.655,
+        2.027
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.154,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 315,
+    "exhaustBrake": 405,
+    "gears": {
+      "H": 14.05,
+      "L": 42.99,
+      "R": 33.7
+    },
+    "brakeTorque": 32104,
+    "openDiffGrip": 1,
+    "fuelLitres": 489
+  },
+  "load": {
+    "name": "Ore sacks",
+    "massT": 11
+  }
+}

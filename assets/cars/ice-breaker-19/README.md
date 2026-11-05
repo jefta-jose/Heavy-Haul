@@ -1,6 +1,6 @@
 # Ice Breaker 19
 
-Status: **planned** · class `offroad`, tier 19 of 20 · 16×16, 4 axles · 23.1 t empty · 918 kW · spiked tires, 2 m
+Status: **planned** · class `offroad`, tier 19 of 20 · 8×8, 4 axles · 23.1 t empty · 918 kW · spiked tires, 2 m
 Load: **Orca aquarium**, 20 t
 
 **Size cap: 16.8 m long at most, load included.** Draw the vehicle at that scale or smaller, with `pixelsPerMetre` and `physics.size` to match, so it needs no higher zoom than other trucks. Obstacles are one size for every truck: there is no per-truck scaling of the world, so never exceed this cap. Keep the tires big enough to climb the trail (about 1.3 m or more).
@@ -9,7 +9,7 @@ Load: **Orca aquarium**, 20 t
 
 ## Art brief
 
-- Vehicle: racing green all-terrain 6×6 cargo truck
+- Vehicle: racing green all-terrain 8×8 cargo truck
 - Load (drawn as part of the vehicle): a glass aquarium with a friendly orca, water sloshing
 - Equipment: crane boom and recovery spades
 - Finish: thick dried mud

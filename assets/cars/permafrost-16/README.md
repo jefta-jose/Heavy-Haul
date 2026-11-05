@@ -9,7 +9,7 @@ Load: **Ice blocks**, 10 t
 
 ## Art brief
 
-- Vehicle: arctic white all-terrain 6×6 cargo truck
+- Vehicle: arctic white all-terrain 8×8 cargo truck
 - Load (drawn as part of the vehicle): clear blue ice blocks in an insulated open box
 - Equipment: snorkel and wading kit
 - Finish: thick dried mud

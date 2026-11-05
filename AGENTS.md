@@ -8,6 +8,30 @@ In this project Codex has one job: **generate images**. Claude wires them into t
 - Write only inside the `source/` folder of the item you were asked to generate (HUD icons go in
   `assets/hud/icons/`). When it is done, report the file list and stop.
 
+## User-authorized tool access and persistence (2026-11-05)
+
+The user explicitly grants full available tool and filesystem permissions for producing correct
+game images, including updating this AGENTS.md. Use image inspection, measurement, masking,
+compositing, alpha repair, registration, cropping, padding and resizing tools as needed. Python,
+Pillow, OpenCV and equivalent image-processing tools are authorized for these corrections.
+Use the built-in image generator for new painted artwork; tools may derive and repair the final
+sprites from generated artwork. Install or run needed image-processing dependencies without
+changing project dependencies. Scratch files and dependency caches may live outside the project;
+project deliverables still belong in the requested item's source folder.
+
+Keep working and regenerating until the requested master/body/wheel sets meet the art handoff
+requirements in CLAUDE.md. There is no one-retry stopping limit. When a prompt repeats a defect,
+change the method and use measured, deterministic corrections where appropriate instead of
+repeating an ineffective prompt. Preserve originals and version every corrected deliverable.
+Fix alpha and registration directly: retain unchanged master pixels outside road-wheel regions,
+fill upper wheel wells through the measured hub line with opaque painted generated material,
+and clear the space beneath the hubs. Tool-based resizing is allowed when needed, but validate
+actual final dimensions and visual detail; do not claim resampling adds missing painted detail.
+The accepted native 1254 x 1254 road-wheel exception remains in force.
+
+This authorization concerns art production and this instruction update. Claude still handles
+game integration; do not change gameplay, rosters, car.json, season.json or runtime WebP files.
+
 Use the built-in image generation tool. Read the item's `README.md` for its brief, and match the
 style of the approved Swamp Scout: [assets/references/four-scout-trucks.png](assets/references/four-scout-trucks.png),
 [assets/cars/swamp-scout-4/source/](assets/cars/swamp-scout-4/source) and
@@ -229,12 +253,11 @@ and discover the same defect in every truck afterwards.
    Keep earlier versions and rejection reasons. Never discard prompt text because a batch is
    still running.
 
-**Retry limit for a repeated defect:** make at most one targeted correction for the same failed
-check in this workflow. If it fails again, stop dependent generation and report the specific tool
-limitation and saved files. Do not repeat equivalent prompts, fan the failure out across the batch,
-silently relax the rules, switch generators, or upscale an undersized image to claim compliance.
-Resume only with a concrete changed method that addresses the failure. This does not waive any
-quality requirement or make a failed asset acceptable.
+**Persistent correction workflow:** continue targeted regeneration and authorized tool-based
+repair until the requested set passes. A repeated defect requires a changed method, such as
+measured masks, alpha correction or compositing generated wheel-well material into the original
+master. Prove that method on one complete set before continuing the batch. Do not silently relax
+quality requirements or mark failed assets ready. Record every correction and its validation.
 
 ## Revisions
 

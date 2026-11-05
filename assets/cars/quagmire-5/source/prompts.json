@@ -1,0 +1,313 @@
+{
+  "specification": {
+    "axleCount": 3,
+    "tireDiameterM": 1.45,
+    "maximumTotalLengthM": 16.8,
+    "intendedTotalLengthM": 8.3,
+    "totalLengthInTireDiameters": 5.724137931034483,
+    "axleGroups": "one front steer axle at right and CLOSE rear tandem at left",
+    "intendedCanvas": {
+      "master": [
+        2048,
+        1024
+      ],
+      "body": [
+        2048,
+        1024
+      ],
+      "wheel": [
+        1536,
+        1536
+      ]
+    },
+    "briefConflictResolution": null
+  },
+  "master": {
+    "prompt": "Use case: stylized-concept. Production complete vehicle game master: gunmetal grey all-terrain 6x6 cargo truck, carrying nine-tonne containerised generator set with louvered side access panels, secured by mounts and chains. Equipment: snorkel and wading kit. Thick dried mud and weathered materials. Approved Swamp Scout premium semi-realistic painted illustration, readable dark contours, rich natural textures, fine mechanical detail. Reference 1 style only; reference 2 strict perpendicular camera and mechanical construction only; reference 3 tire/rim. Facing RIGHT. Exactly 3 near-side ROAD tires: one front steer axle at right and CLOSE rear tandem at left, directly supporting load. All tires 1.45 m mud-terrain tires with deep chunky mud lugs and open voids. Total length 8.3 m = 5.724 tire diameters, under 16.8 m including load. Secured cargo and all equipment stowed. Horizontal chassis/deck/load, level hubs and tire bottoms. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Real conventional short-bonnet heavy-truck cab; separate bonnet radiator housing blunt bumper headlamp and round-clearance front fender with clean seams. Small rectangular mirror at A-pillar on short rigid brackets. No melted fused wedge panels or floating mirrors. All road tires fully visible; no front grille face or bed end face visible. Wide PNG intended 2048 x 1024, at least 1500 pixels across, generous 5% clear margins ALL sides. True transparent background and internal gaps. Soft even daylight. No text logos watermark ground shadow glow halo scenery.",
+    "status": "pass_after_tool_correction",
+    "references": [
+      "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+      "assets/cars/bogmaster-2/source/vehicle-master-v2.png",
+      "assets/cars/bogmaster-2/source/wheel-v2.png"
+    ],
+    "selectedOutput": "vehicle-master-v4.png"
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. One matching road tire and rim for gunmetal grey all-terrain 6x6 cargo truck. 1.45 m mud-terrain tires with deep chunky mud lugs and open voids; weathered dark steel heavy truck rim and bolted centered hub, modest thick dried mud in recesses, readable dark charcoal rubber. Premium semi-realistic painted game illustration matching approved Swamp Scout reference. Face-on perfect circular silhouette, exactly centered hub, square intended 1536 x 1536 PNG (native 1254 x 1254 accepted), equal clear margins. Soft even daylight for spinning sprite. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. No axle body ground shadow lettering logos halo glow checkerboard watermark.",
+    "reference": "assets/cars/bogmaster-2/source/wheel-v2.png",
+    "method": "reuse matching generated tire artwork",
+    "status": "pass",
+    "selectedOutput": "wheel-v3.png"
+  },
+  "status": "pass",
+  "selected": {
+    "master": "vehicle-master-v4.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v3.png"
+  },
+  "validation": {
+    "status": "pass",
+    "method": "Built-in generated master edited deterministically with painted wheel-well material from Bogmaster body-v3. Alpha repaired; wheel normalized circular and centered; identical wheel composited at each road hub. Unchanged master pixels retained outside listed regions.",
+    "rawMaster": "vehicle-master-v1.png",
+    "rawWheel": "wheel-v1.png",
+    "wellMaterial": "assets/cars/bogmaster-2/source/body-v3.png",
+    "dimensions": [
+      1806,
+      887
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "wheelArtworkBBox": [
+      38,
+      38,
+      1216,
+      1216
+    ],
+    "wheelPivotPx": [
+      627.0,
+      627.0
+    ],
+    "hubCentersPx": [
+      [
+        293,
+        665
+      ],
+      [
+        602,
+        665
+      ],
+      [
+        1531,
+        665
+      ]
+    ],
+    "roadAxleCount": 3,
+    "tireDiameterPx": 302,
+    "tireDiameterM": 1.45,
+    "tireBottomsPx": [
+      816,
+      816,
+      816
+    ],
+    "depictedLengthM": 8.210264900662251,
+    "vehicleBBox": [
+      48,
+      113,
+      1758,
+      819
+    ],
+    "marginsPx": [
+      48,
+      113,
+      48,
+      68
+    ],
+    "wheelRegions": [
+      [
+        130,
+        502,
+        457,
+        829
+      ],
+      [
+        439,
+        502,
+        766,
+        829
+      ],
+      [
+        1368,
+        502,
+        1695,
+        829
+      ]
+    ],
+    "outsideWheelRegionsPixelIdentical": true,
+    "upperWellAlpha255": true,
+    "belowHubsAlpha0": true,
+    "sourceHubsMeasuredBy": "Native image rim center inspection and lower tire silhouette; final hubs standardized to listed coordinates.",
+    "selected": {
+      "master": "vehicle-master-v4.png",
+      "body": "body-v2.png",
+      "wheel": "wheel-v3.png"
+    },
+    "visualReview": "Inspected native master, body and wheel: correct load/equipment, conventional plausible cab and mirror/fender, strict side camera, exact road axle count, identical level round tires, no far-side tires, clear margins, opaque upper wells and transparent lower clearance; master/body registration verified by pixel comparison. Light/dark and suspension-drop diagnostics saved.",
+    "padding": {
+      "source": {
+        "master": "vehicle-master-v2.png",
+        "body": "body-v1.png",
+        "wheel": "wheel-v2.png"
+      },
+      "offsetPx": [
+        16,
+        0
+      ],
+      "addedLTRB": [
+        16,
+        0,
+        16,
+        0
+      ]
+    },
+    "wheelCenterCorrection": {
+      "beforePx": [
+        627.5,
+        622.5
+      ],
+      "afterPx": [
+        625.5,
+        627.5
+      ],
+      "pivotPx": [
+        627.0,
+        627.0
+      ],
+      "correctionsPx": [
+        [
+          -0.5,
+          4.5
+        ],
+        [
+          -0.5,
+          3.5
+        ]
+      ],
+      "method": "Hough hub-cap circle; smooth radial displacement of rim/inner sidewall, zero displacement at outer tread."
+    },
+    "finalAudit": {
+      "status": "pass",
+      "dimensions": [
+        1806,
+        887
+      ],
+      "wheelDimensions": [
+        1254,
+        1254
+      ],
+      "measuredTireDimensionsPx": [
+        301,
+        301
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          143,
+          515,
+          444,
+          816
+        ],
+        [
+          452,
+          515,
+          753,
+          816
+        ],
+        [
+          1381,
+          515,
+          1682,
+          816
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        816,
+        816,
+        816
+      ],
+      "identicalRoundRoadTires": true,
+      "levelHubs": true,
+      "noOverlappingRoadTires": true,
+      "masterExactlyEqualsBodyPlusSelectedWheelInstances": true,
+      "fullyOpaqueUpperWells": true,
+      "transparentClearanceBelowHubs": true,
+      "closeAxleGroups": [
+        {
+          "axles": [
+            0,
+            1
+          ],
+          "centerSpacingPx": 309,
+          "tireGapPx": 8,
+          "opaqueUpperGap": true
+        }
+      ],
+      "vehicleBBoxAlpha128": [
+        49,
+        114,
+        1758,
+        816
+      ],
+      "clearMarginsPx": [
+        49,
+        114,
+        48,
+        71
+      ],
+      "measuredLengthM": 8.232724252491694,
+      "maximumLengthM": 16.8,
+      "alphaEdgeReview": "Light/dark and suspension-drop composites saved and inspected; no opaque background, ground shadow or colored fringe.",
+      "finalContactSheetReview": "pass"
+    }
+  },
+  "body": {
+    "edit_of": "vehicle-master-v4.png",
+    "method": "authorized deterministic mask/composite",
+    "paintedMaterial": "assets/cars/bogmaster-2/source/body-v3.png",
+    "regions": [
+      [
+        114,
+        502,
+        441,
+        829
+      ],
+      [
+        423,
+        502,
+        750,
+        829
+      ],
+      [
+        1352,
+        502,
+        1679,
+        829
+      ]
+    ],
+    "output": "body-v1.png",
+    "prompt": "Remove all road tires; retain cab/load/equipment exactly outside wheel regions; fill upper wells with generated painted liner and suspension through measured hub line, including tandem gaps; clear below hubs.",
+    "registeredOutput": "body-v2.png"
+  },
+  "history": [
+    {
+      "selected": {
+        "master": "vehicle-master-v2.png",
+        "body": "body-v1.png",
+        "wheel": "wheel-v2.png"
+      },
+      "status": "superseded",
+      "reason": "Added transparent margins without resampling artwork; master/body shifted identically."
+    },
+    {
+      "selected": {
+        "master": "vehicle-master-v3.png",
+        "body": "body-v2.png",
+        "wheel": "wheel-v2.png"
+      },
+      "status": "superseded",
+      "reason": "Measured hub center corrected inside rim; outer tire silhouette unchanged."
+    }
+  ],
+  "processingDetails": {
+    "alphaNormalization": "alpha <=8 to0; >=240 to255; values between linearly mapped to0..255; zero-alpha RGB cleared",
+    "wellSourceCrop": [
+      157,
+      508,
+      464,
+      661
+    ],
+    "wellSource": "assets/cars/bogmaster-2/source/body-v3.png",
+    "bodyDerivation": "Generated painted wheel-well material resampled into measured road-wheel masks; tire pixels below hubs cleared; detached generated outline fragments removed; master assembled by compositing selected identical wheel at saved hubs.",
+    "versions": "Earlier originals, failures and intermediate repairs retained. Use selected map only."
+  }
+}

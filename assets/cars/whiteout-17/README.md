@@ -9,7 +9,7 @@ Load: **Dinosaur skeleton**, 8 t
 
 ## Art brief
 
-- Vehicle: sand beige all-terrain 6×6 cargo truck
+- Vehicle: sand beige all-terrain 8×8 cargo truck
 - Load (drawn as part of the vehicle): a mounted T-rex skeleton on a museum frame
 - Equipment: expedition box with ladders and lights
 - Finish: thick dried mud

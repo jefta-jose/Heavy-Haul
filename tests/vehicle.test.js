@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { content, newSim, spawn, advance, DT } from './helpers.js';
 import { drawnBodyLift } from '../src/physics/vehicle.js';
-import { WHEEL_RISE_MAX_SHARE } from '../src/game-config.js';
+import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../src/game-config.js';
 
 const { car } = content;
 const speedAfter = (sim, seconds) => { advance(sim, seconds); return sim.st.speed * 3.6; };
@@ -20,15 +20,16 @@ test('settles upright with every wheel in its painted arch', () => {
   });
 });
 
-test('a wheel never looks to climb out of its arch: the body is drawn lifted over it', () => {
-  const rig = { axles: [6, 3, -5], radius: 0.8 }, cap = 0.8 * WHEEL_RISE_MAX_SHARE;
-  assert.deepEqual(drawnBodyLift(rig, [cap, 0, -0.2]), { lift: 0, tilt: 0 }, 'wheels within the limit leave the body alone');
-  for (const rises of [[0.5, 0, 0], [0, 0, 0.6], [0.5, 0.4, -0.1], [0.7, 0.1, 0.5]]) {
+test('wheels stay in their arches as drawn: the body moves to them, and clearing one never leaves another behind', () => {
+  const rig = { axles: [6, 3, -5], radius: 0.8 }, up = 0.8 * WHEEL_RISE_MAX_SHARE, down = 0.8 * WHEEL_DROP_MAX_SHARE;
+  assert.deepEqual(drawnBodyLift(rig, [up, 0, -down]), { lift: 0, tilt: 0 }, 'wheels within the limits leave the body alone');
+  for (const rises of [[0.5, 0, 0], [0, 0, 0.6], [-0.6, -0.6, -0.6], [-0.4, 0, 0], [0.5, 0.2, -0.3]]) {
     const { lift, tilt } = drawnBodyLift(rig, rises);
-    rises.forEach((r, i) => assert(r - (lift + tilt * rig.axles[i]) <= cap + 1e-9, `axle ${i} stays in its arch for ${rises}`));
+    rises.forEach((r, i) => { const gap = r - (lift + tilt * rig.axles[i]); assert(gap <= up + 0.03 && gap >= -down - 0.03, `axle ${i} stays in its arch for ${rises}: ${gap}`); });
   }
-  const { lift, tilt } = drawnBodyLift(rig, [0.5, 0, 0]);
-  assert(Math.abs(lift + tilt * -5) < 1e-9 && tilt > 0, 'a high front wheel rocks the body about the far axle');
+  // a middle axle alone on a log, from the Asphalt King: no straight body suits all four, so none is left far out
+  const king = { axles: [5, 0.9, -3.78, -4.96], radius: 0.525 }, rises = [-0.14, 0.66, 0.01, -0.17], { lift, tilt } = drawnBodyLift(king, rises);
+  rises.forEach((r, i) => { const gap = r - (lift + tilt * king.axles[i]); assert(Math.abs(gap) < 0.5, `axle ${i} is ${gap} from the body`); });
 });
 
 test('suspension articulates and settles after a hit', () => {

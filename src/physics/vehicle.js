@@ -1,7 +1,7 @@
 // The vehicle as rigid bodies: one chassis plus one wheel body per axle, joined by sprung
 // wheel joints. Two physical axles carry the four visible tires of a two-axle car; more axles
 // work the same way. All geometry comes from the car's measured registration (car.json `rig`).
-import { WHEEL_RISE_MAX_SHARE } from '../game-config.js';
+import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../game-config.js';
 
 export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: true } }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -108,25 +108,29 @@ export function applyBumpStops(V, springs, susp, dt) {
   }
 }
 
-// How the body is drawn over wheels that have risen too far. Near tires draw in front of the body, so a wheel far above its
-// ride height sits on the cab door. A hard stop in the physics flips the truck, so the picture settles it instead: the body is drawn
-// lifted and tilted, by as little as it takes, until no wheel is more than WHEEL_RISE_MAX_SHARE of its radius above its ride
-// height. It rocks about its far axles, as a truck does going over a log. Drawing only: the physics never sees this.
+// How the body is drawn relative to its wheels. Near tires draw in front of the body, so a wheel far above its ride height sits on the
+// cab door, and one far below it hangs clear of the truck. A stop in the physics flips the truck, so the picture settles it instead: the
+// body is drawn moved and tilted, by as little as it takes, until every wheel looks to be between WHEEL_DROP_MAX_SHARE below and
+// WHEEL_RISE_MAX_SHARE above its ride height. Clearing one wheel must not leave another behind: when one straight body cannot suit
+// them all (a middle axle alone on a log), they share what is left over. Drawing only: the physics never sees this.
 // rises[i]: wheel i's height above its ride height, in body metres. Returns y = lift + tilt * x, in body metres.
+const LIFT_ROUNDS = 24, LIFT_STEP = 0.8, LIFT_OTHERS_WEIGHT = 0.02, LIFT_HIGH_WHEEL_WEIGHT = 2;   // a wheel over the door looks worse than a gap under an arch
 export function drawnBodyLift(rig, rises) {
-  const excess = rises.map((r, i) => Math.max(0, r - wheelRadius(rig, i) * WHEEL_RISE_MAX_SHARE));
-  const top = Math.max(...excess);
-  if (top <= 0) return { lift: 0, tilt: 0 };
-  // the lowest line that clears every wheel's excess: the flat one, or one through two of them
-  let best = { lift: top, tilt: 0 }, least = top * excess.length;
-  const xs = rig.axles;
-  for (let i = 0; i < xs.length; i++) for (let j = i + 1; j < xs.length; j++) {
-    const tilt = (excess[j] - excess[i]) / (xs[j] - xs[i]), lift = excess[i] - tilt * xs[i];
-    let sum = 0, clears = true;
-    for (let n = 0; n < xs.length && clears; n++) { const y = lift + tilt * xs[n]; clears = y >= excess[n] - 1e-9; sum += y; }
-    if (clears && sum < least) { least = sum; best = { lift, tilt }; }
+  const xs = rig.axles, up = i => wheelRadius(rig, i) * WHEEL_RISE_MAX_SHARE, down = i => wheelRadius(rig, i) * WHEEL_DROP_MAX_SHARE;
+  let lift = 0, tilt = 0;
+  for (let round = 0; round < LIFT_ROUNDS; round++) {
+    // a line fitted to how far each wheel is outside its limits, held mostly by the wheels that are; the rest only steady it
+    let sw = 0, sx = 0, sxx = 0, sv = 0, sxv = 0, any = false;
+    for (let i = 0; i < xs.length; i++) {
+      const gap = rises[i] - (lift + tilt * xs[i]), v = gap > up(i) ? gap - up(i) : gap < -down(i) ? gap + down(i) : 0;
+      const w = v > 0 ? LIFT_HIGH_WHEEL_WEIGHT : v < 0 ? 1 : LIFT_OTHERS_WEIGHT; if (v) any = true;
+      sw += w; sx += w * xs[i]; sxx += w * xs[i] * xs[i]; sv += w * v; sxv += w * xs[i] * v;
+    }
+    if (!any) break;
+    const det = sw * sxx - sx * sx, dTilt = (sw * sxv - sx * sv) / det;
+    tilt += LIFT_STEP * dTilt; lift += LIFT_STEP * (sv - dTilt * sx) / sw;
   }
-  return best;
+  return { lift, tilt };
 }
 
 // Box2D's wheel-joint spring is defined by the frequency and damping ratio of the joint's

@@ -9,7 +9,7 @@ Load: **Prefab cabin**, 14 t
 
 ## Art brief
 
-- Vehicle: forest green all-terrain 6×6 cargo truck
+- Vehicle: forest green all-terrain 8×8 cargo truck
 - Load (drawn as part of the vehicle): a blue wooden prefab cabin
 - Equipment: central tire inflation lines
 - Finish: thick dried mud

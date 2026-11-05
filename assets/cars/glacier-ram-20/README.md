@@ -9,7 +9,7 @@ Load: **Rocket engine**, 18 t
 
 ## Art brief
 
-- Vehicle: cobalt blue all-terrain 6×6 cargo truck
+- Vehicle: cobalt blue all-terrain 8×8 cargo truck
 - Load (drawn as part of the vehicle): a huge rocket engine on a test-stand frame
 - Equipment: expedition box with ladders and lights
 - Finish: thick dried mud

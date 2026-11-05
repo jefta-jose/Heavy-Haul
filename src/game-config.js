@@ -73,3 +73,4 @@ export const LOADER_SLIDE_MS = 4500;          // how long each slide and fact sh
 
 // ---------- how the suspension looks ----------
 export const WHEEL_RISE_MAX_SHARE = 0.25;     // how far a wheel can look to rise above its ride height, as a share of its tire's radius; past that the body is drawn lifted over it
+export const WHEEL_DROP_MAX_SHARE = 0.3;      // the same below its ride height; past that the body is drawn lowered to it, so a bouncing truck keeps its wheels

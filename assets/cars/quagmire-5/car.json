@@ -1,0 +1,215 @@
+{
+  "id": "quagmire-5",
+  "name": "Quagmire",
+  "number": 5,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Gunmetal 6×6 carrying a generator set",
+  "description": "A gunmetal grey all-terrain 6×6 with a snorkel and wading kit, carrying a containerised generator set.",
+  "stats": {
+    "power": 36,
+    "speed": 52,
+    "grip": 83,
+    "capacity": 28,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v3.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      912,
+      665
+    ],
+    "pixelsPerMetre": 207.586,
+    "axles": [
+      2.9819,
+      -1.4934,
+      -2.9819
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 587,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1531,
+        665,
+        152
+      ],
+      [
+        602,
+        665,
+        152
+      ],
+      [
+        293,
+        665,
+        152
+      ]
+    ],
+    "nose": 4.075,
+    "exhaust": [
+      2.823,
+      2.587
+    ],
+    "winch": [
+      3.975,
+      0.507
+    ]
+  },
+  "camera": {
+    "zoom": 2.05
+  },
+  "physics": {
+    "mass": 11700.0,
+    "centreOfMass": [
+      0.535,
+      0.925
+    ],
+    "size": [
+      8.232,
+      2.654
+    ],
+    "wheelMass": 320,
+    "bodyBoxes": [
+      [
+        -4.157,
+        4.075,
+        0.725,
+        1.225,
+        1
+      ],
+      [
+        -4.157,
+        -2.1,
+        1.225,
+        2.635,
+        0.4
+      ],
+      [
+        -2.1,
+        -0.043,
+        1.225,
+        2.635,
+        0.4
+      ],
+      [
+        -0.043,
+        2.014,
+        1.225,
+        2.635,
+        0.4
+      ],
+      [
+        2.014,
+        4.071,
+        1.225,
+        2.635,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 9,
+      "centreOfMass": [
+        -1.496,
+        1.905
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.898,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 245,
+    "exhaustBrake": 315,
+    "gears": {
+      "H": 12.57,
+      "L": 38.46,
+      "R": 30.15
+    },
+    "brakeTorque": 22361,
+    "openDiffGrip": 1,
+    "fuelLitres": 384
+  },
+  "load": {
+    "name": "Generator set",
+    "massT": 9
+  }
+}
