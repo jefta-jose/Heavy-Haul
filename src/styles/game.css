@@ -60,17 +60,24 @@ canvas#view { position: absolute; inset: 0; width: 100%; height: 100%; display: 
 .mapcard p { margin: 0; font-size: 15px; line-height: 1.4; max-width: 30ch; }
 .toast { position: absolute; left: 50%; top: 64px; transform: translateX(-50%); font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: 0.03em; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px; padding: 7px 14px; opacity: 0; transition: opacity .25s; white-space: nowrap; }
 .toast.on { opacity: 1; }
+/* the speed camera's card: fiery red, up for a few seconds, then it fades */
+.trap { position: absolute; inset: 0; pointer-events: none; }
+.trap[hidden] { display: none; }
+.trapcard { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); min-width: 240px; padding: 10px 24px 12px; text-align: center; border-radius: 6px; background: linear-gradient(0deg, #ff9a1f 0%, #f04a10 32%, #b8120c 72%, #6d0806 100%); border: 1px solid #ffb347; box-shadow: 0 0 18px 4px rgba(255,90,20,.75), 0 0 44px 12px rgba(214,30,10,.45); }
+.traphead { font-family: var(--display); font-size: 17px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffe08a; }
+.trapread { display: flex; align-items: baseline; justify-content: center; gap: 7px; color: #fff; font-family: var(--display); text-shadow: 0 0 12px #ff7a1a, 0 2px 2px rgba(80,0,0,.7); }
+.trapread b { font-size: 66px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.trapread span { font-size: 22px; font-weight: 600; color: #ffe9c4; }
 .powers { position: absolute; top: 76px; right: 14px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; pointer-events: none; }
-.powerchip { position: relative; overflow: hidden; display: flex; align-items: center; gap: 7px; min-width: 148px; padding: 7px 10px 9px; border-radius: 9px; background: rgba(14,21,28,.88); border: 1px solid var(--c); box-shadow: 0 2px 8px rgba(0,0,0,.5); animation: powerin .25s ease-out; }
-.powerchip[hidden] { display: none; }
-.powerchip::after { content: ''; position: absolute; left: 0; bottom: 0; height: 4px; width: var(--p); background: var(--c); }
-.powerpic { width: 24px; height: 24px; flex: none; background: center / contain no-repeat; }
+.powerchip { position: relative; overflow: hidden; display: flex; align-items: center; gap: 7px; min-width: 148px; padding: 7px 10px; border-radius: 9px; background: rgba(14,21,28,.88); border: 1px solid var(--c); box-shadow: 0 2px 8px rgba(0,0,0,.5); animation: powerin .25s ease-out; }
 .powerchip span { flex: 1; font-family: var(--display); font-weight: 500; font-size: 15px; letter-spacing: .02em; color: #fff; white-space: nowrap; }
 .powerchip i { font-style: normal; font-weight: 700; color: var(--c); }
-.powerchip b { font-family: var(--display); font-size: 16px; line-height: 1; color: var(--c); font-variant-numeric: tabular-nums; }
-.powerchip.ending { animation: powerend .4s infinite alternate; }
-@keyframes powerin { from { transform: scale(.3); } 70% { transform: scale(1.15); } }
-@keyframes powerend { to { opacity: .45; } }
+.powerchip svg { width: 22px; height: 22px; flex: none; color: var(--c); }
+.winch.shieldbtn[hidden] { display: none; }
+.winch.shieldbtn.active { color: #d9b3ff; box-shadow: 0 0 12px 2px rgba(180,92,255,.8); }
+.winch.shieldbtn.cooling { opacity: .55; }
+#powerBtnIcon { display: contents; }
+.winch.shieldbtn.nitro.active { color: #a8d6ff; box-shadow: 0 0 12px 2px rgba(47,157,255,.85); }
 .bottom { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between;
   padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 /* Pedals: slabs of tire rubber, hinged at the bottom edge so they tip away under a thumb. The gas has
@@ -341,6 +348,7 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .g-item { display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 6px 12px 6px 18px; border: 1px solid var(--steel-line); border-left: 4px solid var(--yellow); background: var(--steel); font-size: 25px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); }
 .g-item svg { width: 26px; height: 26px; }
 .g-item:active { background: #33353a; }
+.g-item small { display: block; font-size: .56em; font-weight: 500; line-height: 1.1; color: var(--yellow); }
 
 /* the bar along the floor, with a grating above it */
 .g-bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; align-items: center; gap: 22px; height: var(--bar-h); padding: 0 0 env(safe-area-inset-bottom) max(26px, env(safe-area-inset-left)); background: var(--steel); border-top: 1px solid var(--hair); }
@@ -360,9 +368,21 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 .g-drive::after { content: '»'; font-weight: 700; }
 .g-drive:active { filter: brightness(.9); }
 
+/* the Powers card: one row per power, the one that is on edged in yellow */
+.powerlist { display: grid; gap: 8px; }
+.power { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; padding: 8px 12px; border: 1px solid #3a3f46; border-left: 4px solid #3a3f46; background: #1c1f24; text-align: left; }
+.power:active { background: #2a2e35; }
+.power.on { border-color: var(--yellow); }
+.ptext { min-width: 0; }
+.ptext b { display: block; font-family: var(--display); font-size: 19px; font-weight: 600; letter-spacing: .03em; line-height: 1.1; text-transform: uppercase; color: #fff; }
+.ptext small { display: block; font-size: 13px; font-weight: 400; line-height: 1.25; letter-spacing: 0; text-transform: none; color: #b4bbc3; }
+.pstate { font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: #b4bbc3; }
+.power.on .pstate { color: var(--yellow); }
+.powernote { margin: 0; font-size: 13px; line-height: 1.3; color: #b4bbc3; }
+
 /* the Upgrades card */
 .tunes { display: grid; gap: 10px; }
-.garage > #tuneOv { position: absolute; z-index: 5; }
+.garage > #tuneOv, .garage > #powersOv { position: absolute; z-index: 5; }
 .tunehead { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tunehead .g-coins { position: static; }
 .tune { display: grid; grid-template-columns: 28px minmax(0, 1fr) 104px; grid-template-rows: auto auto; gap: 3px 12px; align-items: center; }
@@ -400,7 +420,8 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
   .g-bar { gap: 10px; padding-left: max(12px, env(safe-area-inset-left)); } .g-bar::before { display: none; } .g-levels { display: none; }
   .g-cell { padding: 0 9px; } .g-spec dt { font-size: 10px; letter-spacing: .03em; } .g-spec dd { margin: 0; font-size: 16px; }
   .garage .g-drive { width: 128px; height: calc(var(--bar-h) + 4px); margin-bottom: 5px; gap: 6px; font-size: 27px; clip-path: polygon(14px 0, calc(100% - 5px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%); }
-  #tuneOv .cbody { padding: 8px 14px; gap: 6px; } #tuneOv h3 { font-size: 22px; } #tuneOv .eyebrow { font-size: 11px; } #tuneOv .btn { min-height: 30px; font-size: 14px; }
+  #tuneOv .cbody, #powersOv .cbody { padding: 8px 14px; gap: 6px; } #tuneOv h3, #powersOv h3 { font-size: 22px; } #tuneOv .eyebrow, #powersOv .eyebrow { font-size: 11px; } #tuneOv .btn, #powersOv .btn { min-height: 30px; font-size: 14px; }
+  .powerlist { gap: 4px; } .power { grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; padding: 3px 10px; } .ptext b { font-size: 14px; } .ptext small { font-size: 11px; } .pstate { font-size: 13px; } .powernote { font-size: 11px; }
   .tunes { gap: 6px; } .tune { grid-template-columns: 22px minmax(0, 1fr) 84px; gap: 2px 8px; } .tpic svg { width: 22px; height: 22px; } .tname b { font-size: 14px; } .tminus { width: 16px; height: 16px; font-size: 12px; } .pip { height: 6px; }
   .tbuy { height: 30px; font-size: 15px; } .tbuy .coinic { width: 14px; height: 14px; }
 }
@@ -581,7 +602,8 @@ dl.spec dd { margin: 0; font-family: var(--display); font-weight: 600; font-size
 @media (max-height: 520px) {
   .top { gap: 8px; }
   .toast { top: 58px; }
-  .powers { top: 50px; right: 10px; gap: 4px; } .powerchip { min-width: 112px; gap: 5px; padding: 4px 7px 6px; } .powerpic { width: 18px; height: 18px; } .powerchip span { font-size: 11px; } .powerchip b { font-size: 12px; } .powerchip::after { height: 3px; }
+  .powers { top: 50px; right: 10px; gap: 4px; } .powerchip { min-width: 112px; gap: 5px; padding: 4px 7px; } .powerchip svg { width: 18px; height: 18px; } .powerchip span { font-size: 11px; }
+  .trapcard { top: 50px; min-width: 170px; padding: 5px 14px 7px; } .traphead { font-size: 13px; } .trapread b { font-size: 40px; } .trapread span { font-size: 15px; }
   .ibtn { width: 36px; height: 36px; } .ibtn svg { width: 18px; height: 18px; }
   /* each pedal reaches to its screen corner so a thumb cannot miss it */
   .pedal { width: 86px; height: 114px; }

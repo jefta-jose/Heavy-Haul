@@ -1,6 +1,6 @@
 import { createRigCache } from '../sprite-cache.js';
-import { wheelRadius, drawnBodyLift } from '../../physics/vehicle.js';
-import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, POWER_WARN_SECONDS } from '../../game-config.js';
+import { wheelRadius, drawnBodyLift, easeBodyLift } from '../../physics/vehicle.js';
+import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE } from '../../game-config.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires. Near tires stay in front of the body throughout suspension travel. The
@@ -13,9 +13,15 @@ export function createVehicleLayer(scene) {
   const caches = new Map();
   const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri)); return caches.get(item.id); };
   let flash = null, hitBurst = 0;
-  // the body's drawn lift for this vehicle, worked out from where its wheels are now
+  // each vehicle's drawn body lift: it eases toward what its wheels ask for, once a frame. A new run or respawn builds new parts, so it starts level
+  const lifts = new WeakMap();
+  const liftOf = v => { if (!lifts.has(v.parts)) lifts.set(v.parts, { lift: 0, tilt: 0, vLift: 0, vTilt: 0 }); return lifts.get(v.parts); };
+  function easeLift(v, dt) {
+    const { truck, wheels } = v.parts, rig = v.car.rig;
+    easeBodyLift(liftOf(v), drawnBodyLift(rig, wheels.map((w, i) => truck.getLocalPoint(w.getPosition()).y - rig.wheelY[i])), BODY_LIFT_RESPONSE, Math.min(0.05, dt || 0));
+  }
   let raised = { lift: 0, tilt: 0 };
-  const settle = v => { const { truck, wheels } = v.parts, rig = v.car.rig; raised = drawnBodyLift(rig, wheels.map((w, i) => truck.getLocalPoint(w.getPosition()).y - rig.wheelY[i])); };
+  const settle = v => { raised = liftOf(v); };
   const raise = ctx => { if (raised.lift || raised.tilt) { ctx.translate(0, raised.lift); ctx.rotate(Math.atan(raised.tilt)); } };
 
   function drawBody(rig, C, body, src, dx = 0, dy = 0) {
@@ -28,17 +34,18 @@ export function createVehicleLayer(scene) {
     ctx.save(); ctx.translate(p.x + dx + (far ? rig.farWheelOffset[0] : 0), p.y + dy + (far ? rig.farWheelOffset[1] : 0)); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, img.width * s, img.height * s); ctx.restore();
   }
-  // While a superpower runs the truck can't be damaged: a violet halo says so, with a few sparkles travelling around it.
-  // It flickers for the last seconds, just as the timers do. 0 when there is nothing to show.
-  function shieldStrength(v) {
-    const left = Object.values(v.st.powers ?? {}); if (v.role !== 'main' || !left.length) return 0;
+  // A running power's glow: violet while nothing can hurt the truck, flickering for its last seconds, and blue on nitro. Null when there is none.
+  function powerGlow(v) {
+    const left = v.st.powerT, kind = v.car.power; if (v.role !== 'main' || !(left > 0)) return null;
     const now = performance.now() / 1000, breathe = 0.82 + 0.18 * Math.sin(now * 5);
-    return Math.max(...left) > POWER_WARN_SECONDS ? breathe : Math.sin(now * 20) > 0 ? breathe : 0.25;
+    if (kind === 'nitro') return { kind, color: NITRO_COLOR, pale: '#d6ecff', strength: 0.8 + 0.2 * Math.sin(now * 30) };
+    if (kind === 'invincible') return { kind, color: SHIELD_COLOR, pale: '#f3e4ff', strength: left > INVINCIBLE_WARN_SECONDS ? breathe : Math.sin(now * 20) > 0 ? breathe : 0.25 };
+    return null;
   }
-  function drawShield(v, strength) {
+  function drawGlow(v, { color, pale, strength }) {
     const C = rigCache(v.car), rig = v.car.rig, { ctx } = view, { truck, wheels } = v.parts, A = C.images.body, W = C.images.wheel, k = 1 / rig.pixelsPerMetre;
     const artRadius = i => wheelRadius(rig, i) / rig.wheelArtRadius;
-    const halo = C.shieldOf(A.width * k / C.body.width, W.width * artRadius(0) / C.wheel.width);
+    const halo = C.haloOf(color, pale, A.width * k / C.body.width, W.width * artRadius(0) / C.wheel.width);
     const put = (h, src, x, y, w, ht) => { const px = h.pad * w / src.width, py = h.pad * ht / src.height; ctx.drawImage(h.canvas, x - px, y - py, w + px * 2, ht + py * 2); };
     ctx.save(); ctx.globalAlpha = strength;
     const p = truck.getPosition();
@@ -49,6 +56,19 @@ export function createVehicleLayer(scene) {
       ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
       put(halo.wheel, C.wheel, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, W.width * s, W.height * s); ctx.restore();
     });
+    ctx.restore();
+  }
+  // Nitro's speed lines: thin blue streaks racing back off the truck's tail
+  function drawSpeedLines(v) {
+    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
+    const tail = -rig.bodyOrigin[0] * k, height = A.height * k, top = rig.bodyOrigin[1] * k;
+    ctx.save(); ctx.lineCap = 'round';
+    for (let i = 0; i < 9; i++) {
+      const t = (now * 2.4 + i * 0.37) % 1, y = top - height * ((i * 0.618) % 1), len = 1.2 + ((i * 0.41) % 1) * 2.2, from = tail + 0.6 - t * 3.5;
+      const a = body.getWorldPoint({ x: from, y }), b = body.getWorldPoint({ x: from - len, y });
+      ctx.globalAlpha = (1 - t) * 0.75; ctx.strokeStyle = i % 3 ? NITRO_COLOR : '#d6ecff'; ctx.lineWidth = 0.05 + (i % 3) * 0.02;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
     ctx.restore();
   }
   function drawSparkles(v, strength) {
@@ -64,9 +84,10 @@ export function createVehicleLayer(scene) {
   }
   function drawVehicle(v) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
-    const rig = v.car.rig, { truck, wheels } = v.parts, shield = shieldStrength(v);
+    const rig = v.car.rig, { truck, wheels } = v.parts, glow = powerGlow(v);
     settle(v);
-    if (shield) drawShield(v, shield);
+    if (glow?.kind === 'nitro') drawSpeedLines(v);
+    if (glow) drawGlow(v, glow);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));
     // a far tire sinks like the near one: ground over its bottom, behind the body
     const [fx, fy] = rig.farWheelOffset;
@@ -76,7 +97,7 @@ export function createVehicleLayer(scene) {
     });
     drawBody(rig, C, truck, C.bodyAtDamage(v.st.damage ?? 0, v.car.id));
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i));
-    if (shield) drawSparkles(v, shield);
+    if (glow?.kind === 'invincible') drawSparkles(v, glow.strength);
   }
 
   // 4x4 / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
@@ -111,7 +132,7 @@ export function createVehicleLayer(scene) {
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
-      for (const v of list) { if (v === sim.active) border(v, dt); drawVehicle(v); }
+      for (const v of list) { easeLift(v, dt); if (v === sim.active) border(v, dt); drawVehicle(v); }
       for (const v of sim.vehicles) winchCable(v);
       // a star of impact on the nose
       const img = scene.hud['g2-burst'];

@@ -6,7 +6,7 @@ import { loadContent } from '../tools/lib/content.js';
 export const DT = 1 / 120;
 export const content = loadContent();
 // pickups are off: tests measure the truck itself
-export const newSim = (car = content.car, extra = {}) => { const s = createSimulation(planck, content); s.setup = { car, powers: false, ...extra }; return s; };
+export const newSim = (car = content.car, extra = {}) => { const s = createSimulation(planck, content); s.setup = { car, ...extra }; return s; };
 export function advance(sim, seconds) { for (let i = 0; i < seconds / DT; i++) sim.step(DT); }
 // spawn at x, let the suspension settle, with the given drive settings
 export function spawn(sim, x, { gear = 'L', awd = true, diff = true } = {}) {

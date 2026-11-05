@@ -44,9 +44,9 @@ export function createTerrain(trail, surfaces) {
     return (2 * t3 - 3 * t2 + 1) * y0 + (t3 - 2 * t2 + t) * h * KM[i] + (-2 * t3 + 3 * t2) * y1 + (t3 - t2) * h * KM[i + 1];
   }
 
-  // places kept calm so the start, fuel stop and depot stay drivable
+  // places kept calm so the start, fuel stop and depot stay drivable; a highway is calm from end to end, so it has no bumps at all
   const stations = trail.stations ?? [];
-  const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? []), ...stations.map(s => [s.x - STATION_BAY_M / 2 - 2, s.x + STATION_BAY_M / 2 + 2])];
+  const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? []), ...stations.map(s => [s.x - STATION_BAY_M / 2 - 2, s.x + STATION_BAY_M / 2 + 2]), ...(trail.highways ?? []).map(h => [h.x0, h.x1])];
   const calm = x => { let c = 1; for (const [a, b] of CALM) c = Math.min(c, 1 - sm((x - a + 6) / 6) * sm((b + 6 - x) / 6)); return c; };
   const nearCalm = (x, pad) => CALM.some(([a, b]) => x > a - pad && x < b + pad);
 
@@ -146,9 +146,23 @@ export function createTerrain(trail, surfaces) {
     }
     return out;
   }
+  // A highway's long, smooth waves: a gentle rise then a gentle dip, over and over, so it feels like a road at speed and not
+  // like the swamp's bumps. Each wave starts and ends level, and the first and last stretches stay flat.
+  function highwayWavesAt() {
+    const out = new Float32Array(N);
+    for (const h of trail.highways ?? []) {
+      if (!h.waves) continue;
+      const next = seededRandom(h.waves.seed), between = ([a, b]) => a + next() * (b - a), end = h.x1 - 20;
+      let x = h.x0 + 20, up = 1;
+      for (let L = between(h.waves.wave), H = between(h.waves.height); x + L < end; x += L, L = between(h.waves.wave), H = between(h.waves.height), up = -up) {
+        for (let i = Math.max(0, Math.ceil((x - X0) / DX)); i < N && X0 + i * DX < x + L; i++) out[i] = up * H * 0.5 * (1 - Math.cos(2 * Math.PI * (X0 + i * DX - x) / L));
+      }
+    }
+    return out;
+  }
   function buildHeights() {
     buildFeatures();
-    const rollers = rollersAt();
+    const rollers = rollersAt(), waves = highwayWavesAt();
     const amps = [0, 1, 2].map(() => new Float32Array(N)), sink = new Float32Array(N);
     for (let i = 0; i < N; i++) {
       const x = X0 + i * DX, s = surfAt(x), a = surfaces[s].noise;
@@ -167,7 +181,9 @@ export function createTerrain(trail, surfaces) {
       const x = X0 + i * DX, c = calm(x);
       const broad = (valueNoise(x / 38, 1) * 0.7 + valueNoise(x / 17, 2) * 0.35) * c;
       const n = valueNoise(x / 9, 3) * A[0][i] + (valueNoise(x / 2.2, 4) * 0.7 + valueNoise(x / 1.3, 5) * 0.3) * A[1][i] + valueNoise(x / 0.7, 6) * A[2][i];
-      HV[i] = macro(x) + broad + n * (0.25 + 0.75 * c) + featureAt(x) * c + rollers[i];
+      // on a highway the road's own texture goes too, leaving only its smooth waves
+      const paved = (trail.highways ?? []).reduce((v, h) => Math.max(v, sm((x - h.x0 + 6) / 6) * sm((h.x1 + 6 - x) / 6)), 0);
+      HV[i] = macro(x) + broad + n * (0.25 + 0.75 * c) * (1 - paved) + featureAt(x) * c + rollers[i] + waves[i];
       HC[i] = HV[i] - sink[i];
     }
   }

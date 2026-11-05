@@ -1,4 +1,4 @@
-import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_ON_MAXED_SHARE } from '../game-config.js';
+import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_TIMES, DAMAGE_START_KMH } from '../game-config.js';
 // Garage tuning: four knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
 // take all four to 100. A car's weight and load are never tuned: they stay as its car.json has them. A knob moves several car.json values together (the twelve old single-purpose
 // knobs, grouped), each from 1 at stock to its own `max` multiplier at 100, so every car, present or
@@ -53,12 +53,14 @@ export function applyTuning(car, levels = {}) {
   return c;
 }
 
-// The car as it drives under superpowers (a list of knob ids): each of those upgrades at full, or past full if it already was.
-export function withPowers(car, ids) {
-  const levels = car.levels ?? {}, c = applyTuning(car.stock ?? car, { ...levels, ...Object.fromEntries(ids.map(id => [id, MAX_LEVEL])) });
-  for (const knob of KNOBS) if (ids.includes(knob.id) && levels[knob.id] === MAX_LEVEL) knob.apply(c, POWER_ON_MAXED_SHARE);
-  return c;
-}
+// Powers do what upgrades can't, and a truck has one at a time. The simulation reads `car.power`.
+const { invincible, nitro, brakes } = POWER_TIMES;
+export const POWERS = [
+  { id: 'invincible', label: 'Invincible', what: `Tap the button: no hit hurts for ${invincible.seconds} s, then it recharges for ${invincible.cooldown} s` },
+  { id: 'brakes', label: 'Instant brakes', what: `Brake above ${DAMAGE_START_KMH} km/h and the truck stops dead, then it recharges for ${brakes.cooldown} s. Slower braking stays normal` },
+  { id: 'nitro', label: 'Nitro', what: `Tap the button: ${nitro.seconds} s of speed past your top speed, then it recharges for ${nitro.cooldown} s. No protection` },
+];
+export const withPower = (car, id) => POWERS.some(p => p.id === id) ? { ...car, power: id } : car;
 
 // A garage stat bar (0..100) lifted by the knob tied to it: at level 100 the bar is full.
 export function tunedStat(base, levels, stat) {
@@ -76,3 +78,8 @@ export function levelColor(level) {
 const KEY = 'hh_tuning_levels';
 export function loadTuning() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
 export function saveTuning(all) { try { localStorage.setItem(KEY, JSON.stringify(all)); } catch (e) {} }
+
+// Each car's chosen power, one at a time: saved per car in the browser, so it stays on until that car gets another.
+const POWER_KEY = 'hh_powers';
+export function loadPowers() { try { return Object.fromEntries(Object.entries(JSON.parse(localStorage.getItem(POWER_KEY)) || {}).filter(([, id]) => POWERS.some(p => p.id === id))); } catch (e) { return {}; } }
+export function savePowers(all) { try { localStorage.setItem(POWER_KEY, JSON.stringify(all)); } catch (e) {} }

@@ -21,7 +21,7 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
   const savedWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const savedNavigator = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
   const events = () => ({ handlers: {}, addEventListener(type, fn) { this.handlers[type] = fn; }, setPointerCapture() {} });
-  const win = events(), els = Object.fromEntries(['gas', 'brake', 'winch', 'handbrakeBtn', 'engineBtn'].map(k => [k, events()]));
+  const win = events(), els = Object.fromEntries(['gas', 'brake', 'winch', 'handbrakeBtn', 'engineBtn', 'powerBtn'].map(k => [k, events()]));
   let pads = [];
   Object.defineProperty(globalThis, 'window', { configurable: true, value: win });
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => pads } });

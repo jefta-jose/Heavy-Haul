@@ -86,54 +86,6 @@
    "quality": 90
   },
   {
-   "id": "g2-icon-engine",
-   "file": "source/g2-icon-engine.png",
-   "width": 240,
-   "quality": 90
-  },
-  {
-   "id": "g2-icon-suspension",
-   "file": "source/g2-icon-suspension.png",
-   "width": 240,
-   "quality": 90
-  },
-  {
-   "id": "g2-icon-speed",
-   "file": "source/g2-icon-speed.png",
-   "width": 240,
-   "quality": 90
-  },
-  {
-   "id": "g2-icon-grip",
-   "file": "source/g2-icon-grip.png",
-   "width": 240,
-   "quality": 90
-  },
-  {
-   "id": "g2-orb-engine",
-   "file": "source/g2-orb-engine.png",
-   "width": 256,
-   "quality": 90
-  },
-  {
-   "id": "g2-orb-suspension",
-   "file": "source/g2-orb-suspension.png",
-   "width": 256,
-   "quality": 90
-  },
-  {
-   "id": "g2-orb-speed",
-   "file": "source/g2-orb-speed.png",
-   "width": 256,
-   "quality": 90
-  },
-  {
-   "id": "g2-orb-grip",
-   "file": "source/g2-orb-grip.png",
-   "width": 256,
-   "quality": 90
-  },
-  {
    "id": "g2-burst",
    "file": "source/g2-burst.png",
    "width": 420,

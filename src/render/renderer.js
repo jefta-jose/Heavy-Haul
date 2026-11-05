@@ -28,7 +28,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
   scenery.ready.then(() => { sceneryReady = scenery.allLoaded(); });
 
   // ground, mud and holes repainted over a far tire's sunk bottom
-  vehicles.farLip = (x, half, rise) => drawFarLip(scene, x, half, rise, (lo, hi) => { mud.surfaceOnly(lo, hi, scene.season.render.road ? () => props.drawHoles() : null); props.stationBays(); });
+  vehicles.farLip = (x, half, rise) => drawFarLip(scene, x, half, rise, (lo, hi) => { mud.surfaceOnly(lo, hi, scene.season.render.road ? () => props.drawHoles() : null); props.roadMarks(); });
 
   function draw(dt, playing) {
     const { ctx, W, H, DPR } = view;
@@ -52,9 +52,9 @@ export function createRenderer({ view, sim, content, onEvent }) {
     props.drawBehind(); bridges.draw(); drawWaterBack(scene, time);
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
-    drawFrontLip(scene, props.stationBays); props.drawLogEnds(); mud.foreground(); bridges.drawFront();
+    drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground(); bridges.drawFront();
     drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
-    props.drawFront(); props.drawPowerups(); drawForegroundShade(scene);
+    props.drawFront(); drawForegroundShade(scene);
     frames++;
   }
 

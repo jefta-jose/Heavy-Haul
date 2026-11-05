@@ -145,9 +145,36 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     }
     await capture('00b-tuning');
     await page.click('#tuneDone');
+    // powers: one at a time, kept until another is chosen, and tapping the one that is on turns it off
+    assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
+    await page.click('#gMenuPowers');
+    await page.locator('.power', { hasText: 'Invincible' }).click();
+    await page.locator('.power', { hasText: 'Instant brakes' }).click();
+    assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'brakes', 'the run uses the chosen power');
+    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'brakes', 'and it is kept');
+    assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'swamp-scout-4' ? 'mire-king-6' : 'swamp-scout-4', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'brakes', 'and coming back finds it still on');
+    await capture('00c-powers');
+    await page.locator('.power', { hasText: 'Instant brakes' }).click();
+    assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
+    await page.click('#powersDone');
     assert(await page.evaluate(() => Number(document.getElementById('gCoins').textContent.replace(/,/g, '')) < 999999), 'upgrades cost coins');
     await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
+    // the power's chip, top right: gone without a power, and up with no timer with one
+    assert.equal(await page.locator('.powerchip').count(), 0, 'no power, no chip');
+    assert(!await page.locator('#powerBtn').isVisible(), 'and no shield button');
+    await page.evaluate(() => { __haul.sim.main.car.power = 'invincible'; }); await page.waitForTimeout(150);
+    assert.equal((await page.locator('.powerchip').innerText()).replace(/\s+/g, ' ').trim(), 'Invincible: ready', 'the chip says the shield is ready');
+    assert(await page.locator('#powerBtn').isVisible(), 'and the shield button shows');
+    await page.locator('#powerBtn').dispatchEvent('pointerdown');
+    await page.waitForTimeout(300);
+    assert.match(await page.locator('.powerchip').innerText(), /Invincible:\s*\d+ s/, 'the button starts it, and the chip counts down');
+    assert(await page.evaluate(() => __haul.sim.main.st.powerT > 0));
+    await capture('00d-shield');
+    await page.evaluate(() => { __haul.sim.main.st.powerT = 0; __haul.sim.main.st.powerCoolT = 0; });
+    await page.evaluate(() => { delete __haul.sim.main.car.power; }); await page.waitForTimeout(150);
     assert(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.sim.car.id].grip === 100), 'levels saved per car');
     await page.evaluate(() => localStorage.removeItem('hh_tuning_levels'));
     await page.waitForFunction(() => !__haul.loader.visible);
@@ -266,6 +293,16 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.waitForFunction(() => __haul.sim.main.st.fuel > 60 && __haul.sim.main.st.damage < 40);
     assert(await page.locator('#actionBtn').isVisible(), 'the HUD says it is filling');
     await capture('03c-fuel-station');
+    // the speed camera: passing it shows the truck's top speed on a card that fades, and the game carries on
+    await page.evaluate(() => { const s = __haul.sim; __haul.trap.reset(); s.respawn(__haul.trap.xs[0] - 15); s.main.st.fuel = 100; s.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); s.ctl.gas = 1; __haul.snap(); });
+    await page.waitForFunction(() => !document.getElementById('trap').hidden, null, { timeout: 15000 });
+    assert(Number(await page.locator('#trapNum').innerText()) > 0, 'it shows the speed');
+    assert.equal(await page.evaluate(() => __haul.view.canvas.style.transform), '', 'the view stays as it is');
+    await capture('03d-speed-camera');
+    const framesAtCard = await page.evaluate(() => __haul.renderer.frames);
+    await page.waitForFunction(() => document.getElementById('trap').hidden, null, { timeout: 60000 });
+    assert((await page.evaluate(() => __haul.renderer.frames)) > framesAtCard, 'the game keeps running');
+    await page.evaluate(() => { const s = __haul.sim; s.ctl.gas = 0; s.respawn(s.terrain.stations[0].x); __haul.snap(); });
     await page.waitForFunction(() => __haul.sim.main.st.fuel > 99.9 && __haul.sim.main.st.damage === 0);
     assert.equal(await page.locator('.mk.station').count(), await page.evaluate(() => __haul.sim.terrain.stations.length), 'every station is on the progress map');
     const gas = await page.locator('#gas').boundingBox(), cdp = await page.context().newCDPSession(page);

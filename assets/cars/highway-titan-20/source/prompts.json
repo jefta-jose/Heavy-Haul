@@ -1,0 +1,562 @@
+{
+  "specification": {
+    "axleCount": 5,
+    "tireDiameterM": 1.5,
+    "maximumTotalLengthM": 16.8,
+    "targetLengthTireDiameters": 10.5,
+    "allowedLengthTireDiameters": [
+      10,
+      11
+    ],
+    "axleGroups": "one steer, close drive tandem under hitch, close trailer tandem under rear load",
+    "intendedCanvas": {
+      "master": [
+        2048,
+        1024
+      ],
+      "body": [
+        2048,
+        1024
+      ],
+      "wheel": [
+        1536,
+        1536
+      ]
+    },
+    "wheelException": "native1254square accepted",
+    "briefResolution": "User tire and length specifications override README. All fixed parts above hubs."
+  },
+  "status": "pass",
+  "references": [
+    "assets/cars/swamp-scout-4/source/vehicle-master-v1.png"
+  ],
+  "selected": {
+    "master": "vehicle-master-v5.png",
+    "body": "body-v1.png",
+    "wheel": "wheel-v1.png"
+  },
+  "revisions": [
+    {
+      "file": "vehicle-master-v1.png",
+      "status": "needs_revision",
+      "prompt": "Use case: stylized-concept. Production complete loaded vehicle for highway-titan-20. Charcoal BLACK conventional DAY CAB with TWIN CHROME EXHAUST STACKS and visor. Flatbed semi-trailer carries exactly TWO GIANT COPPER CABLE DRUMS on heavy engineered cradles, secured by chains and chocks. Rich copper coils visible between broad industrial steel/wood reel flanges. Reels are CARGO on deck, not road wheels. Both drums completely within rig length and clear canvas margins. Tractor AND semi-trailer together as ONE vehicle. EXACTLY FIVE near-side road wheels: ONE steer at RIGHT beneath conventional cab, CLOSE DRIVE TANDEM beneath hitch just behind cab, CLOSE TRAILER TANDEM at LEFT beneath rear of load. Each tandem nearly tire-to-tire with tiny gaps; no single lone rear trailer axle. Tire diameter 1.5m, chunky off-road mud-terrain tires with heavy steel DIAMOND-PATTERN CHAINS, linked angular diamond mesh over tread and side chains. Overall loaded length 10.5 TIRE DIAMETERS (15.75m) and never16.8m or longer. Road tires about9.5% of total loaded length. Long slender rig; no oversized tires. All tires identical and perfectly round, centres level, chassis and trailer horizontal. All fixed chassis, deck, steps, tank, mudflaps and load must END ABOVE HUB LINE; only road tires below hubs. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Visible short bonnet with distinct radiator housing, blunt bumper, headlamp and fender; round front arches following tire clearance; small rectangular mirrors on short rigid brackets near door. No visible front grille face. Clean plausible panels and seams. Polished paint with road dust, premium semi-realistic painted game illustration matching Swamp Scout; rich materials, fine mechanical details and dark contours. Soft even daylight. True transparent background/internal gaps, generous clear margins on all four sides. No ground shadow, glow, halo, checkerboard, text, logos or watermark. Intended2048x1024PNG. Reference1 accepted Prairie Star gives5-road-axle geometry and painted style ONLY:change cab to charcoal black with twin stacks/visor, replace ALL lumber with2huge copper cable drums. Cargo reel flanges may be circular but are NOT ROAD AXLES: exactly5road tires on bottom line in steer+drive-tandem+trailer-tandem groups. Overall10.5road tire diameters; tires in proportion. Copper winding must be visibly rich metallic copper,not empty reels.",
+      "reason": "Cargo reels shown in oblique perspective with oval flange faces; replace with circular face-on open-spoke flanges and visible copper winding through spoke openings, consistent with perpendicular truck camera."
+    },
+    {
+      "file": "vehicle-master-v1.png",
+      "status": "needs_revision",
+      "reason": "Generated alpha/margins require deterministic normalization/padding before body extraction."
+    },
+    {
+      "file": "wheel-well-material-v1.png",
+      "status": "material_only",
+      "reason": "Generated edit donor used within measured wheel regions only to retain exact original cab/load pixels."
+    },
+    {
+      "file": "vehicle-master-v3.png",
+      "status": "needs_revision",
+      "reason": "Corrected flat cargo layout retained native tires about184px yielding9.38diameters. Installed selected164px equal diamond-chain tires at709px level hubs,retaining near-original close tandem centers and all copper cargo."
+    }
+  ],
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Generate ONE face-on heavy truck road wheel sprite, chunky off-road mud-terrain tires with heavy steel DIAMOND-PATTERN CHAINS, linked angular diamond mesh over tread and side chains, dark charcoal rubber with restrained road dust, silver steel rim with circular recesses and bolted hub exactly centred. Premium semi-realistic painted game illustration matching Swamp Scout, fine mechanical detail, readable dark contours. Perfect circular outline, precisely centred circular rim, equal margins on square1536x1536 transparent PNG; native1254square accepted. Soft even daylight suitable for spinning. No text, logos, ground, axle, body, cast shadow, halo or checkerboard. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "status": "pass",
+    "source": "assets/cars/iron-horse-16/source/wheel-v2.png",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 519114,
+      "opaquePixels": 1039811
+    }
+  },
+  "master": {
+    "prompt": "Precise edit of Highway Titan master. Keep truck/cab/chassis/trailer style and five road-axle groups. Replace ONLY the two obliquely drawn cargo reels with TWO GIANT COPPER CABLE DRUMS seen perfectly FACE-ON: their axes point perpendicular to the near truck side, directly toward camera. Each near flange is a perfect CIRCLE, not ellipse. Open industrial STEEL SPOKE FLANGES like robust wheel-shaped reel ends; tightly wound rich COPPER cable visible as concentric rings THROUGH broad open spoke sectors. Copper winding belongs to these loaded cable reels, not road wheels. NO visible cylindrical barrel extending diagonally backward, no oblique reel perspective. Exactly2large circular face-on loaded cable reels on heavy cradles, chains and chocks securely anchored on flatbed. Space the two reels along trailer with both supported over the trailer/hitch wheels. Preserve charcoal conventional day cab, TWIN chrome stacks and visor, horizontal trailer. Exactly FIVE small road tires: one steer at right, close drive tandem under hitch, close trailer tandem at left rear. Road tires have selected diamond chains, all same size and level. Overall loaded rig length10.5ROAD TIRE DIAMETERS, diameter1.5m,never over16.8m. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Visible short bonnet with distinct radiator housing, blunt bumper, headlamp and separate fender; round front arches following tire clearance; small rectangular mirrors on short rigid brackets near door. All fixed undercarriage above hub line,only road tires below. Premium semi-realistic painted game illustration,rich copper/steel/weathered paint details,dark contours,soft even daylight. True transparent background/internal gaps,facing right,clear margins on all four sides. No ground,shadow,halo,checkerboard,text,logos or watermark. Intended2048x1024PNG.",
+    "status": "pass",
+    "references": [
+      "assets/cars/highway-titan-20/source/vehicle-master-v1.png"
+    ],
+    "previousPrompt": "Use case: stylized-concept. Production complete loaded vehicle for highway-titan-20. Charcoal BLACK conventional DAY CAB with TWIN CHROME EXHAUST STACKS and visor. Flatbed semi-trailer carries exactly TWO GIANT COPPER CABLE DRUMS on heavy engineered cradles, secured by chains and chocks. Rich copper coils visible between broad industrial steel/wood reel flanges. Reels are CARGO on deck, not road wheels. Both drums completely within rig length and clear canvas margins. Tractor AND semi-trailer together as ONE vehicle. EXACTLY FIVE near-side road wheels: ONE steer at RIGHT beneath conventional cab, CLOSE DRIVE TANDEM beneath hitch just behind cab, CLOSE TRAILER TANDEM at LEFT beneath rear of load. Each tandem nearly tire-to-tire with tiny gaps; no single lone rear trailer axle. Tire diameter 1.5m, chunky off-road mud-terrain tires with heavy steel DIAMOND-PATTERN CHAINS, linked angular diamond mesh over tread and side chains. Overall loaded length 10.5 TIRE DIAMETERS (15.75m) and never16.8m or longer. Road tires about9.5% of total loaded length. Long slender rig; no oversized tires. All tires identical and perfectly round, centres level, chassis and trailer horizontal. All fixed chassis, deck, steps, tank, mudflaps and load must END ABOVE HUB LINE; only road tires below hubs. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Visible short bonnet with distinct radiator housing, blunt bumper, headlamp and fender; round front arches following tire clearance; small rectangular mirrors on short rigid brackets near door. No visible front grille face. Clean plausible panels and seams. Polished paint with road dust, premium semi-realistic painted game illustration matching Swamp Scout; rich materials, fine mechanical details and dark contours. Soft even daylight. True transparent background/internal gaps, generous clear margins on all four sides. No ground shadow, glow, halo, checkerboard, text, logos or watermark. Intended2048x1024PNG. Reference1 accepted Prairie Star gives5-road-axle geometry and painted style ONLY:change cab to charcoal black with twin stacks/visor, replace ALL lumber with2huge copper cable drums. Cargo reel flanges may be circular but are NOT ROAD AXLES: exactly5road tires on bottom line in steer+drive-tandem+trailer-tandem groups. Overall10.5road tire diameters; tires in proportion. Copper winding must be visibly rich metallic copper,not empty reels.",
+    "edit_of": "vehicle-master-v1.png",
+    "selectedOutput": "vehicle-master-v5.png",
+    "measurements": {
+      "dimensions": [
+        1902,
+        1015
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        96,
+        176,
+        1821,
+        801
+      ],
+      "transparentPixels": 1297464,
+      "opaquePixels": 614927
+    },
+    "correction": "Normalized near-opaque generated alpha to255, cleared isolated speckles under25pixels, padded64pixels all sides without resampling painted detail.",
+    "preBodyCorrection": {
+      "source": "vehicle-master-v3.png",
+      "method": "Corrected measured tire diameter and close tandem positions using selected generated circular wheel; fixed low body clearance before well material edit.",
+      "oldHubs": [
+        [
+          217,
+          709,
+          94
+        ],
+        [
+          387,
+          709,
+          94
+        ],
+        [
+          1106,
+          709,
+          94
+        ],
+        [
+          1274,
+          709,
+          94
+        ],
+        [
+          1670,
+          709,
+          94
+        ]
+      ],
+      "hubCentersPx": [
+        [
+          217,
+          709
+        ],
+        [
+          387,
+          709
+        ],
+        [
+          1106,
+          709
+        ],
+        [
+          1274,
+          709
+        ],
+        [
+          1670,
+          709
+        ]
+      ],
+      "tireDiameterPx": 164,
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          96,
+          176,
+          1821,
+          791
+        ],
+        "transparentPixels": 1308982,
+        "opaquePixels": 602848
+      }
+    }
+  },
+  "outputs": {
+    "vehicle-master-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          31,
+          161,
+          1755,
+          737
+        ],
+        "transparentPixels": 889199,
+        "opaquePixels": 526
+      },
+      "status": "preserved_revision"
+    },
+    "wheel-well-material-v1.png": {
+      "status": "preserved_revision",
+      "source": "assets/cars/prairie-star-13/source/body-v5.png",
+      "method": "Locally registered generated suspension/liner crops, no whole-body rescaling or redrawing.",
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          129,
+          621,
+          1759,
+          710
+        ],
+        "transparentPixels": 1853492,
+        "opaquePixels": 76468
+      }
+    },
+    "vehicle-master-v3.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          96,
+          176,
+          1821,
+          801
+        ],
+        "transparentPixels": 1297464,
+        "opaquePixels": 614927
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v5.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          96,
+          176,
+          1821,
+          791
+        ],
+        "transparentPixels": 1310469,
+        "opaquePixels": 605905
+      },
+      "status": "selected_pass"
+    },
+    "body-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          96,
+          176,
+          1821,
+          710
+        ],
+        "transparentPixels": 1364354,
+        "opaquePixels": 555865
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v4.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          96,
+          176,
+          1821,
+          791
+        ],
+        "transparentPixels": 1308982,
+        "opaquePixels": 602848
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v2.png": {
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          33,
+          112,
+          1757,
+          737
+        ],
+        "transparentPixels": 910420,
+        "opaquePixels": 606
+      },
+      "status": "preserved_revision"
+    },
+    "wheel-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          48,
+          48,
+          1206,
+          1206
+        ],
+        "transparentPixels": 519114,
+        "opaquePixels": 1039811
+      },
+      "status": "selected_pass"
+    }
+  },
+  "body": {
+    "edit_of": "vehicle-master-v4.png",
+    "prompt": "Deterministic registered body edit of vehicle-master-v4.png: replace road wheels only with opaque painted inner liner, chassis and suspension extracted from approved generated Prairie Star body-v5.png, locally registered to hub centres [217, 387, 1106, 1274, 1670] at y709. Fill upper wells and tandem gaps through hub line, clear all below hubs; retain original cab/load/panels pixels outside road-wheel regions. Composite selected circular matching wheel at same level hubs for master. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires",
+    "paintedMaterialReference": "assets/cars/prairie-star-13/source/body-v5.png",
+    "status": "pass",
+    "generationTool": "Built-in image_gen painted donor; authorized deterministic extraction/compositing",
+    "selectedOutput": "body-v1.png",
+    "derivationMethod": "Preserved accepted master outside measured road-wheel masks; composited built-in generated painted wheel-well material into opaque upper wells and tandem gaps; cleared body below hubs; composited identical selected wheel instances at level hubs."
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      1902,
+      1015
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 5,
+    "hubCentersPx": [
+      [
+        217,
+        709
+      ],
+      [
+        387,
+        709
+      ],
+      [
+        1106,
+        709
+      ],
+      [
+        1274,
+        709
+      ],
+      [
+        1670,
+        709
+      ]
+    ],
+    "tireDiameterPx": 164,
+    "tireBottomsPx": [
+      791,
+      791,
+      791,
+      791,
+      791
+    ],
+    "measuredLengthTireDiameters": 10.518292682926829,
+    "depictedLengthM": 15.777439024390244,
+    "vehicleBBox": [
+      96,
+      176,
+      1821,
+      791
+    ],
+    "baseMaster": "vehicle-master-v4.png",
+    "paintedMaterial": "wheel-well-material-v1.png",
+    "sourceRoadHubsPx": [
+      [
+        217,
+        709
+      ],
+      [
+        387,
+        709
+      ],
+      [
+        1106,
+        709
+      ],
+      [
+        1274,
+        709
+      ],
+      [
+        1670,
+        709
+      ]
+    ],
+    "wheelRemovalRadiusPx": 97,
+    "upperWellAlpha255": true,
+    "belowHubsInWheelRegionsAlpha0": true,
+    "allBodyPixelsBelowHubsTransparent": true,
+    "fullUndersideClearance": true,
+    "method": "Preserved accepted master outside measured road-wheel masks; composited built-in generated painted wheel-well material into opaque upper wells and tandem gaps; cleared body below hubs; composited identical selected wheel instances at level hubs.",
+    "closeGroups": [
+      {
+        "centers": [
+          217,
+          387
+        ],
+        "spacingPx": 170,
+        "tireGapPx": 6
+      },
+      {
+        "centers": [
+          1106,
+          1274
+        ],
+        "spacingPx": 168,
+        "tireGapPx": 4
+      }
+    ],
+    "finalAudit": {
+      "measuredTireDimensionsPx": [
+        164,
+        164
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          135,
+          627,
+          299,
+          791
+        ],
+        [
+          305,
+          627,
+          469,
+          791
+        ],
+        [
+          1024,
+          627,
+          1188,
+          791
+        ],
+        [
+          1192,
+          627,
+          1356,
+          791
+        ],
+        [
+          1588,
+          627,
+          1752,
+          791
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        791,
+        791,
+        791,
+        791,
+        791
+      ],
+      "measuredLengthTireDiameters": 10.518292682926829,
+      "measuredLengthM": 15.777439024390244,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "bodyBelowHubAlpha0": true,
+      "headerDimensions": [
+        1902,
+        1015
+      ],
+      "bodyHeaderDimensions": [
+        1902,
+        1015
+      ],
+      "wheelHeaderDimensions": [
+        1254,
+        1254
+      ]
+    },
+    "outsideWheelRegionsPixelIdentical": true,
+    "originalMasterPixelsPreservedOutsideWheelRegions": true,
+    "bodyMasterDimensionsMatch": true,
+    "equalRoundTires": true,
+    "levelHubs": true,
+    "clearMarginsPx": [
+      96,
+      176,
+      81,
+      224
+    ],
+    "visualReview": "Native black conventional cab,short rigid mirror,round fender,distinct headlamp/bumper and twin chrome stacks/visor inspected. Exactly2circular face-on open-spoke cargo reel flanges with rich copper winding,chained on cradles;reels remain in body and do not count as road axles. Exactly5equal round164px diamond-chain road tires,level709px hubs/791px bottoms,close tandems under cargo/hitch. Light/dark and suspension views pass:opaque upper wells,full clearance below hubs,exact cargo/cab registration,no far tires or shadows.",
+    "wheelMeasurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 519114,
+      "opaquePixels": 1039811
+    },
+    "suspensionPreview": {
+      "status": "pass",
+      "wheelDropPx": 27,
+      "storage": "scratch outside project"
+    }
+  },
+  "generationTool": "built-in image_gen",
+  "projectWrites": "Only this requested truck source/ directory. No gameplay/roster/WebP changes."
+}

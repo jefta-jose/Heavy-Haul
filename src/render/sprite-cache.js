@@ -1,4 +1,4 @@
-import { CRACKS_AT_DAMAGE, CRACK_COUNTS, SHIELD_COLOR, SHIELD_WIDTH_M } from '../game-config.js';
+import { CRACKS_AT_DAMAGE, CRACK_COUNTS, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SHIELD_WIDTH_M } from '../game-config.js';
 import { makeCanvas, scaled, tinted, loadImages, alphaCrop } from './canvas-utils.js';
 
 // a copy with its opacity multiplied in, so it is drawn without globalAlpha
@@ -55,6 +55,11 @@ export function createSceneryCache(scene) {
       C[`${art}Source`] ??= alphaCrop(A[art]);
       C.img[art] = scaled(C[`${art}Source`], Math.min(1, 6 * px / C[`${art}Source`].width));
     }
+    for (const key of new Set((season.trail.scenery ?? []).map(s => s.art))) {
+      const a = season.art[key]; if (A[key] && a?.heightM) C.img[key] = scaled(A[key], Math.min(1, a.heightM * px * 1.1 / A[key].height));
+    }
+    if (A.highwaySign) C.img.highwaySign = scaled(A.highwaySign, Math.min(1, HIGHWAY_SIGN_WIDTH_M * px / A.highwaySign.width));
+    if (A.speedSign) C.img.speedSign = scaled(A.speedSign, Math.min(1, SPEED_SIGN_HEIGHT_M * px / A.speedSign.height));
     if (A.logEnd) {
       C.logEndSource ??= alphaCrop(A.logEnd);
       C.img.logEnd = scaled(C.logEndSource, Math.min(1, 1.5 * px / C.logEndSource.width));
@@ -87,7 +92,7 @@ export function createSceneryCache(scene) {
 // near and pre-darkened far wheel, and solid outlines for the 4x4 / DIFF flash.
 export function createRigCache(view, rig, sources) {
   const loader = loadImages(sources);
-  const C = { key: '', outline: {}, images: loader.images, ready: loader.ready, loaded: loader.allLoaded };
+  const C = { key: '', outline: {}, halos: {}, images: loader.images, ready: loader.ready, loaded: loader.allLoaded };
   C.prepare = () => {
     const key = zoomKey(view); if (C.key === key || !loader.allLoaded()) return; C.key = key;
     const px = view.ppm * view.DPR, A = loader.images, kb = Math.min(1, px / rig.pixelsPerMetre * 1.1);
@@ -96,7 +101,7 @@ export function createRigCache(view, rig, sources) {
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);
     const f = C.wheelFar.getContext('2d'); f.drawImage(C.wheel, 0, 0); f.globalCompositeOperation = 'source-atop'; f.fillStyle = 'rgba(10,12,8,0.4)'; f.fillRect(0, 0, C.wheelFar.width, C.wheelFar.height);
-    C.outline = {}; C.cracked = {}; C.shield = null;
+    C.outline = {}; C.cracked = {}; C.halos = {};
   };
   // The body with damage drawn on it, built once per set of cracks. Cracks are jagged lines painted only where the
   // body is opaque, so they never spill off the truck; each truck's come from its own id.
@@ -125,20 +130,20 @@ export function createRigCache(view, rig, sources) {
     for (let i = 0; i < CRACK_COUNTS[tier - 1]; i++) { const [x, y] = onTruck(); crack(x, y, rnd() * 6.28, H * (0.1 + rnd() * 0.16), unit * (1 + rnd() * 0.8), 1 + Math.floor(rnd() * 2)); }
     return (C.cracked[tier] = c);
   };
-  // The no-damage glow, a soft halo around the silhouette. Built once per zoom: the stacked copies are too many to draw each frame.
+  // A power's glow, a soft halo around the silhouette. Built once per colour: the stacked copies are too many to draw each frame.
   // `pad` is how many sprite pixels it adds on every side.
-  C.shieldOf = (metresPerBodyPx, metresPerWheelPx) => {
-    if (C.shield) return C.shield;
+  C.haloOf = (color, pale, metresPerBodyPx, metresPerWheelPx) => {
+    if (C.halos[color]) return C.halos[color];
     const halo = (src, metresPerPx) => {
       const pad = Math.ceil(SHIELD_WIDTH_M / metresPerPx), c = makeCanvas(src.width + pad * 2, src.height + pad * 2), g = c.getContext('2d');
-      const violet = tinted(src, SHIELD_COLOR), pale = tinted(src, '#f3e4ff');
-      for (const [reach, alpha, sprite] of [[1, 0.1, violet], [0.72, 0.16, violet], [0.45, 0.28, violet], [0.2, 0.55, pale]]) {
+      const deep = tinted(src, color), light = tinted(src, pale);
+      for (const [reach, alpha, sprite] of [[1, 0.1, deep], [0.72, 0.16, deep], [0.45, 0.28, deep], [0.2, 0.55, light]]) {
         g.globalAlpha = alpha;
         for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8; g.drawImage(sprite, pad + Math.cos(a) * pad * reach, pad + Math.sin(a) * pad * reach); }
       }
       return { canvas: c, pad };
     };
-    return (C.shield = { body: halo(C.body, metresPerBodyPx), wheel: halo(C.wheel, metresPerWheelPx) });
+    return (C.halos[color] = { body: halo(C.body, metresPerBodyPx), wheel: halo(C.wheel, metresPerWheelPx) });
   };
   C.outlineOf = color => { if (!C.outline[color]) C.outline[color] = { body: tinted(C.body, color), wheel: tinted(C.wheel, color) }; return C.outline[color]; };
   return C;

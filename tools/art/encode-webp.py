@@ -17,6 +17,7 @@ from registration import registered_image
 ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--cars', nargs='+', help='encode only these car IDs')
+parser.add_argument('--art', nargs='+', help='encode only these art keys of the seasons, for a single new image')
 parser.add_argument('--method', type=int, choices=range(7), default=6, help='WebP encoding effort, 0 fastest to 6 slowest')
 args = parser.parse_args()
 SPECS = ['assets/cars/*/car.json', 'assets/seasons/*/season.json', 'assets/loaders/loaders.json']
@@ -25,9 +26,10 @@ for spec in sorted(p for g in SPECS for p in ROOT.glob(g)):
     if args.cars and (spec.name != 'car.json' or spec.parent.name not in args.cars):
         continue
     for key, entry in json.loads(spec.read_text()).get('art', {}).items():
-        jobs.append((spec, key, entry))
+        if not args.art or key in args.art:
+            jobs.append((spec, key, entry))
 hud = ROOT / 'assets/hud/hud.json'
-for item in ([] if args.cars else json.loads(hud.read_text()).get('art', [])):
+for item in ([] if args.cars or args.art else json.loads(hud.read_text()).get('art', [])):
     jobs.append((hud, item['id'], {'source': item['file'], 'file': f"art/{item['id']}.webp", **{k: item[k] for k in ('width', 'quality', 'crop') if k in item}}))
 for spec, key, entry in jobs:
     folder = spec.parent
@@ -43,6 +45,9 @@ for spec, key, entry in jobs:
         image = registered_image(image, entry)
         if 'crop' in entry:
             image = image.crop(entry['crop'])
+        if 'alphaFloor' in entry:   # a faint glow the generator left around the art goes fully clear
+            r, g, b, a = image.convert('RGBA').split()
+            image = Image.merge('RGBA', (r, g, b, a.point(lambda v: 0 if v < entry['alphaFloor'] else v)))
         if 'width' in entry and image.width > entry['width']:
             image = image.resize((entry['width'], round(image.height * entry['width'] / image.width)), Image.LANCZOS)
         image.save(tmp, 'WEBP', quality=entry.get('quality', 94), method=args.method)

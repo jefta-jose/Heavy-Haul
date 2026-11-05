@@ -53,10 +53,14 @@
       <p class="card-biomes" id="cardBiomes"></p>
     </div>
     <div class="powers" id="powers"></div>
+    <div class="trap" id="trap" hidden>
+      <div class="trapcard"><div class="traphead">High speed</div><div class="trapread"><b id="trapNum">0</b><span>km/h</span></div></div>
+    </div>
     <div class="toast" id="toast"></div>
     <div class="bottom">
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"></div>
+        <button class="winch shieldbtn" id="powerBtn" aria-label="Use your power (S)" title="Use your power (S)" hidden><span id="powerBtnIcon"></span><span id="powerBtnTxt">SHIELD</span></button>
         <button class="winch hbrake" id="handbrakeBtn" aria-label="Handbrake on or off (B)" aria-pressed="false" title="Handbrake on / off (B)"><!--icon:handbrake-->PARK</button>
         <button class="winch engine on" id="engineBtn" aria-label="Engine on or off (I)" aria-pressed="true" title="Engine on / off (I)"><!--icon:engine-->ENGINE</button>
       </div>
@@ -106,6 +110,7 @@
     </header>
     <nav class="g-menu" aria-label="Garage">
       <button class="g-item" id="gMenuTune"><!--icon:garage-gear--><span>Upgrades</span></button>
+      <button class="g-item" id="gMenuPowers"><!--icon:garage-power--><span>Powers<small id="gPowerOn"></small></span></button>
       <button class="g-item" id="garageSoundBtn"><!--icon:garage-sound--><span>Sound</span></button>
     </nav>
     <footer class="g-bar">
@@ -125,6 +130,16 @@
         </div>
       </div>
     </div>
+    <div class="overlay" id="powersOv" hidden>
+      <div class="card slim">
+        <div class="cbody">
+          <div class="tunehead"><div><div class="eyebrow" id="powersFor"></div><h3>Powers</h3></div></div>
+          <div class="powerlist" id="powerList"></div>
+          <p class="powernote">One at a time for this truck, until you change it.</p>
+          <div class="btns"><button class="btn primary" id="powersDone">Done</button></div>
+        </div>
+      </div>
+    </div>
     <div class="rotate">Turn your phone sideways for the best view.</div>
   </div>
 
@@ -135,7 +150,7 @@
         <h3>Sound</h3>
         <p>Each class of truck has its own recorded engine. Effects are tires, water, mud, brakes and the load; ambience is the birds and the swamp.</p>
         <div class="vols" id="volList"></div>
-        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. For mud and rock: 4×4 and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
+        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. With the Invincible or Nitro power, tap its button (S) to use it. Instant brakes work by braking above the speed limit on the signs. For mud and rock: 4×4 and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
         <details class="credits"><summary>Sound credits (Freesound)</summary><ul id="soundCredits"></ul></details>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>

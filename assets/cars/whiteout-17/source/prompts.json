@@ -1,0 +1,569 @@
+{
+  "specification": {
+    "axleCount": 4,
+    "tireDiameterM": 1.91,
+    "maximumTotalLengthM": 16.8,
+    "targetLengthTireDiameters": 5.75,
+    "allowedLengthTireDiameters": [
+      5.5,
+      6
+    ],
+    "axleGroups": "front pair and close rear pair supporting load",
+    "intendedCanvas": {
+      "master": [
+        2048,
+        1024
+      ],
+      "body": [
+        2048,
+        1024
+      ],
+      "wheel": [
+        1536,
+        1536
+      ]
+    },
+    "wheelException": "native 1254 x 1254 accepted"
+  },
+  "status": "pass",
+  "references": [
+    "assets/cars/swamp-scout-4/source/vehicle-master-v1.png"
+  ],
+  "selected": {
+    "master": "vehicle-master-v6.png",
+    "body": "body-v3.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "wheel-v1.png",
+      "status": "needs_revision",
+      "reason": "Raw alpha below255 and slight unequal bounding diameter / hub center; corrected deterministically without enlarging canvas."
+    },
+    {
+      "file": "vehicle-master-v1.png",
+      "status": "needs_revision",
+      "reason": "Generated alpha/margins require deterministic normalization/padding before body extraction."
+    },
+    {
+      "file": "vehicle-master-v2.png",
+      "status": "needs_revision",
+      "reason": "Canvas canopy/backing behind skeleton violates true transparent bone gaps. Approximate length1682/264=6.37 also above5.5..6 target.",
+      "prompt": "Use case: precise-object-edit. Correct Whiteout master. REMOVE ALL tan canvas canopy and ALL brown/tan canvas BACKING behind dinosaur. The T-rex skeleton must stand FREELY EXPOSED on its existing museum support frame above a LOW open flatbed, with TRUE TRANSPARENT EMPTY SPACE between EVERY bone, rib, vertebra and frame member. Do NOT paint a backdrop, curtain, box wall or clear film behind skeleton. Remove canopy entirely including top roll so sky/background will show through open skeleton. Preserve sand beige truck cab, ladders/lights and expedition box, mechanically clean short bonnet, blunt separate bumper/headlamp, rounded fender, small rectangular mirror on short rigid brackets. Keep exactly FOUR equal round road tires in TWO CLOSE PAIRS, close rear pair under skeleton and front pair under cab. Enlarge road tires slightly, to total truck length about5.8TIRE DIAMETERS. Steel spiked off-road mud tires, thick dried mud. Entire skeleton, tail, skull, antenna and truck fully inside PNG with generous margins ALL four sides. Intended2048x1024 canvas, facing RIGHT. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration with readable dark contours, fine mechanical and anatomical detail, soft even daylight. True transparent background and ALL internal gaps; no halo, ground, shadow, glow, checkerboard, text or logos. Body components end above hub line; road tires only below hubs."
+    },
+    {
+      "file": "vehicle-master-v1.png",
+      "status": "needs_revision",
+      "reason": "Generated alpha/margins require deterministic normalization/padding before body extraction."
+    },
+    {
+      "file": "body-v1.png",
+      "status": "needs_revision",
+      "reason": "Generated edit changed dimensions/registration; used as painted well material only."
+    },
+    {
+      "files": [
+        "vehicle-master-v5.png",
+        "body-v2.png"
+      ],
+      "status": "superseded",
+      "reason": "Strict user request: everything below hubs transparent in body; remove low hanging undercarriage edges from both matching layers."
+    }
+  ],
+  "master": {
+    "prompt": "Use case: stylized-concept. Production complete loaded vehicle master for whiteout-17. Reference 1 approved Swamp Scout defines STYLE ONLY. Layout reference defines perpendicular camera and axle grouping ONLY. Wheel reference defines matching road tire/rim. Sand beige all-terrain 8x8 cargo truck carrying a mounted anatomically believable T-REX SKELETON on a sturdy dark museum frame secured to deck, entire tail and skull well inside canvas. Expedition equipment box with ladders and lights behind cab. Thick dried mud. Short steel spiked mud-terrain tires. Gaps between each bone, ribs and frame members must be TRUE TRANSPARENT with NO cyan halo, no translucent film. Entire dinosaur contained with generous margins, no appendage crosses frame. Exactly FOUR visible near-side road tires: two close pairs, rear pair at LEFT directly under heavy cargo and front pair at RIGHT under forebody/cab. No fifth axle. All road tires IDENTICAL, diameter 1.91 metres, circular rims precisely centered. Overall length including load and overhang exactly 5.75 TIRE DIAMETERS, about 10.982 metres and never more than16.8m. Chassis and deck horizontal, all hubs level, every tire bottom level. Intended PNG canvas2048x1024. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. Real conventional short day cab with a visible short bonnet. Distinct radiator housing, blunt practical bumper, headlamp and round front fender following tire clearance, clean panel seams, no melted or fused panels or pointed wedges. Small rectangular mirror on short rigid brackets near door/A-pillar. NO front grille face visible, no three-quarter view. No far-side wheels. All near-side tires completely visible, steps and skirts never obscure tires. Premium semi-realistic painted game illustration matching approved Swamp Scout style reference, dark readable contours, rich natural weathered textures, fine mechanical detail. Soft even daylight. True transparent background including all internal gaps. Whole vehicle and load inside canvas, generous clear margins on ALL four sides, no touching edge. No scene, ground, cast shadow, halo, glow, checkerboard, text, logos or watermark. Reference2 is a VERIFIED LAYOUT PILOT ONLY, NOT the requested color or cargo. Match its axle grouping and length/road-tire ratio5.75. Use the subject, load and equipment specified above instead of pilot load. Composition guide: body/load end-to-end about1700px and each road tire diameter about295.7px; measured length MUST be5.75diameters. Do not make squat body or overlarge tires. All stationary body/chassis/skirts/tanks/flaps end at or ABOVE horizontal hub line; only road tires extend below hubs.",
+    "status": "pass",
+    "verifiedPilotGuide": true,
+    "references": [
+      "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+      "assets/cars/permafrost-16/source/vehicle-master-v4.png",
+      "assets/cars/whiteout-17/source/wheel-v2.png"
+    ],
+    "generationTool": "built-in image_gen",
+    "selectedOutput": "vehicle-master-v4.png",
+    "measurements": {
+      "dimensions": [
+        1902,
+        1015
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        111,
+        158,
+        1813,
+        898
+      ],
+      "transparentPixels": 1212783,
+      "opaquePixels": 676783
+    },
+    "correction": "Normalized near-opaque generated alpha to255, cleared isolated speckles under25pixels, padded64pixels all sides without resampling painted detail."
+  },
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Production ONE matching road-wheel sprite for whiteout-17: 1.91m off-road tire with short steel spikes on chunky mud-terrain lugs, dark charcoal rubber, dried mud in grooves, weathered silver heavy truck steel rim, bolted hub exactly in center. Swamp Scout reference is painted STYLE ONLY. Premium semi-realistic painted illustration, dark contours and fine mechanical material detail. Perfectly circular face-on tire silhouette and centered circular rim, equal clear margins all sides on square1536x1536 PNG (native1254square accepted). Soft even daylight for spinning. True transparent background; no axle body ground cast shadow glow checkerboard text logos watermark. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "status": "pass_after_correction",
+    "selectedOutput": "wheel-v2.png",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 544837,
+      "opaquePixels": 1013042
+    },
+    "correction": {
+      "method": "Alpha normalization, equal-aspect circular silhouette and centered bounding box at native1254; local smooth displacement centers hub with unchanged outer tread. No canvas upscale.",
+      "sourceHubPx": [
+        626,
+        626
+      ],
+      "targetHubPx": [
+        627.0,
+        627.0
+      ]
+    }
+  },
+  "outputs": {
+    "wheel-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          52,
+          45,
+          1199,
+          1200
+        ],
+        "transparentPixels": 544839,
+        "opaquePixels": 259
+      },
+      "status": "preserved_revision"
+    },
+    "wheel-v2.png": {
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          48,
+          48,
+          1206,
+          1206
+        ],
+        "transparentPixels": 544837,
+        "opaquePixels": 1013042
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v6.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          111,
+          158,
+          1813,
+          898
+        ],
+        "transparentPixels": 1214427,
+        "opaquePixels": 684114
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v3.png": {
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          47,
+          94,
+          1749,
+          833
+        ],
+        "transparentPixels": 797716,
+        "opaquePixels": 422
+      },
+      "status": "preserved_revision"
+    },
+    "body-v3.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          111,
+          158,
+          1813,
+          755
+        ],
+        "transparentPixels": 1343396,
+        "opaquePixels": 561313
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v5.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          111,
+          158,
+          1813,
+          898
+        ],
+        "transparentPixels": 1213465,
+        "opaquePixels": 684707
+      },
+      "status": "preserved_revision"
+    },
+    "body-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1717,
+          916
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          98,
+          143,
+          1637,
+          687
+        ],
+        "transparentPixels": 1047146,
+        "opaquePixels": 647
+      },
+      "status": "preserved_revision"
+    },
+    "body-v2.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          111,
+          158,
+          1813,
+          764
+        ],
+        "transparentPixels": 1342434,
+        "opaquePixels": 561906
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v4.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          111,
+          158,
+          1813,
+          898
+        ],
+        "transparentPixels": 1212783,
+        "opaquePixels": 676783
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v2.png": {
+      "measurements": {
+        "dimensions": [
+          1902,
+          1015
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          126,
+          170,
+          1808,
+          887
+        ],
+        "transparentPixels": 1022362,
+        "opaquePixels": 894494
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          62,
+          106,
+          1744,
+          823
+        ],
+        "transparentPixels": 628457,
+        "opaquePixels": 195
+      },
+      "status": "preserved_revision"
+    }
+  },
+  "body": {
+    "prompt": "Use case: precise-object-edit. Edit target whiteout-17/vehicle-master-v4.png. Remove ALL 4 ROAD tires, rims, spikes/chains and hubs only, at centers [(319, 754), (590, 754), (1329, 754), (1614, 754)], horizontal hub line y754, radius153px. Keep exact 1902x1015 canvas and all non-wheel pixels/positions unchanged. Fill wheel wells FULLY OPAQUE with dark painted inner liners, chassis, axles and suspension from arch lip THROUGH hub line y754 inclusive, including tandem inter-arch gaps. Below hub line in wheel regions leave TRUE TRANSPARENT clearance, no hanging road tire/rim/hub discs. Preserve cab, load, straps, panels, equipment, any spare. Do not remove wheels or crawler tracks BELONGING TO THE LOAD on deck. Do NOT move, redesign, resize or reframe anything. Preserve conventional short bonnet, separate blunt bumper and headlamp, round front fender and small rectangular mirrors on short rigid door brackets. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, soft even daylight, true transparent background. No ground, shadow, glow, halo, checkerboard, text or logos.",
+    "edit_of": "vehicle-master-v4.png",
+    "status": "pass",
+    "selectedOutput": "body-v3.png",
+    "derivationMethod": "Original master preserved outside measured wheel masks; built-in generated body material composited into opaque upper wells; clearance below hubs cleared; identical circular matching wheel composited at level hubs. Complete lower undercarriage clearance below hub line enforced identically on selected master/body."
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      1902,
+      1015
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 4,
+    "hubCentersPx": [
+      [
+        307,
+        754
+      ],
+      [
+        601,
+        754
+      ],
+      [
+        1324,
+        754
+      ],
+      [
+        1618,
+        754
+      ]
+    ],
+    "tireDiameterPx": 288,
+    "tireBottomsPx": [
+      898,
+      898,
+      898,
+      898
+    ],
+    "measuredLengthTireDiameters": 5.909722222222222,
+    "depictedLengthM": 11.287569444444443,
+    "vehicleBBox": [
+      111,
+      158,
+      1813,
+      898
+    ],
+    "outsideWheelRegionsPixelIdentical": true,
+    "upperWellAlpha255": true,
+    "belowHubsInWheelRegionsAlpha0": true,
+    "method": "Original master preserved outside measured wheel masks; built-in generated body material composited into opaque upper wells; clearance below hubs cleared; identical circular matching wheel composited at level hubs. Complete lower undercarriage clearance below hub line enforced identically on selected master/body.",
+    "baseMaster": "vehicle-master-v4.png",
+    "paintedMaterial": "body-v1.png",
+    "sourceRoadHubsPx": [
+      [
+        319,
+        754
+      ],
+      [
+        590,
+        754
+      ],
+      [
+        1329,
+        754
+      ],
+      [
+        1614,
+        754
+      ]
+    ],
+    "wheelRemovalRadiusPx": 156,
+    "closeGroups": [
+      {
+        "centers": [
+          307,
+          601
+        ],
+        "spacingPx": 294,
+        "tireGapPx": 6
+      },
+      {
+        "centers": [
+          1324,
+          1618
+        ],
+        "spacingPx": 294,
+        "tireGapPx": 6
+      }
+    ],
+    "fullUndersideClearance": true,
+    "allBodyPixelsBelowHubsTransparent": true,
+    "undersideCorrection": {
+      "previousSelected": {
+        "master": "vehicle-master-v5.png",
+        "body": "body-v2.png",
+        "wheel": "wheel-v2.png"
+      },
+      "pixelsClearedBelowHubs": 962,
+      "method": "Trimmed low hanging undercarriage/skirts/flap/tank edges through hub line on BOTH corrected master and body; all upper body, cab, load and equipment pixels unchanged. Selected master reconstructed with identical wheel instances."
+    },
+    "originalMasterPixelsPreservedOutsideWheelRegions": true,
+    "bodyMasterDimensionsMatch": true,
+    "equalRoundTires": "Same circular generated sprite used identically on every road axle",
+    "levelHubs": true,
+    "clearMarginsPx": [
+      111,
+      158,
+      89,
+      117
+    ],
+    "visualReview": "Inspected skeleton ribs/teeth/frame on light and dark: internal gaps truly transparent, no backing or halo. Four identical level round spiked wheels in two close pairs, clear canvas margins including tail and antenna. Native cab and mirror/fenders clean. Opaque upper wells, full transparency below hubs, registered static skeleton/load retained.",
+    "wheelMeasurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 544837,
+      "opaquePixels": 1013042
+    },
+    "finalAudit": {
+      "measuredTireDimensionsPx": [
+        288,
+        288
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          163,
+          610,
+          451,
+          898
+        ],
+        [
+          457,
+          610,
+          745,
+          898
+        ],
+        [
+          1180,
+          610,
+          1468,
+          898
+        ],
+        [
+          1474,
+          610,
+          1762,
+          898
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        898,
+        898,
+        898,
+        898
+      ],
+      "measuredLengthTireDiameters": 5.909722222222222,
+      "measuredLengthM": 11.287569444444443,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "bodyBelowHubAlpha0": true,
+      "headerDimensions": [
+        1902,
+        1015
+      ],
+      "bodyHeaderDimensions": [
+        1902,
+        1015
+      ],
+      "wheelHeaderDimensions": [
+        1254,
+        1254
+      ]
+    },
+    "suspensionPreview": {
+      "file": "validation-suspension-v1.png",
+      "wheelDropPx": 48,
+      "wheelDrop": "one third radius",
+      "status": "pass",
+      "visualReview": "Light/dark composites inspected with road tires dropped one third radius: painted opaque upper liners and tandem gaps remain continuous; no background holes above hubs, no hanging tire/rim fragments or ground shadow."
+    }
+  },
+  "generationTool": "built-in image_gen",
+  "projectWrites": "Only this requested truck source/ directory. No gameplay/roster/WebP changes."
+}

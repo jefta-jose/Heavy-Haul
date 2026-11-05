@@ -1,0 +1,250 @@
+{
+  "id": "thunder-road-14",
+  "name": "Thunder Road",
+  "number": 14,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Arctic white tractor with two containers",
+  "description": "An arctic white highway tractor with an aero roof fairing and all-terrain tires, pulling two containers on a skeletal trailer.",
+  "stats": {
+    "power": 74,
+    "speed": 79,
+    "grip": 83,
+    "capacity": 70,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1078,
+      624
+    ],
+    "pixelsPerMetre": 125.517,
+    "axles": [
+      6.465,
+      3.167,
+      1.701,
+      -4.983,
+      -6.465
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1890,
+        624,
+        93
+      ],
+      [
+        1476,
+        624,
+        93
+      ],
+      [
+        1292,
+        624,
+        93
+      ],
+      [
+        453,
+        624,
+        93
+      ],
+      [
+        267,
+        624,
+        93
+      ]
+    ],
+    "nose": 7.756,
+    "exhaust": [
+      4.262,
+      3.131
+    ],
+    "winch": [
+      7.656,
+      0.507
+    ]
+  },
+  "camera": {
+    "zoom": 2.2
+  },
+  "physics": {
+    "mass": 12900,
+    "centreOfMass": [
+      2.159,
+      0.85
+    ],
+    "size": [
+      15.193,
+      3.266
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.437,
+        7.756,
+        0.725,
+        1.225,
+        1
+      ],
+      [
+        -7.437,
+        -5.267,
+        1.225,
+        2.526,
+        0.4
+      ],
+      [
+        -5.267,
+        -3.096,
+        1.225,
+        2.526,
+        0.4
+      ],
+      [
+        -3.096,
+        -0.926,
+        1.225,
+        2.526,
+        0.4
+      ],
+      [
+        -0.926,
+        1.245,
+        1.225,
+        2.526,
+        0.4
+      ],
+      [
+        1.245,
+        3.415,
+        1.225,
+        2.526,
+        0.4
+      ],
+      [
+        3.415,
+        5.585,
+        1.225,
+        3.171,
+        0.4
+      ],
+      [
+        5.585,
+        7.756,
+        1.225,
+        1.801,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 24,
+      "centreOfMass": [
+        -1.793,
+        1.745
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 6.286,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 47970,
+    "openDiffGrip": 1,
+    "fuelLitres": 710
+  },
+  "load": {
+    "name": "Double container",
+    "massT": 24
+  }
+}

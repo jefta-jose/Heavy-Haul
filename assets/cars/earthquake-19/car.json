@@ -1,0 +1,251 @@
+{
+  "id": "earthquake-19",
+  "name": "Earthquake",
+  "number": 19,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Forest green prime mover carrying a reactor vessel",
+  "description": "A forest green heavy-haul prime mover with a hydraulic gooseneck hitch and giant mining tires, carrying a huge reactor pressure vessel.",
+  "stats": {
+    "power": 94,
+    "speed": 94,
+    "grip": 94,
+    "capacity": 94,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      986,
+      752
+    ],
+    "pixelsPerMetre": 102.857,
+    "axles": [
+      6.295,
+      3.524,
+      1.385,
+      -4.156,
+      -6.295
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1.05,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1634,
+        752,
+        110
+      ],
+      [
+        1349,
+        752,
+        110
+      ],
+      [
+        1129,
+        752,
+        110
+      ],
+      [
+        559,
+        752,
+        110
+      ],
+      [
+        339,
+        752,
+        110
+      ]
+    ],
+    "nose": 8.269,
+    "exhaust": [
+      3.636,
+      4.161
+    ],
+    "winch": [
+      8.169,
+      0.735
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 86000,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.217,
+      4.949
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -7.948,
+        8.269,
+        1.05,
+        1.55,
+        1
+      ],
+      [
+        -7.948,
+        -5.631,
+        1.55,
+        4.54,
+        0.4
+      ],
+      [
+        -5.631,
+        -3.315,
+        1.55,
+        4.647,
+        0.4
+      ],
+      [
+        -3.315,
+        -0.998,
+        1.55,
+        4.754,
+        0.4
+      ],
+      [
+        -0.998,
+        1.319,
+        1.55,
+        4.404,
+        0.4
+      ],
+      [
+        1.319,
+        3.635,
+        1.55,
+        3.354,
+        0.4
+      ],
+      [
+        3.635,
+        5.952,
+        1.55,
+        4.453,
+        0.4
+      ],
+      [
+        5.952,
+        8.269,
+        1.55,
+        2.829,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 150,
+      "centreOfMass": [
+        -3.5,
+        3.169
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.452,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 554,
+    "exhaustBrake": 737,
+    "gears": {
+      "H": 11.672,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 1214220,
+    "openDiffGrip": 1,
+    "fuelLitres": 1926
+  },
+  "load": {
+    "name": "Reactor vessel",
+    "massT": 150
+  }
+}

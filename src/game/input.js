@@ -1,7 +1,7 @@
 // Keyboard and touch input. Hold controls (gas, brake) are polled each frame; discrete actions
 // (winch hook / unhook, gears, 4x4, DIFF, pause) fire callbacks.
 //
-// Keys: → / ↑ / D gas, ← / ↓ / A brake, W / Space winch hook on / off, I engine on / off, B handbrake, H / F high, L low, R reverse,
+// Keys: → / ↑ / D gas, ← / ↓ / A brake, W / Space winch hook on / off, I engine on / off, B handbrake, S shield, H / F high, L low, R reverse,
 // Q 4x4, E DIFF, V switch vehicle, Esc / P pause.
 
 export function createInput(els, actions) {
@@ -37,8 +37,12 @@ export function createInput(els, actions) {
   els.engineBtn.addEventListener('pointerdown', e => { e.preventDefault(); actions.onAnyInput(); actions.engine(); });
   els.engineBtn.addEventListener('contextmenu', e => e.preventDefault());
 
+  els.powerBtn.addEventListener('pointerdown', e => { e.preventDefault(); actions.onAnyInput(); actions.usePower(); });
+  els.powerBtn.addEventListener('contextmenu', e => e.preventDefault());
+
   window.addEventListener('keydown', e => {
     keys[e.code] = true;
+    if (e.code === 'KeyS' && !e.repeat) actions.usePower();
     if (e.code === 'KeyQ') actions.toggle('awd');
     if (e.code === 'KeyE') actions.toggle('diff');
     if (e.code === 'KeyV' && !e.repeat) actions.switchVehicle();

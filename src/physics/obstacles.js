@@ -1,4 +1,5 @@
 import { seededRandom } from './math.js';
+import { STATION_WIDTH_M, SPEED_SIGN_AREA_GAP_M } from '../game-config.js';
 
 // Static obstacles on the trail. Every shape the tires hit is also what the renderer draws:
 // boulders use hulls traced from rock art, crushable shale breaks under the vehicle's weight,
@@ -102,5 +103,24 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     const stones = rocks.filter(r => r.crush && !r.prop && !r.garden && crushables[zones.find(z => r.x >= z[0] && r.x < z[1])?.[2]]);
     stones.forEach((r, i) => { if (i % crushables.pileEvery === 0) { const x = r.x; world.destroyBody(r.body); rocks.splice(rocks.indexOf(r), 1); placeProp(x, propKinds.branchPile, 'branchPile'); } });
   }
-  return { rocks, logs };
+  // A highway has nothing on it but stones that break under any truck, and they take almost nothing to break.
+  // Last, so the rest of the trail's random stones stay where they are.
+  for (const h of trail.highways ?? []) {
+    const clear = 15;
+    for (let x = h.x0 + clear; x < h.x1 - clear; x += between(h.rockEvery)) { crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4); rocks.at(-1).impulse = h.rockImpulse; }
+  }
+  // A speed limit sign at the first of each group of things that can hurt a truck: logs, pipes, hard rocks and solid props.
+  // Whatever any truck breaks gets none, since it does no damage. Rotten logs count, as only the heaviest trucks break them.
+  const hurts = o => !o.crush || o.minMassT > 0;
+  const solid = [...rocks.filter(hurts).map(r => [r.x - r.w / 2, r.x + r.w / 2]), ...logs.filter(hurts).map(l => [l.x - l.r, l.x + l.r])].sort((a, b) => a[0] - b[0]);
+  const speedSigns = [];
+  let end = -Infinity;
+  for (const [x0, x1] of solid) {
+    if (x0 - end >= SPEED_SIGN_AREA_GAP_M && x0 >= trail.start) {
+      const st = terrain.stations.find(s => Math.abs(x0 - s.x) < STATION_WIDTH_M / 2 + 2);   // never on a station's building
+      speedSigns.push(st ? st.x - STATION_WIDTH_M / 2 - 2 : x0);
+    }
+    end = Math.max(end, x1);
+  }
+  return { rocks, logs, speedSigns };
 }

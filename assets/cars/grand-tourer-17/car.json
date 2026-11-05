@@ -1,0 +1,250 @@
+{
+  "id": "grand-tourer-17",
+  "name": "Grand Tourer",
+  "number": 17,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Forest green tractor with steel beams",
+  "description": "A forest green highway tractor with a chrome bull bar, air horns and V-bar chained tires, pulling a flatbed of long steel I-beams.",
+  "stats": {
+    "power": 86,
+    "speed": 88,
+    "grip": 93,
+    "capacity": 84,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1142,
+      601
+    ],
+    "pixelsPerMetre": 139.31,
+    "axles": [
+      6.41,
+      3.036,
+      1.515,
+      -4.953,
+      -6.41
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2035,
+        601,
+        103
+      ],
+      [
+        1565,
+        601,
+        103
+      ],
+      [
+        1353,
+        601,
+        103
+      ],
+      [
+        452,
+        601,
+        103
+      ],
+      [
+        249,
+        601,
+        103
+      ]
+    ],
+    "nose": 7.702,
+    "exhaust": [
+      4.192,
+      3.137
+    ],
+    "winch": [
+      7.602,
+      0.507
+    ]
+  },
+  "camera": {
+    "zoom": 2.25
+  },
+  "physics": {
+    "mass": 14400,
+    "centreOfMass": [
+      2.104,
+      0.85
+    ],
+    "size": [
+      15.196,
+      3.194
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.494,
+        7.702,
+        0.725,
+        1.225,
+        1
+      ],
+      [
+        -7.494,
+        -5.323,
+        1.225,
+        2.433,
+        0.4
+      ],
+      [
+        -5.323,
+        -3.152,
+        1.225,
+        2.426,
+        0.4
+      ],
+      [
+        -3.152,
+        -0.981,
+        1.225,
+        2.433,
+        0.4
+      ],
+      [
+        -0.981,
+        1.19,
+        1.225,
+        2.426,
+        0.4
+      ],
+      [
+        1.19,
+        3.36,
+        1.225,
+        2.433,
+        0.4
+      ],
+      [
+        3.36,
+        5.531,
+        1.225,
+        2.922,
+        0.4
+      ],
+      [
+        5.531,
+        7.702,
+        1.225,
+        1.974,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 22,
+      "centreOfMass": [
+        -1.73,
+        1.701
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 5.987,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 47320,
+    "openDiffGrip": 1,
+    "fuelLitres": 805
+  },
+  "load": {
+    "name": "Steel beams",
+    "massT": 22
+  }
+}

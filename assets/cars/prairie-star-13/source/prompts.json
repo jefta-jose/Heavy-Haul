@@ -1,0 +1,812 @@
+{
+  "specification": {
+    "axleCount": 5,
+    "tireDiameterM": 1.45,
+    "maximumTotalLengthM": 16.8,
+    "targetLengthTireDiameters": 10.5,
+    "allowedLengthTireDiameters": [
+      10,
+      11
+    ],
+    "axleGroups": "one steer, close drive tandem under hitch, close trailer tandem under rear load",
+    "intendedCanvas": {
+      "master": [
+        2048,
+        1024
+      ],
+      "body": [
+        2048,
+        1024
+      ],
+      "wheel": [
+        1536,
+        1536
+      ]
+    },
+    "wheelException": "native1254square accepted",
+    "briefResolution": "User tire and length specifications override README. All fixed parts above hubs."
+  },
+  "status": "pass",
+  "references": [
+    "assets/cars/swamp-scout-4/source/vehicle-master-v1.png"
+  ],
+  "selected": {
+    "master": "vehicle-master-v7.png",
+    "body": "body-v5.png",
+    "wheel": "wheel-v2.png"
+  },
+  "revisions": [
+    {
+      "file": "wheel-v1.png",
+      "status": "needs_revision",
+      "reason": "Raw alpha below255 and slight unequal bounding diameter / hub center; corrected deterministically without enlarging canvas."
+    },
+    {
+      "file": "vehicle-master-v1.png",
+      "status": "needs_revision",
+      "reason": "Generated alpha/margins require deterministic normalization/padding before body extraction."
+    },
+    {
+      "file": "vehicle-master-v2.png",
+      "status": "needs_revision",
+      "reason": "Generated road tires about176px on2113px rig: about12diameters. Corrected to202px selected wheels and208px tandem spacing in v3, preserving body/load/cab."
+    },
+    {
+      "file": "body-v1.png",
+      "status": "material_only",
+      "reason": "Generated edit donor used within measured wheel regions only to retain exact original cab/load pixels."
+    },
+    {
+      "files": [
+        "vehicle-master-v4.png",
+        "body-v2.png"
+      ],
+      "status": "needs_revision",
+      "reason": "Oversized119px well mask overwrote fender lip with shifted donor edge; reduce to108px preserving original arch panels."
+    },
+    {
+      "file": "body-v1.png",
+      "status": "material_only",
+      "reason": "Generated edit donor used within measured wheel regions only to retain exact original cab/load pixels."
+    },
+    {
+      "files": [
+        "vehicle-master-v5.png",
+        "body-v3.png"
+      ],
+      "status": "needs_revision",
+      "reason": "Thin upper well transparency from donor/source fender mismatch; sealed measured interior polygons with generated painted dark liner."
+    },
+    {
+      "files": [
+        "vehicle-master-v6.png",
+        "body-v4.png"
+      ],
+      "status": "needs_revision",
+      "reason": "Thin upper well transparency from donor/source fender mismatch; sealed measured interior polygons with generated painted dark liner."
+    }
+  ],
+  "wheel": {
+    "prompt": "Use case: stylized-concept. Generate ONE face-on heavy truck road wheel sprite, blocky off-road ALL-TERRAIN tread with fine sipes, no chains or spikes, dark charcoal rubber with restrained road dust, silver steel rim with circular recesses and bolted hub exactly centred. Premium semi-realistic painted game illustration matching Swamp Scout, fine mechanical detail, readable dark contours. Perfect circular outline, precisely centred circular rim, equal margins on square1536x1536 transparent PNG; native1254square accepted. Soft even daylight suitable for spinning. No text, logos, ground, axle, body, cast shadow, halo or checkerboard. True transparent background. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires.",
+    "status": "pass_after_correction",
+    "selectedOutput": "wheel-v2.png",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 529098,
+      "opaquePixels": 1030289
+    },
+    "correction": {
+      "method": "Alpha normalization, equal-aspect circular silhouette and centered bounding box at native1254; local smooth displacement centers hub with unchanged outer tread. No canvas upscale.",
+      "sourceHubPx": [
+        625,
+        642
+      ],
+      "targetHubPx": [
+        627.0,
+        627.0
+      ]
+    },
+    "validation": {
+      "status": "pass",
+      "nativeSize": [
+        1254,
+        1254
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "hubCenterPx": [
+        627,
+        627
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "visualReview": "Clean centered circular off-road block tread with sipes and concentric silver rim."
+    }
+  },
+  "master": {
+    "prompt": "Use case: stylized-concept. Production complete loaded vehicle for prairie-star-13. Forest green conventional DAY CAB with chrome bull bar and air horns, flatbed semi-trailer securely loaded with strapped sawn lumber packs. Tractor AND semi-trailer together as ONE vehicle. EXACTLY FIVE near-side road wheels: ONE steer at RIGHT beneath conventional cab, CLOSE DRIVE TANDEM beneath hitch just behind cab, CLOSE TRAILER TANDEM at LEFT beneath rear of load. Each tandem nearly tire-to-tire with tiny gaps; no single lone rear trailer axle. Tire diameter 1.45m, blocky off-road ALL-TERRAIN tread with fine sipes, no chains or spikes. Overall loaded length 10.5 TIRE DIAMETERS (15.225m) and never16.8m or longer. Road tires about9.5% of total loaded length. Long slender rig; no oversized tires. All tires identical and perfectly round, centres level, chassis and trailer horizontal. All fixed chassis, deck, steps, tank, mudflaps and load must END ABOVE HUB LINE; only road tires below hubs. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right. Visible short bonnet with distinct radiator housing, blunt bumper, headlamp and fender; round front arches following tire clearance; small rectangular mirrors on short rigid brackets near door. No visible front grille face. Clean plausible panels and seams. Polished paint with road dust, premium semi-realistic painted game illustration matching Swamp Scout; rich materials, fine mechanical details and dark contours. Soft even daylight. True transparent background/internal gaps, generous clear margins on all four sides. No ground shadow, glow, halo, checkerboard, text, logos or watermark. Intended2048x1024PNG. Match selected wheel input. Use horizontal slender proportions: loaded length1700px, road tire162px. Important trailer tandem and drive tandem are separate close sets; load sits over both sets.",
+    "status": "pass",
+    "references": [
+      "assets/cars/swamp-scout-4/source/vehicle-master-v1.png",
+      "assets/cars/prairie-star-13/source/wheel-v2.png"
+    ],
+    "selectedOutput": "vehicle-master-v7.png",
+    "measurements": {
+      "dimensions": [
+        2300,
+        852
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        93,
+        192,
+        2206,
+        691
+      ],
+      "transparentPixels": 1300382,
+      "opaquePixels": 642782
+    },
+    "correction": "Normalized near-opaque generated alpha to255, cleared isolated speckles under25pixels, padded64pixels all sides without resampling painted detail.",
+    "preBodyCorrection": {
+      "source": "vehicle-master-v2.png",
+      "method": "Corrected measured tire diameter and close tandem positions using selected generated circular wheel; fixed low body clearance before well material edit.",
+      "oldHubs": [
+        [
+          243,
+          601,
+          88
+        ],
+        [
+          411,
+          601,
+          88
+        ],
+        [
+          1383,
+          601,
+          88
+        ],
+        [
+          1552,
+          601,
+          88
+        ],
+        [
+          2027,
+          601,
+          88
+        ]
+      ],
+      "hubCentersPx": [
+        [
+          229,
+          615
+        ],
+        [
+          437,
+          615
+        ],
+        [
+          1369,
+          615
+        ],
+        [
+          1577,
+          615
+        ],
+        [
+          2027,
+          615
+        ]
+      ],
+      "tireDiameterPx": 202,
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1264633,
+        "opaquePixels": 676532
+      }
+    },
+    "measuredLengthTireDiameters": 10.46039603960396
+  },
+  "outputs": {
+    "wheel-v1.png": {
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          4,
+          13,
+          1248,
+          1247
+        ],
+        "transparentPixels": 371572,
+        "opaquePixels": 346
+      },
+      "status": "preserved_revision"
+    },
+    "body-v1.png": {
+      "measurements": {
+        "dimensions": [
+          2061,
+          763
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          82,
+          171,
+          1967,
+          554
+        ],
+        "transparentPixels": 1023439,
+        "opaquePixels": 214
+      },
+      "status": "preserved_revision"
+    },
+    "wheel-v2.png": {
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          48,
+          48,
+          1206,
+          1206
+        ],
+        "transparentPixels": 529098,
+        "opaquePixels": 1030289
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v6.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1262506,
+        "opaquePixels": 682821
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v3.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1264633,
+        "opaquePixels": 676532
+      },
+      "status": "preserved_revision"
+    },
+    "body-v4.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          616
+        ],
+        "transparentPixels": 1344096,
+        "opaquePixels": 606176
+      },
+      "status": "preserved_revision"
+    },
+    "body-v3.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          616
+        ],
+        "transparentPixels": 1345956,
+        "opaquePixels": 603918
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v5.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1264366,
+        "opaquePixels": 680563
+      },
+      "status": "preserved_revision"
+    },
+    "body-v5.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          616
+        ],
+        "transparentPixels": 1343612,
+        "opaquePixels": 606994
+      },
+      "status": "selected_pass"
+    },
+    "vehicle-master-v7.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1262022,
+        "opaquePixels": 683639
+      },
+      "status": "selected_pass"
+    },
+    "body-v2.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          616
+        ],
+        "transparentPixels": 1342960,
+        "opaquePixels": 607346
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v4.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          716
+        ],
+        "transparentPixels": 1261370,
+        "opaquePixels": 683991
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v2.png": {
+      "measurements": {
+        "dimensions": [
+          2300,
+          852
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          93,
+          192,
+          2206,
+          691
+        ],
+        "transparentPixels": 1300382,
+        "opaquePixels": 642782
+      },
+      "status": "preserved_revision"
+    },
+    "vehicle-master-v1.png": {
+      "measurements": {
+        "dimensions": [
+          2172,
+          724
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          29,
+          128,
+          2141,
+          627
+        ],
+        "transparentPixels": 853126,
+        "opaquePixels": 1143
+      },
+      "status": "preserved_revision"
+    }
+  },
+  "body": {
+    "prompt": "Use case: precise-object-edit. Edit target prairie-star-13/vehicle-master-v3.png. Remove ALL 5 ROAD tires, rims, spikes/chains and hubs only, at centers [(229, 615), (437, 615), (1369, 615), (1577, 615), (2027, 615)], horizontal hub line y615, radius119px. Keep exact 2300x852 canvas and all non-wheel pixels/positions unchanged. Fill wheel wells FULLY OPAQUE with dark painted inner liners, chassis, axles and suspension from arch lip THROUGH hub line y615 inclusive, including tandem inter-arch gaps. Below hub line in wheel regions leave TRUE TRANSPARENT clearance, no hanging road tire/rim/hub discs. Preserve cab, load, straps, panels, equipment, any spare. Do not remove wheels or crawler tracks BELONGING TO THE LOAD on deck. Do NOT move, redesign, resize or reframe anything. Preserve conventional short bonnet, separate blunt bumper and headlamp, round front fender and small rectangular mirrors on short rigid door brackets. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, soft even daylight, true transparent background. No ground, shadow, glow, halo, checkerboard, text or logos.",
+    "edit_of": "vehicle-master-v3.png",
+    "status": "pass",
+    "selectedOutput": "body-v5.png",
+    "derivationMethod": "Preserved accepted master outside measured road-wheel masks; composited built-in generated painted wheel-well material into opaque upper wells and tandem gaps; cleared body below hubs; composited identical selected wheel instances at level hubs."
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      2300,
+      852
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 5,
+    "hubCentersPx": [
+      [
+        229,
+        615
+      ],
+      [
+        437,
+        615
+      ],
+      [
+        1369,
+        615
+      ],
+      [
+        1577,
+        615
+      ],
+      [
+        2027,
+        615
+      ]
+    ],
+    "tireDiameterPx": 202,
+    "tireBottomsPx": [
+      716,
+      716,
+      716,
+      716,
+      716
+    ],
+    "measuredLengthTireDiameters": 10.46039603960396,
+    "depictedLengthM": 15.167574257425741,
+    "vehicleBBox": [
+      93,
+      192,
+      2206,
+      716
+    ],
+    "baseMaster": "vehicle-master-v3.png",
+    "paintedMaterial": "body-v1.png",
+    "sourceRoadHubsPx": [
+      [
+        229,
+        615
+      ],
+      [
+        437,
+        615
+      ],
+      [
+        1369,
+        615
+      ],
+      [
+        1577,
+        615
+      ],
+      [
+        2027,
+        615
+      ]
+    ],
+    "wheelRemovalRadiusPx": 108,
+    "upperWellAlpha255": true,
+    "belowHubsInWheelRegionsAlpha0": true,
+    "allBodyPixelsBelowHubsTransparent": true,
+    "fullUndersideClearance": true,
+    "method": "Preserved accepted master outside measured road-wheel masks; composited built-in generated painted wheel-well material into opaque upper wells and tandem gaps; cleared body below hubs; composited identical selected wheel instances at level hubs.",
+    "closeGroups": [
+      {
+        "centers": [
+          229,
+          437
+        ],
+        "spacingPx": 208,
+        "tireGapPx": 6
+      },
+      {
+        "centers": [
+          1369,
+          1577
+        ],
+        "spacingPx": 208,
+        "tireGapPx": 6
+      }
+    ],
+    "finalAudit": {
+      "measuredTireDimensionsPx": [
+        202,
+        202
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          128,
+          514,
+          330,
+          716
+        ],
+        [
+          336,
+          514,
+          538,
+          716
+        ],
+        [
+          1268,
+          514,
+          1470,
+          716
+        ],
+        [
+          1476,
+          514,
+          1678,
+          716
+        ],
+        [
+          1926,
+          514,
+          2128,
+          716
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        716,
+        716,
+        716,
+        716,
+        716
+      ],
+      "measuredLengthTireDiameters": 10.46039603960396,
+      "measuredLengthM": 15.167574257425741,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "bodyBelowHubAlpha0": true,
+      "headerDimensions": [
+        2300,
+        852
+      ],
+      "bodyHeaderDimensions": [
+        2300,
+        852
+      ],
+      "wheelHeaderDimensions": [
+        1254,
+        1254
+      ]
+    },
+    "extraUpperWellPolygonsPx": [
+      [
+        [
+          1258,
+          500
+        ],
+        [
+          1600,
+          500
+        ],
+        [
+          1685,
+          540
+        ],
+        [
+          1685,
+          615
+        ],
+        [
+          1258,
+          615
+        ]
+      ],
+      [
+        [
+          1255,
+          545
+        ],
+        [
+          1280,
+          518
+        ],
+        [
+          1320,
+          501
+        ],
+        [
+          1410,
+          501
+        ],
+        [
+          1510,
+          501
+        ],
+        [
+          1595,
+          506
+        ],
+        [
+          1645,
+          525
+        ],
+        [
+          1685,
+          560
+        ],
+        [
+          1685,
+          615
+        ],
+        [
+          1255,
+          615
+        ]
+      ]
+    ],
+    "extraUpperWellPixelsFilled": 818,
+    "outsideWheelRegionsPixelIdentical": true,
+    "originalMasterPixelsPreservedOutsideWheelRegions": true,
+    "bodyMasterDimensionsMatch": true,
+    "equalRoundTires": true,
+    "levelHubs": true,
+    "clearMarginsPx": [
+      93,
+      192,
+      94,
+      136
+    ],
+    "visualReview": "Native cab/bonnet/mirror/fender and lumber straps inspected. Light/dark and suspension views pass:5 circular level202px tires,2 close tandems,opaque upper wheel wells,transparent below hubs. Original cab/load/panels preserved outside road-wheel regions.",
+    "wheelMeasurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "bboxAlpha128": [
+        48,
+        48,
+        1206,
+        1206
+      ],
+      "transparentPixels": 529098,
+      "opaquePixels": 1030289
+    },
+    "suspensionPreview": {
+      "status": "pass",
+      "wheelDropPx": 34,
+      "storage": "scratch outside project"
+    }
+  },
+  "generationTool": "built-in image_gen",
+  "projectWrites": "Only this requested truck source/ directory. No gameplay/roster/WebP changes."
+}

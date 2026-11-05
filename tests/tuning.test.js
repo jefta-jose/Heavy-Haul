@@ -2,7 +2,8 @@
 // code). Stock stays untouched, and the levels really change how the car drives.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { KNOBS, upgradeCost, withPowers, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
+import { KNOBS, upgradeCost, POWERS, withPower, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
+import { POWER_TIMES, DAMAGE_START_KMH } from '../src/game-config.js';
 import { content, newSim, spawn, advance } from './helpers.js';
 
 test('four knobs, levels in steps of 25, and every car can take all four to 100', () => {
@@ -40,9 +41,9 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
   const metres = (car, x, s = 10) => { const sim = spawn(newSim(car), x); const x0 = sim.truck.getPosition().x; sim.ctl.gas = 1; advance(sim, s); return sim.truck.getPosition().x - x0; };
   const flat = car => { const sim = spawn(newSim(car), 30, { gear: 'H', awd: true, diff: false }); sim.ctl.gas = 1; advance(sim, 2); return sim.st.speed; };
   assert(flat(applyTuning(stock, { engine: 50 })) > flat(stock) * 1.3, 'engine 50 accelerates harder');
-  assert(metres(applyTuning(stock, { grip: 100 }), 600) > metres(stock, 600), 'full grip goes further in mud');
+  assert(metres(applyTuning(stock, { grip: 100 }), 1100) > metres(stock, 1100), 'full grip goes further in mud');
   const pulling = structuredClone(stock); pulling.physics.mudPull = 2;
-  assert(metres(pulling, 600) > metres(stock, 600), 'mud pull alone goes further in mud');
+  assert(metres(pulling, 1100) > metres(stock, 1100), 'mud pull alone goes further in mud');
   const inGear = (car, gear) => { const sim = spawn(newSim(car), 600, { gear }); sim.ctl.gas = 1; advance(sim, 10); return sim.truck.getPosition().x; };
   for (const gear of ['H', 'R']) assert.equal(inGear(pulling, gear), inGear(stock, gear), `mud pull does nothing in ${gear}`);
   const burn = car => { const sim = spawn(newSim(car), 1650); const f0 = sim.st.fuel; sim.ctl.gas = 1; advance(sim, 8); return f0 - sim.st.fuel; };
@@ -57,7 +58,7 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
   const scout = content.cars.find(c => c.id === 'swamp-scout-4'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
-  const metres = car => [640, 1135, 1480].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
+  const metres = car => [1135, 1830, 2030].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
 });
@@ -70,35 +71,78 @@ test('upgrades cost more each step and more on bigger classes, and selling refun
   assert.equal(upgradeCost(scout, 100, 0), -upgradeCost(scout, 0, 100), 'selling refunds what it cost');
 });
 
-test('a superpower lifts an upgrade to full, past full when already maxed, without touching the car', () => {
-  const stock = content.car, torque = c => c.drivetrain.torqueScale;
-  const mid = applyTuning(stock, { engine: 25 }), full = applyTuning(stock, { engine: 100 });
-  assert.equal(torque(withPowers(mid, ['engine'])), torque(full), 'a part-tuned engine gets the full upgrade');
-  const past = torque(withPowers(full, ['engine'])) / torque(full);
-  assert(past > 1.8 && past < 2.2, `a maxed engine about doubles: ${past.toFixed(2)}`);
-  assert.equal(torque(mid), torque(applyTuning(stock, { engine: 25 })), 'the car itself is unchanged');
+test('a power is a label on the car, and changes none of its numbers', () => {
+  const tuned = applyTuning(content.car, { engine: 50 }), { power, ...rest } = withPower(tuned, 'brakes');
+  assert.equal(power, 'brakes');
+  assert.deepEqual(rest, { ...tuned }, 'the same truck otherwise');
+  assert.equal(withPower(tuned, null), tuned, 'no power, no change');
+  assert.equal(withPower(tuned, 'grip'), tuned, 'an old saved power is ignored');
+  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'brakes', 'nitro']);
+  for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
 });
 
-test('driving through a pickup gives 12 seconds of its power, and any power blocks hit damage', () => {
-  const s = newSim(content.car, { powers: true }), x = content.season.trail.powerups[0].x;
-  spawn(s, x - 3); const first = s.powerups[0];
-  assert(s.powerups.length, 'the trail has pickups');
-  assert(first.taken, 'picked up'); assert.equal(Object.keys(s.main.st.powers)[0], first.kind); assert(s.main.boosted, 'the truck drives boosted');
-  advance(s, 13);
-  assert.deepEqual(s.main.st.powers, {}, 'it runs out'); assert.equal(s.main.boosted, null, 'and the truck goes back to normal');
-  s.init(); assert(!s.powerups[0].taken, 'a new run puts the pickups back');
-  // into the first logs at speed, with and without a power
-  const crash = power => { const c = spawn(newSim(content.car), 40); c.main.st.powers = power ? { [power]: 99 } : {}; c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
-  assert(crash(null) > 0, 'a hard hit hurts');
-  for (const k of KNOBS) assert.equal(crash(k.id), 0, `not under the ${k.id} power`);
+test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {
+  const crash = (car, shield) => { const c = spawn(newSim(car), 40); if (shield) assert(c.usePower(), 'the shield starts'); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
+  const car = withPower(content.car, 'invincible');
+  assert(crash(content.car, false) > 0, 'a hard hit hurts');
+  assert(crash(car, false) > 0, 'and still does until the shield is used');
+  assert.equal(crash(car, true), 0, 'not under the shield');
+  assert.equal(spawn(newSim(content.car), 30).usePower(), false, 'no power, no shield');
+  const s = spawn(newSim(car), 30);
+  assert(s.usePower()); assert.equal(s.usePower(), false, 'not twice at once');
+  advance(s, POWER_TIMES.invincible.seconds + 0.1);
+  assert.equal(s.main.st.powerT, 0, 'it runs out');
+  assert(s.main.st.powerCoolT > POWER_TIMES.invincible.cooldown - 1, 'then recharges');
+  assert.equal(s.usePower(), false, 'not while recharging');
+  advance(s, POWER_TIMES.invincible.cooldown);
+  assert.equal(s.main.st.powerCoolT, 0);
+  assert(s.usePower(), 'and is ready again');
+  s.init(); assert.equal(s.main.st.powerT, 0, 'a new run starts ready');
 });
 
-test('mud pull only works in the short gear, except under the grip power', () => {
+const flatRoad = () => content.season.trail.highways[0].x0 + 10;
+const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000, heaviest = () => [...content.cars].sort((a, b) => gross(b) - gross(a))[0];
+
+test('instant brakes stop any truck almost at once, then need to recharge', () => {
+  const rolling = car => { const s = spawn(newSim(car), flatRoad()); s.ctl.auto = true; s.truck.setLinearVelocity({ x: 15, y: 0 }); for (const w of s.main.parts.wheels) w.setAngularVelocity(-15 / car.rig.radius); return s; };
+  const after = car => { const s = rolling(car); s.ctl.brake = 1; advance(s, 0.5); return s.st.speed; };
+  for (const car of [content.car, heaviest()]) {
+    assert(after(withPower(car, 'brakes')) < 1, `${car.id} stops`);
+    assert(after(car) > 5, `${car.id} does not without the power`);
+  }
+  const s = rolling(withPower(content.car, 'brakes'));
+  s.ctl.brake = 1; advance(s, POWER_TIMES.brakes.seconds + 0.2); s.ctl.brake = 0;
+  assert(s.st.powerCoolT > POWER_TIMES.brakes.cooldown - 1, 'it recharges after use');
+  s.truck.setLinearVelocity({ x: 15, y: 0 }); for (const w of s.main.parts.wheels) w.setAngularVelocity(-15 / content.car.rig.radius);
+  s.ctl.brake = 1; advance(s, 0.5); s.ctl.brake = 0;
+  assert(s.st.speed > 5, `normal brakes while it does: ${s.st.speed.toFixed(1)} m/s`);
+  advance(s, POWER_TIMES.brakes.cooldown);
+  assert.equal(s.st.powerCoolT, 0, 'then it is ready');
+  const slow = DAMAGE_START_KMH / 3.6 * 0.8, t = spawn(newSim(withPower(content.car, 'brakes')), flatRoad()); t.ctl.auto = true;
+  t.truck.setLinearVelocity({ x: slow, y: 0 }); for (const w of t.main.parts.wheels) w.setAngularVelocity(-slow / content.car.rig.radius);
+  t.ctl.brake = 1; advance(t, 0.3);
+  assert.equal(t.st.powerT + t.st.powerCoolT, 0, `braking under ${DAMAGE_START_KMH} km/h leaves it ready`);
+});
+
+test('nitro surges any truck past its top speed for a while, gives no protection, then recharges', () => {
+  for (const car of [content.car, heaviest()]) {
+    const run = nitro => { const s = spawn(newSim(withPower(car, 'nitro')), flatRoad()); s.ctl.auto = true; s.ctl.gas = 1; advance(s, 6); if (nitro) assert(s.usePower(), 'the button starts it'); advance(s, POWER_TIMES.nitro.seconds - 0.1); return s; };
+    const plain = run(false).st.speed, s = run(true);
+    assert(s.st.speed > plain + 3, `${car.id}: ${(plain * 3.6).toFixed(0)} against ${(s.st.speed * 3.6).toFixed(0)} km/h`);
+    advance(s, 0.3);
+    assert(s.st.powerCoolT > POWER_TIMES.nitro.cooldown - 1, 'then it recharges');
+    assert.equal(s.usePower(), false, 'and cannot be used until it has');
+  }
+  assert.equal(spawn(newSim(content.car), flatRoad()).usePower(), false, 'no power, no nitro');
+  const still = spawn(newSim(withPower(content.car, 'nitro')), flatRoad()), x0 = still.truck.getPosition().x;
+  still.ctl.auto = true; still.usePower(); advance(still, 2);
+  assert(still.truck.getPosition().x - x0 > 5, 'it goes from a standstill, with no gas');
+  const c = spawn(newSim(withPower(content.car, 'nitro')), 40); c.usePower(); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2);
+  assert(c.main.st.damage > 0, 'a hit on nitro hurts');
+});
+
+test('mud pull only works in the short gear', () => {
   const car = applyTuning(content.car, { grip: 100 }), x = content.season.trail.heavyMud[0] - 8;
-  const metres = (gear, power) => {
-    const s = spawn(newSim(car), x, { gear }); s.main.st.powers = power ? { grip: 99 } : {};
-    const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 8); return s.truck.getPosition().x - x0;
-  };
-  assert(metres('H', true) > metres('H', false), 'in the long gear only the power brings it');
-  assert.equal(metres('L', true), metres('L', false), 'in the short gear it works either way');
+  const metres = gear => { const s = spawn(newSim(car), x, { gear }), x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 8); return s.truck.getPosition().x - x0; };
+  assert(metres('L') > metres('H'), 'low gear pulls harder through the mud');
 });

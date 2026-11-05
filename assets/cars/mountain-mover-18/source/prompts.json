@@ -1,0 +1,616 @@
+{
+  "status": "pass",
+  "specification": {
+    "roadAxleCount": 10,
+    "tireDiameterM": 1.4,
+    "lengthTireDiametersRange": [
+      11.4,
+      11.9
+    ],
+    "maxTotalLengthM": 16.66,
+    "projectLengthCapM": 16.8,
+    "maxHeightAboveHubM": 5.5,
+    "axleGroupsFrontToRear": [
+      1,
+      2,
+      7
+    ],
+    "intendedCanvasPx": [
+      2048,
+      1024
+    ]
+  },
+  "wheel": {
+    "prompt": "Production square game sprite: ONE giant mining tire, deep chevron tread, thick charcoal rubber, weathered silver heavy truck steel rim and centered bolted hub. No chains or spikes. Premium semi-realistic painted game illustration matching Swamp Scout, fine mechanical texture, dark contours, heavy grime, soft even light for spinning. Perfect circular face-on tire, circular concentric rim, precisely centered, equal generous margins, 1536x1536 PNG or accepted native1254square. Opaque dark recessed backing in rim ventilation holes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, no axle/body/ground/shadow/halo/glow/checkerboard/text/logo/watermark. This wheel is for a 1.4m tire on a compact submarine transporter. Keep the entire tread inside generous transparent margins, not touching the edge.",
+    "status": "pass",
+    "selectedOutput": "wheel-v2.png",
+    "sourceHubPx": [
+      622.0,
+      637.0
+    ],
+    "correction": "Native canvas preserved; square circular normalization, smooth hub centring, opaque dark generated-texture backing of rim holes, alpha cleanup.",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "bboxAlpha128": [
+        49,
+        49,
+        1205,
+        1205
+      ],
+      "alphaRange": [
+        0,
+        255
+      ]
+    }
+  },
+  "selected": {
+    "master": "vehicle-master-v5.png",
+    "body": "body-v2.png",
+    "wheel": "wheel-v2.png"
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      1966,
+      1079
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 10,
+    "hubCentersPx": [
+      [
+        201,
+        738
+      ],
+      [
+        352,
+        738
+      ],
+      [
+        503,
+        738
+      ],
+      [
+        654,
+        738
+      ],
+      [
+        805,
+        738
+      ],
+      [
+        956,
+        738
+      ],
+      [
+        1107,
+        738
+      ],
+      [
+        1277,
+        738
+      ],
+      [
+        1428,
+        738
+      ],
+      [
+        1723,
+        738
+      ]
+    ],
+    "tireDiameterPx": 148,
+    "tireBottomsPx": [
+      812,
+      812,
+      812,
+      812,
+      812,
+      812,
+      812,
+      812,
+      812,
+      812
+    ],
+    "measuredLengthTireDiameters": 11.75,
+    "depictedLengthM": 16.45,
+    "heightAboveHubM": 4.152702702702703,
+    "vehicleBBox": [
+      114,
+      299,
+      1853,
+      812
+    ],
+    "outsideWheelRegionsPixelIdentical": true,
+    "upperWellAlpha255": true,
+    "allBodyPixelsBelowHubsTransparent": true,
+    "method": "Original accepted master pixels retained outside road-wheel regions above hubs; generated body edit supplies opaque painted well interiors. Entire underside below hubs cleared. Identical centered circular selected wheel composited at measured level hubs.",
+    "baseMaster": "vehicle-master-v4.png",
+    "paintedMaterial": "body-v1.png",
+    "sourceRoadHubsPx": [
+      [
+        201,
+        738
+      ],
+      [
+        352,
+        738
+      ],
+      [
+        503,
+        738
+      ],
+      [
+        654,
+        738
+      ],
+      [
+        805,
+        738
+      ],
+      [
+        956,
+        738
+      ],
+      [
+        1107,
+        738
+      ],
+      [
+        1277,
+        738
+      ],
+      [
+        1428,
+        738
+      ],
+      [
+        1723,
+        738
+      ]
+    ],
+    "wheelRemovalRadiusPx": 84.0,
+    "clearMarginsPx": [
+      114,
+      299,
+      113,
+      267
+    ],
+    "bodyMasterDimensionsMatch": true,
+    "masterExactlyEqualsBodyPlusWheelInstances": true,
+    "equalRoundTires": true,
+    "levelHubs": true,
+    "visualReview": "Native cab, light/dark master/body and suspension-drop inspected. Exactly10 identical level wheels:7 close under submarine,2 tractor drive,1 steer. Clean conventional short bonnet/fender/mirror, compact chained submarine supported by bogie. Painted opaque upper wells including gaps; everything below body hubs transparent. Exact cab/load registration and clean alpha/margins.",
+    "finalAudit": {
+      "status": "pass",
+      "headerDimensions": [
+        1966,
+        1079
+      ],
+      "bodyHeaderDimensions": [
+        1966,
+        1079
+      ],
+      "wheelHeaderDimensions": [
+        1254,
+        1254
+      ],
+      "measuredTireDimensionsPx": [
+        148,
+        148
+      ],
+      "tireBBoxesAlpha128": [
+        [
+          127,
+          664,
+          275,
+          812
+        ],
+        [
+          278,
+          664,
+          426,
+          812
+        ],
+        [
+          429,
+          664,
+          577,
+          812
+        ],
+        [
+          580,
+          664,
+          728,
+          812
+        ],
+        [
+          731,
+          664,
+          879,
+          812
+        ],
+        [
+          882,
+          664,
+          1030,
+          812
+        ],
+        [
+          1033,
+          664,
+          1181,
+          812
+        ],
+        [
+          1203,
+          664,
+          1351,
+          812
+        ],
+        [
+          1354,
+          664,
+          1502,
+          812
+        ],
+        [
+          1649,
+          664,
+          1797,
+          812
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        812,
+        812,
+        812,
+        812,
+        812,
+        812,
+        812,
+        812,
+        812,
+        812
+      ],
+      "measuredLengthTireDiameters": 11.75,
+      "measuredLengthM": 16.45,
+      "measuredHeightAboveHubM": 4.152702702702703,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "bodyBelowHubAlpha0": true,
+      "masterAlphaRange": [
+        0,
+        255
+      ],
+      "bodyAlphaRange": [
+        0,
+        255
+      ],
+      "wheelAlphaRange": [
+        0,
+        255
+      ],
+      "pixelDiffOutsideWheelComposite": 0,
+      "nonWheelUpperBodyChangedPixels": 0,
+      "opaqueWithinSpecifiedAxleGroupGaps": true
+    },
+    "closeGroupGapAudit": [
+      {
+        "betweenHubsPx": [
+          201,
+          352
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          352,
+          503
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          503,
+          654
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          654,
+          805
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          805,
+          956
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          956,
+          1107
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      },
+      {
+        "betweenHubsPx": [
+          1277,
+          1428
+        ],
+        "tireGapPx": 3,
+        "opaque": true,
+        "transparentPixels": 0
+      }
+    ],
+    "axleGroupsLeftToRight": [
+      [
+        201,
+        352,
+        503,
+        654,
+        805,
+        956,
+        1107
+      ],
+      [
+        1277,
+        1428
+      ],
+      [
+        1723
+      ]
+    ],
+    "originalMasterPixelsPreservedOutsideWheelRegions": true
+  },
+  "generationTool": "built-in image_gen",
+  "outputs": {
+    "wheel-v1.png": {
+      "status": "needs_revision",
+      "reason": "Slightly uneven silhouette, offset hub and transparent rim-hole artifacts; corrected deterministically.",
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          56,
+          57,
+          1197,
+          1209
+        ],
+        "transparentPixels": 543822,
+        "opaquePixels": 713
+      }
+    },
+    "wheel-v2.png": {
+      "status": "pass",
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          49,
+          49,
+          1205,
+          1205
+        ],
+        "transparentPixels": 529886,
+        "opaquePixels": 1031507
+      }
+    },
+    "vehicle-master-v1.png": {
+      "status": "needs_revision",
+      "reason": "Only9 road axles: six trailer, drive tandem and steer. Need seven trailer.",
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          20,
+          208,
+          1757,
+          721
+        ],
+        "transparentPixels": 877568,
+        "opaquePixels": 464
+      }
+    },
+    "vehicle-master-v2.png": {
+      "status": "needs_revision",
+      "reason": "Repeated six-axle trailer defect",
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          18,
+          202,
+          1757,
+          710
+        ],
+        "transparentPixels": 967365,
+        "opaquePixels": 612
+      }
+    },
+    "vehicle-master-v3.png": {
+      "status": "pending_visual_review",
+      "measurements": {
+        "dimensions": [
+          1774,
+          887
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          18,
+          203,
+          1757,
+          716
+        ],
+        "transparentPixels": 982632,
+        "opaquePixels": 583919
+      }
+    },
+    "vehicle-master-v4.png": {
+      "status": "accepted_for_body_derivation",
+      "correction": "96px transparent padding without resampling",
+      "measurements": {
+        "dimensions": [
+          1966,
+          1079
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          114,
+          299,
+          1853,
+          812
+        ],
+        "transparentPixels": 1530408,
+        "opaquePixels": 583919
+      }
+    },
+    "body-v1.png": {
+      "status": "needs_revision",
+      "reason": "Generated edit changes canvas/registration; used only as painted well material.",
+      "measurements": {
+        "dimensions": [
+          1693,
+          929
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          98,
+          257,
+          1596,
+          652
+        ],
+        "transparentPixels": 1140324,
+        "opaquePixels": 568
+      }
+    },
+    "body-v2.png": {
+      "status": "pass",
+      "measurements": {
+        "dimensions": [
+          1966,
+          1079
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          114,
+          299,
+          1853,
+          739
+        ],
+        "transparentPixels": 1616374,
+        "opaquePixels": 504940
+      }
+    },
+    "vehicle-master-v5.png": {
+      "status": "pass",
+      "measurements": {
+        "dimensions": [
+          1966,
+          1079
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "bboxAlpha128": [
+          114,
+          299,
+          1853,
+          812
+        ],
+        "transparentPixels": 1533134,
+        "opaquePixels": 588180
+      }
+    }
+  },
+  "master": {
+    "prompt": "Production MOUNTAIN MOVER: mustard-yellow conventional heavy-haul prime mover AND compact multi-axle lowbed in ONE complete vehicle, facing RIGHT, huge dark-grey compact submarine on steel cradles and chains along trailer left. Submarine with conning tower, short stowed periscope and tucked propeller fully inside canvas. Ballast box behind cab, yellow-black oversize banners WITHOUT LETTERING, amber beacons, heavy grime/chipped yellow paint. EXACTLY TEN near-side ROAD AXLES: SEVEN in one close trailer bogie under submarine at left, TWO in close tractor drive tandem behind cab middle-right, ONE steer under short bonnet far right. Seven plus two plus one. Road tire diameter1.4m; entire rig11.65 tire diameters long=16.31m including submarine/propeller and bumpers, max16.8m. All road tires identical giant mining chevron tires, matching reference rim. Use compact submarine and prime mover to fit count and scale. Trailer wheels nearly tire-to-tire but NEVER overlapping. Intended2048x1024canvas, 1870px rig and160px tires. Suggested tire centers left200,365,530,695,860,1025,1190; drive1420,1585; steer1820; commonhubY760. Trailer/frame/cradles/ballast/submarine all above hub line; height above hubs at most5.5m=3.92tires. Every load part supported. Conventional cab with visible short bonnet; distinct radiator housing/blunt practical bumper/headlamp/separate round front fender following circular tire clearance. Small rectangular mirrors on short rigid brackets near door/A-pillar; clean mechanically plausible seams, no fused panels/pointed fenders. No visible front grille face. Premium semi-realistic painted game illustration, fine mechanical detail, dark contours, natural weathered textures, soft even daylight, matching Swamp Scout style. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background and internal gaps. Clear generous margins on all four sides. No ground, cast shadow, halo, glow, checkerboard, text, logos or watermark.",
+    "status": "pass",
+    "references": [
+      "wheel-v2.png",
+      "assets/cars/swamp-scout-4/source/vehicle-master-v1.png"
+    ],
+    "selectedOutput": "vehicle-master-v5.png"
+  },
+  "revisions": [
+    {
+      "prompt": "Precise-object-edit. Correct MOUNTAIN MOVER master AXLE COUNT only. Current truck has SIX trailer tires; must have SEVEN trailer tires. Redraw lower road wheel row: total TEN road tires, SEVEN close equal wheels under entire submarine and trailer at LEFT, then separate TWO drive wheels close tandem behind cab at RIGHT, then ONE steer under bonnet at far right. 7+2+1=10. Make ALL TEN tires slightly smaller equally so they fit without overlap: whole vehicle length11.65 tire diameters, total16.31m with1.4m tires. Existing whole rig width1740px, tire diameter149px. Seven trailer centers x110,263,416,569,722,875,1028; drive1190,1343; steer1635; hubs all same y645. Trailer extends to accommodate seventh tire under gooseneck and forward end of submarine. Keep current submarine, load chains/cradles, mustard yellow cab, short bonnet/distinct blunt bumper/headlamp/round front fender; mirror small rectangular on short rigid door brackets. Preserve composition at least1774x887 with generous added transparent margins if necessary. Heavy grime/chipped paint, premium semi-realistic painted illustration matching input. No beacon glows. Frame/cradles/load/steps all above hubs; height above hubsmax5.5m. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background, facing right, clear margins all four sides. No ground, shadow, halo, checkerboard, text, logos, watermark. DO NOT return six trailer tires again: SEVEN trailer plusTWO drive plusONE steer. No perspective grille face.",
+      "edit_of": "vehicle-master-v1.png",
+      "reason": "Repeated six trailer axles despite explicit seven; changed method to measured deterministic arch-section compositing.",
+      "status": "needs_revision",
+      "output": "vehicle-master-v2.png"
+    },
+    {
+      "output": "vehicle-master-v3.png",
+      "source": "vehicle-master-v2.png",
+      "status": "pending_visual_review",
+      "method": "Reused generated151px-wide painted arch section x85..236 y560..643 seven times at151px spacing, preserved all cab/load pixels and frame above560; cleared below642, composited10 matching148px selected wheels. No new painted art synthesized."
+    }
+  ],
+  "body": {
+    "prompt": "Precise-object-edit. Edit this accepted MOUNTAIN MOVER master, TEN road axles: SEVEN trailer at left, TWO tractor drive behind cab, ONE steer right. Remove every road tire/rim/hub. Fill all UPPER wheel wells completely opaque with painted dark steel liners, horizontal chassis beams, suspension and springs from arch lip through level hub line y738 in1966x1079 canvas. Fill ALL inter-arch gaps through hub line. Everything below hubs fully transparent. Keep exact same dimensions/registration and every non-wheel part unchanged: compact darkgrey submarine, cradles chains, yellow truck, ballastbox banners. Preserve conventional short bonnet, distinct blunt bumper/headlamp/separate round fender and small rectangular mirrors on short rigid door mounts. No circular tire or rim remnants in wells. Premium semi-realistic painted mechanical game illustration. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right,true transparent background, clear margins all four sides. No ground/shadow/glow/halo/checkerboard/text/logos/watermark.",
+    "edit_of": "vehicle-master-v4.png",
+    "status": "pass",
+    "selectedOutput": "body-v2.png",
+    "derivationMethod": "Original accepted master pixels retained outside road-wheel regions above hubs; generated body edit supplies opaque painted well interiors. Entire underside below hubs cleared. Identical centered circular selected wheel composited at measured level hubs."
+  },
+  "projectWrites": "Only this requested vehicle source folder; scratch/dependencies outside project. No integration, roster, configuration or WebP edits."
+}

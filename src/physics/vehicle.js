@@ -51,19 +51,10 @@ export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: t
 
   function setMass(body, m) { setWheelMass(V, body, m); }
   function setMassExplicit(body, m, cm, sz) { setBodyMass(V, body, m, cm, sz); }
-  let liveSusp = susp;
-  const bumpStops = dt => applyBumpStops(V, springs, liveSusp, dt);
-  // softer or firmer springs while driving: a suspension superpower
-  function setSuspension(next) {
-    liveSusp = next;
-    for (const sp of springs) {
-      const n = springFor(M, com, size, sp.axleX, physics.wheelMass, sp.load, next);
-      sp.j.setSpringFrequencyHz(n.hz); sp.j.setSpringDampingRatio(n.zeta); sp.k = n.k; sp.c = n.c;
-    }
-  }
+  const bumpStops = dt => applyBumpStops(V, springs, susp, dt);
   function destroy() { for (const b of [truck, ...wheels]) world.destroyBody(b); }
 
-  return { truck, wheels, joints, springs, bumpStops, setSuspension, destroy };
+  return { truck, wheels, joints, springs, bumpStops, destroy };
 }
 
 // tires sit in their own collision category
@@ -131,6 +122,18 @@ export function drawnBodyLift(rig, rises) {
     tilt += LIFT_STEP * dTilt; lift += LIFT_STEP * (sv - dTilt * sx) / sw;
   }
   return { lift, tilt };
+}
+
+// The drawn lift follows its target smoothly, or the body jumps as wheels reach their limits: a critically damped spring, solved
+// exactly so it behaves the same at any frame rate. `state` is { lift, tilt, vLift, vTilt }; response is in radians per second.
+export function easeBodyLift(state, target, response, dt) {
+  const fade = Math.exp(-response * dt);
+  for (const [x, v] of [['lift', 'vLift'], ['tilt', 'vTilt']]) {
+    const off = state[x] - target[x], push = (state[v] + response * off) * dt;
+    state[v] = (state[v] - response * push) * fade;
+    state[x] = target[x] + (off + push) * fade;
+  }
+  return state;
 }
 
 // Box2D's wheel-joint spring is defined by the frequency and damping ratio of the joint's

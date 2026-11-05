@@ -116,3 +116,67 @@ test('mud holes lie only in deep mud, and rock and dirt are full of crushables',
   for (const surf of ['rock', 'dirt']) assert(on(surf) / metres(surf) > 0.05, `${surf}: ${on(surf)} crushables on ${metres(surf)} m`);
   assert(s.rocks.some(r => r.prop === 'branchPile') && s.rocks.some(r => r.crush && !r.prop), 'both stones and branch piles');
 });
+
+test('a speed limit sign stands at the first of every group of logs, pipes and hard rocks, and none for what any truck breaks', () => {
+  const s = spawn(newSim(), content.season.trail.start), hurts = o => !o.crush || o.minMassT > 0;
+  const solid = [...s.rocks.filter(hurts).map(r => r.x - r.w / 2), ...s.logs.filter(hurts).map(l => l.x - l.r)].filter(x => x >= content.season.trail.start).sort((a, b) => a - b);
+  assert(s.logs.length && s.rocks.some(r => !r.crush), 'there are logs and hard rocks to sign');
+  for (const x of s.speedSigns) {
+    assert(solid.some(o => Math.abs(o - x) < 0.01) || s.terrain.stations.some(st => Math.abs(st.x - x) <= 8.01), `sign at ${x.toFixed(1)} stands at an obstacle`);
+    for (const st of s.terrain.stations) assert(Math.abs(x - st.x) >= 8, `sign at ${x.toFixed(1)} clear of the station at ${st.x}`);
+  }
+  for (const o of solid) assert(s.speedSigns.some(x => x <= o + 0.01 && o - x < 200), `a sign at or before the obstacle at ${o.toFixed(1)}`);
+});
+
+test('a highway of 250 m follows each station, of long smooth waves, with only stones that any truck breaks, for free', () => {
+  const { highways, stations } = content.season.trail;
+  assert.equal(highways.length, stations.length);
+  highways.forEach((h, i) => { assert.equal(h.x0, stations[i].x + 8, 'it starts at the end of the bay'); assert.equal(h.x1 - h.x0, 250); });
+  const h = highways[0], s = spawn(newSim(), h.x0 + 8);
+  const y = x => s.terrain.visH(x);
+  for (const r of highways) {
+    let crests = 0, steepest = 0, tightest = 0;
+    for (let x = r.x0 + 8; x < r.x1 - 8; x += 1) {
+      const slope = (y(x + 1) - y(x - 1)) / 2, bend = y(x + 1) - 2 * y(x) + y(x - 1);
+      steepest = Math.max(steepest, Math.abs(slope)); tightest = Math.max(tightest, Math.abs(bend));
+      if (y(x) > y(x - 1) && y(x) >= y(x + 1)) crests++;
+    }
+    assert(crests >= 1, `${r.x0}: it rises and dips: ${crests} crests`);
+    assert(steepest < 0.2, `${r.x0}: gradually: steepest ${steepest.toFixed(3)}`);
+    assert(tightest < 0.02, `${r.x0}: with no sharp bumps: ${tightest.toFixed(4)}`);
+  }
+  const stones = s.rocks.filter(r => r.x > h.x0 && r.x < h.x1);
+  assert(stones.length > 10, `${stones.length} stones`);
+  assert(stones.every(r => r.crush && !r.minMassT), 'every one breaks under any truck');
+  assert(!s.logs.some(l => l.x > h.x0 && l.x < h.x1), 'no logs or pipes');
+  assert(!s.speedSigns.some(x => x > h.x0 + 1 && x < h.x1), 'no speed limit signs');
+  // the lightest and the heaviest truck both smash through at full gas, unhurt and upright
+  const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000, byWeight = [...content.cars].sort((a, b) => gross(a) - gross(b));
+  for (const car of [byWeight[0], byWeight.at(-1)]) {
+    const d = spawn(newSim(car), h.x0 + 8), rocks = d.rocks.filter(r => r.x > h.x0 && r.x < h.x1), alive = () => rocks.filter(r => r.alive).length, before = alive(), x0 = d.truck.getPosition().x;
+    d.ctl.auto = true; d.ctl.gas = 1;
+    let t = 0, tip = 0;
+    for (; t < 40 && d.truck.getPosition().x < h.x1 - 30; t += DT) { d.step(DT); tip = Math.max(tip, Math.abs(d.truck.getAngle())); }
+    const gone = d.truck.getPosition().x - x0;
+    assert(before - alive() > 3, `${car.id} breaks them (${before - alive()})`);
+    assert.equal(d.st.damage, 0, `${car.id} takes no damage`);
+    assert(tip < 0.5, `${car.id} stays upright (${tip.toFixed(2)} rad)`);
+    assert(gone > 150, `${car.id} flies: ${gone.toFixed(0)} m in ${t.toFixed(0)} s`);
+  }
+});
+
+test('roadside scenery is drawing only, and none of it stands on a station, a highway sign or camera, or a speed limit sign', () => {
+  const { trail, art } = content.season, s = spawn(newSim(), trail.start);
+  assert(trail.scenery.length >= 10);
+  const spans = trail.scenery.map(item => {
+    const a = art[item.art], [x0, y0, x1, y1] = a.crop, w = (x1 - x0) * a.heightM / (y1 - y0), step = a.repeatPx ? a.repeatPx * a.heightM / (y1 - y0) : 0;
+    assert(a.heightM > 0, `${item.art} has a height`);
+    return [item.x - w / 2, item.x + w / 2 + step * ((item.count ?? 1) - 1), item.art];
+  });
+  const clear = (x, pad, what) => { for (const [a, b, k] of spans) assert(x < a - pad || x > b + pad, `${k} at ${a.toFixed(0)} stands on ${what} at ${x.toFixed(0)}`); };
+  for (const st of trail.stations) clear(st.x, 6, 'a station');
+  for (const h of trail.highways) { clear(h.x0 + 8.5, 4, 'a highway sign'); clear((h.x0 + h.x1) / 2, 1, 'a speed camera'); }
+  for (const x of s.speedSigns) clear(x, 0.5, 'a speed limit sign');
+  assert.equal(s.rocks.filter(r => r.art && Object.keys(art).includes(r.art) && trail.scenery.some(i => i.art === r.art)).length, 0, 'no bodies');
+});
+

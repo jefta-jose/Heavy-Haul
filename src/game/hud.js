@@ -2,13 +2,12 @@
 // progress map (the truck on its way to the depot flag), the trip line,
 // coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
 // message overlays.
-import { POWER_LOOK, POWER_SECONDS, POWER_WARN_SECONDS } from '../game-config.js';
 
 const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['carName', 'damageFill', 'fuelFill', 'fuelTxt', 'useTxt', 'stationTxt', 'track', 'trackDone', 'drivenTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['powerBtn', 'carName', 'damageFill', 'fuelFill', 'fuelTxt', 'useTxt', 'stationTxt', 'track', 'trackDone', 'drivenTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -127,25 +126,34 @@ export function createHud({ sim, season }) {
     dial(w / 2 + r * 1.06, h / 2, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
   }
 
-  // a timer per superpower, top right, saying what it does, whose bar runs down
-  const powerChips = {};
-  function showPowers() {
-    const left = sim.main.st.powers ?? {}, box = document.getElementById('powers');
-    for (const [kind, look] of Object.entries(POWER_LOOK)) {
-      let chip = powerChips[kind];
-      if (!chip) {
-        chip = powerChips[kind] = document.createElement('div'); chip.className = 'powerchip'; chip.hidden = true; chip.style.setProperty('--c', look.color);
-        const icon = document.createElement('i'); icon.className = 'powerpic'; icon.style.backgroundImage = `var(--hud-g2-icon-${kind})`; chip.append(icon);
-        const name = document.createElement('span'); name.innerHTML = `<i>${look.name}:</i> ${look.what}`;
-        chip.num = document.createElement('b'); chip.append(name, chip.num); box.append(chip);
+  // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too
+  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, nitro: { name: 'Nitro', color: '#2f9dff', button: 'NITRO' }, brakes: { name: 'Instant brakes', color: '#ff6a2b' } };
+  const powerIcon = kind => document.getElementById('garageIcons').content.querySelector(`[data-icon="garage-${kind}"] svg`)?.cloneNode(true);
+  let shownPower = null, powerText = null;
+  function showPower() {
+    const kind = sim.main.car.power ?? null, st = sim.main.st, box = document.getElementById('powers'), btn = els.powerBtn, look = POWER_HUD[kind];
+    if (kind !== shownPower) {
+      shownPower = kind; powerText = null; box.innerHTML = ''; btn.hidden = !look?.button; btn.classList.toggle('nitro', kind === 'nitro');
+      if (look) {
+        const chip = document.createElement('div'); chip.className = 'powerchip'; chip.id = 'powerChip';
+        const icon = powerIcon(kind); if (icon) chip.append(icon);
+        chip.append(document.createElement('span')); box.append(chip);
+        const holder = document.getElementById('powerBtnIcon'); holder.innerHTML = ''; if (look.button && icon) holder.append(powerIcon(kind));
       }
-      const s = left[kind]; chip.hidden = !s; if (!s) continue;
-      chip.style.setProperty('--p', `${s / POWER_SECONDS * 100}%`); chip.num.textContent = Math.ceil(s); chip.classList.toggle('ending', s <= POWER_WARN_SECONDS);
+    }
+    if (!look) return;
+    const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
+    const text = running ? `<i>${look.name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`;
+    if (text !== powerText) {
+      powerText = text; box.querySelector('span').innerHTML = text;
+      box.firstChild.style.setProperty('--c', running ? look.color : cooling ? '#8f98a2' : '#3bdc6e');
+      document.getElementById('powerBtnTxt').textContent = running || cooling ? `${secs} s` : look.button ?? '';
+      btn.classList.toggle('active', running); btn.classList.toggle('cooling', cooling);
     }
   }
 
   function update(dt, { coins, run }) {
-    showPowers();
+    showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; const step = hudT; hudT = 0;

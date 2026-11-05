@@ -1,0 +1,236 @@
+{
+  "id": "road-hawk-5",
+  "name": "Road Hawk",
+  "number": 5,
+  "class": "highway",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Sand beige tractor with a cement tanker",
+  "description": "A sand beige highway tractor with twin chrome stacks, a visor and chunky mud-terrain tires, pulling a grey bulk cement tanker trailer.",
+  "stats": {
+    "power": 36,
+    "speed": 52,
+    "grip": 71,
+    "capacity": 28,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v6.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      949,
+      689
+    ],
+    "pixelsPerMetre": 123.077,
+    "axles": [
+      5.769,
+      2.234,
+      -4.42,
+      -5.769
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1659,
+        689,
+        82
+      ],
+      [
+        1224,
+        689,
+        82
+      ],
+      [
+        405,
+        689,
+        82
+      ],
+      [
+        239,
+        689,
+        82
+      ]
+    ],
+    "nose": 6.793,
+    "exhaust": [
+      3.607,
+      2.957
+    ],
+    "winch": [
+      6.693,
+      0.455
+    ]
+  },
+  "camera": {
+    "zoom": 2.1
+  },
+  "physics": {
+    "mass": 8600,
+    "centreOfMass": [
+      2.049,
+      0.85
+    ],
+    "size": [
+      13.488,
+      3.104
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -6.695,
+        6.793,
+        0.65,
+        1.15,
+        1
+      ],
+      [
+        -6.695,
+        -4.447,
+        1.15,
+        2.884,
+        0.4
+      ],
+      [
+        -4.447,
+        -2.199,
+        1.15,
+        2.884,
+        0.4
+      ],
+      [
+        -2.199,
+        0.049,
+        1.15,
+        2.884,
+        0.4
+      ],
+      [
+        0.049,
+        2.297,
+        1.15,
+        2.884,
+        0.4
+      ],
+      [
+        2.297,
+        4.545,
+        1.15,
+        2.933,
+        0.4
+      ],
+      [
+        4.545,
+        6.793,
+        1.15,
+        2.446,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.926,
+        1.852
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.05,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 5.419,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 26780,
+    "openDiffGrip": 1,
+    "fuelLitres": 426
+  },
+  "load": {
+    "name": "Cement tanker",
+    "massT": 12
+  }
+}

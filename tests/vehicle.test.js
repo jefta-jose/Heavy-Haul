@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { content, newSim, spawn, advance, DT } from './helpers.js';
-import { drawnBodyLift } from '../src/physics/vehicle.js';
+import { drawnBodyLift, easeBodyLift } from '../src/physics/vehicle.js';
 import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../src/game-config.js';
 
 const { car } = content;
@@ -30,6 +30,15 @@ test('wheels stay in their arches as drawn: the body moves to them, and clearing
   // a middle axle alone on a log, from the Asphalt King: no straight body suits all four, so none is left far out
   const king = { axles: [5, 0.9, -3.78, -4.96], radius: 0.525 }, rises = [-0.14, 0.66, 0.01, -0.17], { lift, tilt } = drawnBodyLift(king, rises);
   rises.forEach((r, i) => { const gap = r - (lift + tilt * king.axles[i]); assert(Math.abs(gap) < 0.5, `axle ${i} is ${gap} from the body`); });
+});
+
+test('the drawn body eases to its lift: no jump, no overshoot, the same at any frame rate', () => {
+  const run = (hz, secs) => { const s = { lift: 0, tilt: 0, vLift: 0, vTilt: 0 }, seen = []; for (let i = 0; i < secs * hz; i++) { easeBodyLift(s, { lift: 0.5, tilt: 0.02 }, 10, 1 / hz); seen.push(s.lift); } return { s, seen }; };
+  const { s, seen } = run(60, 2);
+  assert(Math.abs(s.lift - 0.5) < 1e-3 && Math.abs(s.tilt - 0.02) < 1e-4, 'it arrives');
+  assert(Math.max(...seen) <= 0.5 + 1e-9, 'it never overshoots');
+  assert(seen[0] < 0.01, 'the first frame barely moves');
+  assert(Math.abs(run(30, 0.3).s.lift - run(120, 0.3).s.lift) < 1e-9, 'frame rate does not change it');
 });
 
 test('suspension articulates and settles after a hit', () => {

@@ -1,10 +1,10 @@
-import { POWER_LOOK } from '../../game-config.js';
-
-const POWERUP_SIZE_M = 2.3, POWERUP_HEIGHT_M = 2.7, BAY_LINE_LEAN = 0.35;
-import { STATION_BAY_M } from '../../game-config.js';
+import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M } from '../../game-config.js';
 import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
+
+const HIGHWAY_DASH_M = 3, HIGHWAY_DASH_EVERY_M = 7;
+const SIGN_FONT = '"Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
 
 // Scenery and obstacles: reeds and logs behind and in front of the trail, boulders and
 // crushable rocks drawn on their physics bodies, fallen logs across the track.
@@ -119,7 +119,7 @@ export function createProps(scene) {
     const filling = scene.sim.main?.st.filling, pulse = 0.55 + 0.25 * Math.sin(performance.now() / 180);
     for (const st of scene.sim.terrain.stations) {
       const half = STATION_BAY_M / 2; if (st.x + half + 8 < lo || st.x - half - 8 > hi) continue;
-      // the bay: a soft patch across the road that fades out at both ends, with a painted checkered line where it starts and stops
+      // the bay: a soft patch across the road that fades out at both ends
       const inBay = filling && Math.abs(scene.sim.main.parts.truck.getPosition().x - st.x) <= half;
       const a = st.x - half, b = st.x + half, tint = inBay ? [98, 210, 75, pulse * 0.45] : [242, 183, 5, 0.17], rgba = o => `rgba(${tint[0]},${tint[1]},${tint[2]},${o})`;
       const fade = ctx.createLinearGradient(a - 1.6, 0, b + 1.6, 0), soft = 1.6 / (b - a + 3.2);
@@ -128,60 +128,169 @@ export function createProps(scene) {
       for (let x = a - 1.6; x <= b + 1.61; x += 0.25) ctx.lineTo(x, visH(x) + rise * 0.92);
       for (let x = b + 1.6; x >= a - 1.61; x -= 0.25) ctx.lineTo(x, visH(x) - down * 0.9);
       ctx.closePath(); ctx.fillStyle = fade; ctx.fill();
-      for (const edge of [a, b]) {
-        const y0 = visH(edge), top = rise * 0.9, bottom = -down * 0.88, rows = 8, cell = (top - bottom) / rows, wide = 0.42, lean = BAY_LINE_LEAN;
-        for (let r = 0; r < rows; r++) for (let c = 0; c < 2; c++) {
-          const d = bottom + r * cell, x = edge - wide + c * wide;
-          ctx.beginPath(); ctx.moveTo(x + d * lean, y0 + d); ctx.lineTo(x + wide + d * lean, y0 + d); ctx.lineTo(x + wide + (d + cell) * lean, y0 + d + cell); ctx.lineTo(x + (d + cell) * lean, y0 + d + cell); ctx.closePath();
-          ctx.fillStyle = (r + c) % 2 ? 'rgba(24,22,16,0.62)' : 'rgba(250,244,226,0.72)'; ctx.fill();
-        }
-      }
     }
   }
-  // Superpower pickups: the kind's glossy orb with the upgrade's picture on it and a soft glow behind, built once per kind.
-  const powerBadges = {};
-  function powerBadge(kind) {
-    if (powerBadges[kind]) return powerBadges[kind];
-    const orb = scene.hud[`g2-orb-${kind}`], pic = scene.hud[`g2-icon-${kind}`], color = POWER_LOOK[kind].color;
-    if (!orb?.complete || !orb.naturalWidth || !pic?.complete || !pic.naturalWidth) return null;
-    const c = makeCanvas(256, 256), g = c.getContext('2d'), m = 128;
-    const glow = g.createRadialGradient(m, m, 70, m, m, m); glow.addColorStop(0, color); glow.addColorStop(1, color + '00');
-    g.fillStyle = glow; g.fillRect(0, 0, 256, 256);
-    g.drawImage(orb, 28, 28, 200, 200);
-    const fit = 124 / Math.max(pic.width, pic.height), w = pic.width * fit, h = pic.height * fit;
-    g.drawImage(pic, m - w / 2, m - h / 2, w, h);
-    return (powerBadges[kind] = c);
-  }
-  function powerups() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, now = performance.now();
-    for (const p of scene.sim.powerups) {
-      if (p.x < lo - 3 || p.x > hi + 3) continue;
-      const img = powerBadge(p.kind); if (!img) continue;
-      let size = POWERUP_SIZE_M, alpha = 1, rise = 0;
-      if (p.taken) {   // bursts upward as it is picked up
-        p.goneAt ??= now; const t = (now - p.goneAt) / 350; if (t >= 1) continue;
-        const burst = scene.hud['g2-burst'];
-        if (burst?.complete && burst.naturalWidth) { const b = size * (0.8 + t * 1.6), y0 = visH(p.x) + POWERUP_HEIGHT_M; ctx.save(); ctx.globalAlpha = 1 - t; ctx.translate(p.x - b / 2, y0 + b / 2); ctx.scale(1, -1); ctx.drawImage(burst, 0, 0, b, b); ctx.restore(); }
-        size *= 1 + t * 0.9; alpha = 1 - t; rise = t * 1.5;
-      } else p.goneAt = undefined;
-      const y = visH(p.x) + POWERUP_HEIGHT_M + rise + Math.sin(now / 320 + p.x) * 0.14;
-      ctx.save(); ctx.globalAlpha = alpha; ctx.translate(p.x - size / 2, y + size / 2); ctx.scale(1, -1); ctx.drawImage(img, 0, 0, size, size); ctx.restore();
+  // A highway's dashed centre line, painted with the bays so the road repainted around the tires gets it back
+  function highwayLines() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), mid = ((span?.far ?? 1.2) - (span?.near ?? 0.6)) / 2;
+    ctx.fillStyle = 'rgba(236,190,50,0.85)';
+    for (const h of scene.season.trail.highways ?? []) {
+      if (h.x1 < lo || h.x0 > hi) continue;
+      for (let x = h.x0 + Math.max(0, Math.floor((lo - h.x0) / HIGHWAY_DASH_EVERY_M)) * HIGHWAY_DASH_EVERY_M; x < Math.min(h.x1, hi); x += HIGHWAY_DASH_EVERY_M) ctx.fillRect(x, visH(x) + mid, HIGHWAY_DASH_M, 0.14);
     }
   }
+  // The start barrier, where the wall behind the start stands: a heavy steel road-closed barricade on the road's
+  // far side with two amber lamps. It is painted once into a canvas; only the lamps' slow glow is drawn live.
+  const BAR_PX = 200, BAR_W = 3.3, BAR_H = 2.5, BAR_SCALE = 1.4;
+  let barricadeArt = null;
+  document.fonts?.load(`800 100px ${SIGN_FONT}`).then(() => { barricadeArt = null; }).catch(() => {});
+  function paintBarricade() {
+    const P = BAR_PX, c = makeCanvas(BAR_W * P, BAR_H * P), g = c.getContext('2d'), W = c.width, H = c.height;
+    const X = m => m * P, Y = m => H - m * P, ink = '#17130f', rnd = n => hashRandom(n * 3.17 + 0.5);
+    const outline = (w = 0.022) => { g.lineWidth = w * P; g.strokeStyle = ink; g.lineJoin = 'round'; g.stroke(); };
+    const posts = [0.42, BAR_W - 0.42];
+    // concrete footings, chipped, with a dark contact line
+    for (const [i, px] of posts.entries()) {
+      const x0 = X(px - 0.36), x1 = X(px + 0.36), y0 = Y(0.38), y1 = Y(0);
+      g.beginPath(); g.moveTo(x0 + 10, y0); g.lineTo(x1 - 8, y0 + 2); g.lineTo(x1, y0 + 14); g.lineTo(x1 + 2, y1); g.lineTo(x0 - 2, y1); g.lineTo(x0, y0 + 12); g.closePath();
+      const cg = g.createLinearGradient(0, y0, 0, y1); cg.addColorStop(0, '#9a968b'); cg.addColorStop(0.55, '#77736a'); cg.addColorStop(1, '#4b4741'); g.fillStyle = cg; g.fill(); outline(0.02);
+      g.fillStyle = 'rgba(30,25,20,0.35)'; for (let k = 0; k < 22; k++) { const r = rnd(i * 50 + k); g.fillRect(x0 + rnd(i * 70 + k) * (x1 - x0), y0 + 14 + r * (y1 - y0 - 18), 2 + r * 4, 2 + r * 3); }
+      g.fillStyle = 'rgba(92,70,44,0.75)'; for (let k = 0; k < 9; k++) { const r = rnd(i * 90 + k); g.beginPath(); g.ellipse(x0 + rnd(i * 91 + k) * (x1 - x0), y1 - r * 18, 6 + r * 14, 3 + r * 6, 0, 0, 7); g.fill(); }
+    }
+    // steel I-beam posts with a lit edge and rust runs
+    for (const [i, px] of posts.entries()) {
+      const x0 = X(px - 0.085), x1 = X(px + 0.085), y0 = Y(2.02), y1 = Y(0.36);
+      g.beginPath(); g.rect(x0, y0, x1 - x0, y1 - y0);
+      const sg = g.createLinearGradient(x0, 0, x1, 0); sg.addColorStop(0, '#2b2e2f'); sg.addColorStop(0.28, '#6d7270'); sg.addColorStop(0.42, '#4a4f4f'); sg.addColorStop(1, '#232627'); g.fillStyle = sg; g.fill(); outline();
+      for (let k = 0; k < 6; k++) { const r = rnd(i * 30 + k), x = x0 + 4 + r * (x1 - x0 - 8); const rg = g.createLinearGradient(0, y0, 0, y1); rg.addColorStop(0, 'rgba(140,70,30,0)'); rg.addColorStop(0.4 + r * 0.4, 'rgba(140,70,30,0.55)'); rg.addColorStop(1, 'rgba(140,70,30,0)'); g.fillStyle = rg; g.fillRect(x, y0, 2 + r * 3, y1 - y0); }
+    }
+    // three thick planks, red and white diagonal reflective stripes, scuffed and mud splashed
+    for (const [j, top] of [1.86, 1.36, 0.86].entries()) {
+      const x0 = X(0.06), x1 = X(BAR_W - 0.06), y0 = Y(top), y1 = Y(top - 0.34), ph = y1 - y0;
+      g.save(); g.beginPath(); g.rect(x0, y0, x1 - x0, ph); g.clip();
+      g.fillStyle = '#e6dfcd'; g.fillRect(x0, y0, x1 - x0, ph);
+      g.fillStyle = '#b8291d'; for (let x = x0 - ph * 2 + (j % 2) * 22; x < x1 + ph; x += 88) { g.beginPath(); g.moveTo(x, y1); g.lineTo(x + 44, y1); g.lineTo(x + 44 + ph, y0); g.lineTo(x + ph, y0); g.closePath(); g.fill(); }
+      const sh = g.createLinearGradient(0, y0, 0, y1); sh.addColorStop(0, 'rgba(255,255,240,0.28)'); sh.addColorStop(0.18, 'rgba(255,255,240,0)'); sh.addColorStop(0.7, 'rgba(0,0,0,0.05)'); sh.addColorStop(1, 'rgba(0,0,0,0.38)'); g.fillStyle = sh; g.fillRect(x0, y0, x1 - x0, ph);
+      for (let k = 0; k < 60; k++) { const r = rnd(j * 300 + k); g.fillStyle = r > 0.6 ? 'rgba(60,45,30,0.45)' : 'rgba(30,24,18,0.3)'; g.fillRect(x0 + rnd(j * 310 + k) * (x1 - x0), y0 + rnd(j * 320 + k) * ph, 2 + r * 9, 1 + r * 3); }
+      const mud = g.createLinearGradient(0, y0, 0, y1); mud.addColorStop(0, 'rgba(86,62,38,0)'); mud.addColorStop(1, `rgba(86,62,38,${0.25 + (2 - j) * 0.2})`); g.fillStyle = mud; g.fillRect(x0, y0, x1 - x0, ph);
+      g.restore();
+      g.beginPath(); g.rect(x0, y0, x1 - x0, ph); outline();
+      // bolts where each plank crosses a post
+      for (const px of posts) for (const dy of [0.3, 0.7]) { g.beginPath(); g.arc(X(px), y0 + ph * dy, 0.024 * P, 0, 7); g.fillStyle = '#5c5f5d'; g.fill(); g.lineWidth = 2; g.strokeStyle = ink; g.stroke(); g.fillStyle = 'rgba(255,255,255,0.35)'; g.fillRect(X(px) - 2, y0 + ph * dy - 3, 2, 2); }
+    }
+    // the plate on top: black steel with an amber border
+    const pw = 1.5, px0 = X(BAR_W / 2 - pw / 2), py0 = Y(2.38), pww = X(pw), phh = 0.4 * P;
+    g.fillStyle = '#3b3e3d'; for (const dx of [0.3, pw - 0.3]) g.fillRect(px0 + X(dx) - 4, py0 + phh, 8, Y(1.86) - py0 - phh);
+    g.beginPath(); g.roundRect(px0, py0, pww, phh, 6); g.fillStyle = '#1b1c1b'; g.fill(); outline();
+    g.beginPath(); g.roundRect(px0 + 7, py0 + 7, pww - 14, phh - 14, 4); g.lineWidth = 5; g.strokeStyle = '#e0a51c'; g.stroke();
+    g.fillStyle = '#efe7d2'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    let fs = phh * 0.56; g.font = `800 ${fs}px ${SIGN_FONT}`; const tw = g.measureText('TRAIL START').width; if (tw > pww - 40) { fs *= (pww - 40) / tw; g.font = `800 ${fs}px ${SIGN_FONT}`; }
+    g.fillText('TRAIL START', px0 + pww / 2, py0 + phh / 2 + 2);
+    g.fillStyle = 'rgba(255,255,255,0.06)'; g.fillRect(px0 + 8, py0 + 8, pww - 16, phh * 0.3);
+    // lamp housings on top of the posts
+    for (const px of posts) {
+      const cx = X(px), cy = Y(2.13);
+      g.fillStyle = '#222524'; g.fillRect(cx - 0.07 * P, Y(2.04), 0.14 * P, 0.05 * P);
+      g.beginPath(); g.arc(cx, cy, 0.1 * P, 0, 7); g.fillStyle = '#2a2c2b'; g.fill(); outline();
+      g.beginPath(); g.arc(cx, cy, 0.075 * P, 0, 7); const lg = g.createRadialGradient(cx - 4, cy - 4, 1, cx, cy, 0.075 * P); lg.addColorStop(0, '#f7c75a'); lg.addColorStop(1, '#9a5a0c'); g.fillStyle = lg; g.fill();
+    }
+    return c;
+  }
+  function barricade() {
+    const bx = scene.sim.barrierX; if (bx == null) return;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), cx = bx - 0.25 - BAR_W * BAR_SCALE / 2; if (cx + BAR_W < lo || cx - BAR_W > hi) return;
+    barricadeArt ??= paintBarricade();
+    const { visH } = scene.sim, rise = (roadSpan(scene)?.far ?? 1.2) * 0.62, base = Math.min(visH(cx - BAR_W / 2), visH(cx), visH(cx + BAR_W / 2)) + rise - 0.06;
+    // a soft contact shadow under the footings so it sits on the road
+    ctx.save(); ctx.fillStyle = 'rgba(10,8,6,0.35)'; ctx.beginPath(); ctx.ellipse(cx, base + 0.02, BAR_W * BAR_SCALE * 0.55, 0.14, 0, 0, 7); ctx.fill();
+    ctx.translate(cx, base); ctx.scale(BAR_SCALE, -BAR_SCALE); ctx.drawImage(barricadeArt, -BAR_W / 2, -BAR_H, BAR_W, BAR_H); ctx.restore();
+    // the lamps blink slowly, one after the other
+    const t = performance.now() / 1000;
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    for (const [i, px] of [0.42, BAR_W - 0.42].entries()) {
+      const on = Math.max(0, Math.sin(t * 2.6 + i * Math.PI)) ** 2, lx = cx + (px - BAR_W / 2) * BAR_SCALE, ly = base + 2.13 * BAR_SCALE;
+      if (on < 0.02) continue;
+      const gl = ctx.createRadialGradient(lx, ly, 0, lx, ly, 0.75); gl.addColorStop(0, `rgba(255,190,70,${0.75 * on})`); gl.addColorStop(0.18, `rgba(255,150,40,${0.35 * on})`); gl.addColorStop(1, 'rgba(255,120,20,0)');
+      ctx.fillStyle = gl; ctx.fillRect(lx - 0.75, ly - 0.75, 1.5, 1.5);
+    }
+    ctx.restore();
+  }
+  function roadMarks() { stationBays(); highwayLines(); }
   function stations() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
     const img = scene.cache.img.fuelStation;
-    stationBays();
+    roadMarks();
     for (const st of scene.sim.terrain.stations) {
       const half = STATION_BAY_M / 2; if (st.x + half + 8 < lo || st.x - half - 8 > hi) continue;
-      const base = visH(st.x) + rise * 0.96;
-      if (img) { const w = 12, h = w * img.height / img.width; ctx.save(); ctx.translate(st.x - w / 2, base + h); ctx.scale(1, -1); ctx.drawImage(img, 0, 0, w, h); ctx.restore(); continue; }
-      ctx.fillStyle = '#3a4a3c'; for (const dx of [-3.4, 3.4]) ctx.fillRect(st.x + dx - 0.12, base, 0.24, 3);
-      ctx.fillStyle = '#e24a2c'; ctx.fillRect(st.x - 4.2, base + 3, 8.4, 0.55);
-      ctx.fillStyle = '#f2b705'; ctx.fillRect(st.x - 4.2, base + 2.9, 8.4, 0.12);
-      ctx.fillStyle = '#d9dfd6'; ctx.fillRect(st.x - 0.6, base, 1.2, 1.9);
-      ctx.fillStyle = '#e24a2c'; ctx.fillRect(st.x - 0.6, base + 1.5, 1.2, 0.4);
-      ctx.fillStyle = '#20282a'; ctx.fillRect(st.x - 0.38, base + 0.8, 0.76, 0.5);
+      // the building stands on the ground it is on: it leans with the slope across its width
+      const lean = Math.atan((visH(st.x + STATION_WIDTH_M / 2) - visH(st.x - STATION_WIDTH_M / 2)) / STATION_WIDTH_M);
+      ctx.save(); ctx.translate(st.x, visH(st.x) + rise * 0.96); ctx.rotate(lean);
+      if (img) { const w = STATION_WIDTH_M, h = w * img.height / img.width; ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -h, w, h); ctx.restore(); continue; }
+      const base = 0;
+      ctx.fillStyle = '#3a4a3c'; for (const dx of [-3.4, 3.4]) ctx.fillRect(dx - 0.12, base, 0.24, 3);
+      ctx.fillStyle = '#e24a2c'; ctx.fillRect(-4.2, base + 3, 8.4, 0.55);
+      ctx.fillStyle = '#f2b705'; ctx.fillRect(-4.2, base + 2.9, 8.4, 0.12);
+      ctx.fillStyle = '#d9dfd6'; ctx.fillRect(-0.6, base, 1.2, 1.9);
+      ctx.fillStyle = '#e24a2c'; ctx.fillRect(-0.6, base + 1.5, 1.2, 0.4);
+      ctx.fillStyle = '#20282a'; ctx.fillRect(-0.38, base + 0.8, 0.76, 0.5);
+      ctx.restore();
+    }
+  }
+  // Speed limit signs on the road's far edge: the blank sign with DAMAGE_START_KMH painted on its face, built once per size
+  // (and once more when the font arrives), since it is the same picture every time.
+  let signPainted = null;
+  document.fonts?.load(`800 100px ${SIGN_FONT}`).then(() => { signPainted = null; }).catch(() => {});
+  function paintedSign(img) {
+    if (signPainted?.img === img) return signPainted.canvas;
+    const entry = scene.season.art.speedSign, k = img.width / scene.images.speedSign.width, [fx, fy, r] = entry.face.map(v => v * k);
+    const canvas = makeCanvas(img.width, img.height), g = canvas.getContext('2d'), text = String(DAMAGE_START_KMH);
+    g.drawImage(img, 0, 0); g.fillStyle = '#15171a'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `800 ${r * 1.15}px ${SIGN_FONT}`;
+    const wide = g.measureText(text).width, fit = Math.min(1, r * 1.6 / wide);
+    g.font = `800 ${r * 1.15 * fit}px ${SIGN_FONT}`; g.fillText(text, fx, fy - r * 0.12);
+    g.font = `700 ${r * 0.26}px ${SIGN_FONT}`; g.fillText('km/h', fx, fy + r * 0.62);
+    signPainted = { img, canvas };
+    return canvas;
+  }
+  function speedSigns() {
+    const img = scene.cache.img.speedSign; if (!img) return;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = roadSpan(scene)?.far ?? 1.2;
+    const h = SPEED_SIGN_HEIGHT_M, w = h * img.width / img.height, sign = paintedSign(img);
+    for (const x of scene.sim.speedSigns) {
+      if (x + w < lo || x - w > hi) continue;
+      ctx.save(); ctx.translate(x, visH(x) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(sign, -w / 2, -h, w, h); ctx.restore();
+    }
+  }
+  // Roadside scenery (trail.scenery): fences, a shack, wrecks, towers and warning signs on the road's far edge, drawing only.
+  // Each piece's art says how tall it is, whether it leans with the ground (`lean`), and how far apart repeated sections stand (`repeatPx`).
+  function scenery() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = (roadSpan(scene)?.far ?? 1.2) * 0.96;
+    for (const item of scene.season.trail.scenery ?? []) {
+      const img = scene.cache.img[item.art], a = scene.season.art[item.art]; if (!img) continue;
+      const h = a.heightM, w = h * img.width / img.height, step = a.repeatPx ? a.repeatPx * h / (a.crop[3] - a.crop[1]) : 0;
+      for (let k = 0; k < (item.count ?? 1); k++) {
+        const x = item.x + k * step; if (x + w < lo || x - w > hi) continue;
+        ctx.save();
+        if (a.lean) { ctx.translate(x, visH(x) + rise); ctx.rotate(Math.atan((visH(x + w / 2) - visH(x - w / 2)) / w)); }
+        else ctx.translate(x, Math.min(visH(x - w / 2), visH(x), visH(x + w / 2)) + rise - 0.08);   // upright, sunk at its lowest ground so no side floats
+        ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -h, w, h); ctx.restore();
+      }
+    }
+  }
+  // Each highway's sign at its start, and its speed camera at its middle: a pole and a box, drawn until it has art of its own
+  function highwayProps() {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = roadSpan(scene)?.far ?? 1.2;
+    for (const h of scene.season.trail.highways ?? []) {
+      const img = scene.cache.img[h.sign], at = h.x0 + HIGHWAY_SIGN_WIDTH_M, w = HIGHWAY_SIGN_WIDTH_M;
+      if (img && at + w > lo && at - w < hi) { const ht = w * img.height / img.width; ctx.save(); ctx.translate(at, visH(at) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore(); }
+      const x = (h.x0 + h.x1) / 2; if (x < lo - 3 || x > hi + 3) continue;
+      ctx.save(); ctx.translate(x, visH(x) + rise * 0.96);
+      ctx.fillStyle = '#3c4044'; ctx.fillRect(-0.09, 0, 0.18, 3.5);
+      ctx.fillStyle = '#d8a51e'; ctx.fillRect(-0.55, 3.2, 1.1, 0.85);
+      ctx.fillStyle = '#23262a'; ctx.fillRect(-0.47, 3.28, 0.94, 0.69);
+      ctx.fillStyle = '#7fb6d6'; ctx.beginPath(); ctx.arc(-0.1, 3.62, 0.22, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#e8ecef'; ctx.beginPath(); ctx.arc(0.3, 3.75, 0.09, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
     }
   }
   function bark() {
@@ -231,9 +340,8 @@ export function createProps(scene) {
 
   return {
     drawHoles() { holes(); },
-    drawBehind() { drawList(back); stations(); rocks(); logsBehind(); },
-    drawPowerups: powerups,
-    stationBays,
+    drawBehind() { drawList(back); scenery(); stations(); speedSigns(); barricade(); highwayProps(); rocks(); logsBehind(); },
+    roadMarks,
     drawLogEnds() { holes(true); logEnds(); },
     drawFront() { drawList(front); },
   };

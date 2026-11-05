@@ -2,11 +2,11 @@
 // goes from wide to narrow: the seasons, the classes, then the class's trucks; previous and next buttons stand either side of the truck. A bar along the floor
 // shows the truck's numbers and upgrade levels and ends in Drive; the Upgrades card pops up with a row per tuning knob. Every car carries
 // its own load (part of its art and weight), so the pick is the job. Planned vehicles and seasons show locked. Each car can be tuned
-// (tuning.js): the run uses the tuned copy, and the settings are saved per car.
+// (tuning.js): the run uses the tuned copy, and the settings are saved per car. The Powers card picks one power at a time per car, kept until that car gets another.
 
 import { deriveSpecs } from '../../tools/lib/specs.js';
 import { wallet } from './wallet.js';
-import { KNOBS, upgradeCost, STEP, MAX_LEVEL, applyTuning, clampLevel, loadTuning, saveTuning, validLevels } from './tuning.js';
+import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, clampLevel, loadTuning, saveTuning, validLevels, loadPowers, savePowers } from './tuning.js';
 
 const $ = id => document.getElementById(id);
 // a car's whole weight on the road: empty, wheels and load
@@ -42,7 +42,8 @@ export function createGarage({ content, onSelect, onStart, onBuy }) {
   const tuning = loadTuning();
   // saved levels are trimmed to the four knobs when read
   const tuneOf = id => (tuning[id] = validLevels(playable.get(id) ?? car, tuning[id] ?? {}));
-  const tuned = () => applyTuning(car, tuning[car.id]);
+  const powers = loadPowers();
+  const tuned = () => withPower(applyTuning(car, tuning[car.id]), powers[car.id]);
   // all the screen art, for the style sheet
   for (const [id, uri] of Object.entries(content.hud)) document.documentElement.style.setProperty(`--hud-${id}`, `url("${uri}")`);
   const icon = id => $('classIcons').content.querySelector(`[data-icon="class-${id}"] svg`)?.cloneNode(true);
@@ -184,6 +185,25 @@ export function createGarage({ content, onSelect, onStart, onBuy }) {
   $('gLevels').addEventListener('click', () => { tuneOv.hidden = false; });
   $('tuneDone').addEventListener('click', () => { tuneOv.hidden = true; });
 
+  // powers: a row per power, and only one is on for this truck. It stays on until another is picked; tapping the one that is on turns it off.
+  function renderPowers() {
+    const box = $('powerList'); box.innerHTML = '';
+    for (const power of POWERS) {
+      const on = power.id === powers[car.id], b = el('button', 'power' + (on ? ' on' : ''));
+      const pic = el('i', 'tpic'); pic.append(gIcon(power.id));
+      const text = el('span', 'ptext'); text.append(el('b', null, power.label), el('small', null, power.what));
+      b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
+      b.setAttribute('aria-pressed', String(on));
+      b.addEventListener('click', () => { if (on) delete powers[car.id]; else powers[car.id] = power.id; savePowers(powers); renderPowers(); renderDetail(); });
+      box.append(b);
+    }
+    $('gPowerOn').textContent = POWERS.find(p => p.id === powers[car.id])?.label ?? 'None';
+    $('powersFor').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
+  }
+  const powersOv = $('powersOv');
+  $('gMenuPowers').addEventListener('click', () => { powersOv.hidden = false; });
+  $('powersDone').addEventListener('click', () => { powersOv.hidden = true; });
+
   // previous and next: through the chosen class's playable trucks, and round again
   function pick(next, back = false) { enterBack = back; car = next; cls = next.class; render(); }
   function step(d) {
@@ -203,7 +223,7 @@ export function createGarage({ content, onSelect, onStart, onBuy }) {
     $('gDust').append(d);
   }
 
-  function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); onSelect(car); }
+  function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); renderPowers(); onSelect(car); }
   render();
 
   $('startBtn').addEventListener('click', () => onStart({ car: tuned() }));

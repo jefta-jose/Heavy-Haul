@@ -14,6 +14,7 @@ import { COINS_PER_CRUSH } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
+import { createSpeedTrap } from './game/speed-trap.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
@@ -48,7 +49,6 @@ const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
-    else if (e.type === 'power') { haptics.hit(0.4); }
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') session.earn(COINS_PER_CRUSH, true); }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
@@ -153,12 +153,13 @@ function handbrake() {
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
   hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
+const trap = createSpeedTrap({ sim, trail: content.season.trail, onCapture: () => haptics.hit(0.6) });
 const input = createInput(hud.els, {
-  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
 
 function newRun() {
-  sim.init(sim.trail.start, selection); session.reset(); hud.resetTrip();
+  sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
   renderer.warmVehicles(['breakdown'].map(serviceFor));   // so a called truck appears at once
   for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
   drive(sim.main);
@@ -170,7 +171,7 @@ function newRun() {
 function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
 function goRun() { music.play('drive'); session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
-function openGarage() { renderer.clearTracks(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
+function openGarage() { trap.reset(); renderer.clearTracks(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -276,6 +277,7 @@ function frame(now) {
     sim.ctl.brake = Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
+    trap.update(dt);
     acc += dt; let n = 0;
     while (acc >= DT && n < 8) { sim.step(DT); acc -= DT; n++; }
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
@@ -293,7 +295,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
+window.__haul = { trap, music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

@@ -1,0 +1,251 @@
+{
+  "id": "ship-mover-15",
+  "name": "Ship Mover",
+  "number": 15,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Forest green prime mover carrying a space telescope",
+  "description": "A forest green heavy-haul prime mover with a roll cage, beacons and giant mining tires, carrying a silver space telescope tube in a frame.",
+  "stats": {
+    "power": 78,
+    "speed": 82,
+    "grip": 92,
+    "capacity": 75,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png"
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png"
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      944,
+      746
+    ],
+    "pixelsPerMetre": 105,
+    "axles": [
+      6.086,
+      2.286,
+      0.067,
+      -3.981,
+      -6.086
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1583,
+        746,
+        107
+      ],
+      [
+        1184,
+        746,
+        107
+      ],
+      [
+        951,
+        746,
+        107
+      ],
+      [
+        526,
+        746,
+        107
+      ],
+      [
+        305,
+        746,
+        107
+      ]
+    ],
+    "nose": 8.571,
+    "exhaust": [
+      2.067,
+      3.705
+    ],
+    "winch": [
+      8.471,
+      0.7
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 70000,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.305,
+      4.829
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -7.733,
+        8.571,
+        1,
+        1.5,
+        1
+      ],
+      [
+        -7.733,
+        -5.404,
+        1.5,
+        4.095,
+        0.4
+      ],
+      [
+        -5.404,
+        -3.075,
+        1.5,
+        4.086,
+        0.4
+      ],
+      [
+        -3.075,
+        -0.746,
+        1.5,
+        4.086,
+        0.4
+      ],
+      [
+        -0.746,
+        1.584,
+        1.5,
+        4.133,
+        0.4
+      ],
+      [
+        1.584,
+        3.913,
+        1.5,
+        4.343,
+        0.4
+      ],
+      [
+        3.913,
+        6.242,
+        1.5,
+        4.21,
+        0.4
+      ],
+      [
+        6.242,
+        8.571,
+        1.5,
+        2.276,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 11,
+      "centreOfMass": [
+        -2.933,
+        3.114
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.782,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 322,
+    "exhaustBrake": 428,
+    "gears": {
+      "H": 11.409,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 396900,
+    "openDiffGrip": 1,
+    "fuelLitres": 1631
+  },
+  "load": {
+    "name": "Space telescope",
+    "massT": 11
+  }
+}

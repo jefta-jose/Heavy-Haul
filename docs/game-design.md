@@ -54,7 +54,7 @@ they do not change the physics.
 
 Fuel burns over time, not distance: a full tank lasts about 340 seconds at full gas, less burn at idle, none with the engine off. Being stuck drains the tank. A better engine and the card's `stats.fuelEfficiency` make it last longer.
 
-**Fuel stations** are the only way to refill. There are five on the swamp trail, marked on the progress bar, with the distance to the next one always on screen. Stop in a station's marked bay and the truck refuels and repairs together, over a few seconds; leave early and you keep what you got. A towed truck counts too, and its engine restarts by itself. All the numbers are in `src/game-config.js`.
+**Fuel stations** are the only way to refill. There are four on the swamp trail, evenly spaced 812 m apart on firm ground, marked on the progress bar, with the distance to the next one always on screen. Stop in a station's marked bay and the truck refuels and repairs together, over a few seconds; leave early and you keep what you got. A towed truck counts too, and its engine restarts by itself. All the numbers are in `src/game-config.js`.
 
 ## Service trucks
 
@@ -150,13 +150,35 @@ Hitting a solid obstacle at speed damages the truck: a red glow, a damage bar, c
 
 The player has gas, brake, 4×4 and DIFF. Gears shift themselves: the short gear from rest, the long gear once it runs out of revs. Holding the brake at a stop starts reversing. Each class has a minimum pull, so no truck feels dead. All the numbers are in `src/game-config.js`.
 
+## Speed limit signs
+
+A sign stands at the first of every group of things that can hurt a truck: logs, pipes, hard rocks and solid props. It shows the speed above which a hit does damage, painted on from `DAMAGE_START_KMH` in `src/game-config.js`, so it always matches the real limit. The game works out where they go from the obstacles themselves, so a new map needs no sign data.
+
+## Highway
+
+Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed, and nitro: long, smooth waves instead of bumps, so the truck rises and dips gradually, a dashed centre line, a sign at the start, and nothing on it but stones that any truck breaks on touch, for coins and no damage.
+
+A speed camera stands at the 125 m mark of each one. As the truck passes, a fiery red card shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
+
+## Roadside scenery
+
+Fences, a stilt shack, rusted pickups, water towers and alligator warning signs stand along the road's far edge (`trail.scenery` in `season.json`), so the swamp feels lived in and abandoned. They are drawing only and trucks never touch them. The towers are rare landmarks, the shacks and pickups come now and then, a gator sign stands before every deep bog, and fences run along the open stretches. None stands on a station, a highway sign or camera, or a speed limit sign.
+
 ## Coins
 
 Coins add themselves: 0.5 per metre of new ground, 5 per thing crushed, 50 per deep bog cleared, plus the delivery pay at the depot. They are kept when a run ends early. They buy upgrades in the garage: four steps of 400, 800, 1,400 and 2,400, costing more on bigger classes, and selling a step refunds it. All the numbers are in `src/game-config.js`.
 
-## Superpowers
+## Powers
 
-Pickups on the trail (`trail.powerups` in `season.json`) give 12 seconds of an upgrade at full, or about double if that upgrade is already full. They sit where they are useful: Engine before steep climbs, Suspension before obstacle runs, Speed on open road, Grip before deep bogs. While any power is running, hits do no damage and do not throw the truck, so a power never gets you hurt. A violet glow around the truck shows this, and it flickers for the last 3 seconds. Several can run at once, a second of the same kind fills the timer back up, and a towed truck picks nothing up. Each pickup works once per run. Only the main truck uses them. The numbers are in `src/game-config.js`.
+Powers do what upgrades can't. The garage's Powers card holds them, and each truck has its own: the player chooses one at a time for the truck in the garage, free of charge, and it stays on for that truck, run after run, until they choose another; tapping the one that is on turns it off. The choice is saved per truck in the browser. Only the main truck uses one, and a chip at the top right of the road says which.
+
+Every power runs for a while and then recharges, and starts ready on every run.
+
+- **Invincible:** the power button (S on a keyboard) stops all hit damage and the throw from a hit for 10 seconds, with a violet glow around the truck that flickers for the last 3. It then recharges for 30 seconds. It does not stop a rollover.
+- **Instant brakes:** braking on the ground faster than `DAMAGE_START_KMH` (20 km/h) starts it, so ordinary slow braking never uses it up: for 1 second the pedal takes the truck's speed straight off, whatever it weighs. It then recharges for 15 seconds, with normal brakes until it is ready.
+- **Nitro:** the power button gives 5 seconds of push past the truck's own top speed, up to 1.6 times it, whatever gear it is in, with a blue border and speed lines. It then recharges for 30 seconds. It gives no protection, so hitting something on nitro hurts a lot.
+
+The numbers are in `src/game-config.js`. Nitro adds no sound, as a turbo sound was tried and rejected.
 
 ## Garage, screens and music
 
