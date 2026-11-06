@@ -7,7 +7,9 @@ import { MUSIC_TRACKS, MUSIC_FADE_S } from '../game-config.js';
 export function createMusic(uris = {}, volumes) {
   let ac = null, out = null, wanted = null, now = null;
 
+  const tracks = new Set();
   function dispose(track) {
+    tracks.delete(track);
     track.audio.pause();
     track.audio.removeAttribute('src'); track.audio.load();
     track.source.disconnect(); track.gain.disconnect();
@@ -32,7 +34,7 @@ export function createMusic(uris = {}, volumes) {
     const source = ac.createMediaElementSource(audio), gain = ac.createGain();
     gain.gain.value = 0; gain.gain.setTargetAtTime(spec.gain, ac.currentTime, MUSIC_FADE_S / 3);
     source.connect(gain); gain.connect(out);
-    now = { name, audio, source, gain }; playMedia(now);
+    now = { name, audio, source, gain }; tracks.add(now); playMedia(now);
   }
   const api = {
     apply() { if (ac) out.gain.setTargetAtTime(volumes.muted ? 0 : volumes.master * (volumes.music ?? 0.5), ac.currentTime, 0.05); },
@@ -49,7 +51,7 @@ export function createMusic(uris = {}, volumes) {
     },
     get status() { return { wanted, playing: now?.name ?? null, state: ac?.state ?? 'waiting for a tap' }; },
   };
-  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) { now?.audio.pause(); ac.suspend(); } else { ac.resume(); if (now) playMedia(now); } });
+  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) { for (const track of tracks) track.audio.pause(); ac.suspend(); } else { ac.resume(); if (now) playMedia(now); } });
   for (const type of ['pointerdown', 'keydown']) document.addEventListener(type, api.unlock, { capture: true });
   return api;
 }

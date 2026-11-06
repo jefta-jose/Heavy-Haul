@@ -271,3 +271,44 @@ test('revs and load move the engine smoothly between its layers, always in tune'
     }
   }
 });
+
+test('music streams, crossfades, follows volume and pauses its media in the background', async t => {
+  const { createMusic } = await import('../src/audio/music.js');
+  const { MUSIC_TRACKS, MUSIC_FADE_S } = await import('../src/game-config.js');
+  const listeners = {}, tracks = [], contexts = [], timers = [];
+  const node = () => ({ disconnected: false, connect() {}, disconnect() { this.disconnected = true; }, gain: { value: 0, setTargetAtTime(v) { this.value = v; } } });
+  class Context {
+    constructor() { this.state = 'running'; this.currentTime = 0; this.destination = {}; this.gains = []; contexts.push(this); }
+    createGain() { const n = node(); this.gains.push(n); return n; }
+    createMediaElementSource(audio) { assert(tracks.includes(audio)); return node(); }
+    decodeAudioData() { assert.fail('music must stream rather than decode entire tracks'); }
+    resume() { this.state = 'running'; }
+    suspend() { this.state = 'suspended'; }
+  }
+  class Media {
+    constructor(src) { this.src = src; this.paused = true; tracks.push(this); }
+    play() { this.paused = false; return Promise.resolve(); }
+    pause() { this.paused = true; }
+    removeAttribute() { this.src = ''; }
+    load() {}
+  }
+  const doc = { hidden: false, addEventListener(type, fn) { listeners[type] = fn; } };
+  const originals = Object.fromEntries(['window', 'document', 'Audio'].map(k => [k, Object.getOwnPropertyDescriptor(globalThis, k)]));
+  Object.assign(globalThis, { window: { AudioContext: Context }, document: doc, Audio: Media });
+  t.mock.method(globalThis, 'setTimeout', (fn, ms) => { timers.push({ fn, ms }); });
+  try {
+    const volumes = { master: 0.8, music: 0.5 }, music = createMusic({ garage: '/garage.mp3', drive: '/drive.mp3' }, volumes);
+    music.play('garage'); assert.equal(tracks.length, 0, 'waits for user input');
+    music.unlock(); assert.equal(tracks.length, 1); assert(tracks[0].loop && !tracks[0].paused);
+    const ac = contexts[0]; assert.equal(ac.gains[0].gain.value, 0.4); assert.equal(ac.gains[1].gain.value, MUSIC_TRACKS.garage.gain);
+    music.play('garage'); assert.equal(tracks.length, 1, 'same track is not restarted');
+    music.play('drive'); assert.equal(tracks.length, 2); assert.equal(ac.gains[1].gain.value, 0);
+    assert.equal(timers[0].ms, MUSIC_FADE_S * 2000); assert.equal(ac.gains[2].gain.value, MUSIC_TRACKS.drive.gain);
+    doc.hidden = true; listeners.visibilitychange(); assert.equal(ac.state, 'suspended'); assert(tracks.every(a => a.paused));
+    doc.hidden = false; listeners.visibilitychange(); assert.equal(ac.state, 'running'); assert(!tracks[1].paused);
+    timers[0].fn(); assert.equal(tracks[0].src, ''); assert(ac.gains[1].disconnected);
+    volumes.muted = true; music.apply(); assert.equal(ac.gains[0].gain.value, 0);
+  } finally {
+    for (const [k, value] of Object.entries(originals)) { if (value) Object.defineProperty(globalThis, k, value); else delete globalThis[k]; }
+  }
+});
