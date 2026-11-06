@@ -6,7 +6,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'damageFill', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -179,12 +179,20 @@ export function createHud({ sim, season }) {
     }
   }
 
-  // the chosen mission under the power chip: its name and how it is going; null hides it
-  let missionText = null;
+  // the chosen mission under the power chip: its name, and how it is going when there is something to count;
+  // null hides it. A broken one glows red, then slides out to the right (failMission).
+  let missionText = null, missionOutT = null;
   function showMission(t) {
-    const box = document.getElementById('missionChip'), text = t ? `<b>${t.mission.title}:</b> ${t.shown}` : null;
+    const box = document.getElementById('missionChip'), text = t ? (t.shown ? `<b>${t.mission.title}:</b> ${t.shown}` : `<b>${t.mission.title}</b>`) : null;
+    if (!t) { clearTimeout(missionOutT); box.classList.remove('failed', 'out'); }
     if (text === missionText) return;
     missionText = text; box.hidden = !text; if (text) box.querySelector('span').innerHTML = text;
+  }
+  function failMission(t) {
+    const box = document.getElementById('missionChip');
+    showMission({ ...t, shown: '' }); box.classList.add('failed');
+    clearTimeout(missionOutT);
+    missionOutT = setTimeout(() => { box.classList.add('out'); missionOutT = setTimeout(() => { box.hidden = true; box.classList.remove('failed', 'out'); missionText = null; }, 700); }, 1400);
   }
 
   function update(dt, { coins, run }) {
@@ -193,6 +201,7 @@ export function createHud({ sim, season }) {
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; const step = hudT; hudT = 0;
     const mx = sim.main.parts.truck.getPosition().x;
+    els.damageFill.style.width = `${sim.main.st.damage ?? 0}%`;
     // the depot sign: kilometres to two places, metres for the last kilometre, green for the last 300 m
     const left = Math.max(0, trail.depot - mx), far = left >= 1000;
     els.distTxt.textContent = far ? (left / 1000).toFixed(2) : String(Math.round(left));
@@ -255,7 +264,7 @@ export function createHud({ sim, season }) {
 
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
-    showCalled, coinBonus, showMission,
+    showCalled, coinBonus, showMission, failMission,
     resetTrip() {},
     // what the lean HUD leaves out, for the pause menu: the truck, its cargo, fuel and the next station
     pauseSpec() {

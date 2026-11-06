@@ -3590,10 +3590,6 @@ dl.spec dd {
     color: var(--ink-dim);
   }
 
-  #surfChip:not(.warn):not(.bog):not(.bridge) {
-    display: none;
-  }
-
   #drivenTxt {
     display: none;
   }
@@ -4018,4 +4014,43 @@ dl.spec dd {
     transform: none;
     justify-self: center;
   }
+}
+
+/* a broken mission: the chip glows red, then slides out to the right */
+.mission {
+  transition: transform .6s cubic-bezier(.5, 0, .75, 0), opacity .6s, border-color .3s, box-shadow .3s;
+}
+
+.mission.failed {
+  border-color: #ff5a48;
+  border-left-color: #ff3b2f;
+  background: rgba(58, 14, 12, .92);
+  box-shadow: 0 0 18px rgba(255, 59, 47, .65), inset 0 0 10px rgba(255, 59, 47, .25);
+}
+
+.mission.failed span,
+.mission.failed span b {
+  color: #ffb3aa;
+}
+
+.mission.out {
+  transform: translateX(130%);
+  opacity: 0;
+}
+
+/* the damage bar, back under the surface plate (2026-11-06): the same bar as before, on the same steel as the plates */
+.stack>.dmgrow {
+  grid-template-columns: 18px auto 96px;
+  gap: 8px;
+  padding: 5px 12px 5px 11px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 5px solid var(--danger);
+  background: linear-gradient(#1d242b, #0e1216);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.4);
+  font-family: var(--display);
+}
+
+.stack>.dmgrow b {
+  font-size: 13px;
 }

@@ -6,12 +6,13 @@ import { classXp } from './progress.js';
 
 const KEY = 'hh_missions';
 // how each kind is judged, from the run so far: { cls, time, helped, maxDamage, cameraKmh, crushes, bogs, delivered }.
-// `done` says it is achieved; `shown` is the progress for the chip on the road.
+// `done` says it is achieved; `failed` that this run can no longer do it (the chip glows red and slides away);
+// `shown` is the progress for the chip on the road, '' for none (the chip then just names the mission).
 const KINDS = {
-  classDelivery: { done: (m, r) => r.delivered && r.cls === m.class, shown: (m, r) => (r.cls === m.class ? 'deliver to the depot' : 'wrong class of truck') },
-  timed: { done: (m, r) => r.delivered && r.time < m.minutes * 60, shown: (m, r) => `${clock(r.time)} / ${m.minutes}:00` },
-  noHelp: { done: (m, r) => r.delivered && !r.helped, shown: (m, r) => (r.helped ? 'help was called' : 'no help so far') },
-  clean: { done: (m, r) => r.delivered && r.maxDamage <= m.maxDamage, shown: (m, r) => `worst damage ${Math.round(r.maxDamage)}% / ${m.maxDamage}%` },
+  classDelivery: { done: (m, r) => r.delivered && r.cls === m.class, failed: (m, r) => r.cls !== m.class, shown: () => '' },
+  timed: { done: (m, r) => r.delivered && r.time < m.minutes * 60, failed: (m, r) => r.time >= m.minutes * 60, shown: (m, r) => `${clock(r.time)} / ${m.minutes}:00` },
+  noHelp: { done: (m, r) => r.delivered && !r.helped, failed: (m, r) => r.helped, shown: () => '' },
+  clean: { done: (m, r) => r.delivered && r.maxDamage <= m.maxDamage, failed: (m, r) => r.maxDamage > m.maxDamage, shown: (m, r) => `worst damage ${Math.round(r.maxDamage)}% / ${m.maxDamage}%` },
   speed: { done: (m, r) => r.cameraKmh >= m.kmh, shown: (m, r) => (r.cameraKmh ? `best ${r.cameraKmh} / ${m.kmh} km/h` : `${m.kmh} km/h at a camera`) },
   crusher: { done: (m, r) => r.crushes >= m.count, shown: (m, r) => `${Math.min(r.crushes, m.count)} / ${m.count}` },
   bogs: { done: (m, r) => r.bogs >= m.count, shown: (m, r) => `${Math.min(r.bogs, m.count)} / ${m.count}` },
@@ -48,8 +49,10 @@ export function createMissions({ missions = [], offerCount = 4 } = {}, classes =
     track(run) {
       const m = this.active; if (!m) return null;
       if (!run.delivered && KINDS[m.type].done(m, run)) return { done: finish(m, run.cls) };
-      return { mission: m, shown: KINDS[m.type].shown(m, run) };
+      return { mission: m, shown: KINDS[m.type].shown(m, run), failed: !!KINDS[m.type].failed?.(m, run) };
     },
+    // whether this run has already broken the chosen mission (checked even while you drive a service truck)
+    failed(run) { const m = this.active; return !!(m && KINDS[m.type].failed?.(m, run)); },
     // at the depot: counts the class as driven, and finishes the mission if this run did it
     deliver(run) {
       state.driven[run.cls] = (state.driven[run.cls] ?? 0) + 1;

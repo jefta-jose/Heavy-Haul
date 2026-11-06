@@ -112,10 +112,11 @@ engine stalls it; refuelling at a station starts it again. There are no ENGINE o
 ## Driving HUD
 
 Kept lean on the user's direction (2026-11-06): the distance to the depot at the top (no trail map),
-coins and the service, pause and fullscreen buttons at the top right, the surface chip, the power,
+coins and the service, pause and fullscreen buttons at the top right, the surface plate with the damage bar under it, the power,
 mission and top-speed chips, and three dials between the pedals: revs with the gear, speed, and a
 smaller fuel dial whose needle slides to the tank level. The truck's name, cargo, fuel, damage and the
-next station are in the pause menu. The power button sits beside the brake pedal, WINCH, AWD and DIFF
+next station are also in the pause menu. A mission the run has broken (help called for On your own, too slow,
+too much damage, the wrong class) glows red and slides out; it stays chosen for the next run. The power button sits beside the brake pedal, WINCH, AWD and DIFF
 beside the gas.
 
 The sound panel (pause menu or garage) sets master, engines, effects and ambience volume, mutes
@@ -151,7 +152,7 @@ No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits
 
 ## Damage
 
-Hitting a solid obstacle at speed damages the truck: a red glow, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+Hitting a solid obstacle at speed damages the truck: a red glow, the damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
 
 ## Controls
 

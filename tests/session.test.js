@@ -7,7 +7,7 @@ function setup() {
   const main = { car: { class: 'scout', name: 'Scout' }, st: { damage: 0, fuel: 100 }, parts: { truck: { getPosition: () => ({ x }), getAngle: () => 0 } } };
   const service = { role: 'service', parts: main.parts };
   const sim = { main, active: main, vehicles: [main, service], st: { speed: 0 }, ctl: {}, surfAt: () => 'dirt' };
-  const hud = { toastActive: true, coinBonus() {}, toast() {}, showMission() {}, showMessage() {}, nudge() {}, setCardVisible() {} };
+  const hud = { toastActive: true, coinBonus() {}, toast() {}, showMission() {}, failMission() {}, showMessage() {}, nudge() {}, setCardVisible() {} };
   const season = { name: 'Test', trail: { start: 0, depot: 100, finishBonus: 100, heavyMud: [20], checkpoints: [] } };
   const progress = { addXp(n) { xp += n; return []; }, save() {} };
   const missions = { track() { tracked++; }, deliver() { delivered++; } };

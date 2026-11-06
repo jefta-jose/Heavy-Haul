@@ -11,7 +11,7 @@ const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 
 export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp }) {
   const trail = season.trail;
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, missionDone: null, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -102,7 +102,11 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if ((run.saveT += dt) > 2) { run.saveT = 0; wallet.save(); progress?.save(); }
     if (run.time > 6) hud.setCardVisible(false);
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);
-    if (missions && !run.missionDone && canProgress()) { const t = missions.track(missionRun()); if (t?.done) missionDone(t.done); else hud.showMission(t); }
+    // a mission this run has broken glows red and slides away; it stays chosen for the next run
+    if (missions && !run.missionDone && !run.missionFailed) {
+      if (missions.failed?.(missionRun())) { run.missionFailed = true; hud.failMission({ mission: missions.active }); }
+      else if (canProgress()) { const t = missions.track(missionRun()); if (t?.done) missionDone(t.done); else hud.showMission(t); }
+    }
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first
