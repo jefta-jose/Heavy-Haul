@@ -31,6 +31,7 @@ for spec in sorted(p for g in SPECS for p in ROOT.glob(g)):
 hud = ROOT / 'assets/hud/hud.json'
 for item in ([] if args.cars or args.art else json.loads(hud.read_text()).get('art', [])):
     jobs.append((hud, item['id'], {'source': item['file'], 'file': f"art/{item['id']}.webp", **{k: item[k] for k in ('width', 'quality', 'crop') if k in item}}))
+source_sizes = {}
 for spec, key, entry in jobs:
     folder = spec.parent
     src, dst = folder / entry['source'], folder / entry['file']
@@ -49,7 +50,17 @@ for spec, key, entry in jobs:
             r, g, b, a = image.convert('RGBA').split()
             image = Image.merge('RGBA', (r, g, b, a.point(lambda v: 0 if v < entry['alphaFloor'] else v)))
         if 'width' in entry and image.width > entry['width']:
+            if spec.name == 'car.json' and key == 'wheel':
+                source_sizes[spec] = list(image.size)
             image = image.resize((entry['width'], round(image.height * entry['width'] / image.width)), Image.LANCZOS)
         image.save(tmp, 'WEBP', quality=entry.get('quality', 94), method=args.method)
     tmp.replace(dst)
     print(f'encoded {dst.relative_to(ROOT)}')
+
+# Pivots and radii remain in the original registered canvas's pixels.
+for spec, size in source_sizes.items():
+    original = spec.read_text()
+    data = json.loads(original)
+    if data['art']['wheel'].get('sourceSize') != size:
+        data['art']['wheel']['sourceSize'] = size
+        spec.write_text(json.dumps(data, indent=2, ensure_ascii='\\u' in original) + '\n')

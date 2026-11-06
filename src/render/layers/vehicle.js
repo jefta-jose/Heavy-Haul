@@ -11,7 +11,7 @@ const HIT_BURST_S = 0.26;
 export function createVehicleLayer(scene) {
   const { view } = scene;
   const caches = new Map();
-  const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri)); return caches.get(item.id); };
+  const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri, item.art)); return caches.get(item.id); };
   let flash = null, hitBurst = 0;
   // each vehicle's drawn body lift: it eases toward what its wheels ask for, once a frame. A new run or respawn builds new parts, so it starts level
   const lifts = new WeakMap();
@@ -30,7 +30,7 @@ export function createVehicleLayer(scene) {
     ctx.drawImage(src, -rig.bodyOrigin[0] * k, -rig.bodyOrigin[1] * k, A.width * k, A.height * k); ctx.restore();
   }
   function drawWheel(rig, C, w, src, far = false, dx = 0, dy = 0, i = 0) {
-    const { ctx } = view, p = w.getPosition(), s = wheelRadius(rig, i) / rig.wheelArtRadius * (far ? 0.95 : 1), img = C.images.wheel;
+    const { ctx } = view, p = w.getPosition(), s = wheelRadius(rig, i) / rig.wheelArtRadius * (far ? 0.95 : 1), img = C.wheelSize;
     ctx.save(); ctx.translate(p.x + dx + (far ? rig.farWheelOffset[0] : 0), p.y + dy + (far ? rig.farWheelOffset[1] : 0)); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, img.width * s, img.height * s); ctx.restore();
   }
@@ -42,7 +42,7 @@ export function createVehicleLayer(scene) {
     return null;
   }
   function drawGlow(v, { color, pale, strength }) {
-    const C = rigCache(v.car), rig = v.car.rig, { ctx } = view, { truck, wheels } = v.parts, A = C.images.body, W = C.images.wheel, k = 1 / rig.pixelsPerMetre;
+    const C = rigCache(v.car), rig = v.car.rig, { ctx } = view, { truck, wheels } = v.parts, A = C.images.body, W = C.wheelSize, k = 1 / rig.pixelsPerMetre;
     const artRadius = i => wheelRadius(rig, i) / rig.wheelArtRadius;
     const halo = C.haloOf(color, pale, A.width * k / C.body.width, W.width * artRadius(0) / C.wheel.width);
     const put = (h, src, x, y, w, ht) => { const px = h.pad * w / src.width, py = h.pad * ht / src.height; ctx.drawImage(h.canvas, x - px, y - py, w + px * 2, ht + py * 2); };

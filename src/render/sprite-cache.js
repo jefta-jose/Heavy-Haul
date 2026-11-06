@@ -89,14 +89,16 @@ export function createSceneryCache(scene) {
 
 // A vehicle (its load drawn in): body,
 // near and pre-darkened far wheel, and solid outlines for the AWD / DIFF flash.
-export function createRigCache(view, rig, sources) {
+export function createRigCache(view, rig, sources, art = {}) {
   const loader = loadImages(sources);
   const C = { key: '', outline: {}, halos: {}, images: loader.images, ready: loader.ready, loaded: loader.allLoaded };
   C.prepare = () => {
     const key = zoomKey(view); if (C.key === key || !loader.allLoaded()) return; C.key = key;
     const px = view.ppm * view.DPR, A = loader.images, kb = Math.min(1, px / rig.pixelsPerMetre * 1.1);
     C.body = scaled(A.body, kb);
-    C.wheel = scaled(A.wheel, Math.min(1, rig.radius * Math.max(1, ...(rig.wheelScale ?? [])) / rig.wheelArtRadius * px * 1.1));
+    const [wheelWidth, wheelHeight] = art.wheel?.sourceSize ?? [A.wheel.width, A.wheel.height];
+    C.wheelSize = { width: wheelWidth, height: wheelHeight };
+    C.wheel = scaled(A.wheel, Math.min(1, rig.radius * Math.max(1, ...(rig.wheelScale ?? [])) / rig.wheelArtRadius * px * 1.1 * wheelWidth / A.wheel.width));
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);
     const f = C.wheelFar.getContext('2d'); f.drawImage(C.wheel, 0, 0); f.globalCompositeOperation = 'source-atop'; f.fillStyle = 'rgba(10,12,8,0.4)'; f.fillRect(0, 0, C.wheelFar.width, C.wheelFar.height);

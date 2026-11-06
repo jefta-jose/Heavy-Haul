@@ -28,7 +28,12 @@
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v2.png"
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1600,
+        1600
+      ]
     }
   },
   "rig": {
