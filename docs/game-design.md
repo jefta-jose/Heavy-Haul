@@ -148,7 +148,9 @@ Every map follows Blackwater Swamp: a simple, living background, a thick road th
 
 ## Truck sizes
 
-No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits them all. The heavy class has no trucks in the game right now: its art, the Ice Breaker's and ten highway trucks' were deleted on 2026-11-04, and they will be redrawn within that cap. Their wheels have to make sense for the truck and load (the hard rule in `AGENTS.md`).
+No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits them all. All 105
+roster trucks are playable, including the redrawn heavy class, Ice Breaker and highway trucks.
+Their wheels must suit the truck and load (the hard rule in `AGENTS.md`).
 
 ## Damage
 

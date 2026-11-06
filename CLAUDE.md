@@ -170,8 +170,9 @@ Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 
 **Size cap (2026-11-04): nothing is longer than 16.8 m, load included.** Obstacles are one size for every truck, so a longer rig would need a higher zoom and the road would look like a model.
-The cap is the top-level `maxLengthM` in `cars.json`, and `npm test` enforces it. The heavy class's art and registrations were deleted on
-2026-11-04: its 20 cars and 2 service trucks are planned again, to be redrawn within the cap, and so are the Ice Breaker and ten highway trucks rejected for their wheels or bodies (each README says why). Do not add per-truck world scaling.
+The cap is the top-level `maxLengthM` in `cars.json`, and `npm test` enforces it. All 105 roster trucks
+(100 cars and five breakdown trucks), including the redrawn heavy class, Ice Breaker and highway
+trucks, are playable. Keep their accepted art and registrations. Do not add per-truck world scaling.
 
 ## Hook up a season
 

@@ -37,6 +37,6 @@ Desktop.ini
 .vscode/
 .idea/
 
-# Never commit sogning keystores
+# Never commit signing keystores
 *.keystore
 *.jks
