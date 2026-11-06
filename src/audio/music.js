@@ -1,33 +1,38 @@
 // Background music: one looping track at a time, garage or road. It has its own audio context, so it keeps playing
-// while the engines and effects are suspended in the garage. A track is decoded when first asked for and dropped
-// when the other takes over, because two minutes of decoded sound is large. Each file is a whole number of beats
+// while the engines and effects are suspended in the garage. Media elements stream compressed tracks
+// without retaining a whole decoded song in Web Audio. Each file is a whole number of beats
 // long, so it loops on the beat (MUSIC_TRACKS in game-config.js).
 import { MUSIC_TRACKS, MUSIC_FADE_S } from '../game-config.js';
 
 export function createMusic(uris = {}, volumes) {
-  let ac = null, out = null, wanted = null, now = null, ticket = 0;
+  let ac = null, out = null, wanted = null, now = null;
 
-  async function decode(uri) {
-    const raw = uri.startsWith('data:') ? Uint8Array.from(atob(uri.split(',')[1]), c => c.charCodeAt(0)).buffer : await (await fetch(uri)).arrayBuffer();
-    return ac.decodeAudioData(raw);
+  function dispose(track) {
+    track.audio.pause();
+    track.audio.removeAttribute('src'); track.audio.load();
+    track.source.disconnect(); track.gain.disconnect();
   }
   function fadeOut(track) {
     if (!track) return;
     track.gain.gain.setTargetAtTime(0, ac.currentTime, MUSIC_FADE_S / 3);
-    track.source.stop(ac.currentTime + MUSIC_FADE_S * 2);
+    setTimeout(() => dispose(track), MUSIC_FADE_S * 2000);
   }
-  async function start(name) {
-    const mine = ++ticket, spec = MUSIC_TRACKS[name];
+  function playMedia(track) {
+    if (document.hidden) return;
+    track.audio.play().catch(error => {
+      // A later user gesture retries autoplay restrictions; other failures stay visible.
+      if (error.name !== 'NotAllowedError' && error.name !== 'AbortError') console.warn(`Music ${track.name} could not load:`, error);
+    });
+  }
+  function start(name) {
     fadeOut(now); now = null;
+    const spec = MUSIC_TRACKS[name];
     if (!name || !uris[name] || !spec) return;
-    let buffer;
-    try { buffer = await decode(uris[name]); } catch (e) { console.warn(`Music ${name} could not load:`, e); return; }
-    if (mine !== ticket) return;   // asked for something else while this one decoded
-    const source = ac.createBufferSource(), gain = ac.createGain();
-    source.buffer = buffer; source.loop = true; source.loopStart = 0; source.loopEnd = Math.min(buffer.duration, spec.loopSeconds);
+    const audio = new Audio(uris[name]); audio.loop = true; audio.preload = 'auto';
+    const source = ac.createMediaElementSource(audio), gain = ac.createGain();
     gain.gain.value = 0; gain.gain.setTargetAtTime(spec.gain, ac.currentTime, MUSIC_FADE_S / 3);
-    source.connect(gain); gain.connect(out); source.start();
-    now = { name, source, gain };
+    source.connect(gain); gain.connect(out);
+    now = { name, audio, source, gain }; playMedia(now);
   }
   const api = {
     apply() { if (ac) out.gain.setTargetAtTime(volumes.muted ? 0 : volumes.master * (volumes.music ?? 0.5), ac.currentTime, 0.05); },
@@ -40,10 +45,11 @@ export function createMusic(uris = {}, volumes) {
         if (wanted) start(wanted);
       }
       if (ac.state === 'suspended' && !document.hidden) ac.resume();
+      if (now?.audio.paused) playMedia(now);
     },
     get status() { return { wanted, playing: now?.name ?? null, state: ac?.state ?? 'waiting for a tap' }; },
   };
-  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) ac.suspend(); else ac.resume(); });
+  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) { now?.audio.pause(); ac.suspend(); } else { ac.resume(); if (now) playMedia(now); } });
   for (const type of ['pointerdown', 'keydown']) document.addEventListener(type, api.unlock, { capture: true });
   return api;
 }
