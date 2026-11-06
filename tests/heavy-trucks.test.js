@@ -70,11 +70,14 @@ for (const [id, hubs] of Object.entries(heavyDrops)) {
     assert.equal(car.physics.load.massT, car.load.massT);
     assert(car.physics.load.massT >= 22, 'cargo retains its heavy load');
     const size = file => {
-      const png = fs.readFileSync(path.join(ROOT, car.dir, file));
-      return [png.readUInt32BE(16), png.readUInt32BE(20)];
+      const webp = fs.readFileSync(path.join(ROOT, car.dir, file));
+      assert.equal(webp.toString('ascii', 0, 4), 'RIFF');
+      assert.equal(webp.toString('ascii', 8, 16), 'WEBPVP8X', 'transparent runtime art has an extended WebP header');
+      return [webp.readUIntLE(24, 3) + 1, webp.readUIntLE(27, 3) + 1];
     };
-    assert.deepEqual(car.art.body.registration.canvas, size(car.art.master.source), 'registered body uses exact master canvas');
-    assert.deepEqual(size(car.art.wheel.source), [1254, 1254], 'native wheel resolution uses approved exception');
+    assert.deepEqual(car.art.body.registration.canvas, size(car.art.body.file), 'runtime body retains its registered canvas');
+    assert.deepEqual(car.art.wheel.sourceSize, [1254, 1254], 'wheel registration retains the original canvas dimensions');
+    assert.deepEqual(size(car.art.wheel.file), [512, 512], 'shipped wheel uses the smaller runtime canvas');
     for (const art of Object.values(car.art)) assert(fs.statSync(path.join(ROOT, car.dir, art.file)).size > 1000);
     const s = spawn(newSim(car), 30), x = s.truck.getPosition().x;
     s.ctl.gas = 1; advance(s, 10);
