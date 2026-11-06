@@ -64,3 +64,27 @@ test('wallet preserves a spent balance of zero across reloads and rejects invali
     if (original) Object.defineProperty(globalThis, 'localStorage', original); else delete globalThis.localStorage;
   }
 });
+
+test('interpolation blends transforms, reuses getters and restores physical body readings', async () => {
+  const { createInterpolation } = await import('../src/game/interpolate.js');
+  class Body {
+    p = { x: 0, y: 0 }; a = 0;
+    isStatic() { return false; } getNext() { return null; }
+    getPosition() { return this.p; } getAngle() { return this.a; }
+    getLocalCenter() { return { x: 1, y: 0 }; }
+  }
+  const b = new Body(), blend = createInterpolation({ world: { getBodyList: () => b } }, (x, y) => ({ x, y }));
+  blend.capture(); b.p = { x: 1, y: 2 }; b.a = Math.PI;
+  blend.apply(0.5);
+  const getter = b.getPosition;
+  assert.deepEqual(b.getPosition(), { x: 0.5, y: 1 }); assert.equal(b.getAngle(), Math.PI / 2);
+  const point = b.getWorldPoint({ x: 1, y: 0 }), vector = b.getWorldVector({ x: 1, y: 0 });
+  assert(Math.abs(point.x - 0.5) < 1e-12 && Math.abs(point.y - 2) < 1e-12);
+  assert(Math.abs(vector.x) < 1e-12 && Math.abs(vector.y - 1) < 1e-12);
+  assert.deepEqual(b.getWorldCenter(), point);
+  blend.restore(); assert.deepEqual(b.getPosition(), { x: 1, y: 2 }); assert.equal(b.getAngle(), Math.PI);
+  assert(!Object.hasOwn(b, 'getPosition'));
+  blend.apply(0.25); assert.equal(b.getPosition, getter, 'getter functions are reused'); blend.restore();
+  blend.capture(); b.p = { x: 20, y: 2 }; blend.apply(0.5);
+  assert.deepEqual(b.getPosition(), { x: 20, y: 2 }, 'teleports do not blend'); blend.restore();
+});
