@@ -12,7 +12,7 @@ import { ZOOM_BY_CLASS, SERVICE_HEIGHT_PER_ZOOM } from '../game-config.js';
 // bounce never shakes it), and the car is never let off the top or bottom of the screen, so a fast
 // run down or up a steep grade keeps it in view.
 
-export const FRAMING = {
+const FRAMING = {
   front: 0.60, ground: 0.30, groundPhone: 0.42,
   zoom: 1.5,
   width: 11.8, height: 6.0, shortHeight: 6.7,

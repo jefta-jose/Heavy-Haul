@@ -47,7 +47,6 @@ export function createLoader({ photos = [], facts = [] } = {}, { title = 'Heavy 
   if (!el.hidden) { advance(); play(); }
 
   return {
-    kept,
     get visible() { return !el.hidden; },
     // sub: a line under the place's name, such as the truck and the trail after DRIVE
     show(k, { sub = subtitle } = {}) {

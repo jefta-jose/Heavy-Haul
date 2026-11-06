@@ -4,11 +4,11 @@
 import { RANK_XP, XP_BY_CLASS, STARTING_RANK } from '../game-config.js';
 
 const KEY = 'hh_progress';
-export const MAX_RANK = RANK_XP.length;
+const MAX_RANK = RANK_XP.length;
 
 // the rank a total of XP reaches, and how far it is through to the next
 export function rankFor(xp) { let r = 1; while (r < MAX_RANK && xp >= RANK_XP[r]) r++; return r; }
-export function rankProgress(xp) {
+function rankProgress(xp) {
   const rank = rankFor(xp), from = RANK_XP[rank - 1], to = RANK_XP[rank] ?? from;
   return { rank, xp: Math.floor(xp), from, to, share: rank >= MAX_RANK ? 1 : (xp - from) / (to - from) };
 }

@@ -46,5 +46,5 @@ export function createInterpolation(sim, V) {
     touched = [];
   }
 
-  return { capture, apply, restore, reset: () => { prev = new WeakMap(); } };
+  return { capture, apply, restore };
 }

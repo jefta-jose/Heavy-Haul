@@ -17,7 +17,7 @@ import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './
 import { createLoopPlayer } from './loop-player.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
-export const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, music: 0.5, muted: false };
+const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, music: 0.5, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 const BEDS = ['forest', 'frogs'];
 // long clips only ever played as beds, decoded when first heard

@@ -18,7 +18,7 @@ const KINDS = {
   bogs: { done: (m, r) => r.bogs >= m.count, shown: (m, r) => `${Math.min(r.bogs, m.count)} / ${m.count}` },
 };
 const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-export const missionXp = (m, cls) => Math.round(m.type === 'classDelivery' ? classXp(m.xp, m.class) : m.xp);
+const missionXp = (m, cls) => Math.round(m.type === 'classDelivery' ? classXp(m.xp, m.class) : m.xp);
 
 export function createMissions({ missions = [], offerCount = 4 } = {}, classes = [], store = typeof localStorage === 'undefined' ? null : localStorage, random = Math.random) {
   const byId = new Map(missions.filter(m => KINDS[m.type]).map(m => [m.id, m]));

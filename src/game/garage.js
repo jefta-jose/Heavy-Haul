@@ -12,7 +12,7 @@ import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, cl
 
 const $ = id => document.getElementById(id);
 // a car's whole weight on the road: empty, wheels and load
-export const grossTonnes = c => (c.physics.mass + c.physics.wheelMass * c.rig.axles.length) / 1000 + (c.physics.load?.massT ?? 0);
+const grossTonnes = c => (c.physics.mass + c.physics.wheelMass * c.rig.axles.length) / 1000 + (c.physics.load?.massT ?? 0);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 // what a step of each knob adds, as read from the tuned car: real numbers where the car has them, else against stock
 // How much of a car's picture is truck: art comes with empty canvas around it, different on every car. Measured from the

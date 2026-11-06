@@ -58,20 +58,20 @@ export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: t
 }
 
 // tires sit in their own collision category
-export const TIRE_CATEGORY = 0x0002;
+const TIRE_CATEGORY = 0x0002;
 
 // tire radius of axle i: `rig.radius`, times an optional per-axle `rig.wheelScale` (e.g. a bigger
 // front tire drawn in a bigger arch)
 export const wheelRadius = (rig, i) => rig.radius * (rig.wheelScale?.[i] ?? 1);
 
-export function setWheelMass(V, body, m) {
+function setWheelMass(V, body, m) {
   const md = { mass: 0, center: V(0, 0), I: 0 };
   body.getMassData(md);
   const f = m / md.mass;
   md.mass *= f; md.I *= f;
   body.setMassData(md);
 }
-export function setBodyMass(V, body, m, cm, sz) {
+function setBodyMass(V, body, m, cm, sz) {
   const Icm = m * (sz.L * sz.L + sz.H * sz.H) / 12;
   body.setMassData({ mass: m, center: V(cm.x, cm.y), I: Icm + m * (cm.x * cm.x + cm.y * cm.y) });
 }
@@ -79,7 +79,7 @@ export function setBodyMass(V, body, m, cm, sz) {
 // Bump stops: very stiff springs that only act past the end of suspension travel. Explicit
 // forces, so gains are capped for stability at the fixed step: the stop's natural frequency
 // times dt stays well under 1, and its damping per step under the wheel's momentum.
-export function applyBumpStops(V, springs, susp, dt) {
+function applyBumpStops(V, springs, susp, dt) {
   for (const sp of springs) {
     const tr = sp.j.getJointTranslation();   // + = compressed upward
     let over = 0;
@@ -139,7 +139,7 @@ export function easeBodyLift(state, target, response, dt) {
 // Box2D's wheel-joint spring is defined by the frequency and damping ratio of the joint's
 // effective mass (mostly the wheel). Convert a physical spring rate k = load*g/sag and a damping
 // ratio relative to the sprung load into those parameters.
-export function springFor(M, com, size, axleX, mw, load, susp) {
+function springFor(M, com, size, axleX, mw, load, susp) {
   const g = 9.81, k = load * g / susp.sag;
   const Icm = M * (size.L * size.L + size.H * size.H) / 12, dx = axleX - com.x;
   const mEff = 1 / (1 / M + 1 / mw + dx * dx / Icm);
