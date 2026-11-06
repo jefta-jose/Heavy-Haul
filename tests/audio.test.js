@@ -319,3 +319,39 @@ test('music streams, crossfades, follows volume and pauses its media in the back
     for (const [k, value] of Object.entries(originals)) { if (value) Object.defineProperty(globalThis, k, value); else delete globalThis[k]; }
   }
 });
+
+test('vehicle audio suspends in background and creates a backup oscillator only while reversing', async () => {
+  const { createVehicleAudio } = await import('../src/audio/vehicle-audio.js');
+  const listeners = {}, contexts = [], alarms = [];
+  const parameter = () => ({ value: 0, setTargetAtTime() {} });
+  const node = () => ({ connect() {}, disconnect() {}, gain: parameter() });
+  class Context {
+    constructor() { this.state = 'running'; this.currentTime = 0; this.destination = {}; contexts.push(this); }
+    createDynamicsCompressor() { return { ...node(), threshold: parameter(), ratio: parameter(), attack: parameter(), release: parameter() }; }
+    createGain() { return node(); }
+    createBiquadFilter() { return { ...node(), frequency: parameter() }; }
+    createOscillator() { const o = { ...node(), frequency: parameter(), started: false, stopped: false, start() { this.started = true; }, stop() { this.stopped = true; } }; alarms.push(o); return o; }
+    async decodeAudioData() { return {}; }
+    resume() { this.state = 'running'; }
+    suspend() { this.state = 'suspended'; }
+  }
+  const doc = { hidden: false, addEventListener(type, fn) { listeners[type] = fn; } };
+  const originals = Object.fromEntries(['window', 'document'].map(k => [k, Object.getOwnPropertyDescriptor(globalThis, k)]));
+  Object.assign(globalThis, { window: { AudioContext: Context }, document: doc });
+  try {
+    const audio = createVehicleAudio({ clips: { click: 'data:audio/wav;base64,AA==' }, bank: { engines: {}, effects: { click: ['click'] } } });
+    await audio.start(); assert.equal(alarms.length, 0, 'no idle oscillator');
+    const active = { car: { ...content.car, audio: { backupAlarm: true } }, st: { engine: 'on', speed: 0, surf: 'dirt', slip: 0 }, ctl: { gear: 'R', brake: 0 }, parts: { truck: { getLinearVelocity: () => ({ x: 0, y: 0 }) } } };
+    const frame = { playing: true, active, vehicles: [], water: 0, camX: 0 };
+    audio.update(frame, 0.1); assert.equal(alarms.length, 1); assert(alarms[0].started);
+    active.ctl.gear = 'L'; audio.update(frame, 0.1); assert(alarms[0].stopped);
+    active.ctl.gear = 'R'; audio.update(frame, 0.1); assert.equal(alarms.length, 2);
+    doc.hidden = true; listeners.visibilitychange(); assert.equal(contexts[0].state, 'suspended'); assert(alarms[1].stopped);
+    audio.update(frame, 0.1); assert.equal(alarms.length, 2, 'hidden updates cannot restart the alarm');
+    doc.hidden = false; listeners.visibilitychange(); assert.equal(contexts[0].state, 'running');
+    audio.suspend(); doc.hidden = true; listeners.visibilitychange(); doc.hidden = false; listeners.visibilitychange();
+    assert.equal(contexts[0].state, 'suspended', 'an intentionally suspended garage stays suspended');
+  } finally {
+    for (const [k, value] of Object.entries(originals)) { if (value) Object.defineProperty(globalThis, k, value); else delete globalThis[k]; }
+  }
+});
