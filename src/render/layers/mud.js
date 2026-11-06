@@ -14,6 +14,7 @@ const GIVE = { mud: 1, creek: 0.8, dirt: 0.45, gravel: 0.25 };
 export const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the lane's elevated view
 export function createMudLayer(scene) {
   const { ctx } = scene.view, sim = scene.sim;
+  const mudSample = {};
   let world = null, ruts = null, lastCell = new WeakMap();
   function clear() {
     const { X0, X1 } = sim.terrain, n = Math.ceil((X1 - X0) / RES) + 2;
@@ -120,10 +121,10 @@ export function createMudLayer(scene) {
     };
     // Continuous paths avoid the double-alpha seams produced by overlapping translucent columns.
     for (const [a, b, surface] of sim.terrain.zones) if (surface === 'mud') {
-      patch(a, b, 0.12, x => sim.terrain.mudAt(x).intensity * 0.75);
+      patch(a, b, 0.12, x => sim.terrain.mudAt(x, mudSample).intensity * 0.75);
     }
     for (const centre of sim.trail.heavyMud) {
-      patch(centre - 10, centre + 10, 0.32, x => sim.terrain.mudAt(x).heavy);
+      patch(centre - 10, centre + 10, 0.32, x => sim.terrain.mudAt(x, mudSample).heavy);
     }
   }
   // ahead: also build the next chunk in the direction of travel if nothing was built this frame
@@ -136,7 +137,7 @@ export function createMudLayer(scene) {
       let low = Infinity, high = -Infinity, wet = false;
       for (let t = x; t <= end + 0.25; t += 0.25) {
         low = Math.min(low, sim.visH(t)); high = Math.max(high, sim.visH(t));
-        wet ||= sim.terrain.mudAt(t).intensity > 0;
+        wet ||= sim.terrain.mudAt(t, mudSample).intensity > 0;
       }
       const tile = { x, top: high + (span ? span.far + 0.2 : 1.65), canvas: null };
       if (wet) {
@@ -164,7 +165,7 @@ export function createMudLayer(scene) {
     cachedSurface(lo, hi, true);
     // Slow bubbles make the deep slurry read as liquid (no reflections: the user removed them).
     for (let x = Math.floor(lo / 1.7) * 1.7; x < hi; x += 1.7) {
-      const m = sim.terrain.mudAt(x); if (m.heavy < 0.12) continue;
+      const m = sim.terrain.mudAt(x, mudSample); if (m.heavy < 0.12) continue;
       const y = sim.visH(x) + 0.27, slope = sim.visH(x + 0.3) - sim.visH(x - 0.3);
       if (Math.abs(slope) > 0.12) continue;
       const phase = (time * 0.4 + Math.abs(Math.sin(x * 7))) % 1;

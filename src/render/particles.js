@@ -2,7 +2,7 @@ import { puff } from './canvas-utils.js';
 import { waterAt } from './layers/mud-pools.js';
 import { wheelRadius } from '../physics/vehicle.js';
 
-// World-space particles driven by the simulation: exhaust smoke, tire dust, mud flecks,
+// Pooled world-space particles driven by the simulation: exhaust smoke, tire dust, mud flecks,
 // water splashes and spray, and rock-crush debris. Splash and crush events are reported through
 // onEvent so audio can follow.
 
@@ -12,11 +12,29 @@ const PUFF = { smoke: puff(58, 58, 56), haze: puff(170, 170, 165), dust: puff(16
 export function createParticles(scene, onEvent) {
   const sim = scene.sim;
   let R = 1, rig = null;
-  const parts = [];
-  const add = p => { if (parts.length < MAX) parts.push(p); };
-  const emitPuff = (kind, x, y, vx, vy, size, grow, life, alpha) => add({ t: 0, kind, x, y, vx, vy, size, grow, life, max: life, alpha, drag: 1.6, g: -0.25 });
-  const emitDrop = (x, y, vx, vy, size, life, color) => add({ t: 1, x, y, vx, vy, size, life, max: life, color, g: 9.8 });
-  const emitChunk = (x, y, vx, vy, size, color) => add({ t: 2, x, y, vx, vy, size, life: 2.6, max: 2.6, color, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 14, g: 9.8, shape: [0, 1, 2, 3, 4].map(() => 0.6 + Math.random() * 0.5) });
+  const parts = [], free = [];
+  function take(t, x, y, vx, vy, size, life) {
+    if (parts.length >= MAX) return null;
+    const p = free.pop() ?? { shape: new Float64Array(5) };
+    p.t = t; p.x = x; p.y = y; p.vx = vx; p.vy = vy; p.size = size; p.life = p.max = life;
+    parts.push(p); return p;
+  }
+  function emitPuff(kind, x, y, vx, vy, size, grow, life, alpha) {
+    const p = take(0, x, y, vx, vy, size, life); if (!p) return;
+    p.kind = kind; p.grow = grow; p.alpha = alpha; p.drag = 1.6; p.g = -0.25;
+  }
+  function emitDrop(x, y, vx, vy, size, life, color) {
+    const p = take(1, x, y, vx, vy, size, life); if (!p) return;
+    p.color = color; p.g = 9.8;
+  }
+  function emitChunk(x, y, vx, vy, size, color) {
+    // Keep random consumption even at the cap, as the old emitter did.
+    const rot = Math.random() * 6, vr = (Math.random() - 0.5) * 14;
+    const p = take(2, x, y, vx, vy, size, 2.6);
+    if (!p) { for (let k = 0; k < 5; k++) Math.random(); return; }
+    p.color = color; p.rot = rot; p.vr = vr; p.g = 9.8;
+    for (let k = 0; k < 5; k++) p.shape[k] = 0.6 + Math.random() * 0.5;
+  }
 
   const wasWet = [], dustAcc = [], sprayAcc = [];
   let smokeAcc = 0, lastRpm = 0, lastVehicle = null;
@@ -88,7 +106,7 @@ export function createParticles(scene, onEvent) {
   function advance(dt) {
     for (let i = parts.length - 1; i >= 0; i--) {
       const p = parts[i]; p.life -= dt;
-      if (p.life <= 0) { parts[i] = parts[parts.length - 1]; parts.pop(); continue; }
+      if (p.life <= 0) { parts[i] = parts[parts.length - 1]; parts.pop(); free.push(p); continue; }
       p.vy -= p.g * dt; p.x += p.vx * dt; p.y += p.vy * dt;
       if (p.t === 0) { p.size += p.grow * dt; const d = Math.max(0, 1 - p.drag * dt); p.vx *= d; p.vy *= d; }
       else if (p.t === 2) { p.rot += p.vr * dt; const gy = sim.visH(p.x); if (p.y < gy + p.size * 0.4 && p.vy < 0) { p.y = gy + p.size * 0.4; p.vy *= -0.3; p.vx *= 0.55; p.vr *= 0.5; } }

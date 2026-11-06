@@ -1,5 +1,5 @@
 // Ripple rings and splash levels in deep mud.
-export const waterAt = (sim, x) => sim.terrain.mudAt(x).heavy > 0.15
+export const waterAt = (sim, x) => sim.terrain.mudHeavyAt(x) > 0.15
   ? { level: sim.visH(x) + 0.015, muddy: true } : null;
 
 export function drawRipples(scene, time) {

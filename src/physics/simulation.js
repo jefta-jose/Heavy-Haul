@@ -203,14 +203,14 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // heavy rig sinks and drags in proportion and a pit stops every class, not only the light ones.
     // physics.mudPull (1 = stock) divides all of it, only in mud and only in L
     const wv = w.getLinearVelocity(), L = load.get(w), N = L && L.imp ? L.imp / dt : 0;
-    const pit = (surfaces.mud.heavyDrag ?? 0) * terrain.mudAt(w.getPosition().x).heavy * N;
+    const pit = (surfaces.mud.heavyDrag ?? 0) * terrain.mudHeavyAt(w.getPosition().x) * N;
     // a light tire (under bogRefT tonnes) sinks less and drags less, so a scout can wiggle through
     const light = surfaces.mud.bogRefT ? Math.min(1, N / (surfaces.mud.bogRefT * 9810)) : 1;
     const bog = (surfaces.mud.bog * light + pit) * Math.tanh(wv.x / 0.35);
     w.applyForceToCenter(V((-wv.x * surfaces.mud.suction - bog) / pull, 0), true);
   }
   // grip left in a heavy-mud pit: heavyGrip at its centre, easing back to 1 at its edges
-  const pitGrip = x => 1 - (1 - (surfaces.mud.heavyGrip ?? 1)) * terrain.mudAt(x).heavy;
+  const pitGrip = x => 1 - (1 - (surfaces.mud.heavyGrip ?? 1)) * terrain.mudHeavyAt(x);
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }

@@ -12,14 +12,24 @@ const GETTERS = ['getPosition', 'getAngle', 'getWorldPoint', 'getWorldVector', '
 const JUMP = 2;   // metres: a body that moved farther in one step was teleported, so it is not blended
 
 export function createInterpolation(sim, V) {
-  let prev = new WeakMap(), touched = [];
+  const prev = new WeakMap(), touched = [];
+  function makeState(b, p) {
+    const o = { x: p.x, y: p.y, a: b.getAngle(), pos: V(p.x, p.y), ang: 0, c: 1, s: 0 };
+    // These getters are allocated once per body and reattached for each drawn frame.
+    o.getPosition = () => o.pos;
+    o.getAngle = () => o.ang;
+    o.getWorldVector = v => V(o.c * v.x - o.s * v.y, o.s * v.x + o.c * v.y);
+    o.getWorldPoint = v => V(o.pos.x + o.c * v.x - o.s * v.y, o.pos.y + o.s * v.x + o.c * v.y);
+    o.getWorldCenter = () => o.getWorldPoint(b.getLocalCenter());
+    return o;
+  }
 
   // the state before a step; called by the wrapped sim.step
   function capture() {
     for (let b = sim.world?.getBodyList(); b; b = b.getNext()) {
       if (b.isStatic()) continue;
       const p = b.getPosition(), o = prev.get(b);
-      if (o) { o.x = p.x; o.y = p.y; o.a = b.getAngle(); } else prev.set(b, { x: p.x, y: p.y, a: b.getAngle() });
+      if (o) { o.x = p.x; o.y = p.y; o.a = b.getAngle(); } else prev.set(b, makeState(b, p));
     }
   }
 
@@ -31,19 +41,15 @@ export function createInterpolation(sim, V) {
       const p = b.getPosition(), a = b.getAngle();
       if (Math.abs(p.x - o.x) > JUMP || Math.abs(p.y - o.y) > JUMP) continue;
       const x = o.x + (p.x - o.x) * alpha, y = o.y + (p.y - o.y) * alpha, ang = o.a + (a - o.a) * alpha;
-      const c = Math.cos(ang), s = Math.sin(ang), pos = V(x, y), lc = b.getLocalCenter();
-      b.getPosition = () => pos;
-      b.getAngle = () => ang;
-      b.getWorldVector = v => V(c * v.x - s * v.y, s * v.x + c * v.y);
-      b.getWorldPoint = v => V(x + c * v.x - s * v.y, y + s * v.x + c * v.y);
-      b.getWorldCenter = () => V(x + c * lc.x - s * lc.y, y + s * lc.x + c * lc.y);
+      o.pos.x = x; o.pos.y = y; o.ang = ang; o.c = Math.cos(ang); o.s = Math.sin(ang);
+      for (const g of GETTERS) b[g] = o[g];
       touched.push(b);
     }
   }
 
   function restore() {
     for (const b of touched) for (const g of GETTERS) delete b[g];
-    touched = [];
+    touched.length = 0;
   }
 
   return { capture, apply, restore };

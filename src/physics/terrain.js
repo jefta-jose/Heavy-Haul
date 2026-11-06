@@ -13,7 +13,7 @@ export function createTerrain(trail, surfaces) {
   const { keys: KEYS, zones: ZONES, heavyMud: HEAVY_MUD } = trail;
   const X0 = KEYS[0][0], X1 = KEYS[KEYS.length - 1][0];
   const N = Math.round((X1 - X0) / DX) + 1;
-  const HV = new Float32Array(N), HC = new Float32Array(N);
+  const HV = new Float32Array(N), HC = new Float32Array(N), heavy = new Float32Array(N);
   const features = [];
   const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
   const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
@@ -194,13 +194,23 @@ export function createTerrain(trail, surfaces) {
   // near a ledge face or slab edge, so obstacles are not dropped onto a step
   const nearStep = x => features.some(f => (f.type === 'ledge' && x > f.x0 - 3 && x < f.x0 + f.face + 2) || (f.type === 'slab' && Math.abs(Math.abs(x - f.c) - f.w / 2) < 1.5));
 
+  // Physics keeps the exact smoothstep arithmetic: interpolating a Float32 table would
+  // change tire forces and deterministic trajectories. Rendering can sample the table.
+  const mudHeavyAt = x => {
+    if (surfAt(x) !== 'mud') return 0;
+    let value = 0;
+    for (const centre of HEAVY_MUD) value = Math.max(value, sm(1 - Math.abs(x - centre) / 10));
+    return value;
+  };
   buildHeights();
-  const mudAt = x => {
-    if (surfAt(x) !== 'mud') return { intensity: 0, depth: 0, heavy: 0 };
+  for (let i = 0; i < N; i++) heavy[i] = mudHeavyAt(X0 + i * DX);
+  const mudAt = (x, out = {}) => {
+    if (surfAt(x) !== 'mud') { out.heavy = out.depth = out.intensity = 0; return out; }
     const z = ZONES.find(z => x >= z[0] && x < z[1]);
-    const heavy = HEAVY_MUD.reduce((v, centre) => Math.max(v, sm(1 - Math.abs(x - centre) / 10)), 0);
-    return { heavy, depth: visH(x) - colH(x), intensity: (0.35 + heavy * 0.65) * sm(Math.min(x - z[0], z[1] - x) / 5) };
+    out.heavy = sample(heavy, x); out.depth = visH(x) - colH(x);
+    out.intensity = (0.35 + out.heavy * 0.65) * sm(Math.min(x - z[0], z[1] - x) / 5);
+    return out;
   };
   const stationAt = x => stations.find(s => Math.abs(x - s.x) <= STATION_BAY_M / 2);
-  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, features, holes, nearHole, surfAt, visH, colH, mudAt, nearCalm, nearStep };
+  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, features, holes, nearHole, surfAt, visH, colH, mudAt, mudHeavyAt, nearCalm, nearStep };
 }
