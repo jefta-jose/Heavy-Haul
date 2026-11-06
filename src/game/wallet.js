@@ -3,7 +3,10 @@ import { STARTING_COINS } from '../game-config.js';
 
 const KEY = 'hh_wallet';
 let coins = STARTING_COINS;
-try { const saved = +localStorage.getItem(KEY); if (saved > 0) coins = saved; } catch (e) {}
+try {
+  const raw = localStorage.getItem(KEY), saved = Number(raw);
+  if (raw !== null && Number.isFinite(saved) && saved >= 0) coins = saved;
+} catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, String(Math.floor(coins))); } catch (e) {} };
 
 export const wallet = {

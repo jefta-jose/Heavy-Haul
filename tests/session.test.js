@@ -46,3 +46,21 @@ test('normal main-truck driving still earns road, bog and event rewards and trac
   assert(t.session.coins > before); assert(t.xp > 0); assert(t.tracked > 1);
   assert.equal(t.session.run.bogsClean, 1); assert.equal(t.session.run.crushes, 1); assert.equal(t.session.run.cameraKmh, 80);
 });
+
+
+test('wallet preserves a spent balance of zero across reloads and rejects invalid saves', async () => {
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  let saved = null, revision = 0;
+  globalThis.localStorage = { getItem: () => saved, setItem: (_, value) => { saved = value; } };
+  const reload = async () => (await import(`../src/game/wallet.js?wallet-test=${revision++}`)).wallet;
+  try {
+    const { STARTING_COINS } = await import('../src/game-config.js');
+    let w = await reload(); assert.equal(w.coins, STARTING_COINS);
+    assert(w.spend(w.coins)); assert.equal(saved, '0');
+    w = await reload(); assert.equal(w.coins, 0);
+    for (const invalid of ['NaN', 'Infinity', '-1', 'bad']) { saved = invalid; assert.equal((await reload()).coins, STARTING_COINS); }
+    saved = '125'; assert.equal((await reload()).coins, 125);
+  } finally {
+    if (original) Object.defineProperty(globalThis, 'localStorage', original); else delete globalThis.localStorage;
+  }
+});
