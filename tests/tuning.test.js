@@ -4,9 +4,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { KNOBS, upgradeCost, POWERS, withPower, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
 import { POWER_TIMES, DAMAGE_START_KMH, RANK_XP } from '../src/game-config.js';
-import { createProgress, rankFor, classXp } from '../src/game/progress.js';
+import { rankFor, classXp } from '../src/game/progress.js';
 import { createMissions } from '../src/game/missions.js';
 import fs from 'node:fs';
+import { releaseCode } from './release-build.js';
 import { content, newSim, spawn, advance } from './helpers.js';
 
 test('four knobs, levels in steps of 25, and every car can take all four to 100', () => {
@@ -133,7 +134,12 @@ test('mud pull only works in the short gear', () => {
   assert(metres('L') > metres('H'), 'low gear pulls harder through the mud');
 });
 
-test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class to buy', () => {
+test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class to buy', async () => {
+  const code = await releaseCode('src/game/progress.js');
+  const { createProgress } = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
+  const config = await releaseCode('src/game-config.js');
+  const release = await import(`data:text/javascript;base64,${Buffer.from(config).toString('base64')}`);
+  assert.equal(release.STARTING_COINS, 0); assert.equal(release.STARTING_RANK, 1);
   assert.equal(RANK_XP.length, 20); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[19], 40000);
   RANK_XP.forEach((x, i) => i && assert(x > RANK_XP[i - 1], 'XP rises every rank'));
   assert.equal(rankFor(0), 1); assert.equal(rankFor(199), 1); assert.equal(rankFor(200), 2); assert.equal(rankFor(39999), 19); assert.equal(rankFor(1e9), 20);

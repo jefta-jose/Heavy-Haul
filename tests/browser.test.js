@@ -12,6 +12,7 @@ import { chromium } from 'playwright';
 import { build, buildApp } from '../tools/build.js';
 import { ROOT, loadContentWithArt, readSoundBank } from '../tools/lib/content.js';
 import { build as bundle } from 'esbuild';
+import { releaseCode } from './release-build.js';
 
 const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures');
 // these runs drive many trucks: start them at the top rank with every truck owned (the rank and buying flow is tested on its own)
@@ -468,7 +469,8 @@ test('terrain stays opaque below uphill, downhill and valley contours', { timeou
 
 test('ranks: a fresh garage owns only the starters, shows the rank a truck needs, then its price, and buys it', { timeout: 120000 }, async () => {
   await build();
-  const html = fs.readFileSync(path.join(ROOT, 'dist/heavy-haul.html'), 'utf8');
+  const code = (await releaseCode('src/main.js', 'iife')).replace(/<\/script/gi, '<\\/script');
+  const html = fs.readFileSync(path.join(ROOT, 'dist/heavy-haul.html'), 'utf8').replace(/<script>[\s\S]*?<\/script>/, () => `<script>${code}</script>`);
   const server = http.createServer((req, res) => { res.writeHead(200, { 'Content-Type': 'text/html' }); res.end(html); });
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
