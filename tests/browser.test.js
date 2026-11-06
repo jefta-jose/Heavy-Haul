@@ -483,6 +483,8 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.evaluate(() => { __haul.loader.hide(0); document.getElementById('garage').hidden = false; });
     const p = () => page.evaluate(() => ({ rank: __haul.progress.rank, xp: __haul.progress.xp }));
     assert.deepEqual(await p(), { rank: 1, xp: 0 }, 'a new player starts at rank 1');
+    assert.equal(await page.evaluate(() => __haul.session.coins), 0, 'release starts with no test coins');
+    assert.equal(await page.evaluate(() => __haul.content.roster.cars.filter(c => __haul.progress.owns(c.id)).length), 5, 'only the five free starters are owned');
     const starter = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 1).id);
     const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2));
     assert(await page.evaluate(id => __haul.progress.owns(id), starter), 'the weakest scout is owned');
@@ -490,7 +492,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.match(await page.locator('#startBtn').innerText(), /requires rank 2/i, 'a locked truck says the rank it needs');
     assert(await page.locator('#startBtn').isDisabled());
     assert.match(await page.locator('.gtile.on').innerText(), /rank 2/i, 'and so does its tile');
-    await page.evaluate(() => { __haul.progress.addXp(250); __haul.garage.show(); });
+    await page.evaluate(price => { __haul.progress.addXp(250); __haul.session.earn(price * 2, true); __haul.garage.show(); }, next.price);
     assert.equal((await p()).rank, 2, 'XP brings rank 2');
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
     assert.match(await page.locator('.gtile.on').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its tile shows the price');
