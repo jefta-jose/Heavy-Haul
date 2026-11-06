@@ -110,3 +110,10 @@ export const SPEED_TRAP_FADE_S = 1;           // how long it takes to fade out a
 export const WHEEL_RISE_MAX_SHARE = 0.25;     // how far a wheel can look to rise above its ride height, as a share of its tire's radius; past that the body is drawn lifted over it
 export const WHEEL_DROP_MAX_SHARE = 0.3;      // the same below its ride height; past that the body is drawn lowered to it, so a bouncing truck keeps its wheels
 export const BODY_LIFT_RESPONSE = 10;         // how fast the drawn body follows those limits, radians per second: higher keeps wheels closer to their limits, lower moves more smoothly
+
+// Fuel, recovery reach and service grip.
+export const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0;
+export const WINCH_REACH = 5;
+export const CROSS_CLASS_PULL = 0.4;
+export const NEVER_STUCK_MU = 0.85;
+export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck

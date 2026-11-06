@@ -1,4 +1,4 @@
-import { POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_REACH, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -15,16 +15,11 @@ import { valueNoise } from './math.js';
 
 const GRIP_REFERENCE = 'mud-terrain';
 // the winch hook reaches a vehicle this close (metres between tow points), like SnowRunner
-export const WINCH_REACH = 5;
-const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
 const CABLE_STRETCH = 0.25;       // metres of stretch at which the cable pulls with full winch force
 // on a truck of another class the winch pulls only this share of what that truck's own service
 // truck would (towMassT x g x 0.7 for its gross weight): enough to struggle, rarely enough to free it
-const CROSS_CLASS_PULL = 0.4;
 // a never-stuck tire grips mud and creek beds at least this well, with no suction or patchiness
-const NEVER_STUCK_MU = 0.85;
 
-const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0;
 
 export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);
