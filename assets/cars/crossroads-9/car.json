@@ -20,7 +20,8 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v1.png"
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
