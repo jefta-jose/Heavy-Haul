@@ -4038,7 +4038,7 @@ dl.spec dd {
   opacity: 0;
 }
 
-/* the damage bar, back under the surface plate (2026-11-06): the same bar as before, on the same steel as the plates */
+/* the damage bar above the surface plate: the same steel as the plates */
 .stack>.dmgrow {
   grid-template-columns: 18px auto 96px;
   gap: 8px;
