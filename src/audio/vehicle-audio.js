@@ -87,13 +87,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     master = ac.createGain(); engineBus = ac.createGain(); fxBus = ac.createGain(); ambBus = ac.createGain();
     engineBus.connect(comp); fxBus.connect(comp); ambBus.connect(master); comp.connect(master); master.connect(ac.destination);
     applyVolumes();
-    // back-up alarm: a classic beeper, slightly distant
-    {
-      const o = ac.createOscillator(); o.frequency.value = 1040;
-      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
-      const g = ac.createGain(); g.gain.value = 0; o.connect(lp); lp.connect(g); g.connect(fxBus); o.start();
-      alarm = { g };
-    }
     api.mode = 'loading';
     for (const name of new Set(Object.values(GROUNDS))) ground[name] = loop(name, fxBus, { grain: [2, 4.5], fade: 0.7 });
     water = { wade: loop('wade', fxBus, { grain: [2, 4], fade: 0.8 }), churn: loop('water-churn', fxBus, { grain: [1.2, 2.2], fade: 0.6 }) };
@@ -112,7 +105,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
 
   api.start = () => {
     init();
-    if (ac?.state === 'suspended') ac.resume();
+    if (ac?.state === 'suspended' && !document.hidden) ac.resume();
     return api.ready;
   };
 
@@ -278,9 +271,14 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     brakeState.braking = braking;
 
     // back-up alarm
-    const rev = live && v.ctl.gear === 'R' && st.engine === 'on';
-    alarmT = rev && engineProfile(v.car, bank).backupAlarm ? alarmT + dt : 0;
-    alarm.g.gain.setTargetAtTime(alarmT > 0 && alarmT % 1 < 0.5 ? 0.035 : 0, t, 0.01);
+    const rev = live && !document.hidden && v.ctl.gear === 'R' && st.engine === 'on' && engineProfile(v.car, bank).backupAlarm;
+    if (rev && !alarm) {
+      const o = ac.createOscillator(), lp = ac.createBiquadFilter(), g = ac.createGain();
+      o.frequency.value = 1040; lp.type = 'lowpass'; lp.frequency.value = 2400; g.gain.value = 0;
+      o.connect(lp); lp.connect(g); g.connect(fxBus); o.start(); alarm = { o, lp, g };
+    } else if (!rev) stopAlarm();
+    alarmT = rev ? alarmT + dt : 0;
+    if (alarm) alarm.g.gain.setTargetAtTime(alarmT > 0 && alarmT % 1 < 0.5 ? 0.035 : 0, t, 0.01);
 
     // suspension: a sharp change in the body's vertical speed is a hit
     bumpCool -= dt;
@@ -297,8 +295,18 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       crowT = 2.5 + Math.random() * 7;
     }
   };
-  api.suspend = () => { if (ac && ac.state === 'running') ac.suspend(); };
-  api.resume = () => { if (ac && ac.state === 'suspended') ac.resume(); };
+  function stopAlarm() {
+    if (alarm) { alarm.o.stop(); alarm.o.disconnect(); alarm.lp.disconnect(); alarm.g.disconnect(); alarm = null; }
+    alarmT = 0;
+  }
+  let resumeOnVisible = false;
+  api.suspend = () => { resumeOnVisible = false; stopAlarm(); if (ac && ac.state === 'running') ac.suspend(); };
+  api.resume = () => { if (ac && ac.state === 'suspended' && !document.hidden) ac.resume(); };
+  document.addEventListener('visibilitychange', () => {
+    if (!ac) return;
+    if (document.hidden) { resumeOnVisible = ac.state === 'running'; stopAlarm(); ac.suspend(); }
+    else if (resumeOnVisible) { resumeOnVisible = false; api.resume(); }
+  });
   api.status = () => ({
     mode: api.mode, decoded: Object.keys(buffers).length, voices: [...voices.values()].map(v => v.profile.engine), error: api.error,
     decodedMB: Object.values(buffers).reduce((sum, b) => sum + b.length * b.numberOfChannels * 4, 0) / 1e6,
