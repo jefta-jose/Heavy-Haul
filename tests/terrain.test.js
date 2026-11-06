@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createTerrain } from '../src/physics/terrain.js';
+import { speedTrapX } from '../src/game/speed-trap.js';
 import { content, newSim, spawn, DT } from './helpers.js';
 import { wheelRadius } from '../src/physics/vehicle.js';
 
@@ -175,7 +176,7 @@ test('roadside scenery is drawing only, and none of it stands on a station, a hi
   });
   const clear = (x, pad, what) => { for (const [a, b, k] of spans) assert(x < a - pad || x > b + pad, `${k} at ${a.toFixed(0)} stands on ${what} at ${x.toFixed(0)}`); };
   for (const st of trail.stations) clear(st.x, 6, 'a station');
-  for (const h of trail.highways) { clear(h.x0 + 8.5, 4, 'a highway sign'); clear((h.x0 + h.x1) / 2, 1, 'a speed camera'); }
+  for (const h of trail.highways) { clear(h.x0 + 8.5, 4, 'a highway sign'); clear(speedTrapX(h), 1, 'a speed camera'); }
   for (const x of s.speedSigns) clear(x, 0.5, 'a speed limit sign');
   assert.equal(s.rocks.filter(r => r.art && Object.keys(art).includes(r.art) && trail.scenery.some(i => i.art === r.art)).length, 0, 'no bodies');
 });

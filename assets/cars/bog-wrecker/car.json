@@ -3,11 +3,11 @@
   "name": "Bog Wrecker",
   "number": null,
   "class": "offroad",
-  "drive": "8×8",
+  "drive": "8\u00d78",
   "wheelType": "flotation",
   "status": "playable",
-  "tagline": "Off-road 8×8 recovery truck that never gets stuck",
-  "description": "An olive 8×8 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "tagline": "Off-road 8\u00d78 recovery truck that never gets stuck",
+  "description": "An olive 8\u00d78 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
     "power": 95,
     "grip": 95,
@@ -21,77 +21,77 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v1.png"
+      "source": "source/vehicle-master-v4.png"
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v1.png"
+      "source": "source/wheel-v3.png"
     }
   },
   "rig": {
     "bodyOrigin": [
-      976,
-      604
+      1035,
+      731
     ],
-    "pixelsPerMetre": 153.3,
+    "pixelsPerMetre": 150.0,
     "axles": [
-      4.292,
-      1.95,
-      -1.703,
-      -4.24
+      4.36,
+      1.96,
+      -1.973,
+      -4.36
     ],
     "wheelY": [
-      0.02,
-      0.026,
-      0.02,
-      -0.072
+      0.0,
+      0.0,
+      0.0,
+      0.0
     ],
-    "radius": 1.161,
+    "radius": 1.16,
     "wheelPivot": [
-      626,
-      623
+      627,
+      627
     ],
-    "wheelArtRadius": 604,
+    "wheelArtRadius": 560,
     "farWheelOffset": [
       0.2,
       0.13
     ],
     "archCircles": [
       [
-        1634,
-        601,
-        182
+        1689,
+        731,
+        177
       ],
       [
-        1275,
-        600,
-        182
+        1329,
+        731,
+        177
       ],
       [
-        715,
-        601,
-        182
+        739,
+        731,
+        177
       ],
       [
-        326,
-        615,
-        182
+        381,
+        731,
+        177
       ]
     ],
     "exhaust": [
-      0.431,
-      3.496
+      3.247,
+      3.993
     ],
     "winch": [
-      6.149,
-      0.697
+      6.167,
+      0.928
     ],
-    "nose": 6.249,
-    "towRear": -6.249,
+    "nose": 6.267,
+    "towRear": -6.183,
     "wheelScale": [
       1,
       1,
@@ -110,79 +110,58 @@
     ],
     "size": [
       12.5,
-      3.8
+      4.207
     ],
     "wheelMass": 667,
     "bodyBoxes": [
       [
-        -6.249,
-        -5.003,
-        0.691,
-        3.842,
-        1
+        -6.233,
+        6.267,
+        0.87,
+        1.22,
+        0.4
       ],
       [
-        -5.003,
-        -3.751,
-        -0.05,
-        3.742,
-        0.6
+        -6.233,
+        -4.15,
+        0.87,
+        3.753,
+        0.4
       ],
       [
-        -3.751,
-        -2.498,
-        -0.046,
-        3.542,
-        0.6
+        -4.15,
+        -2.067,
+        0.87,
+        4.187,
+        0.4
       ],
       [
-        -2.498,
-        -1.252,
-        -0.05,
-        3.392,
-        0.6
+        -2.067,
+        0.017,
+        0.87,
+        3.933,
+        0.4
       ],
       [
-        -1.252,
-        0.0,
-        -0.05,
-        3.281,
-        0.6
+        0.017,
+        2.1,
+        0.87,
+        4.113,
+        0.4
       ],
       [
-        0.0,
-        1.252,
-        -0.05,
-        3.072,
-        0.6
+        2.1,
+        4.183,
+        0.87,
+        4.047,
+        0.4
       ],
       [
-        1.252,
-        2.498,
-        -0.05,
-        3.007,
-        0.6
-      ],
-      [
-        2.498,
-        3.751,
-        -0.031,
-        3.434,
-        0.6
-      ],
-      [
-        3.751,
-        5.003,
-        -0.05,
-        3.464,
-        0.6
-      ],
-      [
-        5.003,
-        6.256,
-        0.359,
-        3.151,
-        1
+        4.183,
+        6.267,
+        0.87,
+        3.553,
+        0.4
       ]
     ],
     "suspension": {

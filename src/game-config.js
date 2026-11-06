@@ -49,15 +49,11 @@ export const UPGRADE_COST_BY_CLASS = { scout: 1, highway: 1.5, 'heavy-duty': 1.5
 // Chosen in the garage, one at a time per truck. Every power runs for a while, then has to recharge.
 export const POWER_TIMES = {
   invincible: { seconds: 10, cooldown: 30 },  // no hit does damage; started with the power button
-  nitro: { seconds: 5, cooldown: 30 },        // a surge of speed; started with the power button
   brakes: { seconds: 1, cooldown: 15 },       // the brake pedal stops the truck dead; started by braking faster than DAMAGE_START_KMH
 };
 export const INVINCIBLE_WARN_SECONDS = 3;     // the shield's glow flickers for the last few seconds
 export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that can't be damaged
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
-export const NITRO_COLOR = '#2f9dff';         // the speedy border around a truck on nitro
-export const NITRO_ACCEL = 5;                 // how hard nitro pushes, in m/s² whatever the truck weighs
-export const NITRO_TOP_SHARE = 1.6;           // nitro stops pushing at this share of the truck's own top speed
 export const INSTANT_BRAKE_RATE = 12;         // how hard instant brakes stop the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 
 // ---------- music ----------
@@ -79,6 +75,7 @@ export const LOADER_SLIDE_MS = 8000;          // how long each slide and its fac
 
 // ---------- highway ----------
 export const HIGHWAY_SIGN_WIDTH_M = 8.5;      // how wide the sign at the start of a highway is drawn
+export const SPEED_TRAP_FROM_END_M = 20;       // the speed camera stands this far before each highway's end, where trucks are at their fastest
 export const SPEED_TRAP_CARD_S = 4;           // how long the top speed card stays up, its fade included
 export const SPEED_TRAP_FADE_S = 1;           // how long it takes to fade out at the end
 

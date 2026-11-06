@@ -127,13 +127,13 @@ export function createHud({ sim, season }) {
   }
 
   // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too
-  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, nitro: { name: 'Nitro', color: '#2f9dff', button: 'NITRO' }, brakes: { name: 'Instant brakes', color: '#ff6a2b' } };
+  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, brakes: { name: 'Instant brakes', color: '#ff6a2b' } };
   const powerIcon = kind => document.getElementById('garageIcons').content.querySelector(`[data-icon="garage-${kind}"] svg`)?.cloneNode(true);
   let shownPower = null, powerText = null;
   function showPower() {
     const kind = sim.main.car.power ?? null, st = sim.main.st, box = document.getElementById('powers'), btn = els.powerBtn, look = POWER_HUD[kind];
     if (kind !== shownPower) {
-      shownPower = kind; powerText = null; box.innerHTML = ''; btn.hidden = !look?.button; btn.classList.toggle('nitro', kind === 'nitro');
+      shownPower = kind; powerText = null; box.innerHTML = ''; btn.hidden = !look?.button;
       if (look) {
         const chip = document.createElement('div'); chip.className = 'powerchip'; chip.id = 'powerChip';
         const icon = powerIcon(kind); if (icon) chip.append(icon);

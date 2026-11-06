@@ -1,66 +1,58 @@
 {
-  "about": "Loading screens: a painted how-to-play slide per topic, with its own title and facts listed under it, and the truck's wheel spinning on a mud mound at the bottom left, throwing mud. Encoded small (width, quality), cropped where noted (crop = left, top, right, bottom in source pixels), because they must show at once. The PNGs in source/ are the masters; source/prompts.json records how they were made.",
+  "about": "Loading screens: a full-screen photo of heavy trucks at work, the place's name at the top left, one fact about trucks at the bottom left (from truck-facts.json), and a tire spinning at the bottom right (an inline SVG in index.html spun by CSS, so it stays perfectly round). Photos are 1536 x 1024, listed in `photos` and encoded at full size by `npm run art:encode -- --art <key> ...`; until any exists, the season's panorama stands in.",
   "art": {
-    "bog": { "source": "source/slide-bog-v3.png", "file": "art/bog.webp", "width": 1280, "quality": 78 },
-    "winch": { "source": "source/slide-winch-v4.png", "file": "art/winch.webp", "width": 1280, "quality": 78 },
-    "fuel": { "source": "source/slide-fuel-v2.png", "file": "art/fuel.webp", "width": 1280, "quality": 78 },
-    "obstacles": { "source": "source/slide-obstacles.png", "file": "art/obstacles.webp", "width": 1280, "quality": 78 },
-    "coins": { "source": "source/slide-coins-v3.png", "file": "art/coins.webp", "width": 1280, "quality": 78 },
-    "garage": { "source": "source/slide-garage-v2.png", "file": "art/garage.webp", "width": 1280, "quality": 78 },
-    "mound": { "source": "source/loader-mud-mound.png", "file": "art/mound.webp", "crop": [96, 210, 1506, 408], "width": 700, "quality": 85 },
-    "splash1": { "source": "source/loader-splash-1.png", "file": "art/splash1.webp", "width": 384, "quality": 85 },
-    "splash2": { "source": "source/loader-splash-2.png", "file": "art/splash2.webp", "width": 384, "quality": 85 },
-    "splash3": { "source": "source/loader-splash-3.png", "file": "art/splash3.webp", "width": 384, "quality": 85 },
-    "wheel": { "source": "../cars/swamp-scout-4/source/wheel-v2.png", "file": "art/wheel.webp", "width": 256, "quality": 85 }
-  },
-  "first": { "launch": "bog", "drive": "obstacles", "garage": "garage" },
-  "slides": {
-    "bog": {
-      "title": "Deep mud",
-      "facts": [
-        "Drop to L before you reach the bog, not once you are stuck in it.",
-        "AWD drives every axle. DIFF LOCK turns all the wheels together, so one spinning tire cannot waste the power.",
-        "Light trucks can wiggle through. A loaded rig may need its breakdown truck."
-      ]
+    "photo01": {
+      "source": "source/loader-photo-01.png",
+      "file": "art/photo01.webp",
+      "quality": 86
     },
-    "winch": {
-      "title": "Breakdown truck",
-      "facts": [
-        "Call it from the top bar, once per run. It comes from the start of the trail.",
-        "Back it within 5 m of the stuck truck and tap WINCH to hook on.",
-        "Drive away to tow. The cable never reels in, and the breakdown truck never gets stuck."
-      ]
+    "photo02": {
+      "source": "source/loader-photo-02.png",
+      "file": "art/photo02.webp",
+      "quality": 86
     },
-    "fuel": {
-      "title": "Fuel stations",
-      "facts": [
-        "Stop in a station's bay to refuel and repair.",
-        "The trip line shows how far away the next station is.",
-        "Run the tank dry and the engine stops. The breakdown truck can tow you in."
-      ]
+    "photo03": {
+      "source": "source/loader-photo-03.png",
+      "file": "art/photo03.webp",
+      "quality": 86
     },
-    "obstacles": {
-      "title": "Logs, rocks and pipes",
-      "facts": [
-        "Big tires climb pipes and logs. Small ones hang up on them.",
-        "Take them slowly in L, so the tires can grip and climb.",
-        "Hard hits add damage. A fuel station repairs it."
-      ]
+    "photo04": {
+      "source": "source/loader-photo-04.png",
+      "file": "art/photo04.webp",
+      "quality": 86
     },
-    "coins": {
-      "title": "Coins",
-      "facts": [
-        "New ground, things you crush and deep bogs you clear all pay.",
-        "Spend coins in the garage on tuning and powers."
-      ]
+    "photo05": {
+      "source": "source/loader-photo-05.png",
+      "file": "art/photo05.webp",
+      "quality": 86
     },
-    "garage": {
-      "title": "Garage tuning",
-      "facts": [
-        "Each truck has four knobs: engine, suspension, speed and grip.",
-        "Upgrades are saved per truck, and selling a step back refunds it.",
-        "Pick one power per truck: Invincible, Nitro or Instant brakes."
-      ]
+    "photo06": {
+      "source": "source/loader-photo-06.png",
+      "file": "art/photo06.webp",
+      "quality": 86
+    },
+    "photo07": {
+      "source": "source/loader-photo-07.png",
+      "file": "art/photo07.webp",
+      "quality": 86
+    },
+    "photo08": {
+      "source": "source/loader-photo-08.png",
+      "file": "art/photo08.webp",
+      "quality": 86
+    },
+    "fallback": {
+      "file": "../seasons/swamp-summer/art/backdrop.webp"
     }
-  }
+  },
+  "photos": [
+    "photo01",
+    "photo02",
+    "photo03",
+    "photo04",
+    "photo05",
+    "photo06",
+    "photo07",
+    "photo08"
+  ]
 }

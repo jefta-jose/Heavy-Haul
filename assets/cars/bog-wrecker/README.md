@@ -1,13 +1,15 @@
 # Bog Wrecker
 
-Status: **planned** · breakdown truck for class `offroad` (huge; tows up to 64 t) · 8×8, 4 axles · 34 t empty · 620 kW · flotation tires, 2.2 m
+Status: **playable** · breakdown truck for class `offroad` (huge; tows up to 64 t) · 8×8, 4 axles · 34 t empty · 620 kW · flotation tires, 2.2 m
+
+**Redrawn (2026-11-06):** safety yellow, in the Colossus Wrecker's heavy, rugged style, so every class's breakdown truck reads as one fleet. The old art was deleted.
 
 ## Art brief
 
-- Vehicle: olive drab 8×8 military recovery truck
+- Vehicle: safety yellow 8×8 heavy recovery truck, boxy and rugged like the Colossus Wrecker
 - Load (drawn as part of the vehicle): a heavy recovery crane boom
 - Equipment: twin rear winch drums with hooks, ground spades, sand ladders, light bar
-- Finish: thick dried swamp mud
+- Finish: chipped yellow paint under thick dried swamp mud
 - Tires: 2.20 m flotation tires: huge low-pressure balloon tires with wide paddle lugs
 
 ## Codex delivers (see AGENTS.md)

@@ -156,9 +156,9 @@ A sign stands at the first of every group of things that can hurt a truck: logs,
 
 ## Highway
 
-Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed, and nitro: long, smooth waves instead of bumps, so the truck rises and dips gradually, a dashed centre line, a sign at the start, and nothing on it but stones that any truck breaks on touch, for coins and no damage.
+Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it but stones that any truck breaks on touch, for coins and no damage.
 
-A speed camera stands at the 125 m mark of each one. As the truck passes, a fiery red card shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
+An invisible speed camera sits 20 m before the end of each one, where trucks are at their fastest. As the truck passes, a small fiery red chip just under the power chip, the same size, shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
 
 ## Roadside scenery
 
@@ -176,10 +176,9 @@ Every power runs for a while and then recharges, and starts ready on every run.
 
 - **Invincible:** the power button (S on a keyboard) stops all hit damage and the throw from a hit for 10 seconds, with a violet glow around the truck that flickers for the last 3. It then recharges for 30 seconds. It does not stop a rollover.
 - **Instant brakes:** braking on the ground faster than `DAMAGE_START_KMH` (20 km/h) starts it, so ordinary slow braking never uses it up: for 1 second the pedal takes the truck's speed straight off, whatever it weighs. It then recharges for 15 seconds, with normal brakes until it is ready.
-- **Nitro:** the power button gives 5 seconds of push past the truck's own top speed, up to 1.6 times it, whatever gear it is in, with a blue border and speed lines. It then recharges for 30 seconds. It gives no protection, so hitting something on nitro hurts a lot.
 
-The numbers are in `src/game-config.js`. Nitro adds no sound, as a turbo sound was tried and rejected.
+The numbers are in `src/game-config.js`. A Nitro power was removed on 2026-11-06: its speed always ended in a wreck in the obstacles just past the highway.
 
 ## Garage, screens and music
 
-The garage art is listed in `assets/hud/hud.json`; every entry reaches the style sheet as `--hud-<id>`. Heavy trucks, heavy screens: nothing in the garage bounces or gleams, and it moves slowly or not at all. Loading screens (`src/game/loader.js`, `assets/loaders/loaders.json`) show painted how-to-play slides (labelled arrows over the scene) that pan and cross-fade, each with its own title and list of facts from `slides`; after DRIVE the run's own facts (rig and trail) come first. There is no progress bar: the truck's own wheel spins on a mud mound at the bottom left, throwing mud. Each screen stays up long enough to read (`LOADER_MIN_MS_*` and `LOADER_SLIDE_MS` in `src/game-config.js`), and a tap skips the wait once loading is done. The loading screen fades in over the garage on DRIVE and fades out to it on the way back. Two music tracks in `assets/audio/music/` play one at a time, garage and road, with their own Music volume; their settings are in `src/game-config.js`.
+The garage art is listed in `assets/hud/hud.json`; every entry reaches the style sheet as `--hud-<id>`. Heavy trucks, heavy screens: nothing in the garage bounces or gleams, and it moves slowly or not at all. Loading screens (`src/game/loader.js`, `assets/loaders/loaders.json`) look like a big truck game's: a full-screen photo of heavy trucks at work drifts slowly and cross-fades to the next, the season's name and place sit at the top left (after DRIVE, the truck, its load and the trail instead of the place), one real fact about trucks (from `assets/loaders/truck-facts.json`) sits at the bottom left, and a tire (an inline SVG, spun by CSS) turns at the bottom right, so it is always perfectly round. Until any photo exists the season's panorama stands in. A tap skips the wait once loading is done. The loading screen fades in over the garage on DRIVE and fades out to it on the way back. Two music tracks in `assets/audio/music/` play one at a time, garage and road, with their own Music volume; their settings are in `src/game-config.js`.

@@ -1,12 +1,1050 @@
 {
   "master": {
-    "prompt": "Use case: stylized-concept. Game master Bog Wrecker: OLIVE DRAB 8×8 military recovery truck, 12.5 m long, EXACTLY FOUR axles (two rear plus two front), FOUR near-side road wheels, equal-size 2.20 m low-pressure balloon flotation tires with wide paddle lugs. Heavy recovery crane boom folded securely along deck, twin exposed REAR LEFT winch drums with wound steel cables and TWO clear hanging hooks. Stowed ground spades, sand ladders, tool lockers, amber light bar. Thick dried swamp mud over lower panels and tires. Purpose-built angular military cab, real functional high-clearance chassis. Length 5.68 tire diameters; huge tires dwarf cab steps. Premium semi-realistic painted game illustration matching approved family, dark natural contours, fine detailed mechanics, rich weathered material. Side-on facing RIGHT, restrained elevated view showing little roof/deck/tread. Whole object clear margins, wide PNG minimum 1500 across. Soft even daylight. TRUE transparent background and gaps. No ground, cast shadows, halo, text, insignia, logo or watermark."
+    "prompt": "Use case: stylized-concept. NEW complete BOG WRECKER game truck in safety-yellow Colossus recovery fleet. Image1 is STYLE/construction/color/equipment reference ONLY; do not copy5-axle layout. Image2 approved matching SWAMP FLOTATION tire/rim design. Huge8x8 rigid swamp recovery truck, NO trailer, EXACTLY FOUR near-side ROAD AXLES in TWO CLOSE TANDEMS: rear pair at LEFT beneath giant folded hydraulic crane and twin winches, front pair at RIGHT beneath cab/forward chassis. Rear2+front2=FOUR, no extra center wheels. Each pair nearly tire to tire, no overlap. 12.5m TOTAL LENGTH including stowed boom, bumpers, tow gear and hooks; all four identical2.32m tires; overall exactly5.387931 tire diameters. Intended2048x1024 PNG, complete rig1875px long, road tire diameter348px, suggested hubs x390,750,1330,1690 allhuby760. Compact powerful boxy body and short blunt conventional bonnet, tall squared steel cab with strong bumper/grille guard; no rounded/car-like shapes. Distinct bonnet/radiator housing/bumper/headlamp/round front fender with clean plausible seams, full tire visible; no melted panels/pointed wedges/axe-head fender. Small rectangular mirror on short rigid A-pillar bracket, vertical exhaust. SAFETY YELLOW cab/ladder chassis/crane boom under chipped paint/rust/grime and dried swamp mud concentrated on lower panels; yellow remains dominant, no olive/mustard/white base. Thick reinforced frame and boxy lockers. Massive folded horizontal recovery crane with visible rams, hoses and pivots; TWIN exposed rear LEFT winch drums with wound steel cable and TWO clear RED hooks. Ground spades STOWED above hubs, sand ladders, heavy steel tool lockers, cab and boom light bars, amber beacons without glow, black/yellow hazard stripes, red tow shackles. All non-road equipment INCLUDING fuel tanks, step bottoms, outrigger feet/spades, hooks, fender ends and folded recovery gear ENTIRELY ABOVE hub line. Transparent open ground clearance beneath frame. Huge low pressure balloon flotation tires with deep wide paddle/chevron lugs, weathered steel rims/bolted hubs matching wheel reference; four perfect equal circles with centered concentric rims, completely visible. Heavy crane weight directly supported by close rear pair, heavy cab by front pair. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, no visible cab front/grille face, no top surfaces or bed floor, level chassis. Premium semi-realistic painted game illustration matching Colossus and Swamp Scout, readable dark contours, rich natural textures/fine mechanical fittings, soft even daylight. Whole object entirely inside generous clear margins all sides. True transparent background and internal gaps, no ground/shadow/glow/halo/checkerboard/text/logos/watermark.",
+    "references": [
+      "../../colossus-wrecker/source/vehicle-master-v4.png",
+      "wheel-v3.png"
+    ],
+    "status": "pass",
+    "sourceMaster": "vehicle-master-v2.png",
+    "selectedOutput": "vehicle-master-v4.png",
+    "roadHubCentersPx": [
+      [
+        381,
+        731
+      ],
+      [
+        739,
+        731
+      ],
+      [
+        1329,
+        731
+      ],
+      [
+        1689,
+        731
+      ]
+    ],
+    "tireDiameterPx": 348,
+    "scale": 1.0813148788927336,
+    "sourceRoadHubsPx": [
+      [
+        283.2258064516129,
+        657
+      ],
+      [
+        614.1774193548388,
+        657
+      ],
+      [
+        1159.34375,
+        657
+      ],
+      [
+        1492.40625,
+        657
+      ]
+    ],
+    "sourceRemovalRadiusPx": 167,
+    "sourceNewHubY": 657,
+    "lengthPx": 1875,
+    "bodyBaseTemporary": "/tmp/bog-wrecker-prepared-body.png",
+    "correction": "Source alpha cleaned; uniform body scale; matching circular wheel instances replace original road tires. Original inner-liner paint supplies recessed material where smaller tires expose it. Hub line placed just below all original non-road equipment; no equipment clipped.",
+    "measurements": {
+      "dimensions": [
+        2075,
+        1068
+      ],
+      "bboxAlpha128": [
+        100,
+        100,
+        1975,
+        905
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixels": 1009625,
+      "opaquePixels": 1200171
+    },
+    "depictedLengthM": 12.5,
+    "visualReview": "Full-resolution square cab/short bonnet, plausible small short-mounted mirror and distinct round front arch/bumper inspected. Correct4 axles in close rear/front pairs, equal circular tires replaced oval generated tires. Winches/red hooks/spades/sand ladders visible, all equipment above hubs. Body horizontal spans adjusted to supply10/12px tandem gaps before body derivation; source paint detail retained, resizing adds no missing painted detail.",
+    "sourceOriginalRoadHubsPx": [
+      [
+        260,
+        657
+      ],
+      [
+        549,
+        657
+      ],
+      [
+        1226,
+        657
+      ],
+      [
+        1518,
+        657
+      ]
+    ],
+    "bodyHorizontalWarp": {
+      "sourceX": [
+        0,
+        100,
+        720,
+        1060,
+        1700,
+        1773
+      ],
+      "targetX": [
+        0,
+        100,
+        810,
+        970,
+        1700,
+        1773
+      ]
+    },
+    "finalSelectedOutput": "vehicle-master-v4.png"
   },
   "body": {
-    "edit_of": "vehicle-master-v1.png",
-    "prompt": "Use case: precise-object-edit. Edit target Bog Wrecker vehicle-master-v1.png. Remove ALL road wheels and tires on ALL FOUR axles, including far-side tire glimpses. Transparent empty arches and wheel regions. Retain olive drab body, crane, twin rear winch drums, cables/hooks, spades, sand ladders, lockers, chassis and suspension, unchanged. Preserve EXACT canvas dimensions, position, scale, camera, materials and details. No redesign or movement. True transparent background."
+    "prompt": "Use case: precise-object-edit. Edit accepted Bog Wrecker vehicle-master-v3.png ONLY at exact2075x1068 canvas and original pixel positions. Remove ALL FOUR ROAD TIRES/rims at x381,739,1329,1689, all original huby731. Fill each upper wheel well and both tandem gaps with completely opaque PAINTED dark steel liners, thick ladder frame/axle beams, heavy leaf springs, dampers, hoses and bolts. From fender lips down THROUGH original hubline731; no alpha holes above hubs. All space beneath hubline transparent: no tire/rim/circular road-hub discs or fragments. Keep every nonwheel pixel unchanged: tall squared safety-yellow cab, short blunt conventional bonnet and distinct radiator/bumper/headlamp/round fender, small rectangular mirror short rigid bracket, vertical exhaust, massive folded boom/rams/hoses, TWIN rearLEFT winches with steel cable and BOTH red hooks, stowed spades, sand ladders, lockers/toolboxes, lights/beacons, mud/grime/hazard stripes. Exact same camera/scale/canvas/position, no redesign/reframe/rescale. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right, premium semi-realistic painted game illustration matching Colossus. True transparent background, no ground/shadow/glow/halo/checkerboard/text/logos/watermark.",
+    "edit_of": "vehicle-master-v3.png",
+    "status": "pass",
+    "selectedOutput": "body-v3.png",
+    "sourceOutput": "body-v2.png",
+    "derivationMethod": "SIFT/RANSAC aligns generated painted suspension material. Only measured road-wheel regions and tandem gaps replaced; every master pixel outside these regions retained exactly. Opaque upper wells through hubs, transparent below. Final master recomposited with validated identical wheel instances.",
+    "generatedEditTarget": "vehicle-master-v3.png",
+    "registrationNote": "Final body and final master share every pixel except validated road-wheel instances. Generated material edit targeted the accepted prior master; final master restores matching road wheels after region-limited body repair.",
+    "pairedFinalMaster": "vehicle-master-v4.png"
   },
   "wheel": {
-    "prompt": "Use case: stylized-concept. ONE matching Bog Wrecker road wheel: huge 2.20 m low-pressure balloon flotation tire, broad widely spaced paddle lugs, charcoal rubber with thick dried swamp mud. Small olive drab steel rim, olive bolted hub matching military master. Premium semi-realistic painted game art with detailed weathered materials and dark contours. Perfect CIRCLE, FRONT-ON orthographic, hub exactly centered, equal clear margins on SQUARE truly transparent PNG. Requested 2048×2048 minimum 1500 square. Soft even light suitable for spinning sprite. No axle, body, ground, shadow, halo, text, logos."
-  }
+    "prompt": "Use case: stylized-concept. ONE huge SWAMP FLOTATION recovery truck road wheel for Bog Wrecker. Low-pressure balloon tire, wide deep paddle/chevron lugs, broad charcoal rubber sidewall, weathered heavy steel rim with circular ventilation holes and bolted concentric hub. Fine dried swamp mud in recesses, not hiding tread. Match premium semi-realistic painted Colossus fleet game illustration, strong natural dark contours, fine mechanical detail, rich weathered materials, soft even light for spinning. Perfect circular face-on silhouette, concentric rim and hub EXACT center of square1536x1536 PNG(native1254square accepted), generous equal transparent margins. Opaque dark backing inside rim ventilation holes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background no axle/body/ground/shadow/halo/glow/checkerboard/text/logos/watermark.",
+    "status": "pass",
+    "selectedOutput": "wheel-v3.png",
+    "sourceOutput": "wheel-v2.png",
+    "sourceHubPx": [
+      626.0,
+      629.0
+    ],
+    "correction": "Native square retained; hub recentered; .91 scale within native canvas supplies generous margins. Circular opaque dark rubber backing, edge alpha cleaned; no detail claimed from resampling.",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "bboxAlpha128": [
+        67,
+        67,
+        1187,
+        1187
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixels": 585644,
+      "opaquePixels": 983384
+    },
+    "tireDiameterPx": 1120,
+    "hubCenterPx": [
+      626.5,
+      626.5
+    ]
+  },
+  "fleet_redraw_2026_11_06": {
+    "status": "pass",
+    "specification": {
+      "roadAxleCount": 4,
+      "drivetrain": "8x8",
+      "tireDiameterM": 2.32,
+      "totalLengthM": 12.5,
+      "maxTotalLengthM": 12.5,
+      "projectLengthCapM": 16.8,
+      "lengthTireDiameters": 5.387931034482759,
+      "axleGroupsFrontToRear": [
+        2,
+        2
+      ],
+      "intendedCanvasPx": [
+        2048,
+        1024
+      ],
+      "conflictResolution": "User exact12.5m and2.32m tires supersede legacy README2.20m. Close front and rear pairs support heavy recovery equipment. Square conventional steel cab/short bonnet matches Colossus."
+    },
+    "wheel": {
+      "prompt": "Use case: stylized-concept. ONE huge SWAMP FLOTATION recovery truck road wheel for Bog Wrecker. Low-pressure balloon tire, wide deep paddle/chevron lugs, broad charcoal rubber sidewall, weathered heavy steel rim with circular ventilation holes and bolted concentric hub. Fine dried swamp mud in recesses, not hiding tread. Match premium semi-realistic painted Colossus fleet game illustration, strong natural dark contours, fine mechanical detail, rich weathered materials, soft even light for spinning. Perfect circular face-on silhouette, concentric rim and hub EXACT center of square1536x1536 PNG(native1254square accepted), generous equal transparent margins. Opaque dark backing inside rim ventilation holes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background no axle/body/ground/shadow/halo/glow/checkerboard/text/logos/watermark.",
+      "status": "pass",
+      "selectedOutput": "wheel-v3.png",
+      "sourceOutput": "wheel-v2.png",
+      "sourceHubPx": [
+        626.0,
+        629.0
+      ],
+      "correction": "Native square retained; hub recentered; .91 scale within native canvas supplies generous margins. Circular opaque dark rubber backing, edge alpha cleaned; no detail claimed from resampling.",
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "bboxAlpha128": [
+          67,
+          67,
+          1187,
+          1187
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 585644,
+        "opaquePixels": 983384
+      },
+      "tireDiameterPx": 1120,
+      "hubCenterPx": [
+        626.5,
+        626.5
+      ]
+    },
+    "reference": "../../colossus-wrecker/source/vehicle-master-v4.png",
+    "outputs": {
+      "wheel-v2.png": {
+        "status": "needs_revision",
+        "reason": "Insufficient margins and slightly uneven outer silhouette; deterministic circular backing and hub centering applied.",
+        "measurements": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            12,
+            10,
+            1238,
+            1250
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 412723,
+          "opaquePixels": 625
+        }
+      },
+      "wheel-v3.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            67,
+            67,
+            1187,
+            1187
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 585644,
+          "opaquePixels": 983384
+        }
+      },
+      "vehicle-master-v2.png": {
+        "status": "needs_revision",
+        "reason": "Generated margins/alpha and road tire geometry require deterministic normalization to exact user length/tire ratio.",
+        "measurements": {
+          "dimensions": [
+            1774,
+            887
+          ],
+          "bboxAlpha128": [
+            22,
+            72,
+            1757,
+            820
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 521975,
+          "opaquePixels": 351
+        }
+      },
+      "vehicle-master-v3.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            2075,
+            1068
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1975,
+            905
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1009625,
+          "opaquePixels": 1200171
+        },
+        "review": "Accepted corrected master inspected before generated body edit. Final selected master adds aligned generated well paint only inside measured wheel regions."
+      },
+      "body-v2.png": {
+        "status": "needs_revision",
+        "reason": "Generated edit resizes/repaints non-wheel pixels; use as aligned painted wheel-well material only.",
+        "measurements": {
+          "dimensions": [
+            1785,
+            881
+          ],
+          "bboxAlpha128": [
+            87,
+            83,
+            1693,
+            628
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 797925,
+          "opaquePixels": 914
+        }
+      },
+      "body-v3.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            2075,
+            1068
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1975,
+            732
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1201242,
+          "opaquePixels": 1014858
+        }
+      },
+      "vehicle-master-v4.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            2075,
+            1068
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1975,
+            905
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1009474,
+          "opaquePixels": 1200314
+        }
+      }
+    },
+    "master": {
+      "prompt": "Use case: stylized-concept. NEW complete BOG WRECKER game truck in safety-yellow Colossus recovery fleet. Image1 is STYLE/construction/color/equipment reference ONLY; do not copy5-axle layout. Image2 approved matching SWAMP FLOTATION tire/rim design. Huge8x8 rigid swamp recovery truck, NO trailer, EXACTLY FOUR near-side ROAD AXLES in TWO CLOSE TANDEMS: rear pair at LEFT beneath giant folded hydraulic crane and twin winches, front pair at RIGHT beneath cab/forward chassis. Rear2+front2=FOUR, no extra center wheels. Each pair nearly tire to tire, no overlap. 12.5m TOTAL LENGTH including stowed boom, bumpers, tow gear and hooks; all four identical2.32m tires; overall exactly5.387931 tire diameters. Intended2048x1024 PNG, complete rig1875px long, road tire diameter348px, suggested hubs x390,750,1330,1690 allhuby760. Compact powerful boxy body and short blunt conventional bonnet, tall squared steel cab with strong bumper/grille guard; no rounded/car-like shapes. Distinct bonnet/radiator housing/bumper/headlamp/round front fender with clean plausible seams, full tire visible; no melted panels/pointed wedges/axe-head fender. Small rectangular mirror on short rigid A-pillar bracket, vertical exhaust. SAFETY YELLOW cab/ladder chassis/crane boom under chipped paint/rust/grime and dried swamp mud concentrated on lower panels; yellow remains dominant, no olive/mustard/white base. Thick reinforced frame and boxy lockers. Massive folded horizontal recovery crane with visible rams, hoses and pivots; TWIN exposed rear LEFT winch drums with wound steel cable and TWO clear RED hooks. Ground spades STOWED above hubs, sand ladders, heavy steel tool lockers, cab and boom light bars, amber beacons without glow, black/yellow hazard stripes, red tow shackles. All non-road equipment INCLUDING fuel tanks, step bottoms, outrigger feet/spades, hooks, fender ends and folded recovery gear ENTIRELY ABOVE hub line. Transparent open ground clearance beneath frame. Huge low pressure balloon flotation tires with deep wide paddle/chevron lugs, weathered steel rims/bolted hubs matching wheel reference; four perfect equal circles with centered concentric rims, completely visible. Heavy crane weight directly supported by close rear pair, heavy cab by front pair. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, no visible cab front/grille face, no top surfaces or bed floor, level chassis. Premium semi-realistic painted game illustration matching Colossus and Swamp Scout, readable dark contours, rich natural textures/fine mechanical fittings, soft even daylight. Whole object entirely inside generous clear margins all sides. True transparent background and internal gaps, no ground/shadow/glow/halo/checkerboard/text/logos/watermark.",
+      "references": [
+        "../../colossus-wrecker/source/vehicle-master-v4.png",
+        "wheel-v3.png"
+      ],
+      "status": "pass",
+      "sourceMaster": "vehicle-master-v2.png",
+      "selectedOutput": "vehicle-master-v4.png",
+      "roadHubCentersPx": [
+        [
+          381,
+          731
+        ],
+        [
+          739,
+          731
+        ],
+        [
+          1329,
+          731
+        ],
+        [
+          1689,
+          731
+        ]
+      ],
+      "tireDiameterPx": 348,
+      "scale": 1.0813148788927336,
+      "sourceRoadHubsPx": [
+        [
+          283.2258064516129,
+          657
+        ],
+        [
+          614.1774193548388,
+          657
+        ],
+        [
+          1159.34375,
+          657
+        ],
+        [
+          1492.40625,
+          657
+        ]
+      ],
+      "sourceRemovalRadiusPx": 167,
+      "sourceNewHubY": 657,
+      "lengthPx": 1875,
+      "bodyBaseTemporary": "/tmp/bog-wrecker-prepared-body.png",
+      "correction": "Source alpha cleaned; uniform body scale; matching circular wheel instances replace original road tires. Original inner-liner paint supplies recessed material where smaller tires expose it. Hub line placed just below all original non-road equipment; no equipment clipped.",
+      "measurements": {
+        "dimensions": [
+          2075,
+          1068
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1975,
+          905
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1009625,
+        "opaquePixels": 1200171
+      },
+      "depictedLengthM": 12.5,
+      "visualReview": "Full-resolution square cab/short bonnet, plausible small short-mounted mirror and distinct round front arch/bumper inspected. Correct4 axles in close rear/front pairs, equal circular tires replaced oval generated tires. Winches/red hooks/spades/sand ladders visible, all equipment above hubs. Body horizontal spans adjusted to supply10/12px tandem gaps before body derivation; source paint detail retained, resizing adds no missing painted detail.",
+      "sourceOriginalRoadHubsPx": [
+        [
+          260,
+          657
+        ],
+        [
+          549,
+          657
+        ],
+        [
+          1226,
+          657
+        ],
+        [
+          1518,
+          657
+        ]
+      ],
+      "bodyHorizontalWarp": {
+        "sourceX": [
+          0,
+          100,
+          720,
+          1060,
+          1700,
+          1773
+        ],
+        "targetX": [
+          0,
+          100,
+          810,
+          970,
+          1700,
+          1773
+        ]
+      },
+      "finalSelectedOutput": "vehicle-master-v4.png"
+    },
+    "body": {
+      "prompt": "Use case: precise-object-edit. Edit accepted Bog Wrecker vehicle-master-v3.png ONLY at exact2075x1068 canvas and original pixel positions. Remove ALL FOUR ROAD TIRES/rims at x381,739,1329,1689, all original huby731. Fill each upper wheel well and both tandem gaps with completely opaque PAINTED dark steel liners, thick ladder frame/axle beams, heavy leaf springs, dampers, hoses and bolts. From fender lips down THROUGH original hubline731; no alpha holes above hubs. All space beneath hubline transparent: no tire/rim/circular road-hub discs or fragments. Keep every nonwheel pixel unchanged: tall squared safety-yellow cab, short blunt conventional bonnet and distinct radiator/bumper/headlamp/round fender, small rectangular mirror short rigid bracket, vertical exhaust, massive folded boom/rams/hoses, TWIN rearLEFT winches with steel cable and BOTH red hooks, stowed spades, sand ladders, lockers/toolboxes, lights/beacons, mud/grime/hazard stripes. Exact same camera/scale/canvas/position, no redesign/reframe/rescale. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right, premium semi-realistic painted game illustration matching Colossus. True transparent background, no ground/shadow/glow/halo/checkerboard/text/logos/watermark.",
+      "edit_of": "vehicle-master-v3.png",
+      "status": "pass",
+      "selectedOutput": "body-v3.png",
+      "sourceOutput": "body-v2.png",
+      "derivationMethod": "SIFT/RANSAC aligns generated painted suspension material. Only measured road-wheel regions and tandem gaps replaced; every master pixel outside these regions retained exactly. Opaque upper wells through hubs, transparent below. Final master recomposited with validated identical wheel instances.",
+      "generatedEditTarget": "vehicle-master-v3.png",
+      "registrationNote": "Final body and final master share every pixel except validated road-wheel instances. Generated material edit targeted the accepted prior master; final master restores matching road wheels after region-limited body repair.",
+      "pairedFinalMaster": "vehicle-master-v4.png"
+    },
+    "selected": {
+      "master": "vehicle-master-v4.png",
+      "body": "body-v3.png",
+      "wheel": "wheel-v3.png"
+    },
+    "validation": {
+      "status": "pass",
+      "dimensions": [
+        2075,
+        1068
+      ],
+      "bodyDimensions": [
+        2075,
+        1068
+      ],
+      "wheelDimensions": [
+        1254,
+        1254
+      ],
+      "roadAxleCount": 4,
+      "hubCentersPx": [
+        [
+          381,
+          731
+        ],
+        [
+          739,
+          731
+        ],
+        [
+          1329,
+          731
+        ],
+        [
+          1689,
+          731
+        ]
+      ],
+      "tireDiameterPx": 348,
+      "tireBottomsPx": [
+        905,
+        905,
+        905,
+        905
+      ],
+      "measuredLengthPx": 1875,
+      "measuredLengthTireDiameters": 5.387931034482759,
+      "depictedLengthM": 12.5,
+      "targetLengthM": 12.5,
+      "lengthErrorM": 0.0,
+      "bodyMasterDimensionsMatch": true,
+      "outsideWheelRegionsPixelIdentical": true,
+      "nonWheelChangedPixels": 0,
+      "bodyBelowHubAlpha0": true,
+      "upperWellAlpha255": true,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "equalRoundTires": true,
+      "levelHubs": true,
+      "registrationFromGeneratedMaterialToMaster": [
+        [
+          1.1667763371293032,
+          -0.000901576278665653,
+          0.3389826977083364
+        ],
+        [
+          0.000901576278665653,
+          1.1667763371293032,
+          3.11661749791194
+        ]
+      ],
+      "registrationInliers": 573,
+      "wheelRegionRadiusPx": 208,
+      "sourceMaster": "vehicle-master-v3.png",
+      "paintedMaterial": "body-v2.png",
+      "axleGroupsLeftToRight": [
+        [
+          381,
+          739
+        ],
+        [
+          1329,
+          1689
+        ]
+      ],
+      "alpha": {
+        "master": {
+          "dimensions": [
+            2075,
+            1068
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1975,
+            905
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1009474,
+          "opaquePixels": 1200314
+        },
+        "body": {
+          "dimensions": [
+            2075,
+            1068
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1975,
+            732
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1201242,
+          "opaquePixels": 1014858
+        },
+        "wheel": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            67,
+            67,
+            1187,
+            1187
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 585644,
+          "opaquePixels": 983384
+        }
+      },
+      "clearMarginsPx": [
+        100,
+        100,
+        100,
+        163
+      ],
+      "visualReview": "PASS: safety-yellow8x8 with squared short-bonnet steel cab, plausible short rigid mirror, distinct bumper/headlamp and round clearance fender inspected at full resolution. Exactly4 equal round low-pressure paddle flotation tires/concentric hubs, close rear/front pairs with10px/12px gaps support crane and cab. Twin rear cable drums/red hooks, spades and sand ladders retained. Light/dark and suspension-drop alpha inspection passes with opaque upper wells/pair gaps through hubs and fully clear below. Corrected mask covers full measured transformed wheel regions including27 one-pixel liner-edge samples at y732. Zero changed nonwheel pixels; exact12.5m from1875px/348px*2.32m.",
+      "validatedBeforeNextTruck": true,
+      "finalAudit": {
+        "status": "pass",
+        "pngHeaderDimensions": {
+          "master": [
+            2075,
+            1068
+          ],
+          "body": [
+            2075,
+            1068
+          ],
+          "wheel": [
+            1254,
+            1254
+          ]
+        },
+        "measuredRoadTireBBoxesAlpha128": [
+          [
+            207,
+            557,
+            555,
+            905
+          ],
+          [
+            565,
+            557,
+            913,
+            905
+          ],
+          [
+            1155,
+            557,
+            1503,
+            905
+          ],
+          [
+            1515,
+            557,
+            1863,
+            905
+          ]
+        ],
+        "measuredTireDimensionsPx": [
+          [
+            348,
+            348
+          ],
+          [
+            348,
+            348
+          ],
+          [
+            348,
+            348
+          ],
+          [
+            348,
+            348
+          ]
+        ],
+        "measuredTireCentersPx": [
+          [
+            381.0,
+            731.0
+          ],
+          [
+            739.0,
+            731.0
+          ],
+          [
+            1329.0,
+            731.0
+          ],
+          [
+            1689.0,
+            731.0
+          ]
+        ],
+        "measuredTireBottomsPx": [
+          905,
+          905,
+          905,
+          905
+        ],
+        "measuredLengthM": 12.5,
+        "masterExactlyEqualsBodyPlusWheelInstances": true,
+        "pixelDifferenceOutsideWheelRegions": 0,
+        "upperWellAlpha255": true,
+        "bodyBelowHubAlpha0": true,
+        "closeGroupGapAudit": [
+          {
+            "hubs": [
+              381,
+              739
+            ],
+            "tireGapPx": 10,
+            "transparentUpperGapPixels": 0
+          },
+          {
+            "hubs": [
+              1329,
+              1689
+            ],
+            "tireGapPx": 12,
+            "transparentUpperGapPixels": 0
+          }
+        ],
+        "sha256": {
+          "master": "b87f6e30e89fcdb88e57f3ec5258b26c1d62645c54fcc4c28f6490ea7e47e8f4",
+          "body": "5d8f86066a4022a9b37929fc8e715e312f47a80378e4feb5b167a03060aec647",
+          "wheel": "f6d03ed50d1701d8d69b372726a14279fa961f96e264abdc3e171a3e927c9ff0"
+        },
+        "generationOrder": "Wheel validated, then one master measured/corrected and accepted, then its body edited and registered, then complete set validated before next truck."
+      }
+    },
+    "generation_tool": "built-in image_gen",
+    "correction_tools": "Pillow, NumPy, OpenCV; scratch scripts outside repository",
+    "promptRecording": "Exact generation prompts recorded before each call; raw generated files and versioned corrections preserved."
+  },
+  "history": [
+    {
+      "archived_delivery_before_yellow_fleet_redraw": {
+        "master": {
+          "prompt": "Use case: stylized-concept. Game master Bog Wrecker: OLIVE DRAB 8\u00d78 military recovery truck, 12.5 m long, EXACTLY FOUR axles (two rear plus two front), FOUR near-side road wheels, equal-size 2.20 m low-pressure balloon flotation tires with wide paddle lugs. Heavy recovery crane boom folded securely along deck, twin exposed REAR LEFT winch drums with wound steel cables and TWO clear hanging hooks. Stowed ground spades, sand ladders, tool lockers, amber light bar. Thick dried swamp mud over lower panels and tires. Purpose-built angular military cab, real functional high-clearance chassis. Length 5.68 tire diameters; huge tires dwarf cab steps. Premium semi-realistic painted game illustration matching approved family, dark natural contours, fine detailed mechanics, rich weathered material. Side-on facing RIGHT, restrained elevated view showing little roof/deck/tread. Whole object clear margins, wide PNG minimum 1500 across. Soft even daylight. TRUE transparent background and gaps. No ground, cast shadows, halo, text, insignia, logo or watermark."
+        },
+        "body": {
+          "edit_of": "vehicle-master-v1.png",
+          "prompt": "Use case: precise-object-edit. Edit target Bog Wrecker vehicle-master-v1.png. Remove ALL road wheels and tires on ALL FOUR axles, including far-side tire glimpses. Transparent empty arches and wheel regions. Retain olive drab body, crane, twin rear winch drums, cables/hooks, spades, sand ladders, lockers, chassis and suspension, unchanged. Preserve EXACT canvas dimensions, position, scale, camera, materials and details. No redesign or movement. True transparent background."
+        },
+        "wheel": {
+          "prompt": "Use case: stylized-concept. ONE matching Bog Wrecker road wheel: huge 2.20 m low-pressure balloon flotation tire, broad widely spaced paddle lugs, charcoal rubber with thick dried swamp mud. Small olive drab steel rim, olive bolted hub matching military master. Premium semi-realistic painted game art with detailed weathered materials and dark contours. Perfect CIRCLE, FRONT-ON orthographic, hub exactly centered, equal clear margins on SQUARE truly transparent PNG. Requested 2048\u00d72048 minimum 1500 square. Soft even light suitable for spinning sprite. No axle, body, ground, shadow, halo, text, logos."
+        }
+      }
+    }
+  ],
+  "specification": {
+    "roadAxleCount": 4,
+    "drivetrain": "8x8",
+    "tireDiameterM": 2.32,
+    "totalLengthM": 12.5,
+    "maxTotalLengthM": 12.5,
+    "projectLengthCapM": 16.8,
+    "lengthTireDiameters": 5.387931034482759,
+    "axleGroupsFrontToRear": [
+      2,
+      2
+    ],
+    "intendedCanvasPx": [
+      2048,
+      1024
+    ],
+    "conflictResolution": "User exact12.5m and2.32m tires supersede legacy README2.20m. Close front and rear pairs support heavy recovery equipment. Square conventional steel cab/short bonnet matches Colossus."
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      2075,
+      1068
+    ],
+    "bodyDimensions": [
+      2075,
+      1068
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 4,
+    "hubCentersPx": [
+      [
+        381,
+        731
+      ],
+      [
+        739,
+        731
+      ],
+      [
+        1329,
+        731
+      ],
+      [
+        1689,
+        731
+      ]
+    ],
+    "tireDiameterPx": 348,
+    "tireBottomsPx": [
+      905,
+      905,
+      905,
+      905
+    ],
+    "measuredLengthPx": 1875,
+    "measuredLengthTireDiameters": 5.387931034482759,
+    "depictedLengthM": 12.5,
+    "targetLengthM": 12.5,
+    "lengthErrorM": 0.0,
+    "bodyMasterDimensionsMatch": true,
+    "outsideWheelRegionsPixelIdentical": true,
+    "nonWheelChangedPixels": 0,
+    "bodyBelowHubAlpha0": true,
+    "upperWellAlpha255": true,
+    "masterExactlyEqualsBodyPlusWheelInstances": true,
+    "equalRoundTires": true,
+    "levelHubs": true,
+    "registrationFromGeneratedMaterialToMaster": [
+      [
+        1.1667763371293032,
+        -0.000901576278665653,
+        0.3389826977083364
+      ],
+      [
+        0.000901576278665653,
+        1.1667763371293032,
+        3.11661749791194
+      ]
+    ],
+    "registrationInliers": 573,
+    "wheelRegionRadiusPx": 208,
+    "sourceMaster": "vehicle-master-v3.png",
+    "paintedMaterial": "body-v2.png",
+    "axleGroupsLeftToRight": [
+      [
+        381,
+        739
+      ],
+      [
+        1329,
+        1689
+      ]
+    ],
+    "alpha": {
+      "master": {
+        "dimensions": [
+          2075,
+          1068
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1975,
+          905
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1009474,
+        "opaquePixels": 1200314
+      },
+      "body": {
+        "dimensions": [
+          2075,
+          1068
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1975,
+          732
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1201242,
+        "opaquePixels": 1014858
+      },
+      "wheel": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "bboxAlpha128": [
+          67,
+          67,
+          1187,
+          1187
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 585644,
+        "opaquePixels": 983384
+      }
+    },
+    "clearMarginsPx": [
+      100,
+      100,
+      100,
+      163
+    ],
+    "visualReview": "PASS: safety-yellow8x8 with squared short-bonnet steel cab, plausible short rigid mirror, distinct bumper/headlamp and round clearance fender inspected at full resolution. Exactly4 equal round low-pressure paddle flotation tires/concentric hubs, close rear/front pairs with10px/12px gaps support crane and cab. Twin rear cable drums/red hooks, spades and sand ladders retained. Light/dark and suspension-drop alpha inspection passes with opaque upper wells/pair gaps through hubs and fully clear below. Corrected mask covers full measured transformed wheel regions including27 one-pixel liner-edge samples at y732. Zero changed nonwheel pixels; exact12.5m from1875px/348px*2.32m.",
+    "validatedBeforeNextTruck": true,
+    "finalAudit": {
+      "status": "pass",
+      "pngHeaderDimensions": {
+        "master": [
+          2075,
+          1068
+        ],
+        "body": [
+          2075,
+          1068
+        ],
+        "wheel": [
+          1254,
+          1254
+        ]
+      },
+      "measuredRoadTireBBoxesAlpha128": [
+        [
+          207,
+          557,
+          555,
+          905
+        ],
+        [
+          565,
+          557,
+          913,
+          905
+        ],
+        [
+          1155,
+          557,
+          1503,
+          905
+        ],
+        [
+          1515,
+          557,
+          1863,
+          905
+        ]
+      ],
+      "measuredTireDimensionsPx": [
+        [
+          348,
+          348
+        ],
+        [
+          348,
+          348
+        ],
+        [
+          348,
+          348
+        ],
+        [
+          348,
+          348
+        ]
+      ],
+      "measuredTireCentersPx": [
+        [
+          381.0,
+          731.0
+        ],
+        [
+          739.0,
+          731.0
+        ],
+        [
+          1329.0,
+          731.0
+        ],
+        [
+          1689.0,
+          731.0
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        905,
+        905,
+        905,
+        905
+      ],
+      "measuredLengthM": 12.5,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "pixelDifferenceOutsideWheelRegions": 0,
+      "upperWellAlpha255": true,
+      "bodyBelowHubAlpha0": true,
+      "closeGroupGapAudit": [
+        {
+          "hubs": [
+            381,
+            739
+          ],
+          "tireGapPx": 10,
+          "transparentUpperGapPixels": 0
+        },
+        {
+          "hubs": [
+            1329,
+            1689
+          ],
+          "tireGapPx": 12,
+          "transparentUpperGapPixels": 0
+        }
+      ],
+      "sha256": {
+        "master": "b87f6e30e89fcdb88e57f3ec5258b26c1d62645c54fcc4c28f6490ea7e47e8f4",
+        "body": "5d8f86066a4022a9b37929fc8e715e312f47a80378e4feb5b167a03060aec647",
+        "wheel": "f6d03ed50d1701d8d69b372726a14279fa961f96e264abdc3e171a3e927c9ff0"
+      }
+    }
+  },
+  "selected": {
+    "master": "vehicle-master-v4.png",
+    "body": "body-v3.png",
+    "wheel": "wheel-v3.png"
+  },
+  "status": "pass"
 }

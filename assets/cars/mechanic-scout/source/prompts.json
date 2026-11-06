@@ -1,37 +1,112 @@
 {
   "master": {
-    "prompt": "Use case: stylized-concept. Generate game vehicle-master-v1.png for Mechanic Scout: mustard yellow 4×4 recovery pickup, 2 axles, 6.8 m overall length with 1.20 m equal-size mud-terrain tires, aggressive open-shoulder lugs. Small folding tow crane and wheel-lift integrated in bed, tool chests, spare wheel, amber beacon, mud-caked lower panels. Heavy REAR (left end) winch: clearly visible drum, wound cable and hanging hook. Premium semi-realistic painted game illustration matching the approved orange Fuel Runner and red Breakdown Wrecker seen in conversation: dark readable contours, fine mechanical fittings, weathered rich materials. Complete truck side-on facing RIGHT, restrained elevated angle showing a little roof, deck and tread. Exactly two near-side road wheels with all axle tires same diameter. Soft even daylight. Whole object with clear margins on wide PNG canvas at least 1500 pixels across. True transparent background and transparent gaps. No ground, shadow, halo, text, logos or watermark."
+    "prompt": "Use case: stylized-concept. NEW Mechanic Scout complete game truck, not an edit of the reference. Image1 Colossus Wrecker is fleet STYLE/paint/mechanics reference ONLY: do NOT copy its axle count or long chassis. Image2 is exact approved matching road tire design. Draw compact safety-YELLOW 4x4 recovery truck, EXACTLY TWO near-side road wheels. Length including bumper, boom, hooks, underlift and all equipment 6.8m, tire diameter1.38m, total length exactly4.927536 tire diameters. Target whole truck 1720px long with road tires349px diameter on 2048x1024 transparent PNG. Rear wheel under crane at LEFT, front wheel under cab at RIGHT; wheel centers approximately x490 and1530,y760. Tall square steel cab with blunt flat-front construction and strong bumper/grille guard, short squared bonnet like Colossus, no rounded pickup/car shapes. Distinct radiator housing/bonnet/headlamp/bumper and round clearance fender follow full tire, clean seams, no melted blocks/axe-head fenders. Small rectangular mirror on short rigid A-pillar bracket, vertical exhaust stack. Chipped bright safety yellow cab/chassis/boom, rust, grime, mud on lower panels; NO mustard, olive or white base paint. Thick ladder chassis and boxy lockers. Compact folding hydraulic recovery boom stowed over bed, visible rams/hoses, small rear wheel-lift folded ABOVE hub height; TWO exposed rear LEFT winch drums with wound steel cable and TWO RED hooks clearly visible ABOVE hub line. Small stowed outrigger legs, tool lockers, spare tire behind cab, lightbars on cab and boom, amber beacon without glow, black/yellow hazard stripes, red tow shackles. Scale ALL equipment for compact 4x4 truck. All gear inside bumpers. Exactly two equal circular aggressive offroad tires with deep open shoulder chevron lugs and weathered steel rims/bolted concentric hubs matching wheel reference. Every heavy component supported under or next to an axle. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, no visible cab front/grille face, no bed floor or top planes, level chassis, complete tires visible. Premium semi-realistic painted game illustration matching Colossus and Swamp Scout, dark contours, rich weathered textures, fine mechanical detail, soft even daylight. Whole object clear generous margins all sides. True transparent background and all internal gaps; no ground, shadows, halo, glow, checkerboard, text, logos, watermark.",
+    "references": [
+      "../../colossus-wrecker/source/vehicle-master-v4.png",
+      "wheel-v4.png"
+    ],
+    "status": "pass",
+    "sourceMaster": "vehicle-master-v5.png",
+    "selectedOutput": "vehicle-master-v7.png",
+    "roadHubCentersPx": [
+      [
+        552,
+        781
+      ],
+      [
+        1428,
+        781
+      ]
+    ],
+    "tireDiameterPx": 345,
+    "scale": 1.0423053341508277,
+    "sourceRoadHubsPx": [
+      [
+        503,
+        678
+      ],
+      [
+        1343,
+        678
+      ]
+    ],
+    "sourceRemovalRadiusPx": 186,
+    "sourceNewHubY": 678,
+    "lengthPx": 1700,
+    "bodyBaseTemporary": "/tmp/mechanic-scout-prepared-body.png",
+    "correction": "Source alpha cleaned; uniform body scale; matching circular wheel instances replace original road tires. Original inner-liner paint supplies recessed material where smaller tires expose it. Hub line placed just below all original non-road equipment; no equipment clipped.",
+    "measurements": {
+      "dimensions": [
+        1900,
+        1129
+      ],
+      "bboxAlpha128": [
+        100,
+        100,
+        1800,
+        953
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixels": 1204891,
+      "opaquePixels": 936749
+    },
+    "visualReview": "Full resolution cab, short rigid mirror, distinct bumper and circular fenders inspected. Two equal tires support rear crane and front cab, twin rear drums/cables/red hooks visible, strict side camera, safety yellow. Lower equipment compacted vertically from source y590..730 to590..678 before accepted master, preserving all equipment.",
+    "depictedLengthM": 6.799999999999999,
+    "finalSelectedOutput": "vehicle-master-v7.png"
   },
   "body": {
-    "edit_of": "vehicle-master-v2.png",
-    "file": "body-v3.png",
-    "prompt": "Use case: precise-object-edit. Edit target: supplied Mechanic Scout vehicle-master-v2.png. Produce body-v3.png at EXACT original 1774x887 canvas. Remove BOTH road tires and rims completely and any far-side road tires. KEEP the attached SPARE TIRE behind the cab untouched. Replace each upper road-tire semicircle with a fully OPAQUE painted wheel-well interior from the fender lip down to ORIGINAL HUB LINE y=674/675 across FULL arch width, hub x approximately448 and1485. Paint continuous dark shadowed solid inner fender liner, weathered chassis rails, small axle housings, coil or leaf springs, shocks, air lines and mud flaps matching existing mustard yellow pickup's painted style. Absolutely NO transparent holes above the hub line: background must not show even when separately animated tire drops one-third radius. Below hub line lower half of each road tire circle remains truly transparent; keep transparent open ground clearance under chassis. No rubber tire fragments, rims, black circular discs or ghost wheels. Change NOTHING else: retain low REAR LEFT winch drum/cable/fairlead/red hook, folded yellow crane/red hook, spare tire, tool chests, beacon, cab, snorkel, steps, body paint, load and equipment EXACTLY. Preserve original canvas, position, scale, camera and all non-wheel pixels. No shift, crop, redesign, rescale or relighting. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, soft even daylight, weathered materials, dark contours and fine mechanical detail. True alpha transparent background, no checkerboard, halo, ground, cast shadow, added text or watermark. Whole truck stays inside original margins. Return edited PNG only at exactly1774x887.",
-    "generation_tool": "built-in image_gen",
-    "local_processing": {
-      "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
-      "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
-      "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
-      "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
-    },
-    "validation": {
-      "dimensions": [
-        1774,
-        887
-      ],
-      "rgba": true,
-      "opaque_upper_wells": true,
-      "transparent_lower_wheel_regions": true,
-      "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
-    }
+    "prompt": "Use case: precise-object-edit. Edit target ONLY this accepted Mechanic Scout vehicle-master-v6.png. Remove BOTH road tires and rims completely. KEEP vertical spare behind cab. Replace each upper road wheel region with opaque painted dark steel inner liners, chassis rails, leaf springs, axle housings, dampers, hoses, bolts. Fill continuously from fender lip THROUGH original hub line y781 at x552 and1428; no alpha holes above hubs. Below y781 stays transparent with zero tire, rim or axle fragments. No circular discs left. Keep lower lockers, tank, outriggers, cab, twin rear winch drums, cable and red hooks, wheel lift, crane and spare unchanged. Exact original1900x1129 canvas, position, scale, camera, lighting, every non-wheel pixel. No redesign or reframing. Realistic short bonnet, distinct blunt bumper/headlamp/round fender, small rectangular mirror short rigid bracket retain unchanged. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right, premium semi-realistic painted game art, true transparent background, no ground/shadow/glow/halo/checkerboard/text/logos/watermark. Generate rich painted suspension material ONLY in road wheel wells.",
+    "edit_of": "vehicle-master-v6.png",
+    "status": "pass",
+    "selectedOutput": "body-v5.png",
+    "sourceOutput": "body-v4.png",
+    "derivationMethod": "SIFT/RANSAC aligns generated painted suspension material. Only measured road-wheel regions and tandem gaps replaced; every master pixel outside these regions retained exactly. Opaque upper wells through hubs, transparent below. Final master recomposited with validated identical wheel instances.",
+    "generatedEditTarget": "vehicle-master-v6.png",
+    "registrationNote": "Final body and final master share every pixel except validated road-wheel instances. Generated material edit targeted the accepted prior master; final master restores matching road wheels after region-limited body repair.",
+    "pairedFinalMaster": "vehicle-master-v7.png"
   },
   "wheel": {
-    "prompt": "Use case: stylized-concept. Generate wheel-v1.png, ONE matching road wheel from the mustard Mechanic Scout master seen in conversation. 1.20 m mud-terrain tire with aggressive open-shoulder lugs, dark charcoal rubber, dried mud in recesses, black steel rim with circular holes, bolts and detailed hub matching master. Premium semi-realistic painted game art with natural dark contours. Perfectly CIRCULAR silhouette, hub exactly centered, FRONT-ON orthographic view, equal clear margins on a SQUARE 1536×1536 transparent PNG canvas. Soft even ambient light suitable for spinning. No axle, vehicle, ground, shadow, text, logo or halo. True alpha background."
+    "prompt": "Use case: stylized-concept. Production game road wheel for a compact rugged safety-yellow recovery fleet matching Colossus Wrecker: ONE aggressive mud-terrain tire with deep open-shoulder chevron lugs, charcoal rubber, weathered dark steel rim, concentric bolted hub. Premium semi-realistic painted game illustration, crisp dark contours, fine mechanical detail, slight mud and rust, soft even daylight suitable for spinning. Perfect circular silhouette and centered hub, face-on orthographic, equal generous margins on square 1536x1536 PNG (native 1254x1254 accepted). Opaque recessed dark backing inside rim holes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background. No axle/body/ground/shadow/halo/glow/checkerboard/text/logos/watermarks.",
+    "status": "pass",
+    "selectedOutput": "wheel-v4.png",
+    "sourceOutput": "wheel-v3.png",
+    "sourceHubPx": [
+      626.0,
+      632.0
+    ],
+    "correction": "Native square retained; hub recentered; .91 scale within native canvas supplies generous margins. Circular opaque dark rubber backing, edge alpha cleaned; no detail claimed from resampling.",
+    "measurements": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "bboxAlpha128": [
+        67,
+        67,
+        1187,
+        1187
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixels": 585644,
+      "opaquePixels": 983384
+    },
+    "tireDiameterPx": 1120,
+    "hubCenterPx": [
+      626.5,
+      626.5
+    ]
   },
   "v2": {
     "rejection_reason": "not a flat side profile (elevated angle, far-side tires); winch too high; long rear tow arm",
     "master": {
       "file": "vehicle-master-v2.png",
-      "prompt": "Use case: stylized-concept. Create from scratch Mechanic Scout game sprite. References bog-wrecker and fuel-runner-6x6 are CAMERA/PAINTED STYLE only; new vehicle is a MUSTARD YELLOW 4×4 recovery PICKUP, 6.8 m long, TWO axles, two near-side 1.20 m mud-terrain tires with aggressive open-shoulder lugs, black steel circular-hole rims, mud-caked lower panels. Small folding tow crane stowed inside bed, short chain and red crane hook tucked above bed within rear bumper boundary; tool chests, spare wheel behind cab, amber beacon. CRITICAL CAMERA: strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. No visible bed floor, tool-chest tops, bonnet top or cab front face. Draw only side surfaces, no elevated camera, no vanishing point. Both road tires exactly identical diameter, perfectly round concentric black rims, hub centres on one horizontal line, tire bottoms one level line; level chassis, bed and bonnet. CRITICAL WINCH: separate horizontal winch drum with wound STEEL CABLE mounted LOW ON THE REAR BUMPER at LEFT end, BELOW bed level and around hub height, roller fairlead directly on bumper and winch cable through it, red recovery hook hanging immediately below fairlead. Drum must be visible LOW beside bumper, not up on the bed. Compact rear bumper is rearmost truck structure. NO long tow arm, NO wheel-lift, NO protruding rear frame. Entire crane and hooks stay within bumper extent. Whole truck inside central 88 percent of wide canvas, clear generous margins on all four sides. Premium semi-realistic painted game illustration, dark readable contours, fine mechanical weathering, rich natural texture, soft even daylight matching references. True transparent background/gaps, no ground, shadow, halo, text, logos or watermark. Wide PNG at least 1500 pixels across.",
+      "prompt": "Use case: stylized-concept. Create from scratch Mechanic Scout game sprite. References bog-wrecker and fuel-runner-6x6 are CAMERA/PAINTED STYLE only; new vehicle is a MUSTARD YELLOW 4\u00d74 recovery PICKUP, 6.8 m long, TWO axles, two near-side 1.20 m mud-terrain tires with aggressive open-shoulder lugs, black steel circular-hole rims, mud-caked lower panels. Small folding tow crane stowed inside bed, short chain and red crane hook tucked above bed within rear bumper boundary; tool chests, spare wheel behind cab, amber beacon. CRITICAL CAMERA: strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. No visible bed floor, tool-chest tops, bonnet top or cab front face. Draw only side surfaces, no elevated camera, no vanishing point. Both road tires exactly identical diameter, perfectly round concentric black rims, hub centres on one horizontal line, tire bottoms one level line; level chassis, bed and bonnet. CRITICAL WINCH: separate horizontal winch drum with wound STEEL CABLE mounted LOW ON THE REAR BUMPER at LEFT end, BELOW bed level and around hub height, roller fairlead directly on bumper and winch cable through it, red recovery hook hanging immediately below fairlead. Drum must be visible LOW beside bumper, not up on the bed. Compact rear bumper is rearmost truck structure. NO long tow arm, NO wheel-lift, NO protruding rear frame. Entire crane and hooks stay within bumper extent. Whole truck inside central 88 percent of wide canvas, clear generous margins on all four sides. Premium semi-realistic painted game illustration, dark readable contours, fine mechanical weathering, rich natural texture, soft even daylight matching references. True transparent background/gaps, no ground, shadow, halo, text, logos or watermark. Wide PNG at least 1500 pixels across.",
       "correction_prompt": "Use case: precise-object-edit. Correct camera on this new Mechanic Scout draft. Hard rule: strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT. Remove every visible TOP surface: bonnet/hood must be ONE side panel silhouette with NO top strip or top-plane highlight; tool chest faces and bed rail are thin level edges with NO tops or bed floor showing. Cab front invisible. All surfaces orthographic side elevation. Preserve mustard yellow pickup design, low rear-bumper winch with drum, roller fairlead and hanging red hook, compact rear bumper as rearmost structure, folding crane with red hook, spare and beacon. Two identical circular tires/black steel rims with hub centers and bottoms exactly horizontal, level chassis. Keep 60 pixels transparent margin around all sides by fitting full object inside canvas. No long tow arm or wheel-lift. Rich semi-realistic painted style, soft even daylight, true transparent background, no shadow/ground/text/logo.",
       "references": [
         "../../bog-wrecker/source/vehicle-master-v1.png",
@@ -46,7 +121,7 @@
     "wheel": {
       "file": "wheel-v2.png",
       "reference": "vehicle-master-v2.png",
-      "prompt": "Use case: stylized-concept. Generate from scratch ONE matching Mechanic Scout road wheel using vehicle-master-v2.png only as tire/rim design reference. 1.20 m mud-terrain tire, aggressive open-shoulder lugs, dark charcoal rubber with dried mud in recesses and lug edges; BLACK STEEL rim with round holes, black bolted central hub matching reference. Perfectly ROUND tire, concentric perfectly circular rim, hub EXACT canvas centre, equal transparent margins. FRONT-ON orthographic side face, square PNG requested 1536×1536 minimum 1500 pixels. Premium semi-realistic painted game illustration, dark contours and fine weathered details, soft EVEN light for sprite rotation. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. One wheel only, no axle/body/ground/shadow/halo/text/logo/watermark, true transparent background."
+      "prompt": "Use case: stylized-concept. Generate from scratch ONE matching Mechanic Scout road wheel using vehicle-master-v2.png only as tire/rim design reference. 1.20 m mud-terrain tire, aggressive open-shoulder lugs, dark charcoal rubber with dried mud in recesses and lug edges; BLACK STEEL rim with round holes, black bolted central hub matching reference. Perfectly ROUND tire, concentric perfectly circular rim, hub EXACT canvas centre, equal transparent margins. FRONT-ON orthographic side face, square PNG requested 1536\u00d71536 minimum 1500 pixels. Premium semi-realistic painted game illustration, dark contours and fine weathered details, soft EVEN light for sprite rotation. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. One wheel only, no axle/body/ground/shadow/halo/text/logo/watermark, true transparent background."
     }
   },
   "v1_status": "Rejected images deleted after v2 checks",
@@ -60,6 +135,789 @@
         "edit_of": "vehicle-master-v1.png",
         "prompt": "Use case: precise-object-edit. Edit target: Mechanic Scout vehicle-master-v1.png. Remove EVERY ROAD wheel and tire, including both near-side wheels and all far-side tire glimpses, leaving the arches and wheel regions truly transparent. Retain the attached spare tire behind cab. Keep the entire body, crane, load, winch, hook, chassis and suspension unchanged. Preserve EXACT original canvas dimensions, position, scale, camera and every remaining detail. Do not move or redesign anything. True transparent background. Output only the wheel-free body layer."
       }
+    },
+    {
+      "archived_delivery_before_yellow_fleet_redraw": {
+        "master": {
+          "prompt": "Use case: stylized-concept. Generate game vehicle-master-v1.png for Mechanic Scout: mustard yellow 4\u00d74 recovery pickup, 2 axles, 6.8 m overall length with 1.20 m equal-size mud-terrain tires, aggressive open-shoulder lugs. Small folding tow crane and wheel-lift integrated in bed, tool chests, spare wheel, amber beacon, mud-caked lower panels. Heavy REAR (left end) winch: clearly visible drum, wound cable and hanging hook. Premium semi-realistic painted game illustration matching the approved orange Fuel Runner and red Breakdown Wrecker seen in conversation: dark readable contours, fine mechanical fittings, weathered rich materials. Complete truck side-on facing RIGHT, restrained elevated angle showing a little roof, deck and tread. Exactly two near-side road wheels with all axle tires same diameter. Soft even daylight. Whole object with clear margins on wide PNG canvas at least 1500 pixels across. True transparent background and transparent gaps. No ground, shadow, halo, text, logos or watermark."
+        },
+        "body": {
+          "edit_of": "vehicle-master-v2.png",
+          "file": "body-v3.png",
+          "prompt": "Use case: precise-object-edit. Edit target: supplied Mechanic Scout vehicle-master-v2.png. Produce body-v3.png at EXACT original 1774x887 canvas. Remove BOTH road tires and rims completely and any far-side road tires. KEEP the attached SPARE TIRE behind the cab untouched. Replace each upper road-tire semicircle with a fully OPAQUE painted wheel-well interior from the fender lip down to ORIGINAL HUB LINE y=674/675 across FULL arch width, hub x approximately448 and1485. Paint continuous dark shadowed solid inner fender liner, weathered chassis rails, small axle housings, coil or leaf springs, shocks, air lines and mud flaps matching existing mustard yellow pickup's painted style. Absolutely NO transparent holes above the hub line: background must not show even when separately animated tire drops one-third radius. Below hub line lower half of each road tire circle remains truly transparent; keep transparent open ground clearance under chassis. No rubber tire fragments, rims, black circular discs or ghost wheels. Change NOTHING else: retain low REAR LEFT winch drum/cable/fairlead/red hook, folded yellow crane/red hook, spare tire, tool chests, beacon, cab, snorkel, steps, body paint, load and equipment EXACTLY. Preserve original canvas, position, scale, camera and all non-wheel pixels. No shift, crop, redesign, rescale or relighting. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Premium semi-realistic painted game illustration, soft even daylight, weathered materials, dark contours and fine mechanical detail. True alpha transparent background, no checkerboard, halo, ground, cast shadow, added text or watermark. Whole truck stays inside original margins. Return edited PNG only at exactly1774x887.",
+          "generation_tool": "built-in image_gen",
+          "local_processing": {
+            "authorization": "User explicitly approved local PNG alignment and preservation of master pixels.",
+            "alignment": "Generated wheel-well edits aligned to the original master canvas; original visible body/load pixels restored outside wheel-well regions.",
+            "alpha": "Wheel wells and tandem gaps opaque from fender lips to hub lines; lower road-wheel regions transparent; inherited background residue at alpha <= 8/255 cleared.",
+            "preserved": "Master and wheel PNGs unchanged; cab, load, spare and equipment retained."
+          },
+          "validation": {
+            "dimensions": [
+              1774,
+              887
+            ],
+            "rgba": true,
+            "opaque_upper_wells": true,
+            "transparent_lower_wheel_regions": true,
+            "visual_review": "Body inspected on contrasting background and composited with separate tires dropped by one-third radius."
+          }
+        },
+        "wheel": {
+          "prompt": "Use case: stylized-concept. Generate wheel-v1.png, ONE matching road wheel from the mustard Mechanic Scout master seen in conversation. 1.20 m mud-terrain tire with aggressive open-shoulder lugs, dark charcoal rubber, dried mud in recesses, black steel rim with circular holes, bolts and detailed hub matching master. Premium semi-realistic painted game art with natural dark contours. Perfectly CIRCULAR silhouette, hub exactly centered, FRONT-ON orthographic view, equal clear margins on a SQUARE 1536\u00d71536 transparent PNG canvas. Soft even ambient light suitable for spinning. No axle, vehicle, ground, shadow, text, logo or halo. True alpha background."
+        }
+      }
     }
-  ]
+  ],
+  "fleet_redraw_2026_11_06": {
+    "status": "pass",
+    "specification": {
+      "roadAxleCount": 2,
+      "drivetrain": "4x4",
+      "tireDiameterM": 1.38,
+      "totalLengthM": 6.8,
+      "maxTotalLengthM": 6.8,
+      "projectLengthCapM": 16.8,
+      "lengthTireDiameters": 4.9275362318840585,
+      "axleGroupsFrontToRear": [
+        1,
+        1
+      ],
+      "intendedCanvasPx": [
+        2048,
+        1024
+      ],
+      "conflictResolution": "User 2026-11-06 exact dimensions supersede README legacy 1.20m tires. User explicitly requests squared flat-front steel cab; short blunt bonnet retained to match Colossus construction and AGENTS conventional-cab rule."
+    },
+    "wheel": {
+      "prompt": "Use case: stylized-concept. Production game road wheel for a compact rugged safety-yellow recovery fleet matching Colossus Wrecker: ONE aggressive mud-terrain tire with deep open-shoulder chevron lugs, charcoal rubber, weathered dark steel rim, concentric bolted hub. Premium semi-realistic painted game illustration, crisp dark contours, fine mechanical detail, slight mud and rust, soft even daylight suitable for spinning. Perfect circular silhouette and centered hub, face-on orthographic, equal generous margins on square 1536x1536 PNG (native 1254x1254 accepted). Opaque recessed dark backing inside rim holes. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. True transparent background. No axle/body/ground/shadow/halo/glow/checkerboard/text/logos/watermarks.",
+      "status": "pass",
+      "selectedOutput": "wheel-v4.png",
+      "sourceOutput": "wheel-v3.png",
+      "sourceHubPx": [
+        626.0,
+        632.0
+      ],
+      "correction": "Native square retained; hub recentered; .91 scale within native canvas supplies generous margins. Circular opaque dark rubber backing, edge alpha cleaned; no detail claimed from resampling.",
+      "measurements": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "bboxAlpha128": [
+          67,
+          67,
+          1187,
+          1187
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 585644,
+        "opaquePixels": 983384
+      },
+      "tireDiameterPx": 1120,
+      "hubCenterPx": [
+        626.5,
+        626.5
+      ]
+    },
+    "reference": "assets/cars/colossus-wrecker/source/vehicle-master-v4.png",
+    "outputs": {
+      "wheel-v3.png": {
+        "status": "needs_revision",
+        "reason": "Insufficient margins and slightly uneven outer silhouette; deterministic circular backing and hub centering applied.",
+        "measurements": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            16,
+            18,
+            1237,
+            1242
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 423079,
+          "opaquePixels": 654
+        }
+      },
+      "wheel-v4.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            67,
+            67,
+            1187,
+            1187
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 585644,
+          "opaquePixels": 983384
+        }
+      },
+      "vehicle-master-v3.png": {
+        "status": "needs_revision",
+        "reason": "Generated margins/alpha and road tire geometry require deterministic normalization to exact user length/tire ratio.",
+        "measurements": {
+          "dimensions": [
+            1774,
+            887
+          ],
+          "bboxAlpha128": [
+            68,
+            25,
+            1701,
+            859
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 615675,
+          "opaquePixels": 327
+        }
+      },
+      "vehicle-master-v4.png": {
+        "status": "needs_revision",
+        "measurements": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            1007
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1129488,
+          "opaquePixels": 1012452
+        },
+        "reason": "Raised hubs leave excessive wheel-well clearance; compact lower stowed gear instead and retain original hub line."
+      },
+      "vehicle-master-v5.png": {
+        "status": "needs_revision",
+        "reason": "Generated margins/alpha and road tire geometry require deterministic normalization to exact user length/tire ratio.",
+        "measurements": {
+          "dimensions": [
+            1774,
+            887
+          ],
+          "bboxAlpha128": [
+            68,
+            25,
+            1701,
+            859
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 615675,
+          "opaquePixels": 327
+        }
+      },
+      "vehicle-master-v6.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            953
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1204891,
+          "opaquePixels": 936749
+        },
+        "review": "Accepted corrected master inspected before generated body edit. Final selected master adds aligned generated well paint only inside measured wheel regions."
+      },
+      "body-v4.png": {
+        "status": "needs_revision",
+        "reason": "Generated edit resizes/repaints non-wheel pixels; use as aligned painted wheel-well material only.",
+        "measurements": {
+          "dimensions": [
+            1628,
+            966
+          ],
+          "bboxAlpha128": [
+            85,
+            86,
+            1544,
+            673
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 925462,
+          "opaquePixels": 316
+        }
+      },
+      "body-v5.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            782
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1295921,
+          "opaquePixels": 849179
+        }
+      },
+      "vehicle-master-v7.png": {
+        "status": "pass",
+        "measurements": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            953
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1202007,
+          "opaquePixels": 939933
+        }
+      }
+    },
+    "master": {
+      "prompt": "Use case: stylized-concept. NEW Mechanic Scout complete game truck, not an edit of the reference. Image1 Colossus Wrecker is fleet STYLE/paint/mechanics reference ONLY: do NOT copy its axle count or long chassis. Image2 is exact approved matching road tire design. Draw compact safety-YELLOW 4x4 recovery truck, EXACTLY TWO near-side road wheels. Length including bumper, boom, hooks, underlift and all equipment 6.8m, tire diameter1.38m, total length exactly4.927536 tire diameters. Target whole truck 1720px long with road tires349px diameter on 2048x1024 transparent PNG. Rear wheel under crane at LEFT, front wheel under cab at RIGHT; wheel centers approximately x490 and1530,y760. Tall square steel cab with blunt flat-front construction and strong bumper/grille guard, short squared bonnet like Colossus, no rounded pickup/car shapes. Distinct radiator housing/bonnet/headlamp/bumper and round clearance fender follow full tire, clean seams, no melted blocks/axe-head fenders. Small rectangular mirror on short rigid A-pillar bracket, vertical exhaust stack. Chipped bright safety yellow cab/chassis/boom, rust, grime, mud on lower panels; NO mustard, olive or white base paint. Thick ladder chassis and boxy lockers. Compact folding hydraulic recovery boom stowed over bed, visible rams/hoses, small rear wheel-lift folded ABOVE hub height; TWO exposed rear LEFT winch drums with wound steel cable and TWO RED hooks clearly visible ABOVE hub line. Small stowed outrigger legs, tool lockers, spare tire behind cab, lightbars on cab and boom, amber beacon without glow, black/yellow hazard stripes, red tow shackles. Scale ALL equipment for compact 4x4 truck. All gear inside bumpers. Exactly two equal circular aggressive offroad tires with deep open shoulder chevron lugs and weathered steel rims/bolted concentric hubs matching wheel reference. Every heavy component supported under or next to an axle. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing RIGHT, no visible cab front/grille face, no bed floor or top planes, level chassis, complete tires visible. Premium semi-realistic painted game illustration matching Colossus and Swamp Scout, dark contours, rich weathered textures, fine mechanical detail, soft even daylight. Whole object clear generous margins all sides. True transparent background and all internal gaps; no ground, shadows, halo, glow, checkerboard, text, logos, watermark.",
+      "references": [
+        "../../colossus-wrecker/source/vehicle-master-v4.png",
+        "wheel-v4.png"
+      ],
+      "status": "pass",
+      "sourceMaster": "vehicle-master-v5.png",
+      "selectedOutput": "vehicle-master-v7.png",
+      "roadHubCentersPx": [
+        [
+          552,
+          781
+        ],
+        [
+          1428,
+          781
+        ]
+      ],
+      "tireDiameterPx": 345,
+      "scale": 1.0423053341508277,
+      "sourceRoadHubsPx": [
+        [
+          503,
+          678
+        ],
+        [
+          1343,
+          678
+        ]
+      ],
+      "sourceRemovalRadiusPx": 186,
+      "sourceNewHubY": 678,
+      "lengthPx": 1700,
+      "bodyBaseTemporary": "/tmp/mechanic-scout-prepared-body.png",
+      "correction": "Source alpha cleaned; uniform body scale; matching circular wheel instances replace original road tires. Original inner-liner paint supplies recessed material where smaller tires expose it. Hub line placed just below all original non-road equipment; no equipment clipped.",
+      "measurements": {
+        "dimensions": [
+          1900,
+          1129
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1800,
+          953
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1204891,
+        "opaquePixels": 936749
+      },
+      "visualReview": "Full resolution cab, short rigid mirror, distinct bumper and circular fenders inspected. Two equal tires support rear crane and front cab, twin rear drums/cables/red hooks visible, strict side camera, safety yellow. Lower equipment compacted vertically from source y590..730 to590..678 before accepted master, preserving all equipment.",
+      "depictedLengthM": 6.799999999999999,
+      "finalSelectedOutput": "vehicle-master-v7.png"
+    },
+    "body": {
+      "prompt": "Use case: precise-object-edit. Edit target ONLY this accepted Mechanic Scout vehicle-master-v6.png. Remove BOTH road tires and rims completely. KEEP vertical spare behind cab. Replace each upper road wheel region with opaque painted dark steel inner liners, chassis rails, leaf springs, axle housings, dampers, hoses, bolts. Fill continuously from fender lip THROUGH original hub line y781 at x552 and1428; no alpha holes above hubs. Below y781 stays transparent with zero tire, rim or axle fragments. No circular discs left. Keep lower lockers, tank, outriggers, cab, twin rear winch drums, cable and red hooks, wheel lift, crane and spare unchanged. Exact original1900x1129 canvas, position, scale, camera, lighting, every non-wheel pixel. No redesign or reframing. Realistic short bonnet, distinct blunt bumper/headlamp/round fender, small rectangular mirror short rigid bracket retain unchanged. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Facing right, premium semi-realistic painted game art, true transparent background, no ground/shadow/glow/halo/checkerboard/text/logos/watermark. Generate rich painted suspension material ONLY in road wheel wells.",
+      "edit_of": "vehicle-master-v6.png",
+      "status": "pass",
+      "selectedOutput": "body-v5.png",
+      "sourceOutput": "body-v4.png",
+      "derivationMethod": "SIFT/RANSAC aligns generated painted suspension material. Only measured road-wheel regions and tandem gaps replaced; every master pixel outside these regions retained exactly. Opaque upper wells through hubs, transparent below. Final master recomposited with validated identical wheel instances.",
+      "generatedEditTarget": "vehicle-master-v6.png",
+      "registrationNote": "Final body and final master share every pixel except validated road-wheel instances. Generated material edit targeted the accepted prior master; final master restores matching road wheels after region-limited body repair.",
+      "pairedFinalMaster": "vehicle-master-v7.png"
+    },
+    "selected": {
+      "master": "vehicle-master-v7.png",
+      "body": "body-v5.png",
+      "wheel": "wheel-v4.png"
+    },
+    "validation": {
+      "status": "pass",
+      "dimensions": [
+        1900,
+        1129
+      ],
+      "bodyDimensions": [
+        1900,
+        1129
+      ],
+      "wheelDimensions": [
+        1254,
+        1254
+      ],
+      "roadAxleCount": 2,
+      "hubCentersPx": [
+        [
+          552,
+          781
+        ],
+        [
+          1428,
+          781
+        ]
+      ],
+      "tireDiameterPx": 345,
+      "tireBottomsPx": [
+        953,
+        953
+      ],
+      "measuredLengthPx": 1700,
+      "measuredLengthTireDiameters": 4.927536231884058,
+      "depictedLengthM": 6.799999999999999,
+      "targetLengthM": 6.8,
+      "lengthErrorM": -8.881784197001252e-16,
+      "bodyMasterDimensionsMatch": true,
+      "outsideWheelRegionsPixelIdentical": true,
+      "nonWheelChangedPixels": 0,
+      "bodyBelowHubAlpha0": true,
+      "upperWellAlpha255": true,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "equalRoundTires": true,
+      "levelHubs": true,
+      "registrationFromGeneratedMaterialToMaster": [
+        [
+          1.1671726398670945,
+          -4.849699232390139e-05,
+          -0.2663265283048458
+        ],
+        [
+          4.849699232390139e-05,
+          1.1671726398670945,
+          0.0403291945560142
+        ]
+      ],
+      "registrationInliers": 749,
+      "wheelRegionRadiusPx": 194,
+      "sourceMaster": "vehicle-master-v6.png",
+      "paintedMaterial": "body-v4.png",
+      "axleGroupsLeftToRight": [
+        [
+          552
+        ],
+        [
+          1428
+        ]
+      ],
+      "alpha": {
+        "master": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            953
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1202007,
+          "opaquePixels": 939933
+        },
+        "body": {
+          "dimensions": [
+            1900,
+            1129
+          ],
+          "bboxAlpha128": [
+            100,
+            100,
+            1800,
+            782
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 1295921,
+          "opaquePixels": 849179
+        },
+        "wheel": {
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "bboxAlpha128": [
+            67,
+            67,
+            1187,
+            1187
+          ],
+          "alphaRange": [
+            0,
+            255
+          ],
+          "transparentPixels": 585644,
+          "opaquePixels": 983384
+        }
+      },
+      "clearMarginsPx": [
+        100,
+        100,
+        100,
+        176
+      ],
+      "visualReview": "PASS: full-resolution cab, short rigid mirror mounts, distinct blunt bumper and round front fenders inspected. Compact yellow 4x4, exactly two equal circular tires with concentric centered rims; rear axle supports compact crane and twin rear cable winches/red hooks. Spare preserved. Light/dark alpha and one-third-radius suspension-drop composite inspected: no halos, shadows, road tire remnants or upper-well holes; painted suspension opaque through hub line; below hubs clear. Pixel comparison proves zero changed pixels outside measured wheel regions. Physical dimensions 6.8m /1.38m checked from 1700px/345px.",
+      "validatedBeforeNextTruck": true,
+      "finalAudit": {
+        "status": "pass",
+        "pngHeaderDimensions": {
+          "master": [
+            1900,
+            1129
+          ],
+          "body": [
+            1900,
+            1129
+          ],
+          "wheel": [
+            1254,
+            1254
+          ]
+        },
+        "measuredRoadTireBBoxesAlpha128": [
+          [
+            380,
+            608,
+            725,
+            953
+          ],
+          [
+            1256,
+            608,
+            1601,
+            953
+          ]
+        ],
+        "measuredTireDimensionsPx": [
+          [
+            345,
+            345
+          ],
+          [
+            345,
+            345
+          ]
+        ],
+        "measuredTireCentersPx": [
+          [
+            552.5,
+            780.5
+          ],
+          [
+            1428.5,
+            780.5
+          ]
+        ],
+        "measuredTireBottomsPx": [
+          953,
+          953
+        ],
+        "measuredLengthM": 6.799999999999999,
+        "masterExactlyEqualsBodyPlusWheelInstances": true,
+        "pixelDifferenceOutsideWheelRegions": 0,
+        "upperWellAlpha255": true,
+        "bodyBelowHubAlpha0": true,
+        "closeGroupGapAudit": [],
+        "sha256": {
+          "master": "ff3b38417b83833985072922a98153178246dbdc8a0a66a0e702c8bc049d1aa8",
+          "body": "a1f2d60fb13f7cb42f57f1223f7ceb432c841bb994ad7b37cccd4cfc921c5e00",
+          "wheel": "e6308538f6e1b7e9a68b3c53dd7c225e61318ef180d1f852bd58f9664aa453c3"
+        },
+        "generationOrder": "Wheel validated, then one master measured/corrected and accepted, then its body edited and registered, then complete set validated before next truck."
+      }
+    },
+    "generation_tool": "built-in image_gen",
+    "correction_tools": "Pillow, NumPy, OpenCV; scratch scripts outside repository",
+    "promptRecording": "Exact generation prompts recorded before each call; raw generated files and versioned corrections preserved."
+  },
+  "specification": {
+    "roadAxleCount": 2,
+    "drivetrain": "4x4",
+    "tireDiameterM": 1.38,
+    "totalLengthM": 6.8,
+    "maxTotalLengthM": 6.8,
+    "projectLengthCapM": 16.8,
+    "lengthTireDiameters": 4.9275362318840585,
+    "axleGroupsFrontToRear": [
+      1,
+      1
+    ],
+    "intendedCanvasPx": [
+      2048,
+      1024
+    ],
+    "conflictResolution": "User 2026-11-06 exact dimensions supersede README legacy 1.20m tires. User explicitly requests squared flat-front steel cab; short blunt bonnet retained to match Colossus construction and AGENTS conventional-cab rule."
+  },
+  "validation": {
+    "status": "pass",
+    "dimensions": [
+      1900,
+      1129
+    ],
+    "bodyDimensions": [
+      1900,
+      1129
+    ],
+    "wheelDimensions": [
+      1254,
+      1254
+    ],
+    "roadAxleCount": 2,
+    "hubCentersPx": [
+      [
+        552,
+        781
+      ],
+      [
+        1428,
+        781
+      ]
+    ],
+    "tireDiameterPx": 345,
+    "tireBottomsPx": [
+      953,
+      953
+    ],
+    "measuredLengthPx": 1700,
+    "measuredLengthTireDiameters": 4.927536231884058,
+    "depictedLengthM": 6.799999999999999,
+    "targetLengthM": 6.8,
+    "lengthErrorM": -8.881784197001252e-16,
+    "bodyMasterDimensionsMatch": true,
+    "outsideWheelRegionsPixelIdentical": true,
+    "nonWheelChangedPixels": 0,
+    "bodyBelowHubAlpha0": true,
+    "upperWellAlpha255": true,
+    "masterExactlyEqualsBodyPlusWheelInstances": true,
+    "equalRoundTires": true,
+    "levelHubs": true,
+    "registrationFromGeneratedMaterialToMaster": [
+      [
+        1.1671726398670945,
+        -4.849699232390139e-05,
+        -0.2663265283048458
+      ],
+      [
+        4.849699232390139e-05,
+        1.1671726398670945,
+        0.0403291945560142
+      ]
+    ],
+    "registrationInliers": 749,
+    "wheelRegionRadiusPx": 194,
+    "sourceMaster": "vehicle-master-v6.png",
+    "paintedMaterial": "body-v4.png",
+    "axleGroupsLeftToRight": [
+      [
+        552
+      ],
+      [
+        1428
+      ]
+    ],
+    "alpha": {
+      "master": {
+        "dimensions": [
+          1900,
+          1129
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1800,
+          953
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1202007,
+        "opaquePixels": 939933
+      },
+      "body": {
+        "dimensions": [
+          1900,
+          1129
+        ],
+        "bboxAlpha128": [
+          100,
+          100,
+          1800,
+          782
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 1295921,
+        "opaquePixels": 849179
+      },
+      "wheel": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "bboxAlpha128": [
+          67,
+          67,
+          1187,
+          1187
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentPixels": 585644,
+        "opaquePixels": 983384
+      }
+    },
+    "clearMarginsPx": [
+      100,
+      100,
+      100,
+      176
+    ],
+    "visualReview": "PASS: full-resolution cab, short rigid mirror mounts, distinct blunt bumper and round front fenders inspected. Compact yellow 4x4, exactly two equal circular tires with concentric centered rims; rear axle supports compact crane and twin rear cable winches/red hooks. Spare preserved. Light/dark alpha and one-third-radius suspension-drop composite inspected: no halos, shadows, road tire remnants or upper-well holes; painted suspension opaque through hub line; below hubs clear. Pixel comparison proves zero changed pixels outside measured wheel regions. Physical dimensions 6.8m /1.38m checked from 1700px/345px.",
+    "validatedBeforeNextTruck": true,
+    "finalAudit": {
+      "status": "pass",
+      "pngHeaderDimensions": {
+        "master": [
+          1900,
+          1129
+        ],
+        "body": [
+          1900,
+          1129
+        ],
+        "wheel": [
+          1254,
+          1254
+        ]
+      },
+      "measuredRoadTireBBoxesAlpha128": [
+        [
+          380,
+          608,
+          725,
+          953
+        ],
+        [
+          1256,
+          608,
+          1601,
+          953
+        ]
+      ],
+      "measuredTireDimensionsPx": [
+        [
+          345,
+          345
+        ],
+        [
+          345,
+          345
+        ]
+      ],
+      "measuredTireCentersPx": [
+        [
+          552.5,
+          780.5
+        ],
+        [
+          1428.5,
+          780.5
+        ]
+      ],
+      "measuredTireBottomsPx": [
+        953,
+        953
+      ],
+      "measuredLengthM": 6.799999999999999,
+      "masterExactlyEqualsBodyPlusWheelInstances": true,
+      "pixelDifferenceOutsideWheelRegions": 0,
+      "upperWellAlpha255": true,
+      "bodyBelowHubAlpha0": true,
+      "closeGroupGapAudit": [],
+      "sha256": {
+        "master": "ff3b38417b83833985072922a98153178246dbdc8a0a66a0e702c8bc049d1aa8",
+        "body": "a1f2d60fb13f7cb42f57f1223f7ceb432c841bb994ad7b37cccd4cfc921c5e00",
+        "wheel": "e6308538f6e1b7e9a68b3c53dd7c225e61318ef180d1f852bd58f9664aa453c3"
+      }
+    }
+  },
+  "selected": {
+    "master": "vehicle-master-v7.png",
+    "body": "body-v5.png",
+    "wheel": "wheel-v4.png"
+  },
+  "status": "pass"
 }

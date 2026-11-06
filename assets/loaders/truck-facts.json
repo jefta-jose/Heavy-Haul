@@ -1,0 +1,21 @@
+{
+  "about": "Real facts about trucks, one shown at a time on the loading screens (src/game/loader.js). Keep each to one or two short sentences, true, and about trucks or driving them. They are shuffled and never repeat in a row.",
+  "facts": [
+    "The BelAZ 75710 is the biggest dump truck ever built. It can carry about 450 tonnes in a single load.",
+    "Australian road trains pull three or four trailers and can stretch past 50 metres.",
+    "On US interstates a loaded semi-truck can weigh up to 80,000 lb, about 36 tonnes.",
+    "The top engine in a Volvo FH16 makes 3,550 Nm of torque, around ten times a family car's.",
+    "The tires on the biggest mining trucks stand about 4 metres tall and weigh over 5 tonnes each.",
+    "Mud tires have wide gaps between their lugs, so the mud flings out as they spin instead of packing in.",
+    "Letting air out of the tires widens their footprint, which helps a heavy truck float over mud, sand and snow.",
+    "Military trucks like the Ural-4320 can change their tire pressure while driving, to cross soft ground.",
+    "A locked differential turns both wheels on an axle together, so one spinning wheel cannot waste all the power.",
+    "A diesel's engine brake slows a heavy truck on long hills without wearing out its wheel brakes.",
+    "Truck air brakes are held off by air pressure. If the air is lost, strong springs put the brakes on by themselves.",
+    "Trucks carry around 70% of all freight, by weight, in the United States.",
+    "Rotator tow trucks have a crane that turns all the way around, so they can lift a wreck from any side.",
+    "A winch pulls hardest on its last few wraps of cable, closest to the drum.",
+    "Corduroy roads, logs laid side by side across soft ground, have been used to cross swamps for centuries.",
+    "Ice road truckers in northern Canada drive slowly over frozen lakes, so the wave they push under the ice cannot crack it."
+  ]
+}

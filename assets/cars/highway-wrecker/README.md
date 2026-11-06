@@ -1,13 +1,15 @@
 # Highway Wrecker
 
-Status: **planned** · breakdown truck for class `highway` (medium; tows up to 48 t) · 6×6, 3 axles · 13 t empty · 560 kW · all-terrain tires, 1.3 m
+Status: **playable** · breakdown truck for class `highway` (medium; tows up to 48 t) · 6×6, 3 axles · 13 t empty · 560 kW · all-terrain tires, 1.3 m
+
+**Redrawn (2026-11-06):** safety yellow, in the Colossus Wrecker's heavy, rugged style, so every class's breakdown truck reads as one fleet. The old art was deleted.
 
 ## Art brief
 
-- Vehicle: pearl white 6×6 heavy rotator tow truck
+- Vehicle: safety yellow 6×6 heavy rotator tow truck, boxy and rugged like the Colossus Wrecker
 - Load (drawn as part of the vehicle): a rotating recovery boom and underlift
 - Equipment: heavy rear winch drum with hook, outrigger legs, light bar
-- Finish: clean paint with road dust
+- Finish: chipped yellow paint, grime and road dust
 - Tires: 1.30 m all-terrain tires: blocky tread with sipes
 
 ## Codex delivers (see AGENTS.md)

@@ -10,7 +10,7 @@ Companion guide for generating and checking the art: [`../SKILL.md`](../SKILL.md
 
 A simple, life-giving background behind a thick, detailed road. The road is never boring: where there is nothing
 else to do, it rolls in uneven humps. It is broken up by deep bogs, huge logs, rocks and pipes, and plenty of things
-that smash under the tires. After every fuel station comes a short smooth highway to open up and use nitro on, and the
+that smash under the tires. After every fuel station comes a short smooth highway to open up on, and the
 roadside tells the place's story: abandoned shacks, wrecks, fences and warning signs.
 
 | Ingredient | Where it lives | Code |
@@ -73,7 +73,7 @@ every hump and show no join. Never ask for one long painting of the road: it cou
 
 Also tied to the road: back props such as reeds, stations, signs and scenery stand on its far edge, and nothing grows
 in front of it. Mud patches spread across its full width. The road is painted with marks that the tires repaint over
-(station bays and the highway's dashed centre line), so they never vanish under a sunk tire.
+(the station bays), so they never vanish under a sunk tire.
 
 ## 3. Bumpy roads
 
@@ -159,7 +159,7 @@ building is `art.fuelStation`, and a plain drawn stand-in shows until a season h
 ## 8. Highways and speed cameras
 
 Right after each station comes 250 m of highway, then normal road again: four in all, 1 km of the 3.5 km trail. They
-are the place to open up and to use the Nitro power.
+are the place to open up.
 
 ```json
 { "x0": 528, "x1": 778, "rockEvery": [6, 14], "rockImpulse": 60, "sign": "highwaySign",
@@ -175,9 +175,9 @@ are the place to open up and to use the Nitro power.
 - `rockEvery`, `rockImpulse`: the only things on it are stones that any truck breaks on touch, one every `rockEvery`
   metres, worth the usual crush coins and doing no damage.
 - `sign`: the art key of the sign standing at its start (`art.highwaySign`, `HIGHWAY_SIGN_WIDTH_M` wide).
-- A dashed yellow centre line is painted down it.
-- A **speed camera** (a drawn pole and box) stands at its middle. As the main truck drives past it, a fiery card shows
-  its speed at that moment for a few seconds (`SPEED_TRAP_CARD_S`), once per camera per run. Nothing is saved.
+- An invisible **speed camera** stands `SPEED_TRAP_FROM_END_M` (20 m) before its end, where trucks are at
+  their fastest. As the main truck drives past it, a small fiery chip under the power chip shows its speed at that moment
+  for a few seconds (`SPEED_TRAP_CARD_S`), once per camera per run. Nothing is saved.
 - `surfaces.highway`: good grip, low rolling drag and no noise.
 
 Keep obstacles, gardens, ramps, holes and bogs off the highways, and keep a station's last obstacle well before it.
@@ -240,7 +240,7 @@ All tried here and dropped. Do not bring them back unless asked.
 | Reflections, shadows under vehicles, per-truck world scaling | Rejected. Heavy trucks will be redrawn within the size cap instead |
 | Superpower pickups on the trail | Replaced by the powers chosen in the garage |
 | Black and white striped station bay edges | Removed for a plain tinted bay |
-| One long highway at the end | Replaced by a short one after every station, so nitro has somewhere to go |
+| One long highway at the end | Replaced by a short one after every station, so there is somewhere to open up |
 | A zoom and slow motion at the speed camera, and saved top speeds | The animation froze the game and felt wrong. Now just the card, with nothing remembered |
 | Small rocks and twigs scattered on the road | They did not sit well in the side view, on or off the wheel tracks |
 
@@ -248,10 +248,10 @@ All tried here and dropped. Do not bring them back unless asked.
 
 ## Art
 
-Masters are in `source/`, and runtime files in `art/` are built by `npm run art:encode`. `source/prompts.json` is the
-older generation history and still mentions art deleted since. To encode only new art, use
-`npm run art:encode -- --art <key> <key> --method 4`: changing `season.json` otherwise marks every image of the season
-as out of date.
+The game loads only the runtime files in `art/`. The `source/` masters were deleted on 2026-11-06 to keep the project
+small, so the `art/*.webp` files are now the only copies: never delete or overwrite them. Each `art` entry still names the
+master it was encoded from. To add new art, put its PNG in `source/` and run
+`npm run art:encode -- --art <key> <key> --method 4`. Always pass `--art`, because the other entries' masters are gone.
 
 | Role | `art` key | Master | Type |
 |---|---|---|---|

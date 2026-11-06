@@ -1,10 +1,12 @@
 # Mechanic Scout
 
-Status: **planned** · breakdown truck for class `scout` (small; tows up to 9 t) · 4×4, 2 axles · 5 t empty · 420 kW · mud-terrain tires, 1.2 m
+Status: **playable** · breakdown truck for class `scout` (small; tows up to 9 t) · 4×4, 2 axles · 5 t empty · 420 kW · mud-terrain tires, 1.2 m
+
+**Redrawn (2026-11-06):** safety yellow, in the Colossus Wrecker's heavy, rugged style, so every class's breakdown truck reads as one fleet. The old art was deleted.
 
 ## Art brief
 
-- Vehicle: mustard yellow 4×4 recovery pickup
+- Vehicle: safety yellow 4×4 heavy-duty recovery truck with a squared-off steel cab, the Colossus Wrecker's little brother
 - Load (drawn as part of the vehicle): a small folding tow crane and wheel-lift in the bed
 - Equipment: heavy rear winch drum with hook, tool chests, spare wheel, amber beacon
 - Finish: mud-caked lower panels

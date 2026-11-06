@@ -1,0 +1,36 @@
+{
+  "tool": "built-in imagegen",
+  "backdrop": {
+    "file": "backdrop-v1.png",
+    "edit_of": "../Sunlit Winter Marsh Road.png",
+    "style_reference": "../../swamp-summer/source/backdrop-v5.png",
+    "original_dimensions": [
+      2172,
+      724
+    ],
+    "requested_dimensions": [
+      2172,
+      724
+    ],
+    "prompt": "Use case: style-transfer. Asset: opaque side-scrolling driving-game panorama. Input 1 is the SEASONAL EDIT TARGET: preserve its biome, seasonal identity, broad tree placement and very wide composition. Input 2 is the APPROVED STYLE REFERENCE ONLY: match its bold chunky tree shapes, rich saturated natural colours, confident visible brush strokes, readable silhouettes and crafted detailed storybook game illustration finish. Hand-painted, slightly stylised, soft diffuse light from ABOVE, no strong diagonal sunbeams. Layered forest depth with softly simplified distant trees and a blue sky with chalky-white painted clouds. Trees frame the sides and leave an open central view across the marsh. Keep the lower third a calm uninterrupted single-colour band for the game road; place all scenery above 66.5 percent image height. No foreground road, people, vehicles, structures, UI, text, logos, watermark or border. Full-bleed opaque landscape. Output EXACTLY 2172 x 724 pixels, 3:1 panorama; do not crop or zoom. Winter: snow-laden dark green spruce trees mixed with bare trees and frozen marsh water, thick chalky-white snow masses with rich cool blue shadows. Rust-orange and warm brown bark and dormant reeds contrast the snowy forest, modest soft warmth from overhead daylight. Keep winter identity and a bright clear blue sky with chalky clouds; no green grass or summery broadleaf foliage. The lower calm band is pale snowy blue matching the target. Bold confident painterly shapes with layered snowy forest depth.",
+    "status": "validated",
+    "original_deletion": "User explicitly requested deletion after validated replacement.",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "resized": false,
+    "validation": {
+      "exact_original_dimensions": true,
+      "opaque": true,
+      "style_reference_matched": true,
+      "winter_snow_and_frozen_marsh_preserved": true,
+      "calm_lower_band": true
+    },
+    "original_deleted": true
+  }
+}

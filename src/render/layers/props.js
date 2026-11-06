@@ -3,7 +3,6 @@ import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
 
-const HIGHWAY_DASH_M = 3, HIGHWAY_DASH_EVERY_M = 7;
 const SIGN_FONT = '"Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
 
 // Scenery and obstacles: reeds and logs behind and in front of the trail, boulders and
@@ -130,21 +129,14 @@ export function createProps(scene) {
       ctx.closePath(); ctx.fillStyle = fade; ctx.fill();
     }
   }
-  // A highway's dashed centre line, painted with the bays so the road repainted around the tires gets it back
-  function highwayLines() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), mid = ((span?.far ?? 1.2) - (span?.near ?? 0.6)) / 2;
-    ctx.fillStyle = 'rgba(236,190,50,0.85)';
-    for (const h of scene.season.trail.highways ?? []) {
-      if (h.x1 < lo || h.x0 > hi) continue;
-      for (let x = h.x0 + Math.max(0, Math.floor((lo - h.x0) / HIGHWAY_DASH_EVERY_M)) * HIGHWAY_DASH_EVERY_M; x < Math.min(h.x1, hi); x += HIGHWAY_DASH_EVERY_M) ctx.fillRect(x, visH(x) + mid, HIGHWAY_DASH_M, 0.14);
-    }
-  }
-  // The start barrier, where the wall behind the start stands: a heavy steel road-closed barricade on the road's
-  // far side with two amber lamps. It is painted once into a canvas; only the lamps' slow glow is drawn live.
+  // The start barrier, where the wall behind the start stands, and a matching one just past the depot: a heavy steel road-closed
+  // barricade on the road's far side with two amber lamps and a plate saying where you are. Each is painted once into a canvas;
+  // only the lamps' slow glow is drawn live.
   const BAR_PX = 200, BAR_W = 3.3, BAR_H = 2.5, BAR_SCALE = 1.4;
-  let barricadeArt = null;
-  document.fonts?.load(`800 100px ${SIGN_FONT}`).then(() => { barricadeArt = null; }).catch(() => {});
-  function paintBarricade() {
+  const BAR_DEPOT_PAST_M = 0;   // the end barricade starts this far past the depot line, so it is in view as the truck pulls up to deliver
+  let barricadeArt = {};
+  document.fonts?.load(`800 100px ${SIGN_FONT}`).then(() => { barricadeArt = {}; }).catch(() => {});
+  function paintBarricade(label, stripe = '#b8291d') {
     const P = BAR_PX, c = makeCanvas(BAR_W * P, BAR_H * P), g = c.getContext('2d'), W = c.width, H = c.height;
     const X = m => m * P, Y = m => H - m * P, ink = '#17130f', rnd = n => hashRandom(n * 3.17 + 0.5);
     const outline = (w = 0.022) => { g.lineWidth = w * P; g.strokeStyle = ink; g.lineJoin = 'round'; g.stroke(); };
@@ -169,7 +161,7 @@ export function createProps(scene) {
       const x0 = X(0.06), x1 = X(BAR_W - 0.06), y0 = Y(top), y1 = Y(top - 0.34), ph = y1 - y0;
       g.save(); g.beginPath(); g.rect(x0, y0, x1 - x0, ph); g.clip();
       g.fillStyle = '#e6dfcd'; g.fillRect(x0, y0, x1 - x0, ph);
-      g.fillStyle = '#b8291d'; for (let x = x0 - ph * 2 + (j % 2) * 22; x < x1 + ph; x += 88) { g.beginPath(); g.moveTo(x, y1); g.lineTo(x + 44, y1); g.lineTo(x + 44 + ph, y0); g.lineTo(x + ph, y0); g.closePath(); g.fill(); }
+      g.fillStyle = stripe; for (let x = x0 - ph * 2 + (j % 2) * 22; x < x1 + ph; x += 88) { g.beginPath(); g.moveTo(x, y1); g.lineTo(x + 44, y1); g.lineTo(x + 44 + ph, y0); g.lineTo(x + ph, y0); g.closePath(); g.fill(); }
       const sh = g.createLinearGradient(0, y0, 0, y1); sh.addColorStop(0, 'rgba(255,255,240,0.28)'); sh.addColorStop(0.18, 'rgba(255,255,240,0)'); sh.addColorStop(0.7, 'rgba(0,0,0,0.05)'); sh.addColorStop(1, 'rgba(0,0,0,0.38)'); g.fillStyle = sh; g.fillRect(x0, y0, x1 - x0, ph);
       for (let k = 0; k < 60; k++) { const r = rnd(j * 300 + k); g.fillStyle = r > 0.6 ? 'rgba(60,45,30,0.45)' : 'rgba(30,24,18,0.3)'; g.fillRect(x0 + rnd(j * 310 + k) * (x1 - x0), y0 + rnd(j * 320 + k) * ph, 2 + r * 9, 1 + r * 3); }
       const mud = g.createLinearGradient(0, y0, 0, y1); mud.addColorStop(0, 'rgba(86,62,38,0)'); mud.addColorStop(1, `rgba(86,62,38,${0.25 + (2 - j) * 0.2})`); g.fillStyle = mud; g.fillRect(x0, y0, x1 - x0, ph);
@@ -184,8 +176,8 @@ export function createProps(scene) {
     g.beginPath(); g.roundRect(px0, py0, pww, phh, 6); g.fillStyle = '#1b1c1b'; g.fill(); outline();
     g.beginPath(); g.roundRect(px0 + 7, py0 + 7, pww - 14, phh - 14, 4); g.lineWidth = 5; g.strokeStyle = '#e0a51c'; g.stroke();
     g.fillStyle = '#efe7d2'; g.textAlign = 'center'; g.textBaseline = 'middle';
-    let fs = phh * 0.56; g.font = `800 ${fs}px ${SIGN_FONT}`; const tw = g.measureText('TRAIL START').width; if (tw > pww - 40) { fs *= (pww - 40) / tw; g.font = `800 ${fs}px ${SIGN_FONT}`; }
-    g.fillText('TRAIL START', px0 + pww / 2, py0 + phh / 2 + 2);
+    let fs = phh * 0.56; g.font = `800 ${fs}px ${SIGN_FONT}`; const tw = g.measureText(label).width; if (tw > pww - 40) { fs *= (pww - 40) / tw; g.font = `800 ${fs}px ${SIGN_FONT}`; }
+    g.fillText(label, px0 + pww / 2, py0 + phh / 2 + 2);
     g.fillStyle = 'rgba(255,255,255,0.06)'; g.fillRect(px0 + 8, py0 + 8, pww - 16, phh * 0.3);
     // lamp housings on top of the posts
     for (const px of posts) {
@@ -197,13 +189,17 @@ export function createProps(scene) {
     return c;
   }
   function barricade() {
-    const bx = scene.sim.barrierX; if (bx == null) return;
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), cx = bx - 0.25 - BAR_W * BAR_SCALE / 2; if (cx + BAR_W < lo || cx - BAR_W > hi) return;
-    barricadeArt ??= paintBarricade();
+    const bx = scene.sim.barrierX;
+    if (bx != null) drawBarricade(bx - 0.25 - BAR_W * BAR_SCALE / 2, 'TRAIL START');
+    drawBarricade(scene.season.trail.depot + BAR_DEPOT_PAST_M + BAR_W * BAR_SCALE / 2, 'DEPOT', '#2f8f3a');   // green stripes: you made it
+  }
+  function drawBarricade(cx, label, stripe) {
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(); if (cx + BAR_W * BAR_SCALE < lo || cx - BAR_W * BAR_SCALE > hi) return;
+    const art = (barricadeArt[label] ??= paintBarricade(label, stripe));
     const { visH } = scene.sim, rise = (roadSpan(scene)?.far ?? 1.2) * 0.62, base = Math.min(visH(cx - BAR_W / 2), visH(cx), visH(cx + BAR_W / 2)) + rise - 0.06;
     // a soft contact shadow under the footings so it sits on the road
     ctx.save(); ctx.fillStyle = 'rgba(10,8,6,0.35)'; ctx.beginPath(); ctx.ellipse(cx, base + 0.02, BAR_W * BAR_SCALE * 0.55, 0.14, 0, 0, 7); ctx.fill();
-    ctx.translate(cx, base); ctx.scale(BAR_SCALE, -BAR_SCALE); ctx.drawImage(barricadeArt, -BAR_W / 2, -BAR_H, BAR_W, BAR_H); ctx.restore();
+    ctx.translate(cx, base); ctx.scale(BAR_SCALE, -BAR_SCALE); ctx.drawImage(art, -BAR_W / 2, -BAR_H, BAR_W, BAR_H); ctx.restore();
     // the lamps blink slowly, one after the other
     const t = performance.now() / 1000;
     ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -215,7 +211,7 @@ export function createProps(scene) {
     }
     ctx.restore();
   }
-  function roadMarks() { stationBays(); highwayLines(); }
+  function roadMarks() { stationBays(); }
   function stations() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
     const img = scene.cache.img.fuelStation;
@@ -277,20 +273,12 @@ export function createProps(scene) {
       }
     }
   }
-  // Each highway's sign at its start, and its speed camera at its middle: a pole and a box, drawn until it has art of its own
+  // Each highway's sign at its start (its speed camera is invisible: only its chip shows)
   function highwayProps() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = roadSpan(scene)?.far ?? 1.2;
     for (const h of scene.season.trail.highways ?? []) {
       const img = scene.cache.img[h.sign], at = h.x0 + HIGHWAY_SIGN_WIDTH_M, w = HIGHWAY_SIGN_WIDTH_M;
       if (img && at + w > lo && at - w < hi) { const ht = w * img.height / img.width; ctx.save(); ctx.translate(at, visH(at) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore(); }
-      const x = (h.x0 + h.x1) / 2; if (x < lo - 3 || x > hi + 3) continue;
-      ctx.save(); ctx.translate(x, visH(x) + rise * 0.96);
-      ctx.fillStyle = '#3c4044'; ctx.fillRect(-0.09, 0, 0.18, 3.5);
-      ctx.fillStyle = '#d8a51e'; ctx.fillRect(-0.55, 3.2, 1.1, 0.85);
-      ctx.fillStyle = '#23262a'; ctx.fillRect(-0.47, 3.28, 0.94, 0.69);
-      ctx.fillStyle = '#7fb6d6'; ctx.beginPath(); ctx.arc(-0.1, 3.62, 0.22, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#e8ecef'; ctx.beginPath(); ctx.arc(0.3, 3.75, 0.09, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
     }
   }
   function bark() {

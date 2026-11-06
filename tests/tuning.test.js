@@ -77,7 +77,7 @@ test('a power is a label on the car, and changes none of its numbers', () => {
   assert.deepEqual(rest, { ...tuned }, 'the same truck otherwise');
   assert.equal(withPower(tuned, null), tuned, 'no power, no change');
   assert.equal(withPower(tuned, 'grip'), tuned, 'an old saved power is ignored');
-  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'brakes', 'nitro']);
+  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'brakes']);
   for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
 });
 
@@ -122,23 +122,6 @@ test('instant brakes stop any truck almost at once, then need to recharge', () =
   t.truck.setLinearVelocity({ x: slow, y: 0 }); for (const w of t.main.parts.wheels) w.setAngularVelocity(-slow / content.car.rig.radius);
   t.ctl.brake = 1; advance(t, 0.3);
   assert.equal(t.st.powerT + t.st.powerCoolT, 0, `braking under ${DAMAGE_START_KMH} km/h leaves it ready`);
-});
-
-test('nitro surges any truck past its top speed for a while, gives no protection, then recharges', () => {
-  for (const car of [content.car, heaviest()]) {
-    const run = nitro => { const s = spawn(newSim(withPower(car, 'nitro')), flatRoad()); s.ctl.auto = true; s.ctl.gas = 1; advance(s, 6); if (nitro) assert(s.usePower(), 'the button starts it'); advance(s, POWER_TIMES.nitro.seconds - 0.1); return s; };
-    const plain = run(false).st.speed, s = run(true);
-    assert(s.st.speed > plain + 3, `${car.id}: ${(plain * 3.6).toFixed(0)} against ${(s.st.speed * 3.6).toFixed(0)} km/h`);
-    advance(s, 0.3);
-    assert(s.st.powerCoolT > POWER_TIMES.nitro.cooldown - 1, 'then it recharges');
-    assert.equal(s.usePower(), false, 'and cannot be used until it has');
-  }
-  assert.equal(spawn(newSim(content.car), flatRoad()).usePower(), false, 'no power, no nitro');
-  const still = spawn(newSim(withPower(content.car, 'nitro')), flatRoad()), x0 = still.truck.getPosition().x;
-  still.ctl.auto = true; still.usePower(); advance(still, 2);
-  assert(still.truck.getPosition().x - x0 > 5, 'it goes from a standstill, with no gas');
-  const c = spawn(newSim(withPower(content.car, 'nitro')), 40); c.usePower(); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2);
-  assert(c.main.st.damage > 0, 'a hit on nitro hurts');
 });
 
 test('mud pull only works in the short gear', () => {

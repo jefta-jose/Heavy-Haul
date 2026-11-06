@@ -1,6 +1,6 @@
 import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius, drawnBodyLift, easeBodyLift } from '../../physics/vehicle.js';
-import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE } from '../../game-config.js';
+import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, BODY_LIFT_RESPONSE } from '../../game-config.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires. Near tires stay in front of the body throughout suspension travel. The
@@ -34,11 +34,10 @@ export function createVehicleLayer(scene) {
     ctx.save(); ctx.translate(p.x + dx + (far ? rig.farWheelOffset[0] : 0), p.y + dy + (far ? rig.farWheelOffset[1] : 0)); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, img.width * s, img.height * s); ctx.restore();
   }
-  // A running power's glow: violet while nothing can hurt the truck, flickering for its last seconds, and blue on nitro. Null when there is none.
+  // A running power's glow: violet while nothing can hurt the truck, flickering for its last seconds. Null when there is none.
   function powerGlow(v) {
     const left = v.st.powerT, kind = v.car.power; if (v.role !== 'main' || !(left > 0)) return null;
     const now = performance.now() / 1000, breathe = 0.82 + 0.18 * Math.sin(now * 5);
-    if (kind === 'nitro') return { kind, color: NITRO_COLOR, pale: '#d6ecff', strength: 0.8 + 0.2 * Math.sin(now * 30) };
     if (kind === 'invincible') return { kind, color: SHIELD_COLOR, pale: '#f3e4ff', strength: left > INVINCIBLE_WARN_SECONDS ? breathe : Math.sin(now * 20) > 0 ? breathe : 0.25 };
     return null;
   }
@@ -58,19 +57,6 @@ export function createVehicleLayer(scene) {
     });
     ctx.restore();
   }
-  // Nitro's speed lines: thin blue streaks racing back off the truck's tail
-  function drawSpeedLines(v) {
-    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
-    const tail = -rig.bodyOrigin[0] * k, height = A.height * k, top = rig.bodyOrigin[1] * k;
-    ctx.save(); ctx.lineCap = 'round';
-    for (let i = 0; i < 9; i++) {
-      const t = (now * 2.4 + i * 0.37) % 1, y = top - height * ((i * 0.618) % 1), len = 1.2 + ((i * 0.41) % 1) * 2.2, from = tail + 0.6 - t * 3.5;
-      const a = body.getWorldPoint({ x: from, y }), b = body.getWorldPoint({ x: from - len, y });
-      ctx.globalAlpha = (1 - t) * 0.75; ctx.strokeStyle = i % 3 ? NITRO_COLOR : '#d6ecff'; ctx.lineWidth = 0.05 + (i % 3) * 0.02;
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-    }
-    ctx.restore();
-  }
   function drawSparkles(v, strength) {
     const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
     const a = A.width * k / 2 + 0.2, b = A.height * k / 2 + 0.15, cx = (A.width / 2 - rig.bodyOrigin[0]) * k, cy = (rig.bodyOrigin[1] - A.height / 2) * k;
@@ -86,7 +72,6 @@ export function createVehicleLayer(scene) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts, glow = powerGlow(v);
     settle(v);
-    if (glow?.kind === 'nitro') drawSpeedLines(v);
     if (glow) drawGlow(v, glow);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));
     // a far tire sinks like the near one: ground over its bottom, behind the body
@@ -100,7 +85,8 @@ export function createVehicleLayer(scene) {
     if (glow?.kind === 'invincible') drawSparkles(v, glow.strength);
   }
 
-  // AWD / DIFF feedback: a pulsing colored border traced around the vehicle silhouette.
+  // AWD / DIFF feedback, and the red glow of a hit: a pulsing colored border traced around the vehicle silhouette. AWD / DIFF
+  // light up the truck being driven; a hit always lights up the main truck, as only it takes damage, even while a service truck tows it.
   function border(v, dt) {
     if (!flash) return;
     flash.t -= Math.min(0.05, dt || 1 / 60);
@@ -128,11 +114,12 @@ export function createVehicleLayer(scene) {
 
   const layer = {
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
-    hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS }; hitBurst = HIT_BURST_S; },
+    hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
-      for (const v of list) { easeLift(v, dt); if (v === sim.active) border(v, dt); drawVehicle(v); }
+      const lit = flash?.main ? sim.main : sim.active;
+      for (const v of list) { easeLift(v, dt); if (v === lit) border(v, dt); drawVehicle(v); }
       for (const v of sim.vehicles) winchCable(v);
       // a star of impact on the nose
       const img = scene.hud['g2-burst'];

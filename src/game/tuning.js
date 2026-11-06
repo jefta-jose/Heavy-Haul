@@ -54,11 +54,10 @@ export function applyTuning(car, levels = {}) {
 }
 
 // Powers do what upgrades can't, and a truck has one at a time. The simulation reads `car.power`.
-const { invincible, nitro, brakes } = POWER_TIMES;
+const { invincible, brakes } = POWER_TIMES;
 export const POWERS = [
   { id: 'invincible', label: 'Invincible', what: `Tap the button: no hit hurts for ${invincible.seconds} s, then it recharges for ${invincible.cooldown} s` },
   { id: 'brakes', label: 'Instant brakes', what: `Brake above ${DAMAGE_START_KMH} km/h and the truck stops dead, then it recharges for ${brakes.cooldown} s. Slower braking stays normal` },
-  { id: 'nitro', label: 'Nitro', what: `Tap the button: ${nitro.seconds} s of speed past your top speed, then it recharges for ${nitro.cooldown} s. No protection` },
 ];
 export const withPower = (car, id) => POWERS.some(p => p.id === id) ? { ...car, power: id } : car;
 

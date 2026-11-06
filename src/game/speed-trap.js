@@ -1,9 +1,12 @@
-// The speed cameras, one in the middle of each highway. As the truck passes one, a fiery card shows how fast it is going at
-// that moment for a few seconds, then fades. Nothing is remembered.
-import { SPEED_TRAP_CARD_S, SPEED_TRAP_FADE_S } from '../game-config.js';
+// The speed cameras, one just before the end of each highway. As the truck passes one, a fiery chip under the power chip shows
+// how fast it is going at that moment for a few seconds, then fades. Nothing is remembered.
+import { SPEED_TRAP_CARD_S, SPEED_TRAP_FADE_S, SPEED_TRAP_FROM_END_M } from '../game-config.js';
+
+// where a highway's camera stands
+export const speedTrapX = h => h.x1 - SPEED_TRAP_FROM_END_M;
 
 export function createSpeedTrap({ sim, trail, onCapture }) {
-  const xs = (trail.highways ?? []).map(h => (h.x0 + h.x1) / 2), $ = id => document.getElementById(id);
+  const xs = (trail.highways ?? []).map(speedTrapX), $ = id => document.getElementById(id);
   let passed = new Set(), lastX = null, t = null;
 
   function show(kmh) {

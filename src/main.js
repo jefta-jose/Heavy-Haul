@@ -7,7 +7,7 @@ import { createView, zoomFor } from './game/view.js';
 import { createInput } from './game/input.js';
 import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
-import { createGarage, grossTonnes } from './game/garage.js';
+import { createGarage } from './game/garage.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
 import { COINS_PER_CRUSH } from './game-config.js';
@@ -31,7 +31,7 @@ import { createSpeedTrap } from './game/speed-trap.js';
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
 const { season, rockHulls, wheelTypes } = content;
-const loader = createLoader(content.loaderText);
+const loader = createLoader(content.loaderText, { title: season.name, subtitle: season.place ?? '' });
 const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps
 const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
@@ -179,17 +179,15 @@ const decoded = (urls, ms = 3000) => Promise.race([Promise.all(urls.filter(Boole
 const framesDrawn = n => { const to = renderer.frames + n; return until(() => renderer.frames >= to, 8000); };
 let loading = false;
 // what the loading screen says about the run ahead, from the truck and the trail themselves
-function runFacts(car) {
-  const r = content.roster.cars.find(c => c.id === car.id) ?? {}, load = car.load ?? r.load, stops = season.trail.stations?.length ?? 0;
-  return [
-    ['Your rig', `${car.name}: ${r.lengthM} m long, ${grossTonnes(car).toFixed(1)} t gross.${load ? ` Load: ${load.name.toLowerCase()}.` : ''}`],
-    ['The trail', `${((season.trail.depot - season.trail.start) / 1000).toFixed(2)} km to the depot, with ${stops} fuel station${stops === 1 ? '' : 's'} on the way.`],
-  ];
+// the line under the place's name after DRIVE: the truck, its load and the trail
+function runLine(car) {
+  const r = content.roster.cars.find(c => c.id === car.id) ?? {}, load = car.load ?? r.load;
+  return [car.name, load?.name, `${((season.trail.depot - season.trail.start) / 1000).toFixed(1)} km to the depot`].filter(Boolean).join('  ·  ');
 }
 async function driveOff(sel) {
   if (loading) return; loading = true;
   startAudio();   // inside the tap, or the phone will not play it
-  loader.show('drive', { wheel: sel.car.artUri?.wheel, facts: runFacts(sel.car) }); await loader.painted();
+  loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
   prepareRun(sel); loader.set(0.35);
   await until(() => renderer.ready, 15000); loader.set(0.65);
   await framesDrawn(2); loader.set(0.9);   // the first frames build the sprites for this truck's zoom
@@ -198,7 +196,7 @@ async function driveOff(sel) {
 }
 async function backToGarage() {
   if (loading) return; loading = true;
-  loader.show('garage', { wheel: selection.car.artUri?.wheel }); await loader.painted();
+  loader.show('garage', { sub: 'Back to the garage' }); await loader.painted();
   openGarage(); loader.set(0.5);
   await decoded([selection.car.artUri?.master, content.hud['garage-bay']]); loader.set(0.85);
   await loader.hide();
