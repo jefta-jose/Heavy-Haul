@@ -103,9 +103,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
      car**, whatever its size; never tune it per car;
-   - `camera.zoom`: the car's own view, set by the user per car (1.5 = 17.7 m of trail across the
-     screen; long rigs need more, e.g. 2.3 for the Crossroads). There is
-     no zoom button. Check the whole rig fits with room ahead on desktop and phone;
+   - camera: one zoom per class, `ZOOM_BY_CLASS` in `src/game-config.js`, tuned by the user (2026-11-06;
+     1.5 = 17.7 m of trail across the screen). `camera.zoom` in car.json is only a fallback for a class
+     without one. There is no zoom button. Check the whole rig fits with room ahead on desktop and phone;
    - `physics`: empty mass and centre of mass from `massT`, plus `physics.load` (`massT` from the
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
      body outline including the load, suspension sized to the loaded weight;
@@ -130,7 +130,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    the batch. Regenerate only an actual visible defect, never an accepted resolution exception
    or placement drift that can be corrected and verified at export.
 6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
-   the car's `camera.zoom` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
+   its class's `ZOOM_BY_CLASS` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
 Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a breakdown

@@ -1,10 +1,12 @@
+import { ZOOM_BY_CLASS } from '../game-config.js';
+
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
 // Framing: the vehicle's nose sits at FRAMING.front of the screen width and the ground at
-// FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each car sets its own zoom in car.json
-// (`camera.zoom`, 1.5 = 17.7 m of trail across the screen; higher shows more). The main truck's zoom
+// FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each class has one zoom,
+// ZOOM_BY_CLASS in game-config.js (1.5 = 17.7 m of trail across the screen; higher shows more). The main truck's zoom
 // holds for the whole run, service trucks and jobs included: a zoom change resamples every sprite,
-// which is heavy on phones. A car without one gets a zoom sized to its length.
+// which is heavy on phones. A class without one falls back to car.json camera.zoom, then a zoom sized to its length.
 // The camera follows with a critically damped spring fed the vehicle's velocity, so it keeps
 // pace under acceleration. Vertically it is fed the ground's own slope ahead (smooth: suspension
 // bounce never shakes it), and the car is never let off the top or bottom of the screen, so a fast
@@ -76,8 +78,9 @@ export function createView(canvas, sim) {
   return view;
 }
 
-// A car's zoom: its car.json camera.zoom, or wide enough to show about 1.6 times its length.
+// A car's zoom: its class's ZOOM_BY_CLASS, else its car.json camera.zoom, else wide enough to show about 1.6 times its length.
 export function zoomFor(car) {
+  if (ZOOM_BY_CLASS[car.class]) return ZOOM_BY_CLASS[car.class];
   if (car.camera?.zoom) return car.camera.zoom;
   const rig = car.rig, length = rig.nose - (Math.min(...rig.axles) - rig.radius);
   return Math.round(Math.max(FRAMING.zoom, Math.min(4.5, length * 1.6 / FRAMING.width)) * 10) / 10;

@@ -103,11 +103,11 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     const stones = rocks.filter(r => r.crush && !r.prop && !r.garden && crushables[zones.find(z => r.x >= z[0] && r.x < z[1])?.[2]]);
     stones.forEach((r, i) => { if (i % crushables.pileEvery === 0) { const x = r.x; world.destroyBody(r.body); rocks.splice(rocks.indexOf(r), 1); placeProp(x, propKinds.branchPile, 'branchPile'); } });
   }
-  // A highway has nothing on it but stones that break under any truck, and they take almost nothing to break.
+  // A highway stays clean: nothing on it at all, unless it lists stones that break under any truck (rockEvery, rockImpulse).
   // Last, so the rest of the trail's random stones stay where they are.
   for (const h of trail.highways ?? []) {
-    const clear = 15;
-    for (let x = h.x0 + clear; x < h.x1 - clear; x += between(h.rockEvery)) { crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4); rocks.at(-1).impulse = h.rockImpulse; }
+    if (!h.rockEvery) continue;
+    for (let x = h.x0 + 15; x < h.x1 - 15; x += between(h.rockEvery)) { crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4); rocks.at(-1).impulse = h.rockImpulse; }
   }
   // A speed limit sign at the first of each group of things that can hurt a truck: logs, pipes, hard rocks and solid props.
   // Whatever any truck breaks gets none, since it does no damage. Rotten logs count, as only the heaviest trucks break them.

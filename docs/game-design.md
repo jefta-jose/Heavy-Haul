@@ -156,7 +156,7 @@ A sign stands at the first of every group of things that can hurt a truck: logs,
 
 ## Highway
 
-Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it but stones that any truck breaks on touch, for coins and no damage.
+Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it at all, so it stays clean.
 
 An invisible speed camera sits 20 m before the end of each one, where trucks are at their fastest. As the truck passes, a small fiery red chip just under the power chip, the same size, shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
 

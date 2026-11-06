@@ -2993,11 +2993,11 @@ dl.spec dd {
   }
 }
 
-/* message and pause screens: a dark plate with the same yellow edge and yellow plate as the garage */
+/* message, pause and garage cards: a dark plate framed in yellow all round, thicker on the left so it is easy to spot */
 .overlay:not(.garage) .card {
   background: rgba(9, 11, 14, .96);
-  border: 0;
-  border-left: 3px solid #f2c21a;
+  border: 1px solid #f2c21a;
+  border-left-width: 4px;
   border-radius: 0;
   overflow: visible;
 }
@@ -3830,4 +3830,14 @@ dl.spec dd {
   .winch.engine {
     bottom: 164px;
   }
+}
+
+/* the Missions card on short screens: its rows in two columns and no note, so all four fit with no scrolling */
+@media (max-height: 520px) {
+  #missionsOv .card.slim { width: min(720px, 100%); }
+  #missionsOv .powerlist { grid-template-columns: 1fr 1fr; }
+  #missionsOv .power { grid-template-columns: 18px minmax(0, 1fr) auto; padding: 4px 8px; }
+  #missionsOv .ptext small { font-size: 10px; line-height: 1.2; }
+  #missionsOv .powernote { display: none; }
+  #powersOv .powernote { display: none; }
 }

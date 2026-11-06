@@ -3,6 +3,7 @@
 // HAUL_CAPTURES=<dir> also saves screenshots for visual review (default output/captures).
 import test from 'node:test';
 import { formatCoins } from '../src/game/format.js';
+import { ZOOM_BY_CLASS } from '../src/game-config.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -209,9 +210,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.click('#awdBtn'); await page.click('#diffBtn');
     assert(await page.evaluate(() => __haul.sim.ctl.awd && __haul.sim.ctl.diff), 'AWD and DIFF buttons engage');
 
-    // The camera uses the car's own zoom from car.json; there is no zoom button any more.
+    // The camera uses the class's zoom from game-config.js; there is no zoom button any more.
     assert.equal(await page.locator('#cameraBtn').count(), 0, 'no zoom button');
-    assert.equal(await page.evaluate(() => __haul.view.zoom), await page.evaluate(() => __haul.sim.car.camera.zoom), 'the car sets the zoom');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), ZOOM_BY_CLASS[await page.evaluate(() => __haul.sim.car.class)], 'the class sets the zoom');
     // the steps above jump the car ahead instantly: give the camera spring real frames to catch up
     const noseInFrame = () => { const { W, ppm, cam } = __haul.view, nose = __haul.sim.truck.getWorldPoint(__haul.sim.V(__haul.sim.car.rig.nose, 0)); const x = (nose.x - cam.x) * ppm + W / 2; return x > W * 0.5 && x < W * 0.9; };
     await page.waitForFunction(noseInFrame, null, { timeout: 4000 }).catch(() => {});

@@ -162,7 +162,7 @@ Right after each station comes 250 m of highway, then normal road again: four in
 are the place to open up.
 
 ```json
-{ "x0": 528, "x1": 778, "rockEvery": [6, 14], "rockImpulse": 60, "sign": "highwaySign",
+{ "x0": 528, "x1": 778, "sign": "highwaySign",
   "waves": { "seed": 4471, "height": [1.8, 3], "wave": [60, 90] } }
 ```
 
@@ -172,8 +172,8 @@ are the place to open up.
   as `[min, max]`, with the first and last 20 m flat. Give each highway its own `seed`. The steepest stays under about
   0.2 and the tightest bend under 0.02, so trucks hold their speed with no jolts. Even the ground out under each one
   with two `keys` at `x0` and `x1`, because a steep stretch of trail plus waves gets too steep.
-- `rockEvery`, `rockImpulse`: the only things on it are stones that any truck breaks on touch, one every `rockEvery`
-  metres, worth the usual crush coins and doing no damage.
+- Nothing stands on it: no stones, logs, props or speed limit signs, so it stays clean. (`rockEvery` and `rockImpulse` can add
+  stones any truck breaks on touch, but the swamp's highways have none.)
 - `sign`: the art key of the sign standing at its start (`art.highwaySign`, `HIGHWAY_SIGN_WIDTH_M` wide).
 - An invisible **speed camera** stands `SPEED_TRAP_FROM_END_M` (20 m) before its end, where trucks are at
   their fastest. As the main truck drives past it, a small fiery chip under the power chip shows its speed at that moment

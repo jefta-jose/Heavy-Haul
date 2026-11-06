@@ -1191,11 +1191,6 @@
       {
         "x0": 528,
         "x1": 778,
-        "rockEvery": [
-          6,
-          14
-        ],
-        "rockImpulse": 60,
         "sign": "highwaySign",
         "waves": {
           "seed": 4471,
@@ -1212,11 +1207,6 @@
       {
         "x0": 1340,
         "x1": 1590,
-        "rockEvery": [
-          6,
-          14
-        ],
-        "rockImpulse": 60,
         "sign": "highwaySign",
         "waves": {
           "seed": 4488,
@@ -1233,11 +1223,6 @@
       {
         "x0": 2152,
         "x1": 2402,
-        "rockEvery": [
-          6,
-          14
-        ],
-        "rockImpulse": 60,
         "sign": "highwaySign",
         "waves": {
           "seed": 4505,
@@ -1254,11 +1239,6 @@
       {
         "x0": 2964,
         "x1": 3214,
-        "rockEvery": [
-          6,
-          14
-        ],
-        "rockImpulse": 60,
         "sign": "highwaySign",
         "waves": {
           "seed": 4522,

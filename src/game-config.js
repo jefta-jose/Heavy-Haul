@@ -1,5 +1,11 @@
 // Everything you might want to tune about how the game plays, one line each. Change a number, save, and the game reloads.
 
+// ---------- camera ----------
+// How far out the camera sits for every truck in a class: 1 = 11.8 m of trail across a desktop screen, so 1.6 = 19 m.
+// Lower is closer. The truck's nose sits at 60% of the screen, so the class's longest truck (scout 8.1 m, offroad 11.8,
+// heavy-duty 13.7, highway 16.4, heavy 16.5) still fits behind it. Phones show a little more. Overrides car.json camera.zoom.
+export const ZOOM_BY_CLASS = { scout: 1.6, offroad: 1.85, 'heavy-duty': 2.0, highway: 2.3, heavy: 2.3 };
+
 // ---------- damage ----------
 export const DAMAGE_START_KMH = 20;           // hitting a solid obstacle slower than this does no harm
 export const DAMAGE_PER_HIT = 10;              // how much a hit hurts: % of damage for a hit 10 km/h over the start speed; it grows fast with speed
@@ -45,13 +51,14 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 // XP needed in total to reach each rank, rank 1 to 20. Reaching a rank opens one more truck in every class, to buy for its
 // price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
 export const RANK_XP = [0, 200, 700, 1450, 2400, 3600, 5000, 6650, 8450, 10400, 12600, 14950, 17500, 20200, 23100, 26150, 29350, 32750, 36300, 40000];
+export const STARTING_RANK = 20;              // for testing: the player starts at least at this rank (1 to 20); saved XP below it is raised to it
 export const XP_PER_METRE = 0.05;             // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 40;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 600;           // for reaching the depot
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 20000;
+export const STARTING_COINS = 20000000;
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog

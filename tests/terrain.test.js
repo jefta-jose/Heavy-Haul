@@ -129,7 +129,7 @@ test('a speed limit sign stands at the first of every group of logs, pipes and h
   for (const o of solid) assert(s.speedSigns.some(x => x <= o + 0.01 && o - x < 200), `a sign at or before the obstacle at ${o.toFixed(1)}`);
 });
 
-test('a highway of 250 m follows each station, of long smooth waves, with only stones that any truck breaks, for free', () => {
+test('a highway of 250 m follows each station, of long smooth waves, and clean: nothing on it at all', () => {
   const { highways, stations } = content.season.trail;
   assert.equal(highways.length, stations.length);
   highways.forEach((h, i) => { assert.equal(h.x0, stations[i].x + 8, 'it starts at the end of the bay'); assert.equal(h.x1 - h.x0, 250); });
@@ -146,20 +146,19 @@ test('a highway of 250 m follows each station, of long smooth waves, with only s
     assert(steepest < 0.2, `${r.x0}: gradually: steepest ${steepest.toFixed(3)}`);
     assert(tightest < 0.02, `${r.x0}: with no sharp bumps: ${tightest.toFixed(4)}`);
   }
-  const stones = s.rocks.filter(r => r.x > h.x0 && r.x < h.x1);
-  assert(stones.length > 10, `${stones.length} stones`);
-  assert(stones.every(r => r.crush && !r.minMassT), 'every one breaks under any truck');
-  assert(!s.logs.some(l => l.x > h.x0 && l.x < h.x1), 'no logs or pipes');
-  assert(!s.speedSigns.some(x => x > h.x0 + 1 && x < h.x1), 'no speed limit signs');
+  for (const r of highways) {
+    assert(!s.rocks.some(o => o.x + o.w / 2 > r.x0 && o.x - o.w / 2 < r.x1), `${r.x0}: no rocks, stones or props`);
+    assert(!s.logs.some(l => l.x + l.r > r.x0 && l.x - l.r < r.x1), `${r.x0}: no logs, pipes or drums`);
+    assert(!s.speedSigns.some(x => x > r.x0 + 1 && x < r.x1), `${r.x0}: no speed limit signs`);
+  }
   // the lightest and the heaviest truck both smash through at full gas, unhurt and upright
   const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000, byWeight = [...content.cars].sort((a, b) => gross(a) - gross(b));
   for (const car of [byWeight[0], byWeight.at(-1)]) {
-    const d = spawn(newSim(car), h.x0 + 8), rocks = d.rocks.filter(r => r.x > h.x0 && r.x < h.x1), alive = () => rocks.filter(r => r.alive).length, before = alive(), x0 = d.truck.getPosition().x;
+    const d = spawn(newSim(car), h.x0 + 8), x0 = d.truck.getPosition().x;
     d.ctl.auto = true; d.ctl.gas = 1;
     let t = 0, tip = 0;
     for (; t < 40 && d.truck.getPosition().x < h.x1 - 30; t += DT) { d.step(DT); tip = Math.max(tip, Math.abs(d.truck.getAngle())); }
     const gone = d.truck.getPosition().x - x0;
-    assert(before - alive() > 3, `${car.id} breaks them (${before - alive()})`);
     assert.equal(d.st.damage, 0, `${car.id} takes no damage`);
     assert(tip < 0.5, `${car.id} stays upright (${tip.toFixed(2)} rad)`);
     assert(gone > 150, `${car.id} flies: ${gone.toFixed(0)} m in ${t.toFixed(0)} s`);
