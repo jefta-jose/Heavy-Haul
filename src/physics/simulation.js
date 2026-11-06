@@ -4,7 +4,6 @@ import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
 import { createDrivetrain } from './drivetrain.js';
 import { valueNoise } from './math.js';
-import { buildBridges } from './bridges.js';
 
 // Composes terrain, obstacles and vehicles into one fixed-step simulation. The world holds the main
 // vehicle (its load is part of the car: art and mass) plus any service trucks summoned during the
@@ -37,7 +36,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const BRAKE = { rise: 2.5, fall: 5 };
   const events = [], crushQueue = [];
   const load = new Map();   // tire normal loads, measured from the solver's contact impulses every step
-  let world, obstacles, bridgeSystem, vehicles = [], active = null, main = null, stepDt = 1 / 120;
+  let world, obstacles, vehicles = [], active = null, main = null, stepDt = 1 / 120;
   // the main vehicle's controls and readings persist across runs (the HUD holds them)
   const mainCtl = newCtl(), mainSt = newSt();
 
@@ -68,7 +67,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     ground.createFixture(new pl.Edge(V(BARRIER_X, colH(BARRIER_X) - 2), V(BARRIER_X, colH(BARRIER_X) + 40)), { friction: 0.5 });
     ground.createFixture(new pl.Edge(V(X1, colH(X1)), V(X1, colH(X1) + 40)), { friction: 0.5 });
     obstacles = buildObstacles({ pl, world, terrain, trail, hulls: rockHulls });
-    bridgeSystem = buildBridges({ pl, world, terrain });
 
     // a tire touching a log, pipe or rock makes a sound, and at speed a tire or the chassis hitting a solid one hurts
     world.on('begin-contact', c => {
@@ -233,7 +231,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     spawnParts(v, x);
     return v;
   }
-  function spawnParts(v, x) { v.parts = buildVehicle({ pl, world, terrain: { ...terrain, visH: terrain.driveH }, car: v.car, x0: x, tireData: v.tireData }); }
+  function spawnParts(v, x) { v.parts = buildVehicle({ pl, world, terrain, car: v.car, x0: x, tireData: v.tireData }); }
   function removeParts(v) { v.parts.destroy(); }
   // the card's fuel-efficiency stat (0..100): 70 is the reference, every 40 points halves or doubles the burn
   const efficiencyBurn = car => GLOBAL_FUEL_BURN_MULTIPLIER * 2 ** ((70 - (car.stats?.fuelEfficiency ?? 70)) / 40);
@@ -400,7 +398,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     get truck() { return active.parts.truck; }, get wheels() { return active.parts.wheels; }, get joints() { return active.parts.joints; },
     get wheelRadius() { return active.car.rig.radius; },
     get rocks() { return obstacles.rocks; }, get logs() { return obstacles.logs; }, get speedSigns() { return obstacles.speedSigns; },
-    get bridges() { return bridgeSystem.bridges; },
     // winch for the active vehicle: what it could hook, hook / unhook, and its cable
     nearestHook: (v = active) => nearestHook(v),
     toggleWinch: (v = active) => toggleWinch(v),

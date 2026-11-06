@@ -42,13 +42,13 @@ export function createSceneryCache(scene) {
     C.rockSource ??= alphaCrop(A.rock);
     C.img.rock = scaled(C.rockSource, Math.min(1, 5 * px / C.rockSource.width));
     const round = Object.values(season.trail.obstacleKinds ?? {}).map(k => k.art);
-    for (const key of ['bridgePlank', 'bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'fuelStation', ...round]) if (A[key]) {
-      // Preserve full canvases for registered near faces/plank edges. Only
-      // support frames and terrain overlays use their visible alpha bounds.
-      const crop = ['bridgeFrame', 'bridgeSteelFrame', 'mudHole', 'fuelStation'].includes(key);
+    for (const key of ['mudHole', 'fuelStation', ...round]) if (A[key]) {
+      // Preserve full canvases for registered obstacle faces. Only
+      // terrain overlays use their visible alpha bounds.
+      const crop = ['mudHole', 'fuelStation'].includes(key);
       if (crop) { C[`${key}Source`] ??= alphaCrop(A[key]); }
       const source = crop ? C[`${key}Source`] : A[key];
-      const metres = key.includes('Frame') ? 16 : key === 'mudHole' ? 14 : key === 'fuelStation' ? 15 : key === 'bridgePlank' ? 4 : 5;
+      const metres = key === 'mudHole' ? 14 : key === 'fuelStation' ? 15 : 5;
       C.img[key] = scaled(source, Math.min(1, metres * px / source.width));
     }
     for (const { art } of Object.values(season.trail.propKinds ?? {})) {
@@ -65,7 +65,6 @@ export function createSceneryCache(scene) {
       C.img.logEnd = scaled(C.logEndSource, Math.min(1, 1.5 * px / C.logEndSource.width));
     }
     if (A.deepMud) { C.deepMudPat = ctx.createPattern(A.deepMud, 'repeat'); C.deepMudPat.setTransform(new DOMMatrix([0.0034, 0, 0, -0.0013, 0, 0])); }
-    if (A.bridgeWood) { C.bridgePat = ctx.createPattern(A.bridgeWood, 'repeat'); C.bridgePat.setTransform(new DOMMatrix([0.002, 0, 0, -0.001, 0, 0])); }
     C.shade = ctx.createLinearGradient(0, H * 0.72, 0, H); C.shade.addColorStop(0, 'rgba(15,24,17,0)'); C.shade.addColorStop(1, 'rgba(15,24,17,0.15)');
     // lane textures, squashed vertically for the slightly elevated side view
     C.lanePat = {};

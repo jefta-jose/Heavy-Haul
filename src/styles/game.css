@@ -226,11 +226,6 @@ canvas#view {
   box-shadow: inset 0 -3px 0 #65512f;
 }
 
-.chip.bridge {
-  color: #f5dfb4;
-  background: #4a3927;
-  border-color: #ac8b53;
-}
 
 .right {
   display: flex;
@@ -3980,13 +3975,12 @@ dl.spec dd {
 .chip[data-surf="rock"] { --c: #6f7983; }
 .chip[data-surf="highway"] { --c: #e8edf1; }
 .chip[data-surf="creek"], .chip[data-surf="water"] { --c: #2fb3ff; }
-.chip[data-surf="wood"], .chip[data-surf="bridge"] { --c: #c8964f; }
+.chip[data-surf="wood"] { --c: #c8964f; }
 .chip[data-surf="mud"] { --c: var(--hazard); }
 .chip[data-surf="bog"] { --c: #ff7a1a; }
 
 .chip.warn,
-.chip.warn.bog,
-.chip.bridge {
+.chip.warn.bog {
   color: inherit;
   background: linear-gradient(#1d242b, #0e1216);
   border-color: rgba(255, 255, 255, 0.12);

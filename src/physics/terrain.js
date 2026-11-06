@@ -107,7 +107,7 @@ export function createTerrain(trail, surfaces) {
     return y;
   }
   // Rolling bumps (trail.rollers) along every stretch with nothing else to do, riverbeds and the water
-  // over them included: uneven humps, trough to trough, faded out around bridges, bog pits, obstacles and
+  // over them included: uneven humps, trough to trough, faded out around bog pits, obstacles and
   // the calm places. A stream of its own random numbers, so the authored features stay where they are.
   function rollersAt() {
     const R = trail.rollers, out = new Float32Array(N); if (!R) return out;
@@ -117,7 +117,6 @@ export function createTerrain(trail, surfaces) {
 
     const S = trail.obstacleScale ?? 1, inWater = ([a, b]) => (trail.waters ?? []).some(w => a >= w.x0 && b <= w.x1);
     const keep = CALM.filter(c => !inWater(c));   // a recovery spot in a riverbed still rolls
-    for (const b of trail.bridges ?? []) keep.push([b.x0 - 4, b.x1 + 4]);
     for (const c of HEAVY_MUD) keep.push([c - 12, c + 12]);
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
@@ -198,13 +197,6 @@ export function createTerrain(trail, surfaces) {
   const nearStep = x => features.some(f => (f.type === 'ledge' && x > f.x0 - 3 && x < f.x0 + f.face + 2) || (f.type === 'slab' && Math.abs(Math.abs(x - f.c) - f.w / 2) < 1.5));
 
   buildHeights();
-  const bridges = (trail.bridges ?? []).map(b => ({ capacityT: 14, sag: 0.2, depth: 1.5, ...b, y0: visH(b.x0), y1: visH(b.x1) }));
-  for (const b of bridges) for (let i = Math.ceil((b.x0 - X0) / DX); i <= Math.floor((b.x1 - X0) / DX); i++) {
-    const x = X0 + i * DX, cut = b.depth * sm(Math.min(x - b.x0, b.x1 - x) / 1.5);
-    HV[i] -= cut; HC[i] -= cut;
-  }
-  const bridgeAt = x => bridges.find(b => x >= b.x0 && x <= b.x1);
-  const driveH = x => { const b = bridgeAt(x); if (!b) return visH(x); const t = (x - b.x0) / (b.x1 - b.x0); return b.y0 + (b.y1 - b.y0) * t - b.sag * Math.sin(Math.PI * t); };
   const mudAt = x => {
     if (surfAt(x) !== 'mud') return { intensity: 0, depth: 0, heavy: 0 };
     const z = ZONES.find(z => x >= z[0] && x < z[1]);
@@ -219,5 +211,5 @@ export function createTerrain(trail, surfaces) {
   }
 
   const stationAt = x => stations.find(s => Math.abs(x - s.x) <= STATION_BAY_M / 2);
-  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, driveH, bridgeAt, bridges, mudAt, nearCalm, nearStep };
+  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, mudAt, nearCalm, nearStep };
 }

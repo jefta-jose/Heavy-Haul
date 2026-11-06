@@ -6,7 +6,6 @@ import { createProps } from './layers/props.js';
 import { createVehicleLayer } from './layers/vehicle.js';
 import { drawWaterBack, drawWater, drawRipples } from './layers/water.js';
 import { createParticles } from './particles.js';
-import { createBridgeLayer } from './layers/bridges.js';
 import { createMudLayer } from './layers/mud.js';
 
 // Painted 2.5D scene: screen-space backdrop, then world-space layers in metres (y up).
@@ -23,7 +22,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
   const props = createProps(scene), vehicles = createVehicleLayer(scene);
   scene.vehicleLayer = vehicles;
   const particles = createParticles(scene, onEvent);
-  const bridges = createBridgeLayer(scene), mud = createMudLayer(scene);
+  const mud = createMudLayer(scene);
   let sceneryReady = false, frames = 0, time = 0;
   scenery.ready.then(() => { sceneryReady = scenery.allLoaded(); });
 
@@ -49,10 +48,10 @@ export function createRenderer({ view, sim, content, onEvent }) {
     // a thick road's deep mud would paint over its holes, so there they go on top of the mud and under the ruts
     if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time, scene.season.render.road ? () => props.drawHoles() : null);
-    props.drawBehind(); bridges.draw(); drawWaterBack(scene, time);
+    props.drawBehind(); drawWaterBack(scene, time);
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
-    drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground(); bridges.drawFront();
+    drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground();
     drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
     props.drawFront(); drawForegroundShade(scene);
     frames++;

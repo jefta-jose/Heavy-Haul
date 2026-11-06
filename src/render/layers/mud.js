@@ -7,7 +7,7 @@ import { roadSpan } from './ground.js';
 // RES metres) that tires press into as they roll: deeper where they sink (the same surface/collision
 // separation that sinks them in the physics), deeper again with every pass and while a wheel spins,
 // wider under big tires. Soft ground takes deep wet ruts, dirt and gravel lighter packed tracks, rock
-// and bridges none. Ruts stay for the whole run, so driving back you find them where you left them;
+// none. Ruts stay for the whole run, so driving back you find them where you left them;
 // they are cleared only when a new run starts or the player goes back to the garage.
 const RES = 0.1;
 const GIVE = { mud: 1, creek: 0.8, dirt: 0.45, gravel: 0.25 };
@@ -37,7 +37,7 @@ export function createMudLayer(scene) {
     if (world !== sim.world || !ruts) { world = sim.world; clear(); }
     for (const v of sim.vehicles) v.parts.wheels.forEach((wheel, i) => {
       const p = wheel.getPosition(), radius = wheelRadius(v.car.rig, i), surf = sim.surfAt(p.x), give = GIVE[surf] ?? 0;
-      if (!give || sim.terrain.bridgeAt?.(p.x)) return;
+      if (!give) return;
       const bottom = p.y - radius, ground = sim.visH(p.x);
       if (bottom > ground + 0.04) return;                         // in the air
       // how far the tire has sunk below the drawn surface, as a share of a deep rut

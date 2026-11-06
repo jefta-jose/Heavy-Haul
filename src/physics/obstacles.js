@@ -23,7 +23,7 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const gardenAt = x => (trail.rockGardens ?? []).find(g => x > g.x0 - pad && x < g.x1 + pad);
   const propKinds = trail.propKinds ?? {};
   const props = (trail.props ?? []).map(p => ({ x: p.x, kind: propKinds[p.kind], name: p.kind }));
-  const reserved = x => runs.some(r => x > r.x0 - pad && x < r.x1 + pad) || props.some(p => Math.abs(p.x - x) < p.kind.width * S / 2 + pad) || terrain.nearHole(x, 1.5 * S) || (trail.bridges ?? []).some(b => x > b.x0 - 6 - pad && x < b.x1 + 3 + pad);
+  const reserved = x => runs.some(r => x > r.x0 - pad && x < r.x1 + pad) || props.some(p => Math.abs(p.x - x) < p.kind.width * S / 2 + pad) || terrain.nearHole(x, 1.5 * S);
 
   // Body from a traced hull, sitting `above` metres proud of the lowest ground under it.
   const rockBody = (x, aboveM, widthM, hull = null, canFlip = true) => {
