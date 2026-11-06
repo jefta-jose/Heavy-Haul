@@ -39,8 +39,8 @@ export function createInput(els, actions) {
   window.addEventListener('keydown', e => {
     keys[e.code] = true;
     if (e.code === 'KeyS' && !e.repeat) actions.usePower();
-    if (e.code === 'KeyQ') actions.toggle('awd');
-    if (e.code === 'KeyE') actions.toggle('diff');
+    if (e.code === 'KeyQ' && !e.repeat) actions.toggle('awd');
+    if (e.code === 'KeyE' && !e.repeat) actions.toggle('diff');
     if (e.code === 'KeyV' && !e.repeat) actions.switchVehicle();
     if ((e.code === 'KeyW' || e.code === 'Space') && !e.repeat) actions.winch();
     if (e.code === 'Escape' || e.code === 'KeyP') actions.pause();

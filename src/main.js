@@ -76,6 +76,7 @@ const startAudio = () => audio.start();
 const sound = createSoundSettings({ audio, onClose: () => { if (session.state === 'pause') showPause(); } });
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
+  if (session.state !== 'play') return;
   sim.ctl[key] = on; hud.showMode(key, on);
   renderer.flash(on); audio.clunk(on); haptics.toggle();
   hud.hint(`${key}-${on}`, key === 'awd' ? (on ? 'AWD on: every axle driven' : 'AWD off: front axle free-wheels') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
