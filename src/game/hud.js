@@ -195,23 +195,27 @@ export function createHud({ sim, season }) {
     missionOutT = setTimeout(() => { box.classList.add('out'); missionOutT = setTimeout(() => { box.hidden = true; box.classList.remove('failed', 'out'); missionText = null; }, 700); }, 1400);
   }
 
+  // DOM properties retain their last value, so stationary HUD values need no writes.
+  const setText = (el, value) => { if (el.textContent !== value) el.textContent = value; };
   function update(dt, { coins, run }) {
     showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; const step = hudT; hudT = 0;
     const mx = sim.main.parts.truck.getPosition().x;
-    els.damageFill.style.width = `${sim.main.st.damage ?? 0}%`;
+    const damageWidth = `${sim.main.st.damage ?? 0}%`;
+    if (els.damageFill.style.width !== damageWidth) els.damageFill.style.width = damageWidth;
     // the depot sign: kilometres to two places, metres for the last kilometre, green for the last 300 m
     const left = Math.max(0, trail.depot - mx), far = left >= 1000;
-    els.distTxt.textContent = far ? (left / 1000).toFixed(2) : String(Math.round(left));
-    els.distUnit.textContent = far ? 'km' : 'm';
+    setText(els.distTxt, far ? (left / 1000).toFixed(2) : String(Math.round(left)));
+    setText(els.distUnit, far ? 'km' : 'm');
     els.depotSign.classList.toggle('near', left < 300);
-    els.coinTxt.textContent = formatCoins(coins);
+    setText(els.coinTxt, formatCoins(coins));
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
-    els.surfTxt.textContent = s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.surfaces[s].label;
-    els.surfChip.dataset.surf = s === 'wood' ? 'wood' : bog ? 'bog' : s;
+    setText(els.surfTxt, s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.surfaces[s].label);
+    const surface = s === 'wood' ? 'wood' : bog ? 'bog' : s;
+    if (els.surfChip.dataset.surf !== surface) els.surfChip.dataset.surf = surface;
     els.surfChip.classList.toggle('bog', bog);
     els.surfChip.classList.toggle('warn', s === 'mud');
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
