@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node tools/dev.js",
     "build": "node tools/build.js",
-    "test": "node --test tests/session.test.js tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js tests/heavy-trucks.test.js",
+    "test": "node --test tests/session.test.js tests/vehicle.test.js tests/tuning.test.js tests/terrain.test.js tests/audio.test.js tests/heavy-trucks.test.js tests/release-economy.test.js",
     "test:route": "node --test tests/route.test.js",
     "test:browser": "node --test tests/browser.test.js",
     "check": "npm test && npm run test:route && npm run test:browser",
@@ -15,7 +15,8 @@
     "art:encode": "uv run --with pillow python tools/art/encode-webp.py",
     "scaffold": "node tools/content/scaffold.js",
     "android:web": "node tools/build.js --app",
-    "android:sync": "npm run android:web && npx cap sync android"
+    "android:sync": "npm run android:web && npx cap sync android",
+    "check:release": "node tools/check-release-economy.js"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.6.0",

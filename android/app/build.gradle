@@ -21,7 +21,26 @@ android {
     // It is not in the repo: CI writes it from the ANDROID_DEBUG_KEYSTORE secret (see
     // .github/workflows/android.yml). Without it Android Gradle's own per-machine debug key is used.
     def sharedDebugKey = file('heavy-haul-debug.keystore')
+    def uploadKeyPath = System.getenv('ANDROID_RELEASE_KEYSTORE')
+    def uploadStorePassword = System.getenv('ANDROID_RELEASE_STORE_PASSWORD')
+    def uploadKeyAlias = System.getenv('ANDROID_RELEASE_KEY_ALIAS')
+    def uploadKeyPassword = System.getenv('ANDROID_RELEASE_KEY_PASSWORD')
+    def uploadSigningReady = [uploadKeyPath, uploadStorePassword, uploadKeyAlias, uploadKeyPassword].every { it }
+    // Never emit an unsigned store bundle when the upload key is missing.
+    gradle.taskGraph.whenReady { graph ->
+        if ((graph.hasTask(':app:bundleRelease') || graph.hasTask(':app:assembleRelease')) && !uploadSigningReady) {
+            throw new GradleException('Release signing requires ANDROID_RELEASE_KEYSTORE, ANDROID_RELEASE_STORE_PASSWORD, ANDROID_RELEASE_KEY_ALIAS and ANDROID_RELEASE_KEY_PASSWORD.')
+        }
+    }
     signingConfigs {
+        if (uploadSigningReady) {
+            googlePlay {
+                storeFile file(uploadKeyPath)
+                storePassword uploadStorePassword
+                keyAlias uploadKeyAlias
+                keyPassword uploadKeyPassword
+            }
+        }
         if (sharedDebugKey.exists()) {
             sharedDebug {
                 storeFile sharedDebugKey
@@ -36,6 +55,7 @@ android {
             if (sharedDebugKey.exists()) signingConfig signingConfigs.sharedDebug
         }
         release {
+            if (uploadSigningReady) signingConfig signingConfigs.googlePlay
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

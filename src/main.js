@@ -281,8 +281,8 @@ function frame(now) {
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     session.update(dt);
+    hud.showFilling(sim.main.st.filling);
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
-    { const m = sim.main.st; hud.showAction(m.filling ? `Refuelling and repairing: fuel ${Math.round(m.fuel)}%, damage ${Math.round(m.damage)}%` : null, true); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
   try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }

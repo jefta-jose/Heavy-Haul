@@ -102,3 +102,14 @@ Browser captures are written to `output/captures/` for visual review.
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink`; heavy-mud pits only: `heavySink`, `heavyDrag` (drag as a share of tire load), `heavyGrip` (grip left at the pit centre); `bogRefT` (tire load in t below which bog drag shrinks, so light trucks wiggle through) |
 | Suspension | `physics.suspension` in `car.json` |
 | Trail shape | `trail` in `season.json`; obstacle generation in `terrain.js` / `obstacles.js` |
+
+## Starting economy and store releases
+
+Edit `STARTING_RANK` and `STARTING_COINS` directly in `src/game-config.js` for local player testing.
+The user knows these must be reset manually to rank **1** and **20,000 coins** before production.
+There is no test-mode switch. Clear saved game data to exercise a fresh-player scenario.
+
+The **Google Play release** GitHub Actions workflow runs only through **Run workflow** and rejects
+other starting values before building. It signs an AAB and uploads it to the selected Play track.
+The existing push-triggered debug APK workflow stays available for testers.
+See [Google Play release setup](docs/google-play-release.md) for secrets and deployment steps.

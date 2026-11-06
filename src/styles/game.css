@@ -184,6 +184,23 @@ canvas#view {
   transition: width .2s;
 }
 
+/* repairing at a fuel station: the damage bar turns green and a bold green border slowly fades in and
+   out round it (the same rhythm as the fuel dial's, heartbeat() in hud.js) until it is empty */
+.dmgrow.healing #damageFill {
+  background: #62d24b;
+}
+
+.stack>.dmgrow.healing {
+  outline: 3px solid rgba(125, 255, 90, .2);
+  outline-offset: 0;
+  animation: heal-beat 1.8s ease-in-out infinite;
+}
+
+@keyframes heal-beat {
+  0%, 100% { outline-color: rgba(125, 255, 90, .2); box-shadow: 0 0 2px 0 rgba(98, 230, 60, .15); }
+  50% { outline-color: #7dff5a; box-shadow: 0 0 12px 3px rgba(98, 230, 60, .8); }
+}
+
 .fuelbar i {
   display: block;
   height: 100%;

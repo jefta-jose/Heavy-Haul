@@ -204,9 +204,14 @@ recharge). Instant brakes: braking above 20 km/h stops the truck dead (15 s rech
 0.5 coins per new metre, 5 per thing crushed, 50 per bog, plus the trail bonus and the load's value at
 the depot.
 
-**Why do I have 20 million coins and every truck open?**
-Test mode. `STARTING_COINS` and `STARTING_RANK` in [game-config.js](game-config.js) are set for
-testing and will be reset before release.
+**How do I test different starting ranks and coin balances?**
+Edit `STARTING_RANK` and `STARTING_COINS` directly in [game-config.js](game-config.js).
+There is no test-mode switch. The user knows these values may be changed for testing and will
+manually reset them to rank **1** and **20,000 coins** before deploying to production.
+Clear the browser's game saves or the Android app's data between fresh-player scenarios: saved
+coins take precedence, and lowering the starting rank does not lower existing saved XP.
+The manually dispatched Google Play workflow fails before building if either value is wrong;
+it never silently changes them. See [Google Play release setup](../docs/google-play-release.md).
 
 **Where is my progress saved?**
 In the browser's (or app WebView's) local storage on your device: coins, rank, owned trucks, upgrades,

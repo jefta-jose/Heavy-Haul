@@ -7,6 +7,13 @@ release. The findings behind each task follow in the appendix.
 
 ---
 
+> **User policy update (2026-11-06):** N2/R1's switch proposal below is superseded.
+> There is no `TEST_MODE`: the user knowingly edits the two starting values directly for testing
+> and will manually reset them to rank **1** and **20,000 coins** for production. A separate,
+> dispatch-only Google Play workflow rejects any other values without rewriting the config.
+> See [Google Play release setup](google-play-release.md). Earlier implementation notes below
+> describe the previous switch and are historical.
+
 # Part 1: Brief for Codex
 
 ## Ground rules for every task
@@ -33,7 +40,7 @@ Safe, small, no effect on how the game plays.
 | Id | Task | Done when |
 |---|---|---|
 | N1 | **Wallet reset bug.** [src/game/wallet.js:6](../src/game/wallet.js) uses `if (saved > 0)`, so a saved balance of exactly 0 is replaced by `STARTING_COINS` on the next launch. Read the key, and if it exists (`!== null`) accept any finite number ≥ 0. | Spending to 0, reloading, still shows 0. Add a unit test. |
-| N2 | **Test mode switch.** Keep the test economy for local play, but behind one flag: add `export const TEST_MODE = true;` to `game-config.js`, and give `STARTING_COINS` / `STARTING_RANK` a test value and a release value (`TEST_MODE ? 20000000 : <release>`; release values: coins 0, rank 1, unless the user picks others). Do **not** turn test mode off. | Flipping `TEST_MODE` to `false` gives a fresh player rank 1 with only the free starters owned; it stays `true` in the commit. |
+| N2 | **Editable starting economy (user update).** Remove the test-mode switch. Keep `STARTING_RANK` and `STARTING_COINS` as directly editable numbers. The user knowingly changes them for testing and manually resets to rank 1 / 20,000 coins for production. | Local/debug builds accept testing values; the dispatch-only Google Play workflow rejects other production values. |
 | N3 | **Input:** in [src/game/input.js:42-43](../src/game/input.js) add `!e.repeat` to Q and E, and in `main.js` make `setMode` ignore calls unless `session.state === 'play'`. | Holding Q toggles AWD once; Q in the garage does nothing. |
 | N4 | **Small cleanups in main.js:** remove the unused `const far` (line 128), drop the ignored argument to `roleName`, and remove the `loader.set(...)` calls and the progress arithmetic in `launchProgress` (`loader.set` is a no-op). Keep the readiness and 20 s timeout logic. Remove `set()` from loader.js. | Launch, DRIVE and back-to-garage screens behave as before. |
 | N5 | **Comments that no longer match:** particles.js says "Pooled" (it is not; fix the comment or pool them, see P6); session.js:120's "30 s grace" comment belongs on the fuel path (`emptyT = -30`), not the rollover line. | |
@@ -70,7 +77,7 @@ history. Leave them until the user decides to publish.
 
 | Id | Task |
 |---|---|
-| R1 | Set `TEST_MODE = false` (from N2) in the release build only; consider making it a build flag (`HAUL_RELEASE=1 npm run android:web`). |
+| R1 | **Implemented by user request:** manual Google Play release workflow checks the real `STARTING_RANK === 1` and `STARTING_COINS === 20000`, without a mode switch or automatic build overrides. |
 | R2 | **Release build:** upload keystore kept out of the repo, `bundleRelease` (AAB), Play App Signing, `minifyEnabled true`. A separate workflow; keep the debug latest-build release for testers. |
 | R3 | **One versioned save record** (`{ v: 1, coins, xp, owned, tuning, powers, missions }`) written in one `setItem`, with a migration from `hh_wallet`, `hh_progress`, `hh_tuning_levels`, `hh_powers`, `hh_missions`. Today buying a truck writes the wallet and the progress separately, so a kill in between loses the coins. |
 | R4 | **Content-Security-Policy** in the app build, e.g. `default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'`; widen `connect-src` only for the billing host. |

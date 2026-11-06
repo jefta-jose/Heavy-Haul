@@ -19,7 +19,7 @@ export function createProgress(roster, store = typeof localStorage === 'undefine
   const byId = new Map(roster.map(r => [r.id, r]));
   let state = { xp: 0, owned: [] };
   try { const saved = JSON.parse(store?.getItem(KEY)); if (saved) state = { xp: Math.max(0, +saved.xp || 0), owned: [...new Set(saved.owned ?? [])].filter(id => byId.has(id)) }; } catch (e) {}
-  state.xp = Math.max(state.xp, RANK_XP[Math.min(Math.max(1, STARTING_RANK), MAX_RANK) - 1] ?? 0);   // the testing floor
+  state.xp = Math.max(state.xp, RANK_XP[Math.min(Math.max(1, STARTING_RANK), MAX_RANK) - 1] ?? 0);   // starting-rank floor; existing earned XP is retained
   const save = () => { try { store?.setItem(KEY, JSON.stringify({ xp: Math.floor(state.xp), owned: state.owned })); } catch (e) {} };
   const rankOf = id => byId.get(id)?.unlockRank ?? 1;
   const p = {

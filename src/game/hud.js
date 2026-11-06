@@ -19,6 +19,7 @@ export function createHud({ sim, season }) {
   }
 
   // hints sit centred just under the depot sign, wherever the layout puts it
+  const FILLING = 'Fueling and healing...';
   function toast(msg, secs = 2.5) {
     const sign = els.depotSign.getBoundingClientRect(), hud = els.toast.offsetParent?.getBoundingClientRect();
     if (hud && sign.height) els.toast.style.top = `${Math.round(sign.bottom - hud.top + 8)}px`;
@@ -106,7 +107,8 @@ export function createHud({ sim, season }) {
   }
   // the fuel dial: E to F, a red fifth at the bottom of the tank, and its label.
   // Its needle eases toward the real level so it slides (down as you burn, up as you fill) instead of jumping.
-  function fuelDial(cx, cy, r, t, unlimited) {
+  // At a station a bold green border slowly fades in and out around the dial until the tank is full.
+  function fuelDial(cx, cy, r, t, unlimited, beating = false) {
     bezel(cx, cy, r, '#62d24b');
     const B0 = Math.PI * 0.8, B1 = Math.PI * 2.2, at = B0 + (B1 - B0) * t;
     gx.lineCap = 'butt'; gx.lineWidth = r * 0.1;
@@ -131,7 +133,14 @@ export function createHud({ sim, season }) {
     const hg = gx.createRadialGradient(cx - r * 0.04, cy - r * 0.04, 0, cx, cy, r * 0.14); hg.addColorStop(0, '#8a939b'); hg.addColorStop(1, '#22272c');
     gx.fillStyle = hg; gx.beginPath(); gx.arc(cx, cy, r * 0.13, 0, 7); gx.fill();
     glass(cx, cy, r);
+    if (beating) {
+      const k = heartbeat();
+      gx.save(); gx.globalAlpha = k; gx.shadowColor = 'rgba(98,230,60,0.9)'; gx.shadowBlur = r * 0.25;
+      gx.strokeStyle = '#7dff5a'; gx.lineWidth = r * 0.1; gx.beginPath(); gx.arc(cx, cy, r * 0.97, 0, 7); gx.stroke(); gx.restore();
+    }
   }
+  // a slow, smooth breath from faint to full and back, the same rhythm as the damage bar's border (heal-beat in game.css)
+  function heartbeat() { return 0.2 + 0.8 * (0.5 - 0.5 * Math.cos(performance.now() / 1800 * 2 * Math.PI)); }
   let shownFuel = null, gaugeDt = 0;
   const GEAR_LOOK = { L: { color: '#f2b705', name: 'SHORT' }, H: { color: '#62d24b', name: 'LONG' }, R: { color: '#ff5a48', name: 'REVERSE' } };
   let shownGear = null, gearPop = 0;
@@ -147,7 +156,8 @@ export function createHud({ sim, season }) {
     gearPop = Math.max(0, gearPop - 1 / 12);
     const unlimited = sim.active.role === 'service', fuel = unlimited ? 1 : Math.max(0, Math.min(1, sim.st.fuel / 100));
     shownFuel = shownFuel == null ? fuel : shownFuel + (fuel - shownFuel) * Math.min(1, gaugeDt * 4);
-    fuelDial(x0 + rs, cys, rs, shownFuel, unlimited);
+    const m = sim.main.st;
+    fuelDial(x0 + rs, cys, rs, shownFuel, unlimited, sim.active === sim.main && m.filling && m.fuel < 100);
     dial(x0 + 2 * rs + gap + r, cy, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
     dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#f2b705', '#ff7a1a'], small: true });
   }
@@ -205,6 +215,7 @@ export function createHud({ sim, season }) {
     const mx = sim.main.parts.truck.getPosition().x;
     const damageWidth = `${sim.main.st.damage ?? 0}%`;
     if (els.damageFill.style.width !== damageWidth) els.damageFill.style.width = damageWidth;
+    els.damageFill.parentElement.parentElement.classList.toggle('healing', !!sim.main.st.filling && sim.main.st.damage > 0);   // its border beats green while a station repairs it
     // the depot sign: kilometres to two places, metres for the last kilometre, green for the last 300 m
     const left = Math.max(0, trail.depot - mx), far = left >= 1000;
     setText(els.distTxt, far ? (left / 1000).toFixed(2) : String(Math.round(left)));
@@ -284,6 +295,11 @@ export function createHud({ sim, season }) {
       els.actionBtn.hidden = !label; els.actionBtn.disabled = busy;
       els.actionBtn.setAttribute('aria-busy', String(busy));
       if (label) els.actionBtn.textContent = label;
+    },
+    // at a station: a plain hint in the toast spot that stays up while the truck fills, then fades
+    showFilling(on) {
+      if (!on) return;
+      if (toastT > 0 && els.toast.textContent === FILLING) toastT = 0.4; else toast(FILLING, 0.4);
     },
     showSwitch(on) { els.switchBtn.hidden = !on; },
     highlightSwitch(on) {

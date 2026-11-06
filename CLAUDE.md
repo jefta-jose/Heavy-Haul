@@ -12,6 +12,12 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 ## Ground rules
 
+- **Starting economy (user decision, 2026-11-06):** no test-mode flag. The user edits
+  `STARTING_RANK` and `STARTING_COINS` directly to test different player experiences and knows
+  they must manually reset them to **1** and **20000** before production. Do not add a switch,
+  auto-reset or restrict normal local/debug builds. The dispatch-only Google Play workflow
+  enforces those two production values. Clear saved game data to test a genuinely fresh player.
+
 - **Tuning lives in one file:** `src/game-config.js`, one setting per line. Add new gameplay numbers there. Damage is described in `docs/game-design.md`.
 
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add

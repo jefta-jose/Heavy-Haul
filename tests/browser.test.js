@@ -310,7 +310,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.evaluate(() => { const s = __haul.sim; __haul.drive(s.main); const st = s.terrain.stations[0]; s.respawn(st.x); s.main.st.fuel = 25; s.main.st.damage = 50; s.ctl.gas = 0; __haul.snap(); });
     await page.waitForFunction(() => __haul.sim.main.st.filling);
     await page.waitForFunction(() => __haul.sim.main.st.fuel > 60 && __haul.sim.main.st.damage < 40);
-    assert(await page.locator('#actionBtn').isVisible(), 'the HUD says it is filling');
+    assert(await page.locator('.dmgrow.healing').count() === 1, 'the damage bar glows green while it is repaired');
+    assert(await page.locator('#actionBtn').isHidden(), 'no refuelling popup');
+    assert.equal(await page.locator('#toast.on').innerText(), 'Fueling and healing...', 'a plain hint says it is filling');
     await capture('03c-fuel-station');
     // the speed camera: passing it shows the truck's top speed on a card that fades, and the game carries on
     await page.evaluate(() => { const s = __haul.sim; __haul.trap.reset(); s.respawn(__haul.trap.xs[0] - 15); s.main.st.fuel = 100; s.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); s.ctl.gas = 1; __haul.snap(); });
@@ -486,7 +488,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.evaluate(() => { __haul.loader.hide(0); document.getElementById('garage').hidden = false; });
     const p = () => page.evaluate(() => ({ rank: __haul.progress.rank, xp: __haul.progress.xp }));
     assert.deepEqual(await p(), { rank: 1, xp: 0 }, 'a new player starts at rank 1');
-    assert.equal(await page.evaluate(() => __haul.session.coins), 0, 'release starts with no test coins');
+    assert.equal(await page.evaluate(() => __haul.session.coins), 20000, 'fresh production player starts with 20,000 coins');
     assert.equal(await page.evaluate(() => __haul.content.roster.cars.filter(c => __haul.progress.owns(c.id)).length), 5, 'only the five free starters are owned');
     const starter = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 1).id);
     const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2));
