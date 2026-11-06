@@ -2,7 +2,7 @@ import { puff } from './canvas-utils.js';
 import { waterAt } from './layers/water.js';
 import { wheelRadius } from '../physics/vehicle.js';
 
-// Pooled world-space particles driven by the simulation: exhaust smoke, tire dust, mud flecks,
+// World-space particles driven by the simulation: exhaust smoke, tire dust, mud flecks,
 // water splashes and spray, and rock-crush debris. Splash and crush events are reported through
 // onEvent so audio can follow.
 

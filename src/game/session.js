@@ -64,7 +64,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     } else if (kind === 'fuel') {
       const can = api.canCall?.('breakdown');
       hud.showMessage('Out of fuel', 'The tank is dry', can ? 'Call your breakdown truck and tow your truck to the nearest station.' : 'Start the run again from the beginning of the trail.', [coins], [
-        ...(can ? [['Call the breakdown truck', () => { hud.hideMessage(); api.state = 'play'; run.emptyT = -30; api.onCall?.('breakdown'); }, true]] : []), restartButton('Start again'), garageButton,
+        ...(can ? [['Call the breakdown truck', () => { hud.hideMessage(); api.state = 'play'; run.emptyT = -30; /* 30 s fuel grace for the called truck */ api.onCall?.('breakdown'); }, true]] : []), restartButton('Start again'), garageButton,
       ]);
     }
   }
@@ -117,7 +117,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
     hud.nudge('diff', !ctl.diff && (st.diffLimited || run.stuckT > 2));
     // the main vehicle: rollover, empty tank, delivery
-    if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);   // a called truck gets 30 s grace
+    if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);
     if (run.rollT > CRASH_SECONDS && sim.active === main) fail('roll');
     if (main.st.damage >= 100) { fail('wreck'); return; }
     if (main.st.fuel <= 0 && Math.abs(main.st.speed) < 0.4 && sim.active === main) run.emptyT += dt; else run.emptyT = Math.min(0, run.emptyT + dt);
