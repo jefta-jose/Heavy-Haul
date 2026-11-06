@@ -4,7 +4,7 @@ import { drawBackground, drawForegroundShade } from './layers/background.js';
 import { drawGround, drawFrontLip, drawFarLip } from './layers/ground.js';
 import { createProps } from './layers/props.js';
 import { createVehicleLayer } from './layers/vehicle.js';
-import { drawWaterBack, drawWater, drawRipples } from './layers/water.js';
+import { drawRipples } from './layers/mud-pools.js';
 import { createParticles } from './particles.js';
 import { createMudLayer } from './layers/mud.js';
 
@@ -48,11 +48,11 @@ export function createRenderer({ view, sim, content, onEvent }) {
     // a thick road's deep mud would paint over its holes, so there they go on top of the mud and under the ruts
     if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time, scene.season.render.road ? () => props.drawHoles() : null);
-    props.drawBehind(); drawWaterBack(scene, time);
+    props.drawBehind();
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
     drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground();
-    drawWater(scene, time); drawRipples(scene, time); particles.draw('front');
+    drawRipples(scene, time); particles.draw('front');
     props.drawFront(); drawForegroundShade(scene);
     frames++;
   }

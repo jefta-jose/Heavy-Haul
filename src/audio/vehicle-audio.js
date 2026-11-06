@@ -231,7 +231,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
 
     // the driven vehicle's tires on the ground under it, scaled by speed and weight
     const v = s.active, st = v.st, speed = Math.abs(st.speed), massT = heaviness(v), radius = v.car.rig.radius;
-    const inWater = st.inWater > 0.3 || st.surf === 'creek';
+    const inWater = st.surf === 'creek';
     const roll = live ? Math.min(1, speed / 4) * Math.min(1.3, 0.6 + Math.log10(1 + massT) * 0.3) : 0;
     const rate = Math.max(0.75, Math.min(1.35, (0.85 + speed * 0.04) * Math.sqrt(0.9 / Math.max(0.6, radius))));
     const surf = GROUNDS[st.surf] ?? 'dirt';

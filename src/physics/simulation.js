@@ -30,7 +30,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);
   const trail = season.trail, surfaces = season.surfaces;
   const terrain = createTerrain(trail, surfaces);
-  const { visH, colH, zones, waters, X0, X1 } = terrain;
+  const { visH, colH, zones, X0, X1 } = terrain;
   // behind the start a wall (drawn as a line across the road) stops trucks reversing off the trail
   const BARRIER_X = Math.max(X0, trail.start - START_BARRIER_BEHIND_M);
   const BRAKE = { rise: 2.5, fall: 5 };
@@ -219,7 +219,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
-  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, inWater: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
+  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
 
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
     const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
@@ -337,30 +337,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       slip = Math.max(slip, Math.abs(Math.abs(w.getAngularVelocity() * R) - Math.abs(fwd)));
       if (s === 'mud' && !v.tireData.neverStuck) mudDrag(w, dt, ctl.gear === 'L' ? car.physics.mudPull : 1);   // mud pull only works in the short gear
     }
-    let water = 0, waterDrag = 0;
-    for (const [i, b] of [truck, ...wheels].entries()) {
-      const p = b.getPosition();
-      for (const wb of waters) {
-        if (p.x > wb.x0 && p.x < wb.x1) {
-          // water counts from the bottom of a tire; only what is under the surface floats
-          if (i > 0) { const tire = wb.level - (p.y - wheelRadius(car.rig, i - 1)); if (tire > 0) { water = Math.max(water, Math.min(1.5, tire)); waterDrag = wb.drag; } }
-          if (p.y < wb.level) {
-            const d = Math.min(1.5, wb.level - p.y);
-            const m = b.getMass(), bv = b.getLinearVelocity();
-            b.applyForceToCenter(V(-bv.x * m * wb.drag * d, m * 1.6 * d - bv.y * m * 0.4), true);
-            water = Math.max(water, d);
-          }
-        }
-      }
-    }
-    // wading: the water holds the whole truck back, in step with how deep the tires are in
-    if (water > 0) truck.applyForceToCenter(V(-truck.getLinearVelocity().x * truck.getMass() * waterDrag * water, 0), true);
     // fuel burns over time, less at idle, not at all at a station; a better engine or a thriftier truck burns less
     if (st.engine === 'on' && v.role !== 'service' && !st.inBay) {
       const tank = FUEL_TANK_SECONDS_BY_CLASS[car.class] ?? 340;
       st.fuel = Math.max(0, st.fuel - dt * 100 / tank * (FUEL_IDLE_SHARE + (1 - FUEL_IDLE_SHARE) * st.throttle) * (dc.fuelBurn ?? 1) * efficiencyBurn(car));
     }
-    st.inMud = mud; st.inWater = water; st.slip = slip; st.surf = surf || st.surf;
+    st.inMud = mud; st.slip = slip; st.surf = surf || st.surf;
     v.parts.bumpStops(dt);
   }
 

@@ -106,8 +106,7 @@ export function createTerrain(trail, surfaces) {
     }
     return y;
   }
-  // Rolling bumps (trail.rollers) along every stretch with nothing else to do, riverbeds and the water
-  // over them included: uneven humps, trough to trough, faded out around bog pits, obstacles and
+  // Rolling bumps (trail.rollers) along every stretch with nothing else to do: uneven humps, trough to trough, faded out around bog pits, obstacles and
   // the calm places. A stream of its own random numbers, so the authored features stay where they are.
   function rollersAt() {
     const R = trail.rollers, out = new Float32Array(N); if (!R) return out;
@@ -115,8 +114,7 @@ export function createTerrain(trail, surfaces) {
     // adding this guy here to manipulate the bumps
     const BUMP_INTENSITY = R.intensity ?? 1.0;
 
-    const S = trail.obstacleScale ?? 1, inWater = ([a, b]) => (trail.waters ?? []).some(w => a >= w.x0 && b <= w.x1);
-    const keep = CALM.filter(c => !inWater(c));   // a recovery spot in a riverbed still rolls
+    const S = trail.obstacleScale ?? 1, keep = [...CALM];
     for (const c of HEAVY_MUD) keep.push([c - 12, c + 12]);
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
@@ -203,13 +201,6 @@ export function createTerrain(trail, surfaces) {
     const heavy = HEAVY_MUD.reduce((v, centre) => Math.max(v, sm(1 - Math.abs(x - centre) / 10)), 0);
     return { heavy, depth: visH(x) - colH(x), intensity: (0.35 + heavy * 0.65) * sm(Math.min(x - z[0], z[1] - x) / 5) };
   };
-  // water surfaces sit a fixed depth above the lowest point of their basin
-  const waters = trail.waters.map(w => ({ ...w }));
-  for (const wb of waters) {
-    let lo = Infinity; for (let x = wb.x0; x <= wb.x1; x += DX) lo = Math.min(lo, visH(x));
-    wb.level = lo + wb.depth;
-  }
-
   const stationAt = x => stations.find(s => Math.abs(x - s.x) <= STATION_BAY_M / 2);
-  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, waters, features, holes, nearHole, surfAt, visH, colH, mudAt, nearCalm, nearStep };
+  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, features, holes, nearHole, surfAt, visH, colH, mudAt, nearCalm, nearStep };
 }

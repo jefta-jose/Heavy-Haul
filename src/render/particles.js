@@ -1,5 +1,5 @@
 import { puff } from './canvas-utils.js';
-import { waterAt } from './layers/water.js';
+import { waterAt } from './layers/mud-pools.js';
 import { wheelRadius } from '../physics/vehicle.js';
 
 // World-space particles driven by the simulation: exhaust smoke, tire dust, mud flecks,

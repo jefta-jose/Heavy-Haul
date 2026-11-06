@@ -210,10 +210,10 @@ export function createHud({ sim, season }) {
     els.coinTxt.textContent = formatCoins(coins);
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
-    els.surfTxt.textContent = s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.st.inWater > 0.3 ? 'River crossing' : sim.surfaces[s].label;
-    els.surfChip.dataset.surf = s === 'wood' ? 'wood' : bog ? 'bog' : sim.st.inWater > 0.3 ? 'water' : s;
+    els.surfTxt.textContent = s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.surfaces[s].label;
+    els.surfChip.dataset.surf = s === 'wood' ? 'wood' : bog ? 'bog' : s;
     els.surfChip.classList.toggle('bog', bog);
-    els.surfChip.classList.toggle('warn', s === 'mud' || sim.st.inWater > 0.3);
+    els.surfChip.classList.toggle('warn', s === 'mud');
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
     els.winch.hidden = !sim.canWinch();
     const hooked = !!sim.cable(), near = !hooked && sim.nearestHook()?.d <= sim.winchReach;

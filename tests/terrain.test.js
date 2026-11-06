@@ -98,9 +98,9 @@ test('a spaced pipe run lets tires drop between crests and bounce on their sprin
   assert(Math.max(...spring) - Math.min(...spring) > 0.15, 'the repeated obstacles articulate the suspension');
 });
 
-test('no open water: the old river stretches are deep bog, still rolling around the pits', () => {
+test('former river stretches: the old river stretches are deep bog, still rolling around the pits', () => {
   const s = spawn(newSim(), 30), { trail } = content.season;
-  assert.equal(s.terrain.waters.length, 0);
+  assert((trail.waters ?? []).length === 0, 'all seasons use bogs instead of open water');
   assert(!trail.zones.some(z => z[2] === 'creek'), 'no riverbed surface is left');
   for (const x of [380, 925, 2042, 2587]) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
   const off = (() => { const { rollers, ...rest } = trail; return createTerrain(rest, content.season.surfaces); })();
