@@ -122,11 +122,10 @@ function summon(role) {
   const have = called[role];
   if (have) { drive(sim.active === have ? sim.main : have); hud.toast(`Driving the ${sim.active.car.name}`, 1.5); return; }
   const car = serviceFor(role);
-  if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName(role)} yet`, 2.5); return; }
+  if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName()} yet`, 2.5); return; }
   const main = sim.main, v = sim.spawnService(car, sim.startSpot(car));
   v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
   called[role] = v; hud.showCalled(role, true); session.helpCalled();
-  const far = Math.round(sim.distance(v, main));
   drive(v);   // no toast here: the stuck hint says what to do once you are at the truck
 }
 // tap WINCH: hook the nearest vehicle within reach, or unhook
@@ -165,7 +164,7 @@ const input = createInput(hud.els, {
 function newRun() {
   sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
   renderer.warmVehicles(['breakdown'].map(serviceFor));   // so a called truck appears at once
-  for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName(role)}`); }
+  for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName()}`); }
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);
@@ -192,26 +191,25 @@ async function driveOff(sel) {
   if (loading) return; loading = true;
   startAudio();   // inside the tap, or the phone will not play it
   loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
-  prepareRun(sel); loader.set(0.35);
-  await until(() => renderer.ready, 15000); loader.set(0.65);
-  await framesDrawn(2); loader.set(0.9);   // the first frames build the sprites for this truck's zoom
+  prepareRun(sel); 
+  await until(() => renderer.ready, 15000); 
+  await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
   goRun(); loading = false;
   loader.hide();
 }
 async function backToGarage() {
   if (loading) return; loading = true;
   loader.show('garage', { sub: 'Back to the garage' }); await loader.painted();
-  openGarage(); loader.set(0.5);
-  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]); loader.set(0.85);
+  openGarage(); 
+  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]); 
   await loader.hide();
   loading = false;
 }
-// launch: the bar follows the artwork as it loads, then the first frames, then the garage's own art
+// Launch waits for artwork and the first frames, then decodes the garage art.
 let launching = true;
 const launchStarted = performance.now();
 function launchProgress() {
-  const status = Object.values(renderer.assetStatus());
-  loader.set(0.3 + 0.55 * status.filter(Boolean).length / Math.max(1, status.length));
+  
   // a failed image must not hold the game behind the screen for ever
   if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
   launching = false;

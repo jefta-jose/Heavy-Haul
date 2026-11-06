@@ -49,8 +49,6 @@ export function createLoader({ photos = [], facts = [] } = {}, { title = 'Heavy 
   return {
     kept,
     get visible() { return !el.hidden; },
-    // kept for the callers' progress steps; the screen shows no bar
-    set() {},
     // sub: a line under the place's name, such as the truck and the trail after DRIVE
     show(k, { sub = subtitle } = {}) {
       token++; shownAt = performance.now(); kind = k;
