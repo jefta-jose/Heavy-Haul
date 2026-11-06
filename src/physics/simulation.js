@@ -14,12 +14,7 @@ import { valueNoise } from './math.js';
 // fuel. One-off happenings (a rock breaking, a tire hitting an obstacle) go to `events`.
 
 const GRIP_REFERENCE = 'mud-terrain';
-// the winch hook reaches a vehicle this close (metres between tow points), like SnowRunner
 const CABLE_STRETCH = 0.25;       // metres of stretch at which the cable pulls with full winch force
-// on a truck of another class the winch pulls only this share of what that truck's own service
-// truck would (towMassT x g x 0.7 for its gross weight): enough to struggle, rarely enough to free it
-// a never-stuck tire grips mud and creek beds at least this well, with no suction or patchiness
-
 
 export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);

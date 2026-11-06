@@ -112,8 +112,8 @@ export const WHEEL_DROP_MAX_SHARE = 0.3;      // the same below its ride height;
 export const BODY_LIFT_RESPONSE = 10;         // how fast the drawn body follows those limits, radians per second: higher keeps wheels closer to their limits, lower moves more smoothly
 
 // Fuel, recovery reach and service grip.
-export const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0;
-export const WINCH_REACH = 5;
-export const CROSS_CLASS_PULL = 0.4;
-export const NEVER_STUCK_MU = 0.85;
+export const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0; // scales every truck's fuel burn
+export const WINCH_REACH = 5;                // metres between tow points
+export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of another class
+export const NEVER_STUCK_MU = 0.85;          // minimum grip in soft ground for service tires
 export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
