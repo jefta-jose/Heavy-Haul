@@ -306,41 +306,6 @@ canvas#view {
   outline-offset: 2px;
 }
 
-.mapcard {
-  position: absolute;
-  left: max(16px, env(safe-area-inset-left, 0px));
-  top: 108px;
-  pointer-events: none;
-  transition: opacity 1s;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
-}
-
-.mapcard h1 {
-  margin: 0;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(28px, 4.6vw, 46px);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-
-.mapcard h2 {
-  margin: 0 0 8px;
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(20px, 3vw, 30px);
-  text-transform: uppercase;
-}
-
-.mapcard p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.4;
-  max-width: 30ch;
-}
-
 .toast {
   position: absolute;
   left: 50%;
@@ -862,13 +827,6 @@ dl.spec dd {
 }
 
 @media (max-height: 430px) {
-  .mapcard {
-    top: 96px;
-  }
-
-  .mapcard p {
-    display: none;
-  }
 
   #gauges {
     width: 224px;
@@ -882,108 +840,11 @@ dl.spec dd {
   }
 }
 
-/* Swamp Scout: keep the reference vehicle prominent beside its compact specification card. */
-.mapcard {
-  top: 90px;
-  width: 260px;
-  padding: 18px 24px 20px 16px;
-  border-radius: 12px;
-  background: linear-gradient(100deg, rgba(11, 20, 20, .83), rgba(11, 20, 20, .64) 75%, rgba(11, 20, 20, 0));
-}
-
-.mapcard h1 {
-  font-size: 28px;
-  line-height: 1.04;
-  letter-spacing: 0;
-  white-space: nowrap;
-}
-
-.mapcard h2 {
-  font-family: var(--body);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  text-transform: none;
-  margin: 10px 0 20px;
-}
-
-.card-stats {
-  display: grid;
-  gap: 13px;
-  margin-bottom: 20px;
-}
-
-.card-stats>div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-family: var(--display);
-  font-size: 16px;
-}
-
-.card-stats i {
-  display: block;
-  width: 126px;
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(202, 211, 206, .17);
-  overflow: hidden;
-}
-
-.card-stats b {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #e99c19, #ffca43);
-  border-radius: 4px;
-}
-
-.mapcard .card-biomes {
-  font-family: var(--display);
-  font-size: 15px;
-  color: #d5dfd7;
-  white-space: nowrap;
-}
-
 .art::after {
   background: linear-gradient(0deg, rgba(16, 27, 41, .3), transparent 60%);
 }
 
-@media(max-height:520px) {
-  .mapcard {
-    display: block;
-    top: 75px;
-    width: 170px;
-    padding: 12px 14px 10px 10px;
-  }
 
-  .mapcard h1 {
-    font-size: 23px;
-  }
-
-  .mapcard h2 {
-    font-size: 11px;
-    margin: 6px 0 10px;
-  }
-
-  .card-stats {
-    gap: 7px;
-    margin: 0;
-  }
-
-  .card-stats>div {
-    font-size: 12px;
-  }
-
-  .card-stats i {
-    width: 72px;
-    height: 5px;
-  }
-
-  .mapcard .card-biomes {
-    display: none;
-  }
-}
 
 
 @media(max-height:520px) {
@@ -1068,19 +929,6 @@ dl.spec dd {
     max-width: 150px;
   }
 
-  .mapcard {
-    width: 240px;
-    padding: 14px 18px;
-  }
-
-  .mapcard h1 {
-    font-size: 24px;
-  }
-
-  .mapcard h2 {
-    font-size: 12px;
-  }
-
   .bottom {
     gap: 6px;
   }
@@ -1146,38 +994,6 @@ dl.spec dd {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-.srow {
-  display: grid;
-  grid-template-columns: 18px 66px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  font-family: var(--display);
-}
-
-.srow+.srow {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.sname {
-  padding: 5px 12px 4px;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 17px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.srow svg {
-  width: 18px;
-  height: 18px;
-  color: var(--ink-dim);
-}
-
-.srow b,
 .dmgrow b {
   font-weight: 700;
   font-size: 14px;
@@ -1190,32 +1006,6 @@ dl.spec dd {
   grid-template-columns: 18px 66px 96px auto;
   gap: 8px;
   padding: 5px 12px;
-}
-
-.srow .fuelbar {
-  width: auto;
-  height: 9px;
-}
-
-.sval {
-  font-weight: 700;
-  font-size: 17px;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.sval.cargo {
-  grid-column: 3 / 5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ssub {
-  font-size: 14px;
-  color: var(--ink-dim);
-  text-align: right;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
 }
 
 /* no panel of its own: the distance, then the bar with the truck running along it to the flag */
@@ -1288,19 +1078,6 @@ dl.spec dd {
   height: 10px;
 }
 
-.stationnext {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  margin-left: 10px;
-  color: #8fc7ff;
-}
-
-.stationnext svg {
-  width: 13px;
-  height: 13px;
-}
-
 .mk.me {
   width: 16px;
   height: 16px;
@@ -1325,40 +1102,6 @@ dl.spec dd {
 
 .mk.breakdown {
   background: #35c44a;
-}
-
-.tripline {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--ink);
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.65);
-}
-
-.tripline>span:last-child {
-  grid-column: 2;
-}
-
-.tripline svg {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9));
-}
-
-.tripline b {
-  color: var(--ink);
-  font-size: 17px;
-}
-
-.tripline svg {
-  width: 14px;
-  height: 14px;
-  vertical-align: -2px;
-  margin-right: 4px;
 }
 
 @media (min-width: 601px) and (min-height: 521px) {
@@ -1411,43 +1154,11 @@ dl.spec dd {
   box-shadow: 0 0 10px rgba(47, 179, 255, 0.6);
 }
 
-@media (min-height: 521px) and (min-width: 601px) {
-  .mapcard {
-    top: 168px;
-  }
-}
+
 
 @media (max-height: 520px) {
   .status {
     min-width: 220px;
-  }
-
-  .srow {
-    padding: 2px 9px;
-    gap: 6px;
-    grid-template-columns: 15px 46px minmax(0, 1fr) auto;
-  }
-
-  .srow svg {
-    width: 15px;
-    height: 15px;
-  }
-
-  .srow b {
-    font-size: 11px;
-  }
-
-  .sval {
-    font-size: 14px;
-  }
-
-  .ssub {
-    font-size: 12px;
-  }
-
-  .sname {
-    padding: 3px 9px 2px;
-    font-size: 14px;
   }
 
   .trip {
@@ -1457,18 +1168,6 @@ dl.spec dd {
   .track {
     margin: 7px 4px 6px;
     height: 6px;
-  }
-
-  .tripline {
-    font-size: 12px;
-  }
-
-  .tripline b {
-    font-size: 13px;
-  }
-
-  .mapcard {
-    top: 112px;
   }
 
   .toast {
@@ -1500,47 +1199,12 @@ dl.spec dd {
     width: 100%;
   }
 
-  .srow {
-    grid-template-columns: 16px 46px minmax(0, 1fr) auto;
-    padding: 4px 8px;
-    gap: 6px;
-  }
-
-  .srow b {
-    font-size: 12px;
-  }
-
-  .sval {
-    font-size: 15px;
-  }
-
-  .ssub {
-    font-size: 12px;
-  }
-
-  .sname {
-    padding: 4px 8px 3px;
-    font-size: 15px;
-  }
-
-  .tripline {
-    font-size: 13px;
-  }
-
-  .tripline b {
-    font-size: 14px;
-  }
-
   .toast {
     top: 236px;
     white-space: normal;
     width: max-content;
     max-width: calc(100vw - 32px);
     text-align: center;
-  }
-
-  .mapcard {
-    top: 290px;
   }
 }
 
@@ -3335,31 +2999,9 @@ dl.spec dd {
   }
 }
 
-/* handbrake: red while set */
-.winch.hbrake svg {
-  margin-bottom: -8px;
-}
 
-.winch.hbrake.down {
-  background: #c0392b;
-  border-color: #ff6b5b;
-  color: #fff;
-  animation: none;
-}
 
-@media(max-height:520px) {
-  .winch.hbrake svg {
-    margin-bottom: -6px;
-  }
-}
 
-@media(max-width:600px) and (min-height:521px) {
-  .winch.hbrake {
-    left: 16px;
-    bottom: 164px;
-    transform: none;
-  }
-}
 
 .credits {
   margin: 0 0 12px;
@@ -3399,11 +3041,6 @@ dl.spec dd {
     min-width: 196px;
   }
 
-  .srow {
-    grid-template-columns: 14px 40px minmax(0, 1fr) auto;
-    padding: 2px 8px;
-  }
-
   .top {
     gap: 6px;
   }
@@ -3428,17 +3065,7 @@ dl.spec dd {
   }
 }
 
-@media (max-height: 400px) {
 
-  .mapcard .card-stats,
-  .mapcard .card-biomes {
-    display: none;
-  }
-
-  .mapcard {
-    padding-bottom: 10px;
-  }
-}
 
 /* portrait: the gears and drive modes sit above the gas pedal (PARK and ENGINE mirror them above
    the brake), so the bottom row is just brake, gauges and gas and fits a 320 px screen; the vehicle
@@ -3460,19 +3087,6 @@ dl.spec dd {
     width: min(170px, calc(100vw - 32px - 2 * 56px - 16px));
     height: min(82px, calc((100vw - 32px - 2 * 56px - 16px) * 0.48));
   }
-
-  .mapcard .card-stats,
-  .mapcard .card-biomes {
-    display: none;
-  }
-
-  .mapcard {
-    padding-bottom: 12px;
-  }
-
-  .mapcard h2 {
-    margin-bottom: 0;
-  }
 }
 
 @media (max-width: 360px) and (min-height: 521px) {
@@ -3485,43 +3099,19 @@ dl.spec dd {
     width: min(170px, calc(100vw - 32px - 2 * 50px - 12px));
     height: min(82px, calc((100vw - 32px - 2 * 50px - 12px) * 0.48));
   }
-
-  .srow {
-    grid-template-columns: 14px 40px minmax(0, 1fr) auto;
-  }
-
-  .srow b {
-    font-size: 11px;
-  }
 }
 
-@media (max-height: 520px) and (max-width: 760px) {
-  .mapcard {
-    top: 128px;
-  }
-}
+
 
 @media (max-width: 600px) and (min-height: 521px) {
   .winch.engine {
     bottom: 104px;
   }
-
-  .winch.hbrake {
-    bottom: 156px;
-  }
 }
 
-@media (max-width: 600px) and (min-height: 521px) and (max-height: 600px) {
-  .mapcard h2 {
-    display: none;
-  }
-}
 
-@media (max-height: 340px) {
-  .mapcard h2 {
-    display: none;
-  }
-}
+
+
 
 
 /* ---------- phones: a Hill Climb Racing-style HUD ----------
@@ -3538,22 +3128,6 @@ dl.spec dd {
     padding: 0;
     display: flex;
     flex-direction: column;
-  }
-
-  .status .srow~.srow,
-  .status .srow b,
-  #fuelTxt {
-    display: none;
-  }
-
-  .status .srow {
-    grid-template-columns: 16px 96px;
-    gap: 7px;
-    padding: 6px 10px 3px;
-  }
-
-  .status .srow .fuelbar {
-    height: 10px;
   }
 
   .status .meterrow {
@@ -3576,25 +3150,8 @@ dl.spec dd {
     height: 10px;
   }
 
-  .status .sname {
-    order: 1;
-    padding: 0 10px 5px;
-    border: 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-dim);
-  }
-
-  #drivenTxt {
-    display: none;
-  }
-
   #fsBtn {
     display: none;
-  }
-
-  .mapcard {
-    display: none !important;
   }
 
   .toast {
@@ -3741,8 +3298,7 @@ dl.spec dd {
     position: relative;
   }
 
-  .winch.hbrake,
-  .winch.engine {
+.winch.engine {
     position: absolute;
     bottom: 126px;
     width: 46px;
@@ -3750,8 +3306,7 @@ dl.spec dd {
     font-size: 8px;
   }
 
-  .winch.hbrake,
-  .winch.engine {
+.winch.engine {
     left: 0;
   }
 
@@ -3759,8 +3314,7 @@ dl.spec dd {
     bottom: 180px;
   }
 
-  .winch.hbrake svg,
-  .winch.engine svg {
+.winch.engine svg {
     width: 18px;
     height: 18px;
     margin-bottom: -5px;
@@ -3813,8 +3367,7 @@ dl.spec dd {
     height: 87px;
   }
 
-  .winch.hbrake,
-  .drive {
+.drive {
     bottom: 110px;
   }
 
