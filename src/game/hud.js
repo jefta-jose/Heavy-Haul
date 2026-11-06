@@ -1,59 +1,28 @@
 import { formatCoins } from './format.js';
-// Everything drawn in HTML over the canvas: the status panel (fuel, fuel use, cargo), the trail
-// progress map (the truck on its way to the depot flag), the trip line,
-// coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
-// message overlays.
+// Everything drawn in HTML over the canvas: the depot sign, coins, surface chip, toasts, the gauges (revs, speed, fuel), drive and service buttons, and the message
+// overlays. Kept lean on purpose (2026-11-06): no status panel, no trail map, no park or engine buttons.
 
 const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['powerBtn', 'carName', 'damageFill', 'fuelFill', 'fuelTxt', 'useTxt', 'stationTxt', 'track', 'trackDone', 'drivenTxt', 'distTxt', 'coinTxt', 'surfChip', 'loadChip', 'toast', 'mapcard', 'gauges', 'gas', 'brake', 'winch', 'engineBtn', 'handbrakeBtn', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
-
-  // ---------- trail progress map: start to depot, built once from the season ----------
-  const span = trail.depot - trail.start, frac = x => Math.max(0, Math.min(1, (x - trail.start) / span));
-  const mark = (cls, x) => {
-    const m = document.createElement('i'); m.className = `mk ${cls}`; m.style.left = `${frac(x) * 100}%`;
-    els.track.append(m); return m;
-  };
-  mark('depot', trail.depot);
-  const truckMark = mark('me', trail.start);
-  // the fuel stations, each with the fuel icon
-  const fuelIcon = document.getElementById('stationIcon')?.content;
-  for (const st of trail.stations ?? []) { const m = mark('station', st.x); if (fuelIcon) m.append(fuelIcon.cloneNode(true)); }
-  // a called fuel or breakdown truck gets its own dot, and only while it is on the trail
-  const serviceMarks = {};
-  function updateServiceMarks() {
-    for (const role of ['breakdown']) {
-      const v = sim.vehicles.find(o => o.role === 'service' && o.car.role === role);
-      if (!v) { serviceMarks[role]?.remove(); delete serviceMarks[role]; continue; }
-      serviceMarks[role] ??= mark(role, trail.start);
-      serviceMarks[role].style.left = `${frac(v.parts.truck.getPosition().x) * 100}%`;
-    }
-  }
 
   const km = m => m >= 1000 ? `${(m / 1000).toFixed(2)} km` : `${Math.round(m)} m`;
 
   // the vehicle card and chips follow the vehicle being driven (car.json text)
   function setCar(car) {
     document.title = `Heavy Haul · ${car.name} ${car.number ?? ''}`.trim();
-    $('cardTitle').textContent = `${car.number ? car.number + '. ' : ''}${car.name}`;
-    $('carName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
-    $('cardTagline').textContent = car.tagline;
-    $('cardStats').innerHTML = '';
-    // the cargo row names the load and its weight
-    for (const [label, key] of [['Power', 'power'], ['Grip', 'grip'], ['Fuel efficiency', 'fuelEfficiency']]) {
-      const row = document.createElement('div'), name = document.createElement('span'), bar = document.createElement('i'), fill = document.createElement('b');
-      name.textContent = label; fill.style.width = `${car.stats[key]}%`; bar.append(fill); row.append(name, bar); $('cardStats').append(row);
-    }
-    $('cardBiomes').textContent = car.biomes.join('  ·  ');
-    els.loadChip.textContent = car.load ? `${car.load.name} · ${car.load.massT} t` : car.role ? (car.role === 'fuel' ? 'Fuel for your truck' : 'Recovery winch') : 'Empty';
   }
 
-  function toast(msg, secs = 2.5) { els.toast.textContent = msg; els.toast.classList.add('on'); toastT = secs; }
+  // hints sit centred just under the depot sign, wherever the layout puts it
+  function toast(msg, secs = 2.5) {
+    const sign = els.depotSign.getBoundingClientRect(), hud = els.toast.offsetParent?.getBoundingClientRect();
+    if (hud && sign.height) els.toast.style.top = `${Math.round(sign.bottom - hud.top + 8)}px`;
+    els.toast.textContent = msg; els.toast.classList.add('on'); toastT = secs; }
   // a teaching hint: shown the first HINT_TIMES times on this device, then the sound and the
   // button lights say it on their own
   const HINT_TIMES = 3;
@@ -67,15 +36,35 @@ export function createHud({ sim, season }) {
   // analog dials: metal bezel, dark face, minor and major ticks, a lit arc that follows the value,
   // a red zone, a tapered needle, and a readout in the middle (the gear, or the digital speed)
   const A0 = Math.PI * 0.75, A1 = Math.PI * 2.25, FONT = 'Barlow Condensed, Arial Narrow, sans-serif';
-  function dial(cx, cy, r, val, max, { label, majors, minors = 2, redFrom, readout, unit, lit, badge, pop = 0 }) {
+  // the case every dial shares: a drop shadow, a dark outer rim, a brushed-steel ring lit from the top
+  // left, a thin accent ring in the dial's colour, and a deep face with a faint concentric grain
+  function bezel(cx, cy, r, accent) {
+    gx.save(); gx.shadowColor = 'rgba(0,0,0,0.6)'; gx.shadowBlur = r * 0.18; gx.shadowOffsetY = r * 0.05;
+    gx.fillStyle = '#07090b'; gx.beginPath(); gx.arc(cx, cy, r, 0, 7); gx.fill(); gx.restore();
+    let g = gx.createLinearGradient(cx - r * 0.7, cy - r * 0.7, cx + r * 0.7, cy + r * 0.7);
+    g.addColorStop(0, '#c3cad0'); g.addColorStop(0.3, '#5d656d'); g.addColorStop(0.55, '#2a3036'); g.addColorStop(0.8, '#6c747b'); g.addColorStop(1, '#30363c');
+    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.97, 0, 7); gx.fill();
+    gx.fillStyle = '#090c0f'; gx.beginPath(); gx.arc(cx, cy, r * 0.905, 0, 7); gx.fill();
+    gx.save(); gx.globalAlpha = 0.55; gx.strokeStyle = accent; gx.lineWidth = r * 0.012;
+    gx.beginPath(); gx.arc(cx, cy, r * 0.885, 0, 7); gx.stroke(); gx.restore();
+    g = gx.createRadialGradient(cx, cy - r * 0.25, r * 0.05, cx, cy, r * 0.88);
+    g.addColorStop(0, '#222930'); g.addColorStop(0.7, '#10151a'); g.addColorStop(1, '#05070a');
+    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.875, 0, 7); gx.fill();
+    gx.strokeStyle = 'rgba(255,255,255,0.025)'; gx.lineWidth = Math.max(1, r * 0.01);
+    for (let k = 0.2; k < 0.85; k += 0.09) { gx.beginPath(); gx.arc(cx, cy, r * k, 0, 7); gx.stroke(); }
+    return g;
+  }
+  // a faint reflection across the top of the glass, drawn over everything
+  function glass(cx, cy, r) {
+    gx.save(); gx.beginPath(); gx.arc(cx, cy, r * 0.875, 0, 7); gx.clip();
+    const g = gx.createLinearGradient(cx, cy - r, cx, cy);
+    g.addColorStop(0, 'rgba(255,255,255,0.10)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    gx.fillStyle = g; gx.beginPath(); gx.ellipse(cx - r * 0.12, cy - r * 0.55, r * 0.85, r * 0.5, -0.25, 0, 7); gx.fill();
+    gx.restore();
+  }
+  function dial(cx, cy, r, val, max, { label, majors, minors = 2, redFrom, readout, unit, lit, badge, pop = 0, small = false }) {
     const t = Math.min(1, Math.max(0, val / max)), at = A0 + (A1 - A0) * t;
-    // bezel and face
-    let g = gx.createLinearGradient(cx, cy - r, cx, cy + r);
-    g.addColorStop(0, '#5d656d'); g.addColorStop(0.5, '#23282d'); g.addColorStop(1, '#4a5157');
-    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r, 0, 7); gx.fill();
-    g = gx.createRadialGradient(cx, cy - r * 0.3, r * 0.1, cx, cy, r * 0.92);
-    g.addColorStop(0, '#1f252b'); g.addColorStop(1, '#0b0e11');
-    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.92, 0, 7); gx.fill();
+    let g = bezel(cx, cy, r, lit[1]);
     // track, lit arc and red zone
     gx.lineCap = 'butt'; gx.lineWidth = r * 0.075;
     gx.strokeStyle = 'rgba(255,255,255,0.08)'; gx.beginPath(); gx.arc(cx, cy, r * 0.78, A0, A1); gx.stroke();
@@ -83,7 +72,7 @@ export function createHud({ sim, season }) {
     gx.strokeStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.78, A0, Math.max(A0 + 0.001, at)); gx.stroke();
     gx.strokeStyle = '#e0312b'; gx.lineWidth = r * 0.05; gx.beginPath(); gx.arc(cx, cy, r * 0.86, A0 + (A1 - A0) * redFrom, A1); gx.stroke();
     // ticks and numbers
-    gx.textAlign = 'center'; gx.textBaseline = 'middle'; gx.font = `700 ${Math.round(r * 0.16)}px ${FONT}`;
+    gx.textAlign = 'center'; gx.textBaseline = 'middle'; gx.font = `700 ${Math.round(r * (small ? 0.21 : 0.16))}px ${FONT}`;
     const n = majors * minors;
     for (let i = 0; i <= n; i++) {
       const a = A0 + (A1 - A0) * i / n, c = Math.cos(a), s = Math.sin(a), major = i % minors === 0;
@@ -95,11 +84,11 @@ export function createHud({ sim, season }) {
     // labels and readout
     // below the hub: the big readout, then its label (between the 0 and the top of the scale)
     if (badge) {   // the gear: a bright badge that pops on every shift, with its name under it
-      const b = r * (0.2 + 0.07 * pop), by = cy + r * 0.44;
+      const b = r * ((small ? 0.25 : 0.2) + 0.07 * pop), by = cy + r * 0.44;
       gx.save(); gx.shadowColor = badge; gx.shadowBlur = r * (0.14 + 0.3 * pop); gx.fillStyle = badge;
       gx.beginPath(); gx.roundRect(cx - b * 1.15, by - b, b * 2.3, b * 2, r * 0.07); gx.fill(); gx.restore();
       gx.fillStyle = '#10140f'; gx.font = `800 ${Math.round(b * 1.6)}px ${FONT}`; gx.fillText(readout, cx, by + r * 0.015);
-      gx.fillStyle = badge; gx.font = `700 ${Math.round(r * 0.135)}px ${FONT}`; gx.fillText(unit, cx, cy + r * 0.76);
+      gx.fillStyle = badge; gx.font = `700 ${Math.round(r * (small ? 0.16 : 0.135))}px ${FONT}`; gx.fillText(unit, cx, cy + r * 0.77);
     } else {
       gx.fillStyle = '#fff'; gx.font = `700 ${Math.round(r * 0.34)}px ${FONT}`; gx.fillText(readout, cx, cy + r * 0.44);
       gx.fillStyle = '#8f9ba6'; gx.font = `600 ${Math.round(r * 0.12)}px ${FONT}`; gx.fillText(unit ?? label, cx, cy + r * 0.74);
@@ -113,18 +102,54 @@ export function createHud({ sim, season }) {
     gx.lineTo(cx - px * r * 0.045 - c * r * 0.14, cy - py * r * 0.045 - s * r * 0.14); gx.closePath(); gx.fill(); gx.restore();
     g = gx.createRadialGradient(cx - r * 0.03, cy - r * 0.03, 0, cx, cy, r * 0.11); g.addColorStop(0, '#8a939b'); g.addColorStop(1, '#22272c');
     gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.1, 0, 7); gx.fill();
+    glass(cx, cy, r);
   }
+  // the fuel dial: E to F, a red fifth at the bottom of the tank, and its label.
+  // Its needle eases toward the real level so it slides (down as you burn, up as you fill) instead of jumping.
+  function fuelDial(cx, cy, r, t, unlimited) {
+    bezel(cx, cy, r, '#62d24b');
+    const B0 = Math.PI * 0.8, B1 = Math.PI * 2.2, at = B0 + (B1 - B0) * t;
+    gx.lineCap = 'butt'; gx.lineWidth = r * 0.1;
+    gx.strokeStyle = 'rgba(255,255,255,0.08)'; gx.beginPath(); gx.arc(cx, cy, r * 0.74, B0, B1); gx.stroke();
+    gx.strokeStyle = t < 0.2 ? '#e0312b' : t < 0.45 ? '#f2b705' : '#62d24b';
+    gx.beginPath(); gx.arc(cx, cy, r * 0.74, B0, Math.max(B0 + 0.001, at)); gx.stroke();
+    gx.strokeStyle = '#e0312b'; gx.lineWidth = r * 0.07; gx.beginPath(); gx.arc(cx, cy, r * 0.88, B0, B0 + (B1 - B0) * 0.2); gx.stroke();
+    for (let i = 0; i <= 4; i++) {
+      const a = B0 + (B1 - B0) * i / 4, c = Math.cos(a), s = Math.sin(a);
+      gx.strokeStyle = i === 0 ? '#ff6b5a' : '#eef2f5'; gx.lineWidth = r * 0.05;
+      gx.beginPath(); gx.moveTo(cx + c * r * 0.92, cy + s * r * 0.92); gx.lineTo(cx + c * r * 0.66, cy + s * r * 0.66); gx.stroke();
+    }
+    gx.textAlign = 'center'; gx.textBaseline = 'middle'; gx.font = `800 ${Math.round(r * 0.26)}px ${FONT}`;
+    gx.fillStyle = '#ff8a7c'; gx.fillText('E', cx + Math.cos(B0) * r * 0.46, cy + Math.sin(B0) * r * 0.46);
+    gx.fillStyle = '#dfe6ec'; gx.fillText('F', cx + Math.cos(B1) * r * 0.46, cy + Math.sin(B1) * r * 0.46);
+    gx.fillStyle = t < 0.2 ? '#ff8a7c' : '#8f9ba6'; gx.font = `700 ${Math.round(r * 0.19)}px ${FONT}`; gx.fillText(unlimited ? 'UNLIMITED' : 'FUEL', cx, cy + r * 0.56);
+    const c = Math.cos(at), s = Math.sin(at), px = -s, py = c;
+    gx.save(); gx.shadowColor = 'rgba(255,60,40,0.7)'; gx.shadowBlur = r * 0.12; gx.fillStyle = '#ff3b2f'; gx.beginPath();
+    gx.moveTo(cx + c * r * 0.8, cy + s * r * 0.8);
+    gx.lineTo(cx + px * r * 0.06 - c * r * 0.14, cy + py * r * 0.06 - s * r * 0.14);
+    gx.lineTo(cx - px * r * 0.06 - c * r * 0.14, cy - py * r * 0.06 - s * r * 0.14); gx.closePath(); gx.fill(); gx.restore();
+    const hg = gx.createRadialGradient(cx - r * 0.04, cy - r * 0.04, 0, cx, cy, r * 0.14); hg.addColorStop(0, '#8a939b'); hg.addColorStop(1, '#22272c');
+    gx.fillStyle = hg; gx.beginPath(); gx.arc(cx, cy, r * 0.13, 0, 7); gx.fill();
+    glass(cx, cy, r);
+  }
+  let shownFuel = null, gaugeDt = 0;
   const GEAR_LOOK = { L: { color: '#f2b705', name: 'SHORT' }, H: { color: '#62d24b', name: 'LONG' }, R: { color: '#ff5a48', name: 'REVERSE' } };
   let shownGear = null, gearPop = 0;
   function drawGauges() {
     const w = els.gauges.width, h = els.gauges.height; gx.clearRect(0, 0, w, h);
-    const r = Math.min(w / 4.25, h / 2.02), kmh = Math.abs(sim.st.speed * 3.6), gov = (sim.car.drivetrain.governedRpm ?? 2300) / 1000;
+    // fuel on the left, the big speedometer in the middle, the revs with the gear on the right;
+    // the two small dials are the same size and sit level with the bottom of the speedometer
+    const r = Math.min(w / 4.8, h / 2.02), rs = r * 0.66, gap = r * 0.08, x0 = (w - 4.8 * r) / 2, cy = h / 2, cys = cy + r - rs;
+    const kmh = Math.abs(sim.st.speed * 3.6), gov = (sim.car.drivetrain.governedRpm ?? 2300) / 1000;
     const rpm = (sim.st.soundRpm ?? sim.st.rpm) / 1000;   // the revs you hear, when the sound is running
     const gear = sim.ctl.gear, look = GEAR_LOOK[gear] ?? GEAR_LOOK.H;
     if (gear !== shownGear) { shownGear = gear; gearPop = 1; }
     gearPop = Math.max(0, gearPop - 1 / 12);
-    dial(w / 2 - r * 1.06, h / 2, r, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 5, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#f2b705', '#ff7a1a'] });
-    dial(w / 2 + r * 1.06, h / 2, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
+    const unlimited = sim.active.role === 'service', fuel = unlimited ? 1 : Math.max(0, Math.min(1, sim.st.fuel / 100));
+    shownFuel = shownFuel == null ? fuel : shownFuel + (fuel - shownFuel) * Math.min(1, gaugeDt * 4);
+    fuelDial(x0 + rs, cys, rs, shownFuel, unlimited);
+    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
+    dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#f2b705', '#ff7a1a'], small: true });
   }
 
   // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too
@@ -165,29 +190,20 @@ export function createHud({ sim, season }) {
   function update(dt, { coins, run }) {
     showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
-    gaugeT += dt; if (gaugeT > 1 / 30) { gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
+    gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; const step = hudT; hudT = 0;
-    const f = sim.st.fuel, cap = sim.car.drivetrain.fuelLitres ?? 100, unlimited = sim.active.role === 'service';
-    els.fuelFill.style.width = (unlimited ? 100 : f) + '%';
-    els.fuelFill.style.background = unlimited || f >= 45 ? 'var(--fuel)' : f < 20 ? 'var(--danger)' : 'var(--gold)';
-    els.damageFill.style.width = (sim.main.st.damage ?? 0) + '%';
-    els.fuelTxt.textContent = unlimited ? 'Unlimited' : `${Math.round(f)}%`;
-    // trail progress: markers, the filled part, and the trip line
-    const mx = sim.main.parts.truck.getPosition().x, left = Math.max(0, trail.depot - mx);
-    els.trackDone.style.width = `${frac(mx) * 100}%`;
-    truckMark.style.left = `${frac(mx) * 100}%`;
-    updateServiceMarks();
-    els.distTxt.textContent = km(left);
-    // the next station ahead of the main truck
-    const next = (trail.stations ?? []).find(st => st.x > mx - 8);
-    els.stationTxt.textContent = next ? km(Math.max(0, next.x - mx)) : 'none';
-    els.useTxt.textContent = next ? km(Math.max(0, next.x - mx)) : 'none ahead';
-    els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
+    const mx = sim.main.parts.truck.getPosition().x;
+    // the depot sign: kilometres to two places, metres for the last kilometre, green for the last 300 m
+    const left = Math.max(0, trail.depot - mx), far = left >= 1000;
+    els.distTxt.textContent = far ? (left / 1000).toFixed(2) : String(Math.round(left));
+    els.distUnit.textContent = far ? 'km' : 'm';
+    els.depotSign.classList.toggle('near', left < 300);
     els.coinTxt.textContent = formatCoins(coins);
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
     const bridge = s === 'wood' && sim.terrain.bridgeAt(sim.truck.getPosition().x);
-    els.surfChip.textContent = bridge ? bridge.missingBoard != null ? 'Broken bridge' : bridge.style === 'steel' ? 'Steel bridge' : 'Timber bridge' : s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.st.inWater > 0.3 ? 'River crossing' : sim.surfaces[s].label;
+    els.surfTxt.textContent = bridge ? bridge.missingBoard != null ? 'Broken bridge' : bridge.style === 'steel' ? 'Steel bridge' : 'Timber bridge' : s === 'wood' ? 'Log crossing' : bog ? 'Deep bog' : sim.st.inWater > 0.3 ? 'River crossing' : sim.surfaces[s].label;
+    els.surfChip.dataset.surf = bridge ? 'bridge' : s === 'wood' ? 'wood' : bog ? 'bog' : sim.st.inWater > 0.3 ? 'water' : s;
     els.surfChip.classList.toggle('bog', bog); els.surfChip.classList.toggle('bridge', !!bridge);
     els.surfChip.classList.toggle('warn', s === 'mud' || sim.st.inWater > 0.3);
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
@@ -195,14 +211,11 @@ export function createHud({ sim, season }) {
     const hooked = !!sim.cable(), near = !hooked && sim.nearestHook()?.d <= sim.winchReach;
     els.winch.classList.toggle('ready', near); els.winch.classList.toggle('down', hooked);
     els.winch.setAttribute('aria-pressed', String(hooked));
-    const eng = sim.st.engine;
-    els.engineBtn.classList.toggle('on', eng === 'on'); els.engineBtn.classList.toggle('cranking', eng === 'cranking');
-    els.engineBtn.setAttribute('aria-pressed', String(eng !== 'off'));
   }
   function showPedals({ gas, brake }) {
     els.gas.classList.toggle('down', gas); els.brake.classList.toggle('down', brake);
   }
-  function showHandbrake(on) { els.handbrakeBtn.classList.toggle('down', on); els.handbrakeBtn.setAttribute('aria-pressed', String(on)); }
+  function showHandbrake() {}   // no PARK button any more; kept so callers need not care
   // a bonus floats up off the coin counter, which gives a little pop
   function coinBonus(n) {
     const pill = els.coinTxt.parentElement; pill.classList.remove('pop'); void pill.offsetWidth; pill.classList.add('pop');
@@ -244,9 +257,17 @@ export function createHud({ sim, season }) {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     showCalled, coinBonus, showMission,
     resetTrip() {},
+    // what the lean HUD leaves out, for the pause menu: the truck, its cargo, fuel and the next station
+    pauseSpec() {
+      const car = sim.main.car, mx = sim.main.parts.truck.getPosition().x;
+      const next = (trail.stations ?? []).find(st => st.x > mx - 8);
+      return [['Vehicle', `${car.name}${car.number ? ' ' + car.number : ''}`], ['Cargo', car.load ? `${car.load.name} · ${car.load.massT} t` : 'Empty'],
+        ['Fuel', `${Math.round(sim.main.st.fuel)}%`], ['Damage', `${Math.round(sim.main.st.damage ?? 0)}%`],
+        ['Next station', next ? km(Math.max(0, next.x - mx)) : 'none ahead'], ['Coins', els.coinTxt.textContent]];
+    },
     setCar,
     get toastActive() { return toastT > 0; },
-    setCardVisible(on) { els.mapcard.style.opacity = on ? 1 : 0; },
+    setCardVisible() {},   // the vehicle card at the start of a run was removed (2026-11-06)
     showAction(label, busy = false) {
       els.actionBtn.hidden = !label; els.actionBtn.disabled = busy;
       els.actionBtn.setAttribute('aria-busy', String(busy));

@@ -85,8 +85,7 @@ function setMode(key, on) {
 const IN_APP = !!window.Capacitor?.isNativePlatform?.();
 if (IN_APP) document.getElementById('fsBtn').hidden = true;
 const showPause = () => {
-  const E = hud.els, text = el => el.textContent.trim() || '–';
-  const spec = [['Vehicle', text(E.carName)], ['Cargo', text(E.loadChip)], ['Fuel', text(E.fuelTxt)], ['Next station', text(E.useTxt)], ['Coins', text(E.coinTxt)]];
+  const spec = hud.pauseSpec();
   const buttons = IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
   session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
@@ -101,7 +100,7 @@ function resize() { view.resize(); hud.resizeGauges(view.DPR); }
 function drive(v) {
   returnVehicle = null; hud.highlightSwitch(false);
   for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
-  sim.setActive(v); view.setZoom(zoomFor(sim.main.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
+  sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
 }
 function switchVehicle() {
@@ -127,7 +126,7 @@ function summon(role) {
   v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
   called[role] = v; hud.showCalled(role, true); session.helpCalled();
   const far = Math.round(sim.distance(v, main));
-  drive(v); hud.toast(`${car.name} is at the trail start, ${far} m away. Drive it out, hook on, and tow your truck to a station.`, 4.5);
+  drive(v);   // no toast here: the stuck hint says what to do once you are at the truck
 }
 // tap WINCH: hook the nearest vehicle within reach, or unhook
 function winch() {
@@ -274,8 +273,7 @@ function frame(now) {
   if (playing) {
     const held = input.read();
     sim.ctl.gas = Number(held.gas);   // retain analog pedal position
-    if (held.gas && sim.ctl.handbrake && sim.st.engine === 'on' && Math.abs(sim.st.speed) < 0.5 && !hud.toastActive) hud.toast('The handbrake is on. Tap PARK (B) to release it.', 2);
-    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is off. Tap ENGINE (I) to start it.' : 'The tank is empty. Call the breakdown truck to tow you to a station.', 2);
+    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is wrecked. Call the breakdown truck to tow you to a station.' : 'The tank is empty. Call the breakdown truck to tow you to a station.', 2);
     sim.ctl.brake = Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;

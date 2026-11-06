@@ -25,18 +25,13 @@
   <div class="hud" id="hud">
     <div class="top">
       <div class="stack">
-        <div class="status" aria-label="Truck status">
-          <div class="sname" id="carName" title="The vehicle you are driving"></div>
-          <div class="srow meterrow" title="Fuel in the tank"><!--icon:fuel--><b>Fuel</b><div class="fuelbar"><i id="fuelFill"></i></div><span class="sval" id="fuelTxt">100/100 L</span></div>
-          <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>DAMAGE</b><div class="fuelbar"><i id="damageFill"></i></div></div>
-          <div class="srow" title="Distance to the next fuel station"><!--icon:fuel--><b>Next</b><span class="sval" id="useTxt">–</span></div>
-          <div class="srow" title="What the truck is carrying"><!--icon:load-condition--><b>Cargo</b><span class="sval cargo" id="loadChip"></span></div>
-        </div>
-        <span class="chip" id="surfChip">Dirt</span>
+        <span class="chip" id="surfChip" data-surf="dirt"><small>Surface</small><b id="surfTxt">Dirt</b></span>
       </div>
-      <div class="trip" aria-label="Trail progress">
-        <div class="tripline"><span id="drivenTxt">0.00 km driven</span><span><!--icon:distance--><b id="distTxt"></b> to depot</span><span class="stationnext" title="Next fuel station"><!--icon:fuel--><b id="stationTxt"></b></span></div>
-        <div class="track" id="track"><i class="done" id="trackDone"></i></div>
+      <div class="trip" aria-label="Distance to the depot">
+        <div class="depot" id="depotSign">
+          <span class="depot-flag" aria-hidden="true"></span>
+          <span class="depot-read"><span class="depot-num"><b id="distTxt"></b><small id="distUnit">km</small></span><span class="depot-label">to depot</span></span>
+        </div>
       </div>
       <div class="right">
         <div class="pill" title="Coins"><i class="coinic"></i><span id="coinTxt">0</span></div>
@@ -45,11 +40,6 @@
         <button class="ibtn" id="fsBtn" aria-label="Fullscreen"><!--icon:fullscreen--></button>
         <button class="ibtn" id="pauseBtn" aria-label="Pause"><!--icon:pause--></button>
       </div>
-    </div>
-    <div class="mapcard" id="mapcard">
-      <h1 id="cardTitle"></h1><h2 id="cardTagline"></h2>
-      <div class="card-stats" id="cardStats"></div>
-      <p class="card-biomes" id="cardBiomes"></p>
     </div>
     <div class="sidechips">
       <div class="powers" id="powers"></div>
@@ -61,8 +51,6 @@
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"></div>
         <button class="winch shieldbtn" id="powerBtn" aria-label="Use your power (S)" title="Use your power (S)" hidden><span id="powerBtnIcon"></span><span id="powerBtnTxt">SHIELD</span></button>
-        <button class="winch hbrake" id="handbrakeBtn" aria-label="Handbrake on or off (B)" aria-pressed="false" title="Handbrake on / off (B)"><!--icon:handbrake-->PARK</button>
-        <button class="winch engine on" id="engineBtn" aria-label="Engine on or off (I)" aria-pressed="true" title="Engine on / off (I)"><!--icon:engine-->ENGINE</button>
       </div>
       <!-- the action button (refuel, ...) rides on top of the gauges, whatever size they are -->
       <div class="dash">

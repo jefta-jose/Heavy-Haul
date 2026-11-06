@@ -1,12 +1,12 @@
-import { ZOOM_BY_CLASS } from '../game-config.js';
+import { ZOOM_BY_CLASS, SERVICE_HEIGHT_PER_ZOOM } from '../game-config.js';
 
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
 // Framing: the vehicle's nose sits at FRAMING.front of the screen width and the ground at
 // FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each class has one zoom,
-// ZOOM_BY_CLASS in game-config.js (1.5 = 17.7 m of trail across the screen; higher shows more). The main truck's zoom
-// holds for the whole run, service trucks and jobs included: a zoom change resamples every sprite,
-// which is heavy on phones. A class without one falls back to car.json camera.zoom, then a zoom sized to its length.
+// ZOOM_BY_CLASS in game-config.js (1.5 = 17.7 m of trail across the screen; higher shows more). The zoom follows the vehicle
+// you drive: a service truck taller than its class's trucks eases out to fit it (zoomFor). A zoom change
+// resamples every sprite, so it only happens when you switch vehicles. A class without one falls back to car.json camera.zoom, then a zoom sized to its length.
 // The camera follows with a critically damped spring fed the vehicle's velocity, so it keeps
 // pace under acceleration. Vertically it is fed the ground's own slope ahead (smooth: suspension
 // bounce never shakes it), and the car is never let off the top or bottom of the screen, so a fast
@@ -79,8 +79,10 @@ export function createView(canvas, sim) {
 }
 
 // A car's zoom: its class's ZOOM_BY_CLASS, else its car.json camera.zoom, else wide enough to show about 1.6 times its length.
+// A service truck gets at least enough zoom for its height (SERVICE_HEIGHT_PER_ZOOM).
 export function zoomFor(car) {
-  if (ZOOM_BY_CLASS[car.class]) return ZOOM_BY_CLASS[car.class];
+  const tall = car.role && car.physics?.size ? Math.round(car.physics.size[1] / SERVICE_HEIGHT_PER_ZOOM * 100) / 100 : 0;
+  if (ZOOM_BY_CLASS[car.class]) return Math.max(ZOOM_BY_CLASS[car.class], tall);
   if (car.camera?.zoom) return car.camera.zoom;
   const rig = car.rig, length = rig.nose - (Math.min(...rig.axles) - rig.radius);
   return Math.round(Math.max(FRAMING.zoom, Math.min(4.5, length * 1.6 / FRAMING.width)) * 10) / 10;

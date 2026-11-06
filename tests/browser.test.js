@@ -77,15 +77,15 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.click('#startBtn');
     await page.waitForFunction(() => __haul.session.state === 'play');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
-    // the phone HUD: the truck's name under the fuel bar, both dials, no checkpoints and no pedal labels
+    // the lean phone HUD (2026-11-06): no status panel, trail map, PARK or ENGINE; the depot distance and
+    // three dials (revs, speed, fuel) between the pedals, and no pedal labels
     const hud = await page.evaluate(() => {
-      const box = id => document.getElementById(id).getBoundingClientRect(), name = document.getElementById('carName');
-      return { name: name.textContent, below: box('carName').top >= box('fuelFill').bottom, wide: box('gauges').width > box('gauges').height * 1.5, marks: document.querySelectorAll('.mk:not(.me):not(.depot):not(.station)').length, engine: getComputedStyle(document.getElementById('engineBtn')).display !== 'none', pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
+      const box = id => document.getElementById(id).getBoundingClientRect(), gone = ['carName', 'fuelFill', 'track', 'handbrakeBtn', 'engineBtn'];
+      return { gone: gone.every(id => !document.getElementById(id)), dist: /to depot/.test(document.getElementById('depotSign').textContent) && !document.getElementById('mapcard'), wide: box('gauges').width > box('gauges').height * 2.2, pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
     });
-    assert(hud.name && hud.below, 'the truck name sits under the fuel bar');
-    assert(hud.wide, 'two dials fit between the pedals');
-    assert.equal(hud.marks, 0, 'only the truck, the flag and the stations on the progress map');
-    assert(hud.engine, 'the engine button stays on the phone HUD');
+    assert(hud.gone, 'the status panel, trail map, PARK and ENGINE are gone');
+    assert(hud.dist, 'the distance to the depot shows');
+    assert(hud.wide, 'three dials fit between the pedals');
     assert.equal(hud.pedalText, '', 'the pedals carry no text');
     await page.click('#pauseBtn');
     assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');
@@ -223,31 +223,27 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.waitForFunction(() => __haul.audio.status().voices.length > 0);
     assert.equal(await page.evaluate(() => __haul.audio.status().error), null, 'the clips in use decode offline');
     assert.deepEqual(await page.evaluate(() => __haul.audio.status().voices), ['scout'], 'the scout plays the scout engine');
-    // the handbrake: PARK holds the truck against the throttle, B releases it
-    await page.click('#handbrakeBtn');
-    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), true, 'PARK sets the handbrake');
-    assert.equal(await page.locator('#handbrakeBtn').getAttribute('aria-pressed'), 'true');
+    // the handbrake (no button on the HUD any more, but the sim still has it) holds the truck against the throttle
+    await page.evaluate(() => __haul.handbrake());
+    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), true, 'the handbrake is set');
     await step(240);   // the truck was still reversing from the brake check: let the locked wheels bring it to rest first
     const heldX = await page.evaluate(() => __haul.sim.truck.getPosition().x);
     await page.keyboard.down('ArrowRight'); await page.evaluate(() => { for (let i = 0; i < 240; i++) __haul.sim.step(1 / 120); }); await page.keyboard.up('ArrowRight');
     { const r = await page.evaluate(x => [__haul.sim.car.id, __haul.sim.truck.getPosition().x - x, __haul.sim.truck.getPosition().x], heldX); assert(Math.abs(r[1]) < 0.3, 'held against the throttle ' + JSON.stringify(r)); }
-    await page.keyboard.press('KeyB');
-    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), false, 'B releases it');
+    await page.evaluate(() => __haul.handbrake());
+    assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), false, 'and released');
     // Engine-off means no propulsion, not immunity to gravity on the rebuilt
     // obstacle course. Check stationary behavior on the calm launch apron.
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.start); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
-    await page.click('#engineBtn');
-    assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'off', 'ENGINE turns it off');
-    // the HUD refreshes its buttons at 10 Hz, so allow a frame or two for the button to follow
-    await page.waitForFunction(() => document.getElementById('engineBtn').getAttribute('aria-pressed') === 'false', null, { timeout: 2000 }).catch(() => {});
-    assert.equal(await page.locator('#engineBtn').getAttribute('aria-pressed'), 'false');
+    await page.evaluate(() => __haul.engine());
+    assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'off', 'the engine turns off');
     // on firm, level ground at the start (the drive above can end at the edge of the mud, where a
     // parked truck settles a little as its tires sink)
     const parkedX = await page.evaluate(() => { const s = __haul.sim; s.respawn(30); for (let i = 0; i < 240; i++) s.step(1 / 120); return s.truck.getPosition().x; });
     await page.keyboard.down('ArrowRight'); await page.evaluate(() => { for (let i = 0; i < 240; i++) __haul.sim.step(1 / 120); }); await page.keyboard.up('ArrowRight');
     assert(await page.evaluate(x => Math.abs(__haul.sim.truck.getPosition().x - x) < 0.3, parkedX), 'no drive with the engine off');
-    await page.keyboard.press('KeyI');
-    assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'cranking', 'I starts it on the starter');
+    await page.evaluate(() => __haul.engine());
+    assert.equal(await page.evaluate(() => __haul.sim.st.engine), 'cranking', 'it starts on the starter');
     await page.waitForFunction(() => __haul.sim.st.engine === 'on');
 
     await page.keyboard.press('Escape'); assert.equal(await page.evaluate(() => __haul.session.state), 'pause');
@@ -323,7 +319,6 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert((await page.evaluate(() => __haul.renderer.frames)) > framesAtCard, 'the game keeps running');
     await page.evaluate(() => { const s = __haul.sim; s.ctl.gas = 0; s.respawn(s.terrain.stations[0].x); __haul.snap(); });
     await page.waitForFunction(() => __haul.sim.main.st.fuel > 99.9 && __haul.sim.main.st.damage === 0);
-    assert.equal(await page.locator('.mk.station').count(), await page.evaluate(() => __haul.sim.terrain.stations.length), 'every station is on the progress map');
     const gas = await page.locator('#gas').boundingBox(), cdp = await page.context().newCDPSession(page);
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: gas.x + gas.width / 2, y: gas.y + gas.height / 2 }] }); await page.waitForFunction(() => __haul.sim.ctl.gas === 1);
@@ -376,11 +371,12 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(100);
     for (const id of ['#pauseBtn', '#gas', '#brake']) { const b = await page.locator(id).boundingBox(); assert(b.x >= 0 && b.x + b.width <= 391, `${id} fits portrait`); }
     await capture('07-portrait');
-    // the main truck's zoom holds for the whole run: service trucks do not change it
+    // a service truck never brings the camera closer than its class's zoom (a taller one eases out), and
+    // back in the main truck the zoom is the class's again
     await page.setViewportSize({ width: 844, height: 390 });
     const scoutZoom = await page.evaluate(() => __haul.view.zoom);
     await page.evaluate(() => __haul.summon('breakdown'));
-    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'the breakdown truck keeps the main truck\'s zoom');
+    assert(await page.evaluate(() => __haul.view.zoom) >= scoutZoom, 'the breakdown truck is framed at least as wide as the main truck');
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
     // Newly delivered heavy-duty trucks are selectable and run on the current map.

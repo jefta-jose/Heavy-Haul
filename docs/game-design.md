@@ -105,11 +105,18 @@ a hydraulic hiss when braking from speed and the pssh when it stops. Trucks beep
 season's ambience zones bring in forest birds, swamp insects over the mud, frogs at the crossings and
 crows in the dry stretches.
 
-**ENGINE** (or I) turns the engine off and on. A run starts with the key turned: the starter cranks,
-then it catches. Off means no drive and no fuel burn; an empty tank stalls it.
+A run starts with the key turned: the starter cranks, then it catches. An empty tank or a wrecked
+engine stalls it; refuelling at a station starts it again. There are no ENGINE or PARK buttons
+(removed on 2026-11-06 to keep the HUD lean).
 
-**PARK** (or B) is the handbrake: it holds every wheel, even against the throttle, with a ratchet on
-the scouts and an air hiss on trucks.
+## Driving HUD
+
+Kept lean on the user's direction (2026-11-06): the distance to the depot at the top (no trail map),
+coins and the service, pause and fullscreen buttons at the top right, the surface chip, the power,
+mission and top-speed chips, and three dials between the pedals: revs with the gear, speed, and a
+smaller fuel dial whose needle slides to the tank level. The truck's name, cargo, fuel, damage and the
+next station are in the pause menu. The power button sits beside the brake pedal, WINCH, AWD and DIFF
+beside the gas.
 
 The sound panel (pause menu or garage) sets master, engines, effects and ambience volume, mutes
 everything, and lists the sound credits.
@@ -144,7 +151,7 @@ No truck is longer than 16.8 m with its load, so one set of obstacle sizes suits
 
 ## Damage
 
-Hitting a solid obstacle at speed damages the truck: a red glow, a damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+Hitting a solid obstacle at speed damages the truck: a red glow, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
 
 ## Controls
 

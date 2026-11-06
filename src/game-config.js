@@ -4,7 +4,12 @@
 // How far out the camera sits for every truck in a class: 1 = 11.8 m of trail across a desktop screen, so 1.6 = 19 m.
 // Lower is closer. The truck's nose sits at 60% of the screen, so the class's longest truck (scout 8.1 m, offroad 11.8,
 // heavy-duty 13.7, highway 16.4, heavy 16.5) still fits behind it. Phones show a little more. Overrides car.json camera.zoom.
-export const ZOOM_BY_CLASS = { scout: 1.6, offroad: 1.85, 'heavy-duty': 2.0, highway: 2.3, heavy: 2.3 };
+// Scout, highway and heavy-duty look right; offroad and heavy were raised on 2026-11-06 because their tall trucks
+// filled the screen (they now show a truck's height at about the same share as highway and heavy-duty).
+export const ZOOM_BY_CLASS = { scout: 1.6, offroad: 2.2, 'heavy-duty': 2.0, highway: 2.3, heavy: 2.85 };
+// Service trucks are often taller than their class's trucks, so while you drive one the camera eases out to at
+// least its height (physics.size[1], metres) divided by this; never closer than its class's zoom. Lower shows more.
+export const SERVICE_HEIGHT_PER_ZOOM = 1.6;
 
 // ---------- damage ----------
 export const DAMAGE_START_KMH = 20;           // hitting a solid obstacle slower than this does no harm

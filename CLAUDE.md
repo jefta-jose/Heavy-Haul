@@ -103,7 +103,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
      car**, whatever its size; never tune it per car;
-   - camera: one zoom per class, `ZOOM_BY_CLASS` in `src/game-config.js`, tuned by the user (2026-11-06;
+   - camera: one zoom per class, `ZOOM_BY_CLASS` in `src/game-config.js`, tuned by the user (2026-11-06; service trucks ease out to `SERVICE_HEIGHT_PER_ZOOM`;
      1.5 = 17.7 m of trail across the screen). `camera.zoom` in car.json is only a fallback for a class
      without one. There is no zoom button. Check the whole rig fits with room ahead on desktop and phone;
    - `physics`: empty mass and centre of mass from `massT`, plus `physics.load` (`massT` from the
