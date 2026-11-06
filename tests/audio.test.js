@@ -26,7 +26,14 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
   Object.defineProperty(globalThis, 'window', { configurable: true, value: win });
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => pads } });
   try {
-    const actions = new Proxy({}, { get: () => () => {} }), input = createInput(els, actions);
+    const toggles = [];
+    const actions = new Proxy({ toggle: key => toggles.push(key) }, { get: (obj, key) => obj[key] ?? (() => {}) }), input = createInput(els, actions);
+    for (const code of ['KeyQ', 'KeyE']) {
+      win.handlers.keydown({ code, repeat: false });
+      win.handlers.keydown({ code, repeat: true });
+      win.handlers.keyup({ code });
+    }
+    assert.deepEqual(toggles, ['awd', 'diff'], 'each held key toggles once');
     const event = { preventDefault() {}, pointerId: 1, clientY: 100, pointerType: 'mouse' };
     els.gas.handlers.pointerdown(event);
     assert.equal(input.read().gas, 1);

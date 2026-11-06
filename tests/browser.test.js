@@ -45,6 +45,9 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.waitForFunction(() => window.__haul?.renderer.ready && window.__haul.renderer.frames > 2);
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads from its file');
     assert.equal(bodies.size, 1, 'startup loads only the default car, not the whole roster');
+    const garageAWD = await page.evaluate(() => __haul.sim.ctl.awd);
+    await page.keyboard.press('KeyQ');
+    assert.equal(await page.evaluate(() => __haul.sim.ctl.awd), garageAWD, 'Q in the garage leaves AWD unchanged');
     // a run also brings in its class's service trucks, and draws a truck called from them
     await page.evaluate(() => __haul.startRun(__haul.garage.selection));
     await page.waitForFunction(() => __haul.renderer.ready);
