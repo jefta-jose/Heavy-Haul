@@ -123,7 +123,7 @@ function summon(role) {
   if (have) { drive(sim.active === have ? sim.main : have); hud.toast(`Driving the ${sim.active.car.name}`, 1.5); return; }
   const car = serviceFor(role);
   if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName()} yet`, 2.5); return; }
-  const main = sim.main, v = sim.spawnService(car, sim.startSpot(car));
+  const v = sim.spawnService(car, sim.startSpot(car));
   v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
   called[role] = v; hud.showCalled(role, true); session.helpCalled();
   drive(v);   // no toast here: the stuck hint says what to do once you are at the truck
@@ -191,8 +191,8 @@ async function driveOff(sel) {
   if (loading) return; loading = true;
   startAudio();   // inside the tap, or the phone will not play it
   loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
-  prepareRun(sel); 
-  await until(() => renderer.ready, 15000); 
+  prepareRun(sel);
+  await until(() => renderer.ready, 15000);
   await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
   goRun(); loading = false;
   loader.hide();
@@ -200,8 +200,8 @@ async function driveOff(sel) {
 async function backToGarage() {
   if (loading) return; loading = true;
   loader.show('garage', { sub: 'Back to the garage' }); await loader.painted();
-  openGarage(); 
-  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]); 
+  openGarage();
+  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]);
   await loader.hide();
   loading = false;
 }
@@ -209,7 +209,6 @@ async function backToGarage() {
 let launching = true;
 const launchStarted = performance.now();
 function launchProgress() {
-  
   // a failed image must not hold the game behind the screen for ever
   if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
   launching = false;
