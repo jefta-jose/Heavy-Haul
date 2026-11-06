@@ -15,10 +15,11 @@ export const RUT_OFFSETS = [0.5, 0.02];   // far and near wheel tracks, in the l
 export function createMudLayer(scene) {
   const { ctx } = scene.view, sim = scene.sim;
   const mudSample = {};
+  let frame = 0;
   let world = null, ruts = null, lastCell = new WeakMap();
   function clear() {
     const { X0, X1 } = sim.terrain, n = Math.ceil((X1 - X0) / RES) + 2;
-    ruts = { X0, depth: new Float32Array(n), width: new Float32Array(n), soft: new Float32Array(n), count: 0 };
+    ruts = { X0, depth: new Float32Array(n), width: new Float32Array(n), soft: new Float32Array(n), count: 0, mid: RUT_OFFSETS.map(() => new Float64Array(n)), stamp: new Uint32Array(n) };
     lastCell = new WeakMap();
   }
   const cellOf = x => Math.round((x - ruts.X0) / RES);
@@ -59,7 +60,14 @@ export function createMudLayer(scene) {
     if (!ruts) return;
     const c0 = Math.max(0, cellOf(lo)), c1 = Math.min(ruts.depth.length - 1, cellOf(hi)), D = ruts.depth, W = ruts.width, S = ruts.soft;
     const X = c => ruts.X0 + c * RES;
-    const wob = x => Math.sin(x * 9.1) * 0.006 + Math.sin(x * 23.7) * 0.004;
+    const midAt = (k, off) => {
+      if (ruts.stamp[k] !== frame) {
+        const x = X(k), height = sim.visH(x), wob = Math.sin(x * 9.1) * 0.006 + Math.sin(x * 23.7) * 0.004;
+        for (let i = 0; i < RUT_OFFSETS.length; i++) ruts.mid[i][k] = height + RUT_OFFSETS[i] + wob;
+        ruts.stamp[k] = frame;
+      }
+      return ruts.mid[RUT_OFFSETS.indexOf(off)][k];
+    };
     const band = (start, end, top, bottom) => {
       ctx.beginPath();
       for (let k = start; k <= end; k++) ctx.lineTo(X(k), top(k));
@@ -74,7 +82,7 @@ export function createMudLayer(scene) {
         const start = c; while (c <= c1 && D[c] >= 0.02) c++;
         const end = c - 1, wet = (S[start] + S[end]) / 2 >= 0.6;
         const half = k => (0.012 + Math.sqrt(D[k]) * 0.118) * W[k];
-        const mid = k => sim.visH(X(k)) + off + wob(X(k));
+        const mid = k => midAt(k, off);
         // soft outer edge, then the groove, then its deeper bottom
         for (const [grow, alpha] of [[1.35, 0.18], [1.12, 0.3], [1, 0.42]]) {
           band(start, end, k => mid(k) + half(k) * 0.6 * grow, k => mid(k) - half(k) * grow);
@@ -187,6 +195,7 @@ export function createMudLayer(scene) {
   }
   return {
     update, surface, surfaceOnly, foreground, clear,
+    beginFrame() { frame++; },
     // metres of trail carrying a rut, and the deepest rut at x (for tests)
     get trackCount() { return ruts ? Math.round(ruts.count * RES) : 0; },
     rutAt: x => (ruts ? ruts.depth[cellOf(x)] ?? 0 : 0),

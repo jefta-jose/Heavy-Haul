@@ -44,6 +44,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     drawBackground(scene);
     view.worldTransform(); const m = ctx.getTransform(); scene.worldMatrix = [m.a, m.b, m.c, m.d, m.e, m.f];
     drawGround(scene);
+    mud.beginFrame();
     if (playing) mud.update(dt);
     // a thick road's deep mud would paint over its holes, so there they go on top of the mud and under the ruts
     if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
