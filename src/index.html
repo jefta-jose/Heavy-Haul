@@ -27,8 +27,8 @@
       <div class="stack">
         <div class="status" aria-label="Truck status">
           <div class="sname" id="carName" title="The vehicle you are driving"></div>
-          <div class="srow" title="Fuel in the tank"><!--icon:fuel--><b>Fuel</b><div class="fuelbar"><i id="fuelFill"></i></div><span class="sval" id="fuelTxt">100/100 L</span></div>
-          <div class="dmgrow" title="Damage: at 100% the engine dies"><!--icon:damage--><div class="fuelbar"><i id="damageFill"></i></div></div>
+          <div class="srow meterrow" title="Fuel in the tank"><!--icon:fuel--><b>Fuel</b><div class="fuelbar"><i id="fuelFill"></i></div><span class="sval" id="fuelTxt">100/100 L</span></div>
+          <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>DAMAGE</b><div class="fuelbar"><i id="damageFill"></i></div></div>
           <div class="srow" title="Distance to the next fuel station"><!--icon:fuel--><b>Next</b><span class="sval" id="useTxt">–</span></div>
           <div class="srow" title="What the truck is carrying"><!--icon:load-condition--><b>Cargo</b><span class="sval cargo" id="loadChip"></span></div>
         </div>
@@ -53,6 +53,7 @@
     </div>
     <div class="sidechips">
       <div class="powers" id="powers"></div>
+      <div class="mission" id="missionChip" hidden><span></span></div>
       <div class="trap" id="trap" hidden><span><i>High speed:</i> <b id="trapNum">0</b> km/h</span></div>
     </div>
     <div class="toast" id="toast"></div>
@@ -99,6 +100,7 @@
         <div class="g-logo"><b>Heavy Haul</b><span>Trucks</span></div>
         <nav class="g-seasons" id="gSeasons" aria-label="Season"></nav>
         <nav class="g-classes" id="gClasses" aria-label="Vehicle class"></nav>
+        <div class="g-rank" id="gRank" title="Your rank: each one opens a truck in every class"><b id="gRankNum">Rank 1</b><span class="g-rankbar"><i id="gRankFill"></i></span><small id="gRankXp"></small></div>
         <div class="g-coins" id="gCoinsBox" title="Your coins"><i class="coinic"></i><b id="gCoins"></b></div>
       </div>
       <div class="g-carsrow">
@@ -109,6 +111,7 @@
     </header>
     <nav class="g-menu" aria-label="Garage">
       <button class="g-item" id="gMenuTune"><!--icon:garage-gear--><span>Upgrades</span></button>
+      <button class="g-item" id="gMenuMissions"><!--icon:garage-mission--><span>Missions<small id="gMissionOn"></small></span></button>
       <button class="g-item" id="gMenuPowers"><!--icon:garage-power--><span>Powers<small id="gPowerOn"></small></span></button>
       <button class="g-item" id="garageSoundBtn"><!--icon:garage-sound--><span>Sound</span></button>
     </nav>
@@ -126,6 +129,16 @@
           </div>
           <div class="tunes" id="tuneList"></div>
           <div class="btns"><button class="btn" id="tuneReset" hidden>Reset to stock</button><button class="btn primary" id="tuneDone">Done</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="missionsOv" hidden>
+      <div class="card slim">
+        <div class="cbody">
+          <div class="tunehead"><div><div class="eyebrow">One at a time, for extra XP</div><h3>Missions</h3></div></div>
+          <div class="powerlist" id="missionList"></div>
+          <p class="powernote">A mission stays chosen until you finish it, then new ones come up. Failing one costs nothing.</p>
+          <div class="btns"><button class="btn primary" id="missionsDone">Done</button></div>
         </div>
       </div>
     </div>
@@ -147,10 +160,7 @@
       <div class="cbody">
         <div class="eyebrow">Settings</div>
         <h3>Sound</h3>
-        <p>Each class of truck has its own recorded engine. Effects are tires, water, mud, brakes and the load; ambience is the birds and the swamp.</p>
         <div class="vols" id="volList"></div>
-        <details class="keys"><summary>How to drive</summary><b>Touch:</b> GAS / BRAKE pedals; the gears shift themselves. Hold BRAKE at a stop to reverse. With the Invincible power, tap its button (S) to use it. Instant brakes work by braking above the speed limit on the signs. For mud and rock: AWD and DIFF. Stop in a station's bay to refuel and repair. Out of fuel, badly damaged or stuck? Call the breakdown truck from the top bar, back it within 5 m of your truck, tap WINCH to hook on, and tow your truck to a station (tap again to unhook). It comes once per run from the start of the trail; after that its button switches to it. <b>Keys:</b> → gas, ← brake, W winch on / off, I engine on / off, B handbrake, Q 4×4, E diff, V switch vehicle, Esc pause.</details>
-        <details class="credits"><summary>Sound credits (Freesound)</summary><ul id="soundCredits"></ul></details>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>
     </div>

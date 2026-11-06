@@ -1,0 +1,17 @@
+{
+  "about": "Missions picked in the garage, one at a time. The garage offers `offerCount` of them: always one class delivery, for the class driven least so far, and the rest drawn from the others. A mission stays chosen until it is done, then a fresh list is drawn; failing it costs nothing. Each `type` is checked by src/game/missions.js. `xp` is paid once, when it is done; class deliveries also scale by the class (XP_BY_CLASS).",
+  "offerCount": 4,
+  "missions": [
+    { "id": "deliver-scout", "type": "classDelivery", "class": "scout", "title": "Scout run", "text": "Deliver to the depot in a Scout", "xp": 500 },
+    { "id": "deliver-highway", "type": "classDelivery", "class": "highway", "title": "Highway haul", "text": "Deliver to the depot in a Highway truck", "xp": 500 },
+    { "id": "deliver-heavy-duty", "type": "classDelivery", "class": "heavy-duty", "title": "Heavy-duty job", "text": "Deliver to the depot in a Heavy Duty truck", "xp": 500 },
+    { "id": "deliver-offroad", "type": "classDelivery", "class": "offroad", "title": "Off-road crossing", "text": "Deliver to the depot in an Off-road truck", "xp": 500 },
+    { "id": "deliver-heavy", "type": "classDelivery", "class": "heavy", "title": "Heavy load", "text": "Deliver to the depot in a Heavy truck", "xp": 500 },
+    { "id": "against-clock", "type": "timed", "minutes": 12, "title": "Against the clock", "text": "Reach the depot in under 12 minutes", "xp": 700 },
+    { "id": "no-help", "type": "noHelp", "title": "On your own", "text": "Reach the depot without calling the breakdown truck", "xp": 900 },
+    { "id": "clean-run", "type": "clean", "maxDamage": 25, "title": "Clean run", "text": "Reach the depot without going over 25% damage", "xp": 800 },
+    { "id": "speed-camera", "type": "speed", "kmh": 50, "title": "Speed trap", "text": "Pass a highway speed camera at 50 km/h or more", "xp": 400 },
+    { "id": "crusher", "type": "crusher", "count": 40, "title": "Crusher", "text": "Crush 40 things in one run", "xp": 400 },
+    { "id": "bog-master", "type": "bogs", "count": 6, "title": "Bog master", "text": "Drive through 6 deep bogs in one run without being towed", "xp": 600 }
+  ]
+}

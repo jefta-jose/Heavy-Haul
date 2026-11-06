@@ -98,7 +98,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   // the garage lists the whole roster; only the summary fields are shipped
   const roster = {
     classes: c.roster.classes,
-    cars: c.roster.cars.map(({ id, name, number, class: cls, tier, order, status, wheelType, stats, load, price, drive, lengthM }) => ({ id, name, number, class: cls, tier, order, status, wheelType, stats, load, price, drive, lengthM })),
+    cars: c.roster.cars.map(({ id, name, number, class: cls, tier, unlockRank, order, status, wheelType, stats, load, price, drive, lengthM }) => ({ id, name, number, class: cls, tier, unlockRank, order, status, wheelType, stats, load, price, drive, lengthM })),
   };
   // every season folder for the garage's season row: playable ones from season.json, planned ones
   // from their README's title ("# Frozen North (winter)")
@@ -108,7 +108,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   const content = {
-    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, missions: readJson('assets/missions/missions.json'), loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
     cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, music: { garage: asset('assets/audio/music/garage.mp3'), drive: asset('assets/audio/music/drive.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };

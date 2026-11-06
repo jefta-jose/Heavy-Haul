@@ -161,21 +161,21 @@ canvas#view {
 
 .dmgrow {
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
+  grid-template-columns: 18px 66px 96px auto;
   align-items: center;
   gap: 8px;
-  padding: 3px 10px;
+  padding: 5px 12px;
   color: var(--danger);
 }
 
 .dmgrow svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 .dmgrow .fuelbar {
   width: auto;
-  height: 7px;
+  height: 9px;
 }
 
 #damageFill {
@@ -393,6 +393,36 @@ canvas#view {
   box-shadow: 0 0 10px 2px rgba(255, 90, 20, .6);
 }
 
+.mission {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  background: rgba(14, 21, 28, .88);
+  border: 1px solid #3a3f46;
+  border-left: 4px solid var(--yellow);
+}
+
+.mission[hidden] {
+  display: none;
+}
+
+.mission span {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: .02em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.mission span b {
+  font-weight: 700;
+  color: var(--yellow);
+}
+
 .trap[hidden] {
   display: none;
 }
@@ -471,6 +501,11 @@ canvas#view {
 .winch.shieldbtn.active {
   color: #d9b3ff;
   box-shadow: 0 0 12px 2px rgba(180, 92, 255, .8);
+}
+
+.winch.shieldbtn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
 }
 
 .winch.shieldbtn.cooling {
@@ -1108,11 +1143,8 @@ dl.spec dd {
 /* ---------- HUD: status panel, trail progress map, trip line, dials, gears ---------- */
 .status {
   min-width: 270px;
-  background: var(--panel);
-  border: 1px solid var(--panel-edge);
-  border-radius: 12px;
   padding: 3px 0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .srow {
@@ -1146,12 +1178,19 @@ dl.spec dd {
   color: var(--ink-dim);
 }
 
-.srow b {
+.srow b,
+.dmgrow b {
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-dim);
+}
+
+.status .meterrow {
+  grid-template-columns: 18px 66px 96px auto;
+  gap: 8px;
+  padding: 5px 12px;
 }
 
 .srow .fuelbar {
@@ -1982,6 +2021,22 @@ dl.spec dd {
   cursor: not-allowed;
 }
 
+/* a truck's tag under its name: the rank that opens it, or once open, its price */
+.gtag { display: inline-flex; align-items: center; gap: 4px; font-family: var(--display); font-size: 13px; font-weight: 700; line-height: 1; white-space: nowrap; }
+.gtag svg { width: 12px; height: 12px; }
+.gtag .coinic { width: 13px; height: 13px; }
+.gtag.lock { color: #8f98a2; }
+.gtag.price { color: var(--yellow); font-variant-numeric: tabular-nums; }
+.gtile.ranked .gthumb img { filter: grayscale(.85) brightness(.55); }
+.gtile.ranked b { color: #8f98a2; }
+
+/* the player's rank, under the coins: the number and a bar of XP towards the next */
+.g-rank { position: absolute; right: max(18px, env(safe-area-inset-right)); top: calc(max(10px, env(safe-area-inset-top)) + 38px); display: grid; grid-template-columns: auto 120px; grid-template-rows: auto auto; column-gap: 10px; align-items: center; }
+.g-rank b { grid-row: 1 / 3; font-family: var(--display); font-size: 24px; font-weight: 700; color: #fff; white-space: nowrap; }
+.g-rankbar { display: block; height: 6px; background: #2a2e35; overflow: hidden; }
+.g-rankbar i { display: block; height: 100%; width: 0; background: var(--yellow); }
+.g-rank small { font-size: 11px; font-weight: 600; color: #b4bbc3; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
 .gtile.locked b {
   color: #626a73;
 }
@@ -2203,6 +2258,18 @@ dl.spec dd {
   filter: brightness(.9);
 }
 
+/* Buy, with the price, for an open truck not owned yet; Requires rank N, greyed, for a locked one */
+.garage .g-drive.buy, .garage .g-drive.locked { gap: 10px; font-style: normal; }
+.g-drive.buy::after, .g-drive.locked::after { content: none; }
+.g-drive.buy .coinic { width: .7em; height: .7em; }
+.g-drive.buy b { font-size: .62em; font-variant-numeric: tabular-nums; }
+.g-drive.buy .gbuy { font-size: .8em; font-style: italic; }
+.garage .g-drive.buy.poor { filter: saturate(.4) brightness(.8); }
+.garage .g-drive.locked { background: linear-gradient(180deg, #3a3d42, #26282c); color: #b4bbc3; cursor: not-allowed; }
+.g-drive.locked svg { width: .5em; height: .5em; }
+.g-drive.locked .gneed { font-size: .42em; letter-spacing: .04em; }
+.g-item:disabled, .g-levels:disabled { opacity: .4; cursor: not-allowed; }
+
 /* the Powers card: one row per power, the one that is on edged in yellow */
 .powerlist {
   display: grid;
@@ -2282,7 +2349,8 @@ dl.spec dd {
 }
 
 .garage>#tuneOv,
-.garage>#powersOv {
+.garage>#powersOv,
+.garage>#missionsOv {
   position: absolute;
   z-index: 5;
 }
@@ -2550,6 +2618,30 @@ dl.spec dd {
     font-size: 16px;
   }
 
+  .g-rank {
+    top: calc(max(3px, env(safe-area-inset-top)) + 22px);
+    right: max(8px, env(safe-area-inset-right));
+    grid-template-columns: auto 70px;
+    column-gap: 6px;
+  }
+
+  .g-rank b {
+    font-size: 15px;
+  }
+
+  .g-rank small {
+    display: none;
+  }
+
+  .g-rankbar {
+    grid-row: 1 / 3;
+    height: 5px;
+  }
+
+  .gtag {
+    font-size: 10px;
+  }
+
   .coinic {
     width: 17px;
     height: 17px;
@@ -2610,23 +2702,27 @@ dl.spec dd {
   }
 
   #tuneOv .cbody,
-  #powersOv .cbody {
+  #powersOv .cbody,
+  #missionsOv .cbody {
     padding: 8px 14px;
     gap: 6px;
   }
 
   #tuneOv h3,
-  #powersOv h3 {
+  #powersOv h3,
+  #missionsOv h3 {
     font-size: 22px;
   }
 
   #tuneOv .eyebrow,
-  #powersOv .eyebrow {
+  #powersOv .eyebrow,
+  #missionsOv .eyebrow {
     font-size: 11px;
   }
 
   #tuneOv .btn,
-  #powersOv .btn {
+  #powersOv .btn,
+  #missionsOv .btn {
     min-height: 30px;
     font-size: 14px;
   }
@@ -3173,6 +3269,20 @@ dl.spec dd {
   z-index: 30;
 }
 
+#soundOv .cbody {
+  padding: 16px 20px;
+  gap: 8px;
+}
+
+#soundOv .vols {
+  gap: 8px;
+  margin: 4px 0;
+}
+
+#soundOv .vol input {
+  min-height: 28px;
+}
+
 .vols {
   display: grid;
   gap: 14px;
@@ -3447,10 +3557,15 @@ dl.spec dd {
     height: 10px;
   }
 
-  .dmgrow {
-    grid-template-columns: 16px 96px;
+  .status .meterrow {
+    grid-template-columns: 16px 60px 96px;
     gap: 7px;
-    padding: 0 10px 3px;
+    padding: 3px 10px;
+  }
+
+  .status .meterrow b {
+    display: block;
+    font-size: 11px;
   }
 
   .dmgrow svg {
@@ -3459,7 +3574,7 @@ dl.spec dd {
   }
 
   .dmgrow .fuelbar {
-    height: 6px;
+    height: 10px;
   }
 
   .status .sname {
@@ -3575,6 +3690,15 @@ dl.spec dd {
   }
 
   .trap span {
+    font-size: 11px;
+  }
+
+  .mission {
+    min-height: 28px;
+    padding: 3px 7px;
+  }
+
+  .mission span {
     font-size: 11px;
   }
 

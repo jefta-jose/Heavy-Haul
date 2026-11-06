@@ -1,3 +1,4 @@
+import { formatCoins } from './format.js';
 // Everything drawn in HTML over the canvas: the status panel (fuel, fuel use, cargo), the trail
 // progress map (the truck on its way to the depot flag), the trip line,
 // coins, surface chip, the vehicle card, toasts, the gauges, drive and service buttons, and the
@@ -141,6 +142,7 @@ export function createHud({ sim, season }) {
         const holder = document.getElementById('powerBtnIcon'); holder.innerHTML = ''; if (look.button && icon) holder.append(powerIcon(kind));
       }
     }
+    btn.disabled = sim.active !== sim.main;
     if (!look) return;
     const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
     const text = running ? `<i>${look.name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`;
@@ -150,6 +152,14 @@ export function createHud({ sim, season }) {
       document.getElementById('powerBtnTxt').textContent = running || cooling ? `${secs} s` : look.button ?? '';
       btn.classList.toggle('active', running); btn.classList.toggle('cooling', cooling);
     }
+  }
+
+  // the chosen mission under the power chip: its name and how it is going; null hides it
+  let missionText = null;
+  function showMission(t) {
+    const box = document.getElementById('missionChip'), text = t ? `<b>${t.mission.title}:</b> ${t.shown}` : null;
+    if (text === missionText) return;
+    missionText = text; box.hidden = !text; if (text) box.querySelector('span').innerHTML = text;
   }
 
   function update(dt, { coins, run }) {
@@ -173,7 +183,7 @@ export function createHud({ sim, season }) {
     els.stationTxt.textContent = next ? km(Math.max(0, next.x - mx)) : 'none';
     els.useTxt.textContent = next ? km(Math.max(0, next.x - mx)) : 'none ahead';
     els.drivenTxt.textContent = `${km(run?.odometer ?? 0)} driven`;
-    els.coinTxt.textContent = coins.toLocaleString('en-US');
+    els.coinTxt.textContent = formatCoins(coins);
     const s = sim.st.surf;
     const bog = sim.terrain.mudAt(sim.truck.getPosition().x).heavy > 0.4;
     const bridge = s === 'wood' && sim.terrain.bridgeAt(sim.truck.getPosition().x);
@@ -197,7 +207,7 @@ export function createHud({ sim, season }) {
   function coinBonus(n) {
     const pill = els.coinTxt.parentElement; pill.classList.remove('pop'); void pill.offsetWidth; pill.classList.add('pop');
     const coin = pill.querySelector('.coinic'); coin.classList.remove('flip'); void coin.offsetWidth; coin.classList.add('flip');
-    const f = document.createElement('span'); f.className = 'coinfloat'; f.textContent = `+${Math.round(n)}`; pill.append(f);
+    const f = document.createElement('span'); f.className = 'coinfloat'; f.textContent = `+${formatCoins(Math.round(n))}`; pill.append(f);
     f.addEventListener('animationend', () => f.remove());
   }
   function showGear(g) { for (const b of document.querySelectorAll('.gear button')) b.classList.toggle('on', b.dataset.g === g); }
@@ -232,7 +242,7 @@ export function createHud({ sim, season }) {
 
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
-    showCalled, coinBonus,
+    showCalled, coinBonus, showMission,
     resetTrip() {},
     setCar,
     get toastActive() { return toastT > 0; },

@@ -1,21 +1,44 @@
+import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
 // Rules watch the main vehicle even while the player drives a summoned service truck.
-import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG } from '../game-config.js';
+import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
+import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
 
 const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI);
 
-export function createSession({ sim, hud, season, onRestart, onGarage }) {
+export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp }) {
   const trail = season.trail;
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, bogsDone: 0, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, missionDone: null, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
+  // Rescue driving and attached tow cables never count as earning or mission progress.
+  const canProgress = () => sim.active === sim.main && !sim.main.winched && !sim.vehicles.some(v => v.cable?.target === sim.main);
+
   api.reset = () => Object.assign(run, fresh());
   // coins add themselves: for new ground, for clearing a bog and for what gets crushed
-  api.earn = (n, bonus = false) => { wallet.add(n, bonus); run.earned += n; if (bonus) hud.coinBonus(n); };
+  api.earn = (n, bonus = false) => { if (!canProgress()) return; wallet.add(n, bonus); run.earned += n; if (bonus) hud.coinBonus(n); };
+  // XP, scaled by the main truck's class; a new rank is announced at once
+  const addXp = (x, now) => {
+    if (!progress || !canProgress()) return; run.xp += x;
+    const ups = progress.addXp(x, now);
+    if (ups.length) { const top = ups.at(-1); hud.toast(`Rank ${top.rank}! New trucks to buy in the garage`, 4); onRankUp?.(ups); }
+  };
+  const gainXp = (n, now = false) => addXp(classXp(n, sim.main.car.class), now);
+  // the run as missions see it
+  const missionRun = (delivered = false) => ({ cls: sim.main.car.class, time: run.time, helped: run.helped, maxDamage: run.maxDamage, cameraKmh: run.cameraKmh, crushes: run.crushes, bogs: run.bogsClean, delivered });
+  function missionDone(done) {
+    run.missionDone = done; addXp(done.xp, true);
+    hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP`, 4);
+    hud.showMission(null);
+  }
+  // what main.js reports: things crushed, help called, a speed camera passed
+  api.crushed = () => { if (canProgress()) run.crushes++; };
+  api.helpCalled = () => { run.helped = true; };
+  api.cameraSpeed = kmh => { if (canProgress()) run.cameraKmh = Math.max(run.cameraKmh, kmh); };
   const restartButton = (label = 'Restart') => [label, () => { hud.hideMessage(); api.state = 'play'; onRestart(); }];
   const garageButton = ['Back to garage', () => { hud.hideMessage(); onGarage(); }];
 
@@ -31,8 +54,8 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
 
   function fail(kind) {
     api.state = 'fail';
-    wallet.save();
-    const coins = ['Coins this run', Math.floor(run.earned).toLocaleString('en-US')];
+    wallet.save(); progress?.save();
+    const coins = ['Coins this run', formatCoins(run.earned)];
     // a crash or a wreck ends the run: back to the very start of the trail
     if (kind === 'roll') {
       hud.showMessage('Crashed', 'The truck went over', 'Start the run again from the beginning of the trail.', [coins], [[...restartButton('Start again'), true], garageButton], 'wreck');
@@ -46,15 +69,21 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     }
   }
   function deliver() {
+    if (!canProgress()) return;
     api.state = 'done';
     const load = sim.main.car.load, loadPay = load ? Math.round(300 + load.massT * 160) : 0, pay = trail.finishBonus + loadPay;
     wallet.add(pay); wallet.save();
+    gainXp(XP_PER_DELIVERY, true);
+    const done = missions?.deliver(missionRun(true)); if (done) missionDone(done);
+    const rank = progress?.progress;
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
       ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
       ['Winch time', `${Math.round(run.winchSecs)} s`],
-      ['Coins on the road', Math.floor(run.earned).toLocaleString('en-US')],
-      ...(load ? [['Load pay', `${loadPay.toLocaleString('en-US')} coins`]] : []), ['Trail pay', `${trail.finishBonus.toLocaleString('en-US')} coins`],
+      ['Coins on the road', formatCoins(run.earned)],
+      ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP`]] : []),
+      ...(rank ? [['XP this run', `${Math.round(run.xp).toLocaleString('en-US')}`], ['Rank', rank.rank >= 20 ? 'Rank 20 (top)' : `Rank ${rank.rank} · ${rank.xp.toLocaleString('en-US')} / ${rank.to.toLocaleString('en-US')} XP`]] : []),
+      ...(load ? [['Load pay', `${formatCoins(loadPay)} coins`]] : []), ['Trail pay', `${formatCoins(trail.finishBonus)} coins`],
     ], [['Drive again', () => { hud.hideMessage(); api.state = 'play'; onRestart(); }, true], garageButton], 'win');
   }
 
@@ -65,13 +94,15 @@ export function createSession({ sim, hud, season, onRestart, onGarage }) {
     // odometer: every metre the main truck rolls, forwards or back (a recovery teleport is not driving)
     if (run.lastX != null && Math.abs(p.x - run.lastX) < 5) run.odometer += Math.abs(p.x - run.lastX);
     run.lastX = p.x;
-    // new ground pays, whoever drives it, except being towed over it
+    // Consume rescue distance and bog crossings without banking rewards for switching back.
     if (run.farthest == null) run.farthest = p.x;
-    if (p.x > run.farthest) { if (!main.winched) api.earn((p.x - run.farthest) * COINS_PER_METRE); run.farthest = p.x; }
+    if (p.x > run.farthest) { if (canProgress()) { api.earn((p.x - run.farthest) * COINS_PER_METRE); gainXp((p.x - run.farthest) * XP_PER_METRE); } run.farthest = p.x; }
     const bogs = trail.heavyMud ?? [];
-    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + 12) { if (!main.winched) api.earn(COINS_PER_BOG, true); run.bogsDone++; }
-    if ((run.saveT += dt) > 2) { run.saveT = 0; wallet.save(); }
+    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + 12) { if (canProgress()) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; } run.bogsDone++; }
+    if ((run.saveT += dt) > 2) { run.saveT = 0; wallet.save(); progress?.save(); }
     if (run.time > 6) hud.setCardVisible(false);
+    run.maxDamage = Math.max(run.maxDamage, main.st.damage);
+    if (missions && !run.missionDone && canProgress()) { const t = missions.track(missionRun()); if (t?.done) missionDone(t.done); else hud.showMission(t); }
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first

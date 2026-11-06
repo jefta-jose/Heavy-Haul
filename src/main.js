@@ -8,6 +8,8 @@ import { createInput } from './game/input.js';
 import { createHud } from './game/hud.js';
 import { createSession } from './game/session.js';
 import { createGarage } from './game/garage.js';
+import { createProgress } from './game/progress.js';
+import { createMissions } from './game/missions.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
 import { COINS_PER_CRUSH } from './game-config.js';
@@ -49,18 +51,20 @@ const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
     if (e.type === 'splash') audio.splash(e.power);
-    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') session.earn(COINS_PER_CRUSH, true); }
+    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
+const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
+const missions = createMissions(content.missions, content.roster.classes.map(c => c.id));
 const garage = createGarage({
-  content,
+  content, progress, missions,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
   onBuy: () => haptics.tick(),
 });
-const session = createSession({ sim, hud, season, onRestart: () => newRun(), onGarage: () => backToGarage() });
+const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.() });
 session.onResume = () => audio.resume();
 session.onCall = role => summon(role);
 session.canCall = role => !!called[role] || !!serviceFor(role);
@@ -69,7 +73,7 @@ let selection = garage.selection;
 let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
-const sound = createSoundSettings({ audio, credits: content.soundCredits, onClose: () => { if (session.state === 'pause') showPause(); } });
+const sound = createSoundSettings({ audio, onClose: () => { if (session.state === 'pause') showPause(); } });
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   sim.ctl[key] = on; hud.showMode(key, on);
@@ -121,7 +125,7 @@ function summon(role) {
   if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName(role)} yet`, 2.5); return; }
   const main = sim.main, v = sim.spawnService(car, sim.startSpot(car));
   v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
-  called[role] = v; hud.showCalled(role, true);
+  called[role] = v; hud.showCalled(role, true); session.helpCalled();
   const far = Math.round(sim.distance(v, main));
   drive(v); hud.toast(`${car.name} is at the trail start, ${far} m away. Drive it out, hook on, and tow your truck to a station.`, 4.5);
 }
@@ -153,7 +157,7 @@ function handbrake() {
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
   hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
-const trap = createSpeedTrap({ sim, trail: content.season.trail, onCapture: () => haptics.hit(0.6) });
+const trap = createSpeedTrap({ sim, trail: content.season.trail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
   toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
@@ -293,7 +297,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { trap, music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

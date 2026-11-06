@@ -1,4 +1,4 @@
-import { POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
+import { POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -92,7 +92,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       const tire = ua && ua.tire ? fa : ub && ub.tire ? fb : null, other = tire === fa ? ub : ua;
       if (!tire || !other || !other.surf) return;
       const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
-      if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU, surfaces[other.surf].mu * m));
+      if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU * (td.serviceGrip ?? 1), surfaces[other.surf].mu * m));
       else if (other.surf === 'mud' || other.surf === 'creek') { const x = tire.getBody().getPosition().x; c.setFriction(surfaces[other.surf].mu * mudPatch(x) * pitGrip(x) * m); }
       else if (m !== 1) { c.resetFriction(); c.setFriction(c.getFriction() * m); }   // reset: pre-solve runs every step
     });
@@ -195,7 +195,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   // a stand-in (another class's truck filling in until a class's own has art) serves that class
   const classOf = v => v.serves ?? v.car.class;
   const sameClass = (v, o) => !classOf(v) || !classOf(o) || classOf(v) === classOf(o);
-  const winchForce = (v, o, mb = vehicleMass(o) + loadMass(o)) => sameClass(v, o) ? v.car.physics.winchForce : Math.min(v.car.physics.winchForce, CROSS_CLASS_PULL * mb * 9.81 * 0.7);
+  const winchForce = (v, o, mb = vehicleMass(o) + loadMass(o)) => sameClass(v, o) ? v.car.physics.winchForce * SERVICE_WINCH_MULTIPLIER : Math.min(v.car.physics.winchForce, CROSS_CLASS_PULL * mb * 9.81 * 0.7);
 
   function rollingResistance(w, R, dt) {
     const L = load.get(w); if (!L || !L.imp) return;
@@ -226,6 +226,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
     const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
     if (car.physics.tireGrip && car.physics.tireGrip !== 1) tireData.gripScale = car.physics.tireGrip;   // garage tuning
+    if (car.role) { tireData.serviceGrip = SERVICE_GRIP_MULTIPLIER; tireData.gripScale = (tireData.gripScale ?? 1) * SERVICE_GRIP_MULTIPLIER; }
     if (grip) tireData.grip = grip;
     if (car.physics.neverStuck) tireData.neverStuck = true;
     const v = { car, role, ctl, st, drivetrain: createDrivetrain(withMinPull(car)), tireData, winched: false, cable: null, hitT: 0 };
@@ -244,13 +245,14 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const w = v.parts.wheels[i], L = load.get(w), N = L && L.imp ? L.imp / stepDt : 0;
     const mu = L && L.surf ? surfaces[L.surf].mu : 0.9, m = (L && L.surf ? (v.tireData.grip?.[L.surf] ?? 1) : 1) * (v.tireData.gripScale ?? 1);
     const soft = L && (L.surf === 'mud' || L.surf === 'creek');
-    if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU, mu * m) * N * wheelRadius(v.car.rig, i);
+    if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU * (v.tireData.serviceGrip ?? 1), mu * m) * N * wheelRadius(v.car.rig, i);
     return mu * (soft ? mudPatch(w.getPosition().x) * pitGrip(w.getPosition().x) : 1) * N * wheelRadius(v.car.rig, i) * m;
   }
 
   // A truck that can't pull MIN_PULL_BY_CLASS of its own weight in its short gear gets more torque until it can.
   function withMinPull(car) {
-    const dc = car.drivetrain, wanted = MIN_PULL_BY_CLASS[car.class]; if (!wanted || car.role) return dc;
+    const dc = car.drivetrain, wanted = MIN_PULL_BY_CLASS[car.class]; if (car.role) return { ...dc, torqueScale: dc.torqueScale * SERVICE_TORQUE_MULTIPLIER };
+    if (!wanted) return dc;
     const peak = Math.max(...dc.torqueCurve.map(([, t]) => t)) * dc.torqueScale / (dc.torqueTune ?? 1);   // the stock engine
     const weight = (car.physics.mass + car.physics.wheelMass * car.rig.axles.length + (car.physics.load?.massT ?? 0) * 1000) * 9.81;
     const pull = peak * dc.gears.L / car.rig.radius / weight;
@@ -446,7 +448,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // the power button: starts the main truck's Invincible if it has one and it has recharged
     usePower() {
       const st = main.st, kind = main.car.power;
-      if (kind !== 'invincible' || st.powerT > 0 || st.powerCoolT > 0) return false;
+      if (active !== main || main.car.role || kind !== 'invincible' || st.powerT > 0 || st.powerCoolT > 0) return false;
       st.powerT = POWER_TIMES[kind].seconds; return true;
     },
     // engine switch: starting cranks for the car's crank time (car.json audio.crankS) first

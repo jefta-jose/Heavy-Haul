@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { content, newSim, spawn, advance, DT } from './helpers.js';
 import { drawnBodyLift, easeBodyLift } from '../src/physics/vehicle.js';
-import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../src/game-config.js';
+import { SERVICE_TORQUE_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../src/game-config.js';
 
 const { car } = content;
 const speedAfter = (sim, seconds) => { advance(sim, seconds); return sim.st.speed * 3.6; };
@@ -152,15 +152,15 @@ test('a service truck is the most powerful of its class but not the fastest', ()
   for (const svc of roster.service) {
     const own = roster.cars.filter(c => c.class === svc.class && playable.has(c.id));
     if (!own.length) continue;
-    assert(svc.powerKw > Math.max(...own.map(c => c.powerKw)), `${svc.name} out-powers every ${svc.class} car`);
-    assert(svc.torqueNm > Math.max(...own.map(c => c.torqueNm)), `${svc.name} out-pulls every ${svc.class} car`);
+    assert(svc.powerKw * SERVICE_TORQUE_MULTIPLIER > Math.max(...own.map(c => c.powerKw)), `${svc.name} out-powers every ${svc.class} car`);
+    assert(svc.torqueNm * SERVICE_TORQUE_MULTIPLIER > Math.max(...own.map(c => c.torqueNm)), `${svc.name} out-pulls every ${svc.class} car`);
     assert(svc.topSpeedKmh < Math.max(...own.map(c => c.topSpeedKmh)), `${svc.name} is not the fastest ${svc.class} vehicle`);
     if (svc.role === 'breakdown') assert(svc.towMassT >= Math.max(...own.map(c => c.massT + c.load.massT)), `${svc.name} can tow the heaviest loaded ${svc.class} car`);
   }
   // in game: pulling force in low range beats the playable cars of its class
   const pull = car => car.drivetrain.torqueScale * car.drivetrain.gears.L / car.rig.radius;
   for (const svc of content.service) for (const c of content.cars.filter(c => c.class === svc.class))
-    assert(pull(svc) > pull(c), `${svc.name} pulls harder than the ${c.name}`);
+    assert(pull(svc) * SERVICE_TORQUE_MULTIPLIER > pull(c), `${svc.name} pulls harder than the ${c.name}`);
 });
 
 test('every class has a breakdown truck, bigger class by class, and fuel trucks are gone', () => {
@@ -177,10 +177,10 @@ test('the winch is strong on its own class and weak on any other', () => {
   const wrecker = content.service.find(c => c.role === 'breakdown');
   const s = spawn(newSim(), 60), main = s.main, v = serviceAhead(s, wrecker, 3);
   const same = s.sameClass(v, main), F = s.winchForce(main);
-  if (same) assert.equal(F, wrecker.physics.winchForce);
+  if (same) assert.equal(F, wrecker.physics.winchForce * SERVICE_WINCH_MULTIPLIER);
   else assert(F < 0.5 * (s.vehicleMass(main) + s.loadMass(main)) * 9.81 * 0.7, `cross-class pull is only a share of what the ${main.car.name} needs (${Math.round(F)} N)`);
   const own = content.service.find(c => c.class === main.car.class && c.role === 'breakdown');
-  if (own) { const o = serviceAhead(s, own, 20); s.setActive(o); assert.equal(s.winchForce(main), own.physics.winchForce, 'its own class gets the full winch'); }
+  if (own) { const o = serviceAhead(s, own, 20); s.setActive(o); assert.equal(s.winchForce(main), own.physics.winchForce * SERVICE_WINCH_MULTIPLIER, 'its own class gets the full winch'); }
 });
 
 test('service trucks never run out of fuel', () => {
@@ -271,4 +271,23 @@ test('stopped in a station bay a truck refuels and repairs; driving through does
   assert(idle.st.fuel < f0, 'a running engine burns fuel while standing still');
   const off = spawn(newSim(), content.season.trail.start); off.stopEngine(off.main); const f1 = off.st.fuel; advance(off, 10);
   assert.equal(off.st.fuel, f1, 'a stopped engine does not');
+});
+
+
+test('each recovery truck tows its heaviest class load through difficult mud pits in automatic gears', () => {
+  const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000;
+  for (const wrecker of content.service) {
+    const car = content.cars.filter(c => c.class === wrecker.class).sort((a, b) => gross(b) - gross(a))[0];
+    if (!car) continue;
+    for (const pit of content.season.trail.heavyMud.filter((_, i) => i === 1 || i === 6)) {
+      const s = spawn(newSim(car), pit - 6), main = s.main;
+      const v = serviceAhead(s, wrecker, 3);
+      v.ctl.auto = true;
+      assert(s.toggleWinch().attached, `${wrecker.id} hooks ${car.id} at ${pit}`);
+      const start = main.parts.truck.getPosition().x;
+      v.ctl.gas = 1; advance(s, 25);
+      assert(main.parts.truck.getPosition().x > start + 30, `${wrecker.id} clears ${car.id} from the pit at ${pit}`);
+      assert(Math.abs(main.parts.truck.getAngle()) < 0.7, 'the towed load stays upright');
+    }
+  }
 });

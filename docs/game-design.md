@@ -164,6 +164,16 @@ An invisible speed camera sits 20 m before the end of each one, where trucks are
 
 Fences, a stilt shack, rusted pickups, water towers and alligator warning signs stand along the road's far edge (`trail.scenery` in `season.json`), so the swamp feels lived in and abandoned. They are drawing only and trucks never touch them. The towers are rare landmarks, the shacks and pickups come now and then, a gator sign stands before every deep bog, and fences run along the open stretches. None stands on a station, a highway sign or camera, or a speed limit sign.
 
+## Ranks and buying trucks
+
+The player has a rank from 1 to 20, reached with XP (`RANK_XP` in `src/game-config.js`: 200 XP for rank 2, up to 40,000 for rank 20). XP comes from driving, scaled by the main truck's class, so harder classes earn more (`XP_BY_CLASS`): new ground (0.05 per metre), every deep bog cleared (40) and every delivery (600). Being towed earns nothing.
+
+Every class has 20 trucks, ordered weakest to strongest by power, and each has an `unlockRank` from 1 to 20 in `assets/cars/cars.json`, one per rank. Each class's weakest truck (rank 1) is owned from the start. Reaching a rank opens one more truck in every class, five in all, but it still has to be bought for its `price` (the class's tier-1 price times its rank). In the garage a locked truck shows a padlock and "Rank N", greyed out; an open one shows its price; an owned one shows nothing. Drive becomes Buy with the price for an open truck, and "Requires rank N" for a locked one. Upgrades and powers only work on owned trucks. The rank and an XP bar sit left of the coins. A rank-up is announced on the road, and the delivery screen shows the XP earned. Rank, XP and owned trucks are saved in the browser (`src/game/progress.js`).
+
+## Missions
+
+Most XP comes from missions, picked in the garage's Missions card, one at a time (`assets/missions/missions.json`, `src/game/missions.js`). Four are on offer: always a delivery in the class driven least so far, so players use every class, plus three of the other kinds: against the clock, no breakdown truck, under 25% damage, passing a speed camera fast, crushing 40 things, and driving through 6 deep bogs without a tow. The chosen one shows as a chip under the power chip, with how it is going. Live ones finish the moment they are done; the rest at the depot. A finished mission pays its XP once (class deliveries scale by the class, like all XP), shows on the delivery screen, and a fresh list is drawn. Failing costs nothing: the mission stays chosen for the next run.
+
 ## Coins
 
 Coins add themselves: 0.5 per metre of new ground, 5 per thing crushed, 50 per deep bog cleared, plus the delivery pay at the depot. They are kept when a run ends early. They buy upgrades in the garage: four steps of 400, 800, 1,400 and 2,400, costing more on bigger classes, and selling a step refunds it. All the numbers are in `src/game-config.js`.

@@ -2,6 +2,7 @@
 // the real controls. First run: npx playwright install chromium.
 // HAUL_CAPTURES=<dir> also saves screenshots for visual review (default output/captures).
 import test from 'node:test';
+import { formatCoins } from '../src/game/format.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -12,6 +13,9 @@ import { ROOT, loadContentWithArt, readSoundBank } from '../tools/lib/content.js
 import { build as bundle } from 'esbuild';
 
 const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures');
+// these runs drive many trucks: start them at the top rank with every truck owned (the rank and buying flow is tested on its own)
+const ALL_OWNED = JSON.stringify({ xp: 40000, owned: JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).cars.map(c => c.id) });
+const ownAll = page => page.addInitScript(v => { try { localStorage.setItem('hh_progress', v); } catch (e) {} }, ALL_OWNED);
 
 test('the app build loads its art and audio from separate files', { timeout: 120000 }, async () => {
   await buildApp();
@@ -29,6 +33,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true }), errors = [];
+    await ownAll(page);
     page.on('pageerror', e => errors.push(e.stack || e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
@@ -95,6 +100,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, hasTouch: true }), errors = [];
+    await ownAll(page);
     page.on('pageerror', e => errors.push(e.stack || e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
@@ -159,7 +165,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.locator('.power', { hasText: 'Instant brakes' }).click();
     assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
     await page.click('#powersDone');
-    assert(await page.evaluate(() => Number(document.getElementById('gCoins').textContent.replace(/,/g, '')) < 999999), 'upgrades cost coins');
+    assert(await page.evaluate(() => __haul.session.coins < 999999), 'upgrades cost coins');
     await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
     // the power's chip, top right: gone without a power, and up with no timer with one
@@ -220,9 +226,10 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.click('#handbrakeBtn');
     assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), true, 'PARK sets the handbrake');
     assert.equal(await page.locator('#handbrakeBtn').getAttribute('aria-pressed'), 'true');
+    await step(240);   // the truck was still reversing from the brake check: let the locked wheels bring it to rest first
     const heldX = await page.evaluate(() => __haul.sim.truck.getPosition().x);
     await page.keyboard.down('ArrowRight'); await page.evaluate(() => { for (let i = 0; i < 240; i++) __haul.sim.step(1 / 120); }); await page.keyboard.up('ArrowRight');
-    assert(await page.evaluate(x => Math.abs(__haul.sim.truck.getPosition().x - x) < 0.3, heldX), 'held against the throttle');
+    { const r = await page.evaluate(x => [__haul.sim.car.id, __haul.sim.truck.getPosition().x - x, __haul.sim.truck.getPosition().x], heldX); assert(Math.abs(r[1]) < 0.3, 'held against the throttle ' + JSON.stringify(r)); }
     await page.keyboard.press('KeyB');
     assert.equal(await page.evaluate(() => __haul.sim.ctl.handbrake), false, 'B releases it');
     // Engine-off means no propulsion, not immunity to gravity on the rebuilt
@@ -246,8 +253,14 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // the sound panel from the pause menu: volumes apply and are remembered
     await page.locator('#msgBtns button', { hasText: 'Sound' }).click();
     assert(await page.locator('#soundOv').isVisible(), 'the sound panel opens');
-    assert(await page.locator('#vol-ambience').isVisible(), 'ambience has its own slider');
-    assert.match(await page.locator('#soundCredits').textContent(), /Dodge RAM 1500.*sketchy\.dog.*CC BY 4\.0/, 'the CC BY recording is credited');
+    assert.deepEqual(await page.locator('#volList label span').allTextContents(), ['Master', 'Engine', 'Music']);
+    assert.equal(await page.locator('#soundOv details').count(), 0);
+    for (const viewport of [{ width: 844, height: 390 }, { width: 667, height: 320 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      assert(await page.locator('#soundDone').evaluate(el => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; }), 'Done fits on the phone without scrolling');
+      assert(await page.locator('#soundOv').evaluate(el => el.scrollHeight <= el.clientHeight), 'sound panel needs no scrolling');
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.locator('#vol-engine').fill('35');
     assert.equal(await page.evaluate(() => __haul.audio.volumes.engine), 0.35, 'the engine slider sets the engine volume');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_audio_volumes')).engine), 0.35, 'saved');
@@ -267,10 +280,15 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.click('#breakdownCallBtn');
     assert(await page.evaluate(() => __haul.sim.active.car.role === 'breakdown' && __haul.sim.active.car.class === __haul.sim.main.car.class && __haul.sim.vehicles.length === 2), 'the class\'s own breakdown truck arrives and takes control');
     assert(await page.evaluate(() => __haul.sim.truck.getPosition().x < __haul.sim.trail.start + 30), 'it starts at the beginning of the trail');
+    await page.evaluate(() => { __haul.sim.main.car = { ...__haul.sim.main.car, power: 'invincible' }; });
+    await page.waitForFunction(() => document.getElementById('powerBtn').disabled);
+    await page.keyboard.press('KeyS');
+    assert.equal(await page.evaluate(() => __haul.sim.main.st.powerT), 0, 'service driving blocks the power shortcut');
+    assert(await page.locator('#powerBtn').isDisabled(), 'the service truck power button is disabled');
     assert(await page.locator('#breakdownCallBtn').evaluate(e => e.classList.contains('called')), 'its button now switches to it');
     await page.waitForTimeout(100); await capture('03a-called-at-start');
     // drive it out to the stuck truck: it never runs dry and never gets stuck
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); for (let i = 0; i < 120 * 90 && s.nearestHook().d > s.winchReach - 1.5; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; for (let i = 0; i < 60; i++) s.step(1 / 120); __haul.snap(); });
+    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); for (let i = 0; i < 120 * 90 && s.nearestHook().d > s.winchReach - 1.5; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; s.ctl.handbrake = true; for (let i = 0; i < 60; i++) s.step(1 / 120); __haul.snap(); });
     assert(await page.evaluate(() => __haul.sim.nearestHook().d <= __haul.sim.winchReach), 'driven out to within hook reach');
     assert.equal(await page.evaluate(() => __haul.sim.active.st.fuel), 100, 'service trucks never burn fuel');
     await page.waitForTimeout(100); await capture('03b-unlimited-fuel');
@@ -279,7 +297,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.click('#winch');
     assert(await page.evaluate(() => !!__haul.sim.cable() && __haul.sim.cable().target === __haul.sim.main), 'tapping WINCH hooks the stuck truck');
     assert(await page.locator('#winch').getAttribute('aria-pressed') === 'true' || await page.evaluate(() => !!__haul.sim.cable()));
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('R'); for (let i = 0; i < 120 * 6; i++) { s.ctl.brake = 1; s.step(1 / 120); } s.ctl.brake = 0; __haul.snap(); });
+    await page.evaluate(() => { const s = __haul.sim; s.ctl.handbrake = false; __haul.setGear('R'); for (let i = 0; i < 120 * 6; i++) { s.ctl.brake = 1; s.step(1 / 120); } s.ctl.brake = 0; __haul.snap(); });
     await page.waitForTimeout(200); await capture('03b-winch');
     assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x < x - 1.5, x0), 'driving the breakdown truck away tows the stuck truck');
     await page.keyboard.press('KeyW');
@@ -449,4 +467,49 @@ test('terrain stays opaque below uphill, downhill and valley contours', { timeou
     }, { art: content.seasonArt, render: content.season.render });
     assert.deepEqual(gaps, [], 'no backdrop can show through below the road, including at viewport edges');
   } finally { await browser.close(); }
+});
+
+test('ranks: a fresh garage owns only the starters, shows the rank a truck needs, then its price, and buys it', { timeout: 120000 }, async () => {
+  await build();
+  const html = fs.readFileSync(path.join(ROOT, 'dist/heavy-haul.html'), 'utf8');
+  const server = http.createServer((req, res) => { res.writeHead(200, { 'Content-Type': 'text/html' }); res.end(html); });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } }), errors = [];
+    page.on('pageerror', e => errors.push(e.stack || e.message));
+    await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+    await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'networkidle' });
+    await page.waitForFunction(() => window.__haul?.renderer.ready);
+    await page.evaluate(() => { __haul.loader.hide(0); document.getElementById('garage').hidden = false; });
+    const p = () => page.evaluate(() => ({ rank: __haul.progress.rank, xp: __haul.progress.xp }));
+    assert.deepEqual(await p(), { rank: 1, xp: 0 }, 'a new player starts at rank 1');
+    const starter = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 1).id);
+    const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2));
+    assert(await page.evaluate(id => __haul.progress.owns(id), starter), 'the weakest scout is owned');
+    await page.evaluate(id => __haul.garage.select(id), next.id);
+    assert.match(await page.locator('#startBtn').innerText(), /requires rank 2/i, 'a locked truck says the rank it needs');
+    assert(await page.locator('#startBtn').isDisabled());
+    assert.match(await page.locator('.gtile.on').innerText(), /rank 2/i, 'and so does its tile');
+    await page.evaluate(() => { __haul.progress.addXp(250); __haul.garage.show(); });
+    assert.equal((await p()).rank, 2, 'XP brings rank 2');
+    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
+    assert.match(await page.locator('.gtile.on').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its tile shows the price');
+    const coins = await page.evaluate(() => __haul.session.coins);
+    await page.click('#startBtn');
+    assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'bought');
+    assert.equal(await page.evaluate(() => __haul.session.coins), coins - next.price, 'for its price');
+    assert.match(await page.locator('#startBtn').innerText(), /drive/i, 'and it drives');
+    assert.match(await page.locator('#gRankNum').innerText(), /rank 2/i, 'the garage shows the rank');
+    // missions: the card offers some, one can be chosen, and the menu says which
+    await page.click('#gMenuMissions');
+    assert.equal(await page.locator('#missionList .power').count(), 4, 'four missions on offer');
+    await page.locator('#missionList .power').nth(1).click();
+    assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
+    await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
+    await page.click('#missionsDone');
+    assert.notEqual(await page.locator('#gMissionOn').innerText(), 'None', 'the menu names the chosen mission');
+    await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); server.close(); }
 });

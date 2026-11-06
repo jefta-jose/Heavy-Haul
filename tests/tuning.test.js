@@ -3,7 +3,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { KNOBS, upgradeCost, POWERS, withPower, applyTuning, clampLevel, tunedStat, levelColor, validLevels } from '../src/game/tuning.js';
-import { POWER_TIMES, DAMAGE_START_KMH } from '../src/game-config.js';
+import { POWER_TIMES, DAMAGE_START_KMH, RANK_XP } from '../src/game-config.js';
+import { createProgress, rankFor, classXp } from '../src/game/progress.js';
+import { createMissions } from '../src/game/missions.js';
+import fs from 'node:fs';
 import { content, newSim, spawn, advance } from './helpers.js';
 
 test('four knobs, levels in steps of 25, and every car can take all four to 100', () => {
@@ -128,4 +131,68 @@ test('mud pull only works in the short gear', () => {
   const car = applyTuning(content.car, { grip: 100 }), x = content.season.trail.heavyMud[0] - 8;
   const metres = gear => { const s = spawn(newSim(car), x, { gear }), x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 8); return s.truck.getPosition().x - x0; };
   assert(metres('L') > metres('H'), 'low gear pulls harder through the mud');
+});
+
+test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class to buy', () => {
+  assert.equal(RANK_XP.length, 20); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[19], 40000);
+  RANK_XP.forEach((x, i) => i && assert(x > RANK_XP[i - 1], 'XP rises every rank'));
+  assert.equal(rankFor(0), 1); assert.equal(rankFor(199), 1); assert.equal(rankFor(200), 2); assert.equal(rankFor(39999), 19); assert.equal(rankFor(1e9), 20);
+  const roster = content.roster.cars;
+  for (const cls of content.roster.classes.map(c => c.id)) {
+    const ranks = roster.filter(c => c.class === cls).map(c => c.unlockRank).sort((a, b) => a - b);
+    assert.deepEqual(ranks, Array.from({ length: 20 }, (_, i) => i + 1), `${cls}: one truck per rank`);
+  }
+  const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
+  const p = createProgress(roster, store), coins = { n: 1e6, spend(x) { if (this.n < x) return false; this.n -= x; return true; } };
+  const starter = roster.find(c => c.unlockRank === 1), second = roster.find(c => c.class === starter.class && c.unlockRank === 2);
+  assert(p.owns(starter.id) && !p.owns(second.id) && !p.isOpen(second.id));
+  assert.equal(p.buy(second.id, coins), false, 'a locked truck cannot be bought');
+  const ups = p.addXp(250);
+  assert.deepEqual(ups.map(u => [u.rank, u.opens.length]), [[2, 5]], 'rank 2 opens five trucks, one per class');
+  assert(p.buy(second.id, coins)); assert.equal(coins.n, 1e6 - second.price, 'bought for its price');
+  assert.equal(p.buy(second.id, coins), false, 'not twice');
+  const again = createProgress(roster, store);
+  assert(again.owns(second.id) && again.rank === 2, 'saved');
+  assert.equal(classXp(100, 'heavy'), 160, 'harder classes earn more');
+});
+
+test('missions: offers always include the least-driven class, one is chosen at a time, and each kind is judged right', () => {
+  const data = JSON.parse(fs.readFileSync(new URL('../assets/missions/missions.json', import.meta.url)));
+  const classes = content.roster.classes.map(c => c.id);
+  const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
+  const m = createMissions(data, classes, store);
+  assert.equal(m.offers.length, data.offerCount);
+  assert.equal(m.offers.filter(o => o.type === 'classDelivery').length, 1, 'one class delivery');
+  const run = { cls: 'scout', time: 300, helped: false, maxDamage: 10, cameraKmh: 0, crushes: 0, bogs: 0, delivered: false };
+  const take = (id) => { const x = createMissions(data, classes, { v: JSON.stringify({ offers: [id], active: id, driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }); return x; };
+  // live kinds finish during the run
+  assert.equal(take('crusher').track({ ...run, crushes: 39 }).done, undefined);
+  assert.equal(take('crusher').track({ ...run, crushes: 40 }).done.xp, 400);
+  assert(take('speed-camera').track({ ...run, cameraKmh: 52 }).done);
+  assert(take('bog-master').track({ ...run, bogs: 6 }).done);
+  // depot kinds finish on delivery, and only when the run did it
+  assert(take('against-clock').deliver({ ...run, time: 700 }), 'under 12 minutes');
+  assert.equal(take('against-clock').deliver({ ...run, time: 730 }), null, 'too slow');
+  assert.equal(take('no-help').deliver({ ...run, helped: true }), null, 'help was called');
+  assert(take('no-help').deliver(run));
+  assert.equal(take('clean-run').deliver({ ...run, maxDamage: 30 }), null, 'too much damage');
+  assert.equal(take('deliver-heavy').deliver(run), null, 'wrong class');
+  assert.equal(take('deliver-heavy').deliver({ ...run, cls: 'heavy' }).xp, 800, 'class deliveries scale with the class');
+  // choosing, finishing and a fresh list; the class just driven is counted
+  const id = m.offers[1].id; m.choose(id); assert.equal(m.active.id, id); m.choose(id); assert.equal(m.active, null, 'tap again to put it down');
+  const x = take('no-help'); x.deliver({ ...run, cls: 'scout' });
+  assert.equal(x.active, null); assert(!x.offers.some(o => o.id === 'no-help'), 'a fresh list without the one just done');
+  assert(x.offers.find(o => o.type === 'classDelivery').class !== 'scout', 'the class just driven is no longer the least driven');
+});
+
+
+test('service trucks cannot activate the main truck power, which works again after switching back', () => {
+  const sim = spawn(newSim(withPower(content.car, 'invincible')), 30);
+  const service = sim.spawnService(content.service[0], 50);
+  sim.setActive(service);
+  assert.equal(sim.usePower(), false);
+  assert.equal(sim.main.st.powerT, 0);
+  assert.equal(sim.main.st.powerCoolT, 0);
+  sim.setActive(sim.main);
+  assert.equal(sim.usePower(), true);
 });

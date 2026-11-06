@@ -164,7 +164,7 @@ roster run `npm run scaffold` (`-- --refresh` rewrites README-only folders, `-- 
 folders of removed entries). A playable car's spec numbers (`massT`, `powerKw`, `torqueNm`,
 `topSpeedKmh`, `fuelL`, `tireDiameterM`, load mass) are worked out from its `car.json` whenever content loads
 (`tools/lib/specs.js`); the roster's own numbers only count for planned cars. When something becomes playable, set `status` both in its own JSON and
-in the roster. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
+in the roster. Each roster car also has an `unlockRank` (1 to 20, one per rank in each class, weakest by power first; rank 1 is the free starter) and a `price` (its class's base times that rank): keep both when adding or reordering cars. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
 
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
