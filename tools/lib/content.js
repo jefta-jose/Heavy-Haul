@@ -76,6 +76,10 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   const audio = Object.fromEntries(Object.entries(bank.clips).map(([name, clip]) => [name, asset(`assets/audio/${clip.file}`)]));
   const used = new Set(Object.values(bank.clips).flatMap(clip => clip.sources));
   const soundCredits = sources.filter(s => used.has(s.id)).map(({ title, author, page, license }) => ({ title, author, page, license }));
+  const uiSounds = Object.fromEntries(Object.entries({
+    'ui-click': 'norma_click.mp3', 'ui-confirm': 'accept.mp3', 'ui-buy': 'buy-upgrade-car.mp3',
+    'mission-complete': 'mission_complete.mp3', 'mission-failed': 'mission-failed.mp3',
+  }).map(([name, file]) => [name, asset(`assets/audio/sound_effects/${file}`)]));
   const hud = {};
   for (const a of readJson('assets/hud/hud.json').art) if (exists(`assets/hud/art/${a.id}.webp`)) hud[a.id] = asset(`assets/hud/art/${a.id}.webp`);
   const loaders = Object.fromEntries(Object.entries(readJson('assets/loaders/loaders.json').art).filter(([, a]) => exists(`assets/loaders/${a.file}`)).map(([k, a]) => [k, asset(`assets/loaders/${a.file}`)]));
@@ -110,7 +114,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   const content = {
     roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, missions: readJson('assets/missions/missions.json'), loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
     cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
-    defaultCar: c.car.id, audio, music: { garage: asset('assets/audio/music/garage.mp3'), drive: asset('assets/audio/music/drive.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
+    defaultCar: c.car.id, audio, uiSounds, music: { garage: asset('assets/audio/music/garage-menu.mp3'), drive: asset('assets/audio/music/road.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };
   // the default season's art, for Node-side tools and tests; not serialized (seasonAssets has it)
   Object.defineProperty(content, 'seasonArt', { value: seasonArt, enumerable: false });

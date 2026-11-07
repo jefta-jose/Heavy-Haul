@@ -2,8 +2,9 @@
 
 **To tune anything, start with [SOUND-ENGINE.md](SOUND-ENGINE.md)**: how a sound gets from recording to speakers, what the gas and H / L / R do, and where to change each thing.
 
-Everything the game plays comes from field recordings on Freesound, CC0 except for one CC BY 4.0
-recording (the Dodge Ram, credited in the game's sound panel). There is no engine synthesis.
+Vehicle sounds come from field recordings on Freesound, CC0 except for one CC BY 4.0
+recording (the Dodge Ram).
+Source credits and licences travel with the game content. There is no engine synthesis.
 
 ```
 assets/audio/
@@ -66,6 +67,25 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 - Ambience: `forest`, `frogs` beds and `crow` / `crow-far` calls, faded in by the season's
   `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`).
 - The back-up alarm and the ignition key tick are the only synthesized sounds.
+
+## Interface feedback
+
+The supplied MP3s in `sound_effects/` ship unchanged, separately from the recorded
+vehicle bank. `tools/lib/content.js` includes them in app and standalone builds.
+
+| File | Trigger |
+| --- | --- |
+| `accept.mp3` | Continue, Drive, Done and primary accept buttons |
+| `norma_click.mp3` | Ordinary enabled buttons in menus, garage and HUD |
+| `buy-upgrade-car.mp3` | Successful car purchase or paid upgrade |
+| `mission_complete.mp3` | Optional mission completion and successful delivery/run completion |
+| `mission-failed.mp3` | Broken optional mission or failed run, including service-truck rollovers |
+
+Purchases trigger audio after payment succeeds; failed purchases do not play the
+buy cue. Finishing a mission at the depot produces one completion cue. A new
+failure replaces an ongoing completion cue instead of layering both outcomes.
+Button vibrations remain active on supported phones. Master, Effects and Mute
+control the sounds; `UI_SOUND_GAINS` sets their relative levels.
 
 ## Change or add a sound
 

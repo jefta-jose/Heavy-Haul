@@ -16,6 +16,7 @@ import { COINS_PER_CRUSH } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
+import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
@@ -41,11 +42,13 @@ const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
 const view = createView(document.getElementById('view'), sim);
 const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank, ambience: season.ambience ?? [] });
 const haptics = createHaptics();
+const uiAudio = createUiAudio({ clips: content.uiSounds, volumes: audio.volumes });
+bindUiFeedback({ audio: uiAudio, haptics });
 // hard hits felt in the hand as well as heard (the audio detects them from the suspension)
 { const bump = audio.bump; audio.bump = (strength, massT) => { haptics.hit(strength); bump(strength, massT); }; }
 const music = createMusic(content.music, audio.volumes);
 music.play('garage');
-{ const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); }; }
+{ const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
 const renderer = createRenderer({
   view, sim, content,
@@ -62,9 +65,9 @@ const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
-  onBuy: () => haptics.tick(),
+  onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
 });
-const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.() });
+const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
 session.onCall = role => summon(role);
 session.canCall = role => !!called[role] || !!serviceFor(role);
@@ -73,7 +76,7 @@ let selection = garage.selection;
 let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
-const sound = createSoundSettings({ audio, onClose: () => { if (session.state === 'pause') showPause(); } });
+const sound = createSoundSettings({ audio, uiAudio, onClose: () => { if (session.state === 'pause') showPause(); } });
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   if (session.state !== 'play') return;
@@ -293,7 +296,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

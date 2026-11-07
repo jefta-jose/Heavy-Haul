@@ -17,7 +17,7 @@ import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './
 import { createLoopPlayer } from './loop-player.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
-const DEFAULT_VOLUMES = { master: 0.8, engine: 0.8, effects: 0.8, ambience: 0.7, music: 0.5, muted: false };
+const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7, music: 0.5, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 const BEDS = ['forest', 'frogs'];
 // long clips only ever played as beds, decoded when first heard
@@ -96,7 +96,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       winch: loop('winch-motor', fxBus, { grain: [2, 4], fade: 0.6 }), cable: loop('cable-strain', fxBus, { grain: [1.5, 3], fade: 0.5 }),
       pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
     };
-    const shots = Object.values(bank.effects).flat().filter(name => clips[name] && !BED_CLIPS.has(name));
+    const shots = Object.entries(bank.effects).filter(([effect]) => !effect.startsWith('ui-')).flatMap(([, names]) => names).filter(name => clips[name] && !BED_CLIPS.has(name));
     api.ready = Promise.all(shots.map(load)).then(() => {
       if (!shots.length) throw new Error('No sound bank embedded');
       api.mode = 'recorded'; api.ok = true;

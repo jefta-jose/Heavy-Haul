@@ -1,7 +1,7 @@
 // Background music: one looping track at a time, garage or road. It has its own audio context, so it keeps playing
 // while the engines and effects are suspended in the garage. Media elements stream compressed tracks
-// without retaining a whole decoded song in Web Audio. Each file is a whole number of beats
-// long, so it loops on the beat (MUSIC_TRACKS in game-config.js).
+// without retaining a whole decoded song in Web Audio. Each track loops its full file;
+// MUSIC_TRACKS in game-config.js sets its relative playback level.
 import { MUSIC_TRACKS, MUSIC_FADE_S } from '../game-config.js';
 
 export function createMusic(uris = {}, volumes) {

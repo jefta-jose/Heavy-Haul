@@ -193,12 +193,13 @@ test('every recording is licensed and credited, with where to fetch it and its h
     assert(['CC0-1.0', 'CC-BY-4.0'].includes(s.license), `${s.id}: CC0 or CC BY`);
     assert(s.author && s.title && s.page.startsWith('https://freesound.org/people/'), `${s.id}: credit`);
     assert(s.download.startsWith('https://') && /^[0-9a-f]{64}$/.test(s.sha256), `${s.id}: rebuildable`);
+    if (s.archiveMember) assert(/^[0-9a-f]{64}$/.test(s.archiveSha256), `${s.id}: archive is also verified`);
   }
 });
 
 test('the bank matches its recipe: every clip exists and comes from a listed recording', () => {
   for (const [name, clip] of Object.entries(bank.clips)) {
-    assert(fs.statSync(file(clip.file)).size > 2000, `${name}: file`);
+    assert(fs.statSync(file(clip.file)).size > (name.startsWith('ui-') ? 1000 : 2000), `${name}: file`);
     for (const id of clip.sources) assert(sources.some(s => s.id === id), `${name}: source ${id}`);
   }
   for (const name of Object.keys(recipe.effects)) assert(bank.effects[name]?.length, `${name}: built`);

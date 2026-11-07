@@ -2996,6 +2996,22 @@ dl.spec dd {
   font-weight: 600;
 }
 
+@media (max-height: 380px) {
+  #soundOv .cbody {
+    padding: 10px 16px;
+    gap: 6px;
+  }
+
+  #soundOv .vols {
+    gap: 4px;
+    margin: 0;
+  }
+
+  #soundOv h3 {
+    font-size: 28px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .winch.engine.cranking {
     animation: none;

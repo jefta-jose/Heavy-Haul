@@ -3,7 +3,7 @@
 // HAUL_CAPTURES=<dir> also saves screenshots for visual review (default output/captures).
 import test from 'node:test';
 import { formatCoins } from '../src/game/format.js';
-import { ZOOM_BY_CLASS } from '../src/game-config.js';
+import { ZOOM_BY_CLASS, CRASH_SECONDS } from '../src/game-config.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,6 +18,117 @@ const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures')
 // these runs drive many trucks: start them at the top rank with every truck owned (the rank and buying flow is tested on its own)
 const ALL_OWNED = JSON.stringify({ xp: 40000, owned: JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).cars.map(c => c.id) });
 const ownAll = page => page.addInitScript(v => { try { localStorage.setItem('hh_progress', v); } catch (e) {} }, ALL_OWNED);
+
+test('supplied UI sounds route to buttons, purchases and run outcomes', { timeout: 120000 }, async () => {
+  await buildApp();
+  const www = path.join(ROOT, 'www');
+  const server = http.createServer((req, res) => {
+    const file = path.join(www, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    fs.readFile(file.endsWith(path.sep) ? path.join(file, 'index.html') : file, (error, body) => {
+      if (error) { res.writeHead(404); res.end(); return; }
+      res.writeHead(200, { 'Content-Type': ({ '.html': 'text/html', '.mp3': 'audio/mpeg', '.webp': 'image/webp', '.woff2': 'font/woff2' })[path.extname(file) || '.html'] ?? 'application/octet-stream' });
+      res.end(body);
+    });
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true });
+    await page.addInitScript(() => {
+      localStorage.setItem('hh_wallet', '1000000');
+      localStorage.setItem('hh_progress', JSON.stringify({ xp: 40000, owned: [] }));
+      window.uiVibrations = [];
+      Object.defineProperty(navigator, 'vibrate', { value: pattern => { window.uiVibrations.push(pattern); return true; } });
+    });
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+    await page.goto(`http://127.0.0.1:${server.address().port}/`);
+    await page.waitForFunction(() => window.__haul?.uiAudio.status().loaded && document.querySelector('#loader.done'));
+    assert.equal(await page.evaluate(() => __haul.uiAudio.status().played), 0, 'loading is silent until a gesture');
+    const played = () => page.evaluate(() => __haul.uiAudio.status().played);
+    const expectCue = (before, effect) => page.waitForFunction(({ before, effect }) => {
+      const status = __haul.uiAudio.status(); return status.played === before + 1 && status.lastEffect === effect;
+    }, { before, effect });
+    const tap = async (selector, effect = 'ui-click') => {
+      const before = await played();
+      await page.locator(selector).tap();
+      await expectCue(before, effect);
+    };
+    await tap('#loader', 'ui-confirm');
+    await page.waitForFunction(() => !__haul.loader.visible);
+    assert(await page.evaluate(() => window.uiVibrations.length > 0), 'Continue also gives a touch vibration');
+    const sounds = await page.evaluate(() => __haul.content.uiSounds);
+    assert.equal(Object.keys(sounds).length, 5);
+    for (const file of Object.values(sounds)) assert(fs.readFileSync(path.join(ROOT, file)).equals(fs.readFileSync(path.join(www, file))), `${file}: supplied audio ships unchanged`);
+    const purchased = await page.evaluate(() => {
+      const id = __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2).id;
+      __haul.garage.select(id); return id;
+    });
+    await tap('#startBtn', 'ui-buy');
+    assert(await page.evaluate(id => __haul.progress.owns(id), purchased), 'the buy cue follows a successful car purchase');
+    await tap('#gMenuTune');
+    await tap('.tbuy:not([aria-disabled]):not(:disabled) >> nth=0', 'ui-buy');
+    await tap('#tuneDone', 'ui-confirm');
+    await tap('#garageSoundBtn');
+    assert(await page.locator('#vol-effects').isVisible(), 'effects volume is adjustable');
+    fs.mkdirSync(CAPTURES, { recursive: true });
+    await page.screenshot({ path: path.join(CAPTURES, 'ui-sounds-settings.png') });
+    await page.locator('#muteBtn').tap();
+    assert(await page.evaluate(() => __haul.audio.volumes.muted));
+    const afterMute = await played();
+    await page.locator('#soundDone').tap();
+    assert.equal(await played(), afterMute, 'subsequent taps produce no UI sound while muted');
+    await page.evaluate(() => __haul.audio.setVolume('muted', false));
+    await tap('#garageSoundBtn');
+    const beforeKeyboard = await played();
+    await page.locator('#soundDone').focus();
+    await page.keyboard.press('Enter');
+    await expectCue(beforeKeyboard, 'ui-confirm');
+    // Pointer-only HUD controls must not double-play if the browser follows with click.
+    await tap('#startBtn', 'ui-confirm');
+    await page.waitForFunction(() => document.querySelector('#loader.done'));
+    await tap('#loader', 'ui-confirm');
+    await page.waitForFunction(() => __haul.renderer.ready && __haul.session.state === 'play' && !__haul.loader.visible);
+    await tap('#awdBtn');
+    await tap('#breakdownCallBtn');
+    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
+    await tap('#winch');
+    const beforePedal = await played();
+    await page.locator('#gas').tap();
+    assert.equal(await played(), beforePedal, 'held driving pedals have no menu click');
+    await page.screenshot({ path: path.join(CAPTURES, 'ui-sounds-hud.png') });
+    // UI feedback remains available when the separate vehicle context is suspended.
+    await tap('#pauseBtn');
+    const beforeComplete = await played();
+    await page.evaluate(() => {
+      __haul.session.resume(); __haul.startRun(__haul.garage.selection);
+      const mission = __haul.missions.offers.find(m => m.type === 'classDelivery');
+      if (mission.class !== __haul.sim.main.car.class) throw new Error('delivery mission must match the selected class');
+      __haul.missions.choose(mission.id);
+      __haul.sim.respawn(__haul.sim.trail.depot + 3); __haul.session.update(0.01);
+    });
+    await expectCue(beforeComplete, 'mission-complete');
+    assert.equal(await page.evaluate(() => __haul.session.state), 'done');
+    assert(await page.evaluate(() => !!__haul.session.run.missionDone), 'delivery also completes the selected mission with one cue');
+    await page.evaluate(() => __haul.session.update(1));
+    assert.equal(await played(), beforeComplete + 1, 'completed runs do not repeat the outcome cue');
+    await page.evaluate(() => { __haul.session.resume(); __haul.startRun(__haul.garage.selection); __haul.summon('breakdown'); });
+    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
+    const beforeFail = await played();
+    await page.evaluate(dt => {
+      const truck = __haul.sim.active.parts.truck; truck.setTransform(truck.getPosition(), Math.PI);
+      __haul.session.update(dt);
+    }, CRASH_SECONDS + 0.01);
+    await expectCue(beforeFail, 'mission-failed');
+    assert.equal(await page.evaluate(() => __haul.session.state), 'fail', 'overturned service truck ends the run');
+    await page.evaluate(() => __haul.session.update(1));
+    assert.equal(await played(), beforeFail + 1, 'failure is announced once');
+    await page.screenshot({ path: path.join(CAPTURES, 'service-rollover-failure.png') });
+    assert.equal(await page.evaluate(() => __haul.uiAudio.status().error), null);
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); await new Promise(r => server.close(r)); }
+});
 
 test('the app build loads its art and audio from separate files', { timeout: 120000 }, async () => {
   await buildApp();
@@ -254,7 +365,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     // the sound panel from the pause menu: volumes apply and are remembered
     await page.locator('#msgBtns button', { hasText: 'Sound' }).click();
     assert(await page.locator('#soundOv').isVisible(), 'the sound panel opens');
-    assert.deepEqual(await page.locator('#volList label span').allTextContents(), ['Master', 'Engine', 'Music']);
+    assert.deepEqual(await page.locator('#volList label span').allTextContents(), ['Master', 'Engine', 'Effects', 'Music']);
     assert.equal(await page.locator('#soundOv details').count(), 0);
     for (const viewport of [{ width: 844, height: 390 }, { width: 667, height: 320 }, { width: 390, height: 844 }]) {
       await page.setViewportSize(viewport);

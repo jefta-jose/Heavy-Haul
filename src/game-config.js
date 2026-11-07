@@ -82,9 +82,13 @@ export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that ca
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
 export const INSTANT_BRAKE_RATE = 12;         // how hard instant brakes stop the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 
+// ---------- interface feedback ----------
+// Supplied interface sounds, scaled by the saved master and effects volumes.
+export const UI_SOUND_GAINS = { 'ui-click': 0.5, 'ui-confirm': 0.22, 'ui-buy': 0.45, 'mission-complete': 0.25, 'mission-failed': 0.3 };
+
 // ---------- music ----------
-// loopSeconds is the file's exact length in beats, so it loops on the beat. gain evens out how loud the two files are.
-export const MUSIC_TRACKS = { garage: { loopSeconds: 120, gain: 3 }, drive: { loopSeconds: 122.88, gain: 0.45 } };
+// loopSeconds records each file's duration; gain matches the tracks to the existing listening levels.
+export const MUSIC_TRACKS = { garage: { loopSeconds: 145.776, gain: 0.52 }, drive: { loopSeconds: 114.984, gain: 0.45 } };
 export const MUSIC_FADE_S = 0.8;              // how long a track takes to fade in or out
 
 // ---------- how damage looks ----------

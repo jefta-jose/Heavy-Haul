@@ -1,15 +1,16 @@
 import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
-// Rules watch the main vehicle even while the player drives a summoned service truck.
+// Rewards watch the main vehicle; overturned service trucks also end the run.
 import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
 
 const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI);
 
-export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp }) {
+export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp, onSuccess, onFailure }) {
   const trail = season.trail;
+  const serviceRolls = new Map();
 
   const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
@@ -18,7 +19,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   // Rescue driving and attached tow cables never count as earning or mission progress.
   const canProgress = () => sim.active === sim.main && !sim.main.winched && !sim.vehicles.some(v => v.cable?.target === sim.main);
 
-  api.reset = () => Object.assign(run, fresh());
+  api.reset = () => { serviceRolls.clear(); Object.assign(run, fresh()); };
   // coins add themselves: for new ground, for clearing a bog and for what gets crushed
   api.earn = (n, bonus = false) => { if (!canProgress()) return; wallet.add(n, bonus); run.earned += n; if (bonus) hud.coinBonus(n); };
   // XP, scaled by the main truck's class; a new rank is announced at once
@@ -34,6 +35,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     run.missionDone = done; addXp(done.xp, true);
     hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP`, 4);
     hud.showMission(null);
+    onSuccess?.();
   }
   // what main.js reports: things crushed, help called, a speed camera passed
   api.crushed = () => { if (canProgress()) run.crushes++; };
@@ -54,6 +56,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
 
   function fail(kind) {
     api.state = 'fail';
+    onFailure?.();
     wallet.save(); progress?.save();
     const coins = ['Coins this run', formatCoins(run.earned)];
     // a crash or a wreck ends the run: back to the very start of the trail
@@ -75,6 +78,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     wallet.add(pay); wallet.save();
     gainXp(XP_PER_DELIVERY, true);
     const done = missions?.deliver(missionRun(true)); if (done) missionDone(done);
+    if (!done) onSuccess?.();
     const rank = progress?.progress;
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
@@ -89,8 +93,21 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
 
   // per-frame rules while playing
   api.update = dt => {
+    if (api.state !== 'play') return;
     const main = sim.main, mainTruck = main.parts.truck, p = mainTruck.getPosition(), st = sim.st, ctl = sim.ctl, driving = sim.active.parts.truck.getPosition();
     run.time += dt;
+    // Check crashes before rewards and delivery so reaching the depot cannot
+    // overwrite a rollover failure. Each service truck has its own timer,
+    // including when parked or after switching back to the main truck.
+    if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);
+    if (run.rollT > CRASH_SECONDS && sim.active === main) { fail('roll'); return; }
+    for (const vehicle of sim.vehicles) {
+      if (vehicle === main) continue;
+      const rolling = angleOf(vehicle.parts.truck) > 1.45 ? (serviceRolls.get(vehicle) ?? 0) + dt : 0;
+      serviceRolls.set(vehicle, rolling);
+      if (rolling > CRASH_SECONDS) { fail('roll'); return; }
+    }
+    if (main.st.damage >= 100) { fail('wreck'); return; }
     // odometer: every metre the main truck rolls, forwards or back (a recovery teleport is not driving)
     if (run.lastX != null && Math.abs(p.x - run.lastX) < 5) run.odometer += Math.abs(p.x - run.lastX);
     run.lastX = p.x;
@@ -104,7 +121,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);
     // a mission this run has broken glows red and slides away; it stays chosen for the next run
     if (missions && !run.missionDone && !run.missionFailed) {
-      if (missions.failed?.(missionRun())) { run.missionFailed = true; hud.failMission({ mission: missions.active }); }
+      if (missions.failed?.(missionRun())) { run.missionFailed = true; hud.failMission({ mission: missions.active }); onFailure?.(); }
       else if (canProgress()) { const t = missions.track(missionRun()); if (t?.done) missionDone(t.done); else hud.showMission(t); }
     }
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
@@ -116,12 +133,9 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(driving.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
     hud.nudge('diff', !ctl.diff && (st.diffLimited || run.stuckT > 2));
-    // the main vehicle: rollover, empty tank, delivery
-    if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);
-    if (run.rollT > CRASH_SECONDS && sim.active === main) fail('roll');
-    if (main.st.damage >= 100) { fail('wreck'); return; }
+    // The main vehicle: empty tank and delivery. Service trucks have unlimited fuel.
     if (main.st.fuel <= 0 && Math.abs(main.st.speed) < 0.4 && sim.active === main) run.emptyT += dt; else run.emptyT = Math.min(0, run.emptyT + dt);
-    if (run.emptyT > 2.5) fail('fuel');
+    if (run.emptyT > 2.5) { fail('fuel'); return; }
     if (p.x > trail.depot + 2) deliver();
     // a refuelled truck starts up by itself, and stations are worth a mention when you need one
     if (main.st.filling && main.st.engine === 'off' && main.st.fuel > 5) sim.startEngine(main);

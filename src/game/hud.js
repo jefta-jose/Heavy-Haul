@@ -158,7 +158,7 @@ export function createHud({ sim, season }) {
     shownFuel = shownFuel == null ? fuel : shownFuel + (fuel - shownFuel) * Math.min(1, gaugeDt * 4);
     const m = sim.main.st;
     fuelDial(x0 + rs, cys, rs, shownFuel, unlimited, sim.active === sim.main && m.filling && m.fuel < 100);
-    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 60, { label: 'km/h', majors: 6, minors: 2, redFrom: 50 / 60, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
+    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 180, { label: 'km/h', majors: 6, minors: 3, redFrom: 150 / 180, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
     dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#f2b705', '#ff7a1a'], small: true });
   }
 

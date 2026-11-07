@@ -1,20 +1,80 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSession } from '../src/game/session.js';
+import { CRASH_SECONDS } from '../src/game-config.js';
 
 function setup() {
-  let x = 0, xp = 0, tracked = 0, delivered = 0;
-  const main = { car: { class: 'scout', name: 'Scout' }, st: { damage: 0, fuel: 100 }, parts: { truck: { getPosition: () => ({ x }), getAngle: () => 0 } } };
-  const service = { role: 'service', parts: main.parts };
+  let x = 0, xp = 0, tracked = 0, delivered = 0, mainAngle = 0, serviceAngle = 0;
+  const outcomes = [];
+  const main = { car: { class: 'scout', name: 'Scout' }, st: { damage: 0, fuel: 100, speed: 0 }, parts: { truck: { getPosition: () => ({ x }), getAngle: () => mainAngle } } };
+  const service = { role: 'service', parts: { truck: { getPosition: () => ({ x }), getAngle: () => serviceAngle } } };
   const sim = { main, active: main, vehicles: [main, service], st: { speed: 0 }, ctl: {}, surfAt: () => 'dirt' };
   const hud = { toastActive: true, coinBonus() {}, toast() {}, showMission() {}, failMission() {}, showMessage() {}, nudge() {}, setCardVisible() {} };
   const season = { name: 'Test', trail: { start: 0, depot: 100, finishBonus: 100, heavyMud: [20], checkpoints: [] } };
   const progress = { addXp(n) { xp += n; return []; }, save() {} };
   const missions = { track() { tracked++; }, deliver() { delivered++; } };
-  const session = createSession({ sim, hud, season, progress, missions });
+  const session = createSession({ sim, hud, season, progress, missions, onSuccess: () => outcomes.push('complete'), onFailure: () => outcomes.push('failed') });
   session.state = 'play'; session.update(0.01);
-  return { sim, session, service, move(n) { x = n; session.update(0.01); }, get xp() { return xp; }, get tracked() { return tracked; }, get delivered() { return delivered; } };
+  return { sim, session, service, missions, outcomes, setMainAngle(a) { mainAngle = a; }, setServiceAngle(a) { serviceAngle = a; }, move(n) { x = n; session.update(0.01); }, get xp() { return xp; }, get tracked() { return tracked; }, get delivered() { return delivered; } };
 }
+
+test('an overturned service truck ends the run after the normal crash grace and announces failure once', () => {
+  const t = setup(); t.sim.active = t.service; t.setServiceAngle(Math.PI);
+  t.session.update(CRASH_SECONDS); assert.equal(t.session.state, 'play');
+  t.session.update(0.01); assert.equal(t.session.state, 'fail');
+  t.session.update(1);
+  assert.deepEqual(t.outcomes, ['failed']);
+});
+
+test('switching away from an overturned service truck cannot avoid failure, even at the depot', () => {
+  const t = setup(); t.setServiceAngle(Math.PI);
+  t.session.update(CRASH_SECONDS - 0.005);
+  t.move(110);
+  assert.equal(t.session.state, 'fail'); assert.equal(t.delivered, 0);
+  assert.deepEqual(t.outcomes, ['failed']);
+});
+
+test('uprighting a service truck and restarting a run each clear its rollover timer', () => {
+  const t = setup(); t.setServiceAngle(Math.PI); t.session.update(CRASH_SECONDS * 0.6);
+  t.setServiceAngle(0); t.session.update(0.01);
+  t.setServiceAngle(Math.PI); t.session.update(CRASH_SECONDS * 0.6);
+  assert.equal(t.session.state, 'play');
+  t.session.reset(); t.session.update(CRASH_SECONDS * 0.6);
+  assert.equal(t.session.state, 'play');
+  t.session.update(CRASH_SECONDS * 0.5); assert.equal(t.session.state, 'fail');
+});
+
+test('a normal truck still fails when rolled, and a crash cannot turn into a delivery', () => {
+  const t = setup(); t.setMainAngle(Math.PI); t.session.update(CRASH_SECONDS - 0.005); t.move(110);
+  assert.equal(t.session.state, 'fail'); assert.equal(t.delivered, 0);
+  assert.deepEqual(t.outcomes, ['failed']);
+});
+
+test('finishing a live mission and later delivering are separate success announcements', () => {
+  const t = setup(); t.missions.track = () => ({ done: { mission: { title: 'Crusher' }, xp: 100 } });
+  t.move(10); t.move(11);
+  assert.deepEqual(t.outcomes, ['complete']);
+  t.move(110); t.session.update(1);
+  assert.deepEqual(t.outcomes, ['complete', 'complete']);
+});
+
+test('a delivery that also finishes a mission announces success only once', () => {
+  const t = setup(); t.missions.deliver = () => ({ mission: { title: 'Delivery' }, xp: 100 });
+  t.move(110); t.session.update(1);
+  assert.equal(t.session.state, 'done'); assert.deepEqual(t.outcomes, ['complete']);
+});
+
+test('a broken optional mission announces failure once while the run continues', () => {
+  const t = setup(); t.missions.failed = () => true;
+  t.move(10); t.move(11);
+  assert.equal(t.session.state, 'play'); assert.deepEqual(t.outcomes, ['failed']);
+});
+
+test('running out of fuel at the depot fails instead of also awarding delivery', () => {
+  const t = setup(); t.sim.main.st.fuel = 0; t.session.run.emptyT = 2.5; t.move(110);
+  assert.equal(t.session.state, 'fail'); assert.equal(t.delivered, 0);
+  assert.deepEqual(t.outcomes, ['failed']);
+});
 
 test('service driving blocks every reward, mission event and depot completion without banking distance', () => {
   const t = setup(), { sim, session, service } = t;

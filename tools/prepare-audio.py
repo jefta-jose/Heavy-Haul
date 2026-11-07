@@ -17,13 +17,16 @@ Reads the recipe assets/audio/sounds.json and writes assets/audio/bank/*.mp3 plu
   and `oneshots` (the loudest separate events, each cut with fades).
 """
 from pathlib import Path
+import argparse
 import hashlib
+import io
 import json
 import os
 import subprocess
 import tempfile
 import urllib.request
 import wave
+import zipfile
 import numpy as np
 from scipy.signal import butter, sosfilt, sosfiltfilt, resample_poly, medfilt
 import imageio_ffmpeg
@@ -49,7 +52,13 @@ def master(src):
         print(f'fetching {src["id"]} from {src["download"]}')
         req = urllib.request.Request(src['download'], headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=300) as r:
-            path.write_bytes(r.read())
+            raw = r.read()
+        if src.get('archiveMember'):
+            assert hashlib.sha256(raw).hexdigest() == src['archiveSha256'], 'source archive hash mismatch'
+            with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                raw = archive.read(src['archiveMember'])
+        assert hashlib.sha256(raw).hexdigest() == src['sha256'], 'downloaded source hash mismatch'
+        path.write_bytes(raw)
     assert hashlib.sha256(path.read_bytes()).hexdigest() == src['sha256'], f'{path} does not match sources.json'
     return path
 
@@ -273,13 +282,28 @@ def engine_clip(cls, role, spec, idle_level, clips, sources):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--effects', nargs='+', help='rebuild only these named effects, preserving other clips')
+    args = parser.parse_args()
     sources = {s['id']: s for s in json.loads((BASE / 'sources.json').read_text())['sources']}
     recipe = json.loads((BASE / 'sounds.json').read_text())
-    clips, engines, effects = {}, {}, {}
-    # nothing stale: the bank is exactly what this recipe builds
-    OUT.mkdir(exist_ok=True)
-    for old in OUT.iterdir():
-        old.unlink()
+    if args.effects:
+        unknown = set(args.effects) - recipe['effects'].keys()
+        if unknown:
+            parser.error(f'unknown effects: {", ".join(sorted(unknown))}')
+        previous = json.loads((OUT / 'bank.json').read_text())
+        clips, engines, effects = previous['clips'], previous['engines'], previous['effects']
+        recipe['engines'] = {}
+        recipe['effects'] = {name: recipe['effects'][name] for name in args.effects}
+        for name in args.effects:
+            for clip in effects.pop(name, []):
+                (BASE / clips.pop(clip)['file']).unlink(missing_ok=True)
+    else:
+        clips, engines, effects = {}, {}, {}
+        # nothing stale: the bank is exactly what this recipe builds
+        OUT.mkdir(exist_ok=True)
+        for old in OUT.iterdir():
+            old.unlink()
     for cls, e in recipe['engines'].items():
         print(cls)
         cyl, pitch = e['cylinders'], e.get('pitch', 1)
