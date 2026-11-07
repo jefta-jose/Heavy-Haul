@@ -57,9 +57,9 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 // price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
 export const RANK_XP = [0, 200, 700, 1450, 2400, 3600, 5000, 6650, 8450, 10400, 12600, 14950, 17500, 20200, 23100, 26150, 29350, 32750, 36300, 40000];
 export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
-export const XP_PER_METRE = 0.05;             // for new ground, as the truck gets further along the trail
-export const XP_PER_BOG = 40;                 // for getting through a deep bog
-export const XP_PER_DELIVERY = 600;           // for reaching the depot
+export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
+export const XP_PER_BOG = 30;                 // for getting through a deep bog
+export const XP_PER_DELIVERY = 300;           // for reaching the depot
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
