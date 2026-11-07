@@ -60,7 +60,8 @@ const renderer = createRenderer({
   },
 });
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
-const missions = createMissions(content.missions, content.roster.classes.map(c => c.id));
+// contracts are sized to the trail being played and the trucks owned
+const missions = createMissions(content.missions, { classes: content.roster.classes, trail: content.season.trail, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
 const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),

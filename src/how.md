@@ -218,9 +218,10 @@ In the browser's (or app WebView's) local storage on your device: coins, rank, o
 powers, missions and sound volumes. Clearing app data resets it. There are no accounts or servers.
 
 **What are missions?**
-Optional goals picked in the garage, one at a time, for extra XP: deliver with a class, beat a time,
-no help, little damage, a speed at a camera, crushing, bogs ([missions.js](game/missions.js)). Failing
-costs nothing.
+Random contracts picked in the garage, one at a time, for extra XP: a goal (beat the clock, sprint to a
+checkpoint, pass cameras fast, crush things, clear bogs, arrive clean) with random targets, sometimes a
+class or truck to use and twists such as no help or no refuelling ([missions.js](game/missions.js)).
+Harder ones pay more. Unchosen offers change after every run. Failing costs nothing.
 
 ## Camera and screen
 

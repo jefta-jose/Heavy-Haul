@@ -103,7 +103,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     const beforeComplete = await played();
     await page.evaluate(() => {
       __haul.session.resume(); __haul.startRun(__haul.garage.selection);
-      const mission = __haul.missions.offers.find(m => m.type === 'classDelivery');
+      const mission = __haul.missions.offers.find(m => m.class && ['deliver', 'timed', 'clean'].includes(m.goal));
       if (mission.class !== __haul.sim.main.car.class) throw new Error('delivery mission must match the selected class');
       __haul.missions.choose(mission.id);
       __haul.sim.respawn(__haul.sim.trail.depot + 3); __haul.session.update(0.01);

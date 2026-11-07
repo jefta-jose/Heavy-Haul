@@ -3634,3 +3634,12 @@ dl.spec dd {
 .stack>.dmgrow b {
   font-size: 13px;
 }
+
+/* contract difficulty beside a mission's title */
+.mstars {
+  margin-left: 8px;
+  font-style: normal;
+  font-size: 0.85em;
+  letter-spacing: 1px;
+  color: #f5c518;
+}

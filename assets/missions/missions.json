@@ -1,17 +1,24 @@
 {
-  "about": "Missions picked in the garage, one at a time. The garage offers `offerCount` of them: always one class delivery, for the class driven least so far, and the rest drawn from the others. A mission stays chosen until it is done, then a fresh list is drawn; failing it costs nothing. Each `type` is checked by src/game/missions.js. `xp` is paid once, when it is done; class deliveries also scale by the class (XP_BY_CLASS).",
+  "about": "Contracts, generated at random in the garage (src/game/missions.js). Each has one goal from `goals` with targets drawn from its ranges and sized to the trail being played and to the trucks owned, may be locked to a class or to one owned truck (`locks`), and may carry 0 to 2 `twists` (extra rules). XP is `baseXp` times the goal's difficulty plus each twist's `xp` and the lock's, rounded to 50; class-locked contracts also scale by the class (XP_BY_CLASS). One offer is always a depot contract for the class driven least. Offers not chosen are redrawn after every run; the chosen one stays until done. Failing costs nothing.",
   "offerCount": 4,
-  "missions": [
-    { "id": "deliver-scout", "type": "classDelivery", "class": "scout", "title": "Scout run", "text": "Deliver to the depot in a Scout", "xp": 500 },
-    { "id": "deliver-highway", "type": "classDelivery", "class": "highway", "title": "Highway haul", "text": "Deliver to the depot in a Highway truck", "xp": 500 },
-    { "id": "deliver-heavy-duty", "type": "classDelivery", "class": "heavy-duty", "title": "Heavy-duty job", "text": "Deliver to the depot in a Heavy Duty truck", "xp": 500 },
-    { "id": "deliver-offroad", "type": "classDelivery", "class": "offroad", "title": "Off-road crossing", "text": "Deliver to the depot in an Off-road truck", "xp": 500 },
-    { "id": "deliver-heavy", "type": "classDelivery", "class": "heavy", "title": "Heavy load", "text": "Deliver to the depot in a Heavy truck", "xp": 500 },
-    { "id": "against-clock", "type": "timed", "minutes": 12, "title": "Against the clock", "text": "Reach the depot in under 12 minutes", "xp": 700 },
-    { "id": "no-help", "type": "noHelp", "title": "On your own", "text": "Reach the depot without calling the breakdown truck", "xp": 900 },
-    { "id": "clean-run", "type": "clean", "maxDamage": 25, "title": "Clean run", "text": "Reach the depot without going over 25% damage", "xp": 800 },
-    { "id": "speed-camera", "type": "speed", "kmh": 50, "title": "Speed trap", "text": "Pass a highway speed camera at 50 km/h or more", "xp": 400 },
-    { "id": "crusher", "type": "crusher", "count": 40, "title": "Crusher", "text": "Crush 40 things in one run", "xp": 400 },
-    { "id": "bog-master", "type": "bogs", "count": 6, "title": "Bog master", "text": "Drive through 6 deep bogs in one run without being towed", "xp": 600 }
-  ]
+  "baseXp": 500,
+  "goals": {
+    "deliver": { "weight": 2, "titles": ["Freight run", "Supply drop", "Standard haul", "Contract haul"], "needsRule": true },
+    "timed": { "weight": 3, "titles": ["Against the clock", "Rush order", "Express freight", "Hot load"], "minPerKm": [2.8, 4.4], "classMinPerKm": { "scout": 1, "highway": 1, "heavy-duty": 1.15, "offroad": 1.3, "heavy": 1.4 } },
+    "sprint": { "weight": 2, "titles": ["Sprint", "Leg race", "Quick leg", "Dash"], "minPerKm": [2.4, 3.8] },
+    "cameras": { "weight": 2, "titles": ["Speed trap", "Flash the cameras", "Radar run", "Lead foot"], "kmh": [40, 80], "step": 5, "ofTopSpeed": 0.82 },
+    "crusher": { "weight": 2, "titles": ["Crusher", "Demolition", "Rock breaker", "Clear the way"], "count": [20, 70], "step": 5 },
+    "bogs": { "weight": 2, "titles": ["Bog master", "Mud runner", "Swamp crossing", "Bog hopper"], "min": 3 },
+    "clean": { "weight": 2, "titles": ["Clean run", "Handle with care", "Fragile cargo", "Gentle hands"], "maxDamage": [8, 35] }
+  },
+  "twists": {
+    "noHelp": { "weight": 3, "xp": 350, "text": "without the breakdown truck" },
+    "clean": { "weight": 2, "xp": 300, "text": "under {maxDamage}% damage", "maxDamage": [15, 40] },
+    "timed": { "weight": 2, "xp": 300, "text": "within {minutes}", "slack": 1.35 },
+    "noRefuel": { "weight": 2, "xp": 250, "text": "without refuelling" },
+    "noPower": { "weight": 1, "xp": 150, "text": "without using a power" },
+    "noStuck": { "weight": 1, "xp": 400, "text": "never stuck for {seconds} s", "seconds": [6, 12] }
+  },
+  "locks": { "class": { "chance": 0.3, "xp": 150 }, "car": { "chance": 0.15, "xp": 250 } },
+  "twistCount": [[0, 0.35], [1, 0.45], [2, 0.2]]
 }

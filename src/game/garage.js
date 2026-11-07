@@ -221,7 +221,10 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     for (const m of missions.offers) {
       const on = active?.id === m.id, b = el('button', 'power' + (on ? ' on' : ''));
       const pic = el('i', 'tpic'); pic.append(gIcon('mission'));
-      const text = el('span', 'ptext'); text.append(el('b', null, m.title), el('small', null, `${m.text}  ·  +${missions.xpFor(m).toLocaleString('en-US')} XP`));
+      // difficulty as filled and empty stars beside the title
+      const stars = missions.starsFor?.(m) ?? 1, title = el('b', null, m.title);
+      title.append(el('em', 'mstars', '★'.repeat(stars) + '☆'.repeat(3 - stars)));
+      const text = el('span', 'ptext'); text.append(title, el('small', null, `${m.text}  ·  +${missions.xpFor(m).toLocaleString('en-US')} XP`));
       b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
       b.setAttribute('aria-pressed', String(on));
       b.addEventListener('click', () => { missions.choose(m.id); renderMissions(); });

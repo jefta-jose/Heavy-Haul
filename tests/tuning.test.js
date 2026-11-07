@@ -162,33 +162,73 @@ test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class t
   assert.equal(classXp(100, 'heavy'), 160, 'harder classes earn more');
 });
 
-test('missions: offers always include the least-driven class, one is chosen at a time, and each kind is judged right', () => {
+test('missions: random contracts sized to the trail, always one for the least-driven class, judged with their twists', () => {
   const data = JSON.parse(fs.readFileSync(new URL('../assets/missions/missions.json', import.meta.url)));
-  const classes = content.roster.classes.map(c => c.id);
-  const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
-  const m = createMissions(data, classes, store);
+  const classes = content.roster.classes, trail = content.season.trail;
+  const owned = () => content.roster.cars.filter(c => c.unlockRank <= 1);
+  const memory = () => ({ v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } });
+  let seed = 7; const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const ctx = { classes, trail, owned };
+  const m = createMissions(data, ctx, memory(), random);
   assert.equal(m.offers.length, data.offerCount);
-  assert.equal(m.offers.filter(o => o.type === 'classDelivery').length, 1, 'one class delivery');
-  const run = { cls: 'scout', time: 300, helped: false, maxDamage: 10, cameraKmh: 0, crushes: 0, bogs: 0, delivered: false };
-  const take = (id) => { const x = createMissions(data, classes, { v: JSON.stringify({ offers: [id], active: id, driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }); return x; };
-  // live kinds finish during the run
-  assert.equal(take('crusher').track({ ...run, crushes: 39 }).done, undefined);
-  assert.equal(take('crusher').track({ ...run, crushes: 40 }).done.xp, 400);
-  assert(take('speed-camera').track({ ...run, cameraKmh: 52 }).done);
-  assert(take('bog-master').track({ ...run, bogs: 6 }).done);
-  // depot kinds finish on delivery, and only when the run did it
-  assert(take('against-clock').deliver({ ...run, time: 700 }), 'under 12 minutes');
-  assert.equal(take('against-clock').deliver({ ...run, time: 730 }), null, 'too slow');
-  assert.equal(take('no-help').deliver({ ...run, helped: true }), null, 'help was called');
-  assert(take('no-help').deliver(run));
-  assert.equal(take('clean-run').deliver({ ...run, maxDamage: 30 }), null, 'too much damage');
-  assert.equal(take('deliver-heavy').deliver(run), null, 'wrong class');
-  assert.equal(take('deliver-heavy').deliver({ ...run, cls: 'heavy' }).xp, 800, 'class deliveries scale with the class');
-  // choosing, finishing and a fresh list; the class just driven is counted
+  assert.equal(m.offers[0].class, classes[0].id, 'the least-driven class gets a contract');
+  // many draws: varied goals and targets, every one achievable on this trail with the trucks owned
+  const goals = new Set(), texts = new Set();
+  for (let i = 0; i < 60; i++) {
+    m.endRun();
+    for (const o of m.offers) {
+      goals.add(o.goal); texts.add(o.text);
+      assert(o.xp > 0 && o.xp % 50 === 0 && o.stars >= 1 && o.stars <= 3, `xp and stars: ${o.text}`);
+      assert(o.twists.length <= 2);
+      if (o.goal === 'deliver') assert(o.class || o.twists.length, 'no bare deliveries');
+      if (o.goal === 'bogs') assert(o.count <= trail.heavyMud.length);
+      if (o.goal === 'sprint') assert(trail.checkpoints.includes(o.x) && o.x < trail.depot);
+      if (o.goal === 'cameras') {
+        assert(o.count <= trail.highways.length);
+        const pool = owned().filter(c => (!o.car || c.id === o.car) && (!o.class || c.class === o.class));
+        assert(o.kmh <= Math.max(...pool.map(c => c.topSpeedKmh)), 'camera speed within an owned truck');
+      }
+    }
+    assert.equal(new Set(m.offers.map(o => o.id)).size, m.offers.length);
+  }
+  assert(goals.size >= 6, `goals vary: ${[...goals]}`); assert(texts.size > 60, 'targets vary');
+
+  // judging hand-made contracts
+  const run = { cls: 'scout', car: 'x', time: 300, x: 0, helped: false, maxDamage: 10, cameras: [], camerasSeen: 0, crushes: 0, bogs: 0, bogsMissed: 0, refuelled: false, powered: false, stuckMax: 0, delivered: false };
+  const take = c => createMissions(data, ctx, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', xp: 700, twists: [], ...c }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
+  assert.equal(take({ goal: 'crusher', count: 40 }).track({ ...run, crushes: 39 }).done, undefined);
+  assert.equal(take({ goal: 'crusher', count: 40 }).track({ ...run, crushes: 40 }).done.xp, 700);
+  assert(take({ goal: 'cameras', kmh: 60, count: 2, of: 4 }).track({ ...run, cameras: [62, 70], camerasSeen: 2 }).done);
+  assert(take({ goal: 'cameras', kmh: 60, count: 2, of: 4 }).failed({ ...run, cameras: [62], camerasSeen: 4 }), 'not enough cameras left');
+  assert(take({ goal: 'bogs', count: 8, of: 10 }).failed({ ...run, bogsMissed: 3 }), 'too many bogs towed through');
+  assert(take({ goal: 'sprint', x: 1000, minutes: 4 }).track({ ...run, x: 1001, time: 200 }).done);
+  assert(take({ goal: 'sprint', x: 1000, minutes: 4 }).failed({ ...run, x: 900, time: 241 }));
+  assert(take({ goal: 'timed', minutes: 12 }).deliver({ ...run, time: 700 }), 'under 12 minutes');
+  assert.equal(take({ goal: 'timed', minutes: 12 }).deliver({ ...run, time: 730 }), null, 'too slow');
+  assert.equal(take({ goal: 'clean', maxDamage: 25 }).deliver({ ...run, maxDamage: 30 }), null, 'too much damage');
+  assert.equal(take({ goal: 'deliver', class: 'heavy' }).deliver(run), null, 'wrong class');
+  assert.equal(take({ goal: 'deliver', car: 'y' }).deliver(run), null, 'wrong truck');
+  // twists break contracts during the run
+  const twisted = twist => take({ goal: 'crusher', count: 5, twists: [twist] });
+  assert(twisted({ type: 'noHelp' }).failed({ ...run, helped: true }));
+  assert(twisted({ type: 'noRefuel' }).failed({ ...run, refuelled: true }));
+  assert(twisted({ type: 'noPower' }).failed({ ...run, powered: true }));
+  assert(twisted({ type: 'noStuck', seconds: 8 }).failed({ ...run, stuckMax: 9 }));
+  assert(twisted({ type: 'clean', maxDamage: 20 }).failed({ ...run, maxDamage: 21 }));
+  assert.equal(twisted({ type: 'noHelp' }).track({ ...run, crushes: 5, helped: true }).done, undefined, 'a broken twist never completes');
+  assert(twisted({ type: 'noHelp' }).track({ ...run, crushes: 5 }).done);
+
+  // choosing, finishing and fresh lists; unchosen offers change after a run, the chosen one stays
   const id = m.offers[1].id; m.choose(id); assert.equal(m.active.id, id); m.choose(id); assert.equal(m.active, null, 'tap again to put it down');
-  const x = take('no-help'); x.deliver({ ...run, cls: 'scout' });
-  assert.equal(x.active, null); assert(!x.offers.some(o => o.id === 'no-help'), 'a fresh list without the one just done');
-  assert(x.offers.find(o => o.type === 'classDelivery').class !== 'scout', 'the class just driven is no longer the least driven');
+  m.choose(m.offers[2].id); const kept = m.active.id, before = m.offers.map(o => o.id);
+  m.endRun(); assert.equal(m.active.id, kept, 'the chosen contract stays');
+  assert(m.offers.filter(o => o.id !== kept).every(o => !before.includes(o.id)), 'the rest are new');
+  const x = take({ goal: 'deliver', class: 'scout' }); x.deliver(run);
+  assert.equal(x.active, null); assert(!x.offers.some(o => o.id === 'c'), 'a fresh list without the one just done');
+  assert(x.offers[0].class !== 'scout', 'the class just driven is no longer the least driven');
+  // old saves with fixed mission ids are replaced by contracts
+  const old = createMissions(data, ctx, { v: JSON.stringify({ offers: ['crusher'], active: 'crusher', driven: { scout: 2 } }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
+  assert.equal(old.offers.length, data.offerCount); assert.equal(old.active, null); assert.notEqual(old.offers[0].class, 'scout');
 });
 
 

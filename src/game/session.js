@@ -12,7 +12,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   const trail = season.trail;
   const serviceRolls = new Map();
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -30,7 +30,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   };
   const gainXp = (n, now = false) => addXp(classXp(n, sim.main.car.class), now);
   // the run as missions see it
-  const missionRun = (delivered = false) => ({ cls: sim.main.car.class, time: run.time, helped: run.helped, maxDamage: run.maxDamage, cameraKmh: run.cameraKmh, crushes: run.crushes, bogs: run.bogsClean, delivered });
+  const missionRun = (delivered = false) => ({ cls: sim.main.car.class, car: sim.main.car.id, time: run.time, x: run.farthest ?? trail.start, helped: run.helped, maxDamage: run.maxDamage, cameras: run.cameras, camerasSeen: run.camerasSeen, crushes: run.crushes, bogs: run.bogsClean, bogsMissed: run.bogsDone - run.bogsClean, refuelled: run.refuelled, powered: run.powered, stuckMax: run.stuckMax, delivered });
   function missionDone(done) {
     run.missionDone = done; addXp(done.xp, true);
     hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP`, 4);
@@ -40,7 +40,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   // what main.js reports: things crushed, help called, a speed camera passed
   api.crushed = () => { if (canProgress()) run.crushes++; };
   api.helpCalled = () => { run.helped = true; };
-  api.cameraSpeed = kmh => { if (canProgress()) run.cameraKmh = Math.max(run.cameraKmh, kmh); };
+  api.cameraSpeed = kmh => { run.camerasSeen++; if (canProgress()) { run.cameraKmh = Math.max(run.cameraKmh, kmh); run.cameras.push(kmh); } };
   const restartButton = (label = 'Restart') => [label, () => { hud.hideMessage(); api.state = 'play'; onRestart(); }];
   const garageButton = ['Back to garage', () => { hud.hideMessage(); onGarage(); }];
 
@@ -57,6 +57,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   function fail(kind) {
     api.state = 'fail';
     onFailure?.();
+    missions?.endRun?.();
     wallet.save(); progress?.save();
     const coins = ['Coins this run', formatCoins(run.earned)];
     // a crash or a wreck ends the run: back to the very start of the trail
@@ -119,6 +120,11 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if ((run.saveT += dt) > 2) { run.saveT = 0; wallet.save(); progress?.save(); }
     if (run.time > 6) hud.setCardVisible(false);
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);
+    // what contracts' twists watch: a station fill, a power used, the longest time sat stuck in the main truck
+    if (main.st.filling) run.refuelled = true;
+    if (main.st.powerT > 0) run.powered = true;
+    run.stuckNow = sim.active === main && ctl.gas > 0.5 && Math.abs(main.st.speed) < 0.6 ? run.stuckNow + dt : 0;
+    run.stuckMax = Math.max(run.stuckMax, run.stuckNow);
     // a mission this run has broken glows red and slides away; it stays chosen for the next run
     if (missions && !run.missionDone && !run.missionFailed) {
       if (missions.failed?.(missionRun())) { run.missionFailed = true; hud.failMission({ mission: missions.active }); onFailure?.(); }
