@@ -105,7 +105,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     cars: c.roster.cars.map(({ id, name, number, class: cls, tier, unlockRank, order, status, wheelType, stats, load, price, drive, lengthM }) => ({ id, name, number, class: cls, tier, unlockRank, order, status, wheelType, stats, load, price, drive, lengthM })),
   };
   // every season folder for the garage's season row: playable ones from season.json, planned ones
-  // from their README's title ("# Frozen North (winter)")
+  // from their README's title and optional season tag
   const seasons = fs.readdirSync(path.join(ROOT, 'assets/seasons')).filter(id => fs.statSync(path.join(ROOT, 'assets/seasons', id)).isDirectory()).sort().map(id => {
     if (exists(`assets/seasons/${id}/season.json`)) { const s = readJson(`assets/seasons/${id}/season.json`); return { id, name: s.name, season: s.season, status: s.status }; }
     const m = exists(`assets/seasons/${id}/README.md`) ? fs.readFileSync(path.join(ROOT, `assets/seasons/${id}/README.md`), 'utf8').match(/^#\s*([^(\n]+?)\s*(?:\((\w+)\))?\s*$/m) : null;

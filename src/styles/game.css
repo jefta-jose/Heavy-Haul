@@ -55,6 +55,44 @@ canvas#view {
   display: block;
 }
 
+/* the winch guide: chevrons on the road from a breakdown truck to where its winch reaches (winch-guide.js) */
+#winchGuide {
+  --guide: #ffb21a;
+  --guide-glow: rgba(255, 150, 20, .75);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#winchGuide.near {
+  --guide: #62e04b;
+  --guide-glow: rgba(98, 224, 75, .8);
+}
+
+#winchGuide i {
+  position: absolute;
+  left: calc(var(--chev) * -.5);
+  top: calc(var(--chev) * -.22);
+  width: var(--chev);
+  height: calc(var(--chev) * .44);
+  background: var(--guide);
+  clip-path: polygon(0 0, 45% 0, 100% 50%, 45% 100%, 0 100%, 55% 50%);
+  filter: drop-shadow(0 0 6px var(--guide-glow));
+  opacity: .9;
+  transition: background-color .25s;
+  animation: guide-pulse .72s linear infinite;
+}
+
+@keyframes guide-pulse {
+  0%, 100% { opacity: .45; }
+  20% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #winchGuide i { animation: none; }
+}
+
 .hud {
   position: absolute;
   inset: 0;

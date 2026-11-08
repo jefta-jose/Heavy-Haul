@@ -497,6 +497,9 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.evaluate(() => __haul.summon('breakdown'));
     assert(await page.evaluate(() => __haul.view.zoom) >= scoutZoom, 'the breakdown truck is framed at least as wide as the main truck');
     await page.waitForFunction(() => !document.querySelector('#switchBtn').classList.contains('busy'));   // taps wait for the spinner
+    // the winch guide leads the breakdown truck to its reach line, green once inside it
+    await page.waitForFunction(() => !document.querySelector('#winchGuide').hidden);
+    assert.equal(await page.evaluate(() => document.querySelector('#winchGuide').classList.contains('near')), await page.evaluate(() => __haul.sim.nearestHook().d <= __haul.sim.winchReach));
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
     // Newly delivered heavy-duty trucks are selectable and run on the current map.

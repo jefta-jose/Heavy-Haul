@@ -18,6 +18,7 @@ import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
+import { createWinchGuide } from './game/winch-guide.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
@@ -50,6 +51,7 @@ const music = createMusic(content.music, audio.volumes);
 music.play('garage');
 { const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
+const guide = createWinchGuide({ box: document.getElementById('winchGuide'), sim, view });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
@@ -300,7 +302,7 @@ function frame(now) {
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
-  try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
+  try { view.follow(dt); renderer.draw(dt, playing); guide.update(playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run });
   audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling: sim.main.st.filling }, dt);
   adapt(dt);
