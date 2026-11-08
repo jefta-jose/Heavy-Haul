@@ -120,7 +120,7 @@ export const WHEEL_DROP_MAX_SHARE = 0.3;      // the same below its ride height;
 export const BODY_LIFT_RESPONSE = 10;         // how fast the drawn body follows those limits, radians per second: higher keeps wheels closer to their limits, lower moves more smoothly
 
 // Fuel, recovery reach and service grip.
-export const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0; // scales every truck's fuel burn
+export const GLOBAL_FUEL_BURN_MULTIPLIER = 1.0; // scales every truck's fuel burn
 export const WINCH_BAY_SLACK_M = 4.5;        // recovery bay = the service truck's own length plus this (about 11 m for the Mechanic Scout, 20 m for the Colossus); the whole truck must fit inside
 export const WINCH_BAY_OFFSET_M = 2;          // clear gap ahead of the stranded truck before the recovery bay
 export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of another class
