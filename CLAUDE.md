@@ -28,7 +28,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   its lowbed, are one image and one rigid body with all their axles.
 - Winching belongs to the breakdown trucks: there are no winch posts. Each class has a breakdown truck; fuel trucks were removed on 2026-11-04, and refuelling and repairs happen at fuel stations (`trail.stations`).
   The top-bar button calls the main truck's class's one, once per run, from the start of the
-  trail; afterwards they switch to them. Back the breakdown truck within 5 m, tap WINCH to hook the
+  trail; afterwards they switch to them. Park the breakdown truck wholly inside the purple recovery bay ahead of the stuck truck (its own length plus `WINCH_BAY_SLACK_M`), tap WINCH to hook the
   nearest vehicle, and drive away to tow it. The cable never reels in. Service trucks never get stuck
   and never run out of fuel.
 - Cars have fixed tires and art. The garage **tuning** panel (`src/game/tuning.js`) scales any car's

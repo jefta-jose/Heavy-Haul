@@ -231,7 +231,7 @@ export function createHud({ sim, season }) {
     els.surfChip.classList.toggle('warn', s === 'mud');
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
     els.winch.hidden = !sim.canWinch();
-    const hooked = !!sim.cable(), near = !hooked && sim.nearestHook()?.d <= sim.winchReach;
+    const hooked = !!sim.cable(), near = !hooked && !!sim.nearestHook()?.inRange;
     els.winch.classList.toggle('ready', near); els.winch.classList.toggle('down', hooked);
     els.winch.setAttribute('aria-pressed', String(hooked));
   }

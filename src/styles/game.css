@@ -55,10 +55,9 @@ canvas#view {
   display: block;
 }
 
-/* the winch guide: chevrons on the road from a breakdown truck to where its winch reaches (winch-guide.js) */
+/* Recovery guidance: a recovery road bay with arrows ending at the entry boundary. */
 #winchGuide {
-  --guide: #ffb21a;
-  --guide-glow: rgba(255, 150, 20, .75);
+  --guide: #e9b765;
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -66,31 +65,41 @@ canvas#view {
 }
 
 #winchGuide.near {
-  --guide: #62e04b;
-  --guide-glow: rgba(98, 224, 75, .8);
+  --guide: #93d6ab;
 }
 
-#winchGuide i {
+.guide-arrows {
+  position: absolute;
+  inset: 0;
+}
+
+.guide-arrows > i {
   position: absolute;
   left: calc(var(--chev) * -.5);
   top: calc(var(--chev) * -.22);
   width: var(--chev);
   height: calc(var(--chev) * .44);
-  background: var(--guide);
-  clip-path: polygon(0 0, 45% 0, 100% 50%, 45% 100%, 0 100%, 55% 50%);
-  filter: drop-shadow(0 0 6px var(--guide-glow));
+  background: linear-gradient(90deg, var(--guide), #fff1d7);
+  clip-path: polygon(8% 0, 30% 0, 66% 50%, 30% 100%, 8% 100%, 44% 50%, 8% 0,
+    42% 0, 64% 0, 100% 50%, 64% 100%, 42% 100%, 78% 50%, 42% 0);
   opacity: .9;
   transition: background-color .25s;
-  animation: guide-pulse .72s linear infinite;
+  animation: guide-pulse 1.2s ease-in-out infinite;
 }
 
 @keyframes guide-pulse {
-  0%, 100% { opacity: .45; }
-  20% { opacity: 1; }
+  0%, 100% { opacity: .3; }
+  35% { opacity: .95; }
+}
+
+#winchGuide.near .guide-arrows > i {
+  background: var(--guide);
+  animation: none;
+  opacity: .8;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #winchGuide i { animation: none; }
+  .guide-arrows > i { animation: none; opacity: .9; }
 }
 
 .hud {
@@ -3753,5 +3762,124 @@ dl.spec dd {
 
   .ibtn.busy::after {
     animation-duration: 2s;
+  }
+}
+
+/* Phones: no truck row (it crowded the menu). Seasons and classes stay on top; the arrows beside the truck step
+   through the class, and a truck the rank has not opened shows greyed out (the Drive button says the rank it needs). */
+@media (max-height: 520px), (max-width: 600px) {
+  .g-carsrow {
+    display: none;
+  }
+
+  .garage {
+    --top: 58px;
+  }
+
+  .g-show.locked .g-car {
+    filter: grayscale(1) brightness(.45) contrast(1.05);
+  }
+}
+
+/* portrait phones keep their taller header (coins, seasons, classes stacked) */
+@media (orientation: portrait) and (max-width: 600px) {
+  .garage {
+    --top: 98px;
+  }
+}
+
+/* landscape phones: without the truck row the band has room, so seasons and classes get more space
+   and the menu starts lower */
+@media (max-height: 520px) {
+  .garage {
+    --top: 76px;
+  }
+
+  .g-band {
+    padding-bottom: 6px;
+  }
+
+  .g-seasons {
+    gap: 18px;
+    padding: 7px 0 4px;
+  }
+
+  .g-season b {
+    font-size: 12px;
+  }
+
+  .g-classes {
+    gap: 6px;
+  }
+
+  .g-class {
+    padding: 4px 10px 4px;
+  }
+
+  .g-class b {
+    font-size: 16px;
+  }
+
+  .g-menu {
+    margin-top: 12px;
+  }
+
+  /* coins up top, rank level with the class tabs, its XP under the bar */
+  .g-coins {
+    top: max(7px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+  }
+
+  .g-rank {
+    top: calc(max(7px, env(safe-area-inset-top)) + 27px);
+    right: max(12px, env(safe-area-inset-right));
+    grid-template-columns: auto 78px;
+    row-gap: 2px;
+  }
+
+  .g-rank b {
+    font-size: 16px;
+  }
+
+  .g-rankbar {
+    grid-row: auto;
+  }
+
+  .g-rank small {
+    display: block;
+    font-size: 9px;
+  }
+}
+
+/* narrower landscape phones: a shorter rank bar without the XP text, clear of the last class tab */
+@media (max-height: 520px) and (max-width: 760px) {
+  .g-rank {
+    grid-template-columns: auto 54px;
+  }
+
+  .g-rank small {
+    display: none;
+  }
+
+  .g-rankbar {
+    grid-row: 1 / 3;
+  }
+}
+
+/* portrait phones: the rank sits on the coins' row at the right, clear of the class tabs */
+@media (orientation: portrait) and (max-width: 600px) {
+  .g-rank {
+    top: max(10px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    grid-template-columns: auto 54px;
+    column-gap: 6px;
+  }
+
+  .g-rank b {
+    font-size: 16px;
+  }
+
+  .g-rank small {
+    display: none;
   }
 }

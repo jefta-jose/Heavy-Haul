@@ -119,7 +119,7 @@ test('a service truck hooks a stuck truck within reach and tows it by driving aw
   assert(wrecker, 'a playable breakdown truck');
   const s = spawn(newSim(), content.season.trail.heavyMud[0] - 10);
   const main = s.main, v = serviceAhead(s, wrecker, 3.5, car.class);   // a stand-in serves the main truck's class
-  assert(s.nearestHook().d <= s.winchReach, 'the main truck is within hook reach');
+  assert(s.nearestHook().inRange, 'the service truck stands in the recovery bay');
   const x0 = main.parts.truck.getPosition().x;
   advance(s, 2);
   assert(Math.abs(main.parts.truck.getPosition().x - x0) < 0.2, 'nothing pulls before the hook is on');
@@ -197,12 +197,14 @@ test('a called service truck starts at the beginning of the trail, clear of anyt
   assert(x2 - (-(b.rig.towRear ?? -b.rig.nose)) > v.parts.truck.getPosition().x + a.rig.nose, 'the second one parks past the first');
 });
 
-test('the winch hook only reaches a vehicle within 5 m', () => {
+test('the winch only hooks from inside the recovery bay ahead of the vehicle, sized to the service truck', () => {
   const wrecker = content.service.find(c => c.role === 'breakdown');
   const s = spawn(newSim(), content.season.trail.heavyMud[0] - 10);
   const main = s.main, v = serviceAhead(s, wrecker, s.winchReach + 4);
+  const len = wrecker.rig.nose - wrecker.rig.towRear, bay = s.nearestHook().bay;
+  assert(Math.abs(bay.end - bay.start - (len + 4.5)) < 0.01, 'the bay fits the truck with room to spare');
   const r = s.toggleWinch();
-  assert(!r.ok && r.reason === 'far' && r.gap > s.winchReach, 'too far away, and the HUD can say how far');
+  assert(!r.ok && r.reason === 'far' && r.bayDistance > 0, 'too far ahead, and the HUD can say how far to reverse');
   const x0 = main.parts.truck.getPosition().x;
   v.ctl.gas = 1; advance(s, 4);
   assert(Math.abs(main.parts.truck.getPosition().x - x0) < 0.2, 'driving off without a hook tows nothing');

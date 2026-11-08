@@ -134,7 +134,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
-    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Get within ${sim.winchReach} m, tap WINCH, then drive away to tow your truck free` : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : 'Stuck? Call the breakdown truck to tow you', 3);
+    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Park fully in the purple ${sim.winchReach} m section ahead of your truck, tap WINCH, then drive forward` : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : 'Stuck? Call the breakdown truck to tow you', 3);
     const ahead = sim.surfAt(driving.x + 10);
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(driving.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));

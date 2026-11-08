@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_REACH, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -132,24 +132,37 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     return null;
   }
 
-  // Winching, SnowRunner style: a service truck hooks its cable onto another vehicle within
-  // WINCH_REACH and the cable keeps that length; driving away tows the hooked vehicle behind.
-  // The hook goes on the end facing the service truck: a vehicle behind it is pulled from its
-  // front tow point by the service truck's rear winch, one ahead from its rear by the front winch.
+  // Recovery is forward only: park the whole service truck inside the offset recovery bay.
+  // Like station bays, entry is measured along the road, not vertically.
+  // The cable connects rear winch to front tow point and keeps its initial length.
   const rearPoint = v => v.car.rig.towRear ?? (Math.min(...v.car.rig.axles) - v.car.rig.radius);
+  // each service truck's bay fits it with WINCH_BAY_SLACK_M to spare, so a small one is not given a huge target
+  const bayLength = v => v.car.rig.nose - rearPoint(v) + WINCH_BAY_SLACK_M;
   function towPoints(v, o) {
-    const behind = o.parts.truck.getPosition().x < v.parts.truck.getPosition().x;
-    const la = V(behind ? rearPoint(v) : v.car.rig.winch[0], v.car.rig.winch[1]);
-    const lb = V(behind ? o.car.rig.winch[0] : rearPoint(o), o.car.rig.winch[1]);
+    const la = V(rearPoint(v), v.car.rig.winch[1]);
+    const lb = V(o.car.rig.winch[0], o.car.rig.winch[1]);
     const from = v.parts.truck.getWorldPoint(la), to = o.parts.truck.getWorldPoint(lb);
     return { la, lb, from, to, d: Math.hypot(to.x - from.x, to.y - from.y) };
   }
-  // the nearest other vehicle a service truck could hook, with its distance (in reach or not)
+  // Share one bay and readiness check between hooking, HUD and directional guidance.
   const canWinch = v => !!v && v.role === 'service' && v.car.physics.winchForce > 0;
   function nearestHook(v) {
     if (!canWinch(v)) return null;
     let best = null;
-    for (const o of vehicles) if (o !== v) { const t = towPoints(v, o); if (!best || t.d < best.d) best = { ...t, target: o }; }
+    for (const o of vehicles) if (o !== v) {
+      const t = towPoints(v, o);
+      const start = o.parts.truck.getWorldPoint(V(o.car.rig.nose, 0)).x + WINCH_BAY_OFFSET_M;
+      const end = start + bayLength(v);
+      const ahead = v.parts.truck.getPosition().x > o.parts.truck.getPosition().x;
+      const front = v.parts.truck.getWorldPoint(V(v.car.rig.nose, 0)).x;
+      const rear = v.parts.truck.getWorldPoint(V(rearPoint(v), 0)).x;
+      const inRange = ahead && rear >= start && front <= end;
+      const bayDistance = Math.max(start - rear, front - end, 0);
+      if (!best || (inRange && !best.inRange) || (inRange === best.inRange &&
+        (bayDistance < best.bayDistance || (bayDistance === best.bayDistance && t.d < best.d)))) {
+        best = { ...t, target: o, bay: { start, end }, bounds: { front, rear }, bayDistance, inRange };
+      }
+    }
     return best;
   }
   // hook the nearest vehicle in reach, or unhook if already hooked; returns what happened
@@ -158,7 +171,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     if (v.cable) { v.cable = null; return { ok: true, attached: false }; }
     const h = nearestHook(v);
     if (!h) return { ok: false, reason: 'nothing' };
-    if (h.d > WINCH_REACH) return { ok: false, reason: 'far', gap: h.d, target: h.target };
+    if (!h.inRange) return { ok: false, reason: h.bounds.rear < h.bay.start ? 'behind' : 'far', gap: h.d, bayDistance: h.bayDistance, target: h.target };
     v.cable = { target: h.target, la: h.la, lb: h.lb, length: Math.max(0.5, h.d) };
     return { ok: true, attached: true, target: h.target };
   }
@@ -379,7 +392,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // the most the active service truck's winch can pull on another vehicle (weaker off its class)
     winchForce: (o, v = active) => winchForce(v, o),
     sameClass,
-    winchReach: WINCH_REACH,
+    // the active service truck's recovery bay length, in metres
+    get winchReach() { return Math.round(bayLength(active)); },
     // start a run: a fresh world with the chosen car
     init(x = trail.start, setup = sim.setup) {
       sim.setup = setup;

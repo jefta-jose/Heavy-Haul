@@ -211,6 +211,26 @@ export function createProps(scene) {
     }
     ctx.restore();
   }
+  // The recovery bay ahead of a stranded truck, painted like a station bay but purple, while a breakdown truck with nothing
+  // hooked is driven; green once the whole truck stands inside it (the same bay simulation.js nearestHook checks).
+  // It lies over holes and ruts but never tints a truck: the road's far half is drawn before the vehicles, its near half
+  // (in front of the tires) after the mud's foreground.
+  function recoveryBay(part = 'far') {
+    const { sim } = scene, v = sim.active;
+    if (!v || v.role !== 'service' || !sim.canWinch(v) || v.cable) return;
+    const hook = sim.nearestHook(v); if (!hook) return;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
+    const { start: a, end: b } = hook.bay; if (b + 2 < lo || a - 2 > hi) return;
+    const pulse = 0.55 + 0.25 * Math.sin(performance.now() / 180);
+    const tint = hook.inRange ? [98, 210, 75, pulse * 0.45] : [168, 92, 255, 0.24], rgba = o => `rgba(${tint[0]},${tint[1]},${tint[2]},${o})`;
+    const fade = ctx.createLinearGradient(a - 1.6, 0, b + 1.6, 0), soft = 1.6 / (b - a + 3.2);
+    fade.addColorStop(0, rgba(0)); fade.addColorStop(soft * 1.4, rgba(tint[3])); fade.addColorStop(1 - soft * 1.4, rgba(tint[3])); fade.addColorStop(1, rgba(0));
+    ctx.beginPath();
+    const top = part === 'far' ? rise * 0.92 : 0, bottom = part === 'far' ? 0 : -down * 0.9;
+    for (let x = a - 1.6; x <= b + 1.61; x += 0.25) ctx.lineTo(x, visH(x) + top);
+    for (let x = b + 1.6; x >= a - 1.61; x -= 0.25) ctx.lineTo(x, visH(x) + bottom);
+    ctx.closePath(); ctx.fillStyle = fade; ctx.fill();
+  }
   function roadMarks() { stationBays(); }
   function stations() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, span = roadSpan(scene), rise = span?.far ?? 1.2, down = span?.near ?? 0.6;
@@ -330,6 +350,7 @@ export function createProps(scene) {
     drawHoles() { holes(); },
     drawBehind() { drawList(back); scenery(); stations(); speedSigns(); barricade(); highwayProps(); rocks(); logsBehind(); },
     roadMarks,
+    recoveryBay,
     drawLogEnds() { holes(true); logEnds(); },
     drawFront() { drawList(front); },
   };

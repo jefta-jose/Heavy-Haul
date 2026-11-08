@@ -58,9 +58,9 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 export const RANK_XP = [0, 200, 700, 1450, 2400, 3600, 5000, 6650, 8450, 10400, 12600, 14950, 17500, 20200, 23100, 26150, 29350, 32750, 36300, 40000];
 export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
-export const XP_PER_BOG = 30;                 // for getting through a deep bog
-export const XP_PER_DELIVERY = 300;           // for reaching the depot
-export const MISSION_BASE_XP = 120;          // a mission's XP before its difficulty (x0.6 to x1.8), twists and truck lock; a full scout run earns about 700
+export const XP_PER_BOG = 10;                 // for getting through a deep bog
+export const XP_PER_DELIVERY = 100;           // for reaching the depot
+export const MISSION_BASE_XP = 100;          // a mission's XP before its difficulty (x0.6 to x1.8), twists and truck lock; a full scout run earns about 700
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
@@ -121,7 +121,8 @@ export const BODY_LIFT_RESPONSE = 10;         // how fast the drawn body follows
 
 // Fuel, recovery reach and service grip.
 export const GLOBAL_FUEL_BURN_MULTIPLIER = 2.0; // scales every truck's fuel burn
-export const WINCH_REACH = 5;                // metres between tow points
+export const WINCH_BAY_SLACK_M = 4.5;        // recovery bay = the service truck's own length plus this (about 11 m for the Mechanic Scout, 20 m for the Colossus); the whole truck must fit inside
+export const WINCH_BAY_OFFSET_M = 2;          // clear gap ahead of the stranded truck before the recovery bay
 export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of another class
 export const NEVER_STUCK_MU = 0.85;          // minimum grip in soft ground for service tires
 export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck

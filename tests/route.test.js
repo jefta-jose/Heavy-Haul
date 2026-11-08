@@ -20,7 +20,7 @@ function rescue(sim) {
   for (let i = 0; i < 120 * 2; i++) sim.step(DT);   // let it settle
   sim.setActive(v);
   let t = 0;
-  while (t < 20 && sim.nearestHook().d > sim.winchReach - 1.5) { v.ctl.gas = 1; sim.step(DT); t += DT; }
+  while (t < 20 && !sim.nearestHook().inRange) { v.ctl.gas = 1; sim.step(DT); t += DT; }
   v.ctl.gas = 0; for (let i = 0; i < 60; i++) sim.step(DT);
   if (sim.toggleWinch(v).attached) {
     // if the service truck stalls on the tow, back up a little and take a run at it

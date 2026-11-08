@@ -77,12 +77,14 @@ vehicle's own breakdown truck would. A class whose truck has no art yet has none
 greyed out and says "Not available"; no other class's truck is sent instead.
 
 1. The service truck starts at the beginning of the trail, and control switches to it.
-2. **Winching works like SnowRunner.** Back the breakdown truck to within **5 m** of the vehicle
-   and tap **WINCH** (or W). The hook goes onto the nearest vehicle: the main truck or another service
-   truck. Farther away it says "Too far away (N m)". The button pulses when something is in reach and
-   stays lit while hooked. The cable keeps the length it was hooked at and does not reel in: **drive
-   the breakdown truck away** and it tows the hooked vehicle (a vehicle ahead is pulled from its
-   rear, one behind from its front). The cable is a stiff, tension-only spring capped at the winch's
+2. **Winching is forward only, from a recovery bay.** A purple bay is painted on the road
+   `WINCH_BAY_OFFSET_M` ahead of the stuck vehicle, as long as the breakdown truck plus `WINCH_BAY_SLACK_M`
+   (about 11 m for the Mechanic Scout, 20 m for the Colossus). Vehicles pass through each other, so drive
+   the breakdown truck through the stuck one and park it wholly inside the bay; chevrons on the road lead
+   there, and the bay turns green and the WINCH button pulses once it is in. Tap **WINCH** (or W) to hook
+   the breakdown truck's rear winch to the vehicle's front. Outside the bay it says to drive ahead or how
+   far to reverse. The cable keeps the length it was hooked at and does not reel in: **drive forward** and
+   it tows the hooked vehicle. The cable is a stiff, tension-only spring capped at the winch's
    force, and both vehicles feel it. A towed vehicle's parking brake and engine braking let go so it
    rolls. Tap WINCH again to unhook.
 3. Tow the truck into a fuel station's bay to refuel and repair it. This is the way out when the tank is dry or the damage is getting close to 100%, so tow early.

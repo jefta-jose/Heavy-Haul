@@ -154,7 +154,8 @@ function winch() {
   if (r.ok && r.attached) haptics.hooked();
   if (r.ok) audio.hook(r.attached);
   if (r.ok) hud.hint(r.attached ? 'winch-on' : 'winch-off', r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
-  else if (r.reason === 'far') hud.toast(`Too far away (${Math.round(r.gap)} m). Get within ${sim.winchReach} m of ${name(r.target)} to hook the winch.`, 2.5);
+  else if (r.reason === 'behind') hud.toast(`Drive ahead of ${name(r.target)}. Park fully inside the purple ${sim.winchReach} m recovery section.`, 2.5);
+  else if (r.reason === 'far') hud.toast(`Reverse ${Math.ceil(r.bayDistance)} m to park fully inside the purple recovery section.`, 2.5);
   else hud.toast('Nothing to hook the winch to.', 2);
 }
 // the engine switch: start it (the starter cranks first) or shut it down

@@ -125,6 +125,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       art.src = car.artUri.master;
     }
     $('gName').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
+    // a truck the rank has not opened is greyed out on phones (no truck row there); Drive says the rank it needs
+    $('gShow').classList.toggle('locked', !isOpen(car.id));
     const t = tuned(), live = deriveSpecs(t), load = t.load ?? r.load;
     $('gBadge').textContent = `${classes[rank[car.class]]?.name ?? car.class} · rank ${unlockOf(car.id)}${load ? ` · ${load.name}` : ''}`;
     renderDrive();

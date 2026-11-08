@@ -402,18 +402,24 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(await page.locator('#breakdownCallBtn').evaluate(e => e.classList.contains('called')), 'its button now switches to it');
     await page.waitForTimeout(100); await capture('03a-called-at-start');
     // drive it out to the stuck truck: it never runs dry and never gets stuck
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); for (let i = 0; i < 120 * 90 && s.nearestHook().d > s.winchReach - 1.5; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; s.ctl.handbrake = true; for (let i = 0; i < 60; i++) s.step(1 / 120); __haul.snap(); });
-    assert(await page.evaluate(() => __haul.sim.nearestHook().d <= __haul.sim.winchReach), 'driven out to within hook reach');
+    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); const bay = () => s.nearestHook().bay, rear = () => s.nearestHook().bounds.rear;
+      const stop = () => { s.ctl.gas = 0; for (let i = 0; i < 120 * 6 && Math.abs(s.st.speed) > 0.2; i++) { s.ctl.brake = 1; s.step(1 / 120); } s.ctl.brake = 0; };
+      // drive up to the bay, stop, then creep in on low gear like a player lining up
+      for (let i = 0; i < 120 * 90 && rear() < bay().start - 20; i++) { s.ctl.gas = 1; s.step(1 / 120); } stop();
+      s.ctl.auto = false; s.ctl.gear = 'L';
+      for (let i = 0; i < 120 * 60 && rear() < bay().start + 1; i++) { s.ctl.gas = 0.5; s.step(1 / 120); } stop();
+      s.ctl.handbrake = true; __haul.snap(); });
+    assert(await page.evaluate(() => __haul.sim.nearestHook().inRange), 'driven out into the recovery bay');
     assert.equal(await page.evaluate(() => __haul.sim.active.st.fuel), 100, 'service trucks never burn fuel');
     await page.waitForTimeout(100); await capture('03b-unlimited-fuel');
     assert(await page.locator('#winch').isVisible(), 'the winch button shows for the service truck');
-    // tap WINCH, then reverse away to tow the truck back out of the pit
+    // tap WINCH, then drive forward to tow the truck out ahead
     await page.click('#winch');
     assert(await page.evaluate(() => !!__haul.sim.cable() && __haul.sim.cable().target === __haul.sim.main), 'tapping WINCH hooks the stuck truck');
     assert(await page.locator('#winch').getAttribute('aria-pressed') === 'true' || await page.evaluate(() => !!__haul.sim.cable()));
-    await page.evaluate(() => { const s = __haul.sim; s.ctl.handbrake = false; __haul.setGear('R'); for (let i = 0; i < 120 * 6; i++) { s.ctl.brake = 1; s.step(1 / 120); } s.ctl.brake = 0; __haul.snap(); });
+    await page.evaluate(() => { const s = __haul.sim; s.ctl.handbrake = false; __haul.setGear('L'); for (let i = 0; i < 120 * 6; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; __haul.snap(); });
     await page.waitForTimeout(200); await capture('03b-winch');
-    assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x < x - 1.5, x0), 'driving the breakdown truck away tows the stuck truck');
+    assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x > x + 1.5, x0), 'driving the breakdown truck away tows the stuck truck');
     await page.keyboard.press('KeyW');
     assert(await page.evaluate(() => !__haul.sim.cable()), 'W unhooks');
     await page.click('#switchBtn');
@@ -499,7 +505,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.waitForFunction(() => !document.querySelector('#switchBtn').classList.contains('busy'));   // taps wait for the spinner
     // the winch guide leads the breakdown truck to its reach line, green once inside it
     await page.waitForFunction(() => !document.querySelector('#winchGuide').hidden);
-    assert.equal(await page.evaluate(() => document.querySelector('#winchGuide').classList.contains('near')), await page.evaluate(() => __haul.sim.nearestHook().d <= __haul.sim.winchReach));
+    assert.equal(await page.evaluate(() => document.querySelector('#winchGuide').classList.contains('near')), await page.evaluate(() => __haul.sim.nearestHook().inRange));
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
     // Newly delivered heavy-duty trucks are selectable and run on the current map.
