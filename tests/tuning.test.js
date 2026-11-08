@@ -159,6 +159,12 @@ test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class t
   assert.equal(p.buy(second.id, coins), false, 'not twice');
   const again = createProgress(roster, store);
   assert(again.owns(second.id) && again.rank === 2, 'saved');
+  // selling gives back what the garage works out (price plus upgrades); starters stay
+  const wallet2 = { n: 0, add(x) { this.n += x; } };
+  assert.equal(again.sell(starter.id, wallet2, 99), false, 'a free starter cannot be sold');
+  assert(again.sell(second.id, wallet2, second.price + 1234)); assert.equal(wallet2.n, second.price + 1234);
+  assert(!again.owns(second.id) && again.isOpen(second.id), 'sold, and can be bought again');
+  assert.equal(again.sell(second.id, wallet2, 5), false, 'not twice');
   assert.equal(classXp(100, 'heavy'), 160, 'harder classes earn more');
 });
 
@@ -178,7 +184,7 @@ test('missions: random contracts sized to the trail, always one for the least-dr
     m.endRun();
     for (const o of m.offers) {
       goals.add(o.goal); texts.add(o.text);
-      assert(o.xp > 0 && o.xp % 50 === 0 && o.stars >= 1 && o.stars <= 3, `xp and stars: ${o.text}`);
+      assert(o.xp > 0 && o.xp % 10 === 0 && o.xp <= 700 && o.stars >= 1 && o.stars <= 3, `xp and stars: ${o.text}`);
       assert(o.twists.length <= 2);
       if (o.goal === 'deliver') assert(o.class || o.twists.length, 'no bare deliveries');
       if (o.goal === 'bogs') assert(o.count <= trail.heavyMud.length);

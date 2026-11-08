@@ -302,6 +302,10 @@ export function createHud({ sim, season }) {
       if (toastT > 0 && els.toast.textContent === FILLING) toastT = 0.4; else toast(FILLING, 0.4);
     },
     showSwitch(on) { els.switchBtn.hidden = !on; },
+    // the breakdown button asks to be pressed while the main truck is stuck
+    glowHelp(on) { els.breakdownCallBtn.classList.toggle('stuck-help', !!on && available.breakdown !== false); },
+    // a spinner on the switch and breakdown buttons while a truck change settles; taps are ignored meanwhile
+    busy(on) { for (const b of [els.breakdownCallBtn, els.switchBtn]) { b.classList.toggle('busy', on); b.setAttribute('aria-busy', String(on)); } },
     highlightSwitch(on) {
       els.switchBtn.classList.toggle('service-ready', on);
       els.switchBtn.setAttribute('aria-label', on ? 'Service complete. Switch back to your truck' : 'Switch vehicle');

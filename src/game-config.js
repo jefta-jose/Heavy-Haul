@@ -60,10 +60,11 @@ export const STARTING_RANK = 1;              // local testing value; manually re
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 30;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 300;           // for reaching the depot
+export const MISSION_BASE_XP = 120;          // a mission's XP before its difficulty (x0.6 to x1.8), twists and truck lock; a full scout run earns about 700
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 20000;              // local testing value; manually reset to 20000 for Google Play
+export const STARTING_COINS = 50000;              // local testing value; manually reset to 20000 for Google Play
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
@@ -80,6 +81,8 @@ export const POWER_TIMES = {
 export const INVINCIBLE_WARN_SECONDS = 3;     // the shield's glow flickers for the last few seconds
 export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that can't be damaged
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
+export const STUCK_GLOW_S = 4;               // seconds of gas without moving before the breakdown button glows
+export const SWITCH_BUSY_S = 0.6;             // the spinner on the switch and breakdown buttons lasts at least this long
 export const INSTANT_BRAKE_RATE = 12;         // how hard instant brakes stop the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 
 // ---------- interface feedback ----------

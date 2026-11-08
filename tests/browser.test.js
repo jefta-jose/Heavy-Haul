@@ -114,6 +114,8 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await page.evaluate(() => __haul.session.update(1));
     assert.equal(await played(), beforeComplete + 1, 'completed runs do not repeat the outcome cue');
     await page.evaluate(() => { __haul.session.resume(); __haul.startRun(__haul.garage.selection); __haul.summon('breakdown'); });
+    assert(await page.evaluate(() => document.querySelector('#breakdownCallBtn').classList.contains('busy')), 'calling the truck shows a spinner');
+    assert.equal(await page.evaluate(() => { const a = __haul.sim.active; __haul.switchVehicle(); return __haul.sim.active === a; }), true, 'a second tap while it spins is ignored');
     await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
     const beforeFail = await played();
     await page.evaluate(dt => {
@@ -494,6 +496,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     const scoutZoom = await page.evaluate(() => __haul.view.zoom);
     await page.evaluate(() => __haul.summon('breakdown'));
     assert(await page.evaluate(() => __haul.view.zoom) >= scoutZoom, 'the breakdown truck is framed at least as wide as the main truck');
+    await page.waitForFunction(() => !document.querySelector('#switchBtn').classList.contains('busy'));   // taps wait for the spinner
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
     // Newly delivered heavy-duty trucks are selectable and run on the current map.
@@ -627,6 +630,17 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.click('#missionsDone');
     assert.notEqual(await page.locator('#gMissionOn').innerText(), 'None', 'the menu names the chosen mission');
     await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
+    // selling the truck just bought, with an upgrade on it, gives back the price and the upgrade
+    await page.evaluate(id => __haul.garage.tune(id, 'engine', 25), next.id);
+    const beforeSell = await page.evaluate(() => __haul.session.coins);
+    await page.click('#gMenuSell');
+    await page.screenshot({ path: path.join(CAPTURES, '00g-sell.png') });
+    const refund = await page.evaluate(() => Number(document.querySelector('#sellConfirm').textContent.replace(/\D/g, '')));
+    await page.click('#sellConfirm');
+    assert(!(await page.evaluate(id => __haul.progress.owns(id), next.id)), 'sold');
+    assert(await page.evaluate(([b, id]) => __haul.session.coins > b + __haul.progress.price(id), [beforeSell, next.id]), 'price and upgrade come back');
+    assert(refund > 0);
+    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'it can be bought again');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
 });

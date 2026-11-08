@@ -69,7 +69,7 @@ export function bindUiFeedback({ audio, haptics }) {
   function feedback(el) {
     // Purchases report success from the garage's onBuy callback. An unaffordable
     // purchase must not sound like a successful buy or a Drive confirmation.
-    if (el.matches('#startBtn.buy, .tbuy')) return;
+    if (el.matches('#startBtn.buy, .tbuy, #sellConfirm')) return;
     audio.play(el.matches('#loader, #startBtn, .btn.primary') ? 'ui-confirm' : 'ui-click');
     // These controls already have a stronger, action-specific vibration.
     if (!el.matches('#awdBtn, #diffBtn, #winch, #powerBtn')) haptics.tick();

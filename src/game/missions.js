@@ -6,6 +6,7 @@
 // at the depot (`deliver`); when done it pays once and a fresh list is drawn. Offers not chosen are redrawn after every
 // run (`endRun`). Failing costs nothing: it stays chosen. Saved on this device.
 import { classXp } from './progress.js';
+import { MISSION_BASE_XP } from '../game-config.js';
 
 const KEY = 'hh_missions', VERSION = 2;
 const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -35,7 +36,7 @@ const TWISTS = {
 };
 
 export function createMissions(data = {}, ctx = {}, store = typeof localStorage === 'undefined' ? null : localStorage, random = Math.random) {
-  const { offerCount = 4, baseXp = 500, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]] } = data;
+  const { offerCount = 4, baseXp = MISSION_BASE_XP, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]] } = data;
   if (Array.isArray(ctx)) ctx = { classes: ctx.map(id => ({ id, name: id })) };
   const classes = ctx.classes ?? [], trail = ctx.trail ?? { start: 0, depot: 3500, checkpoints: [], heavyMud: [], highways: [] };
   const owned = () => (ctx.owned?.() ?? []).filter(c => c?.id);
@@ -123,7 +124,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       if (lock.class) m.class = lock.class;
       if (lock.car) { m.car = lock.car.id; m.carName = lock.car.name; }
       const raw = baseXp * (0.6 + 1.2 * m.d) + m.twists.reduce((s, t) => s + (twists[t.type]?.xp ?? 0), 0) + (lock.car ? locks.car?.xp ?? 0 : lock.class ? locks.class?.xp ?? 0 : 0);
-      m.xp = Math.round(classXp(raw, m.class) / 50) * 50;
+      m.xp = Math.max(10, Math.round(classXp(raw, m.class) / 10) * 10);
       const hard = m.d + 0.35 * m.twists.length + (lock.car ? 0.3 : lock.class ? 0.2 : 0);
       m.stars = hard > 1.15 ? 3 : hard > 0.6 ? 2 : 1;
       m.title = pick(goals[m.goal]?.titles ?? [m.goal]);

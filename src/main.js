@@ -12,7 +12,7 @@ import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH } from './game-config.js';
+import { COINS_PER_CRUSH, SWITCH_BUSY_S } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -67,6 +67,7 @@ const garage = createGarage({
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
   onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
+  onSell: () => { haptics.tick(); uiAudio.play('ui-buy'); },
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
@@ -108,8 +109,18 @@ function drive(v) {
   sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
   hud.showSwitch(sim.vehicles.length > 1); view.snap();
 }
+// After a switch or a call, both buttons spin until the new truck is drawn and a short beat has passed,
+// so a tap is clearly taken and a second tap cannot undo it.
+let switching = false;
+function settle() {
+  switching = true; hud.busy(true);
+  const t0 = performance.now();
+  const check = () => { if (session.state !== 'play' || (renderer.ready && performance.now() - t0 >= SWITCH_BUSY_S * 1000)) { switching = false; hud.busy(false); } else setTimeout(check, 50); };
+  setTimeout(check, 50);
+}
 function switchVehicle() {
-  if (session.state !== 'play' || sim.vehicles.length < 2) return;
+  if (session.state !== 'play' || sim.vehicles.length < 2 || switching) return;
+  settle();
   const i = sim.vehicles.indexOf(sim.active), next = returnVehicle ?? sim.vehicles[(i + 1) % sim.vehicles.length];
   drive(next); hud.toast(`Driving the ${next.car.name}`, 1.5);
 }
@@ -122,14 +133,14 @@ const serviceFor = role => content.service.find(c => c.role === role && c.class 
 const roleName = () => 'breakdown truck';
 // the breakdown button: call the truck the first time, switch to it afterwards (and back)
 function summon(role) {
-  if (session.state !== 'play') return;
+  if (session.state !== 'play' || switching) return;
   const have = called[role];
-  if (have) { drive(sim.active === have ? sim.main : have); hud.toast(`Driving the ${sim.active.car.name}`, 1.5); return; }
+  if (have) { settle(); drive(sim.active === have ? sim.main : have); hud.toast(`Driving the ${sim.active.car.name}`, 1.5); return; }
   const car = serviceFor(role);
   if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName()} yet`, 2.5); return; }
   const v = sim.spawnService(car, sim.startSpot(car));
   v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
-  called[role] = v; hud.showCalled(role, true); session.helpCalled();
+  called[role] = v; hud.showCalled(role, true); session.helpCalled(); settle();
   drive(v);   // no toast here: the stuck hint says what to do once you are at the truck
 }
 // tap WINCH: hook the nearest vehicle within reach, or unhook

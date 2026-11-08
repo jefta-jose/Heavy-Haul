@@ -1,24 +1,166 @@
 {
-  "about": "Contracts, generated at random in the garage (src/game/missions.js). Each has one goal from `goals` with targets drawn from its ranges and sized to the trail being played and to the trucks owned, may be locked to a class or to one owned truck (`locks`), and may carry 0 to 2 `twists` (extra rules). XP is `baseXp` times the goal's difficulty plus each twist's `xp` and the lock's, rounded to 50; class-locked contracts also scale by the class (XP_BY_CLASS). One offer is always a depot contract for the class driven least. Offers not chosen are redrawn after every run; the chosen one stays until done. Failing costs nothing.",
+  "about": "Contracts, generated at random in the garage (src/game/missions.js). Each has one goal from `goals` with targets drawn from its ranges and sized to the trail being played and to the trucks owned, may be locked to a class or to one owned truck (`locks`), and may carry 0 to 2 `twists` (extra rules). XP is MISSION_BASE_XP (src/game-config.js) times the goal's difficulty plus each twist's `xp` and the lock's, rounded to 10; class-locked contracts also scale by the class (XP_BY_CLASS). One offer is always a depot contract for the class driven least. Offers not chosen are redrawn after every run; the chosen one stays until done. Failing costs nothing.",
   "offerCount": 4,
-  "baseXp": 500,
   "goals": {
-    "deliver": { "weight": 2, "titles": ["Freight run", "Supply drop", "Standard haul", "Contract haul"], "needsRule": true },
-    "timed": { "weight": 3, "titles": ["Against the clock", "Rush order", "Express freight", "Hot load"], "minPerKm": [2.8, 4.4], "classMinPerKm": { "scout": 1, "highway": 1, "heavy-duty": 1.15, "offroad": 1.3, "heavy": 1.4 } },
-    "sprint": { "weight": 2, "titles": ["Sprint", "Leg race", "Quick leg", "Dash"], "minPerKm": [2.4, 3.8] },
-    "cameras": { "weight": 2, "titles": ["Speed trap", "Flash the cameras", "Radar run", "Lead foot"], "kmh": [40, 80], "step": 5, "ofTopSpeed": 0.82 },
-    "crusher": { "weight": 2, "titles": ["Crusher", "Demolition", "Rock breaker", "Clear the way"], "count": [20, 70], "step": 5 },
-    "bogs": { "weight": 2, "titles": ["Bog master", "Mud runner", "Swamp crossing", "Bog hopper"], "min": 3 },
-    "clean": { "weight": 2, "titles": ["Clean run", "Handle with care", "Fragile cargo", "Gentle hands"], "maxDamage": [8, 35] }
+    "deliver": {
+      "weight": 2,
+      "titles": [
+        "Freight run",
+        "Supply drop",
+        "Standard haul",
+        "Contract haul"
+      ],
+      "needsRule": true
+    },
+    "timed": {
+      "weight": 3,
+      "titles": [
+        "Against the clock",
+        "Rush order",
+        "Express freight",
+        "Hot load"
+      ],
+      "minPerKm": [
+        2.8,
+        4.4
+      ],
+      "classMinPerKm": {
+        "scout": 1,
+        "highway": 1,
+        "heavy-duty": 1.15,
+        "offroad": 1.3,
+        "heavy": 1.4
+      }
+    },
+    "sprint": {
+      "weight": 2,
+      "titles": [
+        "Sprint",
+        "Leg race",
+        "Quick leg",
+        "Dash"
+      ],
+      "minPerKm": [
+        2.4,
+        3.8
+      ]
+    },
+    "cameras": {
+      "weight": 2,
+      "titles": [
+        "Speed trap",
+        "Flash the cameras",
+        "Radar run",
+        "Lead foot"
+      ],
+      "kmh": [
+        40,
+        80
+      ],
+      "step": 5,
+      "ofTopSpeed": 0.82
+    },
+    "crusher": {
+      "weight": 2,
+      "titles": [
+        "Crusher",
+        "Demolition",
+        "Rock breaker",
+        "Clear the way"
+      ],
+      "count": [
+        20,
+        70
+      ],
+      "step": 5
+    },
+    "bogs": {
+      "weight": 2,
+      "titles": [
+        "Bog master",
+        "Mud runner",
+        "Swamp crossing",
+        "Bog hopper"
+      ],
+      "min": 3
+    },
+    "clean": {
+      "weight": 2,
+      "titles": [
+        "Clean run",
+        "Handle with care",
+        "Fragile cargo",
+        "Gentle hands"
+      ],
+      "maxDamage": [
+        8,
+        35
+      ]
+    }
   },
   "twists": {
-    "noHelp": { "weight": 3, "xp": 350, "text": "without the breakdown truck" },
-    "clean": { "weight": 2, "xp": 300, "text": "under {maxDamage}% damage", "maxDamage": [15, 40] },
-    "timed": { "weight": 2, "xp": 300, "text": "within {minutes}", "slack": 1.35 },
-    "noRefuel": { "weight": 2, "xp": 250, "text": "without refuelling" },
-    "noPower": { "weight": 1, "xp": 150, "text": "without using a power" },
-    "noStuck": { "weight": 1, "xp": 400, "text": "never stuck for {seconds} s", "seconds": [6, 12] }
+    "noHelp": {
+      "weight": 3,
+      "xp": 60,
+      "text": "without the breakdown truck"
+    },
+    "clean": {
+      "weight": 2,
+      "xp": 50,
+      "text": "under {maxDamage}% damage",
+      "maxDamage": [
+        15,
+        40
+      ]
+    },
+    "timed": {
+      "weight": 2,
+      "xp": 50,
+      "text": "within {minutes}",
+      "slack": 1.35
+    },
+    "noRefuel": {
+      "weight": 2,
+      "xp": 40,
+      "text": "without refuelling"
+    },
+    "noPower": {
+      "weight": 1,
+      "xp": 25,
+      "text": "without using a power"
+    },
+    "noStuck": {
+      "weight": 1,
+      "xp": 70,
+      "text": "never stuck for {seconds} s",
+      "seconds": [
+        6,
+        12
+      ]
+    }
   },
-  "locks": { "class": { "chance": 0.3, "xp": 150 }, "car": { "chance": 0.15, "xp": 250 } },
-  "twistCount": [[0, 0.35], [1, 0.45], [2, 0.2]]
+  "locks": {
+    "class": {
+      "chance": 0.3,
+      "xp": 25
+    },
+    "car": {
+      "chance": 0.15,
+      "xp": 40
+    }
+  },
+  "twistCount": [
+    [
+      0,
+      0.35
+    ],
+    [
+      1,
+      0.45
+    ],
+    [
+      2,
+      0.2
+    ]
+  ]
 }

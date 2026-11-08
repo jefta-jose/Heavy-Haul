@@ -34,7 +34,7 @@ function inkOf(img, id) {
   return ink;
 }
 
-export function createGarage({ content, progress, missions, onSelect, onStart, onBuy }) {
+export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSell }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
   const rosterOf = id => content.roster.cars.find(c => c.id === id);
   const playable = new Map(content.cars.map(c => [c.id, c]));
@@ -236,6 +236,27 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   $('gMenuMissions').addEventListener('click', () => { renderMissions(); missionsOv.hidden = false; });
   $('missionsDone').addEventListener('click', () => { missionsOv.hidden = true; });
 
+  // selling: everything spent on the truck comes back, its price and every upgrade step bought for it.
+  // Its upgrades and power are cleared; the free starter of each class cannot be sold.
+  const upgradesSpent = c => KNOBS.reduce((s, k) => s + upgradeCost(c, 0, clampLevel(tuneOf(c.id)[k.id])), 0);
+  const sellValue = c => progress.price(c.id) + upgradesSpent(c);
+  const sellOv = $('sellOv');
+  $('gMenuSell').addEventListener('click', () => {
+    const v = sellValue(car), up = upgradesSpent(car);
+    $('sellFor').textContent = `${car.name}${car.number ? ' ' + car.number : ''}`;
+    $('sellText').textContent = 'You get back everything you spent on this truck. You can buy it again later.';
+    const spec = $('sellSpec'); spec.innerHTML = '';
+    for (const [k, val] of [['Price paid', formatCoins(progress.price(car.id))], ['Upgrades', formatCoins(up)], ['You get', formatCoins(v)]]) { const cell = el('div', 'g-cell'); cell.append(el('dt', null, k), el('dd', null, val)); spec.append(cell); }
+    $('sellConfirm').textContent = `Sell for ${formatCoins(v)}`;
+    sellOv.hidden = false;
+  });
+  $('sellCancel').addEventListener('click', () => { sellOv.hidden = true; });
+  $('sellConfirm').addEventListener('click', () => {
+    const v = sellValue(car);
+    if (progress.sell(car.id, wallet, v)) { delete tuning[car.id]; saveTuning(tuning); delete powers[car.id]; savePowers(powers); onSell?.(); }
+    sellOv.hidden = true; render();
+  });
+
   // previous and next: through the chosen class's playable trucks, and round again
   function pick(next, back = false) { enterBack = back; car = next; cls = next.class; render(); }
   function step(d) {
@@ -264,6 +285,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     else if (open) { const price = progress.price(car.id); btn.append(el('span', 'gbuy', 'Buy'), el('i', 'coinic'), el('b', null, formatCoins(price))); btn.classList.toggle('poor', wallet.coins < price); }
     else { btn.append(gIcon('lock'), el('span', 'gneed', `Requires rank ${unlockOf(car.id)}`)); }
     for (const id of ['gMenuTune', 'gMenuPowers', 'gLevels']) $(id).disabled = !mine;
+    const canSell = mine && unlockOf(car.id) > 1;
+    $('gMenuSell').disabled = !canSell; $('gSellFor').textContent = canSell ? formatCoins(sellValue(car)) : mine ? 'Starter' : '';
     if (progress) {
       const pr = progress.progress;
       $('gRankNum').textContent = `Rank ${pr.rank}`;

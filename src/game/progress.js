@@ -40,6 +40,12 @@ export function createProgress(roster, store = typeof localStorage === 'undefine
       return ups;
     },
     save,
+    // sell a bought truck: it goes back to the dealer and `refund` coins come back (price and upgrades,
+    // worked out by the garage). Free starters cannot be sold.
+    sell(id, wallet, refund) {
+      if (rankOf(id) <= 1 || !state.owned.includes(id)) return false;
+      state.owned = state.owned.filter(x => x !== id); wallet.add(refund); save(); return true;
+    },
     // buy an open truck with the wallet; false when it is locked, owned already or too dear
     buy(id, wallet) {
       if (p.owns(id) || !p.isOpen(id) || !wallet.spend(p.price(id))) return false;

@@ -2,7 +2,7 @@ import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
 // Rewards watch the main vehicle; overturned service trucks also end the run.
-import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
+import { CRASH_SECONDS, STUCK_GLOW_S, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
 
@@ -12,7 +12,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   const trail = season.trail;
   const serviceRolls = new Map();
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, helpGlow: false, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -139,6 +139,10 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(driving.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
     hud.nudge('diff', !ctl.diff && (st.diffLimited || run.stuckT > 2));
+    // stuck in the main truck (or out of fuel), the breakdown button glows until it is moving again
+    if (sim.active === main && (run.stuckT > STUCK_GLOW_S || main.st.fuel <= 0)) run.helpGlow = true;
+    else if (sim.active !== main || run.stuckT < 0.5) run.helpGlow = false;
+    hud.glowHelp?.(run.helpGlow);
     // The main vehicle: empty tank and delivery. Service trucks have unlimited fuel.
     if (main.st.fuel <= 0 && Math.abs(main.st.speed) < 0.4 && sim.active === main) run.emptyT += dt; else run.emptyT = Math.min(0, run.emptyT + dt);
     if (run.emptyT > 2.5) { fail('fuel'); return; }
