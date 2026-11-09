@@ -3,6 +3,7 @@
 // HAUL_CAPTURES=<dir> also saves screenshots for visual review (default output/captures).
 import test from 'node:test';
 import { formatCoins } from '../src/game/format.js';
+import { upgradeCost } from '../src/game/tuning.js';
 import { ZOOM_BY_CLASS, CRASH_SECONDS } from '../src/game-config.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -603,7 +604,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
-    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } }), errors = [];
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, hasTouch: true }), errors = [];
     page.on('pageerror', e => errors.push(e.stack || e.message));
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'networkidle' });
@@ -630,6 +631,45 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.evaluate(() => __haul.session.coins), coins - next.price, 'for its price');
     assert.match(await page.locator('#startBtn').innerText(), /drive/i, 'and it drives');
     assert.match(await page.locator('#gRankNum').innerText(), /rank 2/i, 'the garage shows the rank');
+    // A sale-value refresh used to replace the tuning object retained by these buttons.
+    // Buy on a non-starter, with no delay between clicks, and check every debit against saved levels.
+    await page.click('#gMenuTune');
+    const purchaseCoins = await page.evaluate(() => __haul.session.coins);
+    await page.setViewportSize({ width: 844, height: 390 });
+    for (let i = 0; i < 2; i++) await page.locator('.tune .tbuy').first().tap();
+    assert.equal(await page.locator('.tune .tbar').first().getAttribute('aria-valuenow'), '50', 'successive phone taps apply both upgrades');
+    assert.equal(await page.evaluate(() => __haul.session.coins), purchaseCoins - upgradeCost(next, 0, 50), 'phone taps charge only for applied upgrades');
+    await page.locator('#tuneReset').tap();
+    const purchaseTrace = await page.evaluate(() => {
+      const trace = [], retired = [];
+      for (let i = 0; i < 4; i++) {
+        const button = document.querySelector('.tune .tbuy'); retired.push(button); button.click();
+        trace.push({ coins: __haul.session.coins, level: __haul.garage.selection.car.levels.engine,
+          saved: JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.garage.selection.car.id].engine });
+      }
+      // Events already targeting an old button must not charge again or refund twice.
+      const before = __haul.session.coins;
+      for (const button of retired) { button.click(); button.click(); }
+      return { trace, before, after: __haul.session.coins };
+    });
+    for (let i = 0; i < 4; i++) {
+      const level = (i + 1) * 25;
+      assert.deepEqual(purchaseTrace.trace[i], { coins: purchaseCoins - upgradeCost(next, 0, level), level, saved: level }, 'each rapid purchase applies and saves exactly the level paid for');
+    }
+    assert.equal(purchaseTrace.after, purchaseTrace.before, 'retired buttons cannot spend coins');
+    assert(await page.locator('.tune .tbuy').first().isDisabled(), 'max level blocks further purchases');
+    const refundTrace = await page.evaluate(() => {
+      const button = document.querySelector('.tune .tminus'); button.click();
+      const before = __haul.session.coins; button.click(); button.click();
+      return { before, after: __haul.session.coins, level: __haul.garage.selection.car.levels.engine };
+    });
+    assert.equal(refundTrace.before, purchaseCoins - upgradeCost(next, 0, 75), 'selling a step refunds only that step');
+    assert.equal(refundTrace.after, refundTrace.before, 'retired refund buttons cannot refund twice');
+    assert.equal(refundTrace.level, 75);
+    await page.click('#tuneReset');
+    assert.equal(await page.evaluate(() => __haul.session.coins), purchaseCoins, 'reset refunds the remaining paid levels');
+    await page.click('#tuneDone');
+    await page.setViewportSize({ width: 1280, height: 720 });
     // missions: the card offers some, one can be chosen, and the menu says which
     await page.click('#gMenuMissions');
     assert.equal(await page.locator('#missionList .power').count(), 4, 'four missions on offer');

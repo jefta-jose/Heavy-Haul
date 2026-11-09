@@ -142,14 +142,19 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // upgrades: a row per knob with its icon, four level segments and a button that buys the next step.
   // Selling a step back refunds it.
   function renderTuning() {
-    const box = $('tuneList'), t = tuneOf(car.id), n = MAX_LEVEL / STEP; box.innerHTML = '';
+    const box = $('tuneList'), carId = car.id, t = tuneOf(carId), n = MAX_LEVEL / STEP; box.innerHTML = '';
     for (const knob of KNOBS) {
       const level = clampLevel(t[knob.id]), row = el('div', 'tune' + (level ? ' changed' : ''));
       const set = v => {
-        const c = clampLevel(v), cost = upgradeCost(car, level, c);
+        // Rendering sale values also normalizes tuning, replacing its objects. Read the
+        // current state at purchase time; never charge through a retired button.
+        if (car.id !== carId || !owns(carId) || !row.isConnected) return;
+        const current = tuneOf(carId), from = clampLevel(current[knob.id]);
+        if (from !== level) return;
+        const c = clampLevel(v), cost = upgradeCost(car, from, c);
         if (cost > 0 && !wallet.spend(cost)) return;
         if (cost < 0) wallet.add(-cost);
-        if (c) t[knob.id] = c; else delete t[knob.id];
+        if (c) current[knob.id] = c; else delete current[knob.id];
         saveTuning(tuning); if (cost > 0) onBuy?.(); renderTuning(); renderDetail();
       };
       const pic = el('i', 'tpic'); pic.append(gIcon(knob.id));
