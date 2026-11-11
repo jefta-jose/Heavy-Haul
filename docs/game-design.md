@@ -168,7 +168,7 @@ A sign stands at the first of every group of things that can hurt a truck: logs,
 
 ## Highway
 
-Right after each fuel station comes 250 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it at all, so it stays clean.
+Right after each fuel station comes 400 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it at all, so it stays clean.
 
 An invisible speed camera sits 20 m before the end of each one, where trucks are at their fastest. As the truck passes, a small fiery red chip just under the power chip, the same size, shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
 
@@ -178,7 +178,7 @@ Fences, a stilt shack, rusted pickups, water towers and alligator warning signs 
 
 ## Ranks and buying trucks
 
-The player has a rank from 1 to 20, reached with XP (`RANK_XP` in `src/game-config.js`: 200 XP for rank 2, up to 40,000 for rank 20). XP comes from driving, scaled by the main truck's class, so harder classes earn more (`XP_BY_CLASS`): new ground (0.05 per metre), every deep bog cleared (40) and every delivery (600). Being towed earns nothing.
+The player has a rank from 1 to 20, reached with XP (`RANK_XP` in `src/game-config.js`: 300 XP for rank 2, up to 60,000 for rank 20). XP comes from driving, scaled by the main truck's class, so harder classes earn more (`XP_BY_CLASS`): new ground (0.05 per metre), every deep bog cleared (40) and every delivery (600). Being towed earns nothing.
 
 Every class has 20 trucks, ordered weakest to strongest by power, and each has an `unlockRank` from 1 to 20 in `assets/cars/cars.json`, one per rank. Each class's weakest truck (rank 1) is owned from the start. Reaching a rank opens one more truck in every class, five in all, but it still has to be bought for its `price` (the class's tier-1 price times its rank). In the garage a locked truck shows a padlock and "Rank N", greyed out; an open one shows its price; an owned one shows nothing. Drive becomes Buy with the price for an open truck, and "Requires rank N" for a locked one. Upgrades and powers only work on owned trucks. The rank and an XP bar sit left of the coins. A rank-up is announced on the road, and the delivery screen shows the XP earned. Rank, XP and owned trucks are saved in the browser (`src/game/progress.js`).
 
@@ -196,10 +196,11 @@ Powers do what upgrades can't. The garage's Powers card holds them, and each tru
 
 Every power runs for a while and then recharges, and starts ready on every run.
 
-- **Invincible:** the power button (S on a keyboard) stops all hit damage and the throw from a hit for 10 seconds, with a violet glow around the truck that flickers for the last 3. It then recharges for 30 seconds. It does not stop a rollover.
-- **Instant brakes:** braking on the ground faster than `DAMAGE_START_KMH` (20 km/h) starts it, so ordinary slow braking never uses it up: for 1 second the pedal takes the truck's speed straight off, whatever it weighs. It then recharges for 15 seconds, with normal brakes until it is ready.
+- **Invincible:** the power button (S on a keyboard) stops all hit damage and the throw from a hit for 15 seconds, with a violet glow around the truck that flickers for the last 3. It then recharges for 30 seconds. It does not stop a rollover.
+- **Nitro:** the power button (S on a keyboard) gives 15 seconds of speed past the truck's own top speed (up to 1.6 times it), with a blue glow and speed lines; braking ends the boost. It then recharges for 30 seconds.
+  Each boost arms an **instant brake**: the next tap on the brake on the ground, at any speed, during the boost, the recharge or any time after, takes the truck's speed straight off over 1 second, whatever it weighs (a tap is enough: it finishes the stop itself), and is used up. The power chip says *Instant brake armed* until then.
 
-The numbers are in `src/game-config.js`. A Nitro power was removed on 2026-11-06: its speed always ended in a wreck in the obstacles just past the highway.
+The numbers are in `src/game-config.js`. Nitro was removed on 2026-11-06 because its speed always ended in a wreck in the obstacles just past the highway; on 2026-11-11 it came back in place of the Instant brakes power, carrying the instant brake with it so the player can stop in time.
 
 ## Garage, screens and music
 

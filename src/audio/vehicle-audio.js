@@ -15,6 +15,7 @@
 
 import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
+import { BRAKE_HISS_GAP_S } from '../game-config.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
 const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7, music: 0.5, muted: false };
@@ -156,7 +157,10 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   api.shift = gear => { play('gear-clunk', 0.6, { rate: gear === 'H' ? 1 : 0.85 }); setTimeout(() => play('gear-clunk', 0.3, { rate: 0.8 }), 130); };
   api.key = () => tick(1800, 0.05, 0.04);
   // the handbrake: a ratchet lever on scouts, an air hiss on trucks with air brakes
+  let handbrakeAt = -Infinity;
   api.handbrake = (on, car) => {
+    // rapid taps on the lever sound once, not once a tap
+    const t = performance.now() / 1000; if (t - handbrakeAt < BRAKE_HISS_GAP_S) return; handbrakeAt = t;
     if (engineProfile(car, bank).airBrakes) play(on ? 'air-release' : 'air-burst', on ? 0.7 : 0.5);
     else play(on ? 'handbrake-on' : 'handbrake-off', 0.8);
   };
@@ -260,13 +264,15 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     if (water.wade) { water.wade.setGain(depth * (0.35 + Math.min(0.5, speed * 0.15)), 0.35); water.wade.setRate(0.85 + Math.min(0.25, speed * 0.05), 0.4); water.wade.update(); }
     if (water.churn) { water.churn.setGain(depth * Math.min(0.55, speed * 0.18), 0.35); water.churn.setRate(0.85 + Math.min(0.2, speed * 0.04), 0.4); water.churn.update(); }
 
-    // brakes: a hydraulic hiss braking from speed, and on air brakes the release when it stops
+    // brakes: a hydraulic hiss braking from speed, and on air brakes the release when it stops. Each plays once per
+    // stop: pumping the pedal does not repeat them. The hiss waits BRAKE_HISS_GAP_S between presses, and the release
+    // and the burst after it are armed again only once the truck has moved off.
     const air = engineProfile(v.car, bank).airBrakes;
-    if (brakeState.v !== v) brakeState = { v, braking: false, stopped: false };
-    const braking = live && v.ctl.brake > 0.5;
-    if (braking && !brakeState.braking && speed > 3 && air) play('hydraulic-brake', Math.min(0.7, 0.2 + speed * 0.05));
-    if (braking && air && speed < 0.3 && !brakeState.stopped && brakeState.braking) { play('air-release', 0.55); brakeState.stopped = true; }
-    if (!braking && brakeState.stopped && air) { play('air-burst', 0.3); brakeState.stopped = false; }
+    if (brakeState.v !== v) brakeState = { v, braking: false, stopped: false, burst: false, hissAt: -Infinity };
+    const braking = live && v.ctl.brake > 0.5, now = ac.currentTime;
+    if (braking && !brakeState.braking && speed > 3 && air && now - brakeState.hissAt > BRAKE_HISS_GAP_S) { play('hydraulic-brake', Math.min(0.7, 0.2 + speed * 0.05)); brakeState.hissAt = now; }
+    if (braking && air && speed < 0.3 && !brakeState.stopped && brakeState.braking) { play('air-release', 0.55); brakeState.stopped = true; brakeState.burst = true; }
+    if (!braking && brakeState.burst && air) { play('air-burst', 0.3); brakeState.burst = false; }
     if (speed > 1) brakeState.stopped = false;
     brakeState.braking = braking;
 

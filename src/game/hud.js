@@ -163,7 +163,7 @@ export function createHud({ sim, season }) {
   }
 
   // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too
-  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, brakes: { name: 'Instant brakes', color: '#ff6a2b' } };
+  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, nitro: { name: 'Nitro', color: '#2f9dff', button: 'NITRO' } };
   const powerIcon = kind => document.getElementById('garageIcons').content.querySelector(`[data-icon="garage-${kind}"] svg`)?.cloneNode(true);
   let shownPower = null, powerText = null;
   function showPower() {
@@ -180,7 +180,9 @@ export function createHud({ sim, season }) {
     btn.disabled = sim.active !== sim.main;
     if (!look) return;
     const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
-    const text = running ? `<i>${look.name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`;
+    // nitro's instant brake: armed by a boost until a hard brake uses it, and lit while it is stopping the truck
+    const brakeNote = st.brakeT > 0 ? ' · <b>Instant brake!</b>' : st.brakeArmed ? ' · <i>Instant brake armed</i>' : '';
+    const text = (running ? `<i>${look.name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`) + brakeNote;
     if (text !== powerText) {
       powerText = text; box.querySelector('span').innerHTML = text;
       box.firstChild.style.setProperty('--c', running ? look.color : cooling ? '#8f98a2' : '#3bdc6e');
@@ -207,7 +209,10 @@ export function createHud({ sim, season }) {
 
   // DOM properties retain their last value, so stationary HUD values need no writes.
   const setText = (el, value) => { if (el.textContent !== value) el.textContent = value; };
-  function update(dt, { coins, run }) {
+  function update(dt, { coins, run, playing = true }) {
+    // the arrow shows only over the drive itself: not under the pause menu, the garage or a loading screen
+    const want = playing && stuckArrow && els.msgOv.hidden;
+    if (want !== arrowOn) { arrowOn = want; showArrow(); }
     showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
@@ -276,6 +281,24 @@ export function createHud({ sim, season }) {
     b.title = !ok ? `No ${what} yet` : on ? `Switch to the ${what}` : `Call the ${what}`; b.setAttribute('aria-label', b.title);
   }
 
+  // the arrow under the breakdown button (or over it, where a layout puts the button low on the screen)
+  const switchOv = $('switchOv'), arrow = $('helpArrow');
+  let switchFade = 0, stuckArrow = false, arrowOn = false;
+  function showArrow() {
+    const b = els.breakdownCallBtn, r = b.getBoundingClientRect(), on = arrowOn && stuckArrow && !b.hidden && r.width > 0 && switchOv.hidden;
+    arrow.hidden = !on;
+    // the power and mission chips sit under the button: they step down out of the arrow's way
+    $('hud').classList.toggle('arrow-on', on && r.top <= innerHeight / 2);
+    if (!on) return;
+    $('helpArrowTxt').textContent = b.classList.contains('called') ? 'Your breakdown truck' : 'Call for help';
+    const low = r.top > innerHeight / 2;
+    arrow.classList.toggle('down', low);
+    arrow.style.left = `${Math.round(r.left + r.width / 2)}px`;
+    arrow.style.top = low ? '' : `${Math.round(r.bottom + 6)}px`;
+    arrow.style.bottom = low ? `${Math.round(innerHeight - r.top + 6)}px` : '';
+  }
+  addEventListener('resize', showArrow);
+
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     showCalled, coinBonus, showMission, failMission,
@@ -302,10 +325,25 @@ export function createHud({ sim, season }) {
       if (toastT > 0 && els.toast.textContent === FILLING) toastT = 0.4; else toast(FILLING, 0.4);
     },
     showSwitch(on) { els.switchBtn.hidden = !on; },
-    // the breakdown button asks to be pressed while the main truck is stuck
-    glowHelp(on) { els.breakdownCallBtn.classList.toggle('stuck-help', !!on && available.breakdown !== false); },
-    // a spinner on the switch and breakdown buttons while a truck change settles; taps are ignored meanwhile
-    busy(on) { for (const b of [els.breakdownCallBtn, els.switchBtn]) { b.classList.toggle('busy', on); b.setAttribute('aria-busy', String(on)); } },
+    // the breakdown button asks to be pressed while the main truck is stuck, with an arrow pointing at it
+    glowHelp(on) {
+      on = !!on && available.breakdown !== false;
+      els.breakdownCallBtn.classList.toggle('stuck-help', on);
+      if (on !== stuckArrow) { stuckArrow = on; showArrow(); }
+    },
+    // while a truck change settles: a full-screen wait over everything, so repeated taps land on nothing
+    busy(on, label = 'Switching trucks') {
+      for (const b of [els.breakdownCallBtn, els.switchBtn]) { b.classList.toggle('busy', on); b.setAttribute('aria-busy', String(on)); }
+      clearTimeout(switchFade);
+      if (on) {
+        $('switchLabel').textContent = label;
+        switchOv.hidden = false; void switchOv.offsetWidth; switchOv.classList.add('on');
+        showArrow();
+      } else {
+        switchOv.classList.remove('on');
+        switchFade = setTimeout(() => { switchOv.hidden = true; showArrow(); }, 180);
+      }
+    },
     highlightSwitch(on) {
       els.switchBtn.classList.toggle('service-ready', on);
       els.switchBtn.setAttribute('aria-label', on ? 'Service complete. Switch back to your truck' : 'Switch vehicle');

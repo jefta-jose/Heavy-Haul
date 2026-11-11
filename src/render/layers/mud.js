@@ -1,5 +1,5 @@
 import { wheelRadius } from '../../physics/vehicle.js';
-import { makeCanvas } from '../canvas-utils.js';
+import { makeCanvas, blitChunk } from '../canvas-utils.js';
 
 import { roadSpan } from './ground.js';
 
@@ -159,10 +159,7 @@ export function createMudLayer(scene) {
     };
     for (let index = first; index <= last; index++) {
       const tile = C.mudChunks.get(index) ?? make(index);
-      if (tile.canvas) {
-        ctx.save(); ctx.translate(tile.x, tile.top); ctx.scale(1, -1);
-        ctx.drawImage(tile.canvas, 0, 0, width, tile.canvas.height / px); ctx.restore();
-      }
+      if (tile.canvas) blitChunk(ctx, tile.canvas, tile.x, tile.top, width, px);
     }
     const next = scene.view.cam.vx < 0 ? first - 1 : last + 1;
     if (ahead && !C.built && !C.mudChunks.has(next)) make(next);

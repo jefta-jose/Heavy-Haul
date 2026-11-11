@@ -1,4 +1,4 @@
-import { makeCanvas } from '../canvas-utils.js';
+import { makeCanvas, blitChunk } from '../canvas-utils.js';
 
 // Only the tire contact band follows every bump. Across the verge and foreground those bumps
 // relax into broader landforms, rather than bending the entire painting into accordion folds.
@@ -103,8 +103,7 @@ function bank(scene, lo, hi, ahead = false) {
   };
   for (let index = first; index <= last; index++) {
     const tile = C.bankChunks.get(index) ?? make(index);
-    ctx.save(); ctx.translate(tile.x, tile.top); ctx.scale(1, -1);
-    ctx.drawImage(tile.canvas, 0, 0, tile.canvas.width / px, tile.canvas.height / px); ctx.restore();
+    blitChunk(ctx, tile.canvas, tile.x, tile.top, chunkWidth, px);
   }
   const next = (cam?.vx ?? 0) < 0 ? first - 1 : last + 1;
   if (ahead && !C.built && !C.bankChunks.has(next)) make(next);

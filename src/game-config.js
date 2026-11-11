@@ -55,8 +55,8 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 // ---------- rank ----------
 // XP needed in total to reach each rank, rank 1 to 20. Reaching a rank opens one more truck in every class, to buy for its
 // price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
-export const RANK_XP = [0, 200, 700, 1450, 2400, 3600, 5000, 6650, 8450, 10400, 12600, 14950, 17500, 20200, 23100, 26150, 29350, 32750, 36300, 40000];
-export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
+export const RANK_XP = [0, 300, 1050, 2175, 3600, 5400, 7500, 9975, 12675, 15600, 18900, 22425, 26250, 30300, 34650, 39225, 44025, 49125, 54450, 60000];
+export const STARTING_RANK = 20;              // local testing value; manually reset to 1 for Google Play
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 10;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 100;           // for reaching the depot
@@ -64,7 +64,7 @@ export const MISSION_BASE_XP = 100;          // a mission's XP before its diffic
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 50000;              // local testing value; manually reset to 20000 for Google Play
+export const STARTING_COINS = 50000000;              // local testing value; manually reset to 20000 for Google Play
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
@@ -75,17 +75,25 @@ export const UPGRADE_COST_BY_CLASS = { scout: 1, highway: 1.5, 'heavy-duty': 1.5
 // ---------- powers ----------
 // Chosen in the garage, one at a time per truck. Every power runs for a while, then has to recharge.
 export const POWER_TIMES = {
-  invincible: { seconds: 10, cooldown: 30 },  // no hit does damage; started with the power button
-  brakes: { seconds: 1, cooldown: 15 },       // the brake pedal stops the truck dead; started by braking faster than DAMAGE_START_KMH
+  invincible: { seconds: 15, cooldown: 30 },  // no hit does damage; started with the power button
+  nitro: { seconds: 15, cooldown: 30 },       // a surge of speed; started with the power button
 };
+// Nitro arms an instant brake: the next tap on the brake, at any speed, during the boost, the recharge or long after, stops
+// the truck dead over this long (a tap is enough; it finishes the stop itself) and is used up. Without it nitro ended in
+// the obstacles past the highway.
+export const NITRO_BRAKE_SECONDS = 1;
+export const NITRO_COLOR = '#2f9dff';         // the speedy border around a truck on nitro
+export const NITRO_ACCEL = 5;                 // how hard nitro pushes, in m/s² whatever the truck weighs
+export const NITRO_TOP_SHARE = 1.6;           // nitro stops pushing at this share of the truck's own top speed
 export const INVINCIBLE_WARN_SECONDS = 3;     // the shield's glow flickers for the last few seconds
 export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that can't be damaged
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
 export const GUIDE_SPACING_M = 1.6;           // the winch guide: metres between chevrons on the road
 export const GUIDE_SIZE_M = 1.1;              // and how long each chevron is
 export const STUCK_GLOW_S = 4;               // seconds of gas without moving before the breakdown button glows
-export const SWITCH_BUSY_S = 0.6;             // the spinner on the switch and breakdown buttons lasts at least this long
-export const INSTANT_BRAKE_RATE = 12;         // how hard instant brakes stop the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
+export const BRAKE_HISS_GAP_S = 1.5;          // a brake hiss or handbrake sound plays at most once in this many seconds, so pumping the pedal does not repeat it
+export const SWITCH_BUSY_S = 0.9;             // the full-screen wait after switching trucks or calling the breakdown truck lasts at least this long
+export const INSTANT_BRAKE_RATE = 12;         // how hard nitro's instant brake stops the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 
 // ---------- interface feedback ----------
 // Supplied interface sounds, scaled by the saved master and effects volumes.
@@ -94,6 +102,7 @@ export const UI_SOUND_GAINS = { 'ui-click': 0.5, 'ui-confirm': 0.22, 'ui-buy': 0
 // ---------- music ----------
 // loopSeconds records each file's duration; gain matches the tracks to the existing listening levels.
 export const MUSIC_TRACKS = { garage: { loopSeconds: 145.776, gain: 0.52 }, drive: { loopSeconds: 114.984, gain: 0.45 } };
+export const MUSIC_SEAM_S = 0.06;             // the crossfade where a music track comes round to its start again (src/audio/music.js)
 export const MUSIC_FADE_S = 0.8;              // how long a track takes to fade in or out
 
 // ---------- how damage looks ----------
@@ -110,7 +119,8 @@ export const LOADER_SLIDE_MS = 8000;          // how long each slide and its fac
 
 // ---------- highway ----------
 export const HIGHWAY_SIGN_WIDTH_M = 8.5;      // how wide the sign at the start of a highway is drawn
-export const SPEED_TRAP_FROM_END_M = 20;       // the speed camera stands this far before each highway's end, where trucks are at their fastest
+export const SPEED_TRAP_FROM_END_M = 20;       // the speed camera stands this far before each highway's end, where trucks are at their fastest;
+                                              // the highway banner stands again just past it, so the speed is caught before the driver brakes
 export const SPEED_TRAP_CARD_S = 4;           // how long the top speed card stays up, its fade included
 export const SPEED_TRAP_FADE_S = 1;           // how long it takes to fade out at the end
 

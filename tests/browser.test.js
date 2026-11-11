@@ -17,7 +17,7 @@ import { releaseCode } from './release-build.js';
 
 const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures');
 // these runs drive many trucks: start them at the top rank with every truck owned (the rank and buying flow is tested on its own)
-const ALL_OWNED = JSON.stringify({ xp: 40000, owned: JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).cars.map(c => c.id) });
+const ALL_OWNED = JSON.stringify({ xp: 60000, owned: JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).cars.map(c => c.id) });
 const ownAll = page => page.addInitScript(v => { try { localStorage.setItem('hh_progress', v); } catch (e) {} }, ALL_OWNED);
 
 test('supplied UI sounds route to buttons, purchases and run outcomes', { timeout: 120000 }, async () => {
@@ -37,7 +37,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true });
     await page.addInitScript(() => {
       localStorage.setItem('hh_wallet', '1000000');
-      localStorage.setItem('hh_progress', JSON.stringify({ xp: 40000, owned: [] }));
+      localStorage.setItem('hh_progress', JSON.stringify({ xp: 60000, owned: [] }));
       window.uiVibrations = [];
       Object.defineProperty(navigator, 'vibrate', { value: pattern => { window.uiVibrations.push(pattern); return true; } });
     });
@@ -274,14 +274,14 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
     await page.click('#gMenuPowers');
     await page.locator('.power', { hasText: 'Invincible' }).click();
-    await page.locator('.power', { hasText: 'Instant brakes' }).click();
+    await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
-    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'brakes', 'the run uses the chosen power');
-    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'brakes', 'and it is kept');
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'the run uses the chosen power');
+    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'nitro', 'and it is kept');
     assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'swamp-scout-4' ? 'mire-king-6' : 'swamp-scout-4', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
-    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'brakes', 'and coming back finds it still on');
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'and coming back finds it still on');
     await capture('00c-powers');
-    await page.locator('.power', { hasText: 'Instant brakes' }).click();
+    await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
     await page.click('#powersDone');
     assert(await page.evaluate(() => __haul.session.coins < 999999), 'upgrades cost coins');
@@ -621,7 +621,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.match(await page.locator('#startBtn').innerText(), /requires rank 2/i, 'a locked truck says the rank it needs');
     assert(await page.locator('#startBtn').isDisabled());
     assert.match(await page.locator('.gtile.on').innerText(), /rank 2/i, 'and so does its tile');
-    await page.evaluate(price => { __haul.progress.addXp(250); __haul.session.earn(price * 2, true); __haul.garage.show(); }, next.price);
+    await page.evaluate(price => { __haul.progress.addXp(350); __haul.session.earn(price * 2, true); __haul.garage.show(); }, next.price);
     assert.equal((await p()).rank, 2, 'XP brings rank 2');
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
     assert.match(await page.locator('.gtile.on').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its tile shows the price');

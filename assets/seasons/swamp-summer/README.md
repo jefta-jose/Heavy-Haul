@@ -158,7 +158,7 @@ building is `art.fuelStation`, and a plain drawn stand-in shows until a season h
 
 ## 8. Highways and speed cameras
 
-Right after each station comes 250 m of highway, then normal road again: four in all, 1 km of the 3.5 km trail. They
+Right after each station comes 400 m of highway, then normal road again: four in all, 1.6 km of the 4.1 km trail. They
 are the place to open up.
 
 ```json
@@ -288,7 +288,7 @@ draws its own number. Check every image on a mid-coloured background before usin
 
 ## The trail
 
-3.5 km from `start: 30` to `depot: 3530`, with a `finishBonus` of 4800 coins.
+4.1 km from `start: 30` to `depot: 4130`, with a `finishBonus` of 4800 coins.
 
 - `keys`: the hills, as [metres, height] pairs, from about −3 m to 34 m. There are no steep walls, and each highway has
   a key at each end so it runs at a gentle grade.
@@ -315,7 +315,7 @@ bogs, the next station and highway, and so on four times, then a last rough stre
    record each round sprite's near face in `render.obstacles`, and the speed sign's blank face in `art.speedSign.face`.
 4. **Lay out the trail.** Change `keys`, `zones`, pits, runs, gardens, props and seeds so the map has its own character.
    Keep one hole per pit. Set `surfaces` for the season: traction and sink are what make ice feel unlike mud.
-5. **Place the stations and highways.** Space the stations evenly on firm ground, about 800 m apart, and start a 250 m
+5. **Place the stations and highways.** Space the stations evenly on firm ground, about 800 m apart, and start a 400 m
    highway at the end of each bay. Keep every obstacle, garden, ramp, hole and bog off the highways, give each its own
    wave seed, and even out the ground under each with keys at its ends.
 6. **Add the scenery.** Big landmarks rarely, small pieces often, a warning sign before each bog, and nothing on a

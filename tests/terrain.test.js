@@ -102,7 +102,7 @@ test('former river stretches: the old river stretches are deep bog, still rollin
   const s = spawn(newSim(), 30), { trail } = content.season;
   assert((trail.waters ?? []).length === 0, 'all seasons use bogs instead of open water');
   assert(!trail.zones.some(z => z[2] === 'creek'), 'no riverbed surface is left');
-  for (const x of [380, 925, 2042, 2587]) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
+  for (const x of [380, 1075, 2342, 3037]) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
   const off = (() => { const { rollers, ...rest } = trail; return createTerrain(rest, content.season.surfaces); })();
   let swing = 0; for (let x = 345; x < 365; x += 0.25) swing = Math.max(swing, Math.abs(s.visH(x) - off.visH(x)));
   assert(swing > 0.2, `rolling bumps on the way to the pit (${swing.toFixed(2)} m)`);
@@ -128,10 +128,10 @@ test('a speed limit sign stands at the first of every group of logs, pipes and h
   for (const o of solid) assert(s.speedSigns.some(x => x <= o + 0.01 && o - x < 200), `a sign at or before the obstacle at ${o.toFixed(1)}`);
 });
 
-test('a highway of 250 m follows each station, of long smooth waves, and clean: nothing on it at all', () => {
+test('a highway of 400 m follows each station, of long smooth waves, and clean: nothing on it at all', () => {
   const { highways, stations } = content.season.trail;
   assert.equal(highways.length, stations.length);
-  highways.forEach((h, i) => { assert.equal(h.x0, stations[i].x + 8, 'it starts at the end of the bay'); assert.equal(h.x1 - h.x0, 250); });
+  highways.forEach((h, i) => { assert.equal(h.x0, stations[i].x + 8, 'it starts at the end of the bay'); assert.equal(h.x1 - h.x0, 400); });
   const h = highways[0], s = spawn(newSim(), h.x0 + 8);
   const y = x => s.terrain.visH(x);
   for (const r of highways) {

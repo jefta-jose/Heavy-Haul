@@ -113,7 +113,7 @@ class gets stuck in proportion, but tires carrying under 2.5 t are held less (`b
 scout can wiggle through. The fix is L, AWD, DIFF, and if that fails, the breakdown truck.
 
 **How come the highway has no obstacles?**
-Highways are listed in `season.json` (`trail.highways`, four of them, 250 m each) and treated as calm
+Highways are listed in `season.json` (`trail.highways`, four of them, 400 m each) and treated as calm
 ground: the terrain removes all noise and features there and leaves only the long smooth waves, and
 obstacles are never placed within reach of calm ground. A highway can still list stones that break
 under any truck (`rockEvery`), but none do now. It is a place to go fast: a speed camera near each
@@ -197,8 +197,8 @@ Four knobs in the garage ([tuning.js](game/tuning.js)): engine, suspension, spee
 pull). Weight and load are never tuned. Selling a step refunds it.
 
 **What are powers?**
-One per truck, chosen in the garage. Invincible: tap the shield and no hit hurts for 10 s (30 s
-recharge). Instant brakes: braking above 20 km/h stops the truck dead (15 s recharge).
+One per truck, chosen in the garage. Invincible: tap the shield and no hit hurts for 15 s (30 s
+recharge). Nitro: 15 s of speed past top speed (30 s recharge); each boost arms an instant brake, used by the next tap on the brake at any speed.
 
 **How do I earn coins?**
 0.5 coins per new metre, 5 per thing crushed, 50 per bog, plus the trail bonus and the load's value at

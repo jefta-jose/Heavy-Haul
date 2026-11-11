@@ -6,6 +6,18 @@ export function makeCanvas(w, h) {
   return c;
 }
 
+// Draw a cached chunk of trail (`width` metres from world x, its top at world `top`, painted at `px` pixels per metre)
+// with its left and right edges on whole device pixels. Drawn at a fractional pixel, a chunk's edge columns come out
+// part transparent, and where two chunks met that left a thin line from the reeds down into the soil: lighter where the
+// see-through mud overlay thinned, or the backdrop showing through. Rounding both ends makes neighbours meet exactly.
+// The current transform must be the world transform (scale and offset only).
+export function blitChunk(ctx, canvas, x, top, width, px) {
+  const m = ctx.getTransform(), left = Math.round(m.a * x + m.e), right = Math.round(m.a * (x + width) + m.e), y = Math.round(m.d * top + m.f);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(canvas, 0, 0, Math.min(canvas.width, width * px), canvas.height, left, y, right - left, canvas.height);
+  ctx.restore();
+}
+
 // Runtime registration for generated sprites with generous transparent margins. Crop once in
 // memory; preserve the original master and ignore almost-transparent fringe pixels.
 export function alphaCrop(img) {

@@ -72,6 +72,16 @@
     </div>
   </div>
 
+  <!-- switching trucks or calling the breakdown truck: a full-screen wait until the new truck is on screen (main.js settle) -->
+  <div class="switchov" id="switchOv" role="status" aria-live="polite" hidden>
+    <div class="switchov-box">
+      <svg class="switchov-gears" viewBox="0 -12 128 116" aria-hidden="true"><g transform="translate(46 58) rotate(-8)"><g class="gear-big"><path fill-rule="evenodd" d="M-7.6 -28.4 L-4.1 -29.1 L-3.2 -41.3 L3.2 -41.3 L4.1 -29.1 L7.6 -28.4 L11.0 -27.3 L17.8 -37.4 L23.4 -34.1 L18.1 -23.1 L20.8 -20.8 L23.1 -18.1 L34.1 -23.4 L37.4 -17.8 L27.3 -11.0 L28.4 -7.6 L29.1 -4.1 L41.3 -3.2 L41.3 3.2 L29.1 4.1 L28.4 7.6 L27.3 11.0 L37.4 17.8 L34.1 23.4 L23.1 18.1 L20.8 20.8 L18.1 23.1 L23.4 34.1 L17.8 37.4 L11.0 27.3 L7.6 28.4 L4.1 29.1 L3.2 41.3 L-3.2 41.3 L-4.1 29.1 L-7.6 28.4 L-11.0 27.3 L-17.8 37.4 L-23.4 34.1 L-18.1 23.1 L-20.8 20.8 L-23.1 18.1 L-34.1 23.4 L-37.4 17.8 L-27.3 11.0 L-28.4 7.6 L-29.1 4.1 L-41.3 3.2 L-41.3 -3.2 L-29.1 -4.1 L-28.4 -7.6 L-27.3 -11.0 L-37.4 -17.8 L-34.1 -23.4 L-23.1 -18.1 L-20.8 -20.8 L-18.1 -23.1 L-23.4 -34.1 L-17.8 -37.4 L-11.0 -27.3 Z M13.0 0.0 A13 13 0 1 0 -13.0 0.0 A13 13 0 1 0 13.0 0.0 Z"/><circle r="5" class="gear-hub"/></g></g><g transform="translate(93.3 21.1) rotate(29.5)"><g class="gear-small"><path fill-rule="evenodd" d="M-6.7 -16.1 L-3.7 -17.0 L-3.5 -29.2 L3.5 -29.2 L3.7 -17.0 L6.7 -16.1 L9.4 -14.6 L18.2 -23.1 L23.1 -18.2 L14.6 -9.4 L16.1 -6.7 L17.0 -3.7 L29.2 -3.5 L29.2 3.5 L17.0 3.7 L16.1 6.7 L14.6 9.4 L23.1 18.2 L18.2 23.1 L9.4 14.6 L6.7 16.1 L3.7 17.0 L3.5 29.2 L-3.5 29.2 L-3.7 17.0 L-6.7 16.1 L-9.4 14.6 L-18.2 23.1 L-23.1 18.2 L-14.6 9.4 L-16.1 6.7 L-17.0 3.7 L-29.2 3.5 L-29.2 -3.5 L-17.0 -3.7 L-16.1 -6.7 L-14.6 -9.4 L-23.1 -18.2 L-18.2 -23.1 L-9.4 -14.6 Z M9.0 0.0 A9 9 0 1 0 -9.0 0.0 A9 9 0 1 0 9.0 0.0 Z"/><circle r="4" class="gear-hub"/></g></g></svg>
+      <p class="switchov-label" id="switchLabel">Switching trucks</p>
+    </div>
+  </div>
+  <!-- points at the breakdown button while the main truck is stuck -->
+  <div class="help-arrow" id="helpArrow" aria-hidden="true" hidden><i></i><span id="helpArrowTxt">Breakdown truck</span></div>
+
   <div class="overlay garage" id="garage">
     <!-- icons the build found (assets/hud/icons/class-*.svg, garage-*.svg), copied in by garage.js -->
     <template id="classIcons"><!--icons:class--></template>

@@ -311,7 +311,7 @@ test('music streams, crossfades, follows volume and pauses its media in the back
     const ac = contexts[0]; assert.equal(ac.gains[0].gain.value, 0.4); assert.equal(ac.gains[1].gain.value, MUSIC_TRACKS.garage.gain);
     music.play('garage'); assert.equal(tracks.length, 1, 'same track is not restarted');
     music.play('drive'); assert.equal(tracks.length, 2); assert.equal(ac.gains[1].gain.value, 0);
-    assert.equal(timers[0].ms, MUSIC_FADE_S * 2000); assert.equal(ac.gains[2].gain.value, MUSIC_TRACKS.drive.gain);
+    assert.equal(timers[0].ms, MUSIC_FADE_S * 2000); assert.equal(ac.gains[3].gain.value, MUSIC_TRACKS.drive.gain, 'a track gain, then its first element');
     doc.hidden = true; listeners.visibilitychange(); assert.equal(ac.state, 'suspended'); assert(tracks.every(a => a.paused));
     doc.hidden = false; listeners.visibilitychange(); assert.equal(ac.state, 'running'); assert(!tracks[1].paused);
     timers[0].fn(); assert.equal(tracks[0].src, ''); assert(ac.gains[1].disconnected);

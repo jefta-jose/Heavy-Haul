@@ -3729,39 +3729,14 @@ dl.spec dd {
   }
 }
 
-/* switching trucks or calling the breakdown truck: a spinner over the button until the new truck is on screen */
+/* while a truck change settles the full-screen wait (.switchov) covers the game; the buttons also ignore taps */
 .ibtn.busy {
-  position: relative;
   pointer-events: none;
-}
-
-.ibtn.busy svg {
-  opacity: .25;
-}
-
-.ibtn.busy::after {
-  content: "";
-  position: absolute;
-  inset: 22%;
-  border: 3px solid rgba(255, 255, 255, .2);
-  border-top-color: #f5c518;
-  border-radius: 50%;
-  animation: ibtn-spin .7s linear infinite;
-}
-
-@keyframes ibtn-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ibtn.stuck-help {
     animation: none;
-  }
-
-  .ibtn.busy::after {
-    animation-duration: 2s;
   }
 }
 
@@ -3882,4 +3857,276 @@ dl.spec dd {
   .g-rank small {
     display: none;
   }
+}
+
+/* Switching trucks or calling the breakdown truck: a full-screen wait over the game, so a second tap
+   cannot land on the buttons. Two meshing gears turn slowly on a translucent, dimmed view. */
+.switchov {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  background: rgba(6, 8, 11, .62);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  pointer-events: auto;
+  touch-action: none;
+  opacity: 0;
+  transition: opacity .16s ease-out;
+}
+
+.switchov[hidden] {
+  display: none;
+}
+
+.switchov.on {
+  opacity: 1;
+}
+
+.switchov-box {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.switchov-gears {
+  width: clamp(96px, 18vmin, 150px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .6));
+}
+
+.switchov-gears .gear-big,
+.switchov-gears .gear-small {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  animation: gear-turn 2.4s linear infinite;
+}
+
+.switchov-gears .gear-big path {
+  fill: #c3c9cf;
+  stroke: #6d737a;
+  stroke-width: 1.2;
+}
+
+.switchov-gears .gear-small {
+  animation-name: gear-turn-back;
+}
+
+.switchov-gears .gear-small path {
+  fill: var(--hazard);
+  stroke: #8a6a00;
+  stroke-width: 1.2;
+}
+
+.switchov-gears .gear-hub {
+  fill: #2a2e33;
+}
+
+@keyframes gear-turn {
+  to { transform: rotate(360deg); }
+}
+
+/* 12 teeth against 8: the small gear turns one and a half times for each turn of the big one */
+@keyframes gear-turn-back {
+  to { transform: rotate(-540deg); }
+}
+
+.switchov-label {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(17px, 2.6vmin, 24px);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+  text-align: center;
+  padding: 0 16px;
+}
+
+/* an arrow under the breakdown button, pointing up at it */
+.help-arrow {
+  position: fixed;
+  z-index: 40;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: help-arrow 1.4s ease-in-out infinite;
+}
+
+.help-arrow[hidden] {
+  display: none;
+}
+
+.help-arrow i {
+  width: 0;
+  height: 0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 18px solid var(--hazard);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .7));
+}
+
+.help-arrow span {
+  padding: 3px 8px;
+  background: rgba(9, 11, 14, .9);
+  border: 1px solid var(--hazard);
+  color: #ffe29a;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.help-arrow.down {
+  grid-auto-flow: row;
+}
+
+.help-arrow.down i {
+  order: 2;
+  transform: rotate(180deg);
+}
+
+@keyframes help-arrow {
+  50% { translate: 0 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switchov-gears .gear-big,
+  .switchov-gears .gear-small {
+    animation-duration: 6s;
+  }
+
+  .help-arrow {
+    animation: none;
+  }
+}
+
+/* ---------- Tablets (2026-11-11) ----------
+   Touch screens bigger than a phone got the desktop HUD: 40 px top buttons and 32 px AWD / DIFF keys, too small for a
+   thumb. They get finger-sized controls; the pedals and gauges already scale with the screen. */
+@media (pointer: coarse) and (min-width: 601px) and (min-height: 521px) {
+  .ibtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
+  .ibtn svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .pill {
+    min-height: 44px;
+  }
+
+  .mode {
+    min-width: 58px;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .modes,
+  .drive {
+    gap: 8px;
+  }
+
+  .winch {
+    width: 78px;
+    height: 78px;
+    font-size: 13px;
+  }
+
+  .winch svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .help-arrow span {
+    font-size: 15px;
+  }
+}
+
+/* Landscape tablets and small laptops (narrower than the bay's 1300 px band): the class tabs are centred across the
+   whole width, so they ran under the logo on the left and the rank on the right. They keep clear of both, and shrink
+   (icons go first) until the five fit. */
+@media (orientation: landscape) and (min-height: 521px) and (max-width: 1300px) {
+  .g-classes {
+    box-sizing: border-box;
+    padding-left: 196px;
+    padding-right: 250px;
+    gap: clamp(4px, 1.2vw, 24px);
+  }
+
+  .g-class {
+    padding: 5px 8px 4px;
+  }
+
+  .g-class b {
+    font-size: clamp(16px, 1.85vw, 23px);
+  }
+
+  .g-seasons {
+    gap: clamp(18px, 3vw, 40px);
+  }
+
+  /* the floor bar: six numbers, the levels and DRIVE share less width */
+  .g-cell {
+    padding: 0 clamp(8px, 1.3vw, 22px);
+  }
+
+  .g-spec dt {
+    font-size: 13px;
+  }
+
+  .g-spec dd {
+    font-size: clamp(18px, 2.1vw, 28px);
+  }
+
+  .g-levels {
+    grid-template-columns: repeat(2, 86px);
+    gap: 10px 12px;
+    padding-left: 14px;
+  }
+}
+
+@media (orientation: landscape) and (min-height: 521px) and (max-width: 1100px) {
+  .g-class svg {
+    display: none;
+  }
+
+  .g-classes {
+    padding-left: 186px;
+    padding-right: 236px;
+  }
+}
+
+/* Short landscape tablets (about 600 to 720 px tall): the menu was centred in the bay and rose over the row of trucks.
+   It hangs just under the row instead, with slimmer plates so all five fit above the floor bar. */
+@media (orientation: landscape) and (min-height: 521px) and (max-height: 720px) {
+  .g-menu {
+    top: calc(var(--top) + 10px);
+    transform: none;
+    gap: 6px;
+  }
+
+  .g-item {
+    min-height: 46px;
+  }
+}
+
+/* the help arrow hangs where the power and mission chips sit: they step down below it while it shows */
+.sidechips {
+  transition: transform .25s ease-out;
+}
+
+.hud.arrow-on .sidechips {
+  transform: translateY(46px);
 }

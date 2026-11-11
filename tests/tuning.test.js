@@ -62,7 +62,7 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
   const scout = content.cars.find(c => c.id === 'swamp-scout-4'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
-  const metres = car => [1135, 1830, 2030].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
+  const metres = car => [1285, 2130, 2330].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
 });
@@ -76,12 +76,12 @@ test('upgrades cost more each step and more on bigger classes, and selling refun
 });
 
 test('a power is a label on the car, and changes none of its numbers', () => {
-  const tuned = applyTuning(content.car, { engine: 50 }), { power, ...rest } = withPower(tuned, 'brakes');
-  assert.equal(power, 'brakes');
+  const tuned = applyTuning(content.car, { engine: 50 }), { power, ...rest } = withPower(tuned, 'nitro');
+  assert.equal(power, 'nitro');
   assert.deepEqual(rest, { ...tuned }, 'the same truck otherwise');
   assert.equal(withPower(tuned, null), tuned, 'no power, no change');
   assert.equal(withPower(tuned, 'grip'), tuned, 'an old saved power is ignored');
-  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'brakes']);
+  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'nitro']);
   for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
 });
 
@@ -107,25 +107,38 @@ test('invincible: a tap stops hit damage for its time, then it recharges before 
 const flatRoad = () => content.season.trail.highways[0].x0 + 10;
 const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000, heaviest = () => [...content.cars].sort((a, b) => gross(b) - gross(a))[0];
 
-test('instant brakes stop any truck almost at once, then need to recharge', () => {
-  const rolling = car => { const s = spawn(newSim(car), flatRoad()); s.ctl.auto = true; s.truck.setLinearVelocity({ x: 15, y: 0 }); for (const w of s.main.parts.wheels) w.setAngularVelocity(-15 / car.rig.radius); return s; };
-  const after = car => { const s = rolling(car); s.ctl.brake = 1; advance(s, 0.5); return s.st.speed; };
-  for (const car of [content.car, heaviest()]) {
-    assert(after(withPower(car, 'brakes')) < 1, `${car.id} stops`);
-    assert(after(car) > 5, `${car.id} does not without the power`);
-  }
-  const s = rolling(withPower(content.car, 'brakes'));
-  s.ctl.brake = 1; advance(s, POWER_TIMES.brakes.seconds + 0.2); s.ctl.brake = 0;
-  assert(s.st.powerCoolT > POWER_TIMES.brakes.cooldown - 1, 'it recharges after use');
-  s.truck.setLinearVelocity({ x: 15, y: 0 }); for (const w of s.main.parts.wheels) w.setAngularVelocity(-15 / content.car.rig.radius);
-  s.ctl.brake = 1; advance(s, 0.5); s.ctl.brake = 0;
-  assert(s.st.speed > 5, `normal brakes while it does: ${s.st.speed.toFixed(1)} m/s`);
-  advance(s, POWER_TIMES.brakes.cooldown);
-  assert.equal(s.st.powerCoolT, 0, 'then it is ready');
-  const slow = DAMAGE_START_KMH / 3.6 * 0.8, t = spawn(newSim(withPower(content.car, 'brakes')), flatRoad()); t.ctl.auto = true;
-  t.truck.setLinearVelocity({ x: slow, y: 0 }); for (const w of t.main.parts.wheels) w.setAngularVelocity(-slow / content.car.rig.radius);
-  t.ctl.brake = 1; advance(t, 0.3);
-  assert.equal(t.st.powerT + t.st.powerCoolT, 0, `braking under ${DAMAGE_START_KMH} km/h leaves it ready`);
+test('nitro speeds past top speed, then arms an instant brake that waits until a brake tap uses it', () => {
+  const top = c => c.drivetrain.governedRpm / c.drivetrain.gears.H * 2 * Math.PI / 60 * c.rig.radius;
+  const boost = car => { const s = spawn(newSim(car), flatRoad()); s.ctl.auto = true; s.ctl.gas = 1; advance(s, 1); if (car.power) assert(s.usePower(), 'nitro starts'); advance(s, POWER_TIMES.nitro.seconds); return s; };
+  const plain = boost(content.car), fast = boost(withPower(content.car, 'nitro'));
+  assert(fast.st.speed > plain.st.speed + 2, `nitro goes faster: ${fast.st.speed.toFixed(1)} vs ${plain.st.speed.toFixed(1)} m/s`);
+  assert(fast.st.speed < top(content.car) * 1.7, 'but only up to its share of top speed');
+  assert(fast.st.brakeArmed, 'the boost arms the instant brake');
+  // it waits through the whole recharge and after it
+  // parked on the highway (not coasting off its end) while it recharges
+  fast.ctl.gas = 0; for (const b of [fast.truck, ...fast.main.parts.wheels]) { b.setLinearVelocity({ x: 0, y: 0 }); b.setAngularVelocity(0); }
+  advance(fast, POWER_TIMES.nitro.cooldown + 2);
+  assert.equal(fast.st.powerCoolT, 0); assert(fast.st.brakeArmed, 'still armed once nitro has recharged');
+  const rolling = s => { s.truck.setLinearVelocity({ x: 15, y: 0 }); for (const w of s.main.parts.wheels) w.setAngularVelocity(-15 / s.main.car.rig.radius); };
+  rolling(fast); fast.ctl.brake = 1; advance(fast, 0.5);
+  assert(fast.st.speed < 1, `the armed brake stops it dead: ${fast.st.speed.toFixed(1)} m/s`);
+  assert(!fast.st.brakeArmed, 'and is used up');
+  fast.ctl.brake = 0; advance(fast, POWER_TIMES.nitro.seconds); rolling(fast); fast.ctl.brake = 1; advance(fast, 0.5);
+  assert(fast.st.speed > 5, `the next brake is a normal one: ${fast.st.speed.toFixed(1)} m/s`);
+  // the heaviest truck stops just as hard from a single tap, and the brake works at any speed
+  const heavy = spawn(newSim(withPower(heaviest(), 'nitro')), flatRoad()); heavy.ctl.auto = true; heavy.main.st.brakeArmed = true;
+  rolling(heavy); heavy.ctl.brake = 1; advance(heavy, 0.05); heavy.ctl.brake = 0; advance(heavy, 0.6);
+  assert(heavy.st.speed < 1, `${heaviest().id} stops dead from a tap: ${heavy.st.speed.toFixed(1)} m/s`);
+  const crawl = spawn(newSim(withPower(content.car, 'nitro')), flatRoad()); crawl.ctl.auto = true; crawl.main.st.brakeArmed = true;
+  const slow = DAMAGE_START_KMH / 3.6 * 0.5;
+  crawl.truck.setLinearVelocity({ x: slow, y: 0 }); for (const w of crawl.main.parts.wheels) w.setAngularVelocity(-slow / content.car.rig.radius);
+  crawl.ctl.brake = 1; advance(crawl, 0.05);
+  assert(!crawl.main.st.brakeArmed, 'a tap at low speed uses it too');
+  // braking during the boost ends it
+  const mid = spawn(newSim(withPower(content.car, 'nitro')), flatRoad()); mid.ctl.auto = true; mid.ctl.gas = 1; advance(mid, 1); mid.usePower(); advance(mid, 1.5);
+  mid.ctl.gas = 0; mid.ctl.brake = 1; advance(mid, 0.2);
+  assert.equal(mid.st.powerT, 0, 'braking ends the boost'); assert(mid.st.powerCoolT > 0, 'and it recharges');
+  mid.init(); assert(!mid.main.st.brakeArmed, 'a new run starts unarmed');
 });
 
 test('mud pull only works in the short gear', () => {
@@ -134,15 +147,15 @@ test('mud pull only works in the short gear', () => {
   assert(metres('L') > metres('H'), 'low gear pulls harder through the mud');
 });
 
-test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class to buy', async () => {
+test('ranks: 20 of them up to 60,000 XP, each opening one truck in every class to buy', async () => {
   const code = await releaseCode('src/game/progress.js');
   const { createProgress } = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
   const config = await releaseCode('src/game-config.js');
   const release = await import(`data:text/javascript;base64,${Buffer.from(config).toString('base64')}`);
   assert.equal(release.STARTING_COINS, 20000); assert.equal(release.STARTING_RANK, 1);
-  assert.equal(RANK_XP.length, 20); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[19], 40000);
+  assert.equal(RANK_XP.length, 20); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[19], 60000);
   RANK_XP.forEach((x, i) => i && assert(x > RANK_XP[i - 1], 'XP rises every rank'));
-  assert.equal(rankFor(0), 1); assert.equal(rankFor(199), 1); assert.equal(rankFor(200), 2); assert.equal(rankFor(39999), 19); assert.equal(rankFor(1e9), 20);
+  assert.equal(rankFor(0), 1); assert.equal(rankFor(299), 1); assert.equal(rankFor(300), 2); assert.equal(rankFor(59999), 19); assert.equal(rankFor(1e9), 20);
   const roster = content.roster.cars;
   for (const cls of content.roster.classes.map(c => c.id)) {
     const ranks = roster.filter(c => c.class === cls).map(c => c.unlockRank).sort((a, b) => a - b);
@@ -153,7 +166,7 @@ test('ranks: 20 of them up to 40,000 XP, each opening one truck in every class t
   const starter = roster.find(c => c.unlockRank === 1), second = roster.find(c => c.class === starter.class && c.unlockRank === 2);
   assert(p.owns(starter.id) && !p.owns(second.id) && !p.isOpen(second.id));
   assert.equal(p.buy(second.id, coins), false, 'a locked truck cannot be bought');
-  const ups = p.addXp(250);
+  const ups = p.addXp(350);
   assert.deepEqual(ups.map(u => [u.rank, u.opens.length]), [[2, 5]], 'rank 2 opens five trucks, one per class');
   assert(p.buy(second.id, coins)); assert.equal(coins.n, 1e6 - second.price, 'bought for its price');
   assert.equal(p.buy(second.id, coins), false, 'not twice');

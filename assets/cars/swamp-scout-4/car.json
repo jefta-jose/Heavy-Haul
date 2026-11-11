@@ -31,11 +31,11 @@
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v2.png",
+      "source": "../fjord-otter-10/source/wheel-v2.png",
       "width": 512,
       "sourceSize": [
-        1254,
-        1254
+        1536,
+        1536
       ]
     }
   },
@@ -55,10 +55,10 @@
     ],
     "radius": 0.872,
     "wheelPivot": [
-      627,
-      627
+      768.0,
+      767.5
     ],
-    "wheelArtRadius": 561,
+    "wheelArtRadius": 593.0,
     "farWheelOffset": [
       0.2,
       0.13

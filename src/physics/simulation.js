@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -222,7 +222,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
-  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
+  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
 
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
     const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
@@ -299,20 +299,32 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     st.throttle += Math.max(-dt * 3, Math.min(dt * dc.throttleRise, want - st.throttle));
     st.brake += Math.max(-dt * BRAKE.fall, Math.min(dt * BRAKE.rise, pedals.brake - st.brake));
     // parking hold: stopped, no throttle, no pedal -> brakes on so the vehicle doesn't roll back
-    st.hold = want < 0.05 && pedals.brake < 0.05 && Math.abs(fwd) < 0.6 && !v.winched;
+    let nitroRunning = car.power === 'nitro' && st.powerT > 0;
+    st.hold = want < 0.05 && pedals.brake < 0.05 && Math.abs(fwd) < 0.6 && !v.winched && !nitroRunning;
     const brake = Math.max(st.brake, st.hold ? 0.7 : 0);
     const grounded = wheels.some(w => load.get(w)?.imp > 0);
-    // the Instant brakes power: on the ground, braking faster than DAMAGE_START_KMH starts it, so ordinary slow braking keeps it ready; and the pedal takes the speed straight off, whatever the truck weighs
-    if (car.power === 'brakes' && pedals.brake > 0.1 && !v.winched && grounded) {
-      if (!st.powerT && !st.powerCoolT && Math.abs(fwd) * 3.6 > DAMAGE_START_KMH) st.powerT = POWER_TIMES.brakes.seconds;
+    // nitro's instant brake: armed by the boost, it waits through the recharge and after for any tap on the brake, at any
+    // speed; then it takes the truck's speed straight off, whatever it weighs, finishing the stop even if the pedal is let
+    // go, and it is used up. Braking during the boost ends the boost.
+    if (st.brakeArmed && pedals.brake > 0.1 && !v.winched && grounded) {
+      st.brakeArmed = false; st.brakeT = NITRO_BRAKE_SECONDS;
+      if (nitroRunning) { st.powerT = 0; st.powerCoolT = POWER_TIMES.nitro.cooldown; nitroRunning = false; }
     }
-    if (car.power === 'brakes' && st.powerT > 0 && pedals.brake > 0.1 && grounded) {
-      const keep = Math.exp(-INSTANT_BRAKE_RATE * pedals.brake * dt);
+    if (st.brakeT > 0) st.brakeT = Math.max(0, st.brakeT - dt);
+    if (st.brakeT > 0 && grounded) {
+      const keep = Math.exp(-INSTANT_BRAKE_RATE * dt);
       for (const b of [truck, ...wheels]) { const u = b.getLinearVelocity(); b.setLinearVelocity(V(u.x * keep, u.y * keep)); }
       for (const w of wheels) w.setAngularVelocity(w.getAngularVelocity() * keep);
     }
 
     const { ratio, dir, omAvg, govOmega, driveOmega, driven, caps } = v.drivetrain.update({ ctl, st, wheels, joints, dt, gripOf: i => gripOf(v, i) });
+
+    // the Nitro power: a push along the truck, past what the engine and gears allow, up to a share of its own top speed
+    const nitro = nitroRunning && !v.winched && !ctl.handbrake && brake <= 0.01;
+    if (nitro && grounded && fwd < dc.governedRpm / dc.gears.H * 2 * Math.PI / 60 * car.rig.radius * NITRO_TOP_SHARE) {
+      const m = [truck, ...wheels].reduce((sum, b) => sum + b.getMass(), 0) * NITRO_ACCEL;
+      truck.applyForceToCenter(V(m * Math.cos(ang), m * Math.sin(ang)), true);
+    }
 
     let mud = 0, slip = 0, surf = null;
     for (let i = 0; i < wheels.length; i++) {
@@ -323,6 +335,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
         j.setMotorSpeed(0); j.setMaxMotorTorque(dc.brakeTorque);
       } else if (brake > 0.01 && st.throttle < 0.05) {
         j.setMotorSpeed(0); j.setMaxMotorTorque(dc.brakeTorque * brake);
+      } else if (nitro) {
+        j.setMotorSpeed(0); j.setMaxMotorTorque(0);           // on nitro the wheels run free: no gear or governor holds it back
       } else if (Math.abs(omAvg) > govOmega * 1.03 && Math.sign(omAvg) === dir) {
         // over the governor (rolling downhill): the engine and exhaust brake hold the gear's speed
         j.setMotorSpeed(dir * govOmega); j.setMaxMotorTorque((dc.engineBrake + dc.exhaustBrake) * ratio / wheels.length);
@@ -400,7 +414,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       buildWorld(); events.length = 0;
       main = makeVehicle(setup.car, 'main', x, { ctl: mainCtl, st: mainSt });
       vehicles = [main]; active = main;
-      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
+      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
     respawn(x, v = main) { removeParts(v); spawnParts(v, x); for (const o of vehicles) if (o === v || o.cable?.target === v) o.cable = null; },
@@ -428,11 +442,11 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       return Math.min(X1 - len, x);
     },
     setActive(v) { active = v; },
-    // the power button: starts the main truck's Invincible if it has one and it has recharged
+    // the power button: starts the main truck's Invincible or Nitro if it has one and it has recharged. Nitro arms its instant brake.
     usePower() {
       const st = main.st, kind = main.car.power;
-      if (active !== main || main.car.role || kind !== 'invincible' || st.powerT > 0 || st.powerCoolT > 0) return false;
-      st.powerT = POWER_TIMES[kind].seconds; return true;
+      if (active !== main || main.car.role || (kind !== 'invincible' && kind !== 'nitro') || st.powerT > 0 || st.powerCoolT > 0 || (kind === 'nitro' && st.engine !== 'on')) return false;
+      st.powerT = POWER_TIMES[kind].seconds; if (kind === 'nitro') st.brakeArmed = true; return true;
     },
     // engine switch: starting cranks for the car's crank time (car.json audio.crankS) first
     startEngine(v = active) { if (v.st.engine === 'off' && v.st.fuel > 0) { v.st.engine = 'cranking'; v.st.crankT = v.car.audio?.crankS ?? 1.2; } return v.st.engine; },

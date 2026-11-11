@@ -1,4 +1,4 @@
-import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M } from '../../game-config.js';
+import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M } from '../../game-config.js';
 import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
@@ -303,12 +303,17 @@ export function createProps(scene) {
       }
     }
   }
-  // Each highway's sign at its start (its speed camera is invisible: only its chip shows)
+  // Each highway's banner at its start, and the same banner again just past its speed camera, where it is time to brake:
+  // the camera has caught the top speed by then (the camera is invisible: only its chip shows)
   function highwayProps() {
     const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = roadSpan(scene)?.far ?? 1.2;
     for (const h of scene.season.trail.highways ?? []) {
-      const img = scene.cache.img[h.sign], at = h.x0 + HIGHWAY_SIGN_WIDTH_M, w = HIGHWAY_SIGN_WIDTH_M;
-      if (img && at + w > lo && at - w < hi) { const ht = w * img.height / img.width; ctx.save(); ctx.translate(at, visH(at) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore(); }
+      const img = scene.cache.img[h.sign], w = HIGHWAY_SIGN_WIDTH_M; if (!img) continue;
+      const ht = w * img.height / img.width;
+      for (const at of [h.x0 + w, h.x1 - SPEED_TRAP_FROM_END_M + w / 2 + 1]) {
+        if (at + w < lo || at - w > hi) continue;
+        ctx.save(); ctx.translate(at, visH(at) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore();
+      }
     }
   }
   function bark() {

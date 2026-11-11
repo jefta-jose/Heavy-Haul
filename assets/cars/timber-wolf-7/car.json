@@ -32,11 +32,11 @@
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v2.png",
+      "source": "../bayou-ranger-6/source/wheel-v1.png",
       "width": 512,
       "sourceSize": [
-        1536,
-        1536
+        1600,
+        1600
       ]
     }
   },
@@ -56,10 +56,10 @@
     ],
     "radius": 0.755,
     "wheelPivot": [
-      766.0,
-      770.5
+      802,
+      782
     ],
-    "wheelArtRadius": 574.0,
+    "wheelArtRadius": 702,
     "farWheelOffset": [
       0.2,
       0.13

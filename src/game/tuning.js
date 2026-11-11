@@ -1,4 +1,4 @@
-import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_TIMES, DAMAGE_START_KMH } from '../game-config.js';
+import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_TIMES } from '../game-config.js';
 // Garage tuning: four knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
 // take all four to 100. A car's weight and load are never tuned: they stay as its car.json has them. A knob moves several car.json values together (the twelve old single-purpose
 // knobs, grouped), each from 1 at stock to its own `max` multiplier at 100, so every car, present or
@@ -54,10 +54,10 @@ export function applyTuning(car, levels = {}) {
 }
 
 // Powers do what upgrades can't, and a truck has one at a time. The simulation reads `car.power`.
-const { invincible, brakes } = POWER_TIMES;
+const { invincible, nitro } = POWER_TIMES;
 export const POWERS = [
   { id: 'invincible', label: 'Invincible', what: `Tap the button: no hit hurts for ${invincible.seconds} s, then it recharges for ${invincible.cooldown} s` },
-  { id: 'brakes', label: 'Instant brakes', what: `Brake above ${DAMAGE_START_KMH} km/h and the truck stops dead, then it recharges for ${brakes.cooldown} s. Slower braking stays normal` },
+  { id: 'nitro', label: 'Nitro', what: `Tap the button: nitro speed for ${nitro.seconds} s, then instant brakes on your next brake tap to save the truck. Recharges for ${nitro.cooldown} s` },
 ];
 export const withPower = (car, id) => POWERS.some(p => p.id === id) ? { ...car, power: id } : car;
 
@@ -80,5 +80,6 @@ export function saveTuning(all) { try { localStorage.setItem(KEY, JSON.stringify
 
 // Each car's chosen power, one at a time: saved per car in the browser, so it stays on until that car gets another.
 const POWER_KEY = 'hh_powers';
-export function loadPowers() { try { return Object.fromEntries(Object.entries(JSON.parse(localStorage.getItem(POWER_KEY)) || {}).filter(([, id]) => POWERS.some(p => p.id === id))); } catch (e) { return {}; } }
+// Instant brakes became part of Nitro (2026-11-11): a truck that had them gets Nitro
+export function loadPowers() { try { return Object.fromEntries(Object.entries(JSON.parse(localStorage.getItem(POWER_KEY)) || {}).map(([car, id]) => [car, id === 'brakes' ? 'nitro' : id]).filter(([, id]) => POWERS.some(p => p.id === id))); } catch (e) { return {}; } }
 export function savePowers(all) { try { localStorage.setItem(POWER_KEY, JSON.stringify(all)); } catch (e) {} }

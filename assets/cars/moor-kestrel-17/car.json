@@ -32,7 +32,7 @@
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v2.png",
+      "source": "../glacier-hare-19/source/wheel-v2.png",
       "width": 512,
       "sourceSize": [
         1536,
@@ -56,10 +56,10 @@
     ],
     "radius": 0.83,
     "wheelPivot": [
-      768.0,
-      773.0
+      768,
+      773
     ],
-    "wheelArtRadius": 622.0,
+    "wheelArtRadius": 584.5,
     "farWheelOffset": [
       0.2,
       0.13
