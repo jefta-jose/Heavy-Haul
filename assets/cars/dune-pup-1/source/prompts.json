@@ -1,0 +1,18 @@
+{
+  "master": {
+    "prompt": "Create one premium semi-realistic painted game vehicle sprite: an ORIGINAL metallic turquoise 1960s fibreglass open two-seat beach buggy, short wheelbase, scooped rear fenders, exposed air-cooled engine at LEFT rear, small windscreen, simple roll bar and spot lamps. Facing RIGHT. Natural 3.6m length, 0.72m diameter all-terrain tyres, exactly TWO visible near-side road wheels. Sun bleached paint, fine sand, readable dark contours, rich natural weathered mechanical detail. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, every tyre a perfect circle of the same size on one level line, no far-side tires. BOTH wheels completely visible, circular arches centred over tyres, rims concentric. Hub centres on same horizontal line. Original clean body construction, distinct curved fenders, blunt practical bumper and separate headlamp, plausible small mirror on short rigid bracket by windscreen, no melted shapes. No visible front face or roof plane. Soft even daylight. Transparent background with clean alpha, no ground, shadow, halo, checkerboard, writing, logos, badges, sponsor marks or snow chains. Entire buggy with clear margins. Wide landscape PNG at least 1536 pixels wide, highest painted detail.",
+    "generated_original": "vehicle-generated-v1.png"
+  },
+  "body": {
+    "edit_of": "vehicle-master-v1.png",
+    "generation_edit_target": "vehicle-generated-v1.png",
+    "prompt": "Edit target: this turquoise buggy master. Remove BOTH road tyres and rims. Replace their UPPER semicircles with opaque painted dark inner wheel-well liners and subtle axle/suspension detail, from arch lip through the horizontal hub centre line. Below that hub line must be completely transparent, as must underneath the chassis. Keep ALL original non-wheel vehicle pixels unchanged: turquoise panels, fenders, engine, exhaust, seats, lamps, rollbar, windscreen, mirror. Same exact canvas, placement, proportions, camera, all detail. No redesign, no movement. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, every tyre a perfect circle of the same size on one level line, no far-side tires. No text, logos, brands, ground, shadows or snow chains. True transparent PNG. This is a wheel-free body sprite.",
+    "generated_original": "body-generated-v1.png"
+  },
+  "wheel": {
+    "prompt": "Reference role: the road tyres and rims on the turquoise buggy. Generate ONE matching all-terrain wheel: charcoal rubber with modest sandy dirt, detailed blocky tread with sipes, weathered warm silver steel rim with FIVE oval slots and FIVE lug nuts and a simple domed hub cap. Face on flat side elevation, absolutely perfect circular tyre silhouette and concentric rim/hub, square transparent canvas, exact centred hub and equal clear margins. Soft even daylight suitable for rotating, premium semi-realistic painted illustration with rich weathered detail and dark contours. No axle, body, text, branding, chains, ground, shadow, halo or checkerboard. One wheel ONLY. Native square output.",
+    "reference": "vehicle-generated-v1.png",
+    "generated_original": "wheel-generated-v1.png"
+  },
+  "method": "Built-in image generator; deterministic geometry, alpha and registration corrections recorded in validation.json."
+}

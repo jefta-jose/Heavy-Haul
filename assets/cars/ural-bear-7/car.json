@@ -1,0 +1,214 @@
+{
+  "id": "ural-bear-7",
+  "name": "Ural Bear",
+  "number": 7,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Bonneted army 6×6 with supplies",
+  "description": "Dark green bonneted 1970s Soviet-style 6×6 army truck with a big grille and a canvas-covered bed.",
+  "stats": {
+    "power": 21,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 25
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      908,
+      721
+    ],
+    "pixelsPerMetre": 212.308,
+    "axles": [
+      2.546,
+      -1.199,
+      -2.546
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1448,
+        721,
+        146
+      ],
+      [
+        653,
+        721,
+        146
+      ],
+      [
+        367,
+        721,
+        146
+      ]
+    ],
+    "exhaust": [
+      0.911,
+      0.495
+    ],
+    "winch": [
+      3.909,
+      0.325
+    ],
+    "nose": 3.959,
+    "tail": -3.662
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 8500.0,
+    "centreOfMass": [
+      -0.4,
+      0.791
+    ],
+    "size": [
+      7.621,
+      2.473
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.662,
+        3.959,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.662,
+        -1.122,
+        0.423,
+        2.463,
+        0.4
+      ],
+      [
+        -1.122,
+        1.419,
+        0.423,
+        2.473,
+        0.4
+      ],
+      [
+        1.419,
+        3.959,
+        0.423,
+        1.837,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 5.0,
+      "centreOfMass": [
+        -1.376,
+        1.366
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5931,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 12.046,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  },
+  "load": {
+    "name": "Supplies",
+    "massT": 5.0
+  }
+}

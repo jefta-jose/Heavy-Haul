@@ -1,0 +1,189 @@
+{
+  "id": "dune-pup-1",
+  "name": "Dune Pup",
+  "number": 1,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Featherweight beach buggy",
+  "description": "Metallic turquoise 1960s fibreglass beach buggy: open two-seater, short wheelbase, scooped rear fenders, exposed air-cooled engine and a roll bar.",
+  "stats": {
+    "power": 10,
+    "speed": 38,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Sand",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      983,
+      694
+    ],
+    "pixelsPerMetre": 288.0,
+    "axles": [
+      1.754,
+      -1.754
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1488,
+        694,
+        229
+      ],
+      [
+        478,
+        694,
+        229
+      ]
+    ],
+    "exhaust": [
+      -3.063,
+      0.345
+    ],
+    "winch": [
+      2.783,
+      0.375
+    ],
+    "nose": 2.833,
+    "tail": -3.183
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.442
+    ],
+    "size": [
+      6.016,
+      1.381
+    ],
+    "wheelMass": 215,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.183,
+        2.833,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -3.183,
+        -0.175,
+        0.488,
+        1.329,
+        0.4
+      ],
+      [
+        -0.175,
+        2.833,
+        0.488,
+        1.381,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 82,
+    "exhaustBrake": 105,
+    "gears": {
+      "H": 9.2,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 4611,
+    "openDiffGrip": 1,
+    "fuelLitres": 40
+  }
+}

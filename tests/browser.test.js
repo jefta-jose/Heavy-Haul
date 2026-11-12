@@ -4,7 +4,7 @@
 import test from 'node:test';
 import { formatCoins } from '../src/game/format.js';
 import { upgradeCost } from '../src/game/tuning.js';
-import { ZOOM_BY_CLASS, CRASH_SECONDS } from '../src/game-config.js';
+import { ZOOM_BY_CLASS, CRASH_SECONDS, RANK_XP } from '../src/game-config.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -63,7 +63,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     assert.equal(Object.keys(sounds).length, 5);
     for (const file of Object.values(sounds)) assert(fs.readFileSync(path.join(ROOT, file)).equals(fs.readFileSync(path.join(www, file))), `${file}: supplied audio ships unchanged`);
     const purchased = await page.evaluate(() => {
-      const id = __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2).id;
+      const id = __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank > 1 && c.status === 'playable').id;
       __haul.garage.select(id); return id;
     });
     await tap('#startBtn', 'ui-buy');
@@ -278,7 +278,7 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'the run uses the chosen power');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'nitro', 'and it is kept');
-    assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'swamp-scout-4' ? 'mire-king-6' : 'swamp-scout-4', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
+    assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'dune-pup-1' ? 'moon-rover-1' : 'dune-pup-1', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'and coming back finds it still on');
     await capture('00c-powers');
     await page.locator('.power', { hasText: 'Nitro' }).click();
@@ -479,14 +479,14 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
     // an off-road truck gets its own class's service trucks
-    await page.evaluate(() => { __haul.garage.select('mire-king-6'); __haul.startRun(__haul.garage.selection); });
+    await page.evaluate(() => { __haul.garage.select('moon-rover-1'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await page.evaluate(() => { __haul.sim.respawn(30); for (let i = 0; i < 120; i++) __haul.sim.step(1 / 120); __haul.snap(); });
-    await capture('10-mire-king');
+    await capture('10-moon-rover');
     await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Mire King gets the off-road Bog Wrecker');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Moon Rover gets the off-road Bog Wrecker');
     await page.waitForTimeout(150); await capture('10c-bog-wrecker');
-    await page.evaluate(() => { __haul.garage.select('swamp-scout-4'); });
+    await page.evaluate(() => { __haul.garage.select('dune-pup-1'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
     await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
@@ -509,11 +509,8 @@ test('the game loads, drives and fits every viewport', { timeout: 180000 }, asyn
     assert.equal(await page.evaluate(() => document.querySelector('#winchGuide').classList.contains('near')), await page.evaluate(() => __haul.sim.nearestHook().inRange));
     await page.evaluate(() => __haul.switchVehicle());
     assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
-    // Newly delivered heavy-duty trucks are selectable and run on the current map.
-    for (const id of ['fieldmaster-5', 'stonebridge-6', 'bushline-9', 'rangeline-10', 'northgate-11',
-      'quarryman-13', 'timberjack-14', 'bedrock-15', 'boulder-boss-16', 'logger-king-17',
-      'prime-mover-1', 'titan-2', 'goliath-3', 'mammoth-4', 'colossus-5', 'bulwark-6',
-      'juggernaut-7', 'atlas-8', 'behemoth-9', 'leviathan-10']) {
+    // Every playable vehicle is selectable and runs on the current map.
+    for (const id of await page.evaluate(() => __haul.content.cars.map(c => c.id))) {
       await page.evaluate(id => {
         __haul.garage.select(id); __haul.startRun(__haul.garage.selection);
       }, id);
@@ -615,14 +612,15 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.evaluate(() => __haul.session.coins), 20000, 'fresh production player starts with 20,000 coins');
     assert.equal(await page.evaluate(() => __haul.content.roster.cars.filter(c => __haul.progress.owns(c.id)).length), 5, 'only the five free starters are owned');
     const starter = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 1).id);
-    const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 2));
+    const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank > 1 && c.status === 'playable'));
+    const needs = new RegExp(`rank ${next.unlockRank}\\b`, 'i');
     assert(await page.evaluate(id => __haul.progress.owns(id), starter), 'the weakest scout is owned');
     await page.evaluate(id => __haul.garage.select(id), next.id);
-    assert.match(await page.locator('#startBtn').innerText(), /requires rank 2/i, 'a locked truck says the rank it needs');
+    assert.match(await page.locator('#startBtn').innerText(), new RegExp(`requires rank ${next.unlockRank}\\b`, 'i'), 'a locked truck says the rank it needs');
     assert(await page.locator('#startBtn').isDisabled());
-    assert.match(await page.locator('.gtile.on').innerText(), /rank 2/i, 'and so does its tile');
-    await page.evaluate(price => { __haul.progress.addXp(350); __haul.session.earn(price * 2, true); __haul.garage.show(); }, next.price);
-    assert.equal((await p()).rank, 2, 'XP brings rank 2');
+    assert.match(await page.locator('.gtile.on').innerText(), needs, 'and so does its tile');
+    await page.evaluate(([price, xp]) => { __haul.progress.addXp(xp); __haul.session.earn(price * 2, true); __haul.garage.show(); }, [next.price, RANK_XP[next.unlockRank - 1] + 50]);
+    assert.equal((await p()).rank, next.unlockRank, 'XP brings the rank it needs');
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
     assert.match(await page.locator('.gtile.on').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its tile shows the price');
     const coins = await page.evaluate(() => __haul.session.coins);
@@ -630,7 +628,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'bought');
     assert.equal(await page.evaluate(() => __haul.session.coins), coins - next.price, 'for its price');
     assert.match(await page.locator('#startBtn').innerText(), /drive/i, 'and it drives');
-    assert.match(await page.locator('#gRankNum').innerText(), /rank 2/i, 'the garage shows the rank');
+    assert.match(await page.locator('#gRankNum').innerText(), needs, 'the garage shows the rank');
     // A sale-value refresh used to replace the tuning object retained by these buttons.
     // Buy on a non-starter, with no delay between clicks, and check every debit against saved levels.
     await page.click('#gMenuTune');

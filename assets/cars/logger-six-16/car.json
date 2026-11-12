@@ -1,0 +1,221 @@
+{
+  "id": "logger-six-16",
+  "name": "Logger Six",
+  "number": 16,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Bonneted 6×6 logging truck",
+  "description": "Green bonneted 6×6 logging truck with a headache rack and log bunks.",
+  "stats": {
+    "power": 54,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 86
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1207,
+      619
+    ],
+    "pixelsPerMetre": 185.498,
+    "axles": [
+      3.423,
+      -1.86,
+      -3.423
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.717,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1842,
+        619,
+        141
+      ],
+      [
+        862,
+        619,
+        141
+      ],
+      [
+        572,
+        619,
+        141
+      ]
+    ],
+    "exhaust": [
+      1.306,
+      2.515
+    ],
+    "winch": [
+      4.656,
+      0.358
+    ],
+    "nose": 4.706,
+    "tail": -5.294
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      -0.62,
+      0.847
+    ],
+    "size": [
+      10.0,
+      2.647
+    ],
+    "wheelMass": 228,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -5.294,
+        4.706,
+        0.645,
+        0.945,
+        0.4
+      ],
+      [
+        -5.294,
+        -2.793,
+        0.466,
+        2.141,
+        0.4
+      ],
+      [
+        -2.793,
+        -0.294,
+        0.466,
+        2.145,
+        0.4
+      ],
+      [
+        -0.294,
+        2.206,
+        0.466,
+        2.647,
+        0.4
+      ],
+      [
+        2.206,
+        4.706,
+        0.466,
+        2.281,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 12.0,
+      "centreOfMass": [
+        -1.994,
+        1.462
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.5732,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 428,
+    "exhaustBrake": 552,
+    "gears": {
+      "H": 11.687,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 27493,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Short logs",
+    "massT": 12.0
+  }
+}

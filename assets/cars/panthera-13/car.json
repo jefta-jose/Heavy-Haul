@@ -1,0 +1,189 @@
+{
+  "id": "panthera-13",
+  "name": "Panthera",
+  "number": 13,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Grand sports coupé on all-terrains",
+  "description": "British racing green long-bonnet grand sports coupé with feline curves and slim headlights, lifted on off-road suspension.",
+  "stats": {
+    "power": 56,
+    "speed": 88,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      943,
+      667
+    ],
+    "pixelsPerMetre": 266.154,
+    "axles": [
+      1.916,
+      -1.916
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1453,
+        667,
+        183
+      ],
+      [
+        433,
+        667,
+        183
+      ]
+    ],
+    "exhaust": [
+      -3.194,
+      0.326
+    ],
+    "winch": [
+      3.219,
+      0.325
+    ],
+    "nose": 3.269,
+    "tail": -3.326
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.58
+    ],
+    "size": [
+      6.595,
+      1.811
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.326,
+        3.269,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.326,
+        -0.028,
+        0.423,
+        1.811,
+        0.4
+      ],
+      [
+        -0.028,
+        3.269,
+        0.423,
+        1.266,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.35,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 95,
+    "exhaustBrake": 122,
+    "gears": {
+      "H": 8.658,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 70
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "id": "moon-rover-1",
+  "name": "Moon Rover",
+  "number": 1,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Amphibious rover on balloon tyres",
+  "description": "Orange boxy amphibious skid-steer 4×4 on four enormous low-pressure tyres, with a flat roof and a front door.",
+  "stats": {
+    "power": 10,
+    "speed": 13,
+    "grip": 90,
+    "capacity": 0
+  },
+  "biomes": [
+    "Swamp",
+    "Water",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      742,
+      906
+    ],
+    "pixelsPerMetre": 322.5,
+    "axles": [
+      0.829,
+      -0.829
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1010,
+        906,
+        273
+      ],
+      [
+        475,
+        906,
+        273
+      ]
+    ],
+    "exhaust": [
+      -1.704,
+      0.568
+    ],
+    "winch": [
+      1.902,
+      0.4
+    ],
+    "nose": 1.952,
+    "tail": -1.896
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2200.0,
+    "centreOfMass": [
+      0.0,
+      -0.3
+    ],
+    "size": [
+      3.848,
+      2.27
+    ],
+    "wheelMass": 77,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -1.896,
+        1.952,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -1.896,
+        0.028,
+        0.52,
+        2.27,
+        0.4
+      ],
+      [
+        0.028,
+        1.952,
+        0.52,
+        2.27,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 54,
+    "exhaustBrake": 70,
+    "gears": {
+      "H": 15.855,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 2630,
+    "openDiffGrip": 1,
+    "fuelLitres": 60
+  }
+}

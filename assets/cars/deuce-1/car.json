@@ -1,0 +1,214 @@
+{
+  "id": "deuce-1",
+  "name": "Deuce",
+  "number": 1,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Old army 6×6 cargo truck",
+  "description": "Olive drab 1950s 6×6 military cargo truck with a flat bonnet, open cab and a canvas-covered bed.",
+  "stats": {
+    "power": 13,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 18
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      948,
+      713
+    ],
+    "pixelsPerMetre": 203.077,
+    "axles": [
+      2.784,
+      -1.475,
+      -2.784
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1513,
+        713,
+        140
+      ],
+      [
+        648,
+        713,
+        140
+      ],
+      [
+        382,
+        713,
+        140
+      ]
+    ],
+    "exhaust": [
+      0.774,
+      0.513
+    ],
+    "winch": [
+      4.0,
+      0.325
+    ],
+    "nose": 4.05,
+    "tail": -4.139
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 6000.0,
+    "centreOfMass": [
+      -0.492,
+      0.821
+    ],
+    "size": [
+      8.189,
+      2.566
+    ],
+    "wheelMass": 96,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.139,
+        4.05,
+        0.163,
+        0.454,
+        0.4
+      ],
+      [
+        -4.139,
+        -1.41,
+        0.423,
+        2.566,
+        0.4
+      ],
+      [
+        -1.41,
+        1.32,
+        0.423,
+        2.56,
+        0.4
+      ],
+      [
+        1.32,
+        4.05,
+        0.423,
+        1.507,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 2.5,
+      "centreOfMass": [
+        -1.682,
+        1.418
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4034,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 110,
+    "exhaustBrake": 142,
+    "gears": {
+      "H": 10.538,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 8148,
+    "openDiffGrip": 1,
+    "fuelLitres": 200
+  },
+  "load": {
+    "name": "Army cargo",
+    "massT": 2.5
+  }
+}

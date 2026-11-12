@@ -95,7 +95,7 @@ test('makes progress through every kind of section', () => {
 });
 
 test('a car carries its load: it adds to its mass', () => {
-  const mesa = content.cars.find(c => c.id === 'mesa-coyote-8');
+  const mesa = content.cars.find(c => c.id === 'logger-six-16');
   if (!mesa) return;
   const s = newSim(mesa); s.init(30);
   assert(s.truck.getMass() > mesa.physics.mass, 'the load adds to the chassis mass');
@@ -155,7 +155,7 @@ test('a service truck is the most powerful of its class but not the fastest', ()
     assert(svc.powerKw * SERVICE_TORQUE_MULTIPLIER > Math.max(...own.map(c => c.powerKw)), `${svc.name} out-powers every ${svc.class} car`);
     assert(svc.torqueNm * SERVICE_TORQUE_MULTIPLIER > Math.max(...own.map(c => c.torqueNm)), `${svc.name} out-pulls every ${svc.class} car`);
     assert(svc.topSpeedKmh < Math.max(...own.map(c => c.topSpeedKmh)), `${svc.name} is not the fastest ${svc.class} vehicle`);
-    if (svc.role === 'breakdown') assert(svc.towMassT >= Math.max(...own.map(c => c.massT + c.load.massT)), `${svc.name} can tow the heaviest loaded ${svc.class} car`);
+    if (svc.role === 'breakdown') assert(svc.towMassT >= Math.max(...own.map(c => c.massT + (c.load?.massT ?? 0))), `${svc.name} can tow the heaviest loaded ${svc.class} car`);
   }
   // in game: pulling force in low range beats the playable cars of its class
   const pull = car => car.drivetrain.torqueScale * car.drivetrain.gears.L / car.rig.radius;
@@ -283,7 +283,7 @@ test('each recovery truck tows its heaviest class load through difficult mud pit
     if (!car) continue;
     for (const pit of content.season.trail.heavyMud.filter((_, i) => i === 1 || i === 6)) {
       const s = spawn(newSim(car), pit - 6), main = s.main;
-      const v = serviceAhead(s, wrecker, 3);
+      const v = serviceAhead(s, wrecker, 4);
       v.ctl.auto = true;
       assert(s.toggleWinch().attached, `${wrecker.id} hooks ${car.id} at ${pit}`);
       const start = main.parts.truck.getPosition().x;

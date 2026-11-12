@@ -1,0 +1,279 @@
+{
+  "id": "prime-mover-1",
+  "name": "Prime Mover",
+  "number": 1,
+  "class": "heavy",
+  "drive": "12×12",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Heavy-haul tractor with a dozer on a lowboy",
+  "description": "Yellow American heavy-haul conventional tractor with a gooseneck lowboy trailer.",
+  "stats": {
+    "power": 16,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 8
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1117,
+      608
+    ],
+    "pixelsPerMetre": 95.385,
+    "axles": [
+      9.299,
+      4.413,
+      2.946,
+      -6.626,
+      -7.979,
+      -9.299
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2004,
+        608,
+        66
+      ],
+      [
+        1538,
+        608,
+        66
+      ],
+      [
+        1398,
+        608,
+        66
+      ],
+      [
+        485,
+        608,
+        66
+      ],
+      [
+        356,
+        608,
+        66
+      ],
+      [
+        230,
+        608,
+        66
+      ]
+    ],
+    "exhaust": [
+      7.259,
+      4.103
+    ],
+    "winch": [
+      10.863,
+      0.325
+    ],
+    "nose": 10.913,
+    "tail": -10.579
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 30000.0,
+    "centreOfMass": [
+      -1.208,
+      1.382
+    ],
+    "size": [
+      21.492,
+      4.319
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -10.579,
+        10.913,
+        0.585,
+        0.885,
+        0.4
+      ],
+      [
+        -10.579,
+        -8.19,
+        0.422,
+        1.269,
+        0.4
+      ],
+      [
+        -8.19,
+        -5.802,
+        0.422,
+        3.429,
+        0.4
+      ],
+      [
+        -5.802,
+        -3.415,
+        0.422,
+        4.319,
+        0.4
+      ],
+      [
+        -3.415,
+        -1.026,
+        0.422,
+        3.879,
+        0.4
+      ],
+      [
+        -1.026,
+        1.362,
+        0.422,
+        1.614,
+        0.4
+      ],
+      [
+        1.362,
+        3.749,
+        0.422,
+        1.667,
+        0.4
+      ],
+      [
+        3.749,
+        6.138,
+        0.422,
+        1.667,
+        0.4
+      ],
+      [
+        6.138,
+        8.526,
+        0.422,
+        2.873,
+        0.4
+      ],
+      [
+        8.526,
+        10.913,
+        0.422,
+        1.876,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 25.0,
+      "centreOfMass": [
+        -3.057,
+        2.57
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.8772,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 155,
+    "exhaustBrake": 207,
+    "gears": {
+      "H": 10.21,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 161865,
+    "openDiffGrip": 1,
+    "fuelLitres": 800
+  },
+  "load": {
+    "name": "Bulldozer",
+    "massT": 25.0
+  }
+}

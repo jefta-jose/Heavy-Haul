@@ -1,0 +1,129 @@
+{
+  "master_dimensions": [
+    1870,
+    983
+  ],
+  "body_dimensions": [
+    1870,
+    983
+  ],
+  "identical_dimensions": true,
+  "wheel_dimensions": [
+    1254,
+    1254
+  ],
+  "wheel_square": true,
+  "wheel_hub": [
+    626.5,
+    626.5
+  ],
+  "wheel_alpha_bbox": [
+    56,
+    56,
+    1198,
+    1198
+  ],
+  "wheel_bbox_center": [
+    626.5,
+    626.5
+  ],
+  "road_wheels": [
+    {
+      "hub": [
+        433,
+        667
+      ],
+      "width_px": 347,
+      "height_px": 347,
+      "width_height_error_percent": 0.0,
+      "radius_px": 173,
+      "upper_well_min_alpha": 255,
+      "below_hub_wheel_region_max_alpha": 0
+    },
+    {
+      "hub": [
+        1453,
+        667
+      ],
+      "width_px": 347,
+      "height_px": 347,
+      "width_height_error_percent": 0.0,
+      "radius_px": 173,
+      "upper_well_min_alpha": 255,
+      "below_hub_wheel_region_max_alpha": 0
+    }
+  ],
+  "same_size_all_axles": true,
+  "level_hub_line": true,
+  "outside_wheel_regions_byte_identical": true,
+  "body_edit_affine_to_master": [
+    [
+      0.999601124434334,
+      -7.582677256435457e-05,
+      0.0381351564275741
+    ],
+    [
+      7.582677256435457e-05,
+      0.999601124434334,
+      0.1611536164880415
+    ]
+  ],
+  "registration_inliers": 487,
+  "method": "Generated painted originals preserved. Generated body edit registered and masked to wheel regions. One generated wheel radially normalized, circularly masked and composited identically at measured hubs. Native detail is not added by resampling.",
+  "visual_review": "PASS: inspected master, body, matching wheel, cab/fender/mirror construction and suspension-drop composite. Flat right-facing profile; exact road axle count; equal circular tyres fit arches and carry the load; no far-side tyres, snow chains, visible branding, text, ground or shadows. True alpha and generous margins. Filled upper wells and tandem/tridem gaps; wheel areas below hubs clear.",
+  "measurement_alpha_threshold": 64,
+  "native_generated_master_dimensions": [
+    1774,
+    887
+  ],
+  "native_generated_wheel_dimensions": [
+    1254,
+    1254
+  ],
+  "master_upscaled": false,
+  "transparent_padding_each_side": 48,
+  "correction_parameters": {
+    "raw_hubs": [
+      [
+        385,
+        619
+      ],
+      [
+        1405,
+        619
+      ]
+    ],
+    "raw_wheel_region_radii": [
+      [
+        177,
+        180
+      ],
+      [
+        177,
+        180
+      ]
+    ],
+    "road_tyre_radius": 173,
+    "generated_wheel_hub": [
+      626,
+      625
+    ],
+    "clear_below_hubs": false,
+    "preserve_yellow_fenders": false
+  },
+  "pixel_checks_pass": true,
+  "final_status": "PASS",
+  "review_file": "review-v1.png",
+  "accepted_files": [
+    "vehicle-master-v1.png",
+    "body-v1.png",
+    "wheel-v1.png",
+    "prompts.json"
+  ],
+  "sha256": {
+    "vehicle-master-v1.png": "2ae6ed941be58e105534e63809581c7ddf25773905e4f390e6784dd24117a82a",
+    "body-v1.png": "8aee34e97416162db5231a3f2e3344af58242014a042100261c4aab71aed26a2",
+    "wheel-v1.png": "809a87bc88323096633e7495aaa28c900c3ec45c29ca4682470bf66bdae713f9",
+    "prompts.json": "22231f332046883358d1979ca48ebf70d99153065791e747b2843b608350a4c4"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "master_dimensions": [
+    2268,
+    820
+  ],
+  "body_dimensions": [
+    2268,
+    820
+  ],
+  "identical_dimensions": true,
+  "wheel_dimensions": [
+    1254,
+    1254
+  ],
+  "wheel_square": true,
+  "wheel_hub": [
+    626.5,
+    626.5
+  ],
+  "wheel_alpha_bbox": [
+    56,
+    56,
+    1198,
+    1198
+  ],
+  "wheel_bbox_center": [
+    626.5,
+    626.5
+  ],
+  "road_wheels": [
+    {
+      "hub": [
+        572,
+        619
+      ],
+      "width_px": 267,
+      "height_px": 267,
+      "width_height_error_percent": 0.0,
+      "radius_px": 133,
+      "upper_well_min_alpha": 255,
+      "below_hub_wheel_region_max_alpha": 0
+    },
+    {
+      "hub": [
+        862,
+        619
+      ],
+      "width_px": 267,
+      "height_px": 267,
+      "width_height_error_percent": 0.0,
+      "radius_px": 133,
+      "upper_well_min_alpha": 255,
+      "below_hub_wheel_region_max_alpha": 0
+    },
+    {
+      "hub": [
+        1842,
+        619
+      ],
+      "width_px": 267,
+      "height_px": 267,
+      "width_height_error_percent": 0.0,
+      "radius_px": 133,
+      "upper_well_min_alpha": 255,
+      "below_hub_wheel_region_max_alpha": 0
+    }
+  ],
+  "same_size_all_axles": true,
+  "level_hub_line": true,
+  "outside_wheel_regions_byte_identical": true,
+  "body_edit_affine_to_master": [
+    [
+      0.9928514083934752,
+      4.7093946822141074e-05,
+      2.5102988746975883
+    ],
+    [
+      -4.7093946822141074e-05,
+      0.9928514083934752,
+      2.662743332912103
+    ]
+  ],
+  "registration_inliers": 659,
+  "method": "Generated painted originals preserved. Generated body edit registered and masked to wheel regions. One generated wheel radially normalized, circularly masked and composited identically at measured hubs. Native detail is not added by resampling.",
+  "visual_review": "PASS: inspected master, body, matching wheel, cab/fender/mirror construction and suspension-drop composite. Flat right-facing profile; exact road axle count; equal circular tyres fit arches and carry the load; no far-side tyres, snow chains, visible branding, text, ground or shadows. True alpha and generous margins. Filled upper wells and tandem/tridem gaps; wheel areas below hubs clear.",
+  "measurement_alpha_threshold": 64,
+  "native_generated_master_dimensions": [
+    2172,
+    724
+  ],
+  "native_generated_wheel_dimensions": [
+    1254,
+    1254
+  ],
+  "master_upscaled": false,
+  "transparent_padding_each_side": 48,
+  "correction_parameters": {
+    "raw_hubs": [
+      [
+        524,
+        571
+      ],
+      [
+        814,
+        571
+      ],
+      [
+        1794,
+        571
+      ]
+    ],
+    "raw_wheel_region_radii": [
+      [
+        149,
+        149
+      ],
+      [
+        149,
+        149
+      ],
+      [
+        149,
+        149
+      ]
+    ],
+    "road_tyre_radius": 133,
+    "generated_wheel_hub": [
+      626,
+      631
+    ],
+    "clear_below_hubs": false,
+    "preserve_yellow_fenders": false
+  },
+  "pixel_checks_pass": true,
+  "final_status": "PASS",
+  "review_file": "review-v1.png",
+  "accepted_files": [
+    "vehicle-master-v1.png",
+    "body-v1.png",
+    "wheel-v1.png",
+    "prompts.json"
+  ],
+  "sha256": {
+    "vehicle-master-v1.png": "e4372c7f601e5c14a22d1ff2ef10438c19044659007281ee2469f9df484a1b18",
+    "body-v1.png": "c8d833cdc74aff12849f1243124c7e0dc093210edecead96bdf928fad0902a04",
+    "wheel-v1.png": "e2322def6729a500be375ffcd7ffeb4c9a21e2b9788ecbc2aec1432fb37d784a",
+    "prompts.json": "15c354c884e2144c96b45fa4a8a7506619dd595fadc1ee65e5f32d97cbb55f01"
+  }
+}

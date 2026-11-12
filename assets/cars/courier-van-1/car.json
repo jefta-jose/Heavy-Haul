@@ -1,0 +1,203 @@
+{
+  "id": "courier-van-1",
+  "name": "Courier Van",
+  "number": 1,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Boxy delivery van with a loaded roof rack",
+  "description": "White 1980s boxy American delivery van with a short bonnet, sliding side door and roof rack.",
+  "stats": {
+    "power": 18,
+    "speed": 41,
+    "grip": 40,
+    "capacity": 2
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      950,
+      777
+    ],
+    "pixelsPerMetre": 149.231,
+    "axles": [
+      2.62,
+      -2.62
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1341,
+        777,
+        103
+      ],
+      [
+        559,
+        777,
+        103
+      ]
+    ],
+    "exhaust": [
+      -4.071,
+      0.493
+    ],
+    "winch": [
+      3.983,
+      0.325
+    ],
+    "nose": 4.033,
+    "tail": -4.322
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2200.0,
+    "centreOfMass": [
+      0.0,
+      1.315
+    ],
+    "size": [
+      8.355,
+      4.108
+    ],
+    "wheelMass": 61,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.322,
+        4.033,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.322,
+        -0.143,
+        0.423,
+        4.108,
+        0.4
+      ],
+      [
+        -0.143,
+        4.033,
+        0.423,
+        3.893,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.6,
+      "centreOfMass": [
+        -0.144,
+        3.212
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1521,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 8.408,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 90
+  },
+  "load": {
+    "name": "Parcels",
+    "massT": 0.6
+  },
+  "audio": {
+    "airBrakes": false
+  }
+}

@@ -60,9 +60,9 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
 // Ruts are not softened for anyone: tuning is how a light truck gets through, and the breakdown
 // truck is for when even that is not enough.
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
-  const scout = content.cars.find(c => c.id === 'swamp-scout-4'); if (!scout) return;
+  const scout = content.cars.find(c => c.id === 'dune-pup-1'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
-  const metres = car => [1285, 2130, 2330].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
+  const metres = car => [365, 2130, 2330].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
 });
@@ -86,7 +86,8 @@ test('a power is a label on the car, and changes none of its numbers', () => {
 });
 
 test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {
-  const crash = (car, shield) => { const c = spawn(newSim(car), 40); if (shield) assert(c.usePower(), 'the shield starts'); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
+  const solid = (() => { const p = newSim(); p.init(40); return p.logs.find(l => l.kind !== 'pipe' && l.x > 45).x; })();
+  const crash = (car, shield) => { const c = spawn(newSim(car), solid - car.rig.nose - 4); if (shield) assert(c.usePower(), 'the shield starts'); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
   const car = withPower(content.car, 'invincible');
   assert(crash(content.car, false) > 0, 'a hard hit hurts');
   assert(crash(car, false) > 0, 'and still does until the shield is used');

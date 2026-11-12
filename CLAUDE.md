@@ -183,8 +183,10 @@ archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 **Roster reset (2026-11-12):** the user deleted every car and its art (commit b484ae2) and the roster was rebuilt as 100
 planned vehicles (20 per class, ranked by power, rank 1 the free starter) plus 5 planned breakdown trucks, each folder holding a
 Codex brief. Old car.json files, measured hubs and art are in git before b484ae2 if a template is needed. There is no length
-cap (`maxLengthM` is gone); do not add per-truck world scaling. Until each class has a playable starter and breakdown truck,
-the build and most tests cannot run.
+cap (`maxLengthM` is gone); do not add per-truck world scaling. The first ten (two per class, every rank-1 starter included) were hooked up on 2026-11-12, and the five breakdown
+trucks were restored from `b484ae2^`. Lessons from that batch: Codex's `source/validation.json` records the hubs (check them on
+the preview); size tyres to at least 1.3 m; vehicles under about 2 t bog in ordinary mud and run out of route-test rescues, so
+light scouts got about 2.5 t and mud-terrain tyres; the drive label is every axle (`4×4`, `6×6`, `12×12`), since all are powered.
 
 ## Hook up a season
 

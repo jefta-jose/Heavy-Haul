@@ -1,0 +1,263 @@
+{
+  "id": "interstate-14",
+  "name": "Interstate",
+  "number": 14,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Long-nose semi with a box trailer",
+  "description": "Black long-nose American conventional semi tractor with a big sleeper and chrome trim, pulling a box van trailer.",
+  "stats": {
+    "power": 75,
+    "speed": 35,
+    "grip": 62,
+    "capacity": 40
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1172,
+      617
+    ],
+    "pixelsPerMetre": 93.846,
+    "axles": [
+      9.276,
+      3.308,
+      1.848,
+      -7.934,
+      -9.276
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2042,
+        617,
+        65
+      ],
+      [
+        1482,
+        617,
+        65
+      ],
+      [
+        1345,
+        617,
+        65
+      ],
+      [
+        427,
+        617,
+        65
+      ],
+      [
+        301,
+        617,
+        65
+      ]
+    ],
+    "exhaust": [
+      7.412,
+      3.853
+    ],
+    "winch": [
+      10.387,
+      0.325
+    ],
+    "nose": 10.437,
+    "tail": -11.173
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      -0.556,
+      1.258
+    ],
+    "size": [
+      21.61,
+      3.932
+    ],
+    "wheelMass": 231,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -11.173,
+        10.437,
+        0.585,
+        0.885,
+        0.4
+      ],
+      [
+        -11.173,
+        -8.471,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        -8.471,
+        -5.77,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        -5.77,
+        -3.069,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        -3.069,
+        -0.368,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        -0.368,
+        2.334,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        2.334,
+        5.035,
+        0.422,
+        3.506,
+        0.4
+      ],
+      [
+        5.035,
+        7.736,
+        0.422,
+        3.932,
+        0.4
+      ],
+      [
+        7.736,
+        10.437,
+        0.422,
+        2.024,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 12.0,
+      "centreOfMass": [
+        -4.69,
+        2.005
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.7125,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 465,
+    "exhaustBrake": 600,
+    "gears": {
+      "H": 8.667,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 18967,
+    "openDiffGrip": 1,
+    "fuelLitres": 800
+  },
+  "load": {
+    "name": "Freight",
+    "massT": 12.0
+  }
+}
