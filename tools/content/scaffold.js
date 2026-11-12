@@ -30,39 +30,40 @@ function scaffold(dir, entries, readme) {
   console.log(`${dir}: ${created} created${prune ? `, ${removed} removed` : ''}, ${entries.length} in the roster`);
 }
 
-const vehicleSteps = `## Codex delivers (see AGENTS.md)
+const vehicleSteps = c => `## Codex delivers (see AGENTS.md)
 
-- [ ] \`source/vehicle-master-v1.png\`: the complete vehicle **with its load**, all wheels on, facing right, transparent, as a **strictly flat side profile** (the hard rule in AGENTS.md: no perspective, all tires the same size on one level line, no far-side tires)
-- [ ] \`source/body-v1.png\`: the same canvas with every road wheel removed (the load stays)
-- [ ] \`source/wheel-v1.png\`: one matching tire on a square transparent canvas, hub centred
+- [ ] \`source/vehicle-master-v1.png\`: the complete vehicle${c.load ? ' **with its load**' : ''}, all wheels on, facing right, transparent, as a **strictly flat side profile** (the hard rule in AGENTS.md: no perspective, every tyre a perfect circle of the same size on one level line, no far-side tyres)
+- [ ] \`source/body-v1.png\`: the same canvas with every road wheel removed${c.load ? ' (the load stays)' : ''}
+- [ ] \`source/wheel-v1.png\`: one matching tyre on a square transparent canvas, hub centred, a perfect circle
 - [ ] \`source/prompts.json\`: the exact prompts and which image was an edit target
 
 ## Claude hooks it up (see CLAUDE.md)
 
-\`art/*.webp\`, \`car.json\` (registration, physics with the load's mass, drivetrain) and \`status: "playable"\`.
+\`art/*.webp\`, \`car.json\` (registration, physics${c.load ? ' with the load\'s mass' : ''}, drivetrain) and \`status: "playable"\`.
 `;
 const cars = readJson('assets/cars/cars.json');
 // the wheel layout each kind of vehicle must have (the hard rule in AGENTS.md)
 const wheelLayout = c => {
-  const layout = c.class === 'heavy'
-    ? 'Lay it out like the Prime Mover and Atlas (`assets/cars/prime-mover-1/art/master.webp`, `assets/cars/atlas-8/art/master.webp`): steer axle, a close drive tandem on the tractor, then a close group of 3 or 4 axles at the rear under the load.'
-    : c.class === 'highway'
-      ? 'Tractor with a steer axle and a drive axle or close drive tandem under the hitch; a close tandem on the trailer under the rear of the load. Never one lone axle at the far end of a long trailer.'
-      : 'Lay it out like the Fieldmaster 5, Swamp Ox 3 and Crag Crusher 11: wheels under the load, a close rear tandem or evenly spaced axles.';
-  return `\n**Wheels (hard rule, see AGENTS.md):** the wheels must make sense for this truck and its load, and carry the weight where the load sits. ${layout}\n`;
+  const layout = c.axles <= 2
+    ? 'One wheel in each arch, where this kind of vehicle has them.'
+    : /trailer|semi|tractor|lowboy|lowbed|road-train|modular/i.test(`${c.art.body} ${c.art.load}`)
+      ? 'Tractor with a steer axle and a drive axle or close drive tandem under the hitch; a close group of axles on the trailer under the load. Never one lone axle at the far end of a long trailer.'
+      : 'Wheels under the weight: evenly spaced axles or a close rear tandem, as this kind of truck has them.';
+  return `\n**Wheels (hard rule, see AGENTS.md):** ${c.axles} axles. Every tyre is a perfect circle (never oval or squashed), the same size, centred in its arch and filling it. ${layout}\n`;
 };
-// the longest any vehicle may be drawn (roster: maxLengthM)
-const sizeCap = () => `\n**Size cap: ${cars.maxLengthM} m long at most, load included.** Draw the vehicle at that scale or smaller, with \`pixelsPerMetre\` and \`physics.size\` to match, so it needs no higher zoom than other trucks. Obstacles are one size for every truck: there is no per-truck scaling of the world, so never exceed this cap. Keep the tires big enough to climb the trail (about 1.3 m or more).\n`;
+// original designs, inspired by kinds of real vehicles (a commercial game)
+const original = () => `\n**Original design (hard rule, see AGENTS.md):** an original vehicle in the spirit of the kind described: no real make or model, no badges, logos, emblems, brand names or sponsor marks, and no copy of a real vehicle's exact shape, grille or lights.\n`;
+const size = c => `\nSize: about ${c.lengthM} m long${c.load ? ' with its load' : ''}. There is no length cap: draw it at its natural proportions (the game frames long vehicles with its zoom).\n`;
 scaffold('assets/cars', [...cars.cars, ...cars.service], c => `# ${c.name}${c.number ? ' ' + c.number : ''}
 
-Status: **${c.status}** · ${c.role ? `${c.role} truck for class \`${c.class}\` (${c.size}${c.towMassT ? `; tows up to ${c.towMassT} t` : ''})` : `class \`${c.class}\`, tier ${c.tier} of 20`} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
-${c.load ? `Load: **${c.load.name}**, ${c.load.massT} t\n` : ''}${sizeCap(c)}${wheelLayout(c)}
+Status: **${c.status}** · ${c.role ? `${c.role} truck for class \`${c.class}\` (${c.size}${c.towMassT ? `; tows up to ${c.towMassT} t` : ''})` : `class \`${c.class}\`, rank ${c.unlockRank} of 20`} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
+${c.load ? `Load: **${c.load.name}**, ${c.load.massT} t\n` : 'Load: none\n'}${size(c)}${wheelLayout(c)}${original(c)}
 ## Art brief
 
 - Vehicle: ${c.art.body}
-- Load (drawn as part of the vehicle): ${c.art.load}
+- Load${c.load ? ' (drawn as part of the vehicle)' : ''}: ${c.art.load}
 - Equipment: ${c.art.equipment}
 - Finish: ${c.art.finish}
 - Tires: ${c.art.tires}
 ${c.art.note ? `- Note: ${c.art.note}\n` : ''}
-${vehicleSteps}`);
+${vehicleSteps(c)}`);

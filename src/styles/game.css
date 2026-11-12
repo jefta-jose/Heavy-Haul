@@ -311,6 +311,14 @@ canvas#view {
   padding: 0;
 }
 
+/* the camera zoom button shows its step as text: 1×, 1.3×, 1.7× */
+.ibtn.zoombtn {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .02em;
+}
+
 .ibtn svg {
   width: 20px;
   height: 20px;

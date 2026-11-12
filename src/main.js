@@ -186,7 +186,7 @@ function handbrake() {
 }
 const trap = createSpeedTrap({ sim, trail: liveTrail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
-  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, zoom: cycleZoom, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
 
 function newRun() {
@@ -278,6 +278,11 @@ async function goFullscreen() {
 
 const E = hud.els;
 E.fsBtn.addEventListener('click', goFullscreen);
+// the zoom button: steps the camera out (ZOOM_STEPS) to see more of the trail or the whole of a long rig, then back in
+const showZoom = () => { E.zoomBtn.textContent = `${view.zoomStep}×`; };
+function cycleZoom() { if (session.state !== 'play') return; const k = view.cycleZoom(); showZoom(); view.snap(); hud.toast(k === 1 ? 'Camera: close' : `Camera: ${k}× wider`, 1.2); }
+E.zoomBtn.addEventListener('click', cycleZoom);
+showZoom();
 E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 E.pauseBtn.addEventListener('click', pause);

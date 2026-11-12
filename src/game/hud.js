@@ -7,7 +7,7 @@ const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'damageFill', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'damageFill', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'zoomBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;

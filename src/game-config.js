@@ -10,6 +10,8 @@ export const ZOOM_BY_CLASS = { scout: 1.6, offroad: 2.2, 'heavy-duty': 2.0, high
 // Service trucks are often taller than their class's trucks, so while you drive one the camera eases out to at
 // least its height (physics.size[1], metres) divided by this; never closer than its class's zoom. Lower shows more.
 export const SERVICE_HEIGHT_PER_ZOOM = 1.6;
+// The zoom button (C) cycles these multiples of the vehicle's own zoom, so a long rig can be shown whole; remembered on the device.
+export const ZOOM_STEPS = [1, 1.3, 1.7];
 
 // ---------- damage ----------
 export const DAMAGE_START_KMH = 20;           // hitting a solid obstacle slower than this does no harm

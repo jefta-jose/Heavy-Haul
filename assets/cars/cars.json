@@ -1,0 +1,3906 @@
+{
+ "defaultCar": "dune-pup-1",
+ "about": "Vehicle roster, ordered weakest to strongest: classes run scouts -> highway -> heavy-duty -> offroad -> heavy, 20 per class, one per unlock rank (rank 1 is the free starter), ranked by power. Every kind of vehicle is welcome: some carry a load drawn into their art and counted in their mass (load), many carry nothing. There is no length cap: long rigs are framed by their own zoom and the in-game zoom button. Tires are fixed (wheelType, see wheel-types.json): to get something stronger, switch cars. Names and art briefs are original designs inspired by kinds of real vehicles (SnowRunner trucks, Forza Horizon off-roaders, rally cars and supercars), never a real make or model. Service trucks: one breakdown truck per class, bigger and stronger class by class, that winches and tows (towMassT is the heaviest gross weight it pulls); they never get stuck or run out of fuel and are the most powerful vehicles of their class but not the fastest. status: playable (car.json and art exist), planned, needs-art.",
+ "classes": [
+  {
+   "id": "scout",
+   "name": "Scouts",
+   "tagline": "Light & exploration",
+   "about": "Light vehicles of every kind: classic and modern 4×4s, SUVs, pickups, buggies, UTVs, rally cars and supercars on off-road tyres. Some carry small loads, many carry nothing."
+  },
+  {
+   "id": "highway",
+   "name": "Highway",
+   "tagline": "Road freight",
+   "about": "Road vehicles: vans, fast SUVs and grand tourers on all-terrain tyres, rigid trucks and semi tractors with their trailers. Quick and strong on firm roads, struggle off-road."
+  },
+  {
+   "id": "heavy-duty",
+   "name": "Heavy Duty",
+   "tagline": "Work trucks",
+   "about": "Work trucks for logging, construction, utilities, fire and rescue, plus heavy-duty pickups: strong, geared low, decent off-road."
+  },
+  {
+   "id": "offroad",
+   "name": "Off-road",
+   "tagline": "Extreme terrain",
+   "about": "Cross-country trucks: army 6×6s and 8×8s, amphibians, swamp buggies, Arctic haulers and balloon-tyre crawlers built for mud, water, snow and rock."
+  },
+  {
+   "id": "heavy",
+   "name": "Heavy",
+   "tagline": "Oversize loads",
+   "about": "Huge prime movers, mobile cranes and mining giants: slow, enormous torque, oversize loads."
+  }
+ ],
+ "cars": [
+  {
+   "id": "dune-pup-1",
+   "name": "Dune Pup",
+   "number": 1,
+   "class": "scout",
+   "tier": 1,
+   "unlockRank": 1,
+   "order": 1,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 0.6,
+   "lengthM": 3.6,
+   "powerKw": 60,
+   "torqueNm": 150,
+   "topSpeedKmh": 130,
+   "fuelL": 40,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.72,
+   "stats": {
+    "power": 10,
+    "speed": 38,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 0,
+   "art": {
+    "body": "metallic turquoise 1960s fibreglass beach buggy: open two-seater, short wheelbase, scooped rear fenders, exposed air-cooled engine and a roll bar",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "small windscreen, roll bar, spot lamps",
+    "finish": "sun-bleached paint and sand",
+    "tires": "0.72 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "ridge-pup-2",
+   "name": "Ridge Pup",
+   "number": 2,
+   "class": "scout",
+   "tier": 2,
+   "unlockRank": 2,
+   "order": 2,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 1.3,
+   "lengthM": 3.7,
+   "powerKw": 75,
+   "torqueNm": 140,
+   "topSpeedKmh": 140,
+   "fuelL": 45,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 0.8,
+   "stats": {
+    "power": 10,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 0
+   },
+   "price": 6000,
+   "art": {
+    "body": "tiny lime-green retro two-door 4×4 with a boxy body, round headlights and a folding canvas top",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "snorkel, roof light bar",
+    "finish": "mud up to the windows",
+    "tires": "0.8 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "old-timer-3",
+   "name": "Old Timer",
+   "number": 3,
+   "class": "scout",
+   "tier": 3,
+   "unlockRank": 3,
+   "order": 3,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 1.9,
+   "lengthM": 4.0,
+   "powerKw": 100,
+   "torqueNm": 360,
+   "topSpeedKmh": 135,
+   "fuelL": 90,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 0.86,
+   "stats": {
+    "power": 13,
+    "speed": 40,
+    "grip": 80,
+    "capacity": 30
+   },
+   "price": 9000,
+   "art": {
+    "body": "faded sky-blue 1970s boxy two-door 4×4 cruiser with a white roof, round headlights and a flat upright windscreen",
+    "load": "a roof basket holding a canvas bag and two jerry cans",
+    "equipment": "front winch bumper, spare wheel on the rear door",
+    "finish": "sun-faded paint and dusty sills",
+    "tires": "0.86 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Roof basket",
+    "massT": 0.12
+   }
+  },
+  {
+   "id": "farm-hand-4",
+   "name": "Farm Hand",
+   "number": 4,
+   "class": "scout",
+   "tier": 4,
+   "unlockRank": 4,
+   "order": 4,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 2.0,
+   "lengthM": 5.3,
+   "powerKw": 120,
+   "torqueNm": 400,
+   "topSpeedKmh": 140,
+   "fuelL": 95,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 0.92,
+   "stats": {
+    "power": 16,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 100
+   },
+   "price": 12000,
+   "art": {
+    "body": "two-tone red and cream 1970s American step-side 4×4 pickup with chrome bumpers and a long bonnet",
+    "load": "four hay bales stacked in the bed",
+    "equipment": "roof marker lights, side mirrors on arms",
+    "finish": "farm dust and dried mud",
+    "tires": "0.92 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Hay bales",
+    "massT": 0.4
+   }
+  },
+  {
+   "id": "razorback-5",
+   "name": "Razorback",
+   "number": 5,
+   "class": "scout",
+   "tier": 5,
+   "unlockRank": 5,
+   "order": 5,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 0.8,
+   "lengthM": 3.4,
+   "powerKw": 145,
+   "torqueNm": 180,
+   "topSpeedKmh": 140,
+   "fuelL": 40,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 0.84,
+   "stats": {
+    "power": 19,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 8
+   },
+   "price": 15000,
+   "art": {
+    "body": "neon green long-travel two-seat side-by-side UTV with a roll cage, window nets and exposed suspension",
+    "load": "a spare tyre on the rear cargo rack",
+    "equipment": "roof light bar, nerf bars",
+    "finish": "caked mud",
+    "tires": "0.84 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare tyre",
+    "massT": 0.03
+   }
+  },
+  {
+   "id": "trail-cat-6",
+   "name": "Trail Cat",
+   "number": 6,
+   "class": "scout",
+   "tier": 6,
+   "unlockRank": 6,
+   "order": 6,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 1.9,
+   "lengthM": 4.0,
+   "powerKw": 150,
+   "torqueNm": 410,
+   "topSpeedKmh": 140,
+   "fuelL": 80,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 0.95,
+   "stats": {
+    "power": 20,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 20
+   },
+   "price": 18000,
+   "art": {
+    "body": "bright orange open-top short-wheelbase rock-crawler 4×4 with a tube roll cage, half doors and wide fender flares",
+    "load": "a high-lift jack and two recovery boards strapped to the roll cage",
+    "equipment": "stubby steel winch bumper, rock sliders",
+    "finish": "scratched paint and red-dirt dust",
+    "tires": "0.95 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Recovery kit",
+    "massT": 0.08
+   }
+  },
+  {
+   "id": "arctic-cruiser-7",
+   "name": "Arctic Cruiser",
+   "number": 7,
+   "class": "scout",
+   "tier": 7,
+   "unlockRank": 7,
+   "order": 7,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 3.0,
+   "lengthM": 5.0,
+   "powerKw": 200,
+   "torqueNm": 650,
+   "topSpeedKmh": 160,
+   "fuelL": 160,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 27,
+    "speed": 47,
+    "grip": 90,
+    "capacity": 62
+   },
+   "price": 21000,
+   "art": {
+    "body": "white and red Arctic-expedition full-size SUV on huge balloon tyres, with cut-out arches and fender extensions",
+    "load": "a full roof rack with fuel cans, shovels and a spare tyre",
+    "equipment": "snorkel, front winch",
+    "finish": "snow grime and salt streaks",
+    "tires": "1.15 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Expedition rack",
+    "massT": 0.25
+   }
+  },
+  {
+   "id": "ring-four-8",
+   "name": "Ring Four",
+   "number": 8,
+   "class": "scout",
+   "tier": 8,
+   "unlockRank": 8,
+   "order": 8,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 1.3,
+   "lengthM": 4.4,
+   "powerKw": 225,
+   "torqueNm": 350,
+   "topSpeedKmh": 220,
+   "fuelL": 90,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.8,
+   "stats": {
+    "power": 30,
+    "speed": 65,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 24000,
+   "art": {
+    "body": "white 1980s angular two-door rally coupé with box-flared arches, a roof spoiler and a bank of spot lamps",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "four spot lamps, mud flaps, roll cage",
+    "finish": "gravel chips and mud spray",
+    "tires": "0.8 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "desert-nine-9",
+   "name": "Desert Nine",
+   "number": 9,
+   "class": "scout",
+   "tier": 9,
+   "unlockRank": 9,
+   "order": 9,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 1.5,
+   "lengthM": 4.3,
+   "powerKw": 300,
+   "torqueNm": 500,
+   "topSpeedKmh": 210,
+   "fuelL": 150,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.86,
+   "stats": {
+    "power": 40,
+    "speed": 62,
+    "grip": 62,
+    "capacity": 8
+   },
+   "price": 27000,
+   "art": {
+    "body": "white 1980s rear-engine sports coupé turned rally-raid car: raised on long-travel suspension, a light pod on the bonnet and plastic arch guards",
+    "load": "a spare wheel on a roof rack",
+    "equipment": "light pod, mud flaps",
+    "finish": "desert sand",
+    "tires": "0.86 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare wheel",
+    "massT": 0.03
+   }
+  },
+  {
+   "id": "canyon-bronc-10",
+   "name": "Canyon Bronc",
+   "number": 10,
+   "class": "scout",
+   "tier": 10,
+   "unlockRank": 10,
+   "order": 10,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 2.4,
+   "lengthM": 4.6,
+   "powerKw": 310,
+   "torqueNm": 690,
+   "topSpeedKmh": 180,
+   "fuelL": 95,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 41,
+    "speed": 53,
+    "grip": 80,
+    "capacity": 0
+   },
+   "price": 30000,
+   "art": {
+    "body": "olive and white two-door retro-modern off-road SUV with a squared-off nose, round headlights, wide box flares and a hard top",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "LED light bar, rear spare wheel carrier",
+    "finish": "desert dust on the lower half",
+    "tires": "1.0 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "sixfold-11",
+   "name": "Sixfold",
+   "number": 11,
+   "class": "scout",
+   "tier": 11,
+   "unlockRank": 11,
+   "order": 11,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 3.8,
+   "lengthM": 5.9,
+   "powerKw": 400,
+   "torqueNm": 760,
+   "topSpeedKmh": 160,
+   "fuelL": 158,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.12,
+   "stats": {
+    "power": 53,
+    "speed": 47,
+    "grip": 80,
+    "capacity": 75
+   },
+   "price": 33000,
+   "art": {
+    "body": "matte sand luxury boxy 6×6 off-roader: a tall upright SUV cabin with an open rear pickup bed over two close rear axles",
+    "load": "two spare wheels and a fuel can in the rear bed",
+    "equipment": "portal axles, roof light bar, side steps",
+    "finish": "desert dust",
+    "tires": "1.12 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Bed spares",
+    "massT": 0.3
+   }
+  },
+  {
+   "id": "monarch-sport-12",
+   "name": "Monarch Sport",
+   "number": 12,
+   "class": "scout",
+   "tier": 12,
+   "unlockRank": 12,
+   "order": 12,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 2.3,
+   "lengthM": 4.9,
+   "powerKw": 423,
+   "torqueNm": 700,
+   "topSpeedKmh": 283,
+   "fuelL": 105,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.95,
+   "stats": {
+    "power": 56,
+    "speed": 83,
+    "grip": 62,
+    "capacity": 30
+   },
+   "price": 36000,
+   "art": {
+    "body": "British racing green luxury performance SUV with a floating black roof, slim light strips and side vents",
+    "load": "a roof box and a spare wheel on crossbars",
+    "equipment": "roof rails, tow hook",
+    "finish": "polished paint with mud on the sills",
+    "tires": "0.95 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Roof box",
+    "massT": 0.12
+   }
+  },
+  {
+   "id": "panthera-13",
+   "name": "Panthera",
+   "number": 13,
+   "class": "scout",
+   "tier": 13,
+   "unlockRank": 13,
+   "order": 13,
+   "status": "planned",
+   "drive": "RWD",
+   "axles": 2,
+   "massT": 1.6,
+   "lengthM": 4.5,
+   "powerKw": 423,
+   "torqueNm": 700,
+   "topSpeedKmh": 300,
+   "fuelL": 70,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.84,
+   "stats": {
+    "power": 56,
+    "speed": 88,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 39000,
+   "art": {
+    "body": "British racing green long-bonnet grand sports coupé with feline curves and slim headlights, lifted on off-road suspension",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "skid plate, arch guards",
+    "finish": "gloss paint with mud spray",
+    "tires": "0.84 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "dirt-bull-14",
+   "name": "Dirt Bull",
+   "number": 14,
+   "class": "scout",
+   "tier": 14,
+   "unlockRank": 14,
+   "order": 14,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 1.5,
+   "lengthM": 4.5,
+   "powerKw": 449,
+   "torqueNm": 560,
+   "topSpeedKmh": 260,
+   "fuelL": 80,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.86,
+   "stats": {
+    "power": 60,
+    "speed": 76,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 42000,
+   "art": {
+    "body": "sand-beige sharp V10 wedge supercar raised on rally suspension, with a roof air scoop, a light bar and plastic arch guards",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "roof scoop, light bar, skid plate",
+    "finish": "dust and gravel",
+    "tires": "0.86 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "king-of-rocks-15",
+   "name": "King of Rocks",
+   "number": 15,
+   "class": "scout",
+   "tier": 15,
+   "unlockRank": 15,
+   "order": 15,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 2.2,
+   "lengthM": 4.4,
+   "powerKw": 450,
+   "torqueNm": 700,
+   "topSpeedKmh": 170,
+   "fuelL": 150,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.07,
+   "stats": {
+    "power": 60,
+    "speed": 50,
+    "grip": 80,
+    "capacity": 12
+   },
+   "price": 45000,
+   "art": {
+    "body": "yellow tube-chassis rock-racing buggy with exposed coilovers, a pickup-shaped cab cage and beadlock wheels",
+    "load": "a spare tyre mounted upright at the rear",
+    "equipment": "front winch, rock sliders",
+    "finish": "rock dust and scrapes",
+    "tires": "1.07 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare tyre",
+    "massT": 0.05
+   }
+  },
+  {
+   "id": "toro-furioso-16",
+   "name": "Toro Furioso",
+   "number": 16,
+   "class": "scout",
+   "tier": 16,
+   "unlockRank": 16,
+   "order": 16,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 2.2,
+   "lengthM": 5.1,
+   "powerKw": 478,
+   "torqueNm": 850,
+   "topSpeedKmh": 305,
+   "fuelL": 85,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.98,
+   "stats": {
+    "power": 64,
+    "speed": 90,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 48000,
+   "art": {
+    "body": "lime-yellow angular super-SUV with hexagonal intakes, a sharp wedge nose and a fastback roof",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "carbon skid plates, roof light pod",
+    "finish": "gloss paint with a spray of mud",
+    "tires": "0.98 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "brute-ram-17",
+   "name": "Brute Ram",
+   "number": 17,
+   "class": "scout",
+   "tier": 17,
+   "unlockRank": 17,
+   "order": 17,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 2.9,
+   "lengthM": 5.9,
+   "powerKw": 523,
+   "torqueNm": 882,
+   "topSpeedKmh": 190,
+   "fuelL": 125,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 70,
+    "speed": 56,
+    "grip": 80,
+    "capacity": 50
+   },
+   "price": 51000,
+   "art": {
+    "body": "deep red supercharged crew-cab muscle pickup with bulging fenders and a tall power-dome bonnet",
+    "load": "a steel tool chest and two folded ramps in the open bed",
+    "equipment": "bed bars with lights, side steps",
+    "finish": "mud splashed up the doors",
+    "tires": "1.05 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Tool chest",
+    "massT": 0.2
+   }
+  },
+  {
+   "id": "sand-viper-18",
+   "name": "Sand Viper",
+   "number": 18,
+   "class": "scout",
+   "tier": 18,
+   "unlockRank": 18,
+   "order": 18,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 2.6,
+   "lengthM": 5.9,
+   "powerKw": 537,
+   "torqueNm": 868,
+   "topSpeedKmh": 180,
+   "fuelL": 136,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 72,
+    "speed": 53,
+    "grip": 62,
+    "capacity": 37
+   },
+   "price": 54000,
+   "art": {
+    "body": "matte grey wide-body desert pre-runner crew-cab pickup with long-travel suspension, huge flared fenders and a bonnet scoop",
+    "load": "a spare wheel and two jerry cans strapped upright in the open bed",
+    "equipment": "roof light pod, bed bars",
+    "finish": "fine desert sand on the lower panels",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Bed spares",
+    "massT": 0.15
+   }
+  },
+  {
+   "id": "volt-ranger-19",
+   "name": "Volt Ranger",
+   "number": 19,
+   "class": "scout",
+   "tier": 19,
+   "unlockRank": 19,
+   "order": 19,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 3.2,
+   "lengthM": 5.5,
+   "powerKw": 615,
+   "torqueNm": 1231,
+   "topSpeedKmh": 175,
+   "fuelL": 100,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 82,
+    "speed": 51,
+    "grip": 62,
+    "capacity": 45
+   },
+   "price": 57000,
+   "art": {
+    "body": "pale green smooth electric adventure pickup with a full-width light strip, upright oval headlights and a short bed",
+    "load": "camping crates and a cooler under a bed rack",
+    "equipment": "roof crossbars, skid plates",
+    "finish": "clean paint under a light coat of dust",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Camp gear",
+    "massT": 0.18
+   }
+  },
+  {
+   "id": "baja-hammer-20",
+   "name": "Baja Hammer",
+   "number": 20,
+   "class": "scout",
+   "tier": 20,
+   "unlockRank": 20,
+   "order": 20,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 2.7,
+   "lengthM": 5.8,
+   "powerKw": 750,
+   "torqueNm": 1000,
+   "topSpeedKmh": 225,
+   "fuelL": 400,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 100,
+    "speed": 66,
+    "grip": 62,
+    "capacity": 25
+   },
+   "price": 60000,
+   "art": {
+    "body": "black and orange unlimited desert trophy truck with a wide fibreglass pickup-shaped body, a roof scoop and an exposed rear cage",
+    "load": "two spare tyres in the rear cage",
+    "equipment": "roof light bar, rear wing",
+    "finish": "desert sand and dust",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare tyres",
+    "massT": 0.1
+   }
+  },
+  {
+   "id": "courier-van-1",
+   "name": "Courier Van",
+   "number": 1,
+   "class": "highway",
+   "tier": 1,
+   "unlockRank": 1,
+   "order": 1,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 2.2,
+   "lengthM": 5.4,
+   "powerKw": 110,
+   "torqueNm": 380,
+   "topSpeedKmh": 140,
+   "fuelL": 90,
+   "wheelType": "road",
+   "tireDiameterM": 0.78,
+   "stats": {
+    "power": 18,
+    "speed": 41,
+    "grip": 40,
+    "capacity": 2
+   },
+   "price": 0,
+   "art": {
+    "body": "white 1980s boxy American delivery van with a short bonnet, sliding side door and roof rack",
+    "load": "stacked parcels on the roof rack and behind the windows",
+    "equipment": "roof rack, ladder",
+    "finish": "road grime",
+    "tires": "0.78 m road tires tyres: smooth highway rib tread, chrome or painted hubs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Parcels",
+    "massT": 0.6
+   }
+  },
+  {
+   "id": "milk-run-2",
+   "name": "Milk Run",
+   "number": 2,
+   "class": "highway",
+   "tier": 2,
+   "unlockRank": 2,
+   "order": 2,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 6.0,
+   "lengthM": 7.0,
+   "powerKw": 150,
+   "torqueNm": 700,
+   "topSpeedKmh": 110,
+   "fuelL": 200,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 25,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 10
+   },
+   "price": 10800,
+   "art": {
+    "body": "cream and red 1960s American cab-over box truck with a rounded cab and a tall box body",
+    "load": "the box body full of crates, shown by its rear roller door half open",
+    "equipment": "chrome mirrors, marker lights",
+    "finish": "faded paint and road dust",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Crates",
+    "massT": 3.0
+   }
+  },
+  {
+   "id": "typhoon-3",
+   "name": "Typhoon",
+   "number": 3,
+   "class": "highway",
+   "tier": 3,
+   "unlockRank": 3,
+   "order": 3,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 1.8,
+   "lengthM": 4.5,
+   "powerKw": 210,
+   "torqueNm": 470,
+   "topSpeedKmh": 210,
+   "fuelL": 76,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.95,
+   "stats": {
+    "power": 35,
+    "speed": 62,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 16200,
+   "art": {
+    "body": "black 1990s compact two-door turbo sport SUV with a low body kit and square headlights",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "bonnet vents, tow hook",
+    "finish": "glossy black with road grime",
+    "tires": "0.95 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "flatbed-express-4",
+   "name": "Flatbed Express",
+   "number": 4,
+   "class": "highway",
+   "tier": 4,
+   "unlockRank": 4,
+   "order": 4,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 3,
+   "massT": 9.0,
+   "lengthM": 9.5,
+   "powerKw": 300,
+   "torqueNm": 1800,
+   "topSpeedKmh": 120,
+   "fuelL": 300,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 50,
+    "speed": 35,
+    "grip": 62,
+    "capacity": 5
+   },
+   "price": 21600,
+   "art": {
+    "body": "red American day-cab conventional truck with a long rigid flatbed",
+    "load": "a tarp-covered classic car strapped to the flatbed",
+    "equipment": "chrome stacks, headache rack",
+    "finish": "polished paint, road dust",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Classic car",
+    "massT": 1.5
+   }
+  },
+  {
+   "id": "cement-mixer-5",
+   "name": "Cement Mixer",
+   "number": 5,
+   "class": "highway",
+   "tier": 5,
+   "unlockRank": 5,
+   "order": 5,
+   "status": "planned",
+   "drive": "8×4",
+   "axles": 4,
+   "massT": 13.0,
+   "lengthM": 10.0,
+   "powerKw": 330,
+   "torqueNm": 1900,
+   "topSpeedKmh": 100,
+   "fuelL": 300,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.1,
+   "stats": {
+    "power": 55,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 33
+   },
+   "price": 27000,
+   "art": {
+    "body": "yellow and white bonneted American four-axle concrete mixer truck with a striped rotating drum",
+    "load": "the drum full of concrete",
+    "equipment": "chute, ladder, mud flaps",
+    "finish": "concrete splashes",
+    "tires": "1.1 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Wet concrete",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "dump-rig-6",
+   "name": "Dump Rig",
+   "number": 6,
+   "class": "highway",
+   "tier": 6,
+   "unlockRank": 6,
+   "order": 6,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 3,
+   "massT": 12.0,
+   "lengthM": 9.0,
+   "powerKw": 370,
+   "torqueNm": 2000,
+   "topSpeedKmh": 105,
+   "fuelL": 350,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.1,
+   "stats": {
+    "power": 62,
+    "speed": 31,
+    "grip": 62,
+    "capacity": 40
+   },
+   "price": 32400,
+   "art": {
+    "body": "orange bonneted American three-axle dump truck with a square steel tipper body",
+    "load": "the tipper heaped with gravel",
+    "equipment": "chrome stacks, tarp roller",
+    "finish": "dust and gravel",
+    "tires": "1.1 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Gravel",
+    "massT": 12.0
+   }
+  },
+  {
+   "id": "cab-over-king-7",
+   "name": "Cab-Over King",
+   "number": 7,
+   "class": "highway",
+   "tier": 7,
+   "unlockRank": 7,
+   "order": 7,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 13.0,
+   "lengthM": 15.0,
+   "powerKw": 400,
+   "torqueNm": 2100,
+   "topSpeedKmh": 115,
+   "fuelL": 600,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 67,
+    "speed": 34,
+    "grip": 62,
+    "capacity": 33
+   },
+   "price": 37800,
+   "art": {
+    "body": "white flat-nosed 1980s American cab-over semi tractor with a tall sleeper and a refrigerated box trailer on a close rear tandem",
+    "load": "the refrigerated box trailer with a reefer unit on its nose",
+    "equipment": "twin chrome stacks, air horns",
+    "finish": "road dust and bugs",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Reefer freight",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "car-carrier-8",
+   "name": "Car Carrier",
+   "number": 8,
+   "class": "highway",
+   "tier": 8,
+   "unlockRank": 8,
+   "order": 8,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 16.0,
+   "lengthM": 18.0,
+   "powerKw": 400,
+   "torqueNm": 2300,
+   "topSpeedKmh": 110,
+   "fuelL": 700,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 67,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 27
+   },
+   "price": 43200,
+   "art": {
+    "body": "silver cab-over truck with a two-deck car transporter trailer",
+    "load": "six assorted small cars on the two decks",
+    "equipment": "roof spoiler, ramps",
+    "finish": "road dust",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Cars",
+    "massT": 8.0
+   }
+  },
+  {
+   "id": "euro-hauler-9",
+   "name": "Euro Hauler",
+   "number": 9,
+   "class": "highway",
+   "tier": 9,
+   "unlockRank": 9,
+   "order": 9,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 5,
+   "massT": 12.0,
+   "lengthM": 16.0,
+   "powerKw": 400,
+   "torqueNm": 2400,
+   "topSpeedKmh": 115,
+   "fuelL": 700,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 67,
+    "speed": 34,
+    "grip": 62,
+    "capacity": 33
+   },
+   "price": 48600,
+   "art": {
+    "body": "dark blue European flat-front cab-over tractor with a curtain-side trailer on a tri-axle bogie",
+    "load": "the curtain-side trailer, curtains taut over pallets",
+    "equipment": "roof spoiler, sun visor, spot lamps",
+    "finish": "clean paint, road spray",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Curtain-side freight",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "kensington-10",
+   "name": "Kensington",
+   "number": 10,
+   "class": "highway",
+   "tier": 10,
+   "unlockRank": 10,
+   "order": 10,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 2.4,
+   "lengthM": 5.1,
+   "powerKw": 404,
+   "torqueNm": 900,
+   "topSpeedKmh": 300,
+   "fuelL": 85,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 67,
+    "speed": 88,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 54000,
+   "art": {
+    "body": "two-tone silver and black ultra-luxury grand SUV with a tall chrome mesh grille and a long bonnet",
+    "load": "leather luggage on a low roof rack",
+    "equipment": "chrome roof rails",
+    "finish": "polished paint, dusty wheel arches",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Luggage",
+    "massT": 0.1
+   }
+  },
+  {
+   "id": "fuel-runner-11",
+   "name": "Fuel Runner",
+   "number": 11,
+   "class": "highway",
+   "tier": 11,
+   "unlockRank": 11,
+   "order": 11,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 14.0,
+   "lengthM": 16.0,
+   "powerKw": 420,
+   "torqueNm": 2300,
+   "topSpeedKmh": 115,
+   "fuelL": 800,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 70,
+    "speed": 34,
+    "grip": 62,
+    "capacity": 60
+   },
+   "price": 59400,
+   "art": {
+    "body": "red conventional semi tractor pulling a polished aluminium fuel tanker trailer",
+    "load": "the full tanker trailer",
+    "equipment": "hazard placards, chrome stacks",
+    "finish": "road grime on the tank",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Fuel",
+    "massT": 18.0
+   }
+  },
+  {
+   "id": "tuner-gt-12",
+   "name": "Tuner GT",
+   "number": 12,
+   "class": "highway",
+   "tier": 12,
+   "unlockRank": 12,
+   "order": 12,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 1.75,
+   "lengthM": 4.7,
+   "powerKw": 441,
+   "torqueNm": 632,
+   "topSpeedKmh": 315,
+   "fuelL": 74,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.88,
+   "stats": {
+    "power": 74,
+    "speed": 93,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 64800,
+   "art": {
+    "body": "gunmetal twin-turbo four-seat super coupé with a big rear wing and quad round tail lights, raised on all-terrain tyres",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "skid plate",
+    "finish": "road grime",
+    "tires": "0.88 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "pipe-hauler-13",
+   "name": "Pipe Hauler",
+   "number": 13,
+   "class": "highway",
+   "tier": 13,
+   "unlockRank": 13,
+   "order": 13,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 15.0,
+   "lengthM": 17.0,
+   "powerKw": 450,
+   "torqueNm": 2400,
+   "topSpeedKmh": 110,
+   "fuelL": 800,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.1,
+   "stats": {
+    "power": 75,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 67
+   },
+   "price": 70200,
+   "art": {
+    "body": "green conventional semi tractor with a flatbed trailer of chained steel pipes",
+    "load": "a stack of long steel pipes strapped on the flatbed",
+    "equipment": "headache rack, chrome stacks",
+    "finish": "road dust",
+    "tires": "1.1 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Steel pipes",
+    "massT": 20.0
+   }
+  },
+  {
+   "id": "interstate-14",
+   "name": "Interstate",
+   "number": 14,
+   "class": "highway",
+   "tier": 14,
+   "unlockRank": 14,
+   "order": 14,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 14.0,
+   "lengthM": 16.0,
+   "powerKw": 450,
+   "torqueNm": 2500,
+   "topSpeedKmh": 120,
+   "fuelL": 800,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 75,
+    "speed": 35,
+    "grip": 62,
+    "capacity": 40
+   },
+   "price": 75600,
+   "art": {
+    "body": "black long-nose American conventional semi tractor with a big sleeper and chrome trim, pulling a box van trailer",
+    "load": "the long box van trailer",
+    "equipment": "twin chrome stacks, sun visor, air horns",
+    "finish": "polished paint, road dust",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Freight",
+    "massT": 12.0
+   }
+  },
+  {
+   "id": "container-freighter-15",
+   "name": "Container Freighter",
+   "number": 15,
+   "class": "highway",
+   "tier": 15,
+   "unlockRank": 15,
+   "order": 15,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 5,
+   "massT": 15.0,
+   "lengthM": 16.0,
+   "powerKw": 450,
+   "torqueNm": 2500,
+   "topSpeedKmh": 110,
+   "fuelL": 800,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 75,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 73
+   },
+   "price": 81000,
+   "art": {
+    "body": "white conventional semi tractor with a skeletal chassis trailer carrying a rusty orange shipping container",
+    "load": "a 40 ft shipping container",
+    "equipment": "chrome stacks",
+    "finish": "road grime",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Shipping container",
+    "massT": 22.0
+   }
+  },
+  {
+   "id": "megaliner-16",
+   "name": "Megaliner",
+   "number": 16,
+   "class": "highway",
+   "tier": 16,
+   "unlockRank": 16,
+   "order": 16,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 6,
+   "massT": 17.0,
+   "lengthM": 18.0,
+   "powerKw": 500,
+   "torqueNm": 2800,
+   "topSpeedKmh": 105,
+   "fuelL": 900,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 83,
+    "speed": 31,
+    "grip": 62,
+    "capacity": 83
+   },
+   "price": 86400,
+   "art": {
+    "body": "yellow heavy American long-nose tractor with a gooseneck lowboy trailer",
+    "load": "a tracked excavator chained on the lowboy",
+    "equipment": "oversize-load banner, beacons",
+    "finish": "road dust",
+    "tires": "1.15 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Excavator",
+    "massT": 25.0
+   }
+  },
+  {
+   "id": "hellfire-tracker-17",
+   "name": "Hellfire Tracker",
+   "number": 17,
+   "class": "highway",
+   "tier": 17,
+   "unlockRank": 17,
+   "order": 17,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 2.4,
+   "lengthM": 4.9,
+   "powerKw": 527,
+   "torqueNm": 868,
+   "topSpeedKmh": 290,
+   "fuelL": 93,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 88,
+    "speed": 85,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 91800,
+   "art": {
+    "body": "dark red American muscle SUV with a supercharger bonnet bulge, a wide grille and quad exhausts",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "tow hitch",
+    "finish": "road dust",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "prancer-18",
+   "name": "Prancer",
+   "number": 18,
+   "class": "highway",
+   "tier": 18,
+   "unlockRank": 18,
+   "order": 18,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 2.0,
+   "lengthM": 5.0,
+   "powerKw": 533,
+   "torqueNm": 716,
+   "topSpeedKmh": 310,
+   "fuelL": 100,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 89,
+    "speed": 91,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 97200,
+   "art": {
+    "body": "deep red four-door V12 grand crossover with a long bonnet, a coupé roofline and rear-hinged back doors",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "carbon side skirts",
+    "finish": "gloss paint with road dust",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "grand-mistral-19",
+   "name": "Grand Mistral",
+   "number": 19,
+   "class": "highway",
+   "tier": 19,
+   "unlockRank": 19,
+   "order": 19,
+   "status": "planned",
+   "drive": "RWD",
+   "axles": 2,
+   "massT": 1.7,
+   "lengthM": 4.7,
+   "powerKw": 588,
+   "torqueNm": 718,
+   "topSpeedKmh": 340,
+   "fuelL": 92,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 0.88,
+   "stats": {
+    "power": 98,
+    "speed": 100,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 102600,
+   "art": {
+    "body": "deep blue long-bonnet front-engine V12 grand tourer with a short tail, raised on all-terrain tyres",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "skid plate",
+    "finish": "road grime",
+    "tires": "0.88 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "outback-train-20",
+   "name": "Outback Train",
+   "number": 20,
+   "class": "highway",
+   "tier": 20,
+   "unlockRank": 20,
+   "order": 20,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 8,
+   "massT": 22.0,
+   "lengthM": 26.0,
+   "powerKw": 600,
+   "torqueNm": 3200,
+   "topSpeedKmh": 100,
+   "fuelL": 1200,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 100,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 100
+   },
+   "price": 108000,
+   "art": {
+    "body": "red bonneted Australian road-train prime mover with a roo bar, pulling two livestock crate trailers",
+    "load": "two tall slatted livestock crate trailers",
+    "equipment": "roo bar, twin stacks, spot lamps",
+    "finish": "red outback dust",
+    "tires": "1.15 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Livestock crates",
+    "massT": 30.0
+   }
+  },
+  {
+   "id": "deuce-1",
+   "name": "Deuce",
+   "number": 1,
+   "class": "heavy-duty",
+   "tier": 1,
+   "unlockRank": 1,
+   "order": 1,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 6.0,
+   "lengthM": 6.7,
+   "powerKw": 100,
+   "torqueNm": 600,
+   "topSpeedKmh": 90,
+   "fuelL": 200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 13,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 18
+   },
+   "price": 0,
+   "art": {
+    "body": "olive drab 1950s 6×6 military cargo truck with a flat bonnet, open cab and a canvas-covered bed",
+    "load": "the canvas-covered bed loaded with crates",
+    "equipment": "front winch, jerry can racks",
+    "finish": "faded paint and dried mud",
+    "tires": "1.15 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Army cargo",
+    "massT": 2.5
+   }
+  },
+  {
+   "id": "mog-2",
+   "name": "Mog",
+   "number": 2,
+   "class": "heavy-duty",
+   "tier": 2,
+   "unlockRank": 2,
+   "order": 2,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 5.5,
+   "lengthM": 5.4,
+   "powerKw": 170,
+   "torqueNm": 900,
+   "topSpeedKmh": 90,
+   "fuelL": 200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 23,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 11
+   },
+   "price": 15600,
+   "art": {
+    "body": "safety-orange boxy forward-control utility 4×4 with a short cab, portal axles and a drop-side flatbed",
+    "load": "crates, a folded hydraulic crane arm and stacked timber on the flatbed",
+    "equipment": "front winch, beacon, mirrors on arms",
+    "finish": "work-worn paint and dried mud",
+    "tires": "1.2 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Utility gear",
+    "massT": 1.5
+   }
+  },
+  {
+   "id": "nomad-camper-3",
+   "name": "Nomad Camper",
+   "number": 3,
+   "class": "heavy-duty",
+   "tier": 3,
+   "unlockRank": 3,
+   "order": 3,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 7.5,
+   "lengthM": 7.0,
+   "powerKw": 170,
+   "torqueNm": 900,
+   "topSpeedKmh": 100,
+   "fuelL": 300,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 23,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 13
+   },
+   "price": 23400,
+   "art": {
+    "body": "sand-coloured forward-control expedition 4×4 truck carrying a boxy camper body with small windows and a roof ladder",
+    "load": "the camper box with water cans and a spare wheel on its back",
+    "equipment": "roof rack, sand ladders",
+    "finish": "desert dust",
+    "tires": "1.25 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Camper box",
+    "massT": 1.8
+   }
+  },
+  {
+   "id": "line-crew-4",
+   "name": "Line Crew",
+   "number": 4,
+   "class": "heavy-duty",
+   "tier": 4,
+   "unlockRank": 4,
+   "order": 4,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 9.0,
+   "lengthM": 8.5,
+   "powerKw": 250,
+   "torqueNm": 1200,
+   "topSpeedKmh": 100,
+   "fuelL": 250,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.1,
+   "stats": {
+    "power": 34,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 11
+   },
+   "price": 31200,
+   "art": {
+    "body": "white bonneted 4×4 utility truck with an aerial bucket boom folded over a service body",
+    "load": "the folded insulated bucket boom",
+    "equipment": "outriggers, beacons, cable reels",
+    "finish": "road dust",
+    "tires": "1.1 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Bucket boom",
+    "massT": 1.5
+   }
+  },
+  {
+   "id": "brush-engine-5",
+   "name": "Brush Engine",
+   "number": 5,
+   "class": "heavy-duty",
+   "tier": 5,
+   "unlockRank": 5,
+   "order": 5,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 10.0,
+   "lengthM": 8.0,
+   "powerKw": 260,
+   "torqueNm": 1300,
+   "topSpeedKmh": 100,
+   "fuelL": 250,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 35,
+    "speed": 29,
+    "grip": 80,
+    "capacity": 21
+   },
+   "price": 39000,
+   "art": {
+    "body": "red 4×4 wildland fire engine with a short crew cab, a water tank body and hose reels",
+    "load": "the water tank",
+    "equipment": "light bar, hose reels, pump panel",
+    "finish": "soot and mud",
+    "tires": "1.15 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Water",
+    "massT": 3.0
+   }
+  },
+  {
+   "id": "plough-master-6",
+   "name": "Plough Master",
+   "number": 6,
+   "class": "heavy-duty",
+   "tier": 6,
+   "unlockRank": 6,
+   "order": 6,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 13.0,
+   "lengthM": 9.0,
+   "powerKw": 300,
+   "torqueNm": 1700,
+   "topSpeedKmh": 90,
+   "fuelL": 300,
+   "wheelType": "spiked",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 40,
+    "speed": 26,
+    "grip": 88,
+    "capacity": 57
+   },
+   "price": 46800,
+   "art": {
+    "body": "orange bonneted 6×6 snow plough dump truck with a big angled front blade and a salt spreader",
+    "load": "the dump body heaped with salt and grit",
+    "equipment": "front blade, wing plough, beacons",
+    "finish": "salt crust and slush",
+    "tires": "1.2 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Road salt",
+    "massT": 8.0
+   }
+  },
+  {
+   "id": "six-tipper-7",
+   "name": "Six Tipper",
+   "number": 7,
+   "class": "heavy-duty",
+   "tier": 7,
+   "unlockRank": 7,
+   "order": 7,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 15.0,
+   "lengthM": 9.0,
+   "powerKw": 325,
+   "torqueNm": 2000,
+   "topSpeedKmh": 85,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 44,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 86
+   },
+   "price": 54600,
+   "art": {
+    "body": "white and blue European forward-control 8×8 tipper truck with a central tube chassis and swing axles",
+    "load": "the tipper heaped with gravel",
+    "equipment": "spot lamps, mud flaps",
+    "finish": "mud to the roof",
+    "tires": "1.25 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Gravel",
+    "massT": 12.0
+   }
+  },
+  {
+   "id": "arctic-supply-8",
+   "name": "Arctic Supply",
+   "number": 8,
+   "class": "heavy-duty",
+   "tier": 8,
+   "unlockRank": 8,
+   "order": 8,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 14.0,
+   "lengthM": 10.0,
+   "powerKw": 330,
+   "torqueNm": 1900,
+   "topSpeedKmh": 85,
+   "fuelL": 450,
+   "wheelType": "spiked",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 44,
+    "speed": 25,
+    "grip": 88,
+    "capacity": 57
+   },
+   "price": 62400,
+   "art": {
+    "body": "white bonneted 6×6 cold-climate truck with an insulated box body and a heated cab",
+    "load": "the insulated box body",
+    "equipment": "spot lamps, snow chains bins",
+    "finish": "frost and road salt",
+    "tires": "1.3 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Supplies",
+    "massT": 8.0
+   }
+  },
+  {
+   "id": "rescue-engine-9",
+   "name": "Rescue Engine",
+   "number": 9,
+   "class": "heavy-duty",
+   "tier": 9,
+   "unlockRank": 9,
+   "order": 9,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 15.0,
+   "lengthM": 10.0,
+   "powerKw": 340,
+   "torqueNm": 1900,
+   "topSpeedKmh": 100,
+   "fuelL": 350,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 46,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 14
+   },
+   "price": 70200,
+   "art": {
+    "body": "red 6×6 heavy rescue fire truck with roller-shutter lockers and a light tower",
+    "load": "the lockers full of rescue gear",
+    "equipment": "light tower, beacons, front winch",
+    "finish": "clean paint, mud on the sills",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Rescue kit",
+    "massT": 2.0
+   }
+  },
+  {
+   "id": "transformer-10",
+   "name": "Transformer",
+   "number": 10,
+   "class": "heavy-duty",
+   "tier": 10,
+   "unlockRank": 10,
+   "order": 10,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 5.0,
+   "lengthM": 7.0,
+   "powerKw": 350,
+   "torqueNm": 1300,
+   "topSpeedKmh": 150,
+   "fuelL": 180,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 47,
+    "speed": 44,
+    "grip": 90,
+    "capacity": 3
+   },
+   "price": 78000,
+   "art": {
+    "body": "candy-blue mega-lifted heavy-duty crew-cab pickup towering on giant tyres, with chrome exhaust stacks behind the cab",
+    "load": "a quad bike strapped in the open bed",
+    "equipment": "light bar, huge front bumper",
+    "finish": "gloss paint, mud up the tyres",
+    "tires": "1.5 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Quad bike",
+    "massT": 0.4
+   }
+  },
+  {
+   "id": "crane-carrier-11",
+   "name": "Crane Carrier",
+   "number": 11,
+   "class": "heavy-duty",
+   "tier": 11,
+   "unlockRank": 11,
+   "order": 11,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 16.0,
+   "lengthM": 11.0,
+   "powerKw": 350,
+   "torqueNm": 1900,
+   "topSpeedKmh": 80,
+   "fuelL": 350,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 47,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 43
+   },
+   "price": 85800,
+   "art": {
+    "body": "yellow 6×6 truck with a knuckle-boom crane behind the cab and a flatbed",
+    "load": "steel I-beams on the flatbed",
+    "equipment": "outriggers, beacons",
+    "finish": "grease and dust",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Steel beams",
+    "massT": 6.0
+   }
+  },
+  {
+   "id": "water-bowser-12",
+   "name": "Water Bowser",
+   "number": 12,
+   "class": "heavy-duty",
+   "tier": 12,
+   "unlockRank": 12,
+   "order": 12,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 15.0,
+   "lengthM": 10.0,
+   "powerKw": 350,
+   "torqueNm": 1900,
+   "topSpeedKmh": 90,
+   "fuelL": 350,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 47,
+    "speed": 26,
+    "grip": 62,
+    "capacity": 71
+   },
+   "price": 93600,
+   "art": {
+    "body": "white 6×6 bonneted tanker truck with an oval water tank",
+    "load": "the oval water tank",
+    "equipment": "spray bar, ladder",
+    "finish": "road dust",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Water",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "dually-baron-13",
+   "name": "Dually Baron",
+   "number": 13,
+   "class": "heavy-duty",
+   "tier": 13,
+   "unlockRank": 13,
+   "order": 13,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 4.4,
+   "lengthM": 6.9,
+   "powerKw": 354,
+   "torqueNm": 1424,
+   "topSpeedKmh": 160,
+   "fuelL": 182,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.05,
+   "stats": {
+    "power": 48,
+    "speed": 47,
+    "grip": 62,
+    "capacity": 6
+   },
+   "price": 101400,
+   "art": {
+    "body": "chrome-trimmed black heavy-duty one-ton dually crew-cab with flared dual rear wheels and a flatbed tray",
+    "load": "a welding rig, gas bottles and a toolbox on the flatbed tray",
+    "equipment": "headache rack with lights",
+    "finish": "clean paint with road dust",
+    "tires": "1.05 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Welding rig",
+    "massT": 0.8
+   }
+  },
+  {
+   "id": "oilfield-service-14",
+   "name": "Oilfield Service",
+   "number": 14,
+   "class": "heavy-duty",
+   "tier": 14,
+   "unlockRank": 14,
+   "order": 14,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 14.0,
+   "lengthM": 10.0,
+   "powerKw": 380,
+   "torqueNm": 2100,
+   "topSpeedKmh": 90,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 51,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 43
+   },
+   "price": 109200,
+   "art": {
+    "body": "blue bonneted 6×6 oilfield truck with a big winch behind the cab and a pipe rack bed",
+    "load": "drill pipes racked in the bed",
+    "equipment": "gin poles, headache rack",
+    "finish": "oil stains and mud",
+    "tires": "1.25 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Drill pipes",
+    "massT": 6.0
+   }
+  },
+  {
+   "id": "concrete-pumper-15",
+   "name": "Concrete Pumper",
+   "number": 15,
+   "class": "heavy-duty",
+   "tier": 15,
+   "unlockRank": 15,
+   "order": 15,
+   "status": "planned",
+   "drive": "8×4",
+   "axles": 4,
+   "massT": 20.0,
+   "lengthM": 12.0,
+   "powerKw": 380,
+   "torqueNm": 2100,
+   "topSpeedKmh": 85,
+   "fuelL": 350,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 51,
+    "speed": 25,
+    "grip": 62,
+    "capacity": 21
+   },
+   "price": 117000,
+   "art": {
+    "body": "yellow four-axle truck with a folded concrete pump boom over the cab",
+    "load": "the folded boom",
+    "equipment": "outriggers, hopper",
+    "finish": "concrete splashes",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Pump boom",
+    "massT": 3.0
+   }
+  },
+  {
+   "id": "logger-six-16",
+   "name": "Logger Six",
+   "number": 16,
+   "class": "heavy-duty",
+   "tier": 16,
+   "unlockRank": 16,
+   "order": 16,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 14.0,
+   "lengthM": 10.0,
+   "powerKw": 400,
+   "torqueNm": 2100,
+   "topSpeedKmh": 85,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 54,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 86
+   },
+   "price": 124800,
+   "art": {
+    "body": "green bonneted 6×6 logging truck with a headache rack and log bunks",
+    "load": "a bundle of short logs chained on the bunks",
+    "equipment": "headache rack, chrome stacks",
+    "finish": "bark dust and mud",
+    "tires": "1.25 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Short logs",
+    "massT": 12.0
+   }
+  },
+  {
+   "id": "drill-rig-17",
+   "name": "Drill Rig",
+   "number": 17,
+   "class": "heavy-duty",
+   "tier": 17,
+   "unlockRank": 17,
+   "order": 17,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 18.0,
+   "lengthM": 12.0,
+   "powerKw": 400,
+   "torqueNm": 2200,
+   "topSpeedKmh": 80,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 54,
+    "speed": 24,
+    "grip": 80,
+    "capacity": 29
+   },
+   "price": 132600,
+   "art": {
+    "body": "white and red 6×6 truck carrying a folded drilling mast",
+    "load": "the folded drilling mast",
+    "equipment": "outriggers, pipe rack",
+    "finish": "mud and grease",
+    "tires": "1.3 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Drilling mast",
+    "massT": 4.0
+   }
+  },
+  {
+   "id": "tree-hauler-18",
+   "name": "Tree Hauler",
+   "number": 18,
+   "class": "heavy-duty",
+   "tier": 18,
+   "unlockRank": 18,
+   "order": 18,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 16.0,
+   "lengthM": 12.0,
+   "powerKw": 420,
+   "torqueNm": 2300,
+   "topSpeedKmh": 85,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 56,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 100
+   },
+   "price": 140400,
+   "art": {
+    "body": "red bonneted 6×6 forestry truck with a loader crane and a long log bed",
+    "load": "long logs chained on the bed",
+    "equipment": "loader crane, headache rack",
+    "finish": "bark dust and mud",
+    "tires": "1.3 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Long logs",
+    "massT": 14.0
+   }
+  },
+  {
+   "id": "raptor-six-19",
+   "name": "Raptor Six",
+   "number": 19,
+   "class": "heavy-duty",
+   "tier": 19,
+   "unlockRank": 19,
+   "order": 19,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 4.6,
+   "lengthM": 6.9,
+   "powerKw": 450,
+   "torqueNm": 868,
+   "topSpeedKmh": 160,
+   "fuelL": 136,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.12,
+   "stats": {
+    "power": 60,
+    "speed": 47,
+    "grip": 62,
+    "capacity": 3
+   },
+   "price": 148200,
+   "art": {
+    "body": "matte black wide-body 6×6 desert super pickup, crew cab, a long bed over two close rear axles",
+    "load": "spare tyres and fuel cans in the bed",
+    "equipment": "roof light bar, bed bars",
+    "finish": "desert dust",
+    "tires": "1.12 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare tyres",
+    "massT": 0.4
+   }
+  },
+  {
+   "id": "volt-titan-20",
+   "name": "Volt Titan",
+   "number": 20,
+   "class": "heavy-duty",
+   "tier": 20,
+   "unlockRank": 20,
+   "order": 20,
+   "status": "planned",
+   "drive": "AWD",
+   "axles": 2,
+   "massT": 4.1,
+   "lengthM": 5.5,
+   "powerKw": 745,
+   "torqueNm": 1400,
+   "topSpeedKmh": 170,
+   "fuelL": 120,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.12,
+   "stats": {
+    "power": 100,
+    "speed": 50,
+    "grip": 62,
+    "capacity": 3
+   },
+   "price": 156000,
+   "art": {
+    "body": "white slab-sided electric super pickup with a full-width light-bar grille, removable roof panels and a short bed",
+    "load": "a generator and cable reels in the bed",
+    "equipment": "roof basket, skid plates",
+    "finish": "clean paint, muddy lower panels",
+    "tires": "1.12 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Generator",
+    "massT": 0.4
+   }
+  },
+  {
+   "id": "moon-rover-1",
+   "name": "Moon Rover",
+   "number": 1,
+   "class": "offroad",
+   "tier": 1,
+   "unlockRank": 1,
+   "order": 1,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 1.6,
+   "lengthM": 3.4,
+   "powerKw": 40,
+   "torqueNm": 200,
+   "topSpeedKmh": 45,
+   "fuelL": 60,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.6,
+   "stats": {
+    "power": 10,
+    "speed": 13,
+    "grip": 90,
+    "capacity": 0
+   },
+   "price": 0,
+   "art": {
+    "body": "orange boxy amphibious skid-steer 4×4 on four enormous low-pressure tyres, with a flat roof and a front door",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "roof rack, spot lamps",
+    "finish": "river mud",
+    "tires": "1.6 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "bog-rat-2",
+   "name": "Bog Rat",
+   "number": 2,
+   "class": "offroad",
+   "tier": 2,
+   "unlockRank": 2,
+   "order": 2,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 3.5,
+   "lengthM": 5.6,
+   "powerKw": 90,
+   "torqueNm": 400,
+   "topSpeedKmh": 90,
+   "fuelL": 200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.15,
+   "stats": {
+    "power": 11,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 10
+   },
+   "price": 20400,
+   "art": {
+    "body": "olive green Cold War style light 4×4 army truck with a forward cab and a canvas bed",
+    "load": "crates under the canvas bed cover",
+    "equipment": "jerry cans, spare wheel behind the cab",
+    "finish": "dried mud",
+    "tires": "1.15 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Ammo crates",
+    "massT": 2.0
+   }
+  },
+  {
+   "id": "mudlark-3",
+   "name": "Mudlark",
+   "number": 3,
+   "class": "offroad",
+   "tier": 3,
+   "unlockRank": 3,
+   "order": 3,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 3.0,
+   "lengthM": 5.0,
+   "powerKw": 120,
+   "torqueNm": 600,
+   "topSpeedKmh": 60,
+   "fuelL": 150,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.8,
+   "stats": {
+    "power": 15,
+    "speed": 18,
+    "grip": 90,
+    "capacity": 0
+   },
+   "price": 30600,
+   "art": {
+    "body": "Florida-style swamp buggy: a tall open steel frame with a high bench seat towering on huge tractor tyres",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "roll bar, spot lamps",
+    "finish": "swamp mud",
+    "tires": "1.8 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "swamp-ox-4",
+   "name": "Swamp Ox",
+   "number": 4,
+   "class": "offroad",
+   "tier": 4,
+   "unlockRank": 4,
+   "order": 4,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 7.0,
+   "lengthM": 9.5,
+   "powerKw": 150,
+   "torqueNm": 800,
+   "topSpeedKmh": 80,
+   "fuelL": 300,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 19,
+    "speed": 24,
+    "grip": 90,
+    "capacity": 12
+   },
+   "price": 40800,
+   "art": {
+    "body": "olive amphibious 6×6 truck with a boat-shaped hull, a small cab and a cargo well",
+    "load": "tarp-covered cargo in the well",
+    "equipment": "propeller and rudder at the back, bilge pump",
+    "finish": "river mud",
+    "tires": "1.3 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Cargo",
+    "massT": 2.5
+   }
+  },
+  {
+   "id": "pine-crawler-5",
+   "name": "Pine Crawler",
+   "number": 5,
+   "class": "offroad",
+   "tier": 5,
+   "unlockRank": 5,
+   "order": 5,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 12.0,
+   "lengthM": 10.0,
+   "powerKw": 150,
+   "torqueNm": 1100,
+   "topSpeedKmh": 40,
+   "fuelL": 300,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 19,
+    "speed": 12,
+    "grip": 90,
+    "capacity": 40
+   },
+   "price": 51000,
+   "art": {
+    "body": "yellow articulated forestry forwarder: a front cab unit hinged to a rear log bunk unit, with a loader crane",
+    "load": "logs in the rear bunk",
+    "equipment": "loader crane, bogie tracks",
+    "finish": "bark dust and mud",
+    "tires": "1.4 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Logs",
+    "massT": 8.0
+   }
+  },
+  {
+   "id": "rhino-6",
+   "name": "Rhino",
+   "number": 6,
+   "class": "offroad",
+   "tier": 6,
+   "unlockRank": 6,
+   "order": 6,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 6.0,
+   "lengthM": 7.0,
+   "powerKw": 160,
+   "torqueNm": 900,
+   "topSpeedKmh": 70,
+   "fuelL": 250,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.6,
+   "stats": {
+    "power": 20,
+    "speed": 21,
+    "grip": 90,
+    "capacity": 5
+   },
+   "price": 61200,
+   "art": {
+    "body": "red six-wheel cross-country truck on balloon tyres with a long glazed passenger cabin",
+    "load": "a roof rack with fuel cans",
+    "equipment": "roof rack, spot lamps",
+    "finish": "snow and mud",
+    "tires": "1.6 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Expedition gear",
+    "massT": 1.0
+   }
+  },
+  {
+   "id": "ural-bear-7",
+   "name": "Ural Bear",
+   "number": 7,
+   "class": "offroad",
+   "tier": 7,
+   "unlockRank": 7,
+   "order": 7,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 8.5,
+   "lengthM": 7.4,
+   "powerKw": 170,
+   "torqueNm": 900,
+   "topSpeedKmh": 85,
+   "fuelL": 300,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 21,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 25
+   },
+   "price": 71400,
+   "art": {
+    "body": "dark green bonneted 1970s Soviet-style 6×6 army truck with a big grille and a canvas-covered bed",
+    "load": "crates under the canvas",
+    "equipment": "spare wheel behind the cab, front winch",
+    "finish": "dried mud",
+    "tires": "1.3 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Supplies",
+    "massT": 5.0
+   }
+  },
+  {
+   "id": "taiga-six-8",
+   "name": "Taiga Six",
+   "number": 8,
+   "class": "offroad",
+   "tier": 8,
+   "unlockRank": 8,
+   "order": 8,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 9.0,
+   "lengthM": 8.0,
+   "powerKw": 190,
+   "torqueNm": 1100,
+   "topSpeedKmh": 85,
+   "fuelL": 350,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 24,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 20
+   },
+   "price": 81600,
+   "art": {
+    "body": "orange forward-control 6×6 tundra truck with a flatbed and a small crane",
+    "load": "short pipes on the flatbed",
+    "equipment": "crane, spot lamps",
+    "finish": "mud and snow",
+    "tires": "1.3 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Pipes",
+    "massT": 4.0
+   }
+  },
+  {
+   "id": "snow-dog-9",
+   "name": "Snow Dog",
+   "number": 9,
+   "class": "offroad",
+   "tier": 9,
+   "unlockRank": 9,
+   "order": 9,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 12.0,
+   "lengthM": 9.0,
+   "powerKw": 280,
+   "torqueNm": 1600,
+   "topSpeedKmh": 80,
+   "fuelL": 400,
+   "wheelType": "spiked",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 35,
+    "speed": 24,
+    "grip": 88,
+    "capacity": 15
+   },
+   "price": 91800,
+   "art": {
+    "body": "white and orange 6×6 Arctic expedition truck with an insulated habitation box",
+    "load": "the insulated habitation box",
+    "equipment": "roof antennae, spot lamps",
+    "finish": "ice and frost",
+    "tires": "1.4 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Habitat box",
+    "massT": 3.0
+   }
+  },
+  {
+   "id": "amphibian-10",
+   "name": "Amphibian",
+   "number": 10,
+   "class": "offroad",
+   "tier": 10,
+   "unlockRank": 10,
+   "order": 10,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 14.0,
+   "lengthM": 8.0,
+   "powerKw": 300,
+   "torqueNm": 1700,
+   "topSpeedKmh": 90,
+   "fuelL": 400,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.35,
+   "stats": {
+    "power": 38,
+    "speed": 26,
+    "grip": 90,
+    "capacity": 0
+   },
+   "price": 102000,
+   "art": {
+    "body": "grey eight-wheeled amphibious carrier with a sloped boat-like nose and a raised cabin",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "trim vane, spot lamps",
+    "finish": "river mud",
+    "tires": "1.35 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "quarry-goat-11",
+   "name": "Quarry Goat",
+   "number": 11,
+   "class": "offroad",
+   "tier": 11,
+   "unlockRank": 11,
+   "order": 11,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 30.0,
+   "lengthM": 11.0,
+   "powerKw": 350,
+   "torqueNm": 2300,
+   "topSpeedKmh": 55,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.7,
+   "stats": {
+    "power": 44,
+    "speed": 16,
+    "grip": 80,
+    "capacity": 100
+   },
+   "price": 112200,
+   "art": {
+    "body": "yellow articulated dump hauler: a front cab unit and a rear dump body joined at a hinge",
+    "load": "the dump body heaped with rock",
+    "equipment": "mud flaps, beacons",
+    "finish": "quarry dust",
+    "tires": "1.7 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Rock",
+    "massT": 20.0
+   }
+  },
+  {
+   "id": "cyclops-12",
+   "name": "Cyclops",
+   "number": 12,
+   "class": "offroad",
+   "tier": 12,
+   "unlockRank": 12,
+   "order": 12,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 16.0,
+   "lengthM": 10.0,
+   "powerKw": 380,
+   "torqueNm": 2200,
+   "topSpeedKmh": 85,
+   "fuelL": 500,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 48,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 40
+   },
+   "price": 122400,
+   "art": {
+    "body": "sand camouflage 8×8 military cargo truck with a flat-front cab and a tarp-covered bed",
+    "load": "tarp-covered cargo",
+    "equipment": "roof hatch, spare wheel",
+    "finish": "dust and mud",
+    "tires": "1.4 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Cargo",
+    "massT": 8.0
+   }
+  },
+  {
+   "id": "big-tusk-13",
+   "name": "Big Tusk",
+   "number": 13,
+   "class": "offroad",
+   "tier": 13,
+   "unlockRank": 13,
+   "order": 13,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 22.0,
+   "lengthM": 12.0,
+   "powerKw": 400,
+   "torqueNm": 2400,
+   "topSpeedKmh": 75,
+   "fuelL": 500,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 50,
+    "speed": 22,
+    "grip": 80,
+    "capacity": 75
+   },
+   "price": 132600,
+   "art": {
+    "body": "dark grey bonneted 8×8 heavy off-road tanker truck with a fuel tank body",
+    "load": "the full fuel tank",
+    "equipment": "front winch, hazard placards",
+    "finish": "mud to the roof",
+    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Fuel",
+    "massT": 15.0
+   }
+  },
+  {
+   "id": "crag-crusher-14",
+   "name": "Crag Crusher",
+   "number": 14,
+   "class": "offroad",
+   "tier": 14,
+   "unlockRank": 14,
+   "order": 14,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 18.0,
+   "lengthM": 9.0,
+   "powerKw": 450,
+   "torqueNm": 2600,
+   "topSpeedKmh": 75,
+   "fuelL": 450,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 56,
+    "speed": 22,
+    "grip": 80,
+    "capacity": 30
+   },
+   "price": 142800,
+   "art": {
+    "body": "red forward-control 6×6 cross-country truck with a stubby nose and a flatbed of crates",
+    "load": "crates on the flatbed",
+    "equipment": "front winch, roof lights",
+    "finish": "rock dust",
+    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Crates",
+    "massT": 6.0
+   }
+  },
+  {
+   "id": "ice-road-15",
+   "name": "Ice Road",
+   "number": 15,
+   "class": "offroad",
+   "tier": 15,
+   "unlockRank": 15,
+   "order": 15,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 20.0,
+   "lengthM": 11.0,
+   "powerKw": 500,
+   "torqueNm": 2800,
+   "topSpeedKmh": 75,
+   "fuelL": 600,
+   "wheelType": "spiked",
+   "tireDiameterM": 1.65,
+   "stats": {
+    "power": 62,
+    "speed": 22,
+    "grip": 88,
+    "capacity": 50
+   },
+   "price": 153000,
+   "art": {
+    "body": "blue bonneted heavy Arctic 6×6 tractor with a big grille guard and a fuel tank body",
+    "load": "the fuel tank body",
+    "equipment": "grille guard, spot lamps",
+    "finish": "ice and road salt",
+    "tires": "1.65 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Fuel",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "tundra-mule-16",
+   "name": "Tundra Mule",
+   "number": 16,
+   "class": "offroad",
+   "tier": 16,
+   "unlockRank": 16,
+   "order": 16,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 25.0,
+   "lengthM": 12.0,
+   "powerKw": 550,
+   "torqueNm": 3000,
+   "topSpeedKmh": 70,
+   "fuelL": 600,
+   "wheelType": "spiked",
+   "tireDiameterM": 1.6,
+   "stats": {
+    "power": 69,
+    "speed": 21,
+    "grip": 88,
+    "capacity": 60
+   },
+   "price": 163200,
+   "art": {
+    "body": "yellow 8×8 Arctic hauler with portal axles and a long flatbed",
+    "load": "steel pipes on the flatbed",
+    "equipment": "loader crane, beacons",
+    "finish": "snow and mud",
+    "tires": "1.6 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Steel pipes",
+    "massT": 12.0
+   }
+  },
+  {
+   "id": "desert-ranger-17",
+   "name": "Desert Ranger",
+   "number": 17,
+   "class": "offroad",
+   "tier": 17,
+   "unlockRank": 17,
+   "order": 17,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 9.0,
+   "lengthM": 7.0,
+   "powerKw": 600,
+   "torqueNm": 3000,
+   "topSpeedKmh": 150,
+   "fuelL": 500,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 75,
+    "speed": 44,
+    "grip": 62,
+    "capacity": 2
+   },
+   "price": 173400,
+   "art": {
+    "body": "white and red 6×6 rally-raid race truck with a short cab-over body and long-travel suspension",
+    "load": "two spare wheels behind the cab",
+    "equipment": "roof scoop, light pod",
+    "finish": "desert sand",
+    "tires": "1.25 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Spare wheels",
+    "massT": 0.4
+   }
+  },
+  {
+   "id": "glacier-ram-18",
+   "name": "Glacier Ram",
+   "number": 18,
+   "class": "offroad",
+   "tier": 18,
+   "unlockRank": 18,
+   "order": 18,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 24.0,
+   "lengthM": 11.0,
+   "powerKw": 600,
+   "torqueNm": 3200,
+   "topSpeedKmh": 70,
+   "fuelL": 600,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.9,
+   "stats": {
+    "power": 75,
+    "speed": 21,
+    "grip": 90,
+    "capacity": 20
+   },
+   "price": 183600,
+   "art": {
+    "body": "dark red heavy 8×8 off-road truck on huge balloon tyres with a recovery crane",
+    "load": "the folded crane",
+    "equipment": "front winch, spades",
+    "finish": "mud and snow",
+    "tires": "1.9 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Crane",
+    "massT": 4.0
+   }
+  },
+  {
+   "id": "wetland-titan-19",
+   "name": "Wetland Titan",
+   "number": 19,
+   "class": "offroad",
+   "tier": 19,
+   "unlockRank": 19,
+   "order": 19,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 26.0,
+   "lengthM": 13.0,
+   "powerKw": 650,
+   "torqueNm": 3400,
+   "topSpeedKmh": 65,
+   "fuelL": 700,
+   "wheelType": "flotation",
+   "tireDiameterM": 2.0,
+   "stats": {
+    "power": 81,
+    "speed": 19,
+    "grip": 90,
+    "capacity": 50
+   },
+   "price": 193800,
+   "art": {
+    "body": "olive 8×8 amphibious heavy carrier with a boat hull, a high cab and a cargo deck",
+    "load": "containers on the deck",
+    "equipment": "propellers, spot lamps",
+    "finish": "river mud",
+    "tires": "2.0 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Cargo",
+    "massT": 10.0
+   }
+  },
+  {
+   "id": "ice-breaker-20",
+   "name": "Ice Breaker",
+   "number": 20,
+   "class": "offroad",
+   "tier": 20,
+   "unlockRank": 20,
+   "order": 20,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 40.0,
+   "lengthM": 18.0,
+   "powerKw": 800,
+   "torqueNm": 4000,
+   "topSpeedKmh": 60,
+   "fuelL": 900,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.9,
+   "stats": {
+    "power": 100,
+    "speed": 18,
+    "grip": 90,
+    "capacity": 100
+   },
+   "price": 204000,
+   "art": {
+    "body": "grey enormous eight-wheeled heavy missile-carrier-style chassis with two separate cabs either side of a long engine bay",
+    "load": "a long equipment container on the deck",
+    "equipment": "spot lamps, mirrors",
+    "finish": "mud and dust",
+    "tires": "1.9 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Module",
+    "massT": 20.0
+   }
+  },
+  {
+   "id": "prime-mover-1",
+   "name": "Prime Mover",
+   "number": 1,
+   "class": "heavy",
+   "tier": 1,
+   "unlockRank": 1,
+   "order": 1,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 6,
+   "massT": 30.0,
+   "lengthM": 20.0,
+   "powerKw": 450,
+   "torqueNm": 3000,
+   "topSpeedKmh": 80,
+   "fuelL": 800,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 16,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 8
+   },
+   "price": 0,
+   "art": {
+    "body": "yellow American heavy-haul conventional tractor with a gooseneck lowboy trailer",
+    "load": "a bulldozer chained on the lowboy",
+    "equipment": "oversize-load banners, beacons",
+    "finish": "road dust",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Bulldozer",
+    "massT": 25.0
+   }
+  },
+  {
+   "id": "ship-mover-2",
+   "name": "Ship Mover",
+   "number": 2,
+   "class": "heavy",
+   "tier": 2,
+   "unlockRank": 2,
+   "order": 2,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 8,
+   "massT": 50.0,
+   "lengthM": 20.0,
+   "powerKw": 500,
+   "torqueNm": 3500,
+   "topSpeedKmh": 20,
+   "fuelL": 600,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.0,
+   "stats": {
+    "power": 18,
+    "speed": 6,
+    "grip": 62,
+    "capacity": 27
+   },
+   "price": 25200,
+   "art": {
+    "body": "yellow self-propelled modular transporter: a flat platform on many small wheel pairs with a small control cab",
+    "load": "a ship hull section",
+    "equipment": "beacons, control cab",
+    "finish": "shipyard grime",
+    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Boat hull",
+    "massT": 80.0
+   }
+  },
+  {
+   "id": "euro-heavy-3",
+   "name": "Euro Heavy",
+   "number": 3,
+   "class": "heavy",
+   "tier": 3,
+   "unlockRank": 3,
+   "order": 3,
+   "status": "planned",
+   "drive": "8×4",
+   "axles": 8,
+   "massT": 35.0,
+   "lengthM": 22.0,
+   "powerKw": 550,
+   "torqueNm": 3500,
+   "topSpeedKmh": 75,
+   "fuelL": 900,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.2,
+   "stats": {
+    "power": 20,
+    "speed": 22,
+    "grip": 62,
+    "capacity": 13
+   },
+   "price": 37800,
+   "art": {
+    "body": "white European cab-over 8×4 heavy tractor with a modular low trailer",
+    "load": "a large electrical transformer",
+    "equipment": "beacons, oversize-load banners",
+    "finish": "road grime",
+    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Transformer",
+    "massT": 40.0
+   }
+  },
+  {
+   "id": "wind-hauler-4",
+   "name": "Wind Hauler",
+   "number": 4,
+   "class": "heavy",
+   "tier": 4,
+   "unlockRank": 4,
+   "order": 4,
+   "status": "planned",
+   "drive": "6×4",
+   "axles": 7,
+   "massT": 30.0,
+   "lengthM": 30.0,
+   "powerKw": 550,
+   "torqueNm": 3600,
+   "topSpeedKmh": 75,
+   "fuelL": 900,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.25,
+   "stats": {
+    "power": 20,
+    "speed": 22,
+    "grip": 62,
+    "capacity": 8
+   },
+   "price": 50400,
+   "art": {
+    "body": "white heavy conventional tractor with an extendable blade trailer",
+    "load": "a long white wind-turbine blade",
+    "equipment": "escort beacons, oversize banners",
+    "finish": "road dust",
+    "tires": "1.25 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Turbine blade",
+    "massT": 25.0
+   }
+  },
+  {
+   "id": "ballast-tractor-5",
+   "name": "Ballast Tractor",
+   "number": 5,
+   "class": "heavy",
+   "tier": 5,
+   "unlockRank": 5,
+   "order": 5,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 40.0,
+   "lengthM": 11.0,
+   "powerKw": 600,
+   "torqueNm": 4000,
+   "topSpeedKmh": 70,
+   "fuelL": 900,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 21,
+    "speed": 21,
+    "grip": 62,
+    "capacity": 7
+   },
+   "price": 63000,
+   "art": {
+    "body": "red heavy 8×8 ballast tractor with a concrete ballast box behind the cab",
+    "load": "the concrete ballast box",
+    "equipment": "push plate, beacons",
+    "finish": "road dust",
+    "tires": "1.3 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Ballast",
+    "massT": 20.0
+   }
+  },
+  {
+   "id": "mega-crane-6",
+   "name": "Mega Crane",
+   "number": 6,
+   "class": "heavy",
+   "tier": 6,
+   "unlockRank": 6,
+   "order": 6,
+   "status": "planned",
+   "drive": "10×8",
+   "axles": 5,
+   "massT": 60.0,
+   "lengthM": 16.0,
+   "powerKw": 600,
+   "torqueNm": 4000,
+   "topSpeedKmh": 80,
+   "fuelL": 600,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 21,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 0
+   },
+   "price": 75600,
+   "art": {
+    "body": "yellow five-axle all-terrain mobile crane with a telescopic boom folded over the cab",
+    "load": "none: the vehicle alone, nothing carried",
+    "equipment": "outriggers, counterweights",
+    "finish": "clean paint, road dust",
+    "tires": "1.4 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "bridge-layer-7",
+   "name": "Bridge Layer",
+   "number": 7,
+   "class": "heavy",
+   "tier": 7,
+   "unlockRank": 7,
+   "order": 7,
+   "status": "planned",
+   "drive": "10×10",
+   "axles": 5,
+   "massT": 40.0,
+   "lengthM": 14.0,
+   "powerKw": 600,
+   "torqueNm": 4000,
+   "topSpeedKmh": 65,
+   "fuelL": 900,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 21,
+    "speed": 19,
+    "grip": 80,
+    "capacity": 5
+   },
+   "price": 88200,
+   "art": {
+    "body": "olive 10×10 military bridge-layer carrying a folded scissor bridge",
+    "load": "the folded bridge sections",
+    "equipment": "launch arm, spades",
+    "finish": "mud",
+    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Bridge",
+    "massT": 15.0
+   }
+  },
+  {
+   "id": "log-giant-8",
+   "name": "Log Giant",
+   "number": 8,
+   "class": "heavy",
+   "tier": 8,
+   "unlockRank": 8,
+   "order": 8,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 6,
+   "massT": 40.0,
+   "lengthM": 22.0,
+   "powerKw": 650,
+   "torqueNm": 4200,
+   "topSpeedKmh": 70,
+   "fuelL": 1000,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 23,
+    "speed": 21,
+    "grip": 80,
+    "capacity": 20
+   },
+   "price": 100800,
+   "art": {
+    "body": "red off-highway log truck with a massive bunk trailer",
+    "load": "a towering bundle of huge logs",
+    "equipment": "headache rack, beacons",
+    "finish": "bark dust and mud",
+    "tires": "1.4 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Huge logs",
+    "massT": 60.0
+   }
+  },
+  {
+   "id": "rocket-hauler-9",
+   "name": "Rocket Hauler",
+   "number": 9,
+   "class": "heavy",
+   "tier": 9,
+   "unlockRank": 9,
+   "order": 9,
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 8,
+   "massT": 45.0,
+   "lengthM": 28.0,
+   "powerKw": 700,
+   "torqueNm": 4500,
+   "topSpeedKmh": 60,
+   "fuelL": 1000,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 25,
+    "speed": 18,
+    "grip": 62,
+    "capacity": 10
+   },
+   "price": 113400,
+   "art": {
+    "body": "white heavy tractor with a long multi-axle trailer",
+    "load": "a white rocket stage on cradles",
+    "equipment": "escort beacons",
+    "finish": "clean paint",
+    "tires": "1.3 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Rocket stage",
+    "massT": 30.0
+   }
+  },
+  {
+   "id": "pipeline-giant-10",
+   "name": "Pipeline Giant",
+   "number": 10,
+   "class": "heavy",
+   "tier": 10,
+   "unlockRank": 10,
+   "order": 10,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 7,
+   "massT": 30.0,
+   "lengthM": 24.0,
+   "powerKw": 700,
+   "torqueNm": 4600,
+   "topSpeedKmh": 65,
+   "fuelL": 1000,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 25,
+    "speed": 19,
+    "grip": 80,
+    "capacity": 15
+   },
+   "price": 126000,
+   "art": {
+    "body": "green 8×8 tractor with a pole trailer",
+    "load": "big pipeline pipes on the pole trailer",
+    "equipment": "headache rack, beacons",
+    "finish": "mud",
+    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Pipeline pipes",
+    "massT": 45.0
+   }
+  },
+  {
+   "id": "titan-tipper-11",
+   "name": "Titan Tipper",
+   "number": 11,
+   "class": "heavy",
+   "tier": 11,
+   "unlockRank": 11,
+   "order": 11,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 60.0,
+   "lengthM": 10.0,
+   "powerKw": 700,
+   "torqueNm": 5000,
+   "topSpeedKmh": 60,
+   "fuelL": 1500,
+   "wheelType": "giant",
+   "tireDiameterM": 2.6,
+   "stats": {
+    "power": 25,
+    "speed": 18,
+    "grip": 86,
+    "capacity": 30
+   },
+   "price": 138600,
+   "art": {
+    "body": "yellow rigid mining dump truck with a canopy over the cab and a giant dump body",
+    "load": "the dump body heaped with ore",
+    "equipment": "ladder, beacons",
+    "finish": "quarry dust",
+    "tires": "2.6 m giant mining tires tyres: enormous mining-truck tires taller than a person, deep chevron tread; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Ore",
+    "massT": 90.0
+   }
+  },
+  {
+   "id": "tank-transporter-12",
+   "name": "Tank Transporter",
+   "number": 12,
+   "class": "heavy",
+   "tier": 12,
+   "unlockRank": 12,
+   "order": 12,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 8,
+   "massT": 25.0,
+   "lengthM": 20.0,
+   "powerKw": 750,
+   "torqueNm": 4800,
+   "topSpeedKmh": 70,
+   "fuelL": 1000,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 27,
+    "speed": 21,
+    "grip": 80,
+    "capacity": 20
+   },
+   "price": 151200,
+   "art": {
+    "body": "sand-coloured 8×8 military tractor with a heavy lowbed trailer",
+    "load": "a generic tracked armoured vehicle chained on the lowbed",
+    "equipment": "winches, spare wheels",
+    "finish": "dust",
+    "tires": "1.4 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Armoured hull",
+    "massT": 60.0
+   }
+  },
+  {
+   "id": "reactor-runner-13",
+   "name": "Reactor Runner",
+   "number": 13,
+   "class": "heavy",
+   "tier": 13,
+   "unlockRank": 13,
+   "order": 13,
+   "status": "planned",
+   "drive": "8×6",
+   "axles": 9,
+   "massT": 50.0,
+   "lengthM": 25.0,
+   "powerKw": 800,
+   "torqueNm": 5000,
+   "topSpeedKmh": 55,
+   "fuelL": 1200,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.3,
+   "stats": {
+    "power": 29,
+    "speed": 16,
+    "grip": 62,
+    "capacity": 23
+   },
+   "price": 163800,
+   "art": {
+    "body": "orange heavy tractor with a multi-axle trailer",
+    "load": "a huge cylindrical reactor vessel",
+    "equipment": "escort beacons, push truck plate",
+    "finish": "clean paint",
+    "tires": "1.3 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Reactor vessel",
+    "massT": 70.0
+   }
+  },
+  {
+   "id": "excavator-hauler-14",
+   "name": "Excavator Hauler",
+   "number": 14,
+   "class": "heavy",
+   "tier": 14,
+   "unlockRank": 14,
+   "order": 14,
+   "status": "planned",
+   "drive": "8×6",
+   "axles": 8,
+   "massT": 35.0,
+   "lengthM": 24.0,
+   "powerKw": 850,
+   "torqueNm": 5200,
+   "topSpeedKmh": 60,
+   "fuelL": 1100,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 30,
+    "speed": 18,
+    "grip": 62,
+    "capacity": 23
+   },
+   "price": 176400,
+   "art": {
+    "body": "yellow heavy tractor with a lowboy carrying a mining excavator",
+    "load": "a mining excavator with its boom folded",
+    "equipment": "escort beacons",
+    "finish": "quarry dust",
+    "tires": "1.4 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Mining excavator",
+    "massT": 70.0
+   }
+  },
+  {
+   "id": "hydro-hauler-15",
+   "name": "Hydro Hauler",
+   "number": 15,
+   "class": "heavy",
+   "tier": 15,
+   "unlockRank": 15,
+   "order": 15,
+   "status": "planned",
+   "drive": "8×6",
+   "axles": 9,
+   "massT": 40.0,
+   "lengthM": 26.0,
+   "powerKw": 900,
+   "torqueNm": 5500,
+   "topSpeedKmh": 60,
+   "fuelL": 1200,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.4,
+   "stats": {
+    "power": 32,
+    "speed": 18,
+    "grip": 62,
+    "capacity": 30
+   },
+   "price": 189000,
+   "art": {
+    "body": "blue heavy tractor pulling a beam trailer",
+    "load": "a huge hydro turbine housing suspended between the beams",
+    "equipment": "escort beacons",
+    "finish": "road dust",
+    "tires": "1.4 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Turbine",
+    "massT": 90.0
+   }
+  },
+  {
+   "id": "rig-mover-16",
+   "name": "Rig Mover",
+   "number": 16,
+   "class": "heavy",
+   "tier": 16,
+   "unlockRank": 16,
+   "order": 16,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 8,
+   "massT": 45.0,
+   "lengthM": 22.0,
+   "powerKw": 900,
+   "torqueNm": 5500,
+   "topSpeedKmh": 50,
+   "fuelL": 1200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.5,
+   "stats": {
+    "power": 32,
+    "speed": 15,
+    "grip": 80,
+    "capacity": 23
+   },
+   "price": 201600,
+   "art": {
+    "body": "red off-road heavy tractor hauling a drilling rig substructure",
+    "load": "a drilling rig substructure",
+    "equipment": "winches, beacons",
+    "finish": "oil and mud",
+    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Rig substructure",
+    "massT": 70.0
+   }
+  },
+  {
+   "id": "behemoth-17",
+   "name": "Behemoth",
+   "number": 17,
+   "class": "heavy",
+   "tier": 17,
+   "unlockRank": 17,
+   "order": 17,
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 45.0,
+   "lengthM": 22.0,
+   "powerKw": 1000,
+   "torqueNm": 6000,
+   "topSpeedKmh": 60,
+   "fuelL": 1200,
+   "wheelType": "flotation",
+   "tireDiameterM": 1.9,
+   "stats": {
+    "power": 36,
+    "speed": 18,
+    "grip": 90,
+    "capacity": 10
+   },
+   "price": 214200,
+   "art": {
+    "body": "grey enormous missile-carrier-style 8×8 chassis with split cabs and a long deck",
+    "load": "a long container module",
+    "equipment": "spot lamps",
+    "finish": "mud and dust",
+    "tires": "1.9 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Container module",
+    "massT": 30.0
+   }
+  },
+  {
+   "id": "wheel-loader-18",
+   "name": "Wheel Loader",
+   "number": 18,
+   "class": "heavy",
+   "tier": 18,
+   "unlockRank": 18,
+   "order": 18,
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 60.0,
+   "lengthM": 13.0,
+   "powerKw": 1000,
+   "torqueNm": 7000,
+   "topSpeedKmh": 30,
+   "fuelL": 1500,
+   "wheelType": "giant",
+   "tireDiameterM": 2.8,
+   "stats": {
+    "power": 36,
+    "speed": 9,
+    "grip": 86,
+    "capacity": 10
+   },
+   "price": 226800,
+   "art": {
+    "body": "yellow giant articulated mining wheel loader with a huge front bucket",
+    "load": "the bucket heaped with rock",
+    "equipment": "ladders, beacons",
+    "finish": "quarry dust",
+    "tires": "2.8 m giant mining tires tyres: enormous mining-truck tires taller than a person, deep chevron tread; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Rock",
+    "massT": 30.0
+   }
+  },
+  {
+   "id": "mountain-mover-19",
+   "name": "Mountain Mover",
+   "number": 19,
+   "class": "heavy",
+   "tier": 19,
+   "unlockRank": 19,
+   "order": 19,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 160.0,
+   "lengthM": 14.0,
+   "powerKw": 2400,
+   "torqueNm": 16000,
+   "topSpeedKmh": 60,
+   "fuelL": 3000,
+   "wheelType": "giant",
+   "tireDiameterM": 3.6,
+   "stats": {
+    "power": 86,
+    "speed": 18,
+    "grip": 86,
+    "capacity": 73
+   },
+   "price": 239400,
+   "art": {
+    "body": "white ultra-class mining haul truck with a canopy, ladders and a giant dump body",
+    "load": "the dump body heaped with ore",
+    "equipment": "ladders, beacons",
+    "finish": "quarry dust",
+    "tires": "3.6 m giant mining tires tyres: enormous mining-truck tires taller than a person, deep chevron tread; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Ore",
+    "massT": 220.0
+   }
+  },
+  {
+   "id": "earthquake-20",
+   "name": "Earthquake",
+   "number": 20,
+   "class": "heavy",
+   "tier": 20,
+   "unlockRank": 20,
+   "order": 20,
+   "status": "planned",
+   "drive": "4×2",
+   "axles": 2,
+   "massT": 200.0,
+   "lengthM": 15.5,
+   "powerKw": 2800,
+   "torqueNm": 19000,
+   "topSpeedKmh": 60,
+   "fuelL": 3500,
+   "wheelType": "giant",
+   "tireDiameterM": 3.9,
+   "stats": {
+    "power": 100,
+    "speed": 18,
+    "grip": 86,
+    "capacity": 100
+   },
+   "price": 252000,
+   "art": {
+    "body": "orange largest ultra-class electric mining haul truck with a canopy and a gigantic dump body",
+    "load": "the dump body heaped with ore",
+    "equipment": "ladders, beacons",
+    "finish": "quarry dust",
+    "tires": "3.9 m giant mining tires tyres: enormous mining-truck tires taller than a person, deep chevron tread; perfectly round, every tyre the same size"
+   },
+   "load": {
+    "name": "Ore",
+    "massT": 300.0
+   }
+  }
+ ],
+ "service": [
+  {
+   "id": "mechanic-scout",
+   "name": "Mechanic Scout",
+   "class": "scout",
+   "role": "breakdown",
+   "size": "small",
+   "status": "planned",
+   "drive": "4×4",
+   "axles": 2,
+   "massT": 4.7,
+   "lengthM": 6.8,
+   "powerKw": 168,
+   "torqueNm": 1009,
+   "topSpeedKmh": 45,
+   "fuelL": 200,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.38,
+   "towMassT": 9,
+   "art": {
+    "body": "mustard yellow 4×4 recovery pickup",
+    "load": "a small folding tow crane and wheel-lift in the bed",
+    "equipment": "heavy rear winch drum with hook, tool chests, spare wheel, amber beacon",
+    "finish": "mud-caked lower panels",
+    "tires": "1.38 m mud-terrain tires: aggressive open-shoulder lugs; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "highway-wrecker",
+   "name": "Highway Wrecker",
+   "class": "highway",
+   "role": "breakdown",
+   "size": "medium",
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 12.2,
+   "lengthM": 10,
+   "powerKw": 262,
+   "torqueNm": 1575,
+   "topSpeedKmh": 45,
+   "fuelL": 500,
+   "wheelType": "all-terrain",
+   "tireDiameterM": 1.52,
+   "towMassT": 48,
+   "art": {
+    "body": "pearl white 6×6 heavy rotator tow truck",
+    "load": "a rotating recovery boom and underlift",
+    "equipment": "heavy rear winch drum with hook, outrigger legs, light bar",
+    "finish": "clean paint with road dust",
+    "tires": "1.52 m all-terrain tires: blocky tread with sipes; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "breakdown-wrecker",
+   "name": "Breakdown Wrecker",
+   "class": "heavy-duty",
+   "role": "breakdown",
+   "size": "large",
+   "status": "planned",
+   "drive": "6×6",
+   "axles": 3,
+   "massT": 13.1,
+   "lengthM": 9.5,
+   "powerKw": 309,
+   "torqueNm": 1859,
+   "fuelL": 400,
+   "wheelType": "mud-terrain",
+   "tireDiameterM": 1.75,
+   "towMassT": 58,
+   "art": {
+    "body": "signal red 6×6 recovery wrecker",
+    "load": "a crane boom and underlift",
+    "equipment": "rear winch, ground spades, tool lockers, light bar",
+    "finish": "work-worn paint and dried mud",
+    "tires": "1.30 m mud-terrain tires; perfectly round, every tyre the same size"
+   },
+   "topSpeedKmh": 46
+  },
+  {
+   "id": "bog-wrecker",
+   "name": "Bog Wrecker",
+   "class": "offroad",
+   "role": "breakdown",
+   "size": "huge",
+   "status": "planned",
+   "drive": "8×8",
+   "axles": 4,
+   "massT": 32,
+   "lengthM": 12.5,
+   "powerKw": 1372,
+   "torqueNm": 8260,
+   "topSpeedKmh": 43,
+   "fuelL": 800,
+   "wheelType": "flotation",
+   "tireDiameterM": 2.32,
+   "towMassT": 64,
+   "art": {
+    "body": "olive drab 8×8 military recovery truck",
+    "load": "a heavy recovery crane boom",
+    "equipment": "twin rear winch drums with hooks, ground spades, sand ladders, light bar",
+    "finish": "thick dried swamp mud",
+    "tires": "2.32 m flotation tires: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
+   }
+  },
+  {
+   "id": "colossus-wrecker",
+   "name": "Colossus Wrecker",
+   "class": "heavy",
+   "role": "breakdown",
+   "size": "giant",
+   "status": "planned",
+   "drive": "10×10",
+   "axles": 5,
+   "massT": 70.5,
+   "lengthM": 16,
+   "powerKw": 6910,
+   "torqueNm": 41592,
+   "topSpeedKmh": 36,
+   "fuelL": 1500,
+   "wheelType": "giant",
+   "tireDiameterM": 2.71,
+   "towMassT": 260,
+   "art": {
+    "body": "safety yellow 10×10 heavy recovery truck",
+    "load": "a giant rotating crane boom",
+    "equipment": "twin heavy rear winches, outrigger spades, counterweights, light bars",
+    "finish": "heavy grime and chipped paint",
+    "tires": "2.71 m giant mining tires: enormous tires taller than a person, deep chevron tread; perfectly round, every tyre the same size"
+   }
+  }
+ ]
+}

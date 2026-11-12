@@ -22,10 +22,15 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add
   engine features only when the data cannot express something, and keep them generic.
-- **Every car carries its load as part of its own art and mass.** There are no separate trailers
-  or loads to combine, loads never fall off, and loads are not animated (animated load layers were
-  tried and dropped on 2026-10-29). A tractor and its semi-trailer, or a prime mover and
-  its lowbed, are one image and one rigid body with all their axles.
+- **Roster rebuilt on 2026-11-12 (user decision):** every kind of vehicle, inspired by SnowRunner and Forza Horizon
+  (4×4s, SUVs, pickups, buggies, rally cars, supercars on off-road tyres, vans, semis, work trucks, army
+  trucks, amphibians, mining giants), as original designs with no real makes or badges. **Loads are optional:** many
+  vehicles carry nothing (`load` absent; a run then pays the trail bonus only). A vehicle that has a load carries it
+  as part of its own art and mass: no separate trailers or loads, loads never fall off and are not animated (dropped on
+  2026-10-29); a tractor and its semi-trailer are one image and one rigid body with all their axles.
+- **No snow chains and no length cap (2026-11-12):** Codex could not draw chains or keep within a cap. Long rigs are
+  framed by `zoomFor` (never narrower than about 1.6 times the vehicle's length) and the top-bar zoom button
+  (`ZOOM_STEPS`, key C). **The one art rule the user insists on: every tyre a perfect circle that fits the vehicle.**
 - Winching belongs to the breakdown trucks: there are no winch posts. Each class has a breakdown truck; fuel trucks were removed on 2026-11-04, and refuelling and repairs happen at fuel stations (`trail.stations`).
   The top-bar button calls the main truck's class's one, once per run, from the start of the
   trail; afterwards they switch to them. Park the breakdown truck wholly inside the purple recovery bay ahead of the stuck truck (its own length plus `WINCH_BAY_SLACK_M`), tap WINCH to hook the
@@ -74,13 +79,13 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    dimensions; the wheel is square and centred; transparency is real, with no halo, checkerboard or
    ground; and every vehicle image passes the **flat side profile** hard rule in AGENTS.md (equal round
    tires on one level line, rims centred, no far-side tires, no visible cab front, nothing touching the
-   canvas edge). It must also pass the **wheels that make sense** hard rule there: wheels under the load, close tandems, never one lone axle at the end of a long trailer. Look at every image. If one is wrong, write the exact re-generation request for Codex,
+   canvas edge). It must also pass the **wheels that make sense** hard rule there: perfectly circular tyres that fit the arches, wheels under the load, close tandems, never one lone axle at the end of a long trailer, and the **original designs** rule (no real makes, badges or logos). Look at every image. If one is wrong, write the exact re-generation request for Codex,
    naming the rule it broke, and stop.
    **Hard gate:** require the measured validation record from AGENTS.md's "validate one set before
    spending on a batch" rule. Masters and bodies need a long side of at least 1500 px. Square road
    wheels need at least 1500 px per side, **except native 1254 × 1254 px built-in generator wheels,
    accepted by the user on 2026-11-04**. Do not regenerate or upscale wheels solely for this size.
-   All other art checks still apply, and measured length including load must fit 16.8 m.
+   All other art checks still apply. There is no length cap.
    Verify body registration as well as dimensions. Prompt claims and a pile of generated files do
    not count as passed review. Never encode, register or mark a failed set playable. Resolve a
    recurring generator limitation on one set before requesting another batch.
@@ -105,14 +110,14 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    every tire is centred in its well. Axles measured off by 10-20 px made the wheels sit visibly
    forward or back on the Prime Mover, Interstate, Turnpike, Crossroads, Cedar Hauler and Pioneer
    (fixed on 2026-10-31).
-4. **Write `car.json`** with `swamp-scout-4/car.json` as the template:
+4. **Write `car.json`** with the first playable car of its class (or, until there is one, `git show b484ae2^:assets/cars/swamp-scout-4/car.json`) as the template:
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
      car**, whatever its size; never tune it per car;
    - camera: one zoom per class, `ZOOM_BY_CLASS` in `src/game-config.js`, tuned by the user (2026-11-06; service trucks ease out to `SERVICE_HEIGHT_PER_ZOOM`;
      1.5 = 17.7 m of trail across the screen). `camera.zoom` in car.json is only a fallback for a class
-     without one. There is no zoom button. Check the whole rig fits with room ahead on desktop and phone;
-   - `physics`: empty mass and centre of mass from `massT`, plus `physics.load` (`massT` from the
+     without one; `zoomFor` widens it for a long vehicle, and the player's zoom button (`ZOOM_STEPS`) multiplies it. Check the whole rig fits with room ahead on desktop and phone at the first step;
+   - `physics`: empty mass and centre of mass from `massT`, plus, for a vehicle with a load, `physics.load` (`massT` from the
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
      body outline including the load, suspension sized to the loaded weight;
    - `drivetrain`: torque from `powerKw` / `torqueNm` sized for the loaded weight, gears for a
@@ -175,10 +180,11 @@ in the roster. Each roster car also has an `unlockRank` (1 to 20, one per rank i
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
 
-**Size cap (2026-11-04): nothing is longer than 16.8 m, load included.** Obstacles are one size for every truck, so a longer rig would need a higher zoom and the road would look like a model.
-The cap is the top-level `maxLengthM` in `cars.json`, and `npm test` enforces it. All 105 roster trucks
-(100 cars and five breakdown trucks), including the redrawn heavy class, Ice Breaker and highway
-trucks, are playable. Keep their accepted art and registrations. Do not add per-truck world scaling.
+**Roster reset (2026-11-12):** the user deleted every car and its art (commit b484ae2) and the roster was rebuilt as 100
+planned vehicles (20 per class, ranked by power, rank 1 the free starter) plus 5 planned breakdown trucks, each folder holding a
+Codex brief. Old car.json files, measured hubs and art are in git before b484ae2 if a template is needed. There is no length
+cap (`maxLengthM` is gone); do not add per-truck world scaling. Until each class has a playable starter and breakdown truck,
+the build and most tests cannot run.
 
 ## Hook up a season
 

@@ -39,12 +39,6 @@ for (const [id, expected] of Object.entries(newDrops)) {
   });
 }
 
-test('no vehicle is longer than the size cap, so obstacles never need scaling per truck', () => {
-  const content = loadContent(), cap = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).maxLengthM;
-  assert(cap > 0, 'the roster sets a cap');
-  for (const car of [...content.cars, ...content.service]) assert(Math.round(car.physics.size[0] * 10) / 10 <= cap, `${car.id}: ${car.physics.size[0]} m is over the cap of ${cap} m`);   // to the 0.1 m the cap is stated in
-});
-
 // Hub caps painted in each registered body: the game draws the body, so its wheels go here, not at the master's hubs.
 const heavyDrops = {
   'prime-mover-1': [1968, 1561, 1375, 607, 444, 279],
