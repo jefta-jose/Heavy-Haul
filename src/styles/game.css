@@ -714,6 +714,12 @@ canvas#view {
   animation: none;
 }
 
+/* hooked, and the towed truck is out: the lit button glows to say let go now */
+.winch.down.release {
+  box-shadow: 0 0 14px rgba(245, 197, 24, .8);
+  animation: stuck-help 1.1s ease-in-out infinite;
+}
+
 @keyframes pulse {
   50% {
     box-shadow: 0 0 0 7px rgba(242, 183, 5, 0.25);

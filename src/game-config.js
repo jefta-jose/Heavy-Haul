@@ -90,6 +90,7 @@ export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that ca
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
 export const GUIDE_SPACING_M = 1.6;           // the winch guide: metres between chevrons on the road
 export const GUIDE_SIZE_M = 1.1;              // and how long each chevron is
+export const TOW_RELEASE_M = 10;             // a towed truck this far from where it was hooked, all wheels on firm ground, is out: the arrow says release
 export const STUCK_GLOW_S = 4;               // seconds of gas without moving before the breakdown button glows
 export const BRAKE_HISS_GAP_S = 1.5;          // a brake hiss or handbrake sound plays at most once in this many seconds, so pumping the pedal does not repeat it
 export const SWITCH_BUSY_S = 0.9;             // the full-screen wait after switching trucks or calling the breakdown truck lasts at least this long

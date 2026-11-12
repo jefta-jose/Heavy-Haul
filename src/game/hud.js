@@ -1,4 +1,5 @@
 import { formatCoins } from './format.js';
+import { TOW_RELEASE_M } from '../game-config.js';
 // Everything drawn in HTML over the canvas: the depot sign, coins, surface chip, toasts, the gauges (revs, speed, fuel), drive and service buttons, and the message
 // overlays. Kept lean on purpose (2026-11-06): no status panel, no trail map, no park or engine buttons.
 
@@ -211,7 +212,7 @@ export function createHud({ sim, season }) {
   const setText = (el, value) => { if (el.textContent !== value) el.textContent = value; };
   function update(dt, { coins, run, playing = true }) {
     // the arrow shows only over the drive itself: not under the pause menu, the garage or a loading screen
-    const want = playing && stuckArrow && els.msgOv.hidden;
+    const want = playing && (stuckArrow || !!towStep) && els.msgOv.hidden;
     if (want !== arrowOn) { arrowOn = want; showArrow(); }
     showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
@@ -236,9 +237,32 @@ export function createHud({ sim, season }) {
     els.surfChip.classList.toggle('warn', s === 'mud');
     // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
     els.winch.hidden = !sim.canWinch();
-    const hooked = !!sim.cable(), near = !hooked && !!sim.nearestHook()?.inRange;
+    const cable = sim.cable(), hooked = !!cable, near = !hooked && !!sim.nearestHook()?.inRange;
     els.winch.classList.toggle('ready', near); els.winch.classList.toggle('down', hooked);
     els.winch.setAttribute('aria-pressed', String(hooked));
+    guideTow(cable, near);
+  }
+  // Walks a new player through a tow, one button at a time, with the help arrow: parked in the purple bay, tap WINCH;
+  // once the towed truck is out (on firm ground past the pit, or at a station when it cannot drive), tap WINCH to let
+  // go; then back to your own truck.
+  let hookX = null, towStep = null;
+  function towedOut(t) {
+    const x = t.parts.truck.getPosition().x;
+    if (t.st.fuel <= 0 || t.st.damage >= 100) return !!sim.terrain.stationAt(x);   // a dead truck goes to a station
+    return x - hookX >= TOW_RELEASE_M && t.parts.wheels.every(w => sim.surfAt(w.getPosition().x) !== 'mud');
+  }
+  function guideTow(cable, near) {
+    const service = sim.active?.role === 'service';
+    if (cable && hookX == null) hookX = cable.target.parts.truck.getPosition().x;
+    if (!cable) hookX = null;
+    let step = null;
+    if (service && cable && towedOut(cable.target)) step = 'release';
+    else if (service && near) step = 'hook';
+    else if (service && !cable && (towStep === 'release' || towStep === 'return')) step = 'return';   // let go once out: now drive on
+    if (step === 'release' && towStep !== 'release') hint('tow-release', 'Your truck is out. Tap WINCH to let it go.', 3);
+    if (step === 'return' && towStep !== 'return') hint('tow-return', 'Unhooked. Switch back to your truck and drive on.', 3);
+    els.winch.classList.toggle('release', step === 'release');
+    if (step !== towStep) { towStep = step; showArrow(); }
   }
   function showPedals({ gas, brake }) {
     els.gas.classList.toggle('down', gas); els.brake.classList.toggle('down', brake);
@@ -284,13 +308,22 @@ export function createHud({ sim, season }) {
   // the arrow under the breakdown button (or over it, where a layout puts the button low on the screen)
   const switchOv = $('switchOv'), arrow = $('helpArrow');
   let switchFade = 0, stuckArrow = false, arrowOn = false;
+  // the one help arrow points at the next button to press: WINCH during a tow, the way back to your truck after it,
+  // else the breakdown button while the main truck is stuck
+  function arrowTarget() {
+    if (towStep === 'hook') return [els.winch, 'Tap WINCH to hook'];
+    if (towStep === 'release') return [els.winch, 'Tap WINCH to release'];
+    if (towStep === 'return') return [els.switchBtn.hidden ? els.breakdownCallBtn : els.switchBtn, 'Back to your truck'];
+    if (stuckArrow) return [els.breakdownCallBtn, els.breakdownCallBtn.classList.contains('called') ? 'Your breakdown truck' : 'Call for help'];
+    return [null, ''];
+  }
   function showArrow() {
-    const b = els.breakdownCallBtn, r = b.getBoundingClientRect(), on = arrowOn && stuckArrow && !b.hidden && r.width > 0 && switchOv.hidden;
+    const [b, text] = arrowTarget(), r = b?.getBoundingClientRect(), on = !!b && arrowOn && !b.hidden && r.width > 0 && switchOv.hidden;
     arrow.hidden = !on;
     // the power and mission chips sit under the button: they step down out of the arrow's way
     $('hud').classList.toggle('arrow-on', on && r.top <= innerHeight / 2);
     if (!on) return;
-    $('helpArrowTxt').textContent = b.classList.contains('called') ? 'Your breakdown truck' : 'Call for help';
+    $('helpArrowTxt').textContent = text;
     const low = r.top > innerHeight / 2;
     arrow.classList.toggle('down', low);
     arrow.style.left = `${Math.round(r.left + r.width / 2)}px`;
