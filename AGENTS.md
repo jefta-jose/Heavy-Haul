@@ -263,3 +263,4 @@ quality requirements or mark failed assets ready. Record every correction and it
 
 When Claude or the user rejects an image, generate a new version (`-v2`, `-v3`, ...) beside the old
 one. Never overwrite. Add the new prompt and the rejection reason to `prompts.json`.
+
