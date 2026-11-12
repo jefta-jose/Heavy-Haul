@@ -34,14 +34,23 @@ import { createWinchGuide } from './game/winch-guide.js';
   const all = content.playableSeasons ?? [], s = all.find(x => x.season.id === pick) ?? all.find(x => x.season.id === content.season.id);
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
-const { season, rockHulls, wheelTypes } = content;
+const { rockHulls, wheelTypes } = content;
+// The season the HUD, session, missions and cameras read: it always forwards to content.season, so a map
+// switch in the garage (switchSeason) swaps the map in place, without a reload, and the music plays on.
+const forward = get => new Proxy({}, {
+  get: (_, k) => get()[k], has: (_, k) => k in get(), ownKeys: () => Reflect.ownKeys(get()),
+  getOwnPropertyDescriptor: (_, k) => { const d = Reflect.getOwnPropertyDescriptor(get(), k); return d && { ...d, configurable: true }; },
+});
+const liveTrail = forward(() => content.season.trail);
+const season = new Proxy(forward(() => content.season), { get: (t, k) => k === 'trail' ? liveTrail : content.season[k] });
+const ambience = [...(content.season.ambience ?? [])];   // the audio reads this list live
 const loader = createLoader(content.loaderText, { title: season.name, subtitle: season.place ?? '' });
-const sim = createSimulation(planck, { season, rockHulls, wheelTypes });
+const sim = createSimulation(planck, { season: content.season, rockHulls, wheelTypes });
 // every step first records the state it starts from, so frames can be drawn between steps
 const interp = createInterpolation(sim, (x, y) => new planck.Vec2(x, y));
 { const step = sim.step; sim.step = dt => { interp.capture(); step(dt); }; }
 const view = createView(document.getElementById('view'), sim);
-const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank, ambience: season.ambience ?? [] });
+const audio = createVehicleAudio({ clips: content.audio, bank: content.soundBank, ambience });
 const haptics = createHaptics();
 const uiAudio = createUiAudio({ clips: content.uiSounds, volumes: audio.volumes });
 bindUiFeedback({ audio: uiAudio, haptics });
@@ -63,13 +72,14 @@ const renderer = createRenderer({
 });
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
 // contracts are sized to the trail being played and the trucks owned
-const missions = createMissions(content.missions, { classes: content.roster.classes, trail: content.season.trail, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
+const missions = createMissions(content.missions, { classes: content.roster.classes, trail: liveTrail, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
 const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
   onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
   onSell: () => { haptics.tick(); uiAudio.play('ui-buy'); },
+  onSeason: id => switchSeason(id),
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
@@ -174,7 +184,7 @@ function handbrake() {
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
   hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
-const trap = createSpeedTrap({ sim, trail: content.season.trail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
+const trap = createSpeedTrap({ sim, trail: liveTrail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
   toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
@@ -231,6 +241,29 @@ function launchProgress() {
   if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
   launching = false;
   decoded([selection.car.artUri?.master, content.hud['garage-bay']]).then(() => loader.hide());
+}
+// Another map, picked in the garage: swapped in place behind the turning gears used for switching trucks. No reload,
+// so the garage music never stops; the new terrain, art and ambience are ready before the gears lift.
+let switchingSeason = false;
+async function switchSeason(id) {
+  const next = content.playableSeasons?.find(x => x.season.id === id);
+  if (!next || id === content.season.id || switchingSeason || loading) return;
+  switchingSeason = true;
+  try { localStorage.setItem('haul.season', id); } catch (e) {}
+  hud.busy(true, `Heading to ${next.season.name}`);
+  await new Promise(r => setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(r)), 180));   // the gears are up first
+  Object.assign(content, { season: next.season, rockHulls: next.rockHulls, seasonArt: Object.fromEntries(Object.entries(next.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
+  sim.setSeason(next.season, next.rockHulls);
+  const art = renderer.setSeason();
+  ambience.splice(0, ambience.length, ...(next.season.ambience ?? []));
+  loader.setPlace(next.season.name, next.season.place ?? '');
+  sim.init(sim.trail.start, selection); view.snap(); trap.reset(); session.reset();
+  missions.endRun();   // fresh offers sized to this trail
+  garage.seasonChanged();
+  await Promise.race([art, new Promise(r => setTimeout(r, 15000))]);
+  await framesDrawn(2);
+  hud.busy(false);
+  switchingSeason = false;
 }
 
 async function goFullscreen() {
@@ -311,7 +344,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

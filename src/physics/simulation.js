@@ -18,11 +18,16 @@ const CABLE_STRETCH = 0.25;       // metres of stretch at which the cable pulls 
 
 export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   const V = (x, y) => new pl.Vec2(x, y);
-  const trail = season.trail, surfaces = season.surfaces;
-  const terrain = createTerrain(trail, surfaces);
-  const { visH, colH, zones, X0, X1 } = terrain;
-  // behind the start a wall (drawn as a line across the road) stops trucks reversing off the trail
-  const BARRIER_X = Math.max(X0, trail.start - START_BARRIER_BEHIND_M);
+  // the season's trail and terrain; sim.setSeason swaps them for another map without a reload
+  let trail, surfaces, terrain, visH, colH, zones, X0, X1, BARRIER_X;
+  function useSeason(s, hulls) {
+    season = s; rockHulls = hulls; trail = s.trail; surfaces = s.surfaces;
+    terrain = createTerrain(trail, surfaces);
+    ({ visH, colH, zones, X0, X1 } = terrain);
+    // behind the start a wall (drawn as a line across the road) stops trucks reversing off the trail
+    BARRIER_X = Math.max(X0, trail.start - START_BARRIER_BEHIND_M);
+  }
+  useSeason(season, rockHulls);
   const BRAKE = { rise: 2.5, fall: 5 };
   const events = [], crushQueue = [];
   const load = new Map();   // tire normal loads, measured from the solver's contact impulses every step
@@ -389,8 +394,11 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   }
 
   const sim = {
-    V, season, terrain, surfaces, trail, events, barrierX: BARRIER_X,
-    surfAt: terrain.surfAt, visH, colH,
+    V, events,
+    get season() { return season; }, get terrain() { return terrain; }, get surfaces() { return surfaces; }, get trail() { return trail; }, get barrierX() { return BARRIER_X; },
+    surfAt: x => terrain.surfAt(x), visH: x => visH(x), colH: x => colH(x),
+    // another map: its terrain now, its world at the next init()
+    setSeason(s, hulls) { useSeason(s, hulls); },
     get world() { return world; },
     get vehicles() { return vehicles; }, get active() { return active; }, get main() { return main; },
     get car() { return active.car; }, get ctl() { return active.ctl; }, get st() { return active.st; },

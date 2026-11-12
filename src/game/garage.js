@@ -34,7 +34,7 @@ function inkOf(img, id) {
   return ink;
 }
 
-export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSell }) {
+export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSell, onSeason }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
   const rosterOf = id => content.roster.cars.find(c => c.id === id);
   const playable = new Map(content.cars.map(c => [c.id, c]));
@@ -61,8 +61,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       b.dataset.season = s.id;
       if (!open) { b.append(gIcon('lock')); b.disabled = true; b.title = `${s.name}: coming later`; }
       b.append(el('b', null, s.name));
-      // another open season: remember it on this device and restart the game in it
-      if (open && !on) b.addEventListener('click', () => { try { localStorage.setItem('haul.season', s.id); } catch (e) {} location.reload(); });
+      // another open season: switched in place behind the turning gears (main.js), so the music plays on
+      if (open && !on) b.addEventListener('click', () => onSeason?.(s.id));
       b.setAttribute('aria-pressed', String(on));
       box.append(b);
     }
@@ -313,6 +313,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
 
   return {
     show() { $('garage').hidden = false; render(); },
+    // after a map switch: the season row and the bay's stencil
+    seasonChanged() { $('gStencil').textContent = content.season.name.split(' ')[0]; render(); },
     hide() { $('garage').hidden = true; },
     select(carId) { car = playable.get(carId) ?? car; cls = car.class; render(); return { car: tuned() }; },   // tests and quick starts
     tune(carId, knob, k) { tuneOf(carId)[knob] = clampLevel(k); saveTuning(tuning); render(); },

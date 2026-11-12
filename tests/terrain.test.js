@@ -102,9 +102,10 @@ test('former river stretches: the old river stretches are deep bog, still rollin
   const s = spawn(newSim(), 30), { trail } = content.season;
   assert((trail.waters ?? []).length === 0, 'all seasons use bogs instead of open water');
   assert(!trail.zones.some(z => z[2] === 'creek'), 'no riverbed surface is left');
-  for (const x of [380, 1075, 2342, 3037]) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
+  for (const x of trail.heavyMud) assert(s.terrain.mudAt(x).heavy > 0.9, `deep bog at ${x} m`);
   const off = (() => { const { rollers, ...rest } = trail; return createTerrain(rest, content.season.surfaces); })();
-  let swing = 0; for (let x = 345; x < 365; x += 0.25) swing = Math.max(swing, Math.abs(s.visH(x) - off.visH(x)));
+  const pit = trail.heavyMud[1];   // the second pit (380 m in the swamp): bumps on the way in
+  let swing = 0; for (let x = pit - 35; x < pit - 15; x += 0.25) swing = Math.max(swing, Math.abs(s.visH(x) - off.visH(x)));
   assert(swing > 0.2, `rolling bumps on the way to the pit (${swing.toFixed(2)} m)`);
 });
 
@@ -177,5 +178,16 @@ test('roadside scenery is drawing only, and none of it stands on a station, a hi
   for (const h of trail.highways) { clear(h.x0 + 8.5, 4, 'a highway sign'); clear(speedTrapX(h), 1, 'a speed camera'); }
   for (const x of s.speedSigns) clear(x, 0.5, 'a speed limit sign');
   assert.equal(s.rocks.filter(r => r.art && Object.keys(art).includes(r.art) && trail.scenery.some(i => i.art === r.art)).length, 0, 'no bodies');
+});
+
+test('big upright roadside scenery stands on level ground, so it never reaches into the road', () => {
+  const { trail, art } = content.season, s = spawn(newSim(), trail.start);
+  for (const item of trail.scenery) {
+    const a = art[item.art], [x0, y0, x1, y1] = a.crop, w = (x1 - x0) * a.heightM / (y1 - y0);
+    if (a.lean || w < 3) continue;   // leaning pieces tilt with the ground; posts and signs are too narrow to matter
+    let lo = Infinity, hi = -Infinity;
+    for (let x = item.x - w / 2; x <= item.x + w / 2; x += 0.25) { lo = Math.min(lo, s.visH(x)); hi = Math.max(hi, s.visH(x)); }
+    assert(hi - lo <= 0.4, `${item.art} at ${item.x} stands on a ${(hi - lo).toFixed(2)} m slope`);
+  }
 });
 

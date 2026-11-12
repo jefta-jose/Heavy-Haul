@@ -48,6 +48,8 @@ export function createLoader({ photos = [], facts = [] } = {}, { title = 'Heavy 
 
   return {
     get visible() { return !el.hidden; },
+    // another map: its name and place on the screens to come
+    setPlace(head, sub = '') { title = head; subtitle = sub; place(title, subtitle); },
     // sub: a line under the place's name, such as the truck and the trail after DRIVE
     show(k, { sub = subtitle } = {}) {
       token++; shownAt = performance.now(); kind = k;

@@ -1,0 +1,1667 @@
+{
+  "id": "spring-thaw",
+  "name": "Meltwater Pass",
+  "place": "Cascade foothills, Washington, USA",
+  "season": "spring",
+  "status": "playable",
+  "trail": {
+    "name": "Meltwater Pass",
+    "finishBonus": 5000,
+    "keys": [
+      [
+        -60,
+        0
+      ],
+      [
+        50,
+        0
+      ],
+      [
+        70,
+        -0.6
+      ],
+      [
+        100,
+        -0.6
+      ],
+      [
+        120,
+        0
+      ],
+      [
+        200,
+        10
+      ],
+      [
+        230,
+        11
+      ],
+      [
+        260,
+        9
+      ],
+      [
+        340,
+        8.5
+      ],
+      [
+        360,
+        9
+      ],
+      [
+        400,
+        15
+      ],
+      [
+        440,
+        20
+      ],
+      [
+        470,
+        21
+      ],
+      [
+        520,
+        20
+      ],
+      [
+        552,
+        20
+      ],
+      [
+        568,
+        20
+      ],
+      [
+        968,
+        23
+      ],
+      [
+        1010,
+        24
+      ],
+      [
+        1040,
+        19
+      ],
+      [
+        1060,
+        17
+      ],
+      [
+        1100,
+        17
+      ],
+      [
+        1120,
+        19
+      ],
+      [
+        1180,
+        27
+      ],
+      [
+        1210,
+        29
+      ],
+      [
+        1240,
+        28
+      ],
+      [
+        1330,
+        27
+      ],
+      [
+        1360,
+        28
+      ],
+      [
+        1420,
+        32
+      ],
+      [
+        1460,
+        36
+      ],
+      [
+        1490,
+        37
+      ],
+      [
+        1560,
+        35
+      ],
+      [
+        1632,
+        35
+      ],
+      [
+        1648,
+        35
+      ],
+      [
+        2048,
+        38
+      ],
+      [
+        2080,
+        40
+      ],
+      [
+        2120,
+        46
+      ],
+      [
+        2150,
+        48
+      ],
+      [
+        2200,
+        44
+      ],
+      [
+        2250,
+        36
+      ],
+      [
+        2280,
+        34
+      ],
+      [
+        2300,
+        33
+      ],
+      [
+        2320,
+        33
+      ],
+      [
+        2350,
+        33
+      ],
+      [
+        2450,
+        32.5
+      ],
+      [
+        2470,
+        33
+      ],
+      [
+        2520,
+        38
+      ],
+      [
+        2550,
+        40
+      ],
+      [
+        2600,
+        39
+      ],
+      [
+        2712,
+        38
+      ],
+      [
+        2728,
+        38
+      ],
+      [
+        3128,
+        34
+      ],
+      [
+        3170,
+        32
+      ],
+      [
+        3220,
+        26
+      ],
+      [
+        3240,
+        25
+      ],
+      [
+        3250,
+        24
+      ],
+      [
+        3290,
+        24
+      ],
+      [
+        3320,
+        27
+      ],
+      [
+        3360,
+        32
+      ],
+      [
+        3380,
+        31
+      ],
+      [
+        3480,
+        30.5
+      ],
+      [
+        3500,
+        31
+      ],
+      [
+        3540,
+        30
+      ],
+      [
+        3600,
+        29
+      ],
+      [
+        3700,
+        29
+      ],
+      [
+        3792,
+        29
+      ],
+      [
+        3808,
+        29
+      ],
+      [
+        4208,
+        26
+      ],
+      [
+        4250,
+        24
+      ],
+      [
+        4300,
+        22
+      ],
+      [
+        4420,
+        22
+      ]
+    ],
+    "zones": [
+      [
+        -60,
+        60,
+        "dirt"
+      ],
+      [
+        60,
+        110,
+        "rock"
+      ],
+      [
+        110,
+        210,
+        "rock"
+      ],
+      [
+        210,
+        255,
+        "dirt"
+      ],
+      [
+        255,
+        365,
+        "mud"
+      ],
+      [
+        365,
+        480,
+        "rock"
+      ],
+      [
+        480,
+        568,
+        "dirt"
+      ],
+      [
+        568,
+        968,
+        "highway"
+      ],
+      [
+        968,
+        1050,
+        "dirt"
+      ],
+      [
+        1050,
+        1110,
+        "rock"
+      ],
+      [
+        1110,
+        1220,
+        "rock"
+      ],
+      [
+        1220,
+        1340,
+        "mud"
+      ],
+      [
+        1340,
+        1400,
+        "dirt"
+      ],
+      [
+        1400,
+        1500,
+        "rock"
+      ],
+      [
+        1500,
+        1648,
+        "dirt"
+      ],
+      [
+        1648,
+        2048,
+        "highway"
+      ],
+      [
+        2048,
+        2060,
+        "dirt"
+      ],
+      [
+        2060,
+        2170,
+        "rock"
+      ],
+      [
+        2170,
+        2280,
+        "dirt"
+      ],
+      [
+        2280,
+        2330,
+        "rock"
+      ],
+      [
+        2330,
+        2460,
+        "mud"
+      ],
+      [
+        2460,
+        2560,
+        "rock"
+      ],
+      [
+        2560,
+        2728,
+        "dirt"
+      ],
+      [
+        2728,
+        3128,
+        "highway"
+      ],
+      [
+        3128,
+        3240,
+        "dirt"
+      ],
+      [
+        3240,
+        3300,
+        "rock"
+      ],
+      [
+        3300,
+        3370,
+        "rock"
+      ],
+      [
+        3370,
+        3490,
+        "mud"
+      ],
+      [
+        3490,
+        3808,
+        "dirt"
+      ],
+      [
+        3808,
+        4208,
+        "highway"
+      ],
+      [
+        4208,
+        4230,
+        "dirt"
+      ],
+      [
+        4230,
+        4275,
+        "rock"
+      ],
+      [
+        4275,
+        4320,
+        "dirt"
+      ],
+      [
+        4320,
+        4420,
+        "gravel"
+      ]
+    ],
+    "waters": [],
+    "heavyMud": [
+      300,
+      1255,
+      1310,
+      2360,
+      2430,
+      3400,
+      3460
+    ],
+    "start": 30,
+    "depot": 4370,
+    "checkpoints": [
+      30,
+      700,
+      1220,
+      1800,
+      2280,
+      2900,
+      3500
+    ],
+    "seed": 20261107,
+    "rollers": {
+      "seed": 3307,
+      "height": [
+        0.35,
+        0.7
+      ],
+      "wave": [
+        4.5,
+        7.5
+      ],
+      "fade": 2,
+      "mud": 0.9,
+      "intensity": 1.6
+    },
+    "obstacleSeed": 7781,
+    "obstacleScale": 2,
+    "bridges": [],
+    "rockGardens": [
+      {
+        "x0": 72,
+        "x1": 98,
+        "gap": 2.4
+      },
+      {
+        "x0": 380,
+        "x1": 400,
+        "gap": 2.5
+      },
+      {
+        "x0": 1058,
+        "x1": 1100,
+        "gap": 2.6
+      },
+      {
+        "x0": 1180,
+        "x1": 1200,
+        "gap": 2.6
+      },
+      {
+        "x0": 1430,
+        "x1": 1452,
+        "gap": 2.5
+      },
+      {
+        "x0": 2130,
+        "x1": 2150,
+        "gap": 2.6
+      },
+      {
+        "x0": 2490,
+        "x1": 2510,
+        "gap": 2.5
+      },
+      {
+        "x0": 3252,
+        "x1": 3288,
+        "gap": 2.6
+      },
+      {
+        "x0": 4236,
+        "x1": 4262,
+        "gap": 2.6
+      }
+    ],
+    "holes": [
+      {
+        "x": 300,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 1255,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 1310,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2360,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2430,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 3400,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 3460,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      }
+    ],
+    "ramps": [
+      {
+        "x": 130,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 150,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 172,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 420,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1135,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1157,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2068,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2088,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2108,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2525,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 3310,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 3332,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      }
+    ],
+    "recoverySections": [
+      [
+        244,
+        252
+      ],
+      [
+        368,
+        376
+      ],
+      [
+        1344,
+        1352
+      ],
+      [
+        1505,
+        1515
+      ],
+      [
+        2470,
+        2478
+      ],
+      [
+        3495,
+        3505
+      ],
+      [
+        4280,
+        4295
+      ]
+    ],
+    "obstacleRuns": [
+      {
+        "id": "pipe-226",
+        "kind": "pipe",
+        "x": 226,
+        "count": 4,
+        "radius": 0.26,
+        "gaps": [
+          0.3,
+          2.8,
+          0.3
+        ]
+      },
+      {
+        "id": "oilDrum-500",
+        "kind": "oilDrum",
+        "x": 500,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "pipe-1018",
+        "kind": "pipe",
+        "x": 1018,
+        "count": 5,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "rottenLog-1365",
+        "kind": "rottenLog",
+        "x": 1365,
+        "count": 5,
+        "radius": 0.26,
+        "gaps": [
+          0.25,
+          0.8,
+          0.25,
+          0.8
+        ]
+      },
+      {
+        "id": "oilDrum-1530",
+        "kind": "oilDrum",
+        "x": 1530,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "pipe-2190",
+        "kind": "pipe",
+        "x": 2190,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "corduroyLog-2290",
+        "kind": "corduroyLog",
+        "x": 2290,
+        "count": 8,
+        "radius": 0.26,
+        "gap": 0.15
+      },
+      {
+        "id": "oilDrum-2590",
+        "kind": "oilDrum",
+        "x": 2590,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "pipe-3150",
+        "kind": "pipe",
+        "x": 3150,
+        "count": 6,
+        "radius": 0.26,
+        "gap": 0.5
+      },
+      {
+        "id": "log-3530",
+        "kind": "log",
+        "x": 3530,
+        "count": 5,
+        "radius": 0.26,
+        "gap": 0.6
+      },
+      {
+        "id": "pipe-3640",
+        "kind": "pipe",
+        "x": 3640,
+        "count": 4,
+        "radius": 0.26,
+        "gaps": [
+          0.3,
+          2.8,
+          0.3
+        ]
+      },
+      {
+        "id": "log-3740",
+        "kind": "log",
+        "x": 3740,
+        "count": 4,
+        "radius": 0.26,
+        "gap": 0.6
+      }
+    ],
+    "obstacleKinds": {
+      "log": {
+        "art": "logCrossing",
+        "surf": "wood",
+        "friction": 0.85
+      },
+      "pipe": {
+        "art": "pipe",
+        "surf": "rock",
+        "friction": 0.8
+      },
+      "oilDrum": {
+        "art": "oilDrum",
+        "surf": "rock",
+        "friction": 0.7
+      },
+      "corduroyLog": {
+        "art": "corduroyLog",
+        "surf": "wood",
+        "friction": 0.85
+      },
+      "rottenLog": {
+        "art": "rottenLog",
+        "surf": "wood",
+        "friction": 0.8,
+        "crush": {
+          "minMassT": 15,
+          "impulse": 150
+        }
+      }
+    },
+    "propKinds": {
+      "rootTangle": {
+        "art": "rootTangle",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.2,
+        "above": 0.3,
+        "hull": {
+          "w": 2145,
+          "h": 457,
+          "top": 10,
+          "hull": [
+            [
+              30,
+              380
+            ],
+            [
+              450,
+              190
+            ],
+            [
+              700,
+              110
+            ],
+            [
+              1200,
+              10
+            ],
+            [
+              1410,
+              40
+            ],
+            [
+              2130,
+              410
+            ],
+            [
+              1580,
+              450
+            ],
+            [
+              260,
+              440
+            ]
+          ]
+        }
+      },
+      "concreteSlab": {
+        "art": "concreteSlab",
+        "surf": "rock",
+        "friction": 0.75,
+        "width": 1.6,
+        "above": 0.18,
+        "flip": false,
+        "hull": {
+          "w": 2098,
+          "h": 273,
+          "top": 0,
+          "hull": [
+            [
+              20,
+              80
+            ],
+            [
+              90,
+              20
+            ],
+            [
+              200,
+              10
+            ],
+            [
+              1780,
+              0
+            ],
+            [
+              1960,
+              10
+            ],
+            [
+              2090,
+              120
+            ],
+            [
+              2040,
+              270
+            ],
+            [
+              30,
+              270
+            ]
+          ]
+        }
+      },
+      "branchPile": {
+        "art": "branchPile",
+        "surf": "wood",
+        "friction": 0.8,
+        "width": 1.4,
+        "above": 0.18,
+        "crush": {
+          "impulse": 250
+        },
+        "hull": {
+          "w": 2137,
+          "h": 518,
+          "top": 10,
+          "hull": [
+            [
+              10,
+              490
+            ],
+            [
+              260,
+              190
+            ],
+            [
+              650,
+              60
+            ],
+            [
+              1240,
+              10
+            ],
+            [
+              2090,
+              340
+            ],
+            [
+              2110,
+              480
+            ],
+            [
+              1620,
+              510
+            ],
+            [
+              250,
+              510
+            ]
+          ]
+        }
+      }
+    },
+    "props": [
+      {
+        "kind": "concreteSlab",
+        "x": 40
+      },
+      {
+        "kind": "rootTangle",
+        "x": 238
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 490
+      },
+      {
+        "kind": "branchPile",
+        "x": 530
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 985
+      },
+      {
+        "kind": "rootTangle",
+        "x": 1380
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1580
+      },
+      {
+        "kind": "branchPile",
+        "x": 1610
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2210
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2240
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 2640
+      },
+      {
+        "kind": "branchPile",
+        "x": 2680
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 3200
+      },
+      {
+        "kind": "rootTangle",
+        "x": 3580
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 3680
+      },
+      {
+        "kind": "branchPile",
+        "x": 3770
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 4300
+      }
+    ],
+    "crushables": {
+      "rock": [
+        2,
+        4
+      ],
+      "dirt": [
+        5,
+        9
+      ],
+      "room": 0.4,
+      "pileEvery": 4
+    },
+    "stations": [
+      {
+        "x": 560
+      },
+      {
+        "x": 1640
+      },
+      {
+        "x": 2720
+      },
+      {
+        "x": 3800
+      }
+    ],
+    "scenery": [
+      {
+        "art": "warningSign",
+        "x": 52
+      },
+      {
+        "art": "fenceSection",
+        "x": 244
+      },
+      {
+        "art": "warningSign",
+        "x": 252
+      },
+      {
+        "art": "stiltShack",
+        "x": 505
+      },
+      {
+        "art": "rustedPickup",
+        "x": 1000
+      },
+      {
+        "art": "warningSign",
+        "x": 1045
+      },
+      {
+        "art": "waterTower",
+        "x": 1350
+      },
+      {
+        "art": "warningSign",
+        "x": 1215
+      },
+      {
+        "art": "fenceSection",
+        "x": 1590,
+        "count": 3
+      },
+      {
+        "art": "stiltShack",
+        "x": 2117
+      },
+      {
+        "art": "warningSign",
+        "x": 2272
+      },
+      {
+        "art": "rustedPickup",
+        "x": 2620
+      },
+      {
+        "art": "fenceSection",
+        "x": 2660,
+        "count": 2
+      },
+      {
+        "art": "warningSign",
+        "x": 3232
+      },
+      {
+        "art": "waterTower",
+        "x": 3505.5
+      },
+      {
+        "art": "stiltShack",
+        "x": 3559.5
+      },
+      {
+        "art": "fenceSection",
+        "x": 3700,
+        "count": 3
+      },
+      {
+        "art": "rustedPickup",
+        "x": 4290
+      }
+    ],
+    "highways": [
+      {
+        "x0": 568,
+        "x1": 968,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 7211,
+          "height": [
+            1.2,
+            2
+          ],
+          "wave": [
+            52,
+            72
+          ]
+        }
+      },
+      {
+        "x0": 1648,
+        "x1": 2048,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 7229,
+          "height": [
+            1.2,
+            2
+          ],
+          "wave": [
+            52,
+            72
+          ]
+        }
+      },
+      {
+        "x0": 2728,
+        "x1": 3128,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 7247,
+          "height": [
+            1.2,
+            2
+          ],
+          "wave": [
+            52,
+            72
+          ]
+        }
+      },
+      {
+        "x0": 3808,
+        "x1": 4208,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 7263,
+          "height": [
+            1.2,
+            2
+          ],
+          "wave": [
+            52,
+            72
+          ]
+        }
+      }
+    ]
+  },
+  "surfaces": {
+    "gravel": {
+      "mu": 0.85,
+      "label": "Gravel",
+      "rolling": 0.022,
+      "noise": [
+        0.12,
+        0.045,
+        0.014
+      ]
+    },
+    "dirt": {
+      "mu": 0.95,
+      "label": "Dirt",
+      "rolling": 0.035,
+      "noise": [
+        0.3,
+        0.11,
+        0.03
+      ]
+    },
+    "rock": {
+      "mu": 0.78,
+      "label": "Wet rock",
+      "rolling": 0.04,
+      "noise": [
+        0.38,
+        0.16,
+        0.045
+      ]
+    },
+    "mud": {
+      "mu": 0.28,
+      "label": "Slush",
+      "rolling": 0.12,
+      "sink": 0.2,
+      "bog": 2600,
+      "suction": 700,
+      "noise": [
+        0.2,
+        0.07,
+        0.02
+      ],
+      "heavySink": 0.2,
+      "heavyDrag": 0.35,
+      "heavyGrip": 0.6,
+      "bogRefT": 2.5
+    },
+    "creek": {
+      "mu": 0.55,
+      "label": "River bed",
+      "rolling": 0.05,
+      "sink": 0,
+      "noise": [
+        0.2,
+        0.09,
+        0.03
+      ]
+    },
+    "highway": {
+      "mu": 0.95,
+      "label": "Highway",
+      "rolling": 0.015,
+      "noise": [
+        0,
+        0,
+        0
+      ]
+    },
+    "wood": {
+      "mu": 0.82,
+      "label": "Timber bridge",
+      "rolling": 0.025,
+      "noise": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "art": {
+    "backdrop": {
+      "file": "art/backdrop.webp",
+      "source": "source/backdrop-v1.png",
+      "width": 1800,
+      "quality": 82
+    },
+    "ground": {
+      "file": "art/ground.webp",
+      "source": "source/ground-v2.png"
+    },
+    "roadEdge": {
+      "file": "art/road-edge.webp",
+      "source": "source/road-edge-v2.png",
+      "crop": [
+        0,
+        240,
+        2172,
+        523
+      ],
+      "width": 1600,
+      "quality": 86
+    },
+    "roadFar": {
+      "file": "art/road-far.webp",
+      "source": "source/road-far-v2.png",
+      "crop": [
+        0,
+        514,
+        2172,
+        724
+      ],
+      "width": 1600,
+      "quality": 86
+    },
+    "roadSoil": {
+      "file": "art/road-soil.webp",
+      "source": "source/road-soil-v1.png",
+      "width": 1024,
+      "quality": 80
+    },
+    "reeds": {
+      "file": "art/reeds.webp",
+      "source": "source/reeds-v3.png"
+    },
+    "rock": {
+      "file": "art/rock.webp",
+      "source": "source/rock-v2.png"
+    },
+    "granite": {
+      "file": "art/granite.webp",
+      "source": "source/granite-v2.png"
+    },
+    "wetmud": {
+      "file": "art/wet-mud.webp",
+      "source": "source/wet-mud-v2.png"
+    },
+    "deepMud": {
+      "file": "art/deepMud.webp",
+      "source": "source/deep-mud-v2.png"
+    },
+    "logCrossing": {
+      "file": "art/log-crossing.webp",
+      "source": "source/log-crossing-v3.png"
+    },
+    "mudHole": {
+      "file": "art/mud-hole.webp",
+      "source": "source/mud-hole-v2.png"
+    },
+    "pipe": {
+      "file": "art/pipe.webp",
+      "source": "source/pipe-v3.png"
+    },
+    "oilDrum": {
+      "file": "art/oil-drum.webp",
+      "source": "source/oil-drum-v4.png"
+    },
+    "corduroyLog": {
+      "file": "art/corduroy-log.webp",
+      "source": "source/corduroy-log-v3.png"
+    },
+    "rottenLog": {
+      "file": "art/rotten-log.webp",
+      "source": "source/rotten-log-v3.png"
+    },
+    "rootTangle": {
+      "file": "art/root-tangle.webp",
+      "source": "source/root-tangle-v2.png"
+    },
+    "concreteSlab": {
+      "file": "art/concrete-slab.webp",
+      "source": "source/concrete-slab-v2.png"
+    },
+    "branchPile": {
+      "file": "art/branch-pile.webp",
+      "source": "source/branch-pile-v2.png"
+    },
+    "fenceSection": {
+      "file": "art/fence-section.webp",
+      "source": "source/fence-section-v2.png",
+      "crop": [
+        67,
+        217,
+        1583,
+        954
+      ],
+      "alphaFloor": 24,
+      "quality": 88,
+      "heightM": 1.6,
+      "lean": true,
+      "repeatPx": 1196
+    },
+    "stiltShack": {
+      "file": "art/cabin.webp",
+      "source": "source/mossy-porch-v2.png",
+      "crop": [
+        88,
+        61,
+        1536,
+        1043
+      ],
+      "alphaFloor": 24,
+      "quality": 88,
+      "heightM": 4
+    },
+    "rustedPickup": {
+      "file": "art/rusted-pickup.webp",
+      "source": "source/rusted-pickup-v2.png",
+      "crop": [
+        88,
+        101,
+        1783,
+        910
+      ],
+      "alphaFloor": 24,
+      "quality": 88,
+      "heightM": 2.3,
+      "lean": true
+    },
+    "waterTower": {
+      "file": "art/water-tower.webp",
+      "source": "source/water-tower-v2.png",
+      "crop": [
+        142,
+        74,
+        889,
+        1675
+      ],
+      "alphaFloor": 24,
+      "quality": 88,
+      "heightM": 7
+    },
+    "warningSign": {
+      "file": "art/warning-sign.webp",
+      "source": "source/warning-sign-v2.png",
+      "crop": [
+        66,
+        66,
+        984,
+        1693
+      ],
+      "alphaFloor": 24,
+      "quality": 88,
+      "heightM": 3.6
+    },
+    "highwaySign": {
+      "file": "art/highway-sign.webp",
+      "source": "source/highway-sign-v2.png",
+      "crop": [
+        77,
+        71,
+        1517,
+        1021
+      ],
+      "alphaFloor": 24,
+      "quality": 90
+    },
+    "speedSign": {
+      "file": "art/speed-sign.webp",
+      "source": "source/speed-sign-v2.png",
+      "crop": [
+        121,
+        66,
+        857,
+        1635
+      ],
+      "alphaFloor": 24,
+      "quality": 90,
+      "face": [
+        369.2,
+        380,
+        304.7
+      ]
+    },
+    "fuelStation": {
+      "file": "art/fuel-station.webp",
+      "source": "source/fuel-station-v2.png",
+      "crop": [
+        66,
+        182,
+        1555,
+        953
+      ],
+      "width": 1200,
+      "quality": 86
+    }
+  },
+  "rockHulls": "rock-hulls.json",
+  "render": {
+    "sky": "#9fb8c8",
+    "bankTile": 14,
+    "parallax": {
+      "backdrop": 0.055
+    },
+    "forestFloor": false,
+    "road": {
+      "far": 0.12,
+      "near": 0.1,
+      "edge": 0.09,
+      "farEdge": 0.1,
+      "soilTileM": 18
+    },
+    "lane": {
+      "materials": {
+        "dirt": "ground",
+        "gravel": "ground",
+        "creek": "wetmud",
+        "mud": "wetmud",
+        "rock": "granite",
+        "highway": "granite"
+      },
+      "tints": {
+        "mud": "rgba(24,20,16,0.26)",
+        "dirt": "rgba(110,104,90,0.16)",
+        "gravel": "rgba(196,184,160,0.3)",
+        "rock": "rgba(60,66,72,0.12)",
+        "creek": "rgba(40,52,44,0.3)",
+        "highway": "rgba(28,29,32,0.8)"
+      }
+    },
+    "obstacles": {
+      "logCrossing": {
+        "face": [
+          394,
+          477,
+          252
+        ]
+      },
+      "pipe": {
+        "face": [
+          629,
+          452,
+          360
+        ]
+      },
+      "oilDrum": {
+        "face": [
+          581,
+          537,
+          320
+        ]
+      },
+      "corduroyLog": {
+        "face": [
+          323,
+          520,
+          245
+        ]
+      },
+      "rottenLog": {
+        "face": [
+          443,
+          444,
+          278
+        ]
+      }
+    },
+    "midground": false,
+    "backdropHorizon": 0.705,
+    "backdropFloor": "#879b7b"
+  },
+  "ambience": [
+    {
+      "sound": "forest",
+      "x": [
+        -100,
+        4500
+      ],
+      "gain": 0.4
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        60,
+        110
+      ],
+      "gain": 0.5
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        1050,
+        1110
+      ],
+      "gain": 0.5
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        2280,
+        2330
+      ],
+      "gain": 0.5
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        3240,
+        3300
+      ],
+      "gain": 0.5
+    },
+    {
+      "sound": "crows",
+      "x": [
+        365,
+        480
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        1400,
+        1500
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        2060,
+        2170
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        2460,
+        2560
+      ]
+    }
+  ]
+}

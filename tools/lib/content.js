@@ -54,7 +54,9 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
   // the default: the roster's defaultCar (the reference car the tests and feel are tuned on), else the first
   const car = carId ? cars.find(c => c.id === carId) : cars.find(c => c.id === roster.defaultCar) ?? cars[0];
   if (!car) throw new Error(`Car ${carId} is not playable`);
-  seasonId ||= fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort().find(id => exists(`assets/seasons/${id}/season.json`) && readJson(`assets/seasons/${id}/season.json`).status === 'playable');
+  // the default: Blackwater Swamp, the reference season the tests are tuned on, else the first playable one
+  const playableSeason = id => exists(`assets/seasons/${id}/season.json`) && readJson(`assets/seasons/${id}/season.json`).status === 'playable';
+  seasonId ||= playableSeason(DEFAULT_SEASON) ? DEFAULT_SEASON : fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort().find(playableSeason);
   const seasonDir = `assets/seasons/${seasonId}`, season = readJson(`${seasonDir}/season.json`);
   return {
     roster, cars, service, car, season, seasonDir,
@@ -66,6 +68,7 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
 const withArt = (item, asset) => ({ ...item, artUri: Object.fromEntries(Object.entries(item.art).map(([k, a]) => [k, asset(`${item.dir}/${a.file}`)])) });
 
 const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'];
+const DEFAULT_SEASON = 'swamp-summer';
 
 // Data plus every runtime image and sound clip as a URI: a data URI by default (the one-file web
 // build), or whatever `asset(file)` returns, e.g. a relative path to a copied file (the app build).

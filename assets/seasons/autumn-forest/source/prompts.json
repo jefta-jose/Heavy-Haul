@@ -32,5 +32,2073 @@
       "calm_lower_band": true
     },
     "original_deleted": true
+  },
+  "art_direction": {
+    "natural_art": "Rich semi-realistic painted earth, copper leaf litter, roots, warm grey stone and weathered logging timber; soft even daylight. No swamp reeds, alligators or summer-green moss dominance.",
+    "bright_painted_art": "Fuel-stop canopy, highway and warning signs, cabin accents: bold hand-painted golden yellow, vermilion and forest teal; readable crafted brushwork, restrained weathering.",
+    "sign_content": {
+      "highway": "HIGHWAY / AUTUMN FOREST",
+      "speed": "blank white round face within red rim; game draws number",
+      "warning": "falling-tree pictogram; no alligator"
+    },
+    "existing_backdrop": "backdrop-v1.png preserved",
+    "scope": "PNG art only; no runtime encoding or integration",
+    "validation": "Inspect one output before continuing; save prompts and actual dimensions after each generation."
+  },
+  "roadEdge": {
+    "file": "road-edge-v2.png",
+    "prompt": "Use case: stylized-concept. Premium hand-painted side-scrolling Heavy Haul game art for AUTUMN FOREST. Match a bold brush-painted backdrop of golden ochre and copper-red deciduous trees, blue sky and warm bark. Rich natural material texture, readable dark contours, fine selective detail, soft even daylight. Autumn logging-road identity, distinctly different from a green Louisiana swamp. No UI, watermark or logos. Asset: road-front-edge strip. One continuous horizontal cutaway lip of compact russet clay, thin dark roots, small warm-grey pebbles and flattened copper, gold and burgundy leaves. Almost straight top; irregular small downward clods and roots. Rich detailed natural earth colours, no brightly painted artificial materials. Wide 3:1 canvas, requested 2172x724, band occupies middle quarter, transparent above AND below. Band runs uninterrupted across left and right canvas edges at equal height for mirroring. Flat straight-on side view, no perspective, no ground plane, shadow, sky, trees, puddles, large rocks or isolated clumps. Actual transparent alpha in empty space.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-dc6902f9-1dba-4c82-a656-e68a322481eb.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "road-edge-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        266,
+        2172,
+        471
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "0afe353ff5323b2ee5440cf8622f6b443bafe28d06f44323f18beade73e6e249",
+      "strip_crop_suggestion": [
+        0,
+        266,
+        2172,
+        471
+      ]
+    }
+  },
+  "roadFar": {
+    "file": "road-far-v2.png",
+    "prompt": "Use case: stylized-concept. Premium hand-painted side-scrolling Heavy Haul game art for AUTUMN FOREST. Match a bold brush-painted backdrop of golden ochre and copper-red deciduous trees, blue sky and warm bark. Rich natural material texture, readable dark contours, fine selective detail, soft even daylight. Autumn logging-road identity, distinctly different from a green Louisiana swamp. No UI, watermark or logos. Wide 3:1 2172x724 transparent far-road-edge strip: continuous low ochre grasses, curled gold and copper leaves, scattered tiny tawny fern fronds on thin dark woodland soil band. Flat straight-on side view. Plants no more than twice soil height. Opaque perfectly straight lower band edge; transparent above; left and right ends touch canvas at equal heights. No tree, water, cattails or tall reeds. Natural muted warm colours.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b03d028d-2eae-408a-a1b1-f4f3a17a7dc6.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "road-far-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        564,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "119455b4f7ba2ec77e4aea4095bc2b3f23e308c243063b007f03ad1031bba87e",
+      "strip_crop_suggestion": [
+        0,
+        564,
+        2172,
+        724
+      ]
+    }
+  },
+  "roadSoil": {
+    "file": "road-soil-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. TEXTURE ONLY: wide 3:1 2172x724 full-bleed opaque image of very dark umber underground earth cross-section, viewed straight at a flat vertical wall of dirt. Entire canvas is ONLY dark soil, subtle compressed horizontal strata, sparse tiny root threads, tiny embedded pebbles. Calm low contrast for game buttons drawn over it. Absolutely NO trees, leaves, grass, forest scene, ground surface, sky, horizon, landscape, perspective or ground plane. Left and right brightness equal for mirrored tiling.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-36a3caf9-b0ab-4ec9-81d7-95682582d87a.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": false,
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "3dfc88b98ede0ee6338dc1d0dbcc3bfe6912df57d8d63df04f59cbfd498497ac"
+    }
+  },
+  "roadSoil-v1-rejected": {
+    "file": "road-soil-v1.png",
+    "prompt": "Use case: stylized-concept. Premium hand-painted side-scrolling Heavy Haul game art for AUTUMN FOREST. Match a bold brush-painted backdrop of golden ochre and copper-red deciduous trees, blue sky and warm bark. Rich natural material texture, readable dark contours, fine selective detail, soft even daylight. Autumn logging-road identity, distinctly different from a green Louisiana swamp. No UI, watermark or logos. Wide 3:1 2172x724 opaque cutaway earth texture, straight-on side view, fills canvas. Very dark umber woodland soil, subtle horizontal compressed layers, sparse tiny root threads and pebbles. Calm low contrast beneath game controls, slightly darker at bottom. No surface grass, horizon, sky, ground plane or focal point. Edges equal brightness for mirrored tiling.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-95cdbd8c-9d6a-424f-90c0-8e3073698808.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": false,
+    "resized": false,
+    "rejection_reason": "Generated forest scene above soil despite no-horizon constraint. Texture must contain only earth."
+  },
+  "ground": {
+    "file": "ground-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic woodland logging-road material tile, 1536x1536 minimum. Packed warm brown dirt, fine angular gravel and scattered small flattened amber and copper oak/maple leaves partly embedded in soil. Natural gritty detail; uniform scale and lighting, no large leaves or landmarks, no tire tracks, horizon, shadow or road borders. Both pairs of opposite edges must connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b9fc1784-7e7e-4650-8b01-ab1d72421973.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "ground-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "1b05c2cab138612b711da9244d3d2fcc73760041d9c5e9c7c2e8ff78e06145aa",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "wetmud": {
+    "file": "wet-mud-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic wet woodland clay road tile,1536x1536 minimum. Chocolate and russet wet earth, small embedded copper leaf fragments, fine organic ridges, matte moisture. Darker and softer than dry logging dirt, natural restrained colour. Uniform scale and lighting, no large puddles, sky reflections, tire tracks, perspective or borders. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-6258d669-d198-4d3d-aaf6-7f48bf244074.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "wet-mud-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "afc55dd1dd15110fc897a2f80ac67cbdb017f0ab4daae8064020a75435d3b8f1",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "granite": {
+    "file": "granite-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic crushed granite road material tile,1536x1536 minimum. Fine warm grey and brown granite aggregate, subtle mineral speckle, compact fine gravel without large stones, natural neutral colours suitable for dark tint to become highway asphalt. Even scale, no leaves, markings, cracks forming focal point, horizon, perspective, shadows or borders. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f9e43f77-41d1-44a8-8be9-75a57f32b19c.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "granite-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "319d297680c71817feddeb043cb0849a30d87459b818d83b57d7b1f95a77651f",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "deepMud": {
+    "file": "deep-mud-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Wide 2:1 opaque seamless top-down deep woodland bog tile, 2048x1024. Near-black walnut-brown mud, fine compressed organic ridges and tiny partly submerged reddish leaf fragments. Visibly darker wetter softer than ordinary mud. Matte restrained natural colours, no bright glints, blue water, sky reflection, big puddles, border or perspective. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-85a3e77e-e669-47f3-ae69-136f012c82ea.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": false,
+    "edit_of": "deep-mud-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "fca7c407602ae14aa7664685c1250c206410cceb483b0f904c8d3c5b203be793",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "mudHole": {
+    "file": "mud-hole-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Single broad shallow elliptical woodland mud hole, wide 2:1 2048x1024 transparent canvas. Slight elevated side view of dark matte chocolate mud depression, irregular raised compact clay rim, fine rootlets and a few small copper leaves caught around rim. Entire object with generous clear margins, no ground patch outside rim, no water reflection, grass, shadow or glow. Natural subdued earth colours, rich painted detail.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b455761a-43b4-4279-8b7f-7fb8b47ca786.png",
+    "actual_dimensions": [
+      1872,
+      985
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "mud-hole-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 49,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1872,
+        985
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        208,
+        1798,
+        789
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "ef819a2d63818e21e12730c0b1d4f7aa9982e1a7ff21e4462d2d10c60042b8c7"
+    }
+  },
+  "fuelStation": {
+    "file": "fuel-station-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Autumn logging-road fuel and repair stop, wide 3:2 transparent 1800x1200 canvas. Flat straight-on side view: open timber canopy on two posts over one vintage fuel pump, small log-built workshop to right, tire stack, oil drum and visible tools. Bright cheerful hand-brushed golden-yellow canopy with vermilion trim, forest-teal shed door, warm cedar and copper leaves near post feet. Coherent bold painted storybook accents on realistic weathered construction. All feet on one level baseline; open alpha through canopy and between posts. No text, numbers, vehicles, people, ground slab or cast shadow. Whole object clear margins.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c1160f57-bd64-44b6-a38d-db5a987b5512.png",
+    "actual_dimensions": [
+      1648,
+      1136
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "fuel-station-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 56,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1648,
+        1136
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        66,
+        150,
+        1587,
+        976
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "585dca5d709605109b9b7c7bee3d9d3bca1781a19ab201c75a447da710e1895d"
+    }
+  },
+  "highwaySign": {
+    "file": "highway-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One AUTUMN FOREST highway entry sign, isolated wide 3:2 transparent 1800x1200. Straight-on frontal elevation, broad rectangular forest-teal enamel panel on two weathered cedar posts, warm cream border, restrained golden-yellow corner accents. Bright hand-painted crafted colours with authentic rubbed edges and clear brush-painted cream block lettering. EXACT TEXT ONLY two lines: large 'HIGHWAY', smaller 'AUTUMN FOREST'. Both words of second line equally readable. No BLACKWATER, SWAMP, numbers, arrows or extra wording. Poles end on one level baseline. Full sign inside generous clear margins. No ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0ded731f-f3f2-4796-90d3-c5cd95ab4784.png",
+    "actual_dimensions": [
+      1638,
+      1126
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "highway-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 51,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1638,
+        1126
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        128,
+        61,
+        1507,
+        1064
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "84e01999db1ceda3b6a4ed76c6585baad45d0f8cb0c29602c8be95a18a872172",
+      "content": "HIGHWAY / AUTUMN FOREST, spelling visually verified."
+    }
+  },
+  "speedSign": {
+    "file": "speed-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One speed-limit sign for AUTUMN FOREST, isolated portrait 1024x1792 transparent canvas. Straight-on face: perfectly round blank opaque warm-white circular sign with clear vermilion red ring on one weathered cedar post. Face completely blank white so engine can draw speed number dynamically; no letters or numbers anywhere. Bright hand-brushed red enamel rim, lightly aged metal and warm wood. Face remains clean high contrast. Minimal small copper leaf caught near bottom of post optional. Whole sign and pole visible, clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3b641c58-7b8b-4802-aac9-1e188423db3c.png",
+    "actual_dimensions": [
+      1058,
+      1769
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "speed-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 55,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1058,
+        1769
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        211,
+        67,
+        832,
+        1703
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "aee5365211991f4d56af35400ebae522ed88eb411d714733ef86f3ae872e2270",
+      "blank_face_circle_estimate_full_canvas": [
+        519.9,
+        472.1,
+        250.4
+      ],
+      "blank_face_circle_estimate_cropped": [
+        308.9,
+        405.1,
+        250.4
+      ],
+      "content": "Blank white face; engine draws current damage-speed number. No baked limit."
+    }
+  },
+  "warningSign": {
+    "file": "warning-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One woodland hazard warning sign, isolated portrait 1024x1792 transparent canvas. Straight-on face: golden yellow diamond steel warning panel on weathered cedar pole. Large simple dark pictogram of FALLING TREE: slanted broken trunk and falling crown beside small stump, clearly legible silhouette at game size. No text, numbers, alligator, swamp icon or vehicle. Bright hand-painted golden enamel with black border and tiny copper corner wear; realistic wood/metal. Whole sign with generous clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a50bf0b5-e913-4b3e-9362-c0fc47f8a3c7.png",
+    "actual_dimensions": [
+      1044,
+      1755
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "warning-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 48,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1044,
+        1755
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        97,
+        66,
+        945,
+        1687
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "03ee24f34037f25826a9e81c0c3877bc63cbe8a8037cc6e330887ebc0f1737cf",
+      "content": "Falling-tree pictogram; no swamp/alligator content."
+    }
+  },
+  "reeds": {
+    "file": "reeds-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One small isolated roadside autumn woodland vegetation clump, square 1536x1536 transparent canvas. Tawny bent fine grasses mixed with three ochre/rust bracken fern fronds and a few curled copper oak leaves around roots, no cattails, reeds, swamp lilies or flowers. Rich natural painted fine plant detail, warm natural colour. Flat side view, all rooted on one short level baseline. Alpha through every gap between stems and leaves. Whole object clear margins; no soil slab, ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-5fc4588e-965e-428d-9675-16b696296d0d.png",
+    "actual_dimensions": [
+      1622,
+      1622
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": true,
+    "edit_of": "reeds-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 43,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1622,
+        1622
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        70,
+        193,
+        1558,
+        1440
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "df5fe58ecb8aa03cf4637a74ba40682ad892ef8fdbc619eda9fb4536354a73cd"
+    }
+  },
+  "rock": {
+    "file": "rock-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One broad low angular woodland granite boulder, wide 2:1 transparent 2048x1024. Side view with very slight elevation, weighty flat base, asymmetric low climbable silhouette. Warm grey granite, buff fracture planes, dark crevices, a few tiny dry ochre leaves in cracks, very sparse muted lichen. Natural material colours, no vivid paint or summer moss blanket. Whole rock generously clear of edges, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-ea41d424-13aa-4da7-abe6-877ff6f5a578.png",
+    "actual_dimensions": [
+      1886,
+      999
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rock-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 56,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1886,
+        999
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        199,
+        1810,
+        831
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "86fb5702dda1374c53e627fccb67034ea73d56bb0a05fa6025dd48dfb624a731"
+    }
+  },
+  "roadEdge-original-road-edge-v1": {
+    "file": "road-edge-v1.png",
+    "prompt": "Use case: stylized-concept. Premium hand-painted side-scrolling Heavy Haul game art for AUTUMN FOREST. Match a bold brush-painted backdrop of golden ochre and copper-red deciduous trees, blue sky and warm bark. Rich natural material texture, readable dark contours, fine selective detail, soft even daylight. Autumn logging-road identity, distinctly different from a green Louisiana swamp. No UI, watermark or logos. Asset: road-front-edge strip. One continuous horizontal cutaway lip of compact russet clay, thin dark roots, small warm-grey pebbles and flattened copper, gold and burgundy leaves. Almost straight top; irregular small downward clods and roots. Rich detailed natural earth colours, no brightly painted artificial materials. Wide 3:1 canvas, requested 2172x724, band occupies middle quarter, transparent above AND below. Band runs uninterrupted across left and right canvas edges at equal height for mirroring. Flat straight-on side view, no perspective, no ground plane, shadow, sky, trees, puddles, large rocks or isolated clumps. Actual transparent alpha in empty space.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-dc6902f9-1dba-4c82-a656-e68a322481eb.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "roadFar-original-road-far-v1": {
+    "file": "road-far-v1.png",
+    "prompt": "Use case: stylized-concept. Premium hand-painted side-scrolling Heavy Haul game art for AUTUMN FOREST. Match a bold brush-painted backdrop of golden ochre and copper-red deciduous trees, blue sky and warm bark. Rich natural material texture, readable dark contours, fine selective detail, soft even daylight. Autumn logging-road identity, distinctly different from a green Louisiana swamp. No UI, watermark or logos. Wide 3:1 2172x724 transparent far-road-edge strip: continuous low ochre grasses, curled gold and copper leaves, scattered tiny tawny fern fronds on thin dark woodland soil band. Flat straight-on side view. Plants no more than twice soil height. Opaque perfectly straight lower band edge; transparent above; left and right ends touch canvas at equal heights. No tree, water, cattails or tall reeds. Natural muted warm colours.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b03d028d-2eae-408a-a1b1-f4f3a17a7dc6.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "fuelStation-original-fuel-station-v1": {
+    "file": "fuel-station-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Autumn logging-road fuel and repair stop, wide 3:2 transparent 1800x1200 canvas. Flat straight-on side view: open timber canopy on two posts over one vintage fuel pump, small log-built workshop to right, tire stack, oil drum and visible tools. Bright cheerful hand-brushed golden-yellow canopy with vermilion trim, forest-teal shed door, warm cedar and copper leaves near post feet. Coherent bold painted storybook accents on realistic weathered construction. All feet on one level baseline; open alpha through canopy and between posts. No text, numbers, vehicles, people, ground slab or cast shadow. Whole object clear margins.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c1160f57-bd64-44b6-a38d-db5a987b5512.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "highwaySign-original-highway-sign-v1": {
+    "file": "highway-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One AUTUMN FOREST highway entry sign, isolated wide 3:2 transparent 1800x1200. Straight-on frontal elevation, broad rectangular forest-teal enamel panel on two weathered cedar posts, warm cream border, restrained golden-yellow corner accents. Bright hand-painted crafted colours with authentic rubbed edges and clear brush-painted cream block lettering. EXACT TEXT ONLY two lines: large 'HIGHWAY', smaller 'AUTUMN FOREST'. Both words of second line equally readable. No BLACKWATER, SWAMP, numbers, arrows or extra wording. Poles end on one level baseline. Full sign inside generous clear margins. No ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0ded731f-f3f2-4796-90d3-c5cd95ab4784.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "speedSign-original-speed-sign-v1": {
+    "file": "speed-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One speed-limit sign for AUTUMN FOREST, isolated portrait 1024x1792 transparent canvas. Straight-on face: perfectly round blank opaque warm-white circular sign with clear vermilion red ring on one weathered cedar post. Face completely blank white so engine can draw speed number dynamically; no letters or numbers anywhere. Bright hand-brushed red enamel rim, lightly aged metal and warm wood. Face remains clean high contrast. Minimal small copper leaf caught near bottom of post optional. Whole sign and pole visible, clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3b641c58-7b8b-4802-aac9-1e188423db3c.png",
+    "actual_dimensions": [
+      948,
+      1659
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "warningSign-original-warning-sign-v1": {
+    "file": "warning-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One woodland hazard warning sign, isolated portrait 1024x1792 transparent canvas. Straight-on face: golden yellow diamond steel warning panel on weathered cedar pole. Large simple dark pictogram of FALLING TREE: slanted broken trunk and falling crown beside small stump, clearly legible silhouette at game size. No text, numbers, alligator, swamp icon or vehicle. Bright hand-painted golden enamel with black border and tiny copper corner wear; realistic wood/metal. Whole sign with generous clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a50bf0b5-e913-4b3e-9362-c0fc47f8a3c7.png",
+    "actual_dimensions": [
+      948,
+      1659
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "reeds-original-reeds-v1": {
+    "file": "reeds-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One small isolated roadside autumn woodland vegetation clump, square 1536x1536 transparent canvas. Tawny bent fine grasses mixed with three ochre/rust bracken fern fronds and a few curled copper oak leaves around roots, no cattails, reeds, swamp lilies or flowers. Rich natural painted fine plant detail, warm natural colour. Flat side view, all rooted on one short level baseline. Alpha through every gap between stems and leaves. Whole object clear margins; no soil slab, ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-5fc4588e-965e-428d-9675-16b696296d0d.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "logCrossing": {
+    "file": "log-crossing-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Single heavy fallen hardwood trunk section lying across driving road, wide 2:1 transparent 2048x1024. Near circular cut end at left faces viewer, cylindrical trunk recedes diagonally toward right behind it; readable near circular collision face. Rough grey-brown oak bark with copper flakes, fresh warm pale golden growth rings, two small knots, no branches sticking far out. Detailed natural wood grain, no green moss carpet. Whole log clear margins; no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-ab4cab3f-cd34-4d86-a699-5a09eee3bf06.png",
+    "actual_dimensions": [
+      1906,
+      1019
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "log-crossing-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        6,
+        26,
+        681,
+        870
+      ],
+      "scale_y": 0.7993235625704622,
+      "offset_y": 89,
+      "corrected_near_face_estimate": [
+        344,
+        447,
+        338
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 66,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1906,
+        1019
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        160,
+        1834,
+        859
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "69c93bf32a188425ca35b16cc9ef4a8784ee6b089aa9dc4b7e9f03b03a62d699",
+      "near_face_circle_estimate_full_canvas": [
+        410,
+        513,
+        338
+      ],
+      "near_face_circle_estimate_cropped": [
+        339,
+        353,
+        338
+      ]
+    }
+  },
+  "corduroyLog": {
+    "file": "corduroy-log-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One straight debarked corduroy-road hardwood log, wide 2:1 transparent 2048x1024. Round sawn near end at left faces viewer, full cylindrical timber recedes right behind it. Pale honey-tan weathered wood, narrow dark cracks and growth rings, occasional small remnant bark strip. Natural realistic painted timber, no metal straps or bright artificial paint. Whole log clear margins, no ground, branches, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-adf0dbdc-9709-4002-bae2-9f01935b88ff.png",
+    "actual_dimensions": [
+      1892,
+      1005
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "corduroy-log-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        14,
+        145,
+        477,
+        777
+      ],
+      "scale_y": 0.7328072153325818,
+      "offset_y": 118,
+      "corrected_near_face_estimate": [
+        246,
+        456,
+        232
+      ],
+      "face_diameter_ratio_after": 0.9997
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 59,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1892,
+        1005
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        74,
+        276,
+        1821,
+        752
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "858f8db22af9058993f4b9382a5653c53dbb64f2761f6e84c7b5e3d996c0f1c7",
+      "near_face_circle_estimate_full_canvas": [
+        305,
+        515,
+        232
+      ],
+      "near_face_circle_estimate_cropped": [
+        231,
+        239,
+        232
+      ]
+    }
+  },
+  "rottenLog": {
+    "file": "rotten-log-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One rotten autumn hardwood trunk section, wide 2:1 transparent 2048x1024. Near roughly circular broken end at left faces viewer, cylindrical trunk recedes right behind it. Deep dark hollow and crumbly russet heartwood, peeling taupe bark, small cream bracket fungi and dry copper leaf caught on top. No large moss blanket. Natural rich painted decay. Whole log with generous margins, no ground, shadow, glow or extra objects.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-635785a6-2aa4-40a6-b288-1cdc0ed8dbe5.png",
+    "actual_dimensions": [
+      1852,
+      965
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rotten-log-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        39,
+        62,
+        677,
+        839
+      ],
+      "scale_y": 0.8207440811724915,
+      "offset_y": 79,
+      "corrected_near_face_estimate": [
+        358,
+        449,
+        319
+      ],
+      "face_diameter_ratio_after": 1.0004
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 39,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1852,
+        965
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        76,
+        159,
+        1781,
+        814
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "5eedb6033f4fde2cccab82f2c5b0cd1f0999ca21980c356498035035b5848908",
+      "near_face_circle_estimate_full_canvas": [
+        397,
+        488,
+        319
+      ],
+      "near_face_circle_estimate_cropped": [
+        321,
+        329,
+        319
+      ]
+    }
+  },
+  "pipe": {
+    "file": "pipe-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One heavy weathered concrete culvert pipe for autumn logging road, wide 2:1 transparent 2048x1024. Near large perfectly circular open end at left faces viewer, full cylindrical pipe recedes right behind it. Grey-beige concrete, chipped rim, rust streaks, dark visible hollow, fine aggregate, a few dry leaf fragments at bottom of opening. Natural material colours. Clear alpha THROUGH pipe where open background visible, deep inner concrete shading plausible. Whole pipe clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3aa04a74-5600-4e7e-a2c6-48d552da7d5c.png",
+    "actual_dimensions": [
+      1908,
+      1021
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "pipe-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 67,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1908,
+        1021
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        139,
+        71,
+        1774,
+        947
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "c41250b5b1d23885afe6d4ee1fcb07c665319e372bf38ca0b7994c9b3df6d792",
+      "near_face_circle_estimate_full_canvas": [
+        574,
+        506,
+        437
+      ],
+      "measurement_note": "Approximate outer concrete rim, manually inspected; Claude should verify collision alignment at game scale."
+    }
+  },
+  "ground-original": {
+    "file": "ground-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic woodland logging-road material tile, 1536x1536 minimum. Packed warm brown dirt, fine angular gravel and scattered small flattened amber and copper oak/maple leaves partly embedded in soil. Natural gritty detail; uniform scale and lighting, no large leaves or landmarks, no tire tracks, horizon, shadow or road borders. Both pairs of opposite edges must connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b9fc1784-7e7e-4650-8b01-ab1d72421973.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "wetmud-original": {
+    "file": "wet-mud-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic wet woodland clay road tile,1536x1536 minimum. Chocolate and russet wet earth, small embedded copper leaf fragments, fine organic ridges, matte moisture. Darker and softer than dry logging dirt, natural restrained colour. Uniform scale and lighting, no large puddles, sky reflections, tire tracks, perspective or borders. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-6258d669-d198-4d3d-aaf6-7f48bf244074.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "granite-original": {
+    "file": "granite-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Square opaque seamless top-down orthographic crushed granite road material tile,1536x1536 minimum. Fine warm grey and brown granite aggregate, subtle mineral speckle, compact fine gravel without large stones, natural neutral colours suitable for dark tint to become highway asphalt. Even scale, no leaves, markings, cracks forming focal point, horizon, perspective, shadows or borders. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f9e43f77-41d1-44a8-8be9-75a57f32b19c.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "deepMud-original": {
+    "file": "deep-mud-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Wide 2:1 opaque seamless top-down deep woodland bog tile, 2048x1024. Near-black walnut-brown mud, fine compressed organic ridges and tiny partly submerged reddish leaf fragments. Visibly darker wetter softer than ordinary mud. Matte restrained natural colours, no bright glints, blue water, sky reflection, big puddles, border or perspective. Both pairs opposite edges connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-85a3e77e-e669-47f3-ae69-136f012c82ea.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "oilDrum": {
+    "file": "oil-drum-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One dented steel oil drum lying across road, wide 2:1 transparent 2048x1024. Near circular barrel end at left faces viewer, cylindrical ribbed body recedes right behind it. Weathered faded brick-red enamel with exposed rust and steel, round end with two bung fittings, natural gritty material texture. No labels, writing, hazard glyphs or logos. Whole drum clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c5de862a-7a78-4384-9c38-44ce40c65f18.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "oil-drum-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        128,
+        15,
+        793,
+        876
+      ],
+      "scale_y": 0.7722660653889515,
+      "offset_y": 101,
+      "corrected_near_face_estimate": [
+        460,
+        445,
+        332
+      ],
+      "face_diameter_ratio_after": 1.0001
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        128,
+        110,
+        1638,
+        781
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "f7ca70d596c7c8421d07b006c81c2870b6bea2ebe716c290f414a7463dc11088",
+      "near_face_circle_estimate_full_canvas": [
+        460,
+        445,
+        332
+      ],
+      "near_face_circle_estimate_cropped": [
+        332,
+        335,
+        332
+      ]
+    }
+  },
+  "rootTangle": {
+    "file": "root-tangle-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One low broad tangle of exposed autumn hardwood roots, wide 3:1 transparent 2172x724. Straight-on side view, thick twisting dry umber roots forming climbable low mound, cracks and dirt between roots, tiny copper leaf fragments caught sparingly. All roots lie on a level base; low silhouette not a standing stump. Natural dark brown material, no green moss blanket. Whole object clear margins, transparent internal gaps, no ground slab, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f2043906-c23f-47e0-84fa-08a9786679f6.png",
+    "actual_dimensions": [
+      2346,
+      898
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "root-tangle-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 87,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2346,
+        898
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        88,
+        234,
+        2259,
+        685
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "78fc135f338434e82fff98c31a0c899b738f4016c468532795d66b1124563780"
+    }
+  },
+  "concreteSlab": {
+    "file": "concrete-slab-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One long low broken concrete road slab, wide 3:1 transparent 2172x724. Straight-on side view, flat base, broad mostly level top with small chips, low climbable profile. Warm grey aged concrete aggregate, hairline cracks, one short rusty exposed rebar end, tiny copper leaves caught along top. Natural restrained colours, no green moss blanket. Whole object clear margins, no road or ground outside object, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a2b68e20-7892-4164-a4f3-1146fa30aa2b.png",
+    "actual_dimensions": [
+      2296,
+      848
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "concrete-slab-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 62,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2296,
+        848
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        87,
+        359,
+        2194,
+        626
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "6dee75f98dd8d73e2411083ce4e1906771833d7040f578ec34b00a7105b43697"
+    }
+  },
+  "branchPile": {
+    "file": "branch-pile-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One broad low crushable pile of autumn logging slash and broken dry branches, wide 3:1 transparent 2172x724. Straight-on side view, intertwined thin tawny branches and chunky splintered wood, a few rusty-red oak leaves still attached, realistic bark and snapped ends. Low irregular climbable mound on level base, transparent gaps between branches. Natural materials, no bright artificial paint, no green leafy bush. Whole pile clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3cf1d3f0-4438-42cd-b7c8-83b1bb6b8931.png",
+    "actual_dimensions": [
+      2322,
+      874
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "branch-pile-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 75,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2322,
+        874
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        90,
+        130,
+        2235,
+        733
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "e68f51e28cecc252b645724bfcd45c81aa8f1820a216baa6124bf158f33bcb77"
+    }
+  },
+  "fenceSection": {
+    "file": "fence-section-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One rustic AUTUMN FOREST split-rail fence section, wide 3:2 transparent 1800x1200 canvas. Straight-on elevation, exactly two stout weathered cedar end posts and two horizontal split timber rails spanning between them. Ends designed to repeat post-to-post. Warm grey and honey-brown timber, restrained lichen and a few copper leaves caught at base. Flat level baseline, alpha through gaps. Natural detailed painted materials, no wire, electricity symbol, sign, text or swamp vines. Whole object clear margins, no ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-41e7bc62-493b-4e13-9b58-0c9db27a1589.png",
+    "actual_dimensions": [
+      1654,
+      1142
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "fence-section-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 59,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1654,
+        1142
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        64,
+        187,
+        1593,
+        930
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "54e254addbd384d40f09b252d9f5d3c31abc77e2a44b8b3dffc3c15dece92b4d",
+      "repeat_post_centres_full_canvas_estimate": [
+        190,
+        1468
+      ],
+      "repeat_px_estimate": 1278
+    }
+  },
+  "stiltShack": {
+    "file": "mossy-porch-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One autumn logging worker cabin, isolated 3:2 transparent 1800x1200. Straight-on front elevation of compact sturdy cedar log hut on SHORT raised timber piers, small porch with three steps, stacked split firewood under porch, brick chimney, worn corrugated roof. Cheerful hand-painted vermilion window shutters and ochre door contrast weathered natural wood and dark slate roof. Copper leaves along roof gutters, no hanging swamp moss, no alligator or summer vines. Door/window construction believable, no readable text. Full cabin clear margins, all foundation feet on level line, alpha beneath porch. No people, vehicles, surrounding ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c64ba405-aebf-46fc-8db9-188f455af0af.png",
+    "actual_dimensions": [
+      1642,
+      1130
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "mossy-porch-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 53,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1642,
+        1130
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        115,
+        61,
+        1523,
+        1058
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "676d80927453bbcafe1f6993c32f0ed644c57abc3e4f1a9f4073f0b0becf7833"
+    }
+  },
+  "rustedPickup": {
+    "file": "rusted-pickup-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One abandoned old conventional-bonnet logging pickup facing RIGHT with empty stake-sided bed holding a small rusty toolbox, flat side view. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Two fully visible worn deflated mud tires, dark rusted rims, faded burgundy paint, peeling rust, warm copper leaves in bed, cracked side window. Clean plausible separate bonnet, radiator housing, blunt bumper, headlamp and rounded front fender; no visible front grille face. Small rectangular mirror on short rigid brackets at door, no melted metal. Static roadside scenery, not playable vehicle. Transparent wide 2:1 2048x1024, whole object clear margins, no ground, shadow, text or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-77c80a23-1336-425a-905f-5baf98dcf90c.png",
+    "actual_dimensions": [
+      1884,
+      997
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rusted-pickup-v2.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 55,
+      "resampling_adds_painted_detail": false
+    },
+    "tire_correction": {
+      "method": "Reflected generated upper tire material across measured hub line within two equal circular masks; cab, chassis and equipment unchanged.",
+      "hub_centres": [
+        [
+          453,
+          758
+        ],
+        [
+          1495,
+          758
+        ]
+      ],
+      "tire_radius_px": 166,
+      "hub_line": 758,
+      "tire_bottom_line": 924,
+      "axle_count": 2,
+      "camera": "strict perpendicular side view facing right; no far-side tires or visible front grille face",
+      "purpose": "Static roadside prop; no moving body/wheel sprites required."
+    },
+    "validation": {
+      "dimensions": [
+        1884,
+        997
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        77,
+        141,
+        1813,
+        925
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "1aec219b3fb3a586a5c8330995e3b70db8c8b1bec9fe752d7ddd8b24ae2082d2"
+    }
+  },
+  "waterTower": {
+    "file": "water-tower-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One autumn logging-camp water tower, isolated portrait 1024x1792 transparent canvas. Straight-on front elevation of round weathered cedar stave water tank with dark iron hoop bands and shallow conical copper-red roof on four sturdy timber legs with crossed braces. Small ladder fixed neatly to side, no perspective exaggeration. Hand-brushed ochre and faded vermilion accents on tank, natural wood texture, no text, logos or numbers. Very sparse copper leaves caught near base, no swamp vines or green moss hanging. Whole tower including roof and feet clear margins, feet level, alpha in all brace gaps, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7791c11c-0b97-4bc1-951c-35a9a85a7fe9.png",
+    "actual_dimensions": [
+      1060,
+      1771
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "water-tower-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 56,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1060,
+        1771
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        98,
+        66,
+        943,
+        1695
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "5cda417f26af1c160dd2f533408e4c99c7b101a69a8f5bf29183837ec0597769"
+    }
+  },
+  "logCrossing-geometry-original": {
+    "file": "log-crossing-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Single heavy fallen hardwood trunk section lying across driving road, wide 2:1 transparent 2048x1024. Near circular cut end at left faces viewer, cylindrical trunk recedes diagonally toward right behind it; readable near circular collision face. Rough grey-brown oak bark with copper flakes, fresh warm pale golden growth rings, two small knots, no branches sticking far out. Detailed natural wood grain, no green moss carpet. Whole log clear margins; no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-ab4cab3f-cd34-4d86-a699-5a09eee3bf06.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "corduroyLog-geometry-original": {
+    "file": "corduroy-log-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One straight debarked corduroy-road hardwood log, wide 2:1 transparent 2048x1024. Round sawn near end at left faces viewer, full cylindrical timber recedes right behind it. Pale honey-tan weathered wood, narrow dark cracks and growth rings, occasional small remnant bark strip. Natural realistic painted timber, no metal straps or bright artificial paint. Whole log clear margins, no ground, branches, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-adf0dbdc-9709-4002-bae2-9f01935b88ff.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "rottenLog-geometry-original": {
+    "file": "rotten-log-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One rotten autumn hardwood trunk section, wide 2:1 transparent 2048x1024. Near roughly circular broken end at left faces viewer, cylindrical trunk recedes right behind it. Deep dark hollow and crumbly russet heartwood, peeling taupe bark, small cream bracket fungi and dry copper leaf caught on top. No large moss blanket. Natural rich painted decay. Whole log with generous margins, no ground, shadow, glow or extra objects.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-635785a6-2aa4-40a6-b288-1cdc0ed8dbe5.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "oilDrum-geometry-original": {
+    "file": "oil-drum-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One dented steel oil drum lying across road, wide 2:1 transparent 2048x1024. Near circular barrel end at left faces viewer, cylindrical ribbed body recedes right behind it. Weathered faded brick-red enamel with exposed rust and steel, round end with two bung fittings, natural gritty material texture. No labels, writing, hazard glyphs or logos. Whole drum clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c5de862a-7a78-4384-9c38-44ce40c65f18.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "mudHole-original-mud-hole-v1": {
+    "file": "mud-hole-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Single broad shallow elliptical woodland mud hole, wide 2:1 2048x1024 transparent canvas. Slight elevated side view of dark matte chocolate mud depression, irregular raised compact clay rim, fine rootlets and a few small copper leaves caught around rim. Entire object with generous clear margins, no ground patch outside rim, no water reflection, grass, shadow or glow. Natural subdued earth colours, rich painted detail.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b455761a-43b4-4279-8b7f-7fb8b47ca786.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rock-original-rock-v1": {
+    "file": "rock-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One broad low angular woodland granite boulder, wide 2:1 transparent 2048x1024. Side view with very slight elevation, weighty flat base, asymmetric low climbable silhouette. Warm grey granite, buff fracture planes, dark crevices, a few tiny dry ochre leaves in cracks, very sparse muted lichen. Natural material colours, no vivid paint or summer moss blanket. Whole rock generously clear of edges, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-ea41d424-13aa-4da7-abe6-877ff6f5a578.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "logCrossing-original-log-crossing-v2": {
+    "file": "log-crossing-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. Single heavy fallen hardwood trunk section lying across driving road, wide 2:1 transparent 2048x1024. Near circular cut end at left faces viewer, cylindrical trunk recedes diagonally toward right behind it; readable near circular collision face. Rough grey-brown oak bark with copper flakes, fresh warm pale golden growth rings, two small knots, no branches sticking far out. Detailed natural wood grain, no green moss carpet. Whole log clear margins; no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-ab4cab3f-cd34-4d86-a699-5a09eee3bf06.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "log-crossing-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        6,
+        26,
+        681,
+        870
+      ],
+      "scale_y": 0.7993235625704622,
+      "offset_y": 89,
+      "corrected_near_face_estimate": [
+        344,
+        447,
+        338
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "corduroyLog-original-corduroy-log-v2": {
+    "file": "corduroy-log-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One straight debarked corduroy-road hardwood log, wide 2:1 transparent 2048x1024. Round sawn near end at left faces viewer, full cylindrical timber recedes right behind it. Pale honey-tan weathered wood, narrow dark cracks and growth rings, occasional small remnant bark strip. Natural realistic painted timber, no metal straps or bright artificial paint. Whole log clear margins, no ground, branches, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-adf0dbdc-9709-4002-bae2-9f01935b88ff.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "corduroy-log-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        14,
+        145,
+        477,
+        777
+      ],
+      "scale_y": 0.7328072153325818,
+      "offset_y": 118,
+      "corrected_near_face_estimate": [
+        246,
+        456,
+        232
+      ],
+      "face_diameter_ratio_after": 0.9997
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rottenLog-original-rotten-log-v2": {
+    "file": "rotten-log-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One rotten autumn hardwood trunk section, wide 2:1 transparent 2048x1024. Near roughly circular broken end at left faces viewer, cylindrical trunk recedes right behind it. Deep dark hollow and crumbly russet heartwood, peeling taupe bark, small cream bracket fungi and dry copper leaf caught on top. No large moss blanket. Natural rich painted decay. Whole log with generous margins, no ground, shadow, glow or extra objects.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-635785a6-2aa4-40a6-b288-1cdc0ed8dbe5.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rotten-log-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        39,
+        62,
+        677,
+        839
+      ],
+      "scale_y": 0.8207440811724915,
+      "offset_y": 79,
+      "corrected_near_face_estimate": [
+        358,
+        449,
+        319
+      ],
+      "face_diameter_ratio_after": 1.0004
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "pipe-original-pipe-v1": {
+    "file": "pipe-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One heavy weathered concrete culvert pipe for autumn logging road, wide 2:1 transparent 2048x1024. Near large perfectly circular open end at left faces viewer, full cylindrical pipe recedes right behind it. Grey-beige concrete, chipped rim, rust streaks, dark visible hollow, fine aggregate, a few dry leaf fragments at bottom of opening. Natural material colours. Clear alpha THROUGH pipe where open background visible, deep inner concrete shading plausible. Whole pipe clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3aa04a74-5600-4e7e-a2c6-48d552da7d5c.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "oilDrum-original-oil-drum-v2": {
+    "file": "oil-drum-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One dented steel oil drum lying across road, wide 2:1 transparent 2048x1024. Near circular barrel end at left faces viewer, cylindrical ribbed body recedes right behind it. Weathered faded brick-red enamel with exposed rust and steel, round end with two bung fittings, natural gritty material texture. No labels, writing, hazard glyphs or logos. Whole drum clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c5de862a-7a78-4384-9c38-44ce40c65f18.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "oil-drum-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        128,
+        15,
+        793,
+        876
+      ],
+      "scale_y": 0.7722660653889515,
+      "offset_y": 101,
+      "corrected_near_face_estimate": [
+        460,
+        445,
+        332
+      ],
+      "face_diameter_ratio_after": 1.0001
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rootTangle-original-root-tangle-v1": {
+    "file": "root-tangle-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One low broad tangle of exposed autumn hardwood roots, wide 3:1 transparent 2172x724. Straight-on side view, thick twisting dry umber roots forming climbable low mound, cracks and dirt between roots, tiny copper leaf fragments caught sparingly. All roots lie on a level base; low silhouette not a standing stump. Natural dark brown material, no green moss blanket. Whole object clear margins, transparent internal gaps, no ground slab, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f2043906-c23f-47e0-84fa-08a9786679f6.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "concreteSlab-original-concrete-slab-v1": {
+    "file": "concrete-slab-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One long low broken concrete road slab, wide 3:1 transparent 2172x724. Straight-on side view, flat base, broad mostly level top with small chips, low climbable profile. Warm grey aged concrete aggregate, hairline cracks, one short rusty exposed rebar end, tiny copper leaves caught along top. Natural restrained colours, no green moss blanket. Whole object clear margins, no road or ground outside object, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a2b68e20-7892-4164-a4f3-1146fa30aa2b.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "branchPile-original-branch-pile-v1": {
+    "file": "branch-pile-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One broad low crushable pile of autumn logging slash and broken dry branches, wide 3:1 transparent 2172x724. Straight-on side view, intertwined thin tawny branches and chunky splintered wood, a few rusty-red oak leaves still attached, realistic bark and snapped ends. Low irregular climbable mound on level base, transparent gaps between branches. Natural materials, no bright artificial paint, no green leafy bush. Whole pile clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-3cf1d3f0-4438-42cd-b7c8-83b1bb6b8931.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "fenceSection-original-fence-section-v1": {
+    "file": "fence-section-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One rustic AUTUMN FOREST split-rail fence section, wide 3:2 transparent 1800x1200 canvas. Straight-on elevation, exactly two stout weathered cedar end posts and two horizontal split timber rails spanning between them. Ends designed to repeat post-to-post. Warm grey and honey-brown timber, restrained lichen and a few copper leaves caught at base. Flat level baseline, alpha through gaps. Natural detailed painted materials, no wire, electricity symbol, sign, text or swamp vines. Whole object clear margins, no ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-41e7bc62-493b-4e13-9b58-0c9db27a1589.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "stiltShack-original-mossy-porch-v1": {
+    "file": "mossy-porch-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One autumn logging worker cabin, isolated 3:2 transparent 1800x1200. Straight-on front elevation of compact sturdy cedar log hut on SHORT raised timber piers, small porch with three steps, stacked split firewood under porch, brick chimney, worn corrugated roof. Cheerful hand-painted vermilion window shutters and ochre door contrast weathered natural wood and dark slate roof. Copper leaves along roof gutters, no hanging swamp moss, no alligator or summer vines. Door/window construction believable, no readable text. Full cabin clear margins, all foundation feet on level line, alpha beneath porch. No people, vehicles, surrounding ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c64ba405-aebf-46fc-8db9-188f455af0af.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rustedPickup-original-rusted-pickup-v1": {
+    "file": "rusted-pickup-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One abandoned old conventional-bonnet logging pickup facing RIGHT with empty stake-sided bed holding a small rusty toolbox, flat side view. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Two fully visible worn deflated mud tires, dark rusted rims, faded burgundy paint, peeling rust, warm copper leaves in bed, cracked side window. Clean plausible separate bonnet, radiator housing, blunt bumper, headlamp and rounded front fender; no visible front grille face. Small rectangular mirror on short rigid brackets at door, no melted metal. Static roadside scenery, not playable vehicle. Transparent wide 2:1 2048x1024, whole object clear margins, no ground, shadow, text or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-77c80a23-1336-425a-905f-5baf98dcf90c.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "waterTower-original-water-tower-v1": {
+    "file": "water-tower-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One autumn logging-camp water tower, isolated portrait 1024x1792 transparent canvas. Straight-on front elevation of round weathered cedar stave water tank with dark iron hoop bands and shallow conical copper-red roof on four sturdy timber legs with crossed braces. Small ladder fixed neatly to side, no perspective exaggeration. Hand-brushed ochre and faded vermilion accents on tank, natural wood texture, no text, logos or numbers. Very sparse copper leaves caught near base, no swamp vines or green moss hanging. Whole tower including roof and feet clear margins, feet level, alpha in all brace gaps, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7791c11c-0b97-4bc1-951c-35a9a85a7fe9.png",
+    "actual_dimensions": [
+      948,
+      1659
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rustedPickup-v2-rejected": {
+    "file": "rusted-pickup-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul AUTUMN FOREST logging-road game. Premium semi-realistic hand-painted game illustration, readable dark contours, weathered materials and fine selective detail. Soft even daylight, coherent warm natural palette. Render ONLY the asset described below; no surrounding landscape. No UI, watermark or logos. One abandoned old conventional-bonnet logging pickup facing RIGHT with empty stake-sided bed holding a small rusty toolbox, flat side view. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Two fully visible worn deflated mud tires, dark rusted rims, faded burgundy paint, peeling rust, warm copper leaves in bed, cracked side window. Clean plausible separate bonnet, radiator housing, blunt bumper, headlamp and rounded front fender; no visible front grille face. Small rectangular mirror on short rigid brackets at door, no melted metal. Static roadside scenery, not playable vehicle. Transparent wide 2:1 2048x1024, whole object clear margins, no ground, shadow, text or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-77c80a23-1336-425a-905f-5baf98dcf90c.png",
+    "actual_dimensions": [
+      1884,
+      997
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rusted-pickup-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 55,
+      "resampling_adds_painted_detail": false
+    },
+    "rejection_reason": "Deflated lower tire silhouettes conflict with project round-wheel rule. Corrected with existing generated tire material."
   }
 }

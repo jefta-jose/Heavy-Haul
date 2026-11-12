@@ -32,5 +32,2159 @@
       "calm_lower_band": true
     },
     "original_deleted": true
+  },
+  "art_direction": {
+    "natural_art": "Cold slate-grey stone, dark thawing mineral earth, dirty blue-grey slush, small melting chalky-white snow patches and fresh lime-green shoots. No autumn leaf carpet or full winter snow cover.",
+    "bright_painted_art": "Fuel-stop canopy and cabin trim: cheerful blue enamel with butter-yellow accents. Signs clear painted cream lettering and warm yellow safety panels.",
+    "sign_content": {
+      "highway": "HIGHWAY / SPRING THAW",
+      "speed": "Blank white circular face within red rim; game draws speed number.",
+      "warning": "Slippery-road pictogram, relevant to thaw and meltwater."
+    },
+    "backdrop": "Existing backdrop-v1.png preserved.",
+    "scope": "Same 26 companion art roles as Autumn Forest; source PNGs only.",
+    "corrections": "Inspect each native output; preserve originals and version alpha, padding, repeat-edge and geometry corrections. Native 1254px square textures may need disclosed LANCZOS resizing to 1536px using proven autumn export method."
+  },
+  "roadEdge": {
+    "file": "road-edge-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Road FRONT EDGE strip, wide 3:1 canvas 2172x724. One continuous horizontal cutaway lip of dark thawing mineral clay, small cold-grey gravel, exposed thin roots and a narrow line of fresh chartreuse grass at its almost straight top. A few SMALL dirty chalk-white melting snow remnants and grey slush beads along the top, mostly exposed earth. Irregular small dark clods hanging down below. Natural rich earth texture; no artificially painted colours. Band occupies middle quarter of canvas; transparent above AND below. Band touches left/right canvas edges at equal height with no gaps. Flat straight-on side view, no perspective, ground plane, puddles, trees, sky, large rocks, autumn leaves or cast shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0575e7bc-8d67-4004-821d-4f9b394e0d60.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "road-edge-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        240,
+        2172,
+        523
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "9ef1d336f166f8c23f59f42f5c0c19aaf59b037d5d672634322a05b2dc5dfade",
+      "strip_crop_suggestion": [
+        0,
+        240,
+        2172,
+        523
+      ]
+    }
+  },
+  "roadEdge-original-road-edge-v1": {
+    "file": "road-edge-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Road FRONT EDGE strip, wide 3:1 canvas 2172x724. One continuous horizontal cutaway lip of dark thawing mineral clay, small cold-grey gravel, exposed thin roots and a narrow line of fresh chartreuse grass at its almost straight top. A few SMALL dirty chalk-white melting snow remnants and grey slush beads along the top, mostly exposed earth. Irregular small dark clods hanging down below. Natural rich earth texture; no artificially painted colours. Band occupies middle quarter of canvas; transparent above AND below. Band touches left/right canvas edges at equal height with no gaps. Flat straight-on side view, no perspective, ground plane, puddles, trees, sky, large rocks, autumn leaves or cast shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0575e7bc-8d67-4004-821d-4f9b394e0d60.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "roadFar": {
+    "file": "road-far-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Road FAR EDGE strip, wide 3:1 canvas 2172x724. Low continuous sparse fresh lime-green grass shoots mixed with flattened old straw stems, tiny budding fern fronds and occasional SMALL irregular dirty white melting snow patches on a narrow dark-grey earth band. Most surface is exposed, not full winter. Flat straight-on side view. Straight fully opaque lower edge tucks behind road; transparent above plants. Left/right ends touch canvas at equal height for mirrored repeat. Natural spring colours, no flowers, trees, big rocks, cattails, autumn leaf carpet, landscape or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0a90c96f-d3d9-490e-b0f4-c9b854ad58d6.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "road-far-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        514,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "a893b41592bbb3ba672d36a9db516b04e3a9388bdad3e76496eb0d3a5e7af539",
+      "strip_crop_suggestion": [
+        0,
+        514,
+        2172,
+        724
+      ]
+    }
+  },
+  "roadSoil": {
+    "file": "road-soil-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. TEXTURE ONLY. Wide 3:1 2172x724 full-bleed OPAQUE image of an underground wall of very dark charcoal-brown thawing mineral soil. Flat straight-on cross-section, subtle horizontal compressed strata, sparse tiny root threads and small cold-grey embedded pebbles. Near-black low contrast, calm for game controls, darkens slightly downward. Entire canvas ONLY earth. NO trees, snow cover, ground surface, grass, sky, horizon, landscape, perspective, large features or text. Left/right edges equal brightness for mirrored tiling.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-6cbef3a3-9abd-4ee7-84bb-08c6f57c37ab.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": false,
+    "validation": {
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "63b0581d02c811a2c01b50d32d4d8f0e3d1529d375142cb12e4024966fb5f090"
+    }
+  },
+  "ground": {
+    "file": "ground-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless road-material tile. Requested1536x1536. Packed damp grey-brown mountain-track earth, fine slate grit and small pale granules of old melting ice, mostly exposed gravel rather than snow. Neutral cold natural material colours with subtle olive mineral undertone, fine painted texture, uniform lighting and scale. Both opposite-edge pairs connect. NO large stones, plants, leaves, tire tracks, puddles, white snowfield, road borders, horizon, cast shadows or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-483003ac-2298-49f2-b4a9-ddf2ce6dbb55.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "ground-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "cc36eb2e7f70c9b7ae3d036be0fc7833a7546cb4fda3d240aad3ab5acf98ff7e",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "wetmud": {
+    "file": "wet-mud-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless wet thawing road tile. Requested1536x1536. Saturated dark grey-brown mineral mud, fine cold-grey slush grains and narrow soft waterlogged ridges. Natural earthy tone, slightly colder and smoother than dry gravel; tiny old ice granules, no broad white snow coverage. Both opposite-edge pairs connect. Uniform lighting and scale. NO bright reflections, blue water, giant ice chunks, tire tracks, plants, leaves, border, horizon or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7c1c4053-0f38-4f04-b548-7fc4da5561ad.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "wet-mud-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "c6c1829413ac32771ff71258b13de77ab8f25275726fd9f0817a9b2c81a918df",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "granite": {
+    "file": "granite-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless crushed granite tile. Requested1536x1536. Cold blue-grey angular fine granite aggregate, subdued silver mineral speckle and charcoal grit, realistic rich painted material; tiny stones only. Neutral material suitable for tinting dark as highway asphalt. Uniform scale/light and both opposite-edge pairs connect. NO leaves, snow, plants, markings, large rocks, big cracks, focal point, horizon, shadow or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-9648ee6e-858a-4e7f-b16b-f3ab5c22223e.png",
+    "actual_dimensions": [
+      1536,
+      1536
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": true,
+    "edit_of": "granite-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "1804c0e9f62639156953847ec2bf36bd5e407a9f7e2064737bc330781a105b01",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "deepMud": {
+    "file": "deep-mud-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Wide 2:1 2048x1024 opaque top-down seamless deep THAW SLUSH material. Near-black slate-brown saturated mineral mud, wet fine compressed ridges, scattered small dirty grey-white granular ice fragments melting into the mud. Mostly dark exposed mud so deep hazard is visibly darker and softer than normal road. Restrained cold natural palette, matte moisture, no blue reflective water, sky glints, footprints, tire tracks, border or perspective. Both opposite-edge pairs connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c182be10-080a-4bfc-9047-83daab92b2bd.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": false,
+    "resized": false,
+    "edit_of": "deep-mud-v1.png",
+    "correction": "LANCZOS resizing where needed; 48px paired opposite-edge blending; no added painted detail.",
+    "validation": {
+      "opaque": true,
+      "opposite_edges_pixel_identical": true,
+      "seam_preview": "pending",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "b41dcd215a4db012c9d5af20403190a255bc6b72c8d9a98b3b06ab927709a59d",
+      "two_by_two_tiling_review": "passed"
+    }
+  },
+  "ground-original": {
+    "file": "ground-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless road-material tile. Requested1536x1536. Packed damp grey-brown mountain-track earth, fine slate grit and small pale granules of old melting ice, mostly exposed gravel rather than snow. Neutral cold natural material colours with subtle olive mineral undertone, fine painted texture, uniform lighting and scale. Both opposite-edge pairs connect. NO large stones, plants, leaves, tire tracks, puddles, white snowfield, road borders, horizon, cast shadows or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-483003ac-2298-49f2-b4a9-ddf2ce6dbb55.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "wetmud-original": {
+    "file": "wet-mud-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless wet thawing road tile. Requested1536x1536. Saturated dark grey-brown mineral mud, fine cold-grey slush grains and narrow soft waterlogged ridges. Natural earthy tone, slightly colder and smoother than dry gravel; tiny old ice granules, no broad white snow coverage. Both opposite-edge pairs connect. Uniform lighting and scale. NO bright reflections, blue water, giant ice chunks, tire tracks, plants, leaves, border, horizon or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7c1c4053-0f38-4f04-b548-7fc4da5561ad.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "granite-original": {
+    "file": "granite-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Square opaque top-down orthographic seamless crushed granite tile. Requested1536x1536. Cold blue-grey angular fine granite aggregate, subdued silver mineral speckle and charcoal grit, realistic rich painted material; tiny stones only. Neutral material suitable for tinting dark as highway asphalt. Uniform scale/light and both opposite-edge pairs connect. NO leaves, snow, plants, markings, large rocks, big cracks, focal point, horizon, shadow or perspective.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-9648ee6e-858a-4e7f-b16b-f3ab5c22223e.png",
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "deepMud-original": {
+    "file": "deep-mud-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Wide 2:1 2048x1024 opaque top-down seamless deep THAW SLUSH material. Near-black slate-brown saturated mineral mud, wet fine compressed ridges, scattered small dirty grey-white granular ice fragments melting into the mud. Mostly dark exposed mud so deep hazard is visibly darker and softer than normal road. Restrained cold natural palette, matte moisture, no blue reflective water, sky glints, footprints, tire tracks, border or perspective. Both opposite-edge pairs connect exactly.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c182be10-080a-4bfc-9047-83daab92b2bd.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": false,
+    "resized": false,
+    "revision_reason": "Minimum size and deterministic seamless-edge repair."
+  },
+  "mudHole": {
+    "file": "mud-hole-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad shallow elliptical THAWING MUD HOLE, wide 2:1 2048x1024 transparent canvas. Slight elevated side view, very dark grey-brown muddy centre with fine soft slushy ridges, irregular low compact clay rim, sparse small dirty-white melting snow remnants on rim and tiny green grass shoots on back rim. Entire object with generous clear margins. Natural cold mud colours, no bright blue water, sky reflections, full winter ice, ground patch beyond rim, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-28e413e6-f924-48b8-8a41-ef6fe69ad1ef.png",
+    "actual_dimensions": [
+      1890,
+      1003
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "mud-hole-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 58,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1890,
+        1003
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        251,
+        1819,
+        745
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "23830188728045d0d1172676b97824779dfaa12f3968a55ea02f2c61d34fba37"
+    }
+  },
+  "fuelStation": {
+    "file": "fuel-station-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One roadside spring mountain-track fuel and repair stop, wide 3:2 transparent 1800x1200 canvas. Flat straight-on front elevation: OPEN shallow canopy on two upright timber posts over one old fuel pump, small grey timber workshop to right, tire stack, oil drum and tool rack. Cheerful hand-brushed cornflower BLUE canopy and pump with BUTTER-YELLOW trim and door, weathered real construction. Tiny melting dirty-white snow remnants at roof corners and post feet, a few lime-green shoots. Most object bare, no full winter coat, no icicles. All feet on one straight level baseline; true transparent open space beneath canopy and between posts. Whole object with broad clear margins. No text, numbers, people, vehicles, slab, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-e2f56a54-0a28-47ea-a345-92e031c97546.png",
+    "actual_dimensions": [
+      1616,
+      1104
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "fuel-station-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 40,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1616,
+        1104
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        66,
+        182,
+        1555,
+        953
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "6750dc979f9d7c9d426569bce619a2d859950cad0477cc1fdc0425ce8644d6f2"
+    }
+  },
+  "highwaySign": {
+    "file": "highway-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw highway entry sign, wide 3:2 transparent 1800x1200 canvas. Straight-on FRONT elevation, wide rectangular blue-enamel panel with cream border on two grey weathered timber posts. Cheerful slightly hand-brushed CREAM block lettering, lightly chipped material, restrained butter-yellow corner accents. EXACT TEXT ONLY two lines: large 'HIGHWAY', smaller 'SPRING THAW'. Spell both perfectly, generous readable letters. No Autumn, Blackwater, Swamp, extra wording, arrows or numbers. Tiny melting snow remnants at post feet optional. Posts end level. Whole object generous clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f3c6a23c-58d1-48e5-91f1-d35166ee4866.png",
+    "actual_dimensions": [
+      1594,
+      1082
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "highway-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 29,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1594,
+        1082
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        77,
+        71,
+        1517,
+        1021
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "5b5b47acac8d69cb9b9ca6fa6cdd69ecaa205c7e9a49dd652e0113a2cac1da87",
+      "content": "HIGHWAY / SPRING THAW, spelling visually verified."
+    }
+  },
+  "roadFar-original-road-far-v1": {
+    "file": "road-far-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. Road FAR EDGE strip, wide 3:1 canvas 2172x724. Low continuous sparse fresh lime-green grass shoots mixed with flattened old straw stems, tiny budding fern fronds and occasional SMALL irregular dirty white melting snow patches on a narrow dark-grey earth band. Most surface is exposed, not full winter. Flat straight-on side view. Straight fully opaque lower edge tucks behind road; transparent above plants. Left/right ends touch canvas at equal height for mirrored repeat. Natural spring colours, no flowers, trees, big rocks, cattails, autumn leaf carpet, landscape or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-0a90c96f-d3d9-490e-b0f4-c9b854ad58d6.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "mudHole-original-mud-hole-v1": {
+    "file": "mud-hole-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad shallow elliptical THAWING MUD HOLE, wide 2:1 2048x1024 transparent canvas. Slight elevated side view, very dark grey-brown muddy centre with fine soft slushy ridges, irregular low compact clay rim, sparse small dirty-white melting snow remnants on rim and tiny green grass shoots on back rim. Entire object with generous clear margins. Natural cold mud colours, no bright blue water, sky reflections, full winter ice, ground patch beyond rim, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-28e413e6-f924-48b8-8a41-ef6fe69ad1ef.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "fuelStation-original-fuel-station-v1": {
+    "file": "fuel-station-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One roadside spring mountain-track fuel and repair stop, wide 3:2 transparent 1800x1200 canvas. Flat straight-on front elevation: OPEN shallow canopy on two upright timber posts over one old fuel pump, small grey timber workshop to right, tire stack, oil drum and tool rack. Cheerful hand-brushed cornflower BLUE canopy and pump with BUTTER-YELLOW trim and door, weathered real construction. Tiny melting dirty-white snow remnants at roof corners and post feet, a few lime-green shoots. Most object bare, no full winter coat, no icicles. All feet on one straight level baseline; true transparent open space beneath canopy and between posts. Whole object with broad clear margins. No text, numbers, people, vehicles, slab, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-e2f56a54-0a28-47ea-a345-92e031c97546.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "highwaySign-original-highway-sign-v1": {
+    "file": "highway-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw highway entry sign, wide 3:2 transparent 1800x1200 canvas. Straight-on FRONT elevation, wide rectangular blue-enamel panel with cream border on two grey weathered timber posts. Cheerful slightly hand-brushed CREAM block lettering, lightly chipped material, restrained butter-yellow corner accents. EXACT TEXT ONLY two lines: large 'HIGHWAY', smaller 'SPRING THAW'. Spell both perfectly, generous readable letters. No Autumn, Blackwater, Swamp, extra wording, arrows or numbers. Tiny melting snow remnants at post feet optional. Posts end level. Whole object generous clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f3c6a23c-58d1-48e5-91f1-d35166ee4866.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "speedSign": {
+    "file": "speed-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One speed-limit sign for Spring Thaw, portrait1024x1792 transparent canvas. Straight-on FRONT elevation: perfect circular blank opaque white sign face within crisp RED enamel ring, on one grey weathered timber post. Bright hand-brushed safety red, mild wear, clean high-contrast white interior left COMPLETELY BLANK for engine speed number. NO letters or numbers. Very small dirty melting snow remnant clinging at post foot only. Full round face unobstructed by snow. Whole object broad clear margins on all sides, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-9b43fcfe-d1a8-4b16-91fc-51dba1c1b844.png",
+    "actual_dimensions": [
+      990,
+      1701
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "speed-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 21,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        990,
+        1701
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        121,
+        66,
+        857,
+        1635
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "c554733ac0000fbda71863cda807dee0c46afc8aeb597e3ca5eaf325e74fcde6",
+      "blank_face_circle_estimate_full_canvas": [
+        490.2,
+        446.0,
+        304.7
+      ],
+      "blank_face_circle_estimate_cropped": [
+        369.2,
+        380.0,
+        304.7
+      ],
+      "content": "Blank white face; engine draws current damage-speed number. No baked limit."
+    }
+  },
+  "warningSign": {
+    "file": "warning-sign-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One slippery-road warning sign for SPRING THAW, portrait1024x1792 transparent canvas. Straight-on front elevation of golden-YELLOW diamond steel panel with black border on grey weathered timber post. Large simple BLACK road-safety pictogram of a car skidding, with two obvious curving skid lines beneath it; clear readable silhouette, warns of slippery thaw and meltwater. Tiny snowflake in an upper corner optional. NO text, numbers, alligator or falling-tree icon. Cheerful hand-painted yellow enamel, lightly rubbed edges. Tiny melting snow at post foot. Full sign broad clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-d018ab10-16c6-4304-a448-da2a57ffc85e.png",
+    "actual_dimensions": [
+      1052,
+      1764
+    ],
+    "native_dimensions": [
+      948,
+      1660
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "warning-sign-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 52,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1052,
+        1764
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        66,
+        66,
+        984,
+        1693
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "ea5879d1029d8c95906c8b0dc19da3cef852509b69fc9e912c701e8e432bf9c4",
+      "content": "Skidding-car slippery-road pictogram with snowflake; no swamp/alligator content."
+    }
+  },
+  "reeds": {
+    "file": "reeds-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One small roadside early-SPRING vegetation clump, landscape3:2 transparent 1800x1200 canvas. Flat side view, fresh lime and leaf-green grass shoots with two unfolding fern fronds among a few flattened old straw stems, tiny dirty-white melting snow remnant near roots on one side. Readable natural silhouette with finely painted plant texture. Most roots exposed, no full winter cover. Transparent between every stem/frond. Whole clump generous clear margins. NO cattails, flowers, autumn leaves, soil slab, surrounding ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-e71e083e-fb87-4739-99c3-fe677b6136f3.png",
+    "actual_dimensions": [
+      1608,
+      1096
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "reeds-v2.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 36,
+      "resampling_adds_painted_detail": false
+    },
+    "baseline_correction": "Retained generated foliage; cleared roots below measured y=850 planting line. Canvas preserved.",
+    "validation": {
+      "dimensions": [
+        1608,
+        1096
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        118,
+        79,
+        1422,
+        850
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "a5f7972625e7934ddde856403be9afd938dc4f9317503164ccaef4bd6dbff3d0"
+    }
+  },
+  "speedSign-original-speed-sign-v1": {
+    "file": "speed-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One speed-limit sign for Spring Thaw, portrait1024x1792 transparent canvas. Straight-on FRONT elevation: perfect circular blank opaque white sign face within crisp RED enamel ring, on one grey weathered timber post. Bright hand-brushed safety red, mild wear, clean high-contrast white interior left COMPLETELY BLANK for engine speed number. NO letters or numbers. Very small dirty melting snow remnant clinging at post foot only. Full round face unobstructed by snow. Whole object broad clear margins on all sides, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-9b43fcfe-d1a8-4b16-91fc-51dba1c1b844.png",
+    "actual_dimensions": [
+      948,
+      1659
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "warningSign-original-warning-sign-v1": {
+    "file": "warning-sign-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One slippery-road warning sign for SPRING THAW, portrait1024x1792 transparent canvas. Straight-on front elevation of golden-YELLOW diamond steel panel with black border on grey weathered timber post. Large simple BLACK road-safety pictogram of a car skidding, with two obvious curving skid lines beneath it; clear readable silhouette, warns of slippery thaw and meltwater. Tiny snowflake in an upper corner optional. NO text, numbers, alligator or falling-tree icon. Cheerful hand-painted yellow enamel, lightly rubbed edges. Tiny melting snow at post foot. Full sign broad clear margins, no ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-d018ab10-16c6-4304-a448-da2a57ffc85e.png",
+    "actual_dimensions": [
+      948,
+      1660
+    ],
+    "native_dimensions": [
+      948,
+      1660
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "reeds-original-reeds-v1": {
+    "file": "reeds-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One small roadside early-SPRING vegetation clump, landscape3:2 transparent 1800x1200 canvas. Flat side view, fresh lime and leaf-green grass shoots with two unfolding fern fronds among a few flattened old straw stems, tiny dirty-white melting snow remnant near roots on one side. Readable natural silhouette with finely painted plant texture. Most roots exposed, no full winter cover. Transparent between every stem/frond. Whole clump generous clear margins. NO cattails, flowers, autumn leaves, soil slab, surrounding ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-e71e083e-fb87-4739-99c3-fe677b6136f3.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "reeds-v2-rejected": {
+    "file": "reeds-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One small roadside early-SPRING vegetation clump, landscape3:2 transparent 1800x1200 canvas. Flat side view, fresh lime and leaf-green grass shoots with two unfolding fern fronds among a few flattened old straw stems, tiny dirty-white melting snow remnant near roots on one side. Readable natural silhouette with finely painted plant texture. Most roots exposed, no full winter cover. Transparent between every stem/frond. Whole clump generous clear margins. NO cattails, flowers, autumn leaves, soil slab, surrounding ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-e71e083e-fb87-4739-99c3-fe677b6136f3.png",
+    "actual_dimensions": [
+      1608,
+      1096
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "reeds-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 36,
+      "resampling_adds_painted_detail": false
+    },
+    "rejection_reason": "Dangling exposed roots would float beneath road-edge planting baseline."
+  },
+  "rock": {
+    "file": "rock-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad LOW angular mountain-track granite boulder, wide2:1 transparent2048x1024. Side view with slight elevation; asymmetric low climbable outline and stable flat base. Cold grey/slate-blue fracture planes, fine silver mineral texture, dark cracks, a SMALL dirty chalk-white melting snow remnant only in a shallow top recess. Most rock bare; sparse pale lichen. Natural detailed painted stone. Whole object generous margins, no snowbank around it, vegetation, ground plane, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c04d5b1b-9f3b-4a19-9aaf-f4b6ac24f68f.png",
+    "actual_dimensions": [
+      1872,
+      985
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rock-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 49,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1872,
+        985
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        208,
+        1801,
+        808
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "ee7fe9d7d617284e5cd1f1f9e72e71735f0a7fe99387e0f388cf9ad3493d1046"
+    }
+  },
+  "logCrossing": {
+    "file": "log-crossing-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One heavy fallen hardwood trunk across a spring road, wide2:1 transparent2048x1024. Its near cut end at LEFT is a CIRCLE seen dead face-on (equal width and height, no tall oval); cylinder recedes right behind it. Near circle diameter about half the canvas height, leave generous margins. Cold wet grey-brown bark, honey-grey growth rings, small damp moss patches and a tiny old melting snow cap along rear upper bark. Most wood bare, natural colours. No branching limbs, text, ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-97b9a1d5-db3d-45a6-ba90-16a39482dd30.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "log-crossing-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        142,
+        201,
+        647,
+        759
+      ],
+      "scale_y": 0.9052987598647125,
+      "offset_y": 42,
+      "corrected_near_face_estimate": [
+        394,
+        477,
+        252
+      ],
+      "face_diameter_ratio_after": 0.9997
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        141,
+        219,
+        1625,
+        733
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "8eb9fa2ce0d103d94868986d34f2f55ab896b43e3281ee9777ee1b9d6c8cdb6e",
+      "near_face_circle_estimate_full_canvas": [
+        394,
+        477,
+        252
+      ],
+      "near_face_circle_estimate_cropped": [
+        253,
+        258,
+        252
+      ]
+    }
+  },
+  "corduroyLog": {
+    "file": "corduroy-log-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One straight debarked corduroy-road timber in spring thaw, wide2:1 transparent2048x1024. Near sawn end at LEFT is a CIRCLE viewed dead face-on, equal width/height, no tall oval; cylinder recedes right behind it. Circle diameter about half canvas height, broad margins. Weathered pale grey-beige wood, fine growth rings and cracks, damp dark knots; tiny ice granules only in one bark seam. Mostly bare timber. Natural rich painted wood. No metal straps, text, extra branches, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7c5132e2-bfbb-4fb8-82fb-42631326fa7c.png",
+    "actual_dimensions": [
+      1838,
+      951
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "corduroy-log-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        46,
+        225,
+        536,
+        760
+      ],
+      "scale_y": 0.915445321307779,
+      "offset_y": 37,
+      "corrected_near_face_estimate": [
+        291,
+        488,
+        245
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 32,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1838,
+        951
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        77,
+        271,
+        1767,
+        770
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "c81704d8c20a38096031d51640dcbdb08d3644669c252cb9221687942995430b",
+      "near_face_circle_estimate_full_canvas": [
+        323,
+        520,
+        245
+      ],
+      "near_face_circle_estimate_cropped": [
+        246,
+        249,
+        245
+      ]
+    }
+  },
+  "rottenLog": {
+    "file": "rotten-log-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One rotten spring woodland trunk section, wide2:1 transparent2048x1024. Rough near round broken end at LEFT faces viewer as circular cross-section, equal width/height rather than tall oval; cylinder recedes right behind it. Near face about half canvas height with generous margins. Dark waterlogged hollow, crumbling umber heartwood, peeling cold grey bark, tiny cream bracket fungi, a SMALL dirty snow remnant in one upper crevice and tiny fresh moss patches. No autumn foliage or full snow cover. Whole object isolated, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-37520acb-485c-41ca-a618-8a28fd8f51f9.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rotten-log-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        165,
+        107,
+        721,
+        783
+      ],
+      "scale_y": 0.8229988726042841,
+      "offset_y": 78,
+      "corrected_near_face_estimate": [
+        443,
+        444,
+        278
+      ],
+      "face_diameter_ratio_after": 0.9994
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        165,
+        159,
+        1606,
+        727
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "a131341635414bcc7fd65574ea47e90095e1e7efd620b8ccfd4f95a83e376872",
+      "near_face_circle_estimate_full_canvas": [
+        443,
+        444,
+        278
+      ],
+      "near_face_circle_estimate_cropped": [
+        278,
+        285,
+        278
+      ]
+    }
+  },
+  "logCrossing-geometry-original": {
+    "file": "log-crossing-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One heavy fallen hardwood trunk across a spring road, wide2:1 transparent2048x1024. Its near cut end at LEFT is a CIRCLE seen dead face-on (equal width and height, no tall oval); cylinder recedes right behind it. Near circle diameter about half the canvas height, leave generous margins. Cold wet grey-brown bark, honey-grey growth rings, small damp moss patches and a tiny old melting snow cap along rear upper bark. Most wood bare, natural colours. No branching limbs, text, ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-97b9a1d5-db3d-45a6-ba90-16a39482dd30.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "corduroyLog-geometry-original": {
+    "file": "corduroy-log-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One straight debarked corduroy-road timber in spring thaw, wide2:1 transparent2048x1024. Near sawn end at LEFT is a CIRCLE viewed dead face-on, equal width/height, no tall oval; cylinder recedes right behind it. Circle diameter about half canvas height, broad margins. Weathered pale grey-beige wood, fine growth rings and cracks, damp dark knots; tiny ice granules only in one bark seam. Mostly bare timber. Natural rich painted wood. No metal straps, text, extra branches, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7c5132e2-bfbb-4fb8-82fb-42631326fa7c.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "rottenLog-geometry-original": {
+    "file": "rotten-log-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One rotten spring woodland trunk section, wide2:1 transparent2048x1024. Rough near round broken end at LEFT faces viewer as circular cross-section, equal width/height rather than tall oval; cylinder recedes right behind it. Near face about half canvas height with generous margins. Dark waterlogged hollow, crumbling umber heartwood, peeling cold grey bark, tiny cream bracket fungi, a SMALL dirty snow remnant in one upper crevice and tiny fresh moss patches. No autumn foliage or full snow cover. Whole object isolated, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-37520acb-485c-41ca-a618-8a28fd8f51f9.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "rock-original-rock-v1": {
+    "file": "rock-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad LOW angular mountain-track granite boulder, wide2:1 transparent2048x1024. Side view with slight elevation; asymmetric low climbable outline and stable flat base. Cold grey/slate-blue fracture planes, fine silver mineral texture, dark cracks, a SMALL dirty chalk-white melting snow remnant only in a shallow top recess. Most rock bare; sparse pale lichen. Natural detailed painted stone. Whole object generous margins, no snowbank around it, vegetation, ground plane, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c04d5b1b-9f3b-4a19-9aaf-f4b6ac24f68f.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "logCrossing-original-log-crossing-v2": {
+    "file": "log-crossing-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One heavy fallen hardwood trunk across a spring road, wide2:1 transparent2048x1024. Its near cut end at LEFT is a CIRCLE seen dead face-on (equal width and height, no tall oval); cylinder recedes right behind it. Near circle diameter about half the canvas height, leave generous margins. Cold wet grey-brown bark, honey-grey growth rings, small damp moss patches and a tiny old melting snow cap along rear upper bark. Most wood bare, natural colours. No branching limbs, text, ground, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-97b9a1d5-db3d-45a6-ba90-16a39482dd30.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "log-crossing-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        142,
+        201,
+        647,
+        759
+      ],
+      "scale_y": 0.9052987598647125,
+      "offset_y": 42,
+      "corrected_near_face_estimate": [
+        394,
+        477,
+        252
+      ],
+      "face_diameter_ratio_after": 0.9997
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "corduroyLog-original-corduroy-log-v2": {
+    "file": "corduroy-log-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One straight debarked corduroy-road timber in spring thaw, wide2:1 transparent2048x1024. Near sawn end at LEFT is a CIRCLE viewed dead face-on, equal width/height, no tall oval; cylinder recedes right behind it. Circle diameter about half canvas height, broad margins. Weathered pale grey-beige wood, fine growth rings and cracks, damp dark knots; tiny ice granules only in one bark seam. Mostly bare timber. Natural rich painted wood. No metal straps, text, extra branches, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-7c5132e2-bfbb-4fb8-82fb-42631326fa7c.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "corduroy-log-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        46,
+        225,
+        536,
+        760
+      ],
+      "scale_y": 0.915445321307779,
+      "offset_y": 37,
+      "corrected_near_face_estimate": [
+        291,
+        488,
+        245
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rottenLog-original-rotten-log-v2": {
+    "file": "rotten-log-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One rotten spring woodland trunk section, wide2:1 transparent2048x1024. Rough near round broken end at LEFT faces viewer as circular cross-section, equal width/height rather than tall oval; cylinder recedes right behind it. Near face about half canvas height with generous margins. Dark waterlogged hollow, crumbling umber heartwood, peeling cold grey bark, tiny cream bracket fungi, a SMALL dirty snow remnant in one upper crevice and tiny fresh moss patches. No autumn foliage or full snow cover. Whole object isolated, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-37520acb-485c-41ca-a618-8a28fd8f51f9.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rotten-log-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        165,
+        107,
+        721,
+        783
+      ],
+      "scale_y": 0.8229988726042841,
+      "offset_y": 78,
+      "corrected_near_face_estimate": [
+        443,
+        444,
+        278
+      ],
+      "face_diameter_ratio_after": 0.9994
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "pipe": {
+    "file": "pipe-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One weathered mountain-road concrete culvert pipe, wide2:1 transparent2048x1024. Near open end at LEFT is a CIRCLE viewed dead face-on, equal width/height, cylinder recedes right behind it. Circle diameter about 65 percent canvas height, broad clear margins. Cold grey concrete aggregate, chipped round lip, dark damp interior and rust streaks, SMALL dirty-white snow remnant along far top of pipe only. Open hole reveals true transparent background through rear opening, not a filled black disk. No surrounding water, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f556941b-7a0d-424e-b4b1-b2f7129a4065.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "pipe-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        269,
+        81,
+        989,
+        825
+      ],
+      "scale_y": 0.9673055242390078,
+      "offset_y": 14,
+      "corrected_near_face_estimate": [
+        629,
+        452,
+        360
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 0,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        270,
+        94,
+        1513,
+        813
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "d3a8bb32fdaa5f72e5508b42375c97a3b94dacd93aaf65801f26b8c07f524b61",
+      "near_face_circle_estimate_full_canvas": [
+        629,
+        452,
+        360
+      ],
+      "near_face_circle_estimate_cropped": [
+        359,
+        358,
+        360
+      ]
+    }
+  },
+  "oilDrum": {
+    "file": "oil-drum-v4.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One dented steel oil drum lying across spring road, wide2:1 transparent2048x1024. Near end at LEFT is a CIRCLE viewed dead face-on, equal width/height, not a tall oval; cylinder recedes right behind it. Near face diameter about 60 percent canvas height, broad clear margins. Faded slate-BLUE paint, rust, exposed dark steel, ribbed body and two bung fittings; tiny melting ice granules only in top rib seam. Natural weathered metal colours rather than toy-bright. No labels, writing, logos, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-16b90da8-60cb-48d1-baa3-a0e5fa070775.png",
+    "actual_dimensions": [
+      1916,
+      1029
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "oil-drum-v3.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        190,
+        114,
+        830,
+        825
+      ],
+      "scale_y": 0.8996617812852311,
+      "offset_y": 44,
+      "corrected_near_face_estimate": [
+        510,
+        466,
+        320
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 71,
+      "resampling_adds_painted_detail": false
+    },
+    "final_alpha_cleanup": {
+      "method": "Removed disconnected alpha components under 64 pixels; main painted objects and internal alpha gaps unchanged.",
+      "pixels_removed": 128
+    },
+    "validation": {
+      "dimensions": [
+        1916,
+        1029
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        263,
+        215,
+        1601,
+        859
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "e97cc2cb1acfa4b9d18dcdc79d44b360a9ce38b97cdf4219e6010c5638ada6eb",
+      "near_face_circle_estimate_full_canvas": [
+        581,
+        537,
+        320
+      ],
+      "near_face_circle_estimate_cropped": [
+        318,
+        322,
+        320
+      ]
+    }
+  },
+  "rootTangle": {
+    "file": "root-tangle-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad LOW tangle of thaw-exposed roots, wide3:1 transparent2172x724. Flat straight-on side view, interwoven wet grey-brown roots forming climbable low mound on level base, fine bark cracks and dark damp clods between roots. A few SMALL grey-white melting snow remnants tucked into back crevices and tiny fresh green shoots. Most roots exposed. Rich natural painted texture, transparent gaps between arches. Whole object generous clear margins. No standing stump, ground slab, autumn leaves, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-153c3834-dc32-401f-be28-d98099686520.png",
+    "actual_dimensions": [
+      2328,
+      880
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "root-tangle-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 78,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2328,
+        880
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        94,
+        226,
+        2241,
+        684
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "21d5c1051a41e9c922b6fe772d8e1843e8aeea8293b01c7795ed94c34d1ebbef"
+    }
+  },
+  "pipe-geometry-original": {
+    "file": "pipe-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One weathered mountain-road concrete culvert pipe, wide2:1 transparent2048x1024. Near open end at LEFT is a CIRCLE viewed dead face-on, equal width/height, cylinder recedes right behind it. Circle diameter about 65 percent canvas height, broad clear margins. Cold grey concrete aggregate, chipped round lip, dark damp interior and rust streaks, SMALL dirty-white snow remnant along far top of pipe only. Open hole reveals true transparent background through rear opening, not a filled black disk. No surrounding water, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f556941b-7a0d-424e-b4b1-b2f7129a4065.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "oilDrum-geometry-original": {
+    "file": "oil-drum-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One dented steel oil drum lying across spring road, wide2:1 transparent2048x1024. Near end at LEFT is a CIRCLE viewed dead face-on, equal width/height, not a tall oval; cylinder recedes right behind it. Near face diameter about 60 percent canvas height, broad clear margins. Faded slate-BLUE paint, rust, exposed dark steel, ribbed body and two bung fittings; tiny melting ice granules only in top rib seam. Natural weathered metal colours rather than toy-bright. No labels, writing, logos, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-16b90da8-60cb-48d1-baa3-a0e5fa070775.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "needs_revision",
+    "transparent_requested": true,
+    "resized": false,
+    "rejection_reason": "Near-end face too tall/oval for circular collision face; corrected by measured vertical affine compression."
+  },
+  "pipe-original-pipe-v2": {
+    "file": "pipe-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One weathered mountain-road concrete culvert pipe, wide2:1 transparent2048x1024. Near open end at LEFT is a CIRCLE viewed dead face-on, equal width/height, cylinder recedes right behind it. Circle diameter about 65 percent canvas height, broad clear margins. Cold grey concrete aggregate, chipped round lip, dark damp interior and rust streaks, SMALL dirty-white snow remnant along far top of pipe only. Open hole reveals true transparent background through rear opening, not a filled black disk. No surrounding water, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-f556941b-7a0d-424e-b4b1-b2f7129a4065.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "pipe-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        269,
+        81,
+        989,
+        825
+      ],
+      "scale_y": 0.9673055242390078,
+      "offset_y": 14,
+      "corrected_near_face_estimate": [
+        629,
+        452,
+        360
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "oilDrum-original-oil-drum-v2": {
+    "file": "oil-drum-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One dented steel oil drum lying across spring road, wide2:1 transparent2048x1024. Near end at LEFT is a CIRCLE viewed dead face-on, equal width/height, not a tall oval; cylinder recedes right behind it. Near face diameter about 60 percent canvas height, broad clear margins. Faded slate-BLUE paint, rust, exposed dark steel, ribbed body and two bung fittings; tiny melting ice granules only in top rib seam. Natural weathered metal colours rather than toy-bright. No labels, writing, logos, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-16b90da8-60cb-48d1-baa3-a0e5fa070775.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "oil-drum-v1.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        190,
+        114,
+        830,
+        825
+      ],
+      "scale_y": 0.8996617812852311,
+      "offset_y": 44,
+      "corrected_near_face_estimate": [
+        510,
+        466,
+        320
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rootTangle-original-root-tangle-v1": {
+    "file": "root-tangle-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad LOW tangle of thaw-exposed roots, wide3:1 transparent2172x724. Flat straight-on side view, interwoven wet grey-brown roots forming climbable low mound on level base, fine bark cracks and dark damp clods between roots. A few SMALL grey-white melting snow remnants tucked into back crevices and tiny fresh green shoots. Most roots exposed. Rich natural painted texture, transparent gaps between arches. Whole object generous clear margins. No standing stump, ground slab, autumn leaves, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-153c3834-dc32-401f-be28-d98099686520.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "concreteSlab": {
+    "file": "concrete-slab-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One long low frost-cracked concrete slab, wide3:1 transparent2172x724. Flat straight-on side view, stable flat base and mostly level top, one small chipped low edge, restrained rusty rebar nub. Cold grey aggregate with visible frost hairline cracks, tiny dirty-white snow remnant in one top recess, sparse pale lichen. Mostly bare concrete, low climbable silhouette. Natural detailed painted material. Whole object generous clear margins, no surrounding road, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-eb4387ba-2275-45c1-bdff-889ca40c6eec.png",
+    "actual_dimensions": [
+      2274,
+      826
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "concrete-slab-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 51,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2274,
+        826
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        87,
+        308,
+        2186,
+        581
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "34f87c27f0ccaae5378000e19e219562837cf5f8447cc84f8d8f880e794f82fd"
+    }
+  },
+  "branchPile": {
+    "file": "branch-pile-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad low crushable spring storm-debris branch pile, wide3:1 transparent2172x724. Flat straight-on side view, tangled thin grey-brown twigs, a few snapped thicker limbs and damp exposed splinters, tiny lime-green buds on several twigs. SMALL dirty melting snow patch caught at back of pile, most branches bare. Natural painted bark, no autumn leaf carpet or green leafy bush. Transparent through internal gaps. Entire low mound on level base, broad clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-1d10a533-5735-4b3b-be67-0ca333c8cc60.png",
+    "actual_dimensions": [
+      2312,
+      864
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "branch-pile-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 70,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        2312,
+        864
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        87,
+        166,
+        2225,
+        686
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "834980a96b191fa8691af6325b0fbc385e1711e29b85748db71d8993451bbfcf"
+    }
+  },
+  "fenceSection": {
+    "file": "fence-section-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw roadside fence section, wide3:2 transparent1800x1200. Straight-on front elevation, exactly two weathered grey timber end posts joined by three taut horizontal plain dark metal wires. Simple rural mountain-track boundary; no electric hazard, text or sign. Small old dirty-white snow remnants hugging post feet and tiny green shoots. Natural worn timber/metal, readable texture. Posts end on one level baseline; alpha through all wire gaps. End-post design repeats post-to-post. Whole object generous margins, no ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a9ff01a3-6dc4-4908-b397-a1c1cd3a79c8.png",
+    "actual_dimensions": [
+      1644,
+      1132
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "fence-section-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 54,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1644,
+        1132
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        67,
+        217,
+        1583,
+        954
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "335a205a3eb5c809d97f849ab1a15890db5ed8a144275fbcfbc546d70d47e15e",
+      "repeat_post_centres_full_canvas_estimate": [
+        216,
+        1412
+      ],
+      "repeat_px_estimate": 1196
+    }
+  },
+  "stiltShack": {
+    "file": "mossy-porch-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw mountain-track maintenance hut, wide3:2 transparent1800x1200. Flat straight-on front elevation, compact weathered grey clapboard hut on short stone/timber piers, small porch with two steps, pitched dark steel roof and compact brick chimney. Cheerful hand-brushed cornflower-BLUE door and BUTTER-YELLOW window frames, sturdy practical construction. SMALL melting dirty-white snow remnants along shaded roof corners and behind piers, fresh green shoots by one foot; most roof and hut bare. No swamp hanging moss, autumn leaves, full winter blanket, icicles, readable text or people. All foundation feet level; alpha under porch. Entire hut clear margins, no ground slab, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-5944a68a-70e2-4726-ab10-c5b09c7fb34c.png",
+    "actual_dimensions": [
+      1624,
+      1112
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "mossy-porch-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 44,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1624,
+        1112
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        88,
+        61,
+        1536,
+        1043
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "9b884db98c53af14855c177e2b9ad3a78fa5898b884eac81d79c1f140005fe88"
+    }
+  },
+  "rustedPickup": {
+    "file": "rusted-pickup-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One abandoned old short-bonnet pickup facing RIGHT, static roadside scenery for SPRING THAW. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Exactly TWO fully visible equal ROUND inflated mud-terrain tires with centred rusty rims, level hubs and tire bottoms; no flat tires. Faded cream and slate-blue cab/body, rust, cracked side window, low empty metal pickup bed with tiny dirty melting snow remnant in bed corner. Most vehicle bare. Mechanically believable separate bonnet, radiator housing, blunt bumper, headlamp and round fender with clean seams. No visible front grille face. Correctly scaled rectangular mirror on short rigid door/A-pillar brackets. No melted panels or floating parts. Wide2:1 transparent2048x1024 canvas, whole object generous clear margins, no ground, text, shadow or glow. Static prop; not animated playable truck.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b6ad38ab-d00e-4e54-8d80-9fadd27a6d2c.png",
+    "actual_dimensions": [
+      1868,
+      981
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "rusted-pickup-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 47,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1868,
+        981
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        88,
+        101,
+        1783,
+        910
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "8418dcebb9555f3949faa46af88fd1c50c032eb155ad2a6f07fa1974d99a809c",
+      "static_scenery_vehicle": {
+        "axle_count": 2,
+        "hub_centres_full_canvas_estimate": [
+          [
+            463,
+            740
+          ],
+          [
+            1464,
+            740
+          ]
+        ],
+        "tire_radius_px_estimate": 170,
+        "tire_bottom_line_estimate": 910,
+        "flat_profile": "Facing right, equal round tires, level hubs, no far-side tires; cab/bonnet/fender/mirror construction visually checked.",
+        "scope": "Single static scenery image, not a playable truck requiring body and wheel sprites."
+      }
+    }
+  },
+  "waterTower": {
+    "file": "water-tower-v2.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw mountain-road water tower, portrait1024x1792 transparent canvas. Straight-on front elevation of riveted steel cylindrical tank with shallow conical roof, on four narrow sturdy dark steel legs with cross braces and short fixed ladder. Cheerful weathered hand-brushed cornflower-BLUE tank with faded BUTTER-YELLOW horizontal band and restrained rust at seams. SMALL dirty melting snow remnants at roof rim and feet, no full snow cover or icicles. No letters, numbers or logos. All feet level and whole tower generous clear margins, alpha through every brace gap, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c773b912-4895-417d-9efb-9ee47d34d42f.png",
+    "actual_dimensions": [
+      1030,
+      1741
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "validated_art",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "water-tower-v1.png",
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 41,
+      "resampling_adds_painted_detail": false
+    },
+    "validation": {
+      "dimensions": [
+        1030,
+        1741
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        142,
+        74,
+        889,
+        1675
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "a627b50092219c5768193032019337ef9326f8b3f95343403cc5e25adf6fd40f"
+    }
+  },
+  "concreteSlab-original-concrete-slab-v1": {
+    "file": "concrete-slab-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One long low frost-cracked concrete slab, wide3:1 transparent2172x724. Flat straight-on side view, stable flat base and mostly level top, one small chipped low edge, restrained rusty rebar nub. Cold grey aggregate with visible frost hairline cracks, tiny dirty-white snow remnant in one top recess, sparse pale lichen. Mostly bare concrete, low climbable silhouette. Natural detailed painted material. Whole object generous clear margins, no surrounding road, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-eb4387ba-2275-45c1-bdff-889ca40c6eec.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "branchPile-original-branch-pile-v1": {
+    "file": "branch-pile-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One broad low crushable spring storm-debris branch pile, wide3:1 transparent2172x724. Flat straight-on side view, tangled thin grey-brown twigs, a few snapped thicker limbs and damp exposed splinters, tiny lime-green buds on several twigs. SMALL dirty melting snow patch caught at back of pile, most branches bare. Natural painted bark, no autumn leaf carpet or green leafy bush. Transparent through internal gaps. Entire low mound on level base, broad clear margins, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-1d10a533-5735-4b3b-be67-0ca333c8cc60.png",
+    "actual_dimensions": [
+      2172,
+      724
+    ],
+    "native_dimensions": [
+      2172,
+      724
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "fenceSection-original-fence-section-v1": {
+    "file": "fence-section-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw roadside fence section, wide3:2 transparent1800x1200. Straight-on front elevation, exactly two weathered grey timber end posts joined by three taut horizontal plain dark metal wires. Simple rural mountain-track boundary; no electric hazard, text or sign. Small old dirty-white snow remnants hugging post feet and tiny green shoots. Natural worn timber/metal, readable texture. Posts end on one level baseline; alpha through all wire gaps. End-post design repeats post-to-post. Whole object generous margins, no ground or shadow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-a9ff01a3-6dc4-4908-b397-a1c1cd3a79c8.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "stiltShack-original-mossy-porch-v1": {
+    "file": "mossy-porch-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw mountain-track maintenance hut, wide3:2 transparent1800x1200. Flat straight-on front elevation, compact weathered grey clapboard hut on short stone/timber piers, small porch with two steps, pitched dark steel roof and compact brick chimney. Cheerful hand-brushed cornflower-BLUE door and BUTTER-YELLOW window frames, sturdy practical construction. SMALL melting dirty-white snow remnants along shaded roof corners and behind piers, fresh green shoots by one foot; most roof and hut bare. No swamp hanging moss, autumn leaves, full winter blanket, icicles, readable text or people. All foundation feet level; alpha under porch. Entire hut clear margins, no ground slab, cast shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-5944a68a-70e2-4726-ab10-c5b09c7fb34c.png",
+    "actual_dimensions": [
+      1536,
+      1024
+    ],
+    "native_dimensions": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "rustedPickup-original-rusted-pickup-v1": {
+    "file": "rusted-pickup-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One abandoned old short-bonnet pickup facing RIGHT, static roadside scenery for SPRING THAW. strictly flat 2D side profile, camera perpendicular to the near side at hub height, no perspective, all tires the same size on one level line, no far-side tires. Exactly TWO fully visible equal ROUND inflated mud-terrain tires with centred rusty rims, level hubs and tire bottoms; no flat tires. Faded cream and slate-blue cab/body, rust, cracked side window, low empty metal pickup bed with tiny dirty melting snow remnant in bed corner. Most vehicle bare. Mechanically believable separate bonnet, radiator housing, blunt bumper, headlamp and round fender with clean seams. No visible front grille face. Correctly scaled rectangular mirror on short rigid door/A-pillar brackets. No melted panels or floating parts. Wide2:1 transparent2048x1024 canvas, whole object generous clear margins, no ground, text, shadow or glow. Static prop; not animated playable truck.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-b6ad38ab-d00e-4e54-8d80-9fadd27a6d2c.png",
+    "actual_dimensions": [
+      1774,
+      887
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "waterTower-original-water-tower-v1": {
+    "file": "water-tower-v1.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One Spring Thaw mountain-road water tower, portrait1024x1792 transparent canvas. Straight-on front elevation of riveted steel cylindrical tank with shallow conical roof, on four narrow sturdy dark steel legs with cross braces and short fixed ladder. Cheerful weathered hand-brushed cornflower-BLUE tank with faded BUTTER-YELLOW horizontal band and restrained rust at seams. SMALL dirty melting snow remnants at roof rim and feet, no full snow cover or icicles. No letters, numbers or logos. All feet level and whole tower generous clear margins, alpha through every brace gap, no ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-c773b912-4895-417d-9efb-9ee47d34d42f.png",
+    "actual_dimensions": [
+      948,
+      1659
+    ],
+    "native_dimensions": [
+      948,
+      1659
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "revision_reason": "Alpha cleanup, opaque interiors, clear margins and minimum-size export where required."
+  },
+  "oilDrum-speck-original-oil-drum-v3": {
+    "file": "oil-drum-v3.png",
+    "prompt": "Use case: stylized-concept. Single production sprite or texture for Heavy Haul SPRING THAW driving game. Premium semi-realistic hand-painted game illustration with visible crafted brushwork, readable dark contours, weathered materials and fine selective detail. Soft even cool daylight, lively early-spring colour. Render ONLY the asset described below, isolated without any landscape. No UI, watermark or logos. One dented steel oil drum lying across spring road, wide2:1 transparent2048x1024. Near end at LEFT is a CIRCLE viewed dead face-on, equal width/height, not a tall oval; cylinder recedes right behind it. Near face diameter about 60 percent canvas height, broad clear margins. Faded slate-BLUE paint, rust, exposed dark steel, ribbed body and two bung fittings; tiny melting ice granules only in top rib seam. Natural weathered metal colours rather than toy-bright. No labels, writing, logos, ground, shadow or glow.",
+    "generated_original": "/home/jeffndegwa/.codex/generated_images/01a1cf6f-0cff-70e0-a997-3cccfb7f47e6/exec-16b90da8-60cb-48d1-baa3-a0e5fa070775.png",
+    "actual_dimensions": [
+      1916,
+      1029
+    ],
+    "native_dimensions": [
+      1774,
+      887
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "status": "superseded",
+    "transparent_requested": true,
+    "resized": false,
+    "edit_of": "oil-drum-v2.png",
+    "geometry_correction": {
+      "method": "Measured vertical affine compression of entire painted sprite, centred on unchanged transparent canvas.",
+      "native_near_face_bounds_estimate": [
+        190,
+        114,
+        830,
+        825
+      ],
+      "scale_y": 0.8996617812852311,
+      "offset_y": 44,
+      "corrected_near_face_estimate": [
+        510,
+        466,
+        320
+      ],
+      "face_diameter_ratio_after": 1.0005
+    },
+    "correction": {
+      "method": "Alpha below 24 cleared, disconnected alpha islands smaller than 12px removed, interior alpha >=220 made opaque, transparent padding added as required. LANCZOS export resizing only where native long side below 1500.",
+      "padding_px": 71,
+      "resampling_adds_painted_detail": false
+    },
+    "revision_reason": "Remaining small disconnected alpha marks removed."
   }
 }

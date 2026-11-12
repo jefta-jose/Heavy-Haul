@@ -1,0 +1,612 @@
+{
+  "scope": "Artwork handoff only. No in-game rendering, physics or route validation; Claude handles integration.",
+  "selected": {
+    "roadEdge": {
+      "file": "road-edge-v2.png",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        266,
+        2172,
+        471
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "0afe353ff5323b2ee5440cf8622f6b443bafe28d06f44323f18beade73e6e249",
+      "strip_crop_suggestion": [
+        0,
+        266,
+        2172,
+        471
+      ]
+    },
+    "roadFar": {
+      "file": "road-far-v2.png",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        564,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "119455b4f7ba2ec77e4aea4095bc2b3f23e308c243063b007f03ad1031bba87e",
+      "strip_crop_suggestion": [
+        0,
+        564,
+        2172,
+        724
+      ]
+    },
+    "roadSoil": {
+      "file": "road-soil-v2.png",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "3dfc88b98ede0ee6338dc1d0dbcc3bfe6912df57d8d63df04f59cbfd498497ac"
+    },
+    "ground": {
+      "file": "ground-v2.png",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "1b05c2cab138612b711da9244d3d2fcc73760041d9c5e9c7c2e8ff78e06145aa",
+      "opposite_edges_pixel_identical": true,
+      "two_by_two_tiling_review": "passed"
+    },
+    "wetmud": {
+      "file": "wet-mud-v2.png",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "afc55dd1dd15110fc897a2f80ac67cbdb017f0ab4daae8064020a75435d3b8f1",
+      "opposite_edges_pixel_identical": true,
+      "two_by_two_tiling_review": "passed"
+    },
+    "granite": {
+      "file": "granite-v2.png",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "319d297680c71817feddeb043cb0849a30d87459b818d83b57d7b1f95a77651f",
+      "opposite_edges_pixel_identical": true,
+      "two_by_two_tiling_review": "passed"
+    },
+    "deepMud": {
+      "file": "deep-mud-v2.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1774,
+        887
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "fca7c407602ae14aa7664685c1250c206410cceb483b0f904c8d3c5b203be793",
+      "opposite_edges_pixel_identical": true,
+      "two_by_two_tiling_review": "passed"
+    },
+    "mudHole": {
+      "file": "mud-hole-v2.png",
+      "dimensions": [
+        1872,
+        985
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        208,
+        1798,
+        789
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "ef819a2d63818e21e12730c0b1d4f7aa9982e1a7ff21e4462d2d10c60042b8c7"
+    },
+    "fuelStation": {
+      "file": "fuel-station-v2.png",
+      "dimensions": [
+        1648,
+        1136
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        66,
+        150,
+        1587,
+        976
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "585dca5d709605109b9b7c7bee3d9d3bca1781a19ab201c75a447da710e1895d"
+    },
+    "highwaySign": {
+      "file": "highway-sign-v2.png",
+      "dimensions": [
+        1638,
+        1126
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        128,
+        61,
+        1507,
+        1064
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "84e01999db1ceda3b6a4ed76c6585baad45d0f8cb0c29602c8be95a18a872172",
+      "content": "HIGHWAY / AUTUMN FOREST, spelling visually verified."
+    },
+    "speedSign": {
+      "file": "speed-sign-v2.png",
+      "dimensions": [
+        1058,
+        1769
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        211,
+        67,
+        832,
+        1703
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "aee5365211991f4d56af35400ebae522ed88eb411d714733ef86f3ae872e2270",
+      "blank_face_circle_estimate_full_canvas": [
+        519.9,
+        472.1,
+        250.4
+      ],
+      "blank_face_circle_estimate_cropped": [
+        308.9,
+        405.1,
+        250.4
+      ],
+      "content": "Blank white face; engine draws current damage-speed number. No baked limit."
+    },
+    "warningSign": {
+      "file": "warning-sign-v2.png",
+      "dimensions": [
+        1044,
+        1755
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        97,
+        66,
+        945,
+        1687
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "03ee24f34037f25826a9e81c0c3877bc63cbe8a8037cc6e330887ebc0f1737cf",
+      "content": "Falling-tree pictogram; no swamp/alligator content."
+    },
+    "reeds": {
+      "file": "reeds-v2.png",
+      "dimensions": [
+        1622,
+        1622
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        70,
+        193,
+        1558,
+        1440
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "df5fe58ecb8aa03cf4637a74ba40682ad892ef8fdbc619eda9fb4536354a73cd"
+    },
+    "rock": {
+      "file": "rock-v2.png",
+      "dimensions": [
+        1886,
+        999
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        199,
+        1810,
+        831
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "86fb5702dda1374c53e627fccb67034ea73d56bb0a05fa6025dd48dfb624a731"
+    },
+    "logCrossing": {
+      "file": "log-crossing-v3.png",
+      "dimensions": [
+        1906,
+        1019
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        71,
+        160,
+        1834,
+        859
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "69c93bf32a188425ca35b16cc9ef4a8784ee6b089aa9dc4b7e9f03b03a62d699",
+      "near_face_circle_estimate_full_canvas": [
+        410,
+        513,
+        338
+      ],
+      "near_face_circle_estimate_cropped": [
+        339,
+        353,
+        338
+      ]
+    },
+    "corduroyLog": {
+      "file": "corduroy-log-v3.png",
+      "dimensions": [
+        1892,
+        1005
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        74,
+        276,
+        1821,
+        752
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "858f8db22af9058993f4b9382a5653c53dbb64f2761f6e84c7b5e3d996c0f1c7",
+      "near_face_circle_estimate_full_canvas": [
+        305,
+        515,
+        232
+      ],
+      "near_face_circle_estimate_cropped": [
+        231,
+        239,
+        232
+      ]
+    },
+    "rottenLog": {
+      "file": "rotten-log-v3.png",
+      "dimensions": [
+        1852,
+        965
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        76,
+        159,
+        1781,
+        814
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "5eedb6033f4fde2cccab82f2c5b0cd1f0999ca21980c356498035035b5848908",
+      "near_face_circle_estimate_full_canvas": [
+        397,
+        488,
+        319
+      ],
+      "near_face_circle_estimate_cropped": [
+        321,
+        329,
+        319
+      ]
+    },
+    "pipe": {
+      "file": "pipe-v2.png",
+      "dimensions": [
+        1908,
+        1021
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        139,
+        71,
+        1774,
+        947
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "c41250b5b1d23885afe6d4ee1fcb07c665319e372bf38ca0b7994c9b3df6d792",
+      "near_face_circle_estimate_full_canvas": [
+        574,
+        506,
+        437
+      ],
+      "measurement_note": "Approximate outer concrete rim, manually inspected; Claude should verify collision alignment at game scale."
+    },
+    "oilDrum": {
+      "file": "oil-drum-v3.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        128,
+        110,
+        1638,
+        781
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "f7ca70d596c7c8421d07b006c81c2870b6bea2ebe716c290f414a7463dc11088",
+      "near_face_circle_estimate_full_canvas": [
+        460,
+        445,
+        332
+      ],
+      "near_face_circle_estimate_cropped": [
+        332,
+        335,
+        332
+      ]
+    },
+    "rootTangle": {
+      "file": "root-tangle-v2.png",
+      "dimensions": [
+        2346,
+        898
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        88,
+        234,
+        2259,
+        685
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "78fc135f338434e82fff98c31a0c899b738f4016c468532795d66b1124563780"
+    },
+    "concreteSlab": {
+      "file": "concrete-slab-v2.png",
+      "dimensions": [
+        2296,
+        848
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        87,
+        359,
+        2194,
+        626
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "6dee75f98dd8d73e2411083ce4e1906771833d7040f578ec34b00a7105b43697"
+    },
+    "branchPile": {
+      "file": "branch-pile-v2.png",
+      "dimensions": [
+        2322,
+        874
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        90,
+        130,
+        2235,
+        733
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "e68f51e28cecc252b645724bfcd45c81aa8f1820a216baa6124bf158f33bcb77"
+    },
+    "fenceSection": {
+      "file": "fence-section-v2.png",
+      "dimensions": [
+        1654,
+        1142
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        64,
+        187,
+        1593,
+        930
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "54e254addbd384d40f09b252d9f5d3c31abc77e2a44b8b3dffc3c15dece92b4d",
+      "repeat_post_centres_full_canvas_estimate": [
+        190,
+        1468
+      ],
+      "repeat_px_estimate": 1278
+    },
+    "stiltShack": {
+      "file": "mossy-porch-v2.png",
+      "dimensions": [
+        1642,
+        1130
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        115,
+        61,
+        1523,
+        1058
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "676d80927453bbcafe1f6993c32f0ed644c57abc3e4f1a9f4073f0b0becf7833"
+    },
+    "rustedPickup": {
+      "file": "rusted-pickup-v3.png",
+      "dimensions": [
+        1884,
+        997
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        77,
+        141,
+        1813,
+        925
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "1aec219b3fb3a586a5c8330995e3b70db8c8b1bec9fe752d7ddd8b24ae2082d2"
+    },
+    "waterTower": {
+      "file": "water-tower-v2.png",
+      "dimensions": [
+        1060,
+        1771
+      ],
+      "long_side_minimum_1500": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        98,
+        66,
+        943,
+        1695
+      ],
+      "visual_review": "Passed standalone and contrasting light/dark background inspections.",
+      "sha256": "5cda417f26af1c160dd2f533408e4c99c7b101a69a8f5bf29183837ec0597769"
+    }
+  },
+  "existing_backdrop_preserved": "backdrop-v1.png",
+  "resampling_disclosure": "Native square ground/wet-mud/granite/reeds generated at 1254px; versioned exports resized with LANCZOS to minimum 1536px. Resampling does not create additional painted detail.",
+  "revisions": "Originals and rejected versions preserved; use only selected filenames."
+}

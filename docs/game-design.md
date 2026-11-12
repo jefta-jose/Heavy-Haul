@@ -146,7 +146,7 @@ Not built yet:
 
 ## Maps
 
-Every map follows Blackwater Swamp: a simple, living background, a thick road that rolls in uneven bumps, deep bogs with mud holes, huge logs, rocks and pipes, and plenty of breakables. See `assets/seasons/swamp-summer/README.md`.
+Every map follows Blackwater Swamp: a simple, living background, a thick road that rolls in uneven bumps, deep bogs with mud holes, huge logs, rocks and pipes, and plenty of breakables. See `assets/seasons/swamp-summer/README.md`. Each map keeps that recipe but lays out its own trail, so it drives differently: Copper Ridge (autumn) climbs over ridges to rock crests and crosses valley bogs on corduroy log roads; Meltwater Pass (spring) is one long climb to a summit and back over rocky fords, ledge staircases and slick slush. Switching maps in the garage swaps the map in place (no reload, so the music plays on) behind the same turning-gears wait used when switching trucks. Big upright roadside pieces stand on level ground and are sized like the swamp's: doors about 2 m, pickups about 5 m long.
 
 ## Truck sizes
 

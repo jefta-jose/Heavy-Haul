@@ -6,7 +6,7 @@ import { SPEED_TRAP_CARD_S, SPEED_TRAP_FADE_S, SPEED_TRAP_FROM_END_M } from '../
 export const speedTrapX = h => h.x1 - SPEED_TRAP_FROM_END_M;
 
 export function createSpeedTrap({ sim, trail, onCapture }) {
-  const xs = (trail.highways ?? []).map(speedTrapX), $ = id => document.getElementById(id);
+  const cameras = () => (trail.highways ?? []).map(speedTrapX), $ = id => document.getElementById(id);
   let passed = new Set(), lastX = null, t = null;
 
   function show(kmh) {
@@ -19,7 +19,7 @@ export function createSpeedTrap({ sim, trail, onCapture }) {
   function update(dt) {
     const main = sim.main, x = main.parts.truck.getPosition().x, driving = sim.active === main && !main.winched;
     if (lastX != null && x - lastX < 5) {   // a jump along the trail is a recovery, not driving past
-      for (const at of xs) if (!passed.has(at) && lastX < at && x >= at) { passed.add(at); if (driving) show(Math.round(Math.abs(main.st.speed) * 3.6)); }
+      for (const at of cameras()) if (!passed.has(at) && lastX < at && x >= at) { passed.add(at); if (driving) show(Math.round(Math.abs(main.st.speed) * 3.6)); }
     }
     lastX = x;
     if (t == null) return;
@@ -28,5 +28,5 @@ export function createSpeedTrap({ sim, trail, onCapture }) {
     $('trap').style.opacity = Math.min(1, (SPEED_TRAP_CARD_S - t) / SPEED_TRAP_FADE_S);
   }
   function reset() { passed = new Set(); lastX = null; t = null; const box = $('trap'); if (box) box.hidden = true; }
-  return { update, reset, xs };
+  return { update, reset, get xs() { return cameras(); } };
 }

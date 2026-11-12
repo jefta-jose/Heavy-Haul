@@ -16,10 +16,12 @@ import { createMudLayer } from './layers/mud.js';
 //   ripples, dust/spray/debris -> foreground props -> shade.
 
 export function createRenderer({ view, sim, content, onEvent }) {
-  const scenery = loadImages(content.seasonArt), hud = loadImages(content.hud);
+  let scenery = loadImages(content.seasonArt);
+  const hud = loadImages(content.hud);
   const scene = { view, sim, content, season: content.season, images: scenery.images, hud: hud.images, cache: null, worldMatrix: null };
   scene.cache = createSceneryCache(scene);
-  const props = createProps(scene), vehicles = createVehicleLayer(scene);
+  let props = createProps(scene);
+  const vehicles = createVehicleLayer(scene);
   scene.vehicleLayer = vehicles;
   const particles = createParticles(scene, onEvent);
   const mud = createMudLayer(scene);
@@ -71,5 +73,13 @@ export function createRenderer({ view, sim, content, onEvent }) {
     // ruts last the whole run; the garage starts the next one clean
     clearTracks: () => mud.clear(),
     assetStatus: () => ({ ...scenery.status(), vehicles: vehicles.ready }),
+    // another map (content.season and content.seasonArt already swapped): its art, sprites and roadside props
+    setSeason() {
+      sceneryReady = false;
+      const next = loadImages(content.seasonArt);
+      scene.season = content.season; scene.images = next.images; scenery = next;
+      scene.cache = createSceneryCache(scene); props = createProps(scene); mud.clear();
+      return next.ready.then(() => { if (scenery === next) sceneryReady = next.allLoaded(); });
+    },
   };
 }
