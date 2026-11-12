@@ -1579,7 +1579,7 @@
   },
   "rockHulls": "rock-hulls.json",
   "render": {
-    "sky": "#a8b9c2",
+    "sky": "#8dabb5",
     "bankTile": 14,
     "parallax": {
       "backdrop": 0.055

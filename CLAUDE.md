@@ -46,7 +46,8 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   impassable after a few passes). Mud sinking is `surfaces.mud.sink` in `season.json`; bog drag shrinks for
   tires carrying under `bogRefT` tonnes, so light scouts are not held as hard as a laden rig.
   Keep mud fun: a light truck must wiggle through, help is for when it is properly stuck.
-- Never overwrite Codex's PNG masters. Runtime files are `art/*.webp` from `npm run art:encode`.
+- Never overwrite Codex's PNG masters. Runtime files are `art/*.webp` from `npm run art:encode`. When the user asks to delete
+  unused assets, that includes the encoded set's whole `source/` folder (user decision, 2026-11-12): measure first, then delete.
 - Physics changes need `npm test` and `npm run test:route`; anything visible needs
   `npm run test:browser` and a look at `output/captures/`. Run `npm run check` before reporting done.
 - The physics is deterministic. A pure refactor must leave trajectories unchanged, so compare
