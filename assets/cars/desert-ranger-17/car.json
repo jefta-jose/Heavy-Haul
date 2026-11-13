@@ -1,0 +1,228 @@
+{
+  "id": "desert-ranger-17",
+  "name": "Desert Ranger",
+  "number": 17,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 rally-raid race truck",
+  "description": "White and red 6×6 rally-raid race truck with a short cab-over body and long-travel suspension.",
+  "stats": {
+    "power": 75,
+    "speed": 44,
+    "grip": 62,
+    "capacity": 2
+  },
+  "biomes": [
+    "Sand",
+    "Rock",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1118,
+      649
+    ],
+    "pixelsPerMetre": 196.856,
+    "axles": [
+      2.426,
+      -0.973,
+      -2.426
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.706,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1595,
+        649,
+        147
+      ],
+      [
+        926,
+        649,
+        147
+      ],
+      [
+        640,
+        649,
+        147
+      ]
+    ],
+    "exhaust": [
+      0.657,
+      0.584
+    ],
+    "winch": [
+      3.407,
+      0.353
+    ],
+    "nose": 3.457,
+    "tail": -3.543
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 9000.0,
+    "centreOfMass": [
+      -0.324,
+      0.934
+    ],
+    "size": [
+      7.0,
+      2.92
+    ],
+    "wheelMass": 144,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.132,
+        3.132,
+        0.176,
+        0.495,
+        0.4
+      ],
+      [
+        -3.543,
+        -2.638,
+        0.847,
+        2.774,
+        0.4
+      ],
+      [
+        -2.638,
+        -1.21,
+        0.459,
+        2.774,
+        0.4
+      ],
+      [
+        -1.21,
+        1.123,
+        0.459,
+        2.769,
+        0.4
+      ],
+      [
+        2.638,
+        3.457,
+        0.847,
+        2.92,
+        0.4
+      ],
+      [
+        1.123,
+        2.638,
+        0.459,
+        2.92,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -1.443,
+        2.234
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5379,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 146,
+    "exhaustBrake": 188,
+    "gears": {
+      "H": 11.866,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 9917,
+    "openDiffGrip": 1,
+    "fuelLitres": 500
+  },
+  "load": {
+    "name": "Spare wheels",
+    "massT": 0.4
+  }
+}

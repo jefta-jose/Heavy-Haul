@@ -1,0 +1,214 @@
+{
+  "id": "brute-ram-17",
+  "name": "Brute Ram",
+  "number": 17,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Supercharged crew-cab muscle pickup",
+  "description": "Deep red supercharged crew-cab muscle pickup with bulging fenders and a tall power-dome bonnet.",
+  "stats": {
+    "power": 70,
+    "speed": 56,
+    "grip": 80,
+    "capacity": 50
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      979,
+      727
+    ],
+    "pixelsPerMetre": 273.846,
+    "axles": [
+      2.023,
+      -2.023
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1533,
+        727,
+        189
+      ],
+      [
+        425,
+        727,
+        189
+      ]
+    ],
+    "exhaust": [
+      -3.007,
+      0.289
+    ],
+    "winch": [
+      2.93,
+      0.325
+    ],
+    "nose": 2.98,
+    "tail": -3.192
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2900.0,
+    "centreOfMass": [
+      0.0,
+      0.617
+    ],
+    "size": [
+      6.172,
+      1.928
+    ],
+    "wheelMass": 184,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.673,
+        2.673,
+        0.162,
+        0.456,
+        0.4
+      ],
+      [
+        -3.192,
+        -2.218,
+        0.78,
+        1.928,
+        0.4
+      ],
+      [
+        -2.218,
+        -0.106,
+        0.422,
+        1.928,
+        0.4
+      ],
+      [
+        2.218,
+        2.98,
+        0.78,
+        1.917,
+        0.4
+      ],
+      [
+        -0.106,
+        2.218,
+        0.422,
+        1.917,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.2,
+      "centreOfMass": [
+        -2.266,
+        0.983
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3808,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 104,
+    "exhaustBrake": 133,
+    "gears": {
+      "H": 9.94,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 4956,
+    "openDiffGrip": 1,
+    "fuelLitres": 125
+  },
+  "load": {
+    "name": "Tool chest",
+    "massT": 0.2
+  }
+}

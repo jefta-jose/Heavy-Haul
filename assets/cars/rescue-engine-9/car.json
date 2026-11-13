@@ -1,0 +1,235 @@
+{
+  "id": "rescue-engine-9",
+  "name": "Rescue Engine",
+  "number": 9,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 heavy rescue fire truck",
+  "description": "Red 6×6 heavy rescue fire truck with roller-shutter lockers and a light tower.",
+  "stats": {
+    "power": 46,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 14
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1134,
+      651
+    ],
+    "pixelsPerMetre": 202.803,
+    "axles": [
+      3.299,
+      -1.696,
+      -3.299
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.656,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1803,
+        651,
+        141
+      ],
+      [
+        790,
+        651,
+        141
+      ],
+      [
+        465,
+        651,
+        141
+      ]
+    ],
+    "exhaust": [
+      1.54,
+      0.424
+    ],
+    "winch": [
+      4.99,
+      0.328
+    ],
+    "nose": 5.04,
+    "tail": -4.96
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 15000.0,
+    "centreOfMass": [
+      -0.565,
+      0.906
+    ],
+    "size": [
+      10.0,
+      2.83
+    ],
+    "wheelMass": 148,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.955,
+        3.955,
+        0.164,
+        0.459,
+        0.4
+      ],
+      [
+        -4.96,
+        -3.496,
+        0.787,
+        2.82,
+        0.4
+      ],
+      [
+        -3.496,
+        -2.46,
+        0.426,
+        2.82,
+        0.4
+      ],
+      [
+        -2.46,
+        0.039,
+        0.426,
+        2.692,
+        0.4
+      ],
+      [
+        0.039,
+        2.539,
+        0.426,
+        2.83,
+        0.4
+      ],
+      [
+        3.496,
+        5.04,
+        0.787,
+        2.303,
+        0.4
+      ],
+      [
+        2.539,
+        3.496,
+        0.426,
+        2.303,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 2.0,
+      "centreOfMass": [
+        -1.46,
+        1.443
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9164,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 249,
+    "exhaustBrake": 322,
+    "gears": {
+      "H": 10.466,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 16447,
+    "openDiffGrip": 1,
+    "fuelLitres": 350
+  },
+  "load": {
+    "name": "Rescue kit",
+    "massT": 2.0
+  }
+}

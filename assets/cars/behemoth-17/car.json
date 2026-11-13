@@ -1,0 +1,265 @@
+{
+  "id": "behemoth-17",
+  "name": "Behemoth",
+  "number": 17,
+  "class": "heavy",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Giant 8×8 carrier with a container module",
+  "description": "Grey enormous missile-carrier-style 8×8 chassis with split cabs and a long deck.",
+  "stats": {
+    "power": 36,
+    "speed": 18,
+    "grip": 90,
+    "capacity": 10
+  },
+  "biomes": [
+    "Mud",
+    "Swamp",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1182,
+      608
+    ],
+    "pixelsPerMetre": 132.632,
+    "axles": [
+      6.141,
+      4.022,
+      -4.075,
+      -6.141
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.95,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1997,
+        608,
+        134
+      ],
+      [
+        1716,
+        608,
+        134
+      ],
+      [
+        642,
+        608,
+        134
+      ],
+      [
+        368,
+        608,
+        134
+      ]
+    ],
+    "exhaust": [
+      2.97,
+      3.054
+    ],
+    "winch": [
+      7.742,
+      0.475
+    ],
+    "nose": 7.792,
+    "tail": -8.282
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 45000.0,
+    "centreOfMass": [
+      -0.013,
+      1.086
+    ],
+    "size": [
+      16.074,
+      3.393
+    ],
+    "wheelMass": 772,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -7.091,
+        7.091,
+        0.855,
+        1.155,
+        0.4
+      ],
+      [
+        -8.282,
+        -6.426,
+        1.14,
+        3.393,
+        0.4
+      ],
+      [
+        -6.426,
+        -5.986,
+        0.617,
+        3.393,
+        0.4
+      ],
+      [
+        -5.986,
+        -3.69,
+        0.617,
+        3.393,
+        0.4
+      ],
+      [
+        -3.69,
+        -1.393,
+        0.617,
+        3.393,
+        0.4
+      ],
+      [
+        -1.393,
+        0.903,
+        0.617,
+        3.393,
+        0.4
+      ],
+      [
+        0.903,
+        3.2,
+        0.617,
+        3.393,
+        0.4
+      ],
+      [
+        3.2,
+        5.496,
+        0.617,
+        2.88,
+        0.4
+      ],
+      [
+        6.426,
+        7.792,
+        1.14,
+        2.714,
+        0.4
+      ],
+      [
+        5.496,
+        6.426,
+        0.617,
+        2.714,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 30.0,
+      "centreOfMass": [
+        -2.978,
+        1.55
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.8796,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 333,
+    "exhaustBrake": 445,
+    "gears": {
+      "H": 15.426,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 322598,
+    "openDiffGrip": 1,
+    "fuelLitres": 1200
+  },
+  "load": {
+    "name": "Container module",
+    "massT": 30.0
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "id": "taiga-six-8",
+  "name": "Taiga Six",
+  "number": 8,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 tundra truck hauling pipes",
+  "description": "Orange forward-control 6×6 tundra truck with a flatbed and a small crane.",
+  "stats": {
+    "power": 24,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 20
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1051,
+      704
+    ],
+    "pixelsPerMetre": 253.846,
+    "axles": [
+      2.305,
+      -0.772,
+      -2.305
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1636,
+        704,
+        175
+      ],
+      [
+        855,
+        704,
+        175
+      ],
+      [
+        466,
+        704,
+        175
+      ]
+    ],
+    "exhaust": [
+      0.963,
+      0.492
+    ],
+    "winch": [
+      3.369,
+      0.325
+    ],
+    "nose": 3.419,
+    "tail": -3.597
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 9000.0,
+    "centreOfMass": [
+      -0.257,
+      0.787
+    ],
+    "size": [
+      7.016,
+      2.458
+    ],
+    "wheelMass": 148,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.955,
+        2.955,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.597,
+        -2.5,
+        0.78,
+        1.714,
+        0.4
+      ],
+      [
+        -2.5,
+        -1.258,
+        0.422,
+        1.714,
+        0.4
+      ],
+      [
+        -1.258,
+        1.081,
+        0.422,
+        1.714,
+        0.4
+      ],
+      [
+        2.5,
+        3.419,
+        0.78,
+        2.458,
+        0.4
+      ],
+      [
+        1.081,
+        2.5,
+        0.422,
+        2.458,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 4.0,
+      "centreOfMass": [
+        -1.492,
+        1.254
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5774,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 157,
+    "exhaustBrake": 202,
+    "gears": {
+      "H": 12.046,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 12627,
+    "openDiffGrip": 1,
+    "fuelLitres": 350
+  },
+  "load": {
+    "name": "Pipes",
+    "massT": 4.0
+  }
+}

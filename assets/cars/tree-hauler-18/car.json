@@ -1,0 +1,235 @@
+{
+  "id": "tree-hauler-18",
+  "name": "Tree Hauler",
+  "number": 18,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 forestry truck with a crane and logs",
+  "description": "Red bonneted 6×6 forestry truck with a loader crane and a long log bed.",
+  "stats": {
+    "power": 56,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 100
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1163,
+      628
+    ],
+    "pixelsPerMetre": 220.0,
+    "axles": [
+      3.673,
+      -2.305,
+      -3.673
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1971,
+        628,
+        152
+      ],
+      [
+        656,
+        628,
+        152
+      ],
+      [
+        355,
+        628,
+        152
+      ]
+    ],
+    "exhaust": [
+      1.873,
+      0.347
+    ],
+    "winch": [
+      4.745,
+      0.325
+    ],
+    "nose": 4.795,
+    "tail": -4.945
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 16000.0,
+    "centreOfMass": [
+      -0.768,
+      0.74
+    ],
+    "size": [
+      9.74,
+      2.314
+    ],
+    "wheelMass": 204,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.323,
+        4.323,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.945,
+        -3.868,
+        0.78,
+        1.995,
+        0.4
+      ],
+      [
+        -3.868,
+        -2.51,
+        0.422,
+        1.995,
+        0.4
+      ],
+      [
+        -2.51,
+        -0.075,
+        0.422,
+        2.0,
+        0.4
+      ],
+      [
+        -0.075,
+        2.36,
+        0.422,
+        2.314,
+        0.4
+      ],
+      [
+        3.868,
+        4.795,
+        0.78,
+        2.205,
+        0.4
+      ],
+      [
+        2.36,
+        3.868,
+        0.422,
+        2.205,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 14.0,
+      "centreOfMass": [
+        -1.731,
+        1.25
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.6565,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 451,
+    "exhaustBrake": 581,
+    "gears": {
+      "H": 10.595,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 28758,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Long logs",
+    "massT": 14.0
+  }
+}

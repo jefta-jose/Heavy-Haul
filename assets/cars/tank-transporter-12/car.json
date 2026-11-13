@@ -1,0 +1,307 @@
+{
+  "id": "tank-transporter-12",
+  "name": "Tank Transporter",
+  "number": 12,
+  "class": "heavy",
+  "drive": "16×16",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 tank transporter with an armoured hull",
+  "description": "Sand-coloured 8×8 military tractor with a heavy lowbed trailer.",
+  "stats": {
+    "power": 27,
+    "speed": 21,
+    "grip": 80,
+    "capacity": 20
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1165,
+      592
+    ],
+    "pixelsPerMetre": 107.143,
+    "axles": [
+      8.633,
+      7.019,
+      4.564,
+      2.94,
+      -4.303,
+      -5.731,
+      -7.168,
+      -8.633
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2090,
+        592,
+        80
+      ],
+      [
+        1917,
+        592,
+        80
+      ],
+      [
+        1654,
+        592,
+        80
+      ],
+      [
+        1480,
+        592,
+        80
+      ],
+      [
+        704,
+        592,
+        80
+      ],
+      [
+        551,
+        592,
+        80
+      ],
+      [
+        397,
+        592,
+        80
+      ],
+      [
+        240,
+        592,
+        80
+      ]
+    ],
+    "exhaust": [
+      4.853,
+      2.865
+    ],
+    "winch": [
+      9.834,
+      0.35
+    ],
+    "nose": 9.884,
+    "tail": -10.239
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 25000.0,
+    "centreOfMass": [
+      -0.335,
+      1.019
+    ],
+    "size": [
+      20.123,
+      3.183
+    ],
+    "wheelMass": 452,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -9.333,
+        9.333,
+        0.63,
+        0.93,
+        0.4
+      ],
+      [
+        -10.239,
+        -8.843,
+        0.84,
+        3.183,
+        0.4
+      ],
+      [
+        -8.843,
+        -8.003,
+        0.455,
+        3.183,
+        0.4
+      ],
+      [
+        -8.003,
+        -5.767,
+        0.455,
+        3.061,
+        0.4
+      ],
+      [
+        -5.767,
+        -3.531,
+        0.455,
+        3.136,
+        0.4
+      ],
+      [
+        -3.531,
+        -1.295,
+        0.455,
+        3.061,
+        0.4
+      ],
+      [
+        -1.295,
+        0.941,
+        0.455,
+        2.772,
+        0.4
+      ],
+      [
+        0.941,
+        3.176,
+        0.455,
+        2.249,
+        0.4
+      ],
+      [
+        3.176,
+        5.412,
+        0.455,
+        2.931,
+        0.4
+      ],
+      [
+        5.412,
+        7.648,
+        0.455,
+        3.033,
+        0.4
+      ],
+      [
+        8.843,
+        9.884,
+        0.84,
+        2.091,
+        0.4
+      ],
+      [
+        7.648,
+        8.843,
+        0.455,
+        2.091,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 60.0,
+      "centreOfMass": [
+        -5.208,
+        1.3
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.5203,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 269,
+    "exhaustBrake": 360,
+    "gears": {
+      "H": 11.178,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 269398,
+    "openDiffGrip": 1,
+    "fuelLitres": 1000
+  },
+  "load": {
+    "name": "Armoured hull",
+    "massT": 60.0
+  }
+}

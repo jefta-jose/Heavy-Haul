@@ -1,0 +1,214 @@
+{
+  "id": "monarch-sport-12",
+  "name": "Monarch Sport",
+  "number": 12,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Luxury performance SUV on off-road tyres",
+  "description": "British racing green luxury performance SUV with a floating black roof, slim light strips and side vents.",
+  "stats": {
+    "power": 56,
+    "speed": 83,
+    "grip": 62,
+    "capacity": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      972,
+      760
+    ],
+    "pixelsPerMetre": 261.538,
+    "axles": [
+      2.09,
+      -2.09
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1518,
+        760,
+        180
+      ],
+      [
+        425,
+        760,
+        180
+      ]
+    ],
+    "exhaust": [
+      -3.192,
+      0.31
+    ],
+    "winch": [
+      3.175,
+      0.325
+    ],
+    "nose": 3.225,
+    "tail": -3.39
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2380.0,
+    "centreOfMass": [
+      0.0,
+      0.827
+    ],
+    "size": [
+      6.615,
+      2.585
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.74,
+        2.74,
+        0.163,
+        0.456,
+        0.4
+      ],
+      [
+        -3.39,
+        -2.285,
+        0.78,
+        2.585,
+        0.4
+      ],
+      [
+        -2.285,
+        -0.082,
+        0.423,
+        2.585,
+        0.4
+      ],
+      [
+        2.285,
+        3.225,
+        0.78,
+        2.532,
+        0.4
+      ],
+      [
+        -0.082,
+        2.285,
+        0.423,
+        2.532,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.12,
+      "centreOfMass": [
+        -0.744,
+        2.087
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2936,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 80,
+    "exhaustBrake": 103,
+    "gears": {
+      "H": 8.836,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 105
+  },
+  "load": {
+    "name": "Roof box",
+    "massT": 0.12
+  }
+}

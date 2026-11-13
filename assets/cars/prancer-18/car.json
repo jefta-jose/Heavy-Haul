@@ -1,0 +1,210 @@
+{
+  "id": "prancer-18",
+  "name": "Prancer",
+  "number": 18,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Four-door V12 grand crossover",
+  "description": "Deep red four-door V12 grand crossover with a long bonnet, a coupé roofline and rear-hinged back doors.",
+  "stats": {
+    "power": 89,
+    "speed": 91,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1192,
+      605
+    ],
+    "pixelsPerMetre": 280.0,
+    "axles": [
+      2.473,
+      -2.473
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1885,
+        605,
+        193
+      ],
+      [
+        500,
+        605,
+        193
+      ]
+    ],
+    "exhaust": [
+      -3.623,
+      0.228
+    ],
+    "winch": [
+      3.481,
+      0.325
+    ],
+    "nose": 3.531,
+    "tail": -3.844
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.609
+    ],
+    "size": [
+      7.375,
+      1.903
+    ],
+    "wheelMass": 57,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.123,
+        3.123,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.844,
+        -2.668,
+        0.78,
+        1.84,
+        0.4
+      ],
+      [
+        -2.668,
+        -1.386,
+        0.423,
+        1.84,
+        0.4
+      ],
+      [
+        -1.386,
+        1.073,
+        0.423,
+        1.903,
+        0.4
+      ],
+      [
+        2.668,
+        3.531,
+        0.78,
+        1.268,
+        0.4
+      ],
+      [
+        1.073,
+        2.668,
+        0.423,
+        1.268,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1718,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 47,
+    "exhaustBrake": 60,
+    "gears": {
+      "H": 6.733,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 1824,
+    "openDiffGrip": 1,
+    "fuelLitres": 100
+  }
+}

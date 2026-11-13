@@ -1,0 +1,221 @@
+{
+  "id": "line-crew-4",
+  "name": "Line Crew",
+  "number": 4,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Utility truck with a folded bucket boom",
+  "description": "White bonneted 4×4 utility truck with an aerial bucket boom folded over a service body.",
+  "stats": {
+    "power": 34,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 11
+  },
+  "biomes": [
+    "Forest",
+    "Gravel",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1016,
+      771
+    ],
+    "pixelsPerMetre": 196.224,
+    "axles": [
+      2.777,
+      -2.777
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.729,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1561,
+        771,
+        152
+      ],
+      [
+        471,
+        771,
+        152
+      ]
+    ],
+    "exhaust": [
+      0.559,
+      0.469
+    ],
+    "winch": [
+      3.909,
+      0.364
+    ],
+    "nose": 3.959,
+    "tail": -4.541
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 9000.0,
+    "centreOfMass": [
+      0.0,
+      1.0
+    ],
+    "size": [
+      8.5,
+      3.124
+    ],
+    "wheelMass": 137,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.506,
+        3.506,
+        0.183,
+        0.51,
+        0.4
+      ],
+      [
+        -4.541,
+        -2.996,
+        0.875,
+        3.124,
+        0.4
+      ],
+      [
+        -2.996,
+        -1.707,
+        0.473,
+        3.124,
+        0.4
+      ],
+      [
+        -1.707,
+        1.126,
+        0.473,
+        2.981,
+        0.4
+      ],
+      [
+        2.996,
+        3.959,
+        0.875,
+        2.349,
+        0.4
+      ],
+      [
+        1.126,
+        2.996,
+        0.473,
+        2.349,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 1.5,
+      "centreOfMass": [
+        -1.991,
+        2.257
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6035,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 164,
+    "exhaustBrake": 212,
+    "gears": {
+      "H": 11.631,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 11289,
+    "openDiffGrip": 1,
+    "fuelLitres": 250
+  },
+  "load": {
+    "name": "Bucket boom",
+    "massT": 1.5
+  }
+}

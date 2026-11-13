@@ -1,0 +1,256 @@
+{
+  "id": "container-freighter-15",
+  "name": "Container Freighter",
+  "number": 15,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Semi with a shipping container",
+  "description": "White conventional semi tractor with a skeletal chassis trailer carrying a rusty orange shipping container.",
+  "stats": {
+    "power": 75,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 73
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1160,
+      651
+    ],
+    "pixelsPerMetre": 132.872,
+    "axles": [
+      6.842,
+      2.724,
+      1.226,
+      -5.336,
+      -6.842
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.738,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2069,
+        651,
+        104
+      ],
+      [
+        1522,
+        651,
+        104
+      ],
+      [
+        1323,
+        651,
+        104
+      ],
+      [
+        451,
+        651,
+        104
+      ],
+      [
+        251,
+        651,
+        104
+      ]
+    ],
+    "exhaust": [
+      5.029,
+      3.296
+    ],
+    "winch": [
+      7.859,
+      0.369
+    ],
+    "nose": 7.909,
+    "tail": -8.091
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 15000.0,
+    "centreOfMass": [
+      -0.277,
+      1.11
+    ],
+    "size": [
+      16.0,
+      3.47
+    ],
+    "wheelMass": 368,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -7.58,
+        7.58,
+        0.664,
+        0.964,
+        0.4
+      ],
+      [
+        -8.091,
+        -7.063,
+        0.886,
+        3.47,
+        0.4
+      ],
+      [
+        -7.063,
+        -4.89,
+        0.479,
+        3.47,
+        0.4
+      ],
+      [
+        -4.89,
+        -1.69,
+        0.479,
+        3.47,
+        0.4
+      ],
+      [
+        -1.69,
+        1.51,
+        0.479,
+        3.47,
+        0.4
+      ],
+      [
+        1.51,
+        4.711,
+        0.479,
+        3.47,
+        0.4
+      ],
+      [
+        7.063,
+        7.909,
+        0.886,
+        2.845,
+        0.4
+      ],
+      [
+        4.711,
+        7.063,
+        0.479,
+        2.845,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 22.0,
+      "centreOfMass": [
+        -3.291,
+        1.338
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.49,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 676,
+    "exhaustBrake": 872,
+    "gears": {
+      "H": 9.994,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 30646,
+    "openDiffGrip": 1,
+    "fuelLitres": 800
+  },
+  "load": {
+    "name": "Shipping container",
+    "massT": 22.0
+  }
+}

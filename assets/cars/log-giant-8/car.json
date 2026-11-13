@@ -1,0 +1,272 @@
+{
+  "id": "log-giant-8",
+  "name": "Log Giant",
+  "number": 8,
+  "class": "heavy",
+  "drive": "12×12",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Off-highway log truck with huge logs",
+  "description": "Red off-highway log truck with a massive bunk trailer.",
+  "stats": {
+    "power": 23,
+    "speed": 21,
+    "grip": 80,
+    "capacity": 20
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1169,
+      628
+    ],
+    "pixelsPerMetre": 158.571,
+    "axles": [
+      5.594,
+      2.51,
+      1.009,
+      -2.68,
+      -4.137,
+      -5.594
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 564,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2056,
+        628,
+        118
+      ],
+      [
+        1567,
+        628,
+        118
+      ],
+      [
+        1329,
+        628,
+        118
+      ],
+      [
+        744,
+        628,
+        118
+      ],
+      [
+        513,
+        628,
+        118
+      ],
+      [
+        282,
+        628,
+        118
+      ]
+    ],
+    "exhaust": [
+      3.231,
+      2.894
+    ],
+    "winch": [
+      6.509,
+      0.35
+    ],
+    "nose": 6.559,
+    "tail": -6.754
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 40000.0,
+    "centreOfMass": [
+      -0.55,
+      0.975
+    ],
+    "size": [
+      13.313,
+      3.046
+    ],
+    "wheelMass": 498,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -6.294,
+        6.294,
+        0.63,
+        0.93,
+        0.4
+      ],
+      [
+        -6.754,
+        -5.804,
+        0.84,
+        3.033,
+        0.4
+      ],
+      [
+        -5.804,
+        -4.535,
+        0.455,
+        3.033,
+        0.4
+      ],
+      [
+        -4.535,
+        -2.317,
+        0.455,
+        3.033,
+        0.4
+      ],
+      [
+        -2.317,
+        -0.098,
+        0.455,
+        3.04,
+        0.4
+      ],
+      [
+        -0.098,
+        2.121,
+        0.455,
+        3.04,
+        0.4
+      ],
+      [
+        2.121,
+        4.34,
+        0.455,
+        3.046,
+        0.4
+      ],
+      [
+        5.804,
+        6.559,
+        0.84,
+        2.434,
+        0.4
+      ],
+      [
+        4.34,
+        5.804,
+        0.455,
+        2.434,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 60.0,
+      "centreOfMass": [
+        -2.094,
+        1.3
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.7627,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 312,
+    "exhaustBrake": 417,
+    "gears": {
+      "H": 11.178,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 316938,
+    "openDiffGrip": 1,
+    "fuelLitres": 1000
+  },
+  "load": {
+    "name": "Huge logs",
+    "massT": 60.0
+  }
+}
