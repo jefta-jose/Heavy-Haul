@@ -122,7 +122,7 @@
       ],
       [
         1890,
-        5.0
+        5
       ],
       [
         1900,
@@ -294,11 +294,41 @@
       ],
       [
         528,
+        576,
+        "highway"
+      ],
+      [
+        576,
+        608,
+        "mud"
+      ],
+      [
+        608,
+        744,
+        "highway"
+      ],
+      [
+        744,
+        772,
+        "mud"
+      ],
+      [
+        772,
         928,
         "highway"
       ],
       [
         928,
+        1006,
+        "dirt"
+      ],
+      [
+        1006,
+        1032,
+        "mud"
+      ],
+      [
+        1032,
         1050,
         "dirt"
       ],
@@ -324,6 +354,26 @@
       ],
       [
         1490,
+        1536,
+        "highway"
+      ],
+      [
+        1536,
+        1568,
+        "mud"
+      ],
+      [
+        1568,
+        1700,
+        "highway"
+      ],
+      [
+        1700,
+        1728,
+        "mud"
+      ],
+      [
+        1728,
         1890,
         "highway"
       ],
@@ -354,11 +404,41 @@
       ],
       [
         2452,
+        2500,
+        "highway"
+      ],
+      [
+        2500,
+        2532,
+        "mud"
+      ],
+      [
+        2532,
+        2662,
+        "highway"
+      ],
+      [
+        2662,
+        2690,
+        "mud"
+      ],
+      [
+        2690,
         2852,
         "highway"
       ],
       [
         2852,
+        2956,
+        "dirt"
+      ],
+      [
+        2956,
+        2990,
+        "mud"
+      ],
+      [
+        2990,
         3012,
         "dirt"
       ],
@@ -384,6 +464,26 @@
       ],
       [
         3414,
+        3460,
+        "highway"
+      ],
+      [
+        3460,
+        3492,
+        "mud"
+      ],
+      [
+        3492,
+        3644,
+        "highway"
+      ],
+      [
+        3644,
+        3672,
+        "mud"
+      ],
+      [
+        3672,
         3814,
         "highway"
       ],
@@ -439,63 +539,13 @@
       ],
       "fade": 2.5,
       "mud": 0.85,
-      "intensity": 1.5
+      "intensity": 1.5,
+      "highway": 0.5
     },
     "obstacleSeed": 4242,
     "obstacleScale": 2,
     "bridges": [],
-    "rockGardens": [
-      {
-        "x0": 78,
-        "x1": 111,
-        "gap": 2.7
-      },
-      {
-        "x0": 452,
-        "x1": 472,
-        "gap": 2.5
-      },
-      {
-        "x0": 1000,
-        "x1": 1020,
-        "gap": 2.8
-      },
-      {
-        "x0": 1398,
-        "x1": 1420,
-        "gap": 2.9
-      },
-      {
-        "x0": 2000,
-        "x1": 2020,
-        "gap": 2.6
-      },
-      {
-        "x0": 2414,
-        "x1": 2434,
-        "gap": 2.5
-      },
-      {
-        "x0": 2962,
-        "x1": 2982,
-        "gap": 2.8
-      },
-      {
-        "x0": 3360,
-        "x1": 3382,
-        "gap": 2.9
-      },
-      {
-        "x0": 3962,
-        "x1": 3982,
-        "gap": 2.6
-      },
-      {
-        "x0": 4012,
-        "x1": 4038,
-        "gap": 2.8
-      }
-    ],
+    "rockGardens": [],
     "holes": [
       {
         "x": 180,
@@ -656,149 +706,7 @@
         4126
       ]
     ],
-    "obstacleRuns": [
-      {
-        "id": "log-60",
-        "kind": "log",
-        "x": 60,
-        "count": 5,
-        "radius": 0.26,
-        "gaps": [
-          0.15,
-          0.4,
-          0.15,
-          0.65
-        ]
-      },
-      {
-        "id": "rottenLog-218",
-        "kind": "rottenLog",
-        "x": 218,
-        "count": 6,
-        "radius": 0.26,
-        "gaps": [
-          0.2,
-          0.7,
-          0.2,
-          1,
-          0.3
-        ]
-      },
-      {
-        "id": "pipe-270",
-        "kind": "pipe",
-        "x": 270,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "corduroyLog-423",
-        "kind": "corduroyLog",
-        "x": 423,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      },
-      {
-        "id": "oilDrum-794",
-        "kind": "oilDrum",
-        "x": 944,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "corduroyLog-834",
-        "kind": "corduroyLog",
-        "x": 984,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      },
-      {
-        "id": "pipe-1102",
-        "kind": "pipe",
-        "x": 1252,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "log-1214",
-        "kind": "log",
-        "x": 1364,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "rottenLog-1880",
-        "kind": "rottenLog",
-        "x": 2180,
-        "count": 6,
-        "radius": 0.26,
-        "gaps": [
-          0.2,
-          0.7,
-          0.2,
-          1,
-          0.3
-        ]
-      },
-      {
-        "id": "pipe-1932",
-        "kind": "pipe",
-        "x": 2232,
-        "count": 4,
-        "radius": 0.26,
-        "gaps": [
-          0.3,
-          2,
-          0.3
-        ]
-      },
-      {
-        "id": "oilDrum-2456",
-        "kind": "oilDrum",
-        "x": 2906,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "corduroyLog-2494",
-        "kind": "corduroyLog",
-        "x": 2944,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      },
-      {
-        "id": "pipe-2764",
-        "kind": "pipe",
-        "x": 3214,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "log-2876",
-        "kind": "log",
-        "x": 3326,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "corduroyLog-3236",
-        "kind": "corduroyLog",
-        "x": 3836,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.2
-      }
-    ],
+    "obstacleRuns": [],
     "obstacleKinds": {
       "log": {
         "art": "logCrossing",
@@ -974,176 +882,7 @@
         }
       }
     },
-    "props": [
-      {
-        "kind": "rootTangle",
-        "x": 123
-      },
-      {
-        "kind": "branchPile",
-        "x": 257
-      },
-      {
-        "kind": "rootTangle",
-        "x": 314
-      },
-      {
-        "kind": "branchPile",
-        "x": 322
-      },
-      {
-        "kind": "branchPile",
-        "x": 498
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 505
-      },
-      {
-        "kind": "rootTangle",
-        "x": 490
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 1191
-      },
-      {
-        "kind": "rootTangle",
-        "x": 1208
-      },
-      {
-        "kind": "branchPile",
-        "x": 1216
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 1223
-      },
-      {
-        "kind": "branchPile",
-        "x": 1230
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 1454
-      },
-      {
-        "kind": "rootTangle",
-        "x": 1462
-      },
-      {
-        "kind": "branchPile",
-        "x": 1470
-      },
-      {
-        "kind": "branchPile",
-        "x": 1910
-      },
-      {
-        "kind": "branchPile",
-        "x": 1918
-      },
-      {
-        "kind": "branchPile",
-        "x": 1930
-      },
-      {
-        "kind": "rootTangle",
-        "x": 1950
-      },
-      {
-        "kind": "branchPile",
-        "x": 2054
-      },
-      {
-        "kind": "rootTangle",
-        "x": 2062
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 2071
-      },
-      {
-        "kind": "rootTangle",
-        "x": 2087
-      },
-      {
-        "kind": "rootTangle",
-        "x": 2276
-      },
-      {
-        "kind": "branchPile",
-        "x": 2285
-      },
-      {
-        "kind": "rootTangle",
-        "x": 2880
-      },
-      {
-        "kind": "rootTangle",
-        "x": 3153
-      },
-      {
-        "kind": "branchPile",
-        "x": 3170
-      },
-      {
-        "kind": "rootTangle",
-        "x": 3178
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 3186
-      },
-      {
-        "kind": "branchPile",
-        "x": 3193
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 3388
-      },
-      {
-        "kind": "branchPile",
-        "x": 3850
-      },
-      {
-        "kind": "branchPile",
-        "x": 3872
-      },
-      {
-        "kind": "branchPile",
-        "x": 3880
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 3892
-      },
-      {
-        "kind": "rootTangle",
-        "x": 3912
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 4070
-      },
-      {
-        "kind": "rootTangle",
-        "x": 4082
-      }
-    ],
-    "crushables": {
-      "rock": [
-        2.5,
-        5
-      ],
-      "dirt": [
-        4,
-        8
-      ],
-      "room": 0.4,
-      "pileEvery": 3
-    },
+    "props": [],
     "stations": [
       {
         "x": 520
@@ -1159,33 +898,120 @@
       }
     ],
     "scenery": [
-      {"art": "fenceSection", "x": 98, "count": 2},
-      {"art": "rustedPickup", "x": 140},
-      {"art": "gatorSign", "x": 158},
-      {"art": "stiltShack", "x": 243},
-      {"art": "gatorSign", "x": 358},
-      {"art": "fenceSection", "x": 966, "count": 3},
-      {"art": "rustedPickup", "x": 1020},
-      {"art": "gatorSign", "x": 1053},
-      {"art": "gatorSign", "x": 1086},
-      {"art": "waterTower", "x": 1150},
-      {"art": "gatorSign", "x": 1278},
-      {"art": "rustedPickup", "x": 1380},
-      {"art": "fenceSection", "x": 1932, "count": 3},
-      {"art": "stiltShack", "x": 1996},
-      {"art": "gatorSign", "x": 2120},
-      {"art": "fenceSection", "x": 2258, "count": 2},
-      {"art": "gatorSign", "x": 2320},
-      {"art": "rustedPickup", "x": 2350},
-      {"art": "fenceSection", "x": 2916, "count": 3},
-      {"art": "rustedPickup", "x": 2951},
-      {"art": "gatorSign", "x": 3015},
-      {"art": "gatorSign", "x": 3048},
-      {"art": "waterTower", "x": 3200},
-      {"art": "gatorSign", "x": 3240},
-      {"art": "fenceSection", "x": 3875, "count": 3},
-      {"art": "stiltShack", "x": 3937},
-      {"art": "rustedPickup", "x": 4024}
+      {
+        "art": "fenceSection",
+        "x": 98,
+        "count": 2
+      },
+      {
+        "art": "rustedPickup",
+        "x": 140
+      },
+      {
+        "art": "gatorSign",
+        "x": 158
+      },
+      {
+        "art": "stiltShack",
+        "x": 243
+      },
+      {
+        "art": "gatorSign",
+        "x": 358
+      },
+      {
+        "art": "fenceSection",
+        "x": 966,
+        "count": 3
+      },
+      {
+        "art": "rustedPickup",
+        "x": 1020
+      },
+      {
+        "art": "gatorSign",
+        "x": 1053
+      },
+      {
+        "art": "gatorSign",
+        "x": 1086
+      },
+      {
+        "art": "waterTower",
+        "x": 1150
+      },
+      {
+        "art": "gatorSign",
+        "x": 1278
+      },
+      {
+        "art": "rustedPickup",
+        "x": 1380
+      },
+      {
+        "art": "fenceSection",
+        "x": 1932,
+        "count": 3
+      },
+      {
+        "art": "stiltShack",
+        "x": 2004
+      },
+      {
+        "art": "gatorSign",
+        "x": 2120
+      },
+      {
+        "art": "fenceSection",
+        "x": 2258,
+        "count": 2
+      },
+      {
+        "art": "gatorSign",
+        "x": 2320
+      },
+      {
+        "art": "rustedPickup",
+        "x": 2350
+      },
+      {
+        "art": "fenceSection",
+        "x": 2916,
+        "count": 3
+      },
+      {
+        "art": "rustedPickup",
+        "x": 2951
+      },
+      {
+        "art": "gatorSign",
+        "x": 3015
+      },
+      {
+        "art": "gatorSign",
+        "x": 3048
+      },
+      {
+        "art": "waterTower",
+        "x": 3200
+      },
+      {
+        "art": "gatorSign",
+        "x": 3240
+      },
+      {
+        "art": "fenceSection",
+        "x": 3875,
+        "count": 3
+      },
+      {
+        "art": "stiltShack",
+        "x": 3937
+      },
+      {
+        "art": "rustedPickup",
+        "x": 4024
+      }
     ],
     "highways": [
       {
@@ -1252,7 +1078,8 @@
           ]
         }
       }
-    ]
+    ],
+    "stones": false
   },
   "surfaces": {
     "gravel": {
@@ -1317,7 +1144,11 @@
       "mu": 0.95,
       "label": "Highway",
       "rolling": 0.015,
-      "noise": [0, 0, 0]
+      "noise": [
+        0,
+        0,
+        0
+      ]
     },
     "wood": {
       "mu": 0.82,
@@ -1395,10 +1226,6 @@
       "file": "art/log-crossing.webp",
       "source": "source/log-crossing-v1.png"
     },
-    "mudHole": {
-      "file": "art/mud-hole.webp",
-      "source": "source/mud-hole-v1.png"
-    },
     "pipe": {
       "file": "art/pipe.webp",
       "source": "source/pipe-v1.png"
@@ -1430,7 +1257,12 @@
     "fenceSection": {
       "file": "art/fence-section.webp",
       "source": "source/fence-section.png",
-      "crop": [64, 288, 1473, 799],
+      "crop": [
+        64,
+        288,
+        1473,
+        799
+      ],
       "alphaFloor": 24,
       "quality": 88,
       "heightM": 1.6,
@@ -1440,7 +1272,12 @@
     "stiltShack": {
       "file": "art/mossy-porch.webp",
       "source": "source/mossy-porch.png",
-      "crop": [26, 154, 1232, 1101],
+      "crop": [
+        26,
+        154,
+        1232,
+        1101
+      ],
       "alphaFloor": 24,
       "quality": 88,
       "heightM": 6
@@ -1448,7 +1285,12 @@
     "rustedPickup": {
       "file": "art/rusted-pickup.webp",
       "source": "source/rusted-pickup.png",
-      "crop": [49, 222, 1490, 784],
+      "crop": [
+        49,
+        222,
+        1490,
+        784
+      ],
       "alphaFloor": 24,
       "quality": 88,
       "heightM": 1.95,
@@ -1457,7 +1299,12 @@
     "waterTower": {
       "file": "art/water-tower.webp",
       "source": "source/water-tower.png",
-      "crop": [216, 15, 811, 1520],
+      "crop": [
+        216,
+        15,
+        811,
+        1520
+      ],
       "alphaFloor": 24,
       "quality": 88,
       "heightM": 7.5
@@ -1465,7 +1312,12 @@
     "gatorSign": {
       "file": "art/warning-sign.webp",
       "source": "source/warning-sign.png",
-      "crop": [111, 18, 907, 1522],
+      "crop": [
+        111,
+        18,
+        907,
+        1522
+      ],
       "alphaFloor": 24,
       "quality": 88,
       "heightM": 3.6
@@ -1473,17 +1325,31 @@
     "highwaySign": {
       "file": "art/highway-sign.webp",
       "source": "source/highway-sign.png",
-      "crop": [105, 70, 1431, 990],
+      "crop": [
+        105,
+        70,
+        1431,
+        990
+      ],
       "alphaFloor": 24,
       "quality": 90
     },
     "speedSign": {
       "file": "art/speed-sign.webp",
       "source": "source/speed-sign.png",
-      "crop": [166, 39, 848, 1513],
+      "crop": [
+        166,
+        39,
+        848,
+        1513
+      ],
       "alphaFloor": 24,
       "quality": 90,
-      "face": [338.5, 350.5, 277]
+      "face": [
+        338.5,
+        350.5,
+        277
+      ]
     },
     "fuelStation": {
       "file": "art/fuel-station.webp",

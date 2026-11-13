@@ -85,7 +85,7 @@ test('a power is a label on the car, and changes none of its numbers', () => {
   for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
 });
 
-test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {
+test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
   const solid = (() => { const p = newSim(); p.init(40); return p.logs.find(l => l.kind !== 'pipe' && l.x > 45).x; })();
   const crash = (car, shield) => { const c = spawn(newSim(car), solid - car.rig.nose - 4); if (shield) assert(c.usePower(), 'the shield starts'); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
   const car = withPower(content.car, 'invincible');

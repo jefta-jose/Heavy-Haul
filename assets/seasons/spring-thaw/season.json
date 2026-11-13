@@ -322,16 +322,56 @@
       ],
       [
         480,
+        498,
+        "dirt"
+      ],
+      [
+        498,
+        524,
+        "mud"
+      ],
+      [
+        524,
         568,
         "dirt"
       ],
       [
         568,
+        614,
+        "highway"
+      ],
+      [
+        614,
+        646,
+        "mud"
+      ],
+      [
+        646,
+        862,
+        "highway"
+      ],
+      [
+        862,
+        890,
+        "mud"
+      ],
+      [
+        890,
         968,
         "highway"
       ],
       [
         968,
+        1010,
+        "dirt"
+      ],
+      [
+        1010,
+        1036,
+        "mud"
+      ],
+      [
+        1036,
         1050,
         "dirt"
       ],
@@ -362,11 +402,41 @@
       ],
       [
         1500,
+        1552,
+        "dirt"
+      ],
+      [
+        1552,
+        1578,
+        "mud"
+      ],
+      [
+        1578,
         1648,
         "dirt"
       ],
       [
         1648,
+        1694,
+        "highway"
+      ],
+      [
+        1694,
+        1726,
+        "mud"
+      ],
+      [
+        1726,
+        1926,
+        "highway"
+      ],
+      [
+        1926,
+        1954,
+        "mud"
+      ],
+      [
+        1954,
         2048,
         "highway"
       ],
@@ -382,6 +452,16 @@
       ],
       [
         2170,
+        2182,
+        "dirt"
+      ],
+      [
+        2182,
+        2208,
+        "mud"
+      ],
+      [
+        2208,
         2280,
         "dirt"
       ],
@@ -407,11 +487,41 @@
       ],
       [
         2728,
+        2774,
+        "highway"
+      ],
+      [
+        2774,
+        2806,
+        "mud"
+      ],
+      [
+        2806,
+        2938,
+        "highway"
+      ],
+      [
+        2938,
+        2966,
+        "mud"
+      ],
+      [
+        2966,
         3128,
         "highway"
       ],
       [
         3128,
+        3140,
+        "dirt"
+      ],
+      [
+        3140,
+        3166,
+        "mud"
+      ],
+      [
+        3166,
         3240,
         "dirt"
       ],
@@ -432,11 +542,41 @@
       ],
       [
         3490,
+        3702,
+        "dirt"
+      ],
+      [
+        3702,
+        3736,
+        "mud"
+      ],
+      [
+        3736,
         3808,
         "dirt"
       ],
       [
         3808,
+        3854,
+        "highway"
+      ],
+      [
+        3854,
+        3886,
+        "mud"
+      ],
+      [
+        3886,
+        4018,
+        "highway"
+      ],
+      [
+        4018,
+        4046,
+        "mud"
+      ],
+      [
+        4046,
         4208,
         "highway"
       ],
@@ -495,58 +635,13 @@
       ],
       "fade": 2,
       "mud": 0.9,
-      "intensity": 1.6
+      "intensity": 1.6,
+      "highway": 0.5
     },
     "obstacleSeed": 7781,
     "obstacleScale": 2,
     "bridges": [],
-    "rockGardens": [
-      {
-        "x0": 72,
-        "x1": 98,
-        "gap": 2.4
-      },
-      {
-        "x0": 380,
-        "x1": 400,
-        "gap": 2.5
-      },
-      {
-        "x0": 1058,
-        "x1": 1100,
-        "gap": 2.6
-      },
-      {
-        "x0": 1180,
-        "x1": 1200,
-        "gap": 2.6
-      },
-      {
-        "x0": 1430,
-        "x1": 1452,
-        "gap": 2.5
-      },
-      {
-        "x0": 2130,
-        "x1": 2150,
-        "gap": 2.6
-      },
-      {
-        "x0": 2490,
-        "x1": 2510,
-        "gap": 2.5
-      },
-      {
-        "x0": 3252,
-        "x1": 3288,
-        "gap": 2.6
-      },
-      {
-        "x0": 4236,
-        "x1": 4262,
-        "gap": 2.6
-      }
-    ],
+    "rockGardens": [],
     "holes": [
       {
         "x": 300,
@@ -707,117 +802,7 @@
         4295
       ]
     ],
-    "obstacleRuns": [
-      {
-        "id": "pipe-226",
-        "kind": "pipe",
-        "x": 226,
-        "count": 4,
-        "radius": 0.26,
-        "gaps": [
-          0.3,
-          2.8,
-          0.3
-        ]
-      },
-      {
-        "id": "oilDrum-500",
-        "kind": "oilDrum",
-        "x": 500,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "pipe-1018",
-        "kind": "pipe",
-        "x": 1018,
-        "count": 5,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "rottenLog-1365",
-        "kind": "rottenLog",
-        "x": 1365,
-        "count": 5,
-        "radius": 0.26,
-        "gaps": [
-          0.25,
-          0.8,
-          0.25,
-          0.8
-        ]
-      },
-      {
-        "id": "oilDrum-1530",
-        "kind": "oilDrum",
-        "x": 1530,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "pipe-2190",
-        "kind": "pipe",
-        "x": 2190,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "corduroyLog-2290",
-        "kind": "corduroyLog",
-        "x": 2290,
-        "count": 8,
-        "radius": 0.26,
-        "gap": 0.15
-      },
-      {
-        "id": "oilDrum-2590",
-        "kind": "oilDrum",
-        "x": 2590,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "pipe-3150",
-        "kind": "pipe",
-        "x": 3150,
-        "count": 6,
-        "radius": 0.26,
-        "gap": 0.5
-      },
-      {
-        "id": "log-3530",
-        "kind": "log",
-        "x": 3530,
-        "count": 5,
-        "radius": 0.26,
-        "gap": 0.6
-      },
-      {
-        "id": "pipe-3640",
-        "kind": "pipe",
-        "x": 3640,
-        "count": 4,
-        "radius": 0.26,
-        "gaps": [
-          0.3,
-          2.8,
-          0.3
-        ]
-      },
-      {
-        "id": "log-3740",
-        "kind": "log",
-        "x": 3740,
-        "count": 4,
-        "radius": 0.26,
-        "gap": 0.6
-      }
-    ],
+    "obstacleRuns": [],
     "obstacleKinds": {
       "log": {
         "art": "logCrossing",
@@ -993,88 +978,7 @@
         }
       }
     },
-    "props": [
-      {
-        "kind": "concreteSlab",
-        "x": 40
-      },
-      {
-        "kind": "rootTangle",
-        "x": 238
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 490
-      },
-      {
-        "kind": "branchPile",
-        "x": 530
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 985
-      },
-      {
-        "kind": "rootTangle",
-        "x": 1380
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 1580
-      },
-      {
-        "kind": "branchPile",
-        "x": 1610
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 2210
-      },
-      {
-        "kind": "rootTangle",
-        "x": 2240
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 2640
-      },
-      {
-        "kind": "branchPile",
-        "x": 2680
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 3200
-      },
-      {
-        "kind": "rootTangle",
-        "x": 3580
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 3680
-      },
-      {
-        "kind": "branchPile",
-        "x": 3770
-      },
-      {
-        "kind": "concreteSlab",
-        "x": 4300
-      }
-    ],
-    "crushables": {
-      "rock": [
-        2,
-        4
-      ],
-      "dirt": [
-        5,
-        9
-      ],
-      "room": 0.4,
-      "pileEvery": 4
-    },
+    "props": [],
     "stations": [
       {
         "x": 560
@@ -1104,7 +1008,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 505
+        "x": 523
       },
       {
         "art": "rustedPickup",
@@ -1231,7 +1135,8 @@
           ]
         }
       }
-    ]
+    ],
+    "stones": false
   },
   "surfaces": {
     "gravel": {
@@ -1377,10 +1282,6 @@
     "logCrossing": {
       "file": "art/log-crossing.webp",
       "source": "source/log-crossing-v3.png"
-    },
-    "mudHole": {
-      "file": "art/mud-hole.webp",
-      "source": "source/mud-hole-v2.png"
     },
     "pipe": {
       "file": "art/pipe.webp",

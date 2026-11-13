@@ -44,7 +44,8 @@ export function createTerrain(trail, surfaces) {
     return (2 * t3 - 3 * t2 + 1) * y0 + (t3 - 2 * t2 + t) * h * KM[i] + (-2 * t3 + 3 * t2) * y1 + (t3 - t2) * h * KM[i + 1];
   }
 
-  // places kept calm so the start, fuel stop and depot stay drivable; a highway is calm from end to end, so it has no bumps at all
+  // places kept calm so the start, fuel stop and depot stay drivable; a highway is calm from end to end (no authored features),
+  // though trail.rollers.highway can still roll bumps along it
   const stations = trail.stations ?? [];
   const CALM = [[trail.start - 20, trail.start + 14], [trail.depot - 10, X1], ...(trail.recoverySections ?? []), ...stations.map(s => [s.x - STATION_BAY_M / 2 - 2, s.x + STATION_BAY_M / 2 + 2]), ...(trail.highways ?? []).map(h => [h.x0, h.x1])];
   const calm = x => { let c = 1; for (const [a, b] of CALM) c = Math.min(c, 1 - sm((x - a + 6) / 6) * sm((b + 6 - x) / 6)); return c; };
@@ -114,7 +115,9 @@ export function createTerrain(trail, surfaces) {
     // adding this guy here to manipulate the bumps
     const BUMP_INTENSITY = R.intensity ?? 1.0;
 
-    const S = trail.obstacleScale ?? 1, keep = [...CALM];
+    // rollers.highway: how big the bumps run on the highways (0 or absent keeps a highway smooth)
+    const onHighway = R.highway ? (trail.highways ?? []) : [], S = trail.obstacleScale ?? 1;
+    const keep = CALM.filter(([a, b]) => !onHighway.some(h => h.x0 === a && h.x1 === b));
     for (const c of HEAVY_MUD) keep.push([c - 12, c + 12]);
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
@@ -137,7 +140,8 @@ export function createTerrain(trail, surfaces) {
         for (const [a, b] of keep) { if (X > a - F && X < b + F) open = Math.min(open, 1 - sm((X - a + F) / F) * sm((b + F - X) / F)); }
         
         // manipulation is done here
-        out[i] = y * open * BUMP_INTENSITY;
+        const paved = onHighway.reduce((v, h) => Math.max(v, sm((X - h.x0 + F) / F) * sm((h.x1 + F - X) / F)), 0);
+        out[i] = y * open * BUMP_INTENSITY * (1 - paved * (1 - R.highway));
       }
       x += L;
     }

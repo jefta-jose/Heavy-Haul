@@ -5,7 +5,7 @@ import { speedTrapX } from '../src/game/speed-trap.js';
 import { content, newSim, spawn, DT } from './helpers.js';
 import { wheelRadius } from '../src/physics/vehicle.js';
 
-test('rock gardens repeatedly articulate the suspension and remain crossable', () => {
+test('rock gardens repeatedly articulate the suspension and remain crossable', { skip: !content.season.trail.rockGardens?.length && 'this season has no rock gardens' }, () => {
   const garden = content.season.trail.rockGardens[0], s = spawn(newSim(), garden.x0 - 3);
   const travel = [];
   s.ctl.gas = 1;
@@ -56,7 +56,7 @@ test('deep bogs have a deeper physical bed and visibly greater tire immersion', 
   assert(deep.depth > normal.depth + 0.08, 'tires actually sink farther, not just a visual tint');
 });
 
-test('all logs and pipes form ground-level runs of four to six with varied gaps', () => {
+test('all logs and pipes form ground-level runs of four to six with varied gaps', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
   const s = spawn(newSim(), 30), runs = content.season.trail.obstacleRuns;
   assert.equal(s.logs.length, runs.reduce((n, run) => n + run.count, 0), 'no isolated or extra stacked obstacles');
   assert.deepEqual([...new Set(runs.filter(r => ['log', 'pipe'].includes(r.kind)).map(r => r.count))].sort(), [4, 5, 6]);
@@ -80,7 +80,7 @@ test('all logs and pipes form ground-level runs of four to six with varied gaps'
   assert(Math.min(...gaps)<0.3 && Math.max(...gaps)>1.5, 'tight runs alternate with tire-drop gaps');
 });
 
-test('a spaced pipe run lets tires drop between crests and bounce on their springs', () => {
+test('a spaced pipe run lets tires drop between crests and bounce on their springs', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
   const spec = content.season.trail.obstacleRuns.find(r => r.kind === 'pipe' && r.gaps?.some(g => g > 1.5));
   const s = spawn(newSim(), spec.x - 16), row = s.logs.filter(l => l.run === content.season.trail.obstacleRuns.indexOf(spec));   // a run-up, as a driver has
   const lo = row[0].x, hi = row.at(-1).x, lifts = [], spring = [];
@@ -109,16 +109,27 @@ test('former river stretches: the old river stretches are deep bog, still rollin
   assert(swing > 0.2, `rolling bumps on the way to the pit (${swing.toFixed(2)} m)`);
 });
 
-test('mud holes lie only in deep mud, and rock and dirt are full of crushables', () => {
+test('mud holes lie only in deep mud, and the road is clear: no rocks, stones, logs or props anywhere', () => {
   const { trail } = content.season, s = spawn(newSim(), 30);
   assert(trail.holes.length > 0 && trail.holes.every(h => trail.heavyMud.some(c => Math.abs(c - h.x) < 10)), 'every hole is inside a bog pit');
-  const on = surf => s.rocks.filter(r => r.crush && s.terrain.surfAt(r.x) === surf).length;
-  const metres = surf => trail.zones.filter(z => z[2] === surf).reduce((n, z) => n + z[1] - z[0], 0);
-  for (const surf of ['rock', 'dirt']) assert(on(surf) / metres(surf) > 0.05, `${surf}: ${on(surf)} crushables on ${metres(surf)} m`);
-  assert(s.rocks.some(r => r.prop === 'branchPile') && s.rocks.some(r => r.crush && !r.prop), 'both stones and branch piles');
+  assert.equal(s.rocks.length, 0, 'no rocks, stones or props');
+  assert.equal(s.logs.length, 0, 'no logs, pipes or drums');
 });
 
-test('a speed limit sign stands at the first of every group of logs, pipes and hard rocks, and none for what any truck breaks', () => {
+test('the road is bumpy, and deep mud patches lie along the dirt roads and the highways', () => {
+  const { trail } = content.season, s = spawn(newSim(), 30);
+  const off = (() => { const { rollers, ...rest } = trail; return createTerrain(rest, content.season.surfaces); })();
+  const mudOn = (a, b) => trail.zones.filter(z => z[2] === 'mud' && z[0] >= a && z[1] <= b).length;
+  for (const h of trail.highways) {
+    let swing = 0; for (let x = h.x0 + 20; x < h.x1 - 20; x += 0.25) swing = Math.max(swing, Math.abs(s.visH(x) - off.visH(x)));
+    assert(swing > 0.2, `${h.x0}: bumps along the highway (${swing.toFixed(2)} m)`);
+    assert(mudOn(h.x0, h.x1) >= 1, `${h.x0}: a mud patch on the highway`);
+  }
+  const between = trail.zones.filter(z => z[2] === 'mud' && !trail.highways.some(h => z[0] >= h.x0 && z[1] <= h.x1) && !trail.heavyMud.some(c => c > z[0] && c < z[1]));
+  assert(between.length >= 3, `mud patches on the dirt roads (${between.length})`);
+});
+
+test('a speed limit sign stands at the first of every group of logs, pipes and hard rocks, and none for what any truck breaks', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
   const s = spawn(newSim(), content.season.trail.start), hurts = o => !o.crush || o.minMassT > 0;
   const solid = [...s.rocks.filter(hurts).map(r => r.x - r.w / 2), ...s.logs.filter(hurts).map(l => l.x - l.r)].filter(x => x >= content.season.trail.start).sort((a, b) => a - b);
   assert(s.logs.length && s.rocks.some(r => !r.crush), 'there are logs and hard rocks to sign');
@@ -129,22 +140,20 @@ test('a speed limit sign stands at the first of every group of logs, pipes and h
   for (const o of solid) assert(s.speedSigns.some(x => x <= o + 0.01 && o - x < 200), `a sign at or before the obstacle at ${o.toFixed(1)}`);
 });
 
-test('a highway of 400 m follows each station, of long smooth waves, and clean: nothing on it at all', () => {
+test('a highway of 400 m follows each station, of long waves with bumps along them, and clean: nothing on it at all', () => {
   const { highways, stations } = content.season.trail;
   assert.equal(highways.length, stations.length);
   highways.forEach((h, i) => { assert.equal(h.x0, stations[i].x + 8, 'it starts at the end of the bay'); assert.equal(h.x1 - h.x0, 400); });
   const h = highways[0], s = spawn(newSim(), h.x0 + 8);
   const y = x => s.terrain.visH(x);
   for (const r of highways) {
-    let crests = 0, steepest = 0, tightest = 0;
+    let crests = 0, steepest = 0;
     for (let x = r.x0 + 8; x < r.x1 - 8; x += 1) {
-      const slope = (y(x + 1) - y(x - 1)) / 2, bend = y(x + 1) - 2 * y(x) + y(x - 1);
-      steepest = Math.max(steepest, Math.abs(slope)); tightest = Math.max(tightest, Math.abs(bend));
+      steepest = Math.max(steepest, Math.abs((y(x + 1) - y(x - 1)) / 2));
       if (y(x) > y(x - 1) && y(x) >= y(x + 1)) crests++;
     }
-    assert(crests >= 1, `${r.x0}: it rises and dips: ${crests} crests`);
-    assert(steepest < 0.2, `${r.x0}: gradually: steepest ${steepest.toFixed(3)}`);
-    assert(tightest < 0.02, `${r.x0}: with no sharp bumps: ${tightest.toFixed(4)}`);
+    assert(crests >= 3, `${r.x0}: it rises and dips: ${crests} crests`);
+    assert(steepest < 0.45, `${r.x0}: no wall to climb: steepest ${steepest.toFixed(3)}`);
   }
   for (const r of highways) {
     assert(!s.rocks.some(o => o.x + o.w / 2 > r.x0 && o.x - o.w / 2 < r.x1), `${r.x0}: no rocks, stones or props`);

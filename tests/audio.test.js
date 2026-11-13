@@ -167,7 +167,7 @@ test('spinning wheels race the engine; a stuck truck with grip lugs at the stall
   }
 });
 
-test('a tire touching a log, a pipe or a rock is reported, and nothing else is', () => {
+test('a tire touching a log, a pipe or a rock is reported, and nothing else is', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
   const car = content.cars.find(c => c.id === 'deuce-1'), probe = newSim(car);
   probe.init(40);
   const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300 && !content.season.trail.heavyMud.some(c => c < l.x && c > l.x - 60)), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };

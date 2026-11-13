@@ -6,7 +6,8 @@ import { STATION_WIDTH_M, SPEED_SIGN_AREA_GAP_M } from '../game-config.js';
 // and fallen logs are round bodies lying across the track. Which round and traced kinds exist, and
 // how each one breaks, is data: trail.obstacleKinds and trail.propKinds in season.json.
 
-export const CRUSH_IMPULSE = 900;   // N·s of accumulated tire impulse that breaks a crushable rock
+export const CRUSH_IMPULSE = 900;
+
 
 export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -59,14 +60,15 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const crushables = trail.crushables ?? {};
   const between = ([a, b]) => a + rr() * (b - a);
 
-  // climbable boulders on every firm section
+  // climbable boulders and loose stones on every firm section, unless the season turns them off (trail.stones: false)
+  const stones = trail.stones !== false;
   for (const [z0, z1, s] of zones) {
-    if (s === 'mud') continue;
+    if (s === 'mud' || !stones) continue;
     const gap = (s === 'rock' ? 5 : 11) * Math.sqrt(S) * (crushables[s] ? 2 : 1);   // fewer hard boulders where the crushables go
     for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 8 + pad)) boulder(x, s === 'creek' ? 0.16 + rr() * 0.13 : 0.2 + rr() * 0.2, 1.1 + rr() * 0.9);
   }
   for (const [z0, z1, s] of zones) {
-    if (s === 'mud') continue;
+    if (s === 'mud' || !stones) continue;
     for (let x = z0 + 8; x < z1 - 8; x += crushables[s] ? between(crushables[s]) : ((s === 'rock' ? 7 : 11) + rr() * 10) * Math.sqrt(S)) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6 + pad) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + (crushables[s] ? crushables.room : pad))) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
   }
   // Repeated low crests articulate the suspension; occasional larger stones
