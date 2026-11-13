@@ -1,0 +1,189 @@
+{
+  "id": "toro-furioso-16",
+  "name": "Toro Furioso",
+  "number": 16,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Angular super-SUV on off-road tyres",
+  "description": "Lime-yellow angular super-SUV with hexagonal intakes, a sharp wedge nose and a fastback roof.",
+  "stats": {
+    "power": 64,
+    "speed": 90,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      962,
+      706
+    ],
+    "pixelsPerMetre": 273.077,
+    "axles": [
+      1.946,
+      -1.946
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1493,
+        706,
+        188
+      ],
+      [
+        430,
+        706,
+        188
+      ]
+    ],
+    "exhaust": [
+      -2.918,
+      0.272
+    ],
+    "winch": [
+      3.127,
+      0.325
+    ],
+    "nose": 3.177,
+    "tail": -3.107
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.581
+    ],
+    "size": [
+      6.284,
+      1.816
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.596,
+        2.596,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -3.107,
+        0.034,
+        0.423,
+        1.816,
+        0.4
+      ],
+      [
+        0.034,
+        3.177,
+        0.423,
+        1.443,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3013,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 82,
+    "exhaustBrake": 105,
+    "gears": {
+      "H": 8.588,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 85
+  }
+}

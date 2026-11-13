@@ -13,6 +13,7 @@ Size: about 13 m long with its load. There is no length cap: draw it at its natu
 
 - Vehicle: yellow giant articulated mining wheel loader with a huge front bucket
 - Load (drawn as part of the vehicle): the bucket heaped with rock
+- Bucket in its travel position (user request, 2026-11-13): lift arms raised so the bucket's lowest edge sits at least level with the top of the front tyre, tucked close in front of the front tyre (its front lip no more than about one tyre radius ahead of the tyre's front edge). Never hanging low near the ground, or it digs into every slope it meets.
 - Equipment: ladders, beacons
 - Finish: quarry dust
 - Tires: 2.8 m giant mining tires tyres: enormous mining-truck tires taller than a person, deep chevron tread; perfectly round, every tyre the same size

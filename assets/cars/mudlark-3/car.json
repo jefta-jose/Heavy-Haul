@@ -1,0 +1,196 @@
+{
+  "id": "mudlark-3",
+  "name": "Mudlark",
+  "number": 3,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Florida swamp buggy on giant tyres",
+  "description": "Florida-style swamp buggy: a tall open steel frame with a high bench seat towering on huge tractor tyres.",
+  "stats": {
+    "power": 15,
+    "speed": 18,
+    "grip": 90,
+    "capacity": 0
+  },
+  "biomes": [
+    "Swamp",
+    "Water",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      951,
+      742
+    ],
+    "pixelsPerMetre": 250.556,
+    "axles": [
+      1.772,
+      -1.772
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1395,
+        742,
+        239
+      ],
+      [
+        507,
+        742,
+        239
+      ]
+    ],
+    "exhaust": [
+      0.417,
+      1.004
+    ],
+    "winch": [
+      2.915,
+      0.45
+    ],
+    "nose": 2.965,
+    "tail": -2.698
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3000.0,
+    "centreOfMass": [
+      0.0,
+      0.803
+    ],
+    "size": [
+      5.663,
+      2.51
+    ],
+    "wheelMass": 118,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.698,
+        2.965,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -2.698,
+        -0.81,
+        0.585,
+        2.51,
+        0.4
+      ],
+      [
+        -0.81,
+        1.078,
+        0.585,
+        2.498,
+        0.4
+      ],
+      [
+        1.078,
+        2.965,
+        0.585,
+        1.632,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1784,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 48,
+    "exhaustBrake": 62,
+    "gears": {
+      "H": 17.335,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 4035,
+    "openDiffGrip": 1,
+    "fuelLitres": 150
+  }
+}

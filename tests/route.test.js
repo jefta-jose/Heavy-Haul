@@ -16,6 +16,7 @@ const wrecker = content.service.filter(s => s.role === 'breakdown').sort((a, b) 
 // drive away until the main truck is out and rolling, then unhook
 function rescue(sim) {
   const main = sim.main, v = sim.spawnService(wrecker, undefined, main.car.class);
+  Object.assign(main.ctl, { gas: 0, brake: 0 });   // as the game does on a switch: the stuck truck's pedals let go
   Object.assign(v.ctl, { gear: 'R', awd: true, diff: true });
   for (let i = 0; i < 120 * 2; i++) sim.step(DT);   // let it settle
   sim.setActive(v);

@@ -1,0 +1,207 @@
+{
+  "id": "brush-engine-5",
+  "name": "Brush Engine",
+  "number": 5,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "4×4 wildland fire engine",
+  "description": "Red 4×4 wildland fire engine with a short crew cab, a water tank body and hose reels.",
+  "stats": {
+    "power": 35,
+    "speed": 29,
+    "grip": 80,
+    "capacity": 21
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      999,
+      764
+    ],
+    "pixelsPerMetre": 219.0,
+    "axles": [
+      2.58,
+      -2.58
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.751,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1564,
+        764,
+        174
+      ],
+      [
+        434,
+        764,
+        174
+      ]
+    ],
+    "exhaust": [
+      0.663,
+      0.392
+    ],
+    "winch": [
+      3.813,
+      0.376
+    ],
+    "nose": 3.863,
+    "tail": -4.137
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 10000.0,
+    "centreOfMass": [
+      0.0,
+      0.836
+    ],
+    "size": [
+      8.0,
+      2.611
+    ],
+    "wheelMass": 165,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.137,
+        3.863,
+        0.188,
+        0.526,
+        0.4
+      ],
+      [
+        -4.137,
+        -1.471,
+        0.489,
+        2.593,
+        0.4
+      ],
+      [
+        -1.471,
+        1.197,
+        0.489,
+        2.611,
+        0.4
+      ],
+      [
+        1.197,
+        3.863,
+        0.489,
+        2.315,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 3.0,
+      "centreOfMass": [
+        -1.737,
+        1.221
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7724,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 210,
+    "exhaustBrake": 271,
+    "gears": {
+      "H": 11.982,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 14398,
+    "openDiffGrip": 1,
+    "fuelLitres": 250
+  },
+  "load": {
+    "name": "Water",
+    "massT": 3.0
+  }
+}

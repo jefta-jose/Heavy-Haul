@@ -1,0 +1,214 @@
+{
+  "id": "dump-rig-6",
+  "name": "Dump Rig",
+  "number": 6,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Bonneted three-axle dump truck",
+  "description": "Orange bonneted American three-axle dump truck with a square steel tipper body.",
+  "stats": {
+    "power": 62,
+    "speed": 31,
+    "grip": 62,
+    "capacity": 40
+  },
+  "biomes": [
+    "Gravel",
+    "Rock",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      992,
+      789
+    ],
+    "pixelsPerMetre": 192.794,
+    "axles": [
+      3.123,
+      -1.396,
+      -3.123
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.832,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1594,
+        789,
+        170
+      ],
+      [
+        723,
+        789,
+        170
+      ],
+      [
+        390,
+        789,
+        170
+      ]
+    ],
+    "exhaust": [
+      0.773,
+      3.105
+    ],
+    "winch": [
+      4.323,
+      0.416
+    ],
+    "nose": 4.373,
+    "tail": -4.627
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 12000.0,
+    "centreOfMass": [
+      -0.465,
+      1.046
+    ],
+    "size": [
+      9.0,
+      3.268
+    ],
+    "wheelMass": 361,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.627,
+        4.373,
+        0.209,
+        0.583,
+        0.4
+      ],
+      [
+        -4.627,
+        -1.627,
+        0.542,
+        3.268,
+        0.4
+      ],
+      [
+        -1.627,
+        1.373,
+        0.542,
+        3.2,
+        0.4
+      ],
+      [
+        1.373,
+        4.373,
+        0.542,
+        2.832,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 12.0,
+      "centreOfMass": [
+        -1.657,
+        1.432
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.9425,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 527,
+    "exhaustBrake": 681,
+    "gears": {
+      "H": 11.326,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 22410,
+    "openDiffGrip": 1,
+    "fuelLitres": 350
+  },
+  "load": {
+    "name": "Gravel",
+    "massT": 12.0
+  }
+}

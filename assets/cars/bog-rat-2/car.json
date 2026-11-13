@@ -1,0 +1,200 @@
+{
+  "id": "bog-rat-2",
+  "name": "Bog Rat",
+  "number": 2,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Light army 4×4 with ammo crates",
+  "description": "Olive green Cold War style light 4×4 army truck with a forward cab and a canvas bed.",
+  "stats": {
+    "power": 11,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 10
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1024,
+      769
+    ],
+    "pixelsPerMetre": 283.846,
+    "axles": [
+      1.758,
+      -1.758
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1523,
+        769,
+        196
+      ],
+      [
+        525,
+        769,
+        196
+      ]
+    ],
+    "exhaust": [
+      -0.199,
+      0.343
+    ],
+    "winch": [
+      2.811,
+      0.325
+    ],
+    "nose": 2.861,
+    "tail": -3.259
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3500.0,
+    "centreOfMass": [
+      0.0,
+      0.733
+    ],
+    "size": [
+      6.12,
+      2.29
+    ],
+    "wheelMass": 89,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.259,
+        2.861,
+        0.163,
+        0.456,
+        0.4
+      ],
+      [
+        -3.259,
+        -0.199,
+        0.423,
+        2.29,
+        0.4
+      ],
+      [
+        -0.199,
+        2.861,
+        0.423,
+        2.149,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 2.0,
+      "centreOfMass": [
+        -1.423,
+        1.168
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2327,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 63,
+    "exhaustBrake": 82,
+    "gears": {
+      "H": 11.982,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 5342,
+    "openDiffGrip": 1,
+    "fuelLitres": 200
+  },
+  "load": {
+    "name": "Ammo crates",
+    "massT": 2.0
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "id": "mog-2",
+  "name": "Mog",
+  "number": 2,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Forward-control utility 4×4",
+  "description": "Safety-orange boxy forward-control utility 4×4 with a short cab, portal axles and a drop-side flatbed.",
+  "stats": {
+    "power": 23,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 11
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      937,
+      763
+    ],
+    "pixelsPerMetre": 268.462,
+    "axles": [
+      1.721,
+      -1.721
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1399,
+        763,
+        185
+      ],
+      [
+        475,
+        763,
+        185
+      ]
+    ],
+    "exhaust": [
+      1.369,
+      0.442
+    ],
+    "winch": [
+      3.164,
+      0.325
+    ],
+    "nose": 3.214,
+    "tail": -2.935
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 5500.0,
+    "centreOfMass": [
+      0.0,
+      0.708
+    ],
+    "size": [
+      6.149,
+      2.212
+    ],
+    "wheelMass": 85,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.371,
+        2.371,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -2.935,
+        -0.885,
+        0.422,
+        2.071,
+        0.4
+      ],
+      [
+        -0.885,
+        1.165,
+        0.422,
+        2.212,
+        0.4
+      ],
+      [
+        1.165,
+        3.214,
+        0.422,
+        2.142,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 1.5,
+      "centreOfMass": [
+        -1.09,
+        1.128
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3448,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 94,
+    "exhaustBrake": 121,
+    "gears": {
+      "H": 10.538,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 6710,
+    "openDiffGrip": 1,
+    "fuelLitres": 200
+  },
+  "load": {
+    "name": "Utility gear",
+    "massT": 1.5
+  }
+}

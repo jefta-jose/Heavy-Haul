@@ -143,13 +143,22 @@ export function drawFarLip(scene, x, half, rise, over) {
   bank(scene, lo, hi); over(lo, hi); ctx.restore();
 }
 
-// Restores real mud in front of the sunk tire bottoms along an irregular lip, near the vehicle only.
+// Restores real mud in front of whatever has sunk below the drawn surface (tire bottoms, and a low bumper, step or
+// bucket on a sunk or nose-down vehicle) along an irregular lip, over every vehicle's whole length, nose to tail.
 export function drawFrontLip(scene, over) {
-  const { ctx, cam, H, ppm } = scene.view, { visH } = scene.sim;
-  const x = scene.sim.truck.getPosition().x, lo = x - 5, hi = x + 5, bottom = cam.y - H / ppm - 5;
-  ctx.save(); ctx.beginPath();
-  for (let t = lo; t <= hi + 0.08; t += 0.08) { const lip = visH(t) - 0.04 + Math.sin(t * 18.7) * 0.018 + Math.sin(t * 7.3) * 0.027; if (t === lo) ctx.moveTo(t, lip); else ctx.lineTo(t, lip); }
-  ctx.lineTo(hi + 0.1, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip(); bank(scene, lo, hi); over?.(); ctx.restore();
+  const { ctx, cam, H, ppm } = scene.view, { visH } = scene.sim, bottom = cam.y - H / ppm - 5;
+  const spans = scene.sim.vehicles.map(v => {
+    const b = v.parts.truck, xs = v.car.physics.bodyBoxes.flatMap(([x0, x1]) => [x0, x1]).concat(v.car.rig.nose ?? 0);
+    const ends = [Math.min(...xs), Math.max(...xs)].map(x => b.getWorldPoint({ x, y: 0 }).x);
+    return [Math.min(...ends) - 1.5, Math.max(...ends) + 1.5];
+  }).sort((a, b) => a[0] - b[0]);
+  const merged = [];
+  for (const s of spans) { const last = merged.at(-1); if (last && s[0] <= last[1]) last[1] = Math.max(last[1], s[1]); else merged.push([...s]); }
+  for (const [lo, hi] of merged) {
+    ctx.save(); ctx.beginPath();
+    for (let t = lo; t <= hi + 0.08; t += 0.08) { const lip = visH(t) - 0.04 + Math.sin(t * 18.7) * 0.018 + Math.sin(t * 7.3) * 0.027; if (t === lo) ctx.moveTo(t, lip); else ctx.lineTo(t, lip); }
+    ctx.lineTo(hi + 0.1, bottom); ctx.lineTo(lo, bottom); ctx.closePath(); ctx.clip(); bank(scene, lo, hi); over?.(); ctx.restore();
+  }
 }
 
 // A broad worn trail blended into its shoulders, with two irregular tire ruts. Materials remain

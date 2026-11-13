@@ -1,0 +1,200 @@
+{
+  "id": "farm-hand-4",
+  "name": "Farm Hand",
+  "number": 4,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Step-side 4×4 pickup hauling hay",
+  "description": "Two-tone red and cream 1970s American step-side 4×4 pickup with chrome bumpers and a long bonnet.",
+  "stats": {
+    "power": 16,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 100
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1008,
+      774
+    ],
+    "pixelsPerMetre": 262.308,
+    "axles": [
+      2.045,
+      -2.045
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1545,
+        774,
+        181
+      ],
+      [
+        472,
+        774,
+        181
+      ]
+    ],
+    "exhaust": [
+      -3.151,
+      0.29
+    ],
+    "winch": [
+      3.117,
+      0.325
+    ],
+    "nose": 3.167,
+    "tail": -3.483
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2100.0,
+    "centreOfMass": [
+      0.0,
+      0.773
+    ],
+    "size": [
+      6.65,
+      2.416
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.483,
+        3.167,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -3.483,
+        -0.158,
+        0.422,
+        2.416,
+        0.4
+      ],
+      [
+        -0.158,
+        3.167,
+        0.422,
+        2.216,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -1.821,
+        1.643
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2553,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 89,
+    "gears": {
+      "H": 10.682,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 95
+  },
+  "load": {
+    "name": "Hay bales",
+    "massT": 0.4
+  }
+}

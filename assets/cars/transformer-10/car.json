@@ -1,0 +1,207 @@
+{
+  "id": "transformer-10",
+  "name": "Transformer",
+  "number": 10,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Mega-lifted crew-cab pickup",
+  "description": "Candy-blue mega-lifted heavy-duty crew-cab pickup towering on giant tyres, with chrome exhaust stacks behind the cab.",
+  "stats": {
+    "power": 47,
+    "speed": 44,
+    "grip": 90,
+    "capacity": 3
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      988,
+      743
+    ],
+    "pixelsPerMetre": 292.667,
+    "axles": [
+      1.866,
+      -1.866
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1534,
+        743,
+        233
+      ],
+      [
+        442,
+        743,
+        233
+      ]
+    ],
+    "exhaust": [
+      -0.787,
+      1.918
+    ],
+    "winch": [
+      2.858,
+      0.375
+    ],
+    "nose": 2.908,
+    "tail": -3.051
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 5000.0,
+    "centreOfMass": [
+      0.0,
+      0.646
+    ],
+    "size": [
+      5.959,
+      2.019
+    ],
+    "wheelMass": 97,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.051,
+        2.908,
+        0.212,
+        0.549,
+        0.4
+      ],
+      [
+        -3.051,
+        -1.065,
+        0.512,
+        1.913,
+        0.4
+      ],
+      [
+        -1.065,
+        0.921,
+        0.512,
+        2.019,
+        0.4
+      ],
+      [
+        0.921,
+        2.908,
+        0.512,
+        1.483,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -2.157,
+        1.373
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3339,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 91,
+    "exhaustBrake": 117,
+    "gears": {
+      "H": 11.086,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 5973,
+    "openDiffGrip": 1,
+    "fuelLitres": 180
+  },
+  "load": {
+    "name": "Quad bike",
+    "massT": 0.4
+  }
+}

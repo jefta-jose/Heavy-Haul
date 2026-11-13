@@ -1,0 +1,240 @@
+{
+  "id": "mega-crane-6",
+  "name": "Mega Crane",
+  "number": 6,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Five-axle all-terrain mobile crane",
+  "description": "Yellow five-axle all-terrain mobile crane with a telescopic boom folded over the cab.",
+  "stats": {
+    "power": 21,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Rock",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1020,
+      632
+    ],
+    "pixelsPerMetre": 155.0,
+    "axles": [
+      3.797,
+      2.371,
+      -0.584,
+      -2.197,
+      -3.797
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1608,
+        632,
+        115
+      ],
+      [
+        1387,
+        632,
+        115
+      ],
+      [
+        929,
+        632,
+        115
+      ],
+      [
+        679,
+        632,
+        115
+      ],
+      [
+        431,
+        632,
+        115
+      ]
+    ],
+    "exhaust": [
+      -0.424,
+      1.893
+    ],
+    "winch": [
+      7.624,
+      0.35
+    ],
+    "nose": 7.674,
+    "tail": -5.823
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 60000.0,
+    "centreOfMass": [
+      -0.082,
+      1.01
+    ],
+    "size": [
+      13.497,
+      3.155
+    ],
+    "wheelMass": 367,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -5.823,
+        7.674,
+        0.63,
+        0.93,
+        0.4
+      ],
+      [
+        -5.823,
+        -3.573,
+        0.455,
+        3.039,
+        0.4
+      ],
+      [
+        -3.573,
+        -1.324,
+        0.455,
+        2.994,
+        0.4
+      ],
+      [
+        -1.324,
+        0.926,
+        0.455,
+        2.929,
+        0.4
+      ],
+      [
+        0.926,
+        3.175,
+        0.455,
+        2.955,
+        0.4
+      ],
+      [
+        3.175,
+        5.425,
+        0.455,
+        3.045,
+        0.4
+      ],
+      [
+        5.425,
+        7.674,
+        0.455,
+        3.155,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.0499,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 186,
+    "exhaustBrake": 248,
+    "gears": {
+      "H": 10.996,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 190163,
+    "openDiffGrip": 1,
+    "fuelLitres": 600
+  }
+}

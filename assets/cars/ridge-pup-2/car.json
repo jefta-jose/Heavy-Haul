@@ -1,0 +1,203 @@
+{
+  "id": "ridge-pup-2",
+  "name": "Ridge Pup",
+  "number": 2,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Tiny retro 4×4 with a soft top",
+  "description": "Tiny lime-green retro two-door 4×4 with a boxy body, round headlights and a folding canvas top.",
+  "stats": {
+    "power": 10,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      979,
+      769
+    ],
+    "pixelsPerMetre": 294.615,
+    "axles": [
+      1.528,
+      -1.528
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1429,
+        769,
+        203
+      ],
+      [
+        529,
+        769,
+        203
+      ]
+    ],
+    "exhaust": [
+      -2.396,
+      0.323
+    ],
+    "winch": [
+      2.41,
+      0.325
+    ],
+    "nose": 2.46,
+    "tail": -2.546
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.689
+    ],
+    "size": [
+      5.006,
+      2.152
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.178,
+        2.178,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.546,
+        -1.723,
+        0.78,
+        2.152,
+        0.4
+      ],
+      [
+        -1.723,
+        -0.042,
+        0.423,
+        2.152,
+        0.4
+      ],
+      [
+        1.723,
+        2.46,
+        0.78,
+        1.986,
+        0.4
+      ],
+      [
+        -0.042,
+        1.723,
+        0.423,
+        1.986,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2495,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 10.682,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 45
+  }
+}

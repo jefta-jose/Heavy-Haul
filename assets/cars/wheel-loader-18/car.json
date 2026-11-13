@@ -1,0 +1,236 @@
+{
+  "id": "wheel-loader-18",
+  "name": "Wheel Loader",
+  "number": 18,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "needs-art",
+  "tagline": "Giant mining wheel loader with a bucket of rock",
+  "description": "Yellow giant articulated mining wheel loader with a huge front bucket.",
+  "stats": {
+    "power": 36,
+    "speed": 9,
+    "grip": 86,
+    "capacity": 10
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      910,
+      646
+    ],
+    "pixelsPerMetre": 140.357,
+    "axles": [
+      2.319,
+      -2.319
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.4,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1236,
+        646,
+        208
+      ],
+      [
+        585,
+        646,
+        208
+      ]
+    ],
+    "exhaust": [
+      -3.958,
+      3.137
+    ],
+    "winch": [
+      8.482,
+      0.7
+    ],
+    "nose": 8.532,
+    "tail": -5.824
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 60000.0,
+    "centreOfMass": [
+      0.0,
+      1.181
+    ],
+    "size": [
+      14.356,
+      3.691
+    ],
+    "wheelMass": 299,
+    "tireGrip": 1.15,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -5.824,
+        8.532,
+        1.26,
+        1.56,
+        0.4
+      ],
+      [
+        -5.824,
+        -3.774,
+        0.91,
+        2.707,
+        0.4
+      ],
+      [
+        -3.774,
+        -1.723,
+        0.91,
+        2.957,
+        0.4
+      ],
+      [
+        -1.723,
+        0.328,
+        0.91,
+        3.691,
+        0.4
+      ],
+      [
+        0.328,
+        2.379,
+        0.91,
+        2.608,
+        0.4
+      ],
+      [
+        2.379,
+        4.43,
+        0.91,
+        2.715,
+        0.4
+      ],
+      [
+        4.43,
+        6.481,
+        0.91,
+        2.415,
+        0.4
+      ],
+      [
+        6.481,
+        8.532,
+        0.91,
+        2.294,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 30.0,
+      "centreOfMass": [
+        0.58,
+        1.26
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.1714,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 322,
+    "exhaustBrake": 429,
+    "gears": {
+      "H": 18.417,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 617400,
+    "openDiffGrip": 1,
+    "fuelLitres": 1500
+  },
+  "load": {
+    "name": "Rock",
+    "massT": 30.0
+  }
+}

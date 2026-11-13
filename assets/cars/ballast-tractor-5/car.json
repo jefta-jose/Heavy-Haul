@@ -1,0 +1,244 @@
+{
+  "id": "ballast-tractor-5",
+  "name": "Ballast Tractor",
+  "number": 5,
+  "class": "heavy",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Heavy 8×8 ballast tractor",
+  "description": "Red heavy 8×8 ballast tractor with a concrete ballast box behind the cab.",
+  "stats": {
+    "power": 21,
+    "speed": 21,
+    "grip": 62,
+    "capacity": 7
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      964,
+      724
+    ],
+    "pixelsPerMetre": 206.923,
+    "axles": [
+      2.95,
+      1.438,
+      -1.641,
+      -2.95
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1574,
+        724,
+        143
+      ],
+      [
+        1261,
+        724,
+        143
+      ],
+      [
+        624,
+        724,
+        143
+      ],
+      [
+        353,
+        724,
+        143
+      ]
+    ],
+    "exhaust": [
+      1.087,
+      2.538
+    ],
+    "winch": [
+      4.766,
+      0.325
+    ],
+    "nose": 4.816,
+    "tail": -4.062
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 40000.0,
+    "centreOfMass": [
+      -0.051,
+      0.855
+    ],
+    "size": [
+      8.878,
+      2.672
+    ],
+    "wheelMass": 316,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -3.6,
+        3.6,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.062,
+        -3.145,
+        0.78,
+        2.344,
+        0.4
+      ],
+      [
+        -3.145,
+        -1.842,
+        0.423,
+        2.344,
+        0.4
+      ],
+      [
+        -1.842,
+        0.377,
+        0.423,
+        2.513,
+        0.4
+      ],
+      [
+        0.377,
+        2.596,
+        0.423,
+        2.672,
+        0.4
+      ],
+      [
+        3.145,
+        4.816,
+        0.78,
+        1.706,
+        0.4
+      ],
+      [
+        2.596,
+        3.145,
+        0.423,
+        1.706,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 20.0,
+      "centreOfMass": [
+        -1.399,
+        1.25
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9749,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 10.379,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 900
+  },
+  "load": {
+    "name": "Ballast",
+    "massT": 20.0
+  }
+}

@@ -187,7 +187,9 @@ Codex brief. Old car.json files, measured hubs and art are in git before b484ae2
 cap (`maxLengthM` is gone); do not add per-truck world scaling. The first ten (two per class, every rank-1 starter included) were hooked up on 2026-11-12, and the five breakdown
 trucks were restored from `b484ae2^`. Lessons from that batch: Codex's `source/validation.json` records the hubs (check them on
 the preview); size tyres to at least 1.3 m; vehicles under about 2 t bog in ordinary mud and run out of route-test rescues, so
-light scouts got about 2.5 t and mud-terrain tyres; the drive label is every axle (`4×4`, `6×6`, `12×12`), since all are powered.
+light scouts got about 2.5 t and mud-terrain tyres; the drive label is every axle (`4×4`, `6×6`, `12×12`), since all are powered. The second batch (15, on 2026-11-13) added: keep the low chassis box
+between the outer tyres and raise overhang boxes beyond the wheels to about 1.2 tyre radii, or a nose or tail snags on branch piles
+and concrete slabs and even the breakdown truck cannot drag it free.
 
 ## Hook up a season
 

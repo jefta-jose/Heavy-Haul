@@ -1,0 +1,228 @@
+{
+  "id": "quarry-goat-11",
+  "name": "Quarry Goat",
+  "number": 11,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Articulated dump hauler heaped with rock",
+  "description": "Yellow articulated dump hauler: a front cab unit and a rear dump body joined at a hinge.",
+  "stats": {
+    "power": 44,
+    "speed": 16,
+    "grip": 80,
+    "capacity": 100
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1004,
+      700
+    ],
+    "pixelsPerMetre": 179.412,
+    "axles": [
+      3.291,
+      -1.563,
+      -3.291
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1594,
+        700,
+        162
+      ],
+      [
+        723,
+        700,
+        162
+      ],
+      [
+        413,
+        700,
+        162
+      ]
+    ],
+    "exhaust": [
+      1.762,
+      2.804
+    ],
+    "winch": [
+      5.387,
+      0.425
+    ],
+    "nose": 5.437,
+    "tail": -5.064
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 30000.0,
+    "centreOfMass": [
+      -0.521,
+      0.997
+    ],
+    "size": [
+      10.501,
+      3.116
+    ],
+    "wheelMass": 570,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -5.064,
+        5.437,
+        0.212,
+        0.595,
+        0.4
+      ],
+      [
+        -5.064,
+        -2.964,
+        0.552,
+        2.748,
+        0.4
+      ],
+      [
+        -2.964,
+        -0.863,
+        0.552,
+        3.116,
+        0.4
+      ],
+      [
+        -0.863,
+        1.237,
+        0.552,
+        2.698,
+        0.4
+      ],
+      [
+        1.237,
+        3.337,
+        0.552,
+        3.01,
+        0.4
+      ],
+      [
+        3.337,
+        5.437,
+        0.552,
+        1.845,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 20.0,
+      "centreOfMass": [
+        -1.914,
+        1.45
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.1161,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 847,
+    "exhaustBrake": 1091,
+    "gears": {
+      "H": 16.558,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 63507,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Rock",
+    "massT": 20.0
+  }
+}

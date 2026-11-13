@@ -1,0 +1,207 @@
+{
+  "id": "milk-run-2",
+  "name": "Milk Run",
+  "number": 2,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "1960s cab-over box truck with crates",
+  "description": "Cream and red 1960s American cab-over box truck with a rounded cab and a tall box body.",
+  "stats": {
+    "power": 25,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 10
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1014,
+      805
+    ],
+    "pixelsPerMetre": 225.385,
+    "axles": [
+      2.389,
+      -2.389
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 576,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1553,
+        805,
+        155
+      ],
+      [
+        476,
+        805,
+        155
+      ]
+    ],
+    "exhaust": [
+      0.576,
+      0.449
+    ],
+    "winch": [
+      3.626,
+      0.325
+    ],
+    "nose": 3.676,
+    "tail": -4.075
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 6000.0,
+    "centreOfMass": [
+      0.0,
+      0.958
+    ],
+    "size": [
+      7.751,
+      2.995
+    ],
+    "wheelMass": 122,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.075,
+        3.676,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.075,
+        -1.491,
+        0.423,
+        2.995,
+        0.4
+      ],
+      [
+        -1.491,
+        1.092,
+        0.423,
+        2.995,
+        0.4
+      ],
+      [
+        1.092,
+        3.676,
+        0.423,
+        2.995,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 3.0,
+      "centreOfMass": [
+        -1.75,
+        1.273
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5016,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 136,
+    "exhaustBrake": 176,
+    "gears": {
+      "H": 8.802,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 6566,
+    "openDiffGrip": 1,
+    "fuelLitres": 200
+  },
+  "load": {
+    "name": "Crates",
+    "massT": 3.0
+  }
+}

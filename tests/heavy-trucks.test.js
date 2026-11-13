@@ -17,6 +17,20 @@ const drops = {
   'ural-bear-7': [1448, 653, 367],
   'prime-mover-1': [2004, 1538, 1398, 485, 356, 230],
   'titan-tipper-11': [1230, 509],
+  'ridge-pup-2': [1429, 529],
+  'farm-hand-4': [1545, 472],
+  'toro-furioso-16': [1493, 430],
+  'milk-run-2': [1553, 476],
+  'dump-rig-6': [1594, 723, 390],
+  'grand-mistral-19': [1524, 469],
+  'mog-2': [1399, 475],
+  'brush-engine-5': [1564, 434],
+  'transformer-10': [1534, 442],
+  'bog-rat-2': [1523, 525],
+  'mudlark-3': [1395, 507],
+  'quarry-goat-11': [1594, 723, 413],
+  'ballast-tractor-5': [1574, 1261, 624, 353],
+  'mega-crane-6': [1608, 1387, 929, 679, 431],
 };
 
 for (const [id, hubs] of Object.entries(drops)) {
