@@ -1,0 +1,228 @@
+{
+  "id": "raptor-six-19",
+  "name": "Raptor Six",
+  "number": 19,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Wide-body 6×6 desert super pickup",
+  "description": "Matte black wide-body 6×6 desert super pickup, crew cab, a long bed over two close rear axles.",
+  "stats": {
+    "power": 60,
+    "speed": 47,
+    "grip": 62,
+    "capacity": 3
+  },
+  "biomes": [
+    "Sand",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      976,
+      726
+    ],
+    "pixelsPerMetre": 192.308,
+    "axles": [
+      2.971,
+      -1.438,
+      -2.971
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1548,
+        726,
+        132
+      ],
+      [
+        700,
+        726,
+        132
+      ],
+      [
+        405,
+        726,
+        132
+      ]
+    ],
+    "exhaust": [
+      -3.934,
+      0.348
+    ],
+    "winch": [
+      4.06,
+      0.325
+    ],
+    "nose": 4.11,
+    "tail": -4.183
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 4600.0,
+    "centreOfMass": [
+      -0.479,
+      0.742
+    ],
+    "size": [
+      8.293,
+      2.319
+    ],
+    "wheelMass": 70,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.621,
+        3.621,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -4.183,
+        -3.166,
+        0.78,
+        2.059,
+        0.4
+      ],
+      [
+        -3.166,
+        -1.418,
+        0.422,
+        2.059,
+        0.4
+      ],
+      [
+        -1.418,
+        1.346,
+        0.422,
+        2.319,
+        0.4
+      ],
+      [
+        3.166,
+        4.11,
+        0.78,
+        1.545,
+        0.4
+      ],
+      [
+        1.346,
+        3.166,
+        0.422,
+        1.545,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -2.524,
+        1.183
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2797,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 76,
+    "exhaustBrake": 98,
+    "gears": {
+      "H": 9.469,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 4793,
+    "openDiffGrip": 1,
+    "fuelLitres": 136
+  },
+  "load": {
+    "name": "Spare tyres",
+    "massT": 0.4
+  }
+}

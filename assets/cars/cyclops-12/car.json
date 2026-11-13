@@ -1,0 +1,242 @@
+{
+  "id": "cyclops-12",
+  "name": "Cyclops",
+  "number": 12,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 military cargo truck",
+  "description": "Sand camouflage 8×8 military cargo truck with a flat-front cab and a tarp-covered bed.",
+  "stats": {
+    "power": 48,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 40
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      830,
+      805
+    ],
+    "pixelsPerMetre": 142.857,
+    "axles": [
+      3.241,
+      1.757,
+      -1.785,
+      -3.241
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1293,
+        805,
+        106
+      ],
+      [
+        1081,
+        805,
+        106
+      ],
+      [
+        575,
+        805,
+        106
+      ],
+      [
+        367,
+        805,
+        106
+      ]
+    ],
+    "exhaust": [
+      2.031,
+      0.584
+    ],
+    "winch": [
+      4.829,
+      0.35
+    ],
+    "nose": 4.879,
+    "tail": -4.613
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 16000.0,
+    "centreOfMass": [
+      -0.007,
+      0.934
+    ],
+    "size": [
+      9.492,
+      2.919
+    ],
+    "wheelMass": 249,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.941,
+        3.941,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -4.613,
+        -3.451,
+        0.84,
+        2.632,
+        0.4
+      ],
+      [
+        -3.451,
+        -2.24,
+        0.455,
+        2.632,
+        0.4
+      ],
+      [
+        -2.24,
+        0.133,
+        0.455,
+        2.667,
+        0.4
+      ],
+      [
+        0.133,
+        2.506,
+        0.455,
+        2.919,
+        0.4
+      ],
+      [
+        3.451,
+        4.879,
+        0.84,
+        2.849,
+        0.4
+      ],
+      [
+        2.506,
+        3.451,
+        0.455,
+        2.849,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8.0,
+      "centreOfMass": [
+        -1.765,
+        1.489
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2485,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 339,
+    "exhaustBrake": 437,
+    "gears": {
+      "H": 12.973,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 25104,
+    "openDiffGrip": 1,
+    "fuelLitres": 500
+  },
+  "load": {
+    "name": "Cargo",
+    "massT": 8.0
+  }
+}

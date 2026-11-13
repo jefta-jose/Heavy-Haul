@@ -1,0 +1,300 @@
+{
+  "id": "euro-heavy-3",
+  "name": "Euro Heavy",
+  "number": 3,
+  "class": "heavy",
+  "drive": "16×16",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Cab-over heavy tractor hauling a transformer",
+  "description": "White European cab-over 8×4 heavy tractor with a modular low trailer.",
+  "stats": {
+    "power": 20,
+    "speed": 22,
+    "grip": 62,
+    "capacity": 13
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1150,
+      648
+    ],
+    "pixelsPerMetre": 91.955,
+    "axles": [
+      9.494,
+      7.645,
+      5.971,
+      4.306,
+      -4.948,
+      -6.449,
+      -7.96,
+      -9.494
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.761,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2023,
+        648,
+        74
+      ],
+      [
+        1853,
+        648,
+        74
+      ],
+      [
+        1699,
+        648,
+        74
+      ],
+      [
+        1546,
+        648,
+        74
+      ],
+      [
+        695,
+        648,
+        74
+      ],
+      [
+        557,
+        648,
+        74
+      ],
+      [
+        418,
+        648,
+        74
+      ],
+      [
+        277,
+        648,
+        74
+      ]
+    ],
+    "exhaust": [
+      5.669,
+      3.698
+    ],
+    "winch": [
+      11.119,
+      0.381
+    ],
+    "nose": 11.169,
+    "tail": -10.831
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 35000.0,
+    "centreOfMass": [
+      -0.179,
+      1.479
+    ],
+    "size": [
+      22.0,
+      4.622
+    ],
+    "wheelMass": 495,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -10.255,
+        10.255,
+        0.685,
+        0.985,
+        0.4
+      ],
+      [
+        -10.831,
+        -9.722,
+        0.913,
+        0.935,
+        0.4
+      ],
+      [
+        -9.722,
+        -8.082,
+        0.495,
+        0.935,
+        0.4
+      ],
+      [
+        -8.082,
+        -5.331,
+        0.495,
+        4.328,
+        0.4
+      ],
+      [
+        -5.331,
+        -2.582,
+        0.495,
+        4.6,
+        0.4
+      ],
+      [
+        -2.582,
+        0.169,
+        0.495,
+        4.622,
+        0.4
+      ],
+      [
+        0.169,
+        2.918,
+        0.495,
+        3.1,
+        0.4
+      ],
+      [
+        2.918,
+        5.669,
+        0.495,
+        2.707,
+        0.4
+      ],
+      [
+        5.669,
+        8.418,
+        0.495,
+        3.752,
+        0.4
+      ],
+      [
+        9.722,
+        11.169,
+        0.913,
+        3.991,
+        0.4
+      ],
+      [
+        8.418,
+        9.722,
+        0.495,
+        3.991,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 40.0,
+      "centreOfMass": [
+        -3.131,
+        1.361
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4215,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 252,
+    "exhaustBrake": 336,
+    "gears": {
+      "H": 12.085,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 258418,
+    "openDiffGrip": 1,
+    "fuelLitres": 900
+  },
+  "load": {
+    "name": "Transformer",
+    "massT": 40.0
+  }
+}

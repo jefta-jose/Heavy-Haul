@@ -1,0 +1,214 @@
+{
+  "id": "old-timer-3",
+  "name": "Old Timer",
+  "number": 3,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "1970s boxy 4×4 cruiser with a roof basket",
+  "description": "Faded sky-blue 1970s boxy two-door 4×4 cruiser with a white roof, round headlights and a flat upright windscreen.",
+  "stats": {
+    "power": 13,
+    "speed": 40,
+    "grip": 80,
+    "capacity": 30
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1002,
+      814
+    ],
+    "pixelsPerMetre": 243.077,
+    "axles": [
+      1.735,
+      -1.735
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1424,
+        814,
+        167
+      ],
+      [
+        580,
+        814,
+        167
+      ]
+    ],
+    "exhaust": [
+      -2.992,
+      0.353
+    ],
+    "winch": [
+      2.92,
+      0.325
+    ],
+    "nose": 2.97,
+    "tail": -3.176
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2380.0,
+    "centreOfMass": [
+      0.0,
+      0.941
+    ],
+    "size": [
+      6.146,
+      2.942
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.385,
+        2.385,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -3.176,
+        -1.93,
+        0.78,
+        2.942,
+        0.4
+      ],
+      [
+        -1.93,
+        -0.103,
+        0.422,
+        2.942,
+        0.4
+      ],
+      [
+        1.93,
+        2.97,
+        0.78,
+        1.678,
+        0.4
+      ],
+      [
+        -0.103,
+        1.93,
+        0.422,
+        1.678,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.12,
+      "centreOfMass": [
+        -0.41,
+        2.376
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2524,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 69,
+    "exhaustBrake": 88,
+    "gears": {
+      "H": 10.735,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 90
+  },
+  "load": {
+    "name": "Roof basket",
+    "massT": 0.12
+  }
+}

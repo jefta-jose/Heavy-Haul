@@ -1,0 +1,256 @@
+{
+  "id": "fuel-runner-11",
+  "name": "Fuel Runner",
+  "number": 11,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Semi tractor with a fuel tanker",
+  "description": "Red conventional semi tractor pulling a polished aluminium fuel tanker trailer.",
+  "stats": {
+    "power": 70,
+    "speed": 34,
+    "grip": 62,
+    "capacity": 60
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1066,
+      689
+    ],
+    "pixelsPerMetre": 107.686,
+    "axles": [
+      6.617,
+      2.168,
+      0.645,
+      -5.094,
+      -6.617
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.743,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1778,
+        689,
+        85
+      ],
+      [
+        1299,
+        689,
+        85
+      ],
+      [
+        1135,
+        689,
+        85
+      ],
+      [
+        517,
+        689,
+        85
+      ],
+      [
+        353,
+        689,
+        85
+      ]
+    ],
+    "exhaust": [
+      3.871,
+      3.44
+    ],
+    "winch": [
+      7.821,
+      0.371
+    ],
+    "nose": 7.871,
+    "tail": -8.129
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      -0.456,
+      1.159
+    ],
+    "size": [
+      16.0,
+      3.621
+    ],
+    "wheelMass": 342,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -7.36,
+        7.36,
+        0.669,
+        0.969,
+        0.4
+      ],
+      [
+        -8.129,
+        -6.84,
+        0.892,
+        3.621,
+        0.4
+      ],
+      [
+        -6.84,
+        -4.93,
+        0.483,
+        3.621,
+        0.4
+      ],
+      [
+        -4.93,
+        -1.731,
+        0.483,
+        3.621,
+        0.4
+      ],
+      [
+        -1.731,
+        1.47,
+        0.483,
+        3.621,
+        0.4
+      ],
+      [
+        1.47,
+        4.67,
+        0.483,
+        3.407,
+        0.4
+      ],
+      [
+        6.84,
+        7.871,
+        0.892,
+        3.065,
+        0.4
+      ],
+      [
+        4.67,
+        6.84,
+        0.483,
+        3.065,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 18.0,
+      "centreOfMass": [
+        -3.329,
+        1.343
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.3722,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 644,
+    "exhaustBrake": 831,
+    "gears": {
+      "H": 9.958,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 26684,
+    "openDiffGrip": 1,
+    "fuelLitres": 800
+  },
+  "load": {
+    "name": "Fuel",
+    "massT": 18.0
+  }
+}

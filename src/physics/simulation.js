@@ -229,6 +229,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
   function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
 
+  // a rig longer than the start wall's distance is placed far enough forward that its tail clears it
+  const clearOfWall = (car, x) => Math.max(x, BARRIER_X + 1 - Math.min(...car.physics.bodyBoxes.map(b => b[0])));
   function makeVehicle(car, role, x, { ctl = newCtl(), st = newSt() } = {}) {
     const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
     if (car.physics.tireGrip && car.physics.tireGrip !== 1) tireData.gripScale = car.physics.tireGrip;   // garage tuning
@@ -420,12 +422,13 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     init(x = trail.start, setup = sim.setup) {
       sim.setup = setup;
       buildWorld(); events.length = 0;
+      x = clearOfWall(setup.car, x);
       main = makeVehicle(setup.car, 'main', x, { ctl: mainCtl, st: mainSt });
       vehicles = [main]; active = main;
       mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
-    respawn(x, v = main) { removeParts(v); spawnParts(v, x); for (const o of vehicles) if (o === v || o.cable?.target === v) o.cable = null; },
+    respawn(x, v = main) { removeParts(v); spawnParts(v, clearOfWall(v.car, x)); for (const o of vehicles) if (o === v || o.cable?.target === v) o.cable = null; },
     spawnService(car, x = sim.serviceSpot(car), serves = car.class) { const v = makeVehicle(car, 'service', x); v.serves = serves; vehicles.push(v); return v; },
     // where a called service truck parks: ahead of the main truck, on firm ground if any lies
     // close by (a truck stuck in mud is towed out by one standing past the mud)

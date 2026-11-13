@@ -1,0 +1,214 @@
+{
+  "id": "baja-hammer-20",
+  "name": "Baja Hammer",
+  "number": 20,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Unlimited desert trophy truck",
+  "description": "Black and orange unlimited desert trophy truck with a wide fibreglass pickup-shaped body, a roof scoop and an exposed rear cage.",
+  "stats": {
+    "power": 100,
+    "speed": 66,
+    "grip": 62,
+    "capacity": 25
+  },
+  "biomes": [
+    "Sand",
+    "Gravel",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      948,
+      744
+    ],
+    "pixelsPerMetre": 223.077,
+    "axles": [
+      2.051,
+      -2.051
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1406,
+        744,
+        154
+      ],
+      [
+        491,
+        744,
+        154
+      ]
+    ],
+    "exhaust": [
+      -3.339,
+      0.592
+    ],
+    "winch": [
+      3.122,
+      0.325
+    ],
+    "nose": 3.172,
+    "tail": -3.472
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2700.0,
+    "centreOfMass": [
+      0.0,
+      0.631
+    ],
+    "size": [
+      6.644,
+      1.972
+    ],
+    "wheelMass": 173,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.701,
+        2.701,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.472,
+        -2.246,
+        0.78,
+        1.873,
+        0.4
+      ],
+      [
+        -2.246,
+        -0.151,
+        0.423,
+        1.873,
+        0.4
+      ],
+      [
+        2.246,
+        3.172,
+        0.78,
+        1.972,
+        0.4
+      ],
+      [
+        -0.151,
+        2.246,
+        0.423,
+        1.972,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.1,
+      "centreOfMass": [
+        -2.143,
+        1.173
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3762,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 102,
+    "exhaustBrake": 132,
+    "gears": {
+      "H": 9.5,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 4476,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Spare tyres",
+    "massT": 0.1
+  }
+}

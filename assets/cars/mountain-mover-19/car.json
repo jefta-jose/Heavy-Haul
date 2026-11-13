@@ -1,0 +1,250 @@
+{
+  "id": "mountain-mover-19",
+  "name": "Mountain Mover",
+  "number": 19,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Ultra-class mining haul truck heaped with ore",
+  "description": "White ultra-class mining haul truck with a canopy, ladders and a giant dump body.",
+  "stats": {
+    "power": 86,
+    "speed": 18,
+    "grip": 86,
+    "capacity": 73
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      980,
+      692
+    ],
+    "pixelsPerMetre": 94.444,
+    "axles": [
+      3.891,
+      -3.891
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.8,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1347,
+        692,
+        180
+      ],
+      [
+        612,
+        692,
+        180
+      ]
+    ],
+    "exhaust": [
+      5.075,
+      4.536
+    ],
+    "winch": [
+      7.695,
+      0.9
+    ],
+    "nose": 7.745,
+    "tail": -7.089
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 70000,
+    "centreOfMass": [
+      0.0,
+      1.708
+    ],
+    "size": [
+      14.834,
+      5.336
+    ],
+    "wheelMass": 724,
+    "tireGrip": 1.15,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -5.691,
+        5.691,
+        1.62,
+        1.92,
+        0.4
+      ],
+      [
+        -7.089,
+        -4.97,
+        2.16,
+        4.267,
+        0.4
+      ],
+      [
+        -4.97,
+        -4.431,
+        2.16,
+        4.839,
+        0.4
+      ],
+      [
+        -4.431,
+        -2.851,
+        1.17,
+        4.839,
+        0.4
+      ],
+      [
+        -2.851,
+        -0.731,
+        1.17,
+        5.156,
+        0.4
+      ],
+      [
+        -0.731,
+        1.388,
+        1.17,
+        4.849,
+        0.4
+      ],
+      [
+        1.388,
+        3.507,
+        1.17,
+        5.336,
+        0.4
+      ],
+      [
+        4.431,
+        5.626,
+        2.16,
+        4.955,
+        0.4
+      ],
+      [
+        3.507,
+        4.431,
+        1.17,
+        4.955,
+        0.4
+      ],
+      [
+        5.626,
+        7.745,
+        2.16,
+        4.828,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 100,
+      "centreOfMass": [
+        -1.897,
+        2.4
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 9.0485,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 919,
+    "exhaustBrake": 1223,
+    "gears": {
+      "H": 22.482,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 1499400,
+    "openDiffGrip": 1,
+    "fuelLitres": 3000
+  },
+  "load": {
+    "name": "Ore",
+    "massT": 100
+  }
+}

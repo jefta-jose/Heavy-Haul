@@ -31,7 +31,7 @@ export const AUTO_UP_AT = 0.9;                // shift up to the long gear at th
 export const AUTO_DOWN_AT = 0.45;             // shift back down to the short gear below this share of it
 export const AUTO_HOLD_S = 1.2;               // the least time between shifts, so it never hunts between gears
 export const REVERSE_AFTER_S = 0.35;          // hold the brake this long at a standstill and the truck starts reversing
-export const START_BARRIER_BEHIND_M = 10;     // a wall this far behind the trail start (the truck's middle) stops reversing off the trail; the longest rig's tail sits about 8.5 m back
+export const START_BARRIER_BEHIND_M = 10;     // a wall this far behind the trail start (the truck's middle) stops reversing off the trail; a longer rig starts moved forward until its tail clears it
 
 // ---------- fuel and stations ----------
 // How long a full tank lasts at full gas, in seconds. Fuel burns over time, so being stuck drains it. Stations are

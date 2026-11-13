@@ -1,0 +1,235 @@
+{
+  "id": "cement-mixer-5",
+  "name": "Cement Mixer",
+  "number": 5,
+  "class": "highway",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Bonneted four-axle concrete mixer",
+  "description": "Yellow and white bonneted American four-axle concrete mixer truck with a striped rotating drum.",
+  "stats": {
+    "power": 55,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 33
+  },
+  "biomes": [
+    "Gravel",
+    "Rock",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      860,
+      744
+    ],
+    "pixelsPerMetre": 137.598,
+    "axles": [
+      3.651,
+      -0.687,
+      -2.169,
+      -3.651
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.734,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1362,
+        744,
+        107
+      ],
+      [
+        765,
+        744,
+        107
+      ],
+      [
+        561,
+        744,
+        107
+      ],
+      [
+        357,
+        744,
+        107
+      ]
+    ],
+    "exhaust": [
+      1.018,
+      3.32
+    ],
+    "winch": [
+      4.968,
+      0.367
+    ],
+    "nose": 5.018,
+    "tail": -4.982
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 13000.0,
+    "centreOfMass": [
+      -0.714,
+      1.118
+    ],
+    "size": [
+      10.0,
+      3.495
+    ],
+    "wheelMass": 274,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.385,
+        4.385,
+        0.184,
+        0.514,
+        0.4
+      ],
+      [
+        -4.982,
+        -3.871,
+        0.881,
+        3.495,
+        0.4
+      ],
+      [
+        -3.871,
+        -1.648,
+        0.478,
+        3.495,
+        0.4
+      ],
+      [
+        -1.648,
+        1.684,
+        0.478,
+        3.139,
+        0.4
+      ],
+      [
+        3.871,
+        5.018,
+        0.881,
+        2.761,
+        0.4
+      ],
+      [
+        1.684,
+        3.871,
+        0.478,
+        2.761,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 10.0,
+      "centreOfMass": [
+        -1.482,
+        1.334
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.6054,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 436,
+    "exhaustBrake": 562,
+    "gears": {
+      "H": 10.097,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 18947,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  },
+  "load": {
+    "name": "Wet concrete",
+    "massT": 10.0
+  }
+}

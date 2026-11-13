@@ -1,0 +1,228 @@
+{
+  "id": "plough-master-6",
+  "name": "Plough Master",
+  "number": 6,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "6×6 snow-plough dump truck",
+  "description": "Orange bonneted 6×6 snow plough dump truck with a big angled front blade and a salt spreader.",
+  "stats": {
+    "power": 40,
+    "speed": 26,
+    "grip": 88,
+    "capacity": 57
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      859,
+      789
+    ],
+    "pixelsPerMetre": 158.903,
+    "axles": [
+      2.611,
+      -1.151,
+      -2.611
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.717,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1274,
+        789,
+        121
+      ],
+      [
+        676,
+        789,
+        121
+      ],
+      [
+        444,
+        789,
+        121
+      ]
+    ],
+    "exhaust": [
+      0.862,
+      2.727
+    ],
+    "winch": [
+      4.412,
+      0.358
+    ],
+    "nose": 4.462,
+    "tail": -4.538
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 13000.0,
+    "centreOfMass": [
+      -0.384,
+      0.918
+    ],
+    "size": [
+      9.0,
+      2.87
+    ],
+    "wheelMass": 200,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.328,
+        3.328,
+        0.179,
+        0.502,
+        0.4
+      ],
+      [
+        -4.538,
+        -2.826,
+        0.86,
+        2.586,
+        0.4
+      ],
+      [
+        -2.826,
+        -1.538,
+        0.466,
+        2.586,
+        0.4
+      ],
+      [
+        -1.538,
+        1.462,
+        0.466,
+        2.87,
+        0.4
+      ],
+      [
+        2.826,
+        4.462,
+        0.86,
+        2.644,
+        0.4
+      ],
+      [
+        1.462,
+        2.826,
+        0.466,
+        2.644,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8.0,
+      "centreOfMass": [
+        -1.838,
+        1.464
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2122,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 330,
+    "exhaustBrake": 425,
+    "gears": {
+      "H": 11.624,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 22206,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  },
+  "load": {
+    "name": "Road salt",
+    "massT": 8.0
+  }
+}

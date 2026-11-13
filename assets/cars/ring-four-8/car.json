@@ -1,0 +1,203 @@
+{
+  "id": "ring-four-8",
+  "name": "Ring Four",
+  "number": 8,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "1980s rally coupé on off-road tyres",
+  "description": "White 1980s angular two-door rally coupé with box-flared arches, a roof spoiler and a bank of spot lamps.",
+  "stats": {
+    "power": 30,
+    "speed": 65,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      964,
+      710
+    ],
+    "pixelsPerMetre": 210.769,
+    "axles": [
+      2.038,
+      -2.038
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1394,
+        710,
+        145
+      ],
+      [
+        535,
+        710,
+        145
+      ]
+    ],
+    "exhaust": [
+      -3.114,
+      0.302
+    ],
+    "winch": [
+      3.273,
+      0.325
+    ],
+    "nose": 3.323,
+    "tail": -3.313
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.644
+    ],
+    "size": [
+      6.636,
+      2.012
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.688,
+        2.688,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.313,
+        -2.233,
+        0.78,
+        2.012,
+        0.4
+      ],
+      [
+        -2.233,
+        0.005,
+        0.422,
+        2.012,
+        0.4
+      ],
+      [
+        2.233,
+        3.323,
+        0.78,
+        1.557,
+        0.4
+      ],
+      [
+        0.005,
+        2.233,
+        0.422,
+        1.557,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2687,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 73,
+    "exhaustBrake": 94,
+    "gears": {
+      "H": 9.543,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 90
+  }
+}

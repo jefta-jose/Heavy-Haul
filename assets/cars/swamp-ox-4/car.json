@@ -1,0 +1,228 @@
+{
+  "id": "swamp-ox-4",
+  "name": "Swamp Ox",
+  "number": 4,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Amphibious 6×6 cargo truck",
+  "description": "Olive amphibious 6×6 truck with a boat-shaped hull, a small cab and a cargo well.",
+  "stats": {
+    "power": 19,
+    "speed": 24,
+    "grip": 90,
+    "capacity": 12
+  },
+  "biomes": [
+    "Swamp",
+    "Water",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      834,
+      796
+    ],
+    "pixelsPerMetre": 201.538,
+    "axles": [
+      2.005,
+      -0.7,
+      -2.005
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1238,
+        796,
+        139
+      ],
+      [
+        693,
+        796,
+        139
+      ],
+      [
+        430,
+        796,
+        139
+      ]
+    ],
+    "exhaust": [
+      0.793,
+      1.214
+    ],
+    "winch": [
+      3.547,
+      0.325
+    ],
+    "nose": 3.597,
+    "tail": -3.414
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 7000.0,
+    "centreOfMass": [
+      -0.233,
+      0.648
+    ],
+    "size": [
+      7.011,
+      2.024
+    ],
+    "wheelMass": 123,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.655,
+        2.655,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.414,
+        -2.2,
+        0.78,
+        2.024,
+        0.4
+      ],
+      [
+        -2.2,
+        -1.077,
+        0.423,
+        2.024,
+        0.4
+      ],
+      [
+        -1.077,
+        1.26,
+        0.423,
+        2.0,
+        0.4
+      ],
+      [
+        2.2,
+        3.597,
+        0.78,
+        1.871,
+        0.4
+      ],
+      [
+        1.26,
+        2.2,
+        0.423,
+        1.871,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 2.5,
+      "centreOfMass": [
+        -0.96,
+        1.032
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4143,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 113,
+    "exhaustBrake": 145,
+    "gears": {
+      "H": 12.112,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 9227,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  },
+  "load": {
+    "name": "Cargo",
+    "massT": 2.5
+  }
+}

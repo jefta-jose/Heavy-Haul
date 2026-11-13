@@ -1,0 +1,221 @@
+{
+  "id": "nomad-camper-3",
+  "name": "Nomad Camper",
+  "number": 3,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Forward-control expedition camper truck",
+  "description": "Sand-coloured forward-control expedition 4×4 truck carrying a boxy camper body with small windows and a roof ladder.",
+  "stats": {
+    "power": 23,
+    "speed": 29,
+    "grip": 62,
+    "capacity": 13
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      862,
+      882
+    ],
+    "pixelsPerMetre": 175.385,
+    "axles": [
+      2.209,
+      -2.209
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1250,
+        882,
+        121
+      ],
+      [
+        475,
+        882,
+        121
+      ]
+    ],
+    "exhaust": [
+      0.691,
+      0.535
+    ],
+    "winch": [
+      3.704,
+      0.325
+    ],
+    "nose": 3.754,
+    "tail": -3.903
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 7500.0,
+    "centreOfMass": [
+      0.0,
+      1.142
+    ],
+    "size": [
+      7.657,
+      3.569
+    ],
+    "wheelMass": 101,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.859,
+        2.859,
+        0.162,
+        0.456,
+        0.4
+      ],
+      [
+        -3.903,
+        -2.404,
+        0.78,
+        3.484,
+        0.4
+      ],
+      [
+        -2.404,
+        -1.35,
+        0.422,
+        3.484,
+        0.4
+      ],
+      [
+        -1.35,
+        1.202,
+        0.422,
+        3.569,
+        0.4
+      ],
+      [
+        2.404,
+        3.754,
+        0.78,
+        2.993,
+        0.4
+      ],
+      [
+        1.202,
+        2.404,
+        0.422,
+        2.993,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 1.8,
+      "centreOfMass": [
+        -1.223,
+        1.82
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4581,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 125,
+    "exhaustBrake": 161,
+    "gears": {
+      "H": 10.37,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 8915,
+    "openDiffGrip": 1,
+    "fuelLitres": 300
+  },
+  "load": {
+    "name": "Camper box",
+    "massT": 1.8
+  }
+}
