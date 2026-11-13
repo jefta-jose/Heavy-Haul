@@ -193,6 +193,12 @@ and concrete slabs and even the breakdown truck cannot drag it free. The third b
 (`START_BARRIER_BEHIND_M`) is placed forward until its tail clears it (`clearOfWall` in the simulation); keep a heavy car's loaded
 weight within what its class's breakdown truck can drag out of a bog (about 170 t for the Colossus Wrecker).
 
+**Old cars restored (2026-11-13, user decision):** the 100 cars deleted in b484ae2 are back and playable alongside the new roster,
+with their own classes, ranks and prices (so a rank can open several cars and each class has two free rank-1 starters). Fifteen
+whose names clashed with new ones were renamed (Iron Duke was Prime Mover, Freeway Baron was Interstate, and so on). The
+`chained` tyre type is kept for them only; new art never draws chains. A few got bigger tyres (`pixelsPerMetre` scaled), a lower
+centre of mass or flotation tyres so they still clear the trail now that a towed truck's pedals are released.
+
 ## Hook up a season
 
 **Blackwater Swamp is the reference for every map.** Study [`assets/seasons/swamp-summer/README.md`](assets/seasons/swamp-summer/README.md)

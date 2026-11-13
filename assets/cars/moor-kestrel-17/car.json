@@ -1,0 +1,221 @@
+{
+  "id": "moor-kestrel-17",
+  "name": "Moor Kestrel",
+  "number": 17,
+  "class": "scout",
+  "drive": "4\u00d74",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Mustard yellow 4\u00d74 pickup scout with an open bed",
+  "description": "Mustard yellow 4\u00d74 pickup scout with an open bed, carrying white crates with red crosses under a tarp.",
+  "stats": {
+    "power": 86,
+    "speed": 88,
+    "grip": 93,
+    "capacity": 84,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "../glacier-hare-19/source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      941.0,
+      666
+    ],
+    "pixelsPerMetre": 200.0,
+    "axles": [
+      2.69,
+      -2.69
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.83,
+    "wheelPivot": [
+      768,
+      773
+    ],
+    "wheelArtRadius": 584.5,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1479,
+        666,
+        179
+      ],
+      [
+        403,
+        666,
+        179
+      ]
+    ],
+    "exhaust": [
+      -4.235,
+      0.15
+    ],
+    "winch": [
+      4.010000000000001,
+      0.35
+    ],
+    "nose": 4.11
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 4900.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      8.745,
+      2.92
+    ],
+    "wheelMass": 191,
+    "bodyBoxes": [
+      [
+        -4.635,
+        4.11,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -4.635,
+        -2.885,
+        0.5,
+        2.675,
+        0.4
+      ],
+      [
+        -2.885,
+        -1.135,
+        0.5,
+        2.74,
+        0.4
+      ],
+      [
+        -1.135,
+        0.61,
+        0.5,
+        2.71,
+        0.4
+      ],
+      [
+        0.61,
+        2.36,
+        0.5,
+        2.685,
+        0.4
+      ],
+      [
+        2.36,
+        4.11,
+        0.5,
+        1.725,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 0.5,
+      "centreOfMass": [
+        -2.69,
+        1.97
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.299,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 7.197,
+      "L": 43.784,
+      "R": 34.266
+    },
+    "brakeTorque": 5143,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 162
+  },
+  "load": {
+    "name": "Medical supplies",
+    "massT": 0.5
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "id": "launch-carrier-16",
+  "name": "Launch Carrier",
+  "number": 16,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Gunmetal grey prime mover carrying a shielded cask",
+  "description": "A gunmetal grey heavy-haul prime mover with an escort light bar and giant mining tires, carrying a yellow-and-black shielded cask.",
+  "stats": {
+    "power": 82,
+    "speed": 85,
+    "grip": 93,
+    "capacity": 80,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      964,
+      728
+    ],
+    "pixelsPerMetre": 106,
+    "axles": [
+      6.344,
+      2.741,
+      0.618,
+      -4.25,
+      -6.344
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1636,
+        728,
+        108
+      ],
+      [
+        1254,
+        728,
+        108
+      ],
+      [
+        1029,
+        728,
+        108
+      ],
+      [
+        513,
+        728,
+        108
+      ],
+      [
+        291,
+        728,
+        108
+      ]
+    ],
+    "nose": 8.335,
+    "exhaust": [
+      2.73584906,
+      3.66037736
+    ],
+    "winch": [
+      8.235,
+      0.7
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 74000,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.217,
+      4.491
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -7.882,
+        8.335,
+        1,
+        1.5,
+        1
+      ],
+      [
+        -7.882,
+        -5.565,
+        1.5,
+        3.802,
+        0.4
+      ],
+      [
+        -5.565,
+        -3.249,
+        1.5,
+        3.821,
+        0.4
+      ],
+      [
+        -3.249,
+        -0.932,
+        1.5,
+        3.953,
+        0.4
+      ],
+      [
+        -0.932,
+        1.385,
+        1.5,
+        2.943,
+        0.4
+      ],
+      [
+        1.385,
+        3.701,
+        1.5,
+        3.613,
+        0.4
+      ],
+      [
+        3.701,
+        6.018,
+        1.5,
+        3.858,
+        0.4
+      ],
+      [
+        6.018,
+        8.335,
+        1.5,
+        2.358,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 15,
+      "centreOfMass": [
+        -3.67,
+        2.764
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.958,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 334,
+    "exhaustBrake": 444,
+    "gears": {
+      "H": 11.409,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 436100,
+    "openDiffGrip": 1,
+    "fuelLitres": 1705
+  },
+  "load": {
+    "name": "Nuclear warhead cask",
+    "massT": 15
+  }
+}

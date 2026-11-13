@@ -1,0 +1,308 @@
+{
+  "id": "titan-2",
+  "name": "Titan",
+  "number": 2,
+  "class": "heavy",
+  "drive": "14×14",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Mining dump body heavy hauler",
+  "description": "teal heavy-haul prime mover with a multi-axle lowbed, carrying a giant orange mining dump body.",
+  "stats": {
+    "power": 24,
+    "speed": 43,
+    "grip": 70,
+    "capacity": 14,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png",
+      "registration": {
+        "canvas": [
+          2172,
+          724
+        ],
+        "matrix": [
+          1.00834296,
+          -0.00023129,
+          -4.85904587,
+          0.00023129,
+          1.00834296,
+          -3.52111146
+        ]
+      }
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1110,
+      567
+    ],
+    "pixelsPerMetre": 140.458015,
+    "axles": [
+      6.478804,
+      3.581141,
+      2.221304,
+      -2.420652,
+      -3.76625,
+      -5.118967,
+      -6.471685
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.655,
+    "wheelPivot": [
+      626,
+      624
+    ],
+    "wheelArtRadius": 577.5,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2020,
+        567,
+        97
+      ],
+      [
+        1613,
+        567,
+        97
+      ],
+      [
+        1422,
+        567,
+        97
+      ],
+      [
+        770,
+        567,
+        97
+      ],
+      [
+        581,
+        567,
+        97
+      ],
+      [
+        391,
+        567,
+        97
+      ],
+      [
+        201,
+        567,
+        97
+      ]
+    ],
+    "nose": 7.354511,
+    "tail": -7.682011,
+    "exhaust": [
+      4.69891305,
+      2.57728261
+    ],
+    "winch": [
+      7.283315,
+      0.457283
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 22700.0,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      15.036522,
+      3.43875
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "bodyBoxes": [
+      [
+        -7.127,
+        7.134,
+        0.5567,
+        0.8188,
+        0.4
+      ],
+      [
+        -7.682,
+        -6.668,
+        0.786,
+        2.719674,
+        0.4
+      ],
+      [
+        -6.668,
+        -5.802,
+        0.786,
+        2.719674,
+        0.4
+      ],
+      [
+        -5.802,
+        -3.923,
+        0.786,
+        2.655598,
+        0.4
+      ],
+      [
+        -3.923,
+        -2.043,
+        0.786,
+        2.662717,
+        0.4
+      ],
+      [
+        -2.043,
+        -0.164,
+        0.786,
+        3.125489,
+        0.4
+      ],
+      [
+        -0.164,
+        1.716,
+        0.786,
+        3.367554,
+        0.4
+      ],
+      [
+        1.716,
+        3.595,
+        0.786,
+        1.407894,
+        0.4
+      ],
+      [
+        3.595,
+        5.475,
+        0.786,
+        2.602201,
+        0.4
+      ],
+      [
+        6.675,
+        7.355,
+        0.786,
+        2.78375,
+        0.4
+      ],
+      [
+        5.475,
+        6.675,
+        0.786,
+        2.78375,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 45,
+      "centreOfMass": [
+        -3.171054,
+        1.719375
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1328814,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 201,
+    "exhaustBrake": 267,
+    "gears": {
+      "H": 9.31044,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 217505,
+    "openDiffGrip": 1,
+    "fuelLitres": 673
+  },
+  "load": {
+    "name": "Mining dump body",
+    "massT": 45
+  }
+}

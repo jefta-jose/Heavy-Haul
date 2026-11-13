@@ -1,0 +1,236 @@
+{
+  "id": "fieldmaster-5",
+  "name": "Fieldmaster",
+  "number": 5,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Safety orange heavy-duty work truck",
+  "description": "Safety orange heavy-duty work truck, carrying a rotating mixer drum full of concrete.",
+  "stats": {
+    "power": 36,
+    "speed": 52,
+    "grip": 79,
+    "capacity": 28,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      934,
+      672
+    ],
+    "pixelsPerMetre": 182.4996,
+    "axles": [
+      3.2712,
+      -1.6219,
+      -3.2767
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      628
+    ],
+    "wheelArtRadius": 592,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1531,
+        672,
+        152
+      ],
+      [
+        638,
+        672,
+        152
+      ],
+      [
+        336,
+        672,
+        152
+      ]
+    ],
+    "nose": 4.5337,
+    "exhaust": [
+      1.6438,
+      3.1233
+    ],
+    "winch": [
+      4.3546,
+      0.4571
+    ]
+  },
+  "camera": {
+    "zoom": 1.65
+  },
+  "physics": {
+    "mass": 12200.0,
+    "centreOfMass": [
+      0.2857,
+      0.8571
+    ],
+    "size": [
+      9.584,
+      3.4137
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -4.0766,
+        4.0709,
+        0.6857,
+        1.0857,
+        0.4
+      ],
+      [
+        -5.0491,
+        -3.5166,
+        1.0286,
+        3.32,
+        0.4
+      ],
+      [
+        -3.5166,
+        -2.6537,
+        1.0286,
+        3.32,
+        0.4
+      ],
+      [
+        -2.6537,
+        -0.2571,
+        1.0286,
+        3.2937,
+        0.4
+      ],
+      [
+        -0.2571,
+        2.1383,
+        1.0286,
+        2.7177,
+        0.4
+      ],
+      [
+        3.5109,
+        4.5337,
+        1.0286,
+        2.7177,
+        0.4
+      ],
+      [
+        2.1383,
+        3.5109,
+        1.0286,
+        2.7177,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.1829,
+      "travelUp": 0.3886,
+      "travelDown": 0.4571,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.3534,
+        1.8286
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.69661,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 7.794,
+      "L": 38.8571,
+      "R": 29.7143
+    },
+    "brakeTorque": 30423,
+    "openDiffGrip": 1,
+    "fuelLitres": 323
+  },
+  "load": {
+    "name": "Concrete",
+    "massT": 12
+  }
+}

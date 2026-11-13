@@ -1,0 +1,229 @@
+{
+  "id": "rangeline-10",
+  "name": "Rangeline",
+  "number": 10,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Gunmetal grey heavy-duty work truck",
+  "description": "Gunmetal grey heavy-duty work truck, carrying a rusty broken-down cab-over truck on a tilt deck.",
+  "stats": {
+    "power": 57,
+    "speed": 67,
+    "grip": 86,
+    "capacity": 52,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      918,
+      677
+    ],
+    "pixelsPerMetre": 161.429,
+    "axles": [
+      3.512380056,
+      -2.099994425,
+      -3.506185382
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626,
+      624
+    ],
+    "wheelArtRadius": 598,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1485,
+        677,
+        119
+      ],
+      [
+        579,
+        677,
+        119
+      ],
+      [
+        352,
+        677,
+        119
+      ]
+    ],
+    "nose": 5.157,
+    "exhaust": [
+      2.57078964,
+      0.07433609
+    ],
+    "winch": [
+      4.9916,
+      0.4
+    ]
+  },
+  "camera": {
+    "zoom": 1.67
+  },
+  "physics": {
+    "mass": 15300.0,
+    "centreOfMass": [
+      0.25,
+      0.75
+    ],
+    "size": [
+      10.704,
+      3.649
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -5.547,
+        5.157,
+        0.6,
+        0.95,
+        0.4
+      ],
+      [
+        -5.547,
+        -3.406,
+        0.9,
+        1.92,
+        0.4
+      ],
+      [
+        -3.406,
+        -1.266,
+        0.9,
+        2.05,
+        0.4
+      ],
+      [
+        -1.266,
+        0.875,
+        0.9,
+        3.636,
+        0.4
+      ],
+      [
+        0.875,
+        3.016,
+        0.9,
+        3.029,
+        0.4
+      ],
+      [
+        3.016,
+        5.157,
+        0.9,
+        2.645,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.5642,
+        1.6
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.845763,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 6.45698,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 30030,
+    "openDiffGrip": 1,
+    "fuelLitres": 415
+  },
+  "load": {
+    "name": "Broken-down truck",
+    "massT": 12
+  }
+}

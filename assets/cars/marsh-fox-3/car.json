@@ -1,0 +1,235 @@
+{
+  "id": "marsh-fox-3",
+  "name": "Marsh Fox",
+  "number": 3,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Gunmetal grey 4×4 pickup scout with an open bed",
+  "description": "Gunmetal grey 4×4 pickup scout with an open bed, carrying olive supply crates under a cargo net.",
+  "stats": {
+    "power": 28,
+    "speed": 46,
+    "grip": 78,
+    "capacity": 19,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      935.5,
+      656
+    ],
+    "pixelsPerMetre": 245.517241,
+    "axles": [
+      2.2177668539325843,
+      -2.2177668539325843
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      767.0,
+      760.0
+    ],
+    "wheelArtRadius": 585.0,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1480,
+        656,
+        192
+      ],
+      [
+        391,
+        656,
+        192
+      ]
+    ],
+    "exhaust": [
+      -3.24824439,
+      0.28103933
+    ],
+    "winch": [
+      3.2663623595505618,
+      0.35
+    ],
+    "nose": 3.366362359550562
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2300.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      7.119662921348315,
+      2.4560393258426965
+    ],
+    "wheelMass": 149,
+    "bodyBoxes": [
+      [
+        -2.943,
+        2.943,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -3.753,
+        -2.435,
+        0.87,
+        2.1301966292134833,
+        0.4
+      ],
+      [
+        -2.435,
+        -2.328,
+        0.5,
+        2.1301966292134833,
+        0.4
+      ],
+      [
+        -2.328,
+        -0.906,
+        0.5,
+        2.0609550561797754,
+        0.4
+      ],
+      [
+        -0.906,
+        0.519,
+        0.5,
+        2.378651685393258,
+        0.4
+      ],
+      [
+        0.519,
+        1.941,
+        0.5,
+        2.2808988764044944,
+        0.4
+      ],
+      [
+        2.435,
+        3.366,
+        0.87,
+        1.4459269662921348,
+        0.4
+      ],
+      [
+        1.941,
+        2.435,
+        0.5,
+        1.4459269662921348,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 0.3,
+      "centreOfMass": [
+        -2.2177668539325843,
+        1.6821629213483147
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.201,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 6.286,
+      "L": 38.245,
+      "R": 29.931
+    },
+    "brakeTorque": 2476,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 81
+  },
+  "load": {
+    "name": "Supply crates",
+    "massT": 0.3
+  }
+}

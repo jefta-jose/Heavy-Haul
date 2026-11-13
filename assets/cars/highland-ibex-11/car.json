@@ -1,0 +1,221 @@
+{
+  "id": "highland-ibex-11",
+  "name": "Highland Ibex",
+  "number": 11,
+  "class": "scout",
+  "drive": "4\u00d74",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Mustard yellow 4\u00d74 pickup scout with an open bed",
+  "description": "Mustard yellow 4\u00d74 pickup scout with an open bed, carrying red rolling tool chests and a welding cart.",
+  "stats": {
+    "power": 61,
+    "speed": 70,
+    "grip": 86,
+    "capacity": 56,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      940.5,
+      668
+    ],
+    "pixelsPerMetre": 240.764331,
+    "axles": [
+      2.2573941798941797,
+      -2.2573941798941797
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.785,
+    "wheelPivot": [
+      767.5,
+      766.5
+    ],
+    "wheelArtRadius": 594.5,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1484,
+        668,
+        204
+      ],
+      [
+        397,
+        668,
+        204
+      ]
+    ],
+    "exhaust": [
+      -3.31652117,
+      0.31150794
+    ],
+    "winch": [
+      3.312050264550264,
+      0.35
+    ],
+    "nose": 3.412050264550264
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3700.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      7.260211640211639,
+      2.7163492063492063
+    ],
+    "wheelMass": 173,
+    "bodyBoxes": [
+      [
+        -3.8481613756613755,
+        3.412050264550264,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -3.8481613756613755,
+        -2.394457671957672,
+        0.5,
+        2.5958994708994707,
+        0.4
+      ],
+      [
+        -2.394457671957672,
+        -0.9449074074074073,
+        0.5,
+        2.5958994708994707,
+        0.4
+      ],
+      [
+        -0.9449074074074073,
+        0.5087962962962963,
+        0.5,
+        2.2926984126984125,
+        0.4
+      ],
+      [
+        0.5087962962962963,
+        1.9583465608465607,
+        0.5,
+        2.2677777777777774,
+        0.4
+      ],
+      [
+        1.9583465608465607,
+        3.412050264550264,
+        0.5,
+        1.495238095238095,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 0.6,
+      "centreOfMass": [
+        -2.2573941798941797,
+        1.9271957671957671
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.257,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 6.807,
+      "L": 41.411,
+      "R": 32.408
+    },
+    "brakeTorque": 4095,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 127
+  },
+  "load": {
+    "name": "Tool chests",
+    "massT": 0.6
+  }
+}

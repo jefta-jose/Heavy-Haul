@@ -84,6 +84,21 @@
     "ice": 0.3
    },
    "art": "enormous mining-truck tires taller than a person, deep chevron tread"
+  },
+  "chained": {
+   "name": "Snow chains",
+   "grip": {
+    "asphalt": 0.7,
+    "gravel": 0.85,
+    "dirt": 0.9,
+    "rock": 0.8,
+    "mud": 0.8,
+    "creek": 0.75,
+    "snow": 0.9,
+    "ice": 0.6
+   },
+   "art": "off-road mud-terrain tires wrapped in heavy steel chains; vary the chain style from truck to truck: ladder chains (straight cross links), diamond or square-pattern chains, V-bar cleated chains, or twin-ring tractor chains",
+   "about": " Kept for the cars restored from before the 2026-11-12 roster reset; new art never draws chains."
   }
  }
 }

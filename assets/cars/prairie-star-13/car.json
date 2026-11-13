@@ -1,0 +1,256 @@
+{
+  "id": "prairie-star-13",
+  "name": "Prairie Star",
+  "number": 13,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Forest green tractor with a lumber flatbed",
+  "description": "A forest green highway tractor with a chrome bull bar, air horns and all-terrain tires, pulling a flatbed of sawn lumber packs.",
+  "stats": {
+    "power": 69,
+    "speed": 76,
+    "grip": 83,
+    "capacity": 66,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v7.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v5.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1128,
+      615
+    ],
+    "pixelsPerMetre": 139.31,
+    "axles": [
+      6.453,
+      3.223,
+      1.73,
+      -4.96,
+      -6.453
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2027,
+        615,
+        103
+      ],
+      [
+        1577,
+        615,
+        103
+      ],
+      [
+        1369,
+        615,
+        103
+      ],
+      [
+        437,
+        615,
+        103
+      ],
+      [
+        229,
+        615,
+        103
+      ]
+    ],
+    "nose": 7.738,
+    "exhaust": [
+      4.293,
+      2.965
+    ],
+    "winch": [
+      7.638,
+      0.507
+    ]
+  },
+  "camera": {
+    "zoom": 2.2
+  },
+  "physics": {
+    "mass": 12400,
+    "centreOfMass": [
+      2.155,
+      0.85
+    ],
+    "size": [
+      15.168,
+      3.036
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.429,
+        7.738,
+        0.725,
+        1.225,
+        1
+      ],
+      [
+        -7.429,
+        -5.263,
+        1.225,
+        2.354,
+        0.4
+      ],
+      [
+        -5.263,
+        -3.096,
+        1.225,
+        2.354,
+        0.4
+      ],
+      [
+        -3.096,
+        -0.929,
+        1.225,
+        2.354,
+        0.4
+      ],
+      [
+        -0.929,
+        1.238,
+        1.225,
+        2.383,
+        0.4
+      ],
+      [
+        1.238,
+        3.405,
+        1.225,
+        2.362,
+        0.4
+      ],
+      [
+        3.405,
+        5.571,
+        1.225,
+        2.8,
+        0.4
+      ],
+      [
+        5.571,
+        7.738,
+        1.225,
+        1.773,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -1.73,
+        1.687
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.02,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 6.286,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 42120,
+    "openDiffGrip": 1,
+    "fuelLitres": 678
+  },
+  "load": {
+    "name": "Lumber packs",
+    "massT": 20
+  }
+}

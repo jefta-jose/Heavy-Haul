@@ -1,0 +1,257 @@
+{
+  "id": "megahaul-13",
+  "name": "Megahaul",
+  "number": 13,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Teal prime mover carrying a transformer",
+  "description": "A teal heavy-haul prime mover with a roll cage, beacons, a big bull bar and diamond-chained tires, carrying a power transformer with porcelain bushings.",
+  "stats": {
+    "power": 69,
+    "speed": 76,
+    "grip": 92,
+    "capacity": 66,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      971,
+      781
+    ],
+    "pixelsPerMetre": 103.59,
+    "axles": [
+      6.14,
+      2.23,
+      0.203,
+      -4.122,
+      -6.14
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.975,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1607,
+        781,
+        103
+      ],
+      [
+        1202,
+        781,
+        103
+      ],
+      [
+        992,
+        781,
+        103
+      ],
+      [
+        544,
+        781,
+        103
+      ],
+      [
+        335,
+        781,
+        103
+      ]
+    ],
+    "nose": 8.263,
+    "exhaust": [
+      1.82450043,
+      3.65865431
+    ],
+    "winch": [
+      8.163,
+      0.682
+    ]
+  },
+  "camera": {
+    "zoom": 2.55
+  },
+  "physics": {
+    "mass": 62200,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.305,
+      5.396
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -8.041,
+        8.263,
+        0.975,
+        1.475,
+        1
+      ],
+      [
+        -8.041,
+        -5.712,
+        1.475,
+        2.259,
+        0.4
+      ],
+      [
+        -5.712,
+        -3.383,
+        1.475,
+        5.309,
+        0.4
+      ],
+      [
+        -3.383,
+        -1.054,
+        1.475,
+        5.348,
+        0.4
+      ],
+      [
+        -1.054,
+        1.276,
+        1.475,
+        4.054,
+        0.4
+      ],
+      [
+        1.276,
+        3.605,
+        1.475,
+        4.141,
+        0.4
+      ],
+      [
+        3.605,
+        5.934,
+        1.475,
+        4.17,
+        0.4
+      ],
+      [
+        5.934,
+        8.263,
+        1.475,
+        2.22,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 90,
+      "centreOfMass": [
+        -3.234,
+        3.359
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.265,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 428,
+    "exhaustBrake": 570,
+    "gears": {
+      "H": 11.272,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 727135,
+    "openDiffGrip": 1,
+    "fuelLitres": 1484
+  },
+  "load": {
+    "name": "Transformer",
+    "massT": 90
+  }
+}

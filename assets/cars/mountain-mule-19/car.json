@@ -1,0 +1,236 @@
+{
+  "id": "mountain-mule-19",
+  "name": "Mountain Mule",
+  "number": 19,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Mustard yellow 6×6 carrying one giant log",
+  "description": "A mustard yellow heavy-duty 6×6 with tool lockers, a compressor and spiked tires, carrying a single colossal sequoia trunk chained down.",
+  "stats": {
+    "power": 94,
+    "speed": 94,
+    "grip": 94,
+    "capacity": 94,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v3.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      978,
+      693
+    ],
+    "pixelsPerMetre": 128.8887,
+    "axles": [
+      4.9195,
+      -3.0719,
+      -4.9195
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1612,
+        693,
+        118
+      ],
+      [
+        582,
+        693,
+        118
+      ],
+      [
+        344,
+        693,
+        118
+      ]
+    ],
+    "nose": 6.3542,
+    "exhaust": [
+      3.2042,
+      2.9952
+    ],
+    "winch": [
+      6.2219,
+      0.63
+    ]
+  },
+  "camera": {
+    "zoom": 2.15
+  },
+  "physics": {
+    "mass": 21300,
+    "centreOfMass": [
+      0.9966,
+      1.0589
+    ],
+    "size": [
+      13.0963,
+      3.5536
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -5.8195,
+        5.8195,
+        0.9,
+        1.5617,
+        1
+      ],
+      [
+        -6.742,
+        -5.1895,
+        1.5617,
+        3.4213,
+        0.4
+      ],
+      [
+        -5.1895,
+        -3.4677,
+        1.5617,
+        3.4213,
+        0.4
+      ],
+      [
+        -3.4677,
+        -0.1945,
+        1.5617,
+        3.4292,
+        0.4
+      ],
+      [
+        -0.1945,
+        3.0798,
+        1.5617,
+        3.4994,
+        0.4
+      ],
+      [
+        5.1895,
+        6.3542,
+        1.5617,
+        2.7384,
+        0.4
+      ],
+      [
+        3.0798,
+        5.1895,
+        1.5617,
+        2.7384,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2117,
+      "travelUp": 0.45,
+      "travelDown": 0.5294,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 28,
+      "centreOfMass": [
+        -2.4511,
+        1.5
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.017,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 7.5759,
+      "L": 45.0,
+      "R": 34.4117
+    },
+    "brakeTorque": 71775,
+    "openDiffGrip": 1,
+    "fuelLitres": 581
+  },
+  "load": {
+    "name": "One giant log",
+    "massT": 28
+  }
+}

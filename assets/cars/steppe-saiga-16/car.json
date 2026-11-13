@@ -1,0 +1,221 @@
+{
+  "id": "steppe-saiga-16",
+  "name": "Steppe Saiga",
+  "number": 16,
+  "class": "scout",
+  "drive": "4\u00d74",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Arctic white 4\u00d74 pickup scout with an open bed",
+  "description": "Arctic white 4\u00d74 pickup scout with an open bed, carrying three wooden spools of shiny copper cable.",
+  "stats": {
+    "power": 82,
+    "speed": 85,
+    "grip": 93,
+    "capacity": 80,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      936.0,
+      666
+    ],
+    "pixelsPerMetre": 212.765957,
+    "axles": [
+      2.5474,
+      -2.5474
+    ],
+    "wheelY": [
+      -0.0047,
+      0.0
+    ],
+    "radius": 0.8225,
+    "wheelPivot": [
+      767.0,
+      769.5
+    ],
+    "wheelArtRadius": 572.0,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1478,
+        667,
+        189
+      ],
+      [
+        394,
+        666,
+        189
+      ]
+    ],
+    "exhaust": [
+      -3.86340001,
+      0.2914
+    ],
+    "winch": [
+      3.7916000000000003,
+      0.35
+    ],
+    "nose": 3.8916000000000004
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 4700.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      8.229700000000001,
+      2.9798
+    ],
+    "wheelMass": 188,
+    "bodyBoxes": [
+      [
+        -4.3381,
+        3.8916000000000004,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -4.3381,
+        -2.6931000000000003,
+        0.5,
+        2.2889,
+        0.4
+      ],
+      [
+        -2.6931000000000003,
+        -1.0481,
+        0.5,
+        2.3406000000000002,
+        0.4
+      ],
+      [
+        -1.0481,
+        0.6016,
+        0.5,
+        2.9610000000000003,
+        0.4
+      ],
+      [
+        0.6016,
+        2.2466,
+        0.5,
+        2.8482000000000003,
+        0.4
+      ],
+      [
+        2.2466,
+        3.8916000000000004,
+        0.5,
+        1.5463,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 1.2,
+      "centreOfMass": [
+        -2.5474,
+        2.0868
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.292,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 7.132,
+      "L": 43.389,
+      "R": 33.956
+    },
+    "brakeTorque": 5619,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 156
+  },
+  "load": {
+    "name": "Copper wire spools",
+    "massT": 1.2
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "id": "granite-bull-18",
+  "name": "Granite Bull",
+  "number": 18,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Olive 6×6 carrying a tracked crane",
+  "description": "An olive heavy-duty 6×6 with tool lockers, a compressor and spiked tires, carrying a folded tracked crane.",
+  "stats": {
+    "power": 90,
+    "speed": 91,
+    "grip": 93,
+    "capacity": 89,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v6.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v3.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1002,
+      684
+    ],
+    "pixelsPerMetre": 176.978,
+    "axles": [
+      3.933,
+      -2.509,
+      -3.933
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.695,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1698,
+        684,
+        125
+      ],
+      [
+        558,
+        684,
+        125
+      ],
+      [
+        306,
+        684,
+        125
+      ]
+    ],
+    "nose": 4.989,
+    "exhaust": [
+      2.53138808,
+      2.28842003
+    ],
+    "winch": [
+      4.889,
+      0.486
+    ]
+  },
+  "camera": {
+    "zoom": 2.15
+  },
+  "physics": {
+    "mass": 20600,
+    "centreOfMass": [
+      0.832,
+      0.8
+    ],
+    "size": [
+      10.114,
+      2.622
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -5.125,
+        4.989,
+        0.695,
+        1.195,
+        1
+      ],
+      [
+        -5.125,
+        -3.102,
+        1.195,
+        2.577,
+        0.4
+      ],
+      [
+        -3.102,
+        -1.079,
+        1.195,
+        2.594,
+        0.4
+      ],
+      [
+        -1.079,
+        0.944,
+        1.195,
+        2.554,
+        0.4
+      ],
+      [
+        0.944,
+        2.966,
+        1.195,
+        1.893,
+        0.4
+      ],
+      [
+        2.966,
+        4.989,
+        1.195,
+        2.158,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 25,
+      "centreOfMass": [
+        -3.108,
+        1.723
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.026,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 103,
+    "exhaustBrake": 134,
+    "gears": {
+      "H": 5.908,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 50160,
+    "openDiffGrip": 1,
+    "fuelLitres": 563
+  },
+  "load": {
+    "name": "Tracked crane",
+    "massT": 25
+  }
+}

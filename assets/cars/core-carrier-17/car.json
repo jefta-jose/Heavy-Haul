@@ -1,0 +1,257 @@
+{
+  "id": "core-carrier-17",
+  "name": "Core Carrier",
+  "number": 17,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Signal red prime mover carrying an orbital rocket",
+  "description": "A signal red heavy-haul prime mover with air horns and giant mining tires, carrying a complete orbital rocket on a long cradle.",
+  "stats": {
+    "power": 86,
+    "speed": 88,
+    "grip": 93,
+    "capacity": 84,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      974,
+      740
+    ],
+    "pixelsPerMetre": 104.39,
+    "axles": [
+      6.303,
+      2.893,
+      0.805,
+      -4.196,
+      -6.303
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1.025,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1632,
+        740,
+        109
+      ],
+      [
+        1276,
+        740,
+        109
+      ],
+      [
+        1058,
+        740,
+        109
+      ],
+      [
+        536,
+        740,
+        109
+      ],
+      [
+        316,
+        740,
+        109
+      ]
+    ],
+    "nose": 8.181,
+    "exhaust": [
+      3.67851327,
+      0.09579462
+    ],
+    "winch": [
+      8.081,
+      0.717
+    ]
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 77900,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.189,
+      4.828
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -8.008,
+        8.181,
+        1.025,
+        1.525,
+        1
+      ],
+      [
+        -8.008,
+        -5.696,
+        1.525,
+        3.726,
+        0.4
+      ],
+      [
+        -5.696,
+        -3.383,
+        1.525,
+        3.602,
+        0.4
+      ],
+      [
+        -3.383,
+        -1.07,
+        1.525,
+        3.554,
+        0.4
+      ],
+      [
+        -1.07,
+        1.243,
+        1.525,
+        3.496,
+        0.4
+      ],
+      [
+        1.243,
+        3.555,
+        1.525,
+        3.506,
+        0.4
+      ],
+      [
+        3.555,
+        5.868,
+        1.525,
+        4.205,
+        0.4
+      ],
+      [
+        5.868,
+        8.181,
+        1.525,
+        2.366,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 80,
+      "centreOfMass": [
+        -2.376,
+        2.721
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.561,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 437,
+    "exhaustBrake": 581,
+    "gears": {
+      "H": 11.542,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 793053,
+    "openDiffGrip": 1,
+    "fuelLitres": 1778
+  },
+  "load": {
+    "name": "Full rocket",
+    "massT": 80
+  }
+}

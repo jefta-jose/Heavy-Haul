@@ -159,8 +159,9 @@ test('ranks: 20 of them up to 60,000 XP, each opening one truck in every class t
   assert.equal(rankFor(0), 1); assert.equal(rankFor(299), 1); assert.equal(rankFor(300), 2); assert.equal(rankFor(59999), 19); assert.equal(rankFor(1e9), 20);
   const roster = content.roster.cars;
   for (const cls of content.roster.classes.map(c => c.id)) {
-    const ranks = roster.filter(c => c.class === cls).map(c => c.unlockRank).sort((a, b) => a - b);
-    assert.deepEqual(ranks, Array.from({ length: 20 }, (_, i) => i + 1), `${cls}: one truck per rank`);
+    // the cars restored on 2026-11-13 keep their own ranks, so a rank may open more than one truck; every rank opens at least one
+    const ranks = new Set(roster.filter(c => c.class === cls).map(c => c.unlockRank));
+    assert.deepEqual([...ranks].sort((a, b) => a - b), Array.from({ length: 20 }, (_, i) => i + 1), `${cls}: every rank opens a truck`);
   }
   const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
   const p = createProgress(roster, store), coins = { n: 1e6, spend(x) { if (this.n < x) return false; this.n -= x; return true; } };
@@ -168,7 +169,7 @@ test('ranks: 20 of them up to 60,000 XP, each opening one truck in every class t
   assert(p.owns(starter.id) && !p.owns(second.id) && !p.isOpen(second.id));
   assert.equal(p.buy(second.id, coins), false, 'a locked truck cannot be bought');
   const ups = p.addXp(350);
-  assert.deepEqual(ups.map(u => [u.rank, u.opens.length]), [[2, 5]], 'rank 2 opens five trucks, one per class');
+  assert.deepEqual(ups.map(u => [u.rank, u.opens.length]), [[2, roster.filter(c => c.unlockRank === 2).length]], 'rank 2 opens every truck of that rank');
   assert(p.buy(second.id, coins)); assert.equal(coins.n, 1e6 - second.price, 'bought for its price');
   assert.equal(p.buy(second.id, coins), false, 'not twice');
   const again = createProgress(roster, store);

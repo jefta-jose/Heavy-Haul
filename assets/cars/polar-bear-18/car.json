@@ -1,0 +1,235 @@
+{
+  "id": "polar-bear-18",
+  "name": "Polar Bear",
+  "number": 18,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Forest green 8×8 carrying a prefab cabin",
+  "description": "A forest green all-terrain 8×8 with tire inflation lines and spiked tires, carrying a blue wooden prefab cabin.",
+  "stats": {
+    "power": 90,
+    "speed": 91,
+    "grip": 93,
+    "capacity": 89,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v3.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      946,
+      748
+    ],
+    "pixelsPerMetre": 145.641,
+    "axles": [
+      4.312,
+      2.321,
+      -2.321,
+      -4.312
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.975,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1574,
+        748,
+        144
+      ],
+      [
+        1284,
+        748,
+        144
+      ],
+      [
+        608,
+        748,
+        144
+      ],
+      [
+        318,
+        748,
+        144
+      ]
+    ],
+    "nose": 5.733,
+    "exhaust": [
+      3.138,
+      2.767
+    ],
+    "winch": [
+      5.633,
+      0.682
+    ]
+  },
+  "camera": {
+    "zoom": 2.6
+  },
+  "physics": {
+    "mass": 22300,
+    "centreOfMass": [
+      1.225,
+      1.1
+    ],
+    "size": [
+      11.336,
+      4.346
+    ],
+    "wheelMass": 360,
+    "bodyBoxes": [
+      [
+        -5.603,
+        5.733,
+        0.975,
+        1.475,
+        1
+      ],
+      [
+        -5.603,
+        -3.336,
+        1.475,
+        3.996,
+        0.4
+      ],
+      [
+        -3.336,
+        -1.068,
+        1.475,
+        3.996,
+        0.4
+      ],
+      [
+        -1.068,
+        1.199,
+        1.475,
+        3.996,
+        0.4
+      ],
+      [
+        1.199,
+        3.466,
+        1.475,
+        3.502,
+        0.4
+      ],
+      [
+        3.466,
+        5.733,
+        1.475,
+        2.08,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 14,
+      "centreOfMass": [
+        -2.026,
+        2.911
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.575,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 430,
+    "exhaustBrake": 553,
+    "gears": {
+      "H": 16.91,
+      "L": 51.73,
+      "R": 40.56
+    },
+    "brakeTorque": 52735,
+    "openDiffGrip": 1,
+    "fuelLitres": 657
+  },
+  "load": {
+    "name": "Prefab cabin",
+    "massT": 14
+  }
+}

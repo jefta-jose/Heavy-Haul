@@ -1,0 +1,229 @@
+{
+  "id": "valley-workhorse-3",
+  "name": "Valley Workhorse",
+  "number": 3,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Burnt orange heavy-duty work truck",
+  "description": "Burnt orange heavy-duty work truck, carrying stacked concrete barrier blocks.",
+  "stats": {
+    "power": 28,
+    "speed": 46,
+    "grip": 78,
+    "capacity": 19,
+    "fuelEfficiency": 50
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "../stonebridge-6/source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1118.5,
+      638
+    ],
+    "pixelsPerMetre": 190.0,
+    "axles": [
+      3.41842105,
+      -1.05526316,
+      -3.41842105
+    ],
+    "wheelY": [
+      -0.00526316,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      628
+    ],
+    "wheelArtRadius": 600,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1768,
+        639,
+        140
+      ],
+      [
+        918,
+        638,
+        140
+      ],
+      [
+        469,
+        638,
+        140
+      ]
+    ],
+    "exhaust": [
+      1.91842105,
+      2.52105263
+    ],
+    "winch": [
+      4.3579,
+      0.4
+    ],
+    "nose": 4.5079
+  },
+  "camera": {
+    "zoom": 1.6
+  },
+  "physics": {
+    "mass": 11000.0,
+    "centreOfMass": [
+      0.3,
+      0.85
+    ],
+    "size": [
+      9.7737,
+      2.8263
+    ],
+    "wheelMass": 180,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -5.2658,
+        4.5079,
+        0.6,
+        0.95,
+        1
+      ],
+      [
+        -5.2658,
+        -3.3132,
+        0.8999999999999999,
+        2.1579,
+        0.4
+      ],
+      [
+        -3.3132,
+        -1.3553,
+        0.8999999999999999,
+        2.1632,
+        0.4
+      ],
+      [
+        -1.3553,
+        0.5974,
+        0.8999999999999999,
+        2.1632,
+        0.4
+      ],
+      [
+        0.5974,
+        2.5553,
+        0.8999999999999999,
+        2.6211,
+        0.4
+      ],
+      [
+        2.5553,
+        4.5079,
+        0.8999999999999999,
+        2.2316,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -2.1737,
+        1.6393
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1918.107
+      ],
+      [
+        900,
+        2655.607
+      ],
+      [
+        1200,
+        2950.0
+      ],
+      [
+        1500,
+        2734.516
+      ],
+      [
+        1800,
+        2277.752
+      ],
+      [
+        2150,
+        1526.595
+      ],
+      [
+        2300,
+        0.0
+      ]
+    ],
+    "torqueScale": 0.658983,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 105,
+    "exhaustBrake": 136,
+    "gears": {
+      "H": 6.9765,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 23100,
+    "openDiffGrip": 1,
+    "fuelLitres": 286
+  },
+  "load": {
+    "name": "Concrete blocks",
+    "massT": 10
+  }
+}

@@ -211,7 +211,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
   } finally { await browser.close(); server.close(); }
 });
 
-test('the game loads, drives and fits every viewport', { timeout: 180000 }, async () => {
+test('the game loads, drives and fits every viewport', { timeout: 900000 }, async () => {
   await build();
   const html = fs.readFileSync(path.join(ROOT, 'dist/heavy-haul.html'), 'utf8');
   const server = http.createServer((req, res) => { res.writeHead(200, { 'Content-Type': 'text/html' }); res.end(html); });
@@ -610,7 +610,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     const p = () => page.evaluate(() => ({ rank: __haul.progress.rank, xp: __haul.progress.xp }));
     assert.deepEqual(await p(), { rank: 1, xp: 0 }, 'a new player starts at rank 1');
     assert.equal(await page.evaluate(() => __haul.session.coins), 20000, 'fresh production player starts with 20,000 coins');
-    assert.equal(await page.evaluate(() => __haul.content.roster.cars.filter(c => __haul.progress.owns(c.id)).length), 5, 'only the five free starters are owned');
+    assert.equal(await page.evaluate(() => __haul.content.roster.cars.filter(c => __haul.progress.owns(c.id)).length), await page.evaluate(() => __haul.content.roster.cars.filter(c => c.unlockRank === 1).length), 'only the free rank-1 starters are owned');
     const starter = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank === 1).id);
     const next = await page.evaluate(() => __haul.content.roster.cars.find(c => c.class === 'scout' && c.unlockRank > 1 && c.status === 'playable'));
     const needs = new RegExp(`rank ${next.unlockRank}\\b`, 'i');

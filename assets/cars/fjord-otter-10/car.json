@@ -1,0 +1,221 @@
+{
+  "id": "fjord-otter-10",
+  "name": "Fjord Otter",
+  "number": 10,
+  "class": "scout",
+  "drive": "4\u00d74",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Burnt orange 4\u00d74 pickup scout with an open bed",
+  "description": "Burnt orange 4\u00d74 pickup scout with an open bed, carrying a white 1000 L water tank in a galvanized cage.",
+  "stats": {
+    "power": 57,
+    "speed": 67,
+    "grip": 86,
+    "capacity": 52,
+    "fuelEfficiency": 70
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v2.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v5.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1536,
+        1536
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1036.5,
+      575
+    ],
+    "pixelsPerMetre": 241.800643,
+    "axles": [
+      2.5413497340425533,
+      -2.5413497340425533
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.7775,
+    "wheelPivot": [
+      768.0,
+      767.5
+    ],
+    "wheelArtRadius": 593.0,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1651,
+        575,
+        203
+      ],
+      [
+        422,
+        575,
+        203
+      ]
+    ],
+    "exhaust": [
+      -3.52149601,
+      0.26054521
+    ],
+    "winch": [
+      3.7647539893617017,
+      0.35
+    ],
+    "nose": 3.864753989361702
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3500.0,
+    "centreOfMass": [
+      0.25,
+      0.45
+    ],
+    "size": [
+      8.114122340425531,
+      2.3325
+    ],
+    "wheelMass": 170,
+    "bodyBoxes": [
+      [
+        -4.249368351063829,
+        3.864753989361702,
+        0.22,
+        0.55,
+        1
+      ],
+      [
+        -4.249368351063829,
+        -2.628198138297872,
+        0.5,
+        2.2787367021276594,
+        0.4
+      ],
+      [
+        -2.628198138297872,
+        -1.0028922872340424,
+        0.5,
+        2.2787367021276594,
+        0.4
+      ],
+      [
+        -1.0028922872340424,
+        0.6182779255319149,
+        0.5,
+        2.224973404255319,
+        0.4
+      ],
+      [
+        0.6182779255319149,
+        2.2435837765957447,
+        0.5,
+        2.005784574468085,
+        0.4
+      ],
+      [
+        2.2435837765957447,
+        3.864753989361702,
+        0.5,
+        1.517779255319149,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 1.0,
+      "centreOfMass": [
+        -2.5413497340425533,
+        1.5467287234042553
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.25,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 6.742,
+      "L": 41.015,
+      "R": 32.099
+    },
+    "brakeTorque": 4286,
+    "openDiffGrip": 1.0,
+    "fuelLitres": 122
+  },
+  "load": {
+    "name": "Water tank",
+    "massT": 1.0
+  }
+}

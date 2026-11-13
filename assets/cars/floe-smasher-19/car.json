@@ -1,0 +1,235 @@
+{
+  "id": "floe-smasher-19",
+  "name": "Floe Smasher",
+  "number": 19,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "Racing green 8×8 carrying an orca aquarium",
+  "description": "A racing green all-terrain 8×8 with a stowed crane boom, recovery spades and spiked tires, carrying an orca in a glass aquarium.",
+  "stats": {
+    "power": 94,
+    "speed": 94,
+    "grip": 94,
+    "capacity": 94,
+    "fuelEfficiency": 45
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v3.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      962,
+      755
+    ],
+    "pixelsPerMetre": 146,
+    "axles": [
+      4.353,
+      2.312,
+      -2.312,
+      -4.353
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 1,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1598,
+        755,
+        148
+      ],
+      [
+        1300,
+        755,
+        148
+      ],
+      [
+        625,
+        755,
+        148
+      ],
+      [
+        327,
+        755,
+        148
+      ]
+    ],
+    "nose": 5.75,
+    "exhaust": [
+      2.37671233,
+      3.30136986
+    ],
+    "winch": [
+      5.65,
+      0.7
+    ]
+  },
+  "camera": {
+    "zoom": 2.65
+  },
+  "physics": {
+    "mass": 23100,
+    "centreOfMass": [
+      1.085,
+      1.1
+    ],
+    "size": [
+      11.651,
+      4.349
+    ],
+    "wheelMass": 360,
+    "bodyBoxes": [
+      [
+        -5.901,
+        5.75,
+        1,
+        1.5,
+        1
+      ],
+      [
+        -5.901,
+        -3.571,
+        1.5,
+        3.651,
+        0.4
+      ],
+      [
+        -3.571,
+        -1.24,
+        1.5,
+        3.658,
+        0.4
+      ],
+      [
+        -1.24,
+        1.09,
+        1.5,
+        4.295,
+        0.4
+      ],
+      [
+        1.09,
+        3.42,
+        1.5,
+        4.308,
+        0.4
+      ],
+      [
+        3.42,
+        5.75,
+        1.5,
+        4.226,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -2.527,
+        2.493
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.871,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 510,
+    "exhaustBrake": 657,
+    "gears": {
+      "H": 17.34,
+      "L": 53.06,
+      "R": 41.6
+    },
+    "brakeTorque": 64219,
+    "openDiffGrip": 1,
+    "fuelLitres": 678
+  },
+  "load": {
+    "name": "Orca aquarium",
+    "massT": 20
+  }
+}

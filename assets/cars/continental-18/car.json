@@ -1,0 +1,256 @@
+{
+  "id": "continental-18",
+  "name": "Continental",
+  "number": 18,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Forest green tractor with a split fuel tanker",
+  "description": "A forest green highway tractor with marker lights and twin-ring chained tires, pulling a split fuel tanker with two tank sections.",
+  "stats": {
+    "power": 90,
+    "speed": 91,
+    "grip": 94,
+    "capacity": 89,
+    "fuelEfficiency": 60
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v4.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1152,
+      590
+    ],
+    "pixelsPerMetre": 130.667,
+    "axles": [
+      6.643,
+      3.222,
+      1.676,
+      -5.097,
+      -6.643
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 579,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2020,
+        590,
+        100
+      ],
+      [
+        1573,
+        590,
+        100
+      ],
+      [
+        1371,
+        590,
+        100
+      ],
+      [
+        486,
+        590,
+        100
+      ],
+      [
+        284,
+        590,
+        100
+      ]
+    ],
+    "nose": 7.967,
+    "exhaust": [
+      4.485,
+      3.13
+    ],
+    "winch": [
+      7.867,
+      0.525
+    ]
+  },
+  "camera": {
+    "zoom": 2.3
+  },
+  "physics": {
+    "mass": 15000,
+    "centreOfMass": [
+      2.118,
+      0.85
+    ],
+    "size": [
+      15.696,
+      3.199
+    ],
+    "wheelMass": 150,
+    "bodyBoxes": [
+      [
+        -7.73,
+        7.967,
+        0.75,
+        1.25,
+        1
+      ],
+      [
+        -7.73,
+        -5.487,
+        1.25,
+        2.625,
+        0.4
+      ],
+      [
+        -5.487,
+        -3.245,
+        1.25,
+        2.923,
+        0.4
+      ],
+      [
+        -3.245,
+        -1.003,
+        1.25,
+        2.526,
+        0.4
+      ],
+      [
+        -1.003,
+        1.24,
+        1.25,
+        2.916,
+        0.4
+      ],
+      [
+        1.24,
+        3.482,
+        1.25,
+        2.625,
+        0.4
+      ],
+      [
+        3.482,
+        5.724,
+        1.25,
+        2.946,
+        0.4
+      ],
+      [
+        5.724,
+        7.967,
+        1.25,
+        1.959,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.16,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 28,
+      "centreOfMass": [
+        -2.074,
+        1.936
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.25,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 165,
+    "exhaustBrake": 213,
+    "gears": {
+      "H": 6.193,
+      "L": 34,
+      "R": 26
+    },
+    "brakeTorque": 55900,
+    "openDiffGrip": 1,
+    "fuelLitres": 836
+  },
+  "load": {
+    "name": "Fuel double",
+    "massT": 28
+  }
+}

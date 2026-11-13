@@ -1,0 +1,257 @@
+{
+  "id": "monolith-11",
+  "name": "Monolith",
+  "number": 11,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "chained",
+  "status": "playable",
+  "tagline": "Cobalt blue prime mover carrying a yacht",
+  "description": "A cobalt blue heavy-haul prime mover with an escort light bar, amber beacons and twin-ring chained tires, carrying a sleek white yacht on cradles.",
+  "stats": {
+    "power": 61,
+    "speed": 70,
+    "grip": 91,
+    "capacity": 56,
+    "fuelEfficiency": 35
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v3.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v2.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v2.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      984,
+      762
+    ],
+    "pixelsPerMetre": 108.108,
+    "axles": [
+      6.387,
+      3.862,
+      1.938,
+      -4.482,
+      -6.387
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.925,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1675,
+        762,
+        102
+      ],
+      [
+        1402,
+        762,
+        102
+      ],
+      [
+        1194,
+        762,
+        102
+      ],
+      [
+        500,
+        762,
+        102
+      ],
+      [
+        294,
+        762,
+        102
+      ]
+    ],
+    "nose": 8.108,
+    "exhaust": [
+      4.35675436,
+      3.53350353
+    ],
+    "winch": [
+      8.008,
+      0.647
+    ]
+  },
+  "camera": {
+    "zoom": 2.55
+  },
+  "physics": {
+    "mass": 54600,
+    "centreOfMass": [
+      2,
+      0.8
+    ],
+    "size": [
+      16.197,
+      5.402
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.15,
+    "bodyBoxes": [
+      [
+        -8.089,
+        8.108,
+        0.925,
+        1.425,
+        1
+      ],
+      [
+        -8.089,
+        -5.775,
+        1.425,
+        3.395,
+        0.4
+      ],
+      [
+        -5.775,
+        -3.461,
+        1.425,
+        4.764,
+        0.4
+      ],
+      [
+        -3.461,
+        -1.148,
+        1.425,
+        4.292,
+        0.4
+      ],
+      [
+        -1.148,
+        1.166,
+        1.425,
+        3.802,
+        0.4
+      ],
+      [
+        1.166,
+        3.48,
+        1.425,
+        3.793,
+        0.4
+      ],
+      [
+        3.48,
+        5.794,
+        1.425,
+        3.941,
+        0.4
+      ],
+      [
+        5.794,
+        8.108,
+        1.425,
+        2.312,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 30,
+      "centreOfMass": [
+        -3.265,
+        3.33
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.722,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 327,
+    "exhaustBrake": 435,
+    "gears": {
+      "H": 10.838,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 383450,
+    "openDiffGrip": 1,
+    "fuelLitres": 1336
+  },
+  "load": {
+    "name": "Luxury yacht",
+    "massT": 30
+  }
+}
