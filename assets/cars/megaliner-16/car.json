@@ -1,0 +1,270 @@
+{
+  "id": "megaliner-16",
+  "name": "Megaliner",
+  "number": 16,
+  "class": "highway",
+  "drive": "12×12",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Long-nose tractor hauling an excavator",
+  "description": "Yellow heavy American long-nose tractor with a gooseneck lowboy trailer.",
+  "stats": {
+    "power": 83,
+    "speed": 31,
+    "grip": 62,
+    "capacity": 83
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1172,
+      588
+    ],
+    "pixelsPerMetre": 117.227,
+    "axles": [
+      7.587,
+      3.97,
+      2.145,
+      -4.253,
+      -5.908,
+      -7.587
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.776,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2061.5,
+        588.5,
+        96
+      ],
+      [
+        1637.5,
+        588.5,
+        96
+      ],
+      [
+        1423.5,
+        588.5,
+        96
+      ],
+      [
+        673.5,
+        588.5,
+        96
+      ],
+      [
+        479.5,
+        588.5,
+        96
+      ],
+      [
+        282.5,
+        588.5,
+        96
+      ]
+    ],
+    "exhaust": [
+      5.589,
+      3.877
+    ],
+    "winch": [
+      8.779,
+      0.388
+    ],
+    "nose": 8.829,
+    "tail": -9.171
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 17000.0,
+    "centreOfMass": [
+      -0.674,
+      1.306
+    ],
+    "size": [
+      18.0,
+      4.081
+    ],
+    "wheelMass": 439,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -8.363,
+        8.363,
+        1.164,
+        0.998,
+        0.4
+      ],
+      [
+        -9.171,
+        -7.82,
+        0.931,
+        3.553,
+        0.4
+      ],
+      [
+        -7.82,
+        -6.171,
+        0.505,
+        3.553,
+        0.4
+      ],
+      [
+        -6.171,
+        -3.17,
+        1.164,
+        4.081,
+        0.4
+      ],
+      [
+        -3.17,
+        -0.17,
+        1.164,
+        3.826,
+        0.4
+      ],
+      [
+        -0.17,
+        2.83,
+        1.164,
+        2.913,
+        0.4
+      ],
+      [
+        2.83,
+        5.829,
+        0.505,
+        2.153,
+        0.4
+      ],
+      [
+        7.82,
+        8.829,
+        0.931,
+        2.683,
+        0.4
+      ],
+      [
+        5.829,
+        7.82,
+        0.505,
+        2.683,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 18,
+      "centreOfMass": [
+        -3.771,
+        1.376
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.5411,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 689,
+    "exhaustBrake": 890,
+    "gears": {
+      "H": 10.563,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 36578,
+    "openDiffGrip": 1,
+    "fuelLitres": 900
+  },
+  "load": {
+    "name": "Excavator",
+    "massT": 18
+  }
+}

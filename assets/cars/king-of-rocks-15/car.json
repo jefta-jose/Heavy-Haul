@@ -1,0 +1,214 @@
+{
+  "id": "king-of-rocks-15",
+  "name": "King of Rocks",
+  "number": 15,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Tube-chassis rock-racing buggy",
+  "description": "Yellow tube-chassis rock-racing buggy with exposed coilovers, a pickup-shaped cab cage and beadlock wheels.",
+  "stats": {
+    "power": 60,
+    "speed": 50,
+    "grip": 80,
+    "capacity": 12
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      960,
+      718
+    ],
+    "pixelsPerMetre": 304.615,
+    "axles": [
+      1.835,
+      -1.835
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1518.5,
+        718.5,
+        210
+      ],
+      [
+        400.5,
+        718.5,
+        210
+      ]
+    ],
+    "exhaust": [
+      -2.565,
+      0.381
+    ],
+    "winch": [
+      2.723,
+      0.325
+    ],
+    "nose": 2.773,
+    "tail": -2.73
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2450.0,
+    "centreOfMass": [
+      0.0,
+      0.61
+    ],
+    "size": [
+      5.503,
+      1.906
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.485,
+        2.485,
+        0.163,
+        0.456,
+        0.4
+      ],
+      [
+        -2.73,
+        -2.03,
+        0.78,
+        1.906,
+        0.4
+      ],
+      [
+        -2.03,
+        0.022,
+        0.423,
+        1.906,
+        0.4
+      ],
+      [
+        2.03,
+        2.773,
+        0.78,
+        1.446,
+        0.4
+      ],
+      [
+        0.022,
+        2.03,
+        0.423,
+        1.446,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.05,
+      "centreOfMass": [
+        -2.29,
+        1.215
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2975,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 81,
+    "exhaustBrake": 104,
+    "gears": {
+      "H": 10.224,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 150
+  },
+  "load": {
+    "name": "Spare tyre",
+    "massT": 0.05
+  }
+}

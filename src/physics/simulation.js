@@ -79,6 +79,13 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
         const L = load.get(b) || { imp: 0, surf: null }; L.imp += n; if (o && o.surf) L.surf = o.surf; load.set(b, L);
         if (o && o.crush && o.crush.alive && ud.massT >= (o.crush.minMassT ?? 0)) { o.crush.hit += n; if (o.crush.hit > (o.crush.impulse ?? CRUSH_IMPULSE)) crushQueue.push(o.crush); }
       }
+      // a chassis resting its weight on something that breaks under the tires breaks it too, rather than hanging on it
+      for (const [f, g] of [[fa, fb], [fb, fa]]) {
+        const o = g.getUserData(); if (f.getUserData() || !o?.crush?.alive) continue;
+        const v = vehicles.find(q => q.parts.truck === f.getBody()); if (!v || v.tireData.massT < (o.crush.minMassT ?? 0)) continue;
+        let n = 0; const ni = imp.normalImpulses; for (let i = 0; i < ni.length; i++) n += ni[i];
+        o.crush.hit += n; if (o.crush.hit > (o.crush.impulse ?? CRUSH_IMPULSE)) crushQueue.push(o.crush);
+      }
     });
     world.on('pre-solve', c => {
       const fa = c.getFixtureA(), fb = c.getFixtureB(), ua = fa.getUserData(), ub = fb.getUserData();

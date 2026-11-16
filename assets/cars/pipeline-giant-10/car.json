@@ -1,0 +1,300 @@
+{
+  "id": "pipeline-giant-10",
+  "name": "Pipeline Giant",
+  "number": 10,
+  "class": "heavy",
+  "drive": "14×14",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 tractor with a pole trailer of pipeline pipes",
+  "description": "Green 8×8 tractor with a pole trailer.",
+  "stats": {
+    "power": 25,
+    "speed": 19,
+    "grip": 80,
+    "capacity": 15
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1154,
+      616
+    ],
+    "pixelsPerMetre": 106.667,
+    "axles": [
+      8.737,
+      7.069,
+      3.562,
+      2.006,
+      -5.691,
+      -7.219,
+      -8.737
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2085.5,
+        615.5,
+        85
+      ],
+      [
+        1907.5,
+        615.5,
+        85
+      ],
+      [
+        1533.5,
+        615.5,
+        85
+      ],
+      [
+        1367.5,
+        615.5,
+        85
+      ],
+      [
+        546.5,
+        615.5,
+        85
+      ],
+      [
+        383.5,
+        615.5,
+        85
+      ],
+      [
+        221.5,
+        615.5,
+        85
+      ]
+    ],
+    "exhaust": [
+      6.41,
+      3.14
+    ],
+    "winch": [
+      9.986,
+      0.375
+    ],
+    "nose": 10.036,
+    "tail": -10.111
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 30000.0,
+    "centreOfMass": [
+      -0.039,
+      1.058
+    ],
+    "size": [
+      20.147,
+      3.305
+    ],
+    "wheelMass": 481,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -9.487,
+        9.487,
+        1.125,
+        0.975,
+        0.4
+      ],
+      [
+        -10.111,
+        -8.962,
+        0.9,
+        3.117,
+        0.4
+      ],
+      [
+        -8.962,
+        -7.872,
+        0.487,
+        3.117,
+        0.4
+      ],
+      [
+        -7.872,
+        -5.634,
+        0.487,
+        3.127,
+        0.4
+      ],
+      [
+        -5.634,
+        -3.395,
+        1.125,
+        3.136,
+        0.4
+      ],
+      [
+        -3.395,
+        -1.157,
+        1.125,
+        3.136,
+        0.4
+      ],
+      [
+        -1.157,
+        1.082,
+        1.125,
+        3.136,
+        0.4
+      ],
+      [
+        1.082,
+        3.32,
+        1.125,
+        3.136,
+        0.4
+      ],
+      [
+        3.32,
+        5.559,
+        0.487,
+        2.18,
+        0.4
+      ],
+      [
+        5.559,
+        7.797,
+        0.487,
+        3.305,
+        0.4
+      ],
+      [
+        8.962,
+        10.036,
+        0.9,
+        2.123,
+        0.4
+      ],
+      [
+        7.797,
+        8.962,
+        0.487,
+        2.123,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 45.0,
+      "centreOfMass": [
+        -3.06,
+        1.35
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4269,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 253,
+    "exhaustBrake": 337,
+    "gears": {
+      "H": 12.11,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 254683,
+    "openDiffGrip": 1,
+    "fuelLitres": 1000
+  },
+  "load": {
+    "name": "Pipeline pipes",
+    "massT": 45.0
+  }
+}

@@ -140,7 +140,7 @@ test('sound gears hold between shifts, and a bump or the gear lever cannot flip 
 });
 
 test('on a real truck at full pedal, gears are spaced out and the revs do not sit on the limiter', () => {
-  for (const id of ['dune-pup-1', 'courier-van-1', 'deuce-1', 'moon-rover-1', 'titan-tipper-11']) {
+  for (const id of ['ridge-pup-2', 'courier-van-1', 'mog-2', 'mire-lark-1', 'titan-tipper-11']) {
     const car = content.cars.find(c => c.id === id), pack = bank.engines[car.audio.engine];
     const s = newSim(car); s.init(40); Object.assign(s.ctl, { gear: 'H', awd: true, diff: true, gas: 0, brake: 0 }); advance(s, 1.5);
     s.ctl.gas = 1;
@@ -167,10 +167,11 @@ test('spinning wheels race the engine; a stuck truck with grip lugs at the stall
   }
 });
 
-test('a tire touching a log, a pipe or a rock is reported, and nothing else is', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
-  const car = content.cars.find(c => c.id === 'deuce-1'), probe = newSim(car);
+test('a tire touching a log, a pipe or a rock is reported, and nothing else is', () => {
+  const car = content.cars.find(c => c.id === 'mog-2'), probe = newSim(car);
   probe.init(40);
   const targets = { log: probe.logs.find(l => l.kind !== 'pipe' && l.x > 300 && !content.season.trail.heavyMud.some(c => c < l.x && c > l.x - 60)), pipe: probe.logs.find(l => l.kind === 'pipe' && l.x > 150), rock: probe.rocks.find(r => !r.crush && r.x > 150) };
+  if (!targets.pipe) delete targets.pipe;   // each map has its own obstacles: the swamp has logs, not pipes
   for (const [kind, o] of Object.entries(targets)) {
     assert(o, `the trail has a ${kind}`);
     const s = newSim(car); s.init(o.x - 40); Object.assign(s.ctl, { gear: 'L', awd: true, diff: true, gas: 1, brake: 0 });
@@ -248,7 +249,7 @@ test('every truck plays its class\'s engine, service trucks too; others get a di
   resolveAudio(odd, bank);
   assert.deepEqual(odd.map(c => c.audio.engine), ['heavy', 'heavy-duty', 'offroad']);
   assert.equal(odd[2].audio.crankS, 0.8, 'a car can override its crank time');
-  assert.equal(engineProfile(trucks.find(c => c.id === 'dune-pup-1'), bank).airBrakes, false, 'scouts: no air brakes');
+  assert.equal(engineProfile(trucks.find(c => c.id === 'ridge-pup-2'), bank).airBrakes, false, 'scouts: no air brakes');
   assert.equal(engineProfile(trucks.find(c => c.id === 'mechanic-scout'), bank).airBrakes, false, 'nor their service trucks');
   assert.equal(engineProfile(trucks.find(c => c.id === 'interstate-14'), bank).airBrakes, true);
 });

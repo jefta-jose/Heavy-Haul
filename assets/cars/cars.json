@@ -1,5 +1,5 @@
 {
- "defaultCar": "dune-pup-1",
+ "defaultCar": "ridge-pup-2",
  "about": "Vehicle roster, ordered weakest to strongest: classes run scouts -> highway -> heavy-duty -> offroad -> heavy, 20 per class, one per unlock rank (rank 1 is the free starter), ranked by power. Every kind of vehicle is welcome: some carry a load drawn into their art and counted in their mass (load), many carry nothing. There is no length cap: long rigs are framed by their own zoom and the in-game zoom button. Tires are fixed (wheelType, see wheel-types.json): to get something stronger, switch cars. Names and art briefs are original designs inspired by kinds of real vehicles (SnowRunner trucks, Forza Horizon off-roaders, rally cars and supercars), never a real make or model. Service trucks: one breakdown truck per class, bigger and stronger class by class, that winches and tows (towMassT is the heaviest gross weight it pulls); they never get stuck or run out of fuel and are the most powerful vehicles of their class but not the fastest. status: playable (car.json and art exist), planned, needs-art.",
  "classes": [
   {
@@ -35,84 +35,12 @@
  ],
  "cars": [
   {
-   "id": "dune-pup-1",
-   "name": "Dune Pup",
-   "number": 1,
-   "class": "scout",
-   "tier": 1,
-   "unlockRank": 1,
-   "order": 1,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 0.6,
-   "lengthM": 3.6,
-   "powerKw": 60,
-   "torqueNm": 150,
-   "topSpeedKmh": 130,
-   "fuelL": 40,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 0.72,
-   "stats": {
-    "power": 10,
-    "speed": 38,
-    "grip": 62,
-    "capacity": 0
-   },
-   "price": 0,
-   "art": {
-    "body": "metallic turquoise 1960s fibreglass beach buggy: open two-seater, short wheelbase, scooped rear fenders, exposed air-cooled engine and a roll bar",
-    "load": "none: the vehicle alone, nothing carried",
-    "equipment": "small windscreen, roll bar, spot lamps",
-    "finish": "sun-bleached paint and sand",
-    "tires": "0.72 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
-   }
-  },
-  {
-   "id": "ridge-runner-2",
-   "name": "Ridge Runner",
-   "number": 2,
-   "class": "scout",
-   "tier": 2,
-   "unlockRank": 1,
-   "order": 2,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 2.1,
-   "lengthM": 4.4,
-   "powerKw": 133,
-   "torqueNm": 887,
-   "topSpeedKmh": 112,
-   "fuelL": 75,
-   "wheelType": "flotation",
-   "tireDiameterM": 0.89,
-   "stats": {
-    "power": 24,
-    "speed": 43,
-    "grip": 78,
-    "capacity": 14
-   },
-   "price": 0,
-   "art": {
-    "body": "gunmetal grey 4×4 pickup scout with an open bed",
-    "load": "split firewood stacked in the bed",
-    "equipment": "light bar and roof tent",
-    "finish": "mud-caked lower panels",
-    "tires": "0.89 m all-terrain: blocky all-terrain tread with sipes"
-   },
-   "load": {
-    "name": "Firewood",
-    "massT": 0.3
-   }
-  },
-  {
    "id": "ridge-pup-2",
    "name": "Ridge Pup",
    "number": 2,
    "class": "scout",
    "tier": 2,
-   "unlockRank": 2,
+   "unlockRank": 1,
    "order": 2,
    "status": "playable",
    "drive": "4×4",
@@ -131,7 +59,7 @@
     "grip": 80,
     "capacity": 0
    },
-   "price": 6000,
+   "price": 0,
    "art": {
     "body": "tiny lime-green retro two-door 4×4 with a boxy body, round headlights and a folding canvas top",
     "load": "none: the vehicle alone, nothing carried",
@@ -217,44 +145,6 @@
    }
   },
   {
-   "id": "swamp-scout-4",
-   "name": "Swamp Scout",
-   "number": 4,
-   "class": "scout",
-   "tier": 4,
-   "unlockRank": 3,
-   "order": 4,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 3.8,
-   "lengthM": 7.3,
-   "powerKw": 83,
-   "torqueNm": 502,
-   "topSpeedKmh": 50,
-   "fuelL": 100,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 1.74,
-   "stats": {
-    "power": 32,
-    "speed": 49,
-    "grip": 79,
-    "capacity": 24
-   },
-   "price": 9000,
-   "art": {
-    "body": "olive expedition 4×4 wagon",
-    "load": "orange recovery boards, grey roof cases and a jerry can on the roof rack",
-    "equipment": "snorkel, tan side boards, rear spare",
-    "finish": "mud-caked lower panels",
-    "tires": "1.74 m mud-terrain: dark chunky mud tires on black steel rims"
-   },
-   "load": {
-    "name": "Expedition gear",
-    "massT": 0.2
-   }
-  },
-  {
    "id": "farm-hand-4",
    "name": "Farm Hand",
    "number": 4,
@@ -328,44 +218,6 @@
    "load": {
     "name": "Supply crates",
     "massT": 0.3
-   }
-  },
-  {
-   "id": "razorback-5",
-   "name": "Razorback",
-   "number": 5,
-   "class": "scout",
-   "tier": 5,
-   "unlockRank": 5,
-   "order": 5,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 0.8,
-   "lengthM": 3.4,
-   "powerKw": 145,
-   "torqueNm": 180,
-   "topSpeedKmh": 140,
-   "fuelL": 40,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 0.84,
-   "stats": {
-    "power": 19,
-    "speed": 41,
-    "grip": 80,
-    "capacity": 8
-   },
-   "price": 15000,
-   "art": {
-    "body": "neon green long-travel two-seat side-by-side UTV with a roll cage, window nets and exposed suspension",
-    "load": "a spare tyre on the rear cargo rack",
-    "equipment": "roof light bar, nerf bars",
-    "finish": "caked mud",
-    "tires": "0.84 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Spare tyre",
-    "massT": 0.03
    }
   },
   {
@@ -638,8 +490,8 @@
    "tier": 9,
    "unlockRank": 9,
    "order": 9,
-   "status": "planned",
-   "drive": "AWD",
+   "status": "playable",
+   "drive": "4×4",
    "axles": 2,
    "massT": 1.5,
    "lengthM": 4.3,
@@ -647,7 +499,7 @@
    "torqueNm": 500,
    "topSpeedKmh": 210,
    "fuelL": 150,
-   "wheelType": "all-terrain",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 0.86,
    "stats": {
     "power": 40,
@@ -1082,7 +934,7 @@
    "tier": 15,
    "unlockRank": 15,
    "order": 15,
-   "status": "planned",
+   "status": "playable",
    "drive": "4×4",
    "axles": 2,
    "massT": 2.2,
@@ -1382,8 +1234,8 @@
    "tier": 19,
    "unlockRank": 19,
    "order": 19,
-   "status": "planned",
-   "drive": "AWD",
+   "status": "playable",
+   "drive": "4×4",
    "axles": 2,
    "massT": 3.2,
    "lengthM": 5.5,
@@ -1410,44 +1262,6 @@
    "load": {
     "name": "Camp gear",
     "massT": 0.18
-   }
-  },
-  {
-   "id": "glacier-hare-19",
-   "name": "Glacier Hare",
-   "number": 19,
-   "class": "scout",
-   "tier": 19,
-   "unlockRank": 19,
-   "order": 19,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 5.3,
-   "lengthM": 6.3,
-   "powerKw": 366,
-   "torqueNm": 2530,
-   "topSpeedKmh": 147,
-   "fuelL": 174,
-   "wheelType": "spiked",
-   "tireDiameterM": 1.53,
-   "stats": {
-    "power": 94,
-    "speed": 94,
-    "grip": 94,
-    "capacity": 94
-   },
-   "price": 57000,
-   "art": {
-    "body": "olive 4×4 pickup scout with an open bed",
-    "load": "loudspeaker stacks and bright campaign banners",
-    "equipment": "roof rack with jerry cans and recovery boards",
-    "finish": "mud-caked lower panels",
-    "tires": "1.53 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
-   },
-   "load": {
-    "name": "Campaign speakers",
-    "massT": 0.8
    }
   },
   {
@@ -1489,44 +1303,6 @@
    }
   },
   {
-   "id": "arctic-ocelot-20",
-   "name": "Arctic Ocelot",
-   "number": 20,
-   "class": "scout",
-   "tier": 20,
-   "unlockRank": 20,
-   "order": 20,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 5.5,
-   "lengthM": 6.4,
-   "powerKw": 380,
-   "torqueNm": 2459,
-   "topSpeedKmh": 150,
-   "fuelL": 180,
-   "wheelType": "spiked",
-   "tireDiameterM": 1.6,
-   "stats": {
-    "power": 99,
-    "speed": 98,
-    "grip": 94,
-    "capacity": 99
-   },
-   "price": 60000,
-   "art": {
-    "body": "signal red 4×4 pickup scout with an open bed",
-    "load": "red explosives crates with hazard stripes and a flag",
-    "equipment": "roof rack with jerry cans and recovery boards",
-    "finish": "mud-caked lower panels",
-    "tires": "1.60 m spiked tires: off-road mud-terrain tires studded with rows of short steel spikes"
-   },
-   "load": {
-    "name": "Dynamite crates",
-    "massT": 0.5
-   }
-  },
-  {
    "id": "courier-van-1",
    "name": "Courier Van",
    "number": 1,
@@ -1543,7 +1319,7 @@
    "torqueNm": 380,
    "topSpeedKmh": 140,
    "fuelL": 90,
-   "wheelType": "mud-terrain",
+   "wheelType": "flotation",
    "tireDiameterM": 0.78,
    "stats": {
     "power": 18,
@@ -2062,8 +1838,8 @@
    "tier": 8,
    "unlockRank": 8,
    "order": 8,
-   "status": "planned",
-   "drive": "6×4",
+   "status": "playable",
+   "drive": "10×10",
    "axles": 5,
    "massT": 16.0,
    "lengthM": 18.0,
@@ -2167,45 +1943,6 @@
    "load": {
     "name": "Curtain-side freight",
     "massT": 10.0
-   }
-  },
-  {
-   "id": "autobahn-19",
-   "name": "Autobahn",
-   "number": 19,
-   "class": "highway",
-   "tier": 19,
-   "unlockRank": 9,
-   "order": 39,
-   "status": "playable",
-   "drive": "10×10",
-   "axles": 5,
-   "massT": 15.5,
-   "lengthM": 9.3,
-   "powerKw": 504,
-   "torqueNm": 2790,
-   "topSpeedKmh": 128,
-   "fuelL": 868,
-   "wheelType": "chained",
-   "tireDiameterM": 1.15,
-   "stats": {
-    "power": 94,
-    "speed": 94,
-    "grip": 94,
-    "capacity": 94
-   },
-   "price": 48600,
-   "art": {
-    "body": "charcoal black highway tractor with its semi-trailer",
-    "load": "a stage trailer covered in banners, loudspeakers and lights",
-    "equipment": "sleeper cab with roof lights",
-    "finish": "polished paint with road dust",
-    "tires": "1.15 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)",
-    "note": "Needs more wheels: the rejected version had one lone axle at the far end of a long trailer and a single drive axle, so the load hung over nothing. Draw 5 axles: steer plus a close drive tandem on the tractor, and a close tandem on the trailer under the rear of the load."
-   },
-   "load": {
-    "name": "Campaign float",
-    "massT": 10
    }
   },
   {
@@ -2397,45 +2134,6 @@
    }
   },
   {
-   "id": "blacktop-15",
-   "name": "Blacktop",
-   "number": 15,
-   "class": "highway",
-   "tier": 15,
-   "unlockRank": 12,
-   "order": 35,
-   "status": "playable",
-   "drive": "10×10",
-   "axles": 5,
-   "massT": 13.4,
-   "lengthM": 8.7,
-   "powerKw": 441,
-   "torqueNm": 3232,
-   "topSpeedKmh": 122,
-   "fuelL": 742,
-   "wheelType": "chained",
-   "tireDiameterM": 1.12,
-   "stats": {
-    "power": 78,
-    "speed": 82,
-    "grip": 93,
-    "capacity": 75
-   },
-   "price": 64800,
-   "art": {
-    "body": "arctic white highway tractor with its semi-trailer",
-    "load": "an A-frame rack of huge glass panels",
-    "equipment": "chrome bull bar and air horns",
-    "finish": "polished paint with road dust",
-    "tires": "1.12 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)",
-    "note": "Needs more wheels: the rejected version had one lone axle at the far end of a long trailer and a single drive axle, so the load hung over nothing. Draw 5 axles: steer plus a close drive tandem on the tractor, and a close tandem on the trailer under the rear of the load."
-   },
-   "load": {
-    "name": "Glass panels",
-    "massT": 12
-   }
-  },
-  {
    "id": "pipe-hauler-13",
    "name": "Pipe Hauler",
    "number": 13,
@@ -2443,8 +2141,8 @@
    "tier": 13,
    "unlockRank": 13,
    "order": 13,
-   "status": "planned",
-   "drive": "6×4",
+   "status": "playable",
+   "drive": "10×10",
    "axles": 5,
    "massT": 15.0,
    "lengthM": 17.0,
@@ -2471,45 +2169,6 @@
    "load": {
     "name": "Steel pipes",
     "massT": 20.0
-   }
-  },
-  {
-   "id": "thunder-road-14",
-   "name": "Thunder Road",
-   "number": 14,
-   "class": "highway",
-   "tier": 14,
-   "unlockRank": 13,
-   "order": 34,
-   "status": "playable",
-   "drive": "10×10",
-   "axles": 5,
-   "massT": 12.9,
-   "lengthM": 8.6,
-   "powerKw": 425,
-   "torqueNm": 2892,
-   "topSpeedKmh": 120,
-   "fuelL": 710,
-   "wheelType": "all-terrain",
-   "tireDiameterM": 1.14,
-   "stats": {
-    "power": 74,
-    "speed": 79,
-    "grip": 83,
-    "capacity": 70
-   },
-   "price": 70200,
-   "art": {
-    "body": "arctic white highway tractor with its semi-trailer",
-    "load": "two 20 ft containers on a skeletal trailer",
-    "equipment": "aero roof fairing and side skirts",
-    "finish": "polished paint with road dust",
-    "tires": "1.14 m all-terrain: blocky all-terrain tread with sipes",
-    "note": "Needs more wheels: the rejected version had one lone axle at the far end of a long trailer and a single drive axle, so the load hung over nothing. Draw 5 axles: steer plus a close drive tandem on the tractor, and a close tandem on the trailer under the rear of the load."
-   },
-   "load": {
-    "name": "Double container",
-    "massT": 24
    }
   },
   {
@@ -2674,8 +2333,8 @@
    "tier": 16,
    "unlockRank": 16,
    "order": 16,
-   "status": "planned",
-   "drive": "6×4",
+   "status": "playable",
+   "drive": "12×12",
    "axles": 6,
    "massT": 17.0,
    "lengthM": 18.0,
@@ -2683,7 +2342,7 @@
    "torqueNm": 2800,
    "topSpeedKmh": 105,
    "fuelL": 900,
-   "wheelType": "all-terrain",
+   "wheelType": "mud-terrain",
    "tireDiameterM": 1.15,
    "stats": {
     "power": 83,
@@ -2701,7 +2360,7 @@
    },
    "load": {
     "name": "Excavator",
-    "massT": 25.0
+    "massT": 18
    }
   },
   {
@@ -2962,44 +2621,6 @@
    }
   },
   {
-   "id": "outback-train-20",
-   "name": "Outback Train",
-   "number": 20,
-   "class": "highway",
-   "tier": 20,
-   "unlockRank": 20,
-   "order": 20,
-   "status": "playable",
-   "drive": "16×16",
-   "axles": 8,
-   "massT": 22.0,
-   "lengthM": 26.0,
-   "powerKw": 600,
-   "torqueNm": 3200,
-   "topSpeedKmh": 100,
-   "fuelL": 1200,
-   "wheelType": "all-terrain",
-   "tireDiameterM": 1.15,
-   "stats": {
-    "power": 100,
-    "speed": 29,
-    "grip": 62,
-    "capacity": 100
-   },
-   "price": 108000,
-   "art": {
-    "body": "red bonneted Australian road-train prime mover with a roo bar, pulling two livestock crate trailers",
-    "load": "two tall slatted livestock crate trailers",
-    "equipment": "roo bar, twin stacks, spot lamps",
-    "finish": "red outback dust",
-    "tires": "1.15 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Livestock crates",
-    "massT": 26
-   }
-  },
-  {
    "id": "long-hauler-6",
    "name": "Long Hauler",
    "number": 6,
@@ -3035,44 +2656,6 @@
    "load": {
     "name": "Steel coils",
     "massT": 14
-   }
-  },
-  {
-   "id": "deuce-1",
-   "name": "Deuce",
-   "number": 1,
-   "class": "heavy-duty",
-   "tier": 1,
-   "unlockRank": 1,
-   "order": 1,
-   "status": "playable",
-   "drive": "6×6",
-   "axles": 3,
-   "massT": 6.0,
-   "lengthM": 6.7,
-   "powerKw": 100,
-   "torqueNm": 600,
-   "topSpeedKmh": 90,
-   "fuelL": 200,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 1.15,
-   "stats": {
-    "power": 13,
-    "speed": 26,
-    "grip": 80,
-    "capacity": 18
-   },
-   "price": 0,
-   "art": {
-    "body": "olive drab 1950s 6×6 military cargo truck with a flat bonnet, open cab and a canvas-covered bed",
-    "load": "the canvas-covered bed loaded with crates",
-    "equipment": "front winch, jerry can racks",
-    "finish": "faded paint and dried mud",
-    "tires": "1.15 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Army cargo",
-    "massT": 2.5
    }
   },
   {
@@ -3418,44 +3001,6 @@
    }
   },
   {
-   "id": "plough-master-6",
-   "name": "Plough Master",
-   "number": 6,
-   "class": "heavy-duty",
-   "tier": 6,
-   "unlockRank": 6,
-   "order": 6,
-   "status": "playable",
-   "drive": "6×6",
-   "axles": 3,
-   "massT": 13.0,
-   "lengthM": 9.0,
-   "powerKw": 300,
-   "torqueNm": 1700,
-   "topSpeedKmh": 90,
-   "fuelL": 300,
-   "wheelType": "spiked",
-   "tireDiameterM": 1.2,
-   "stats": {
-    "power": 40,
-    "speed": 26,
-    "grip": 88,
-    "capacity": 57
-   },
-   "price": 46800,
-   "art": {
-    "body": "orange bonneted 6×6 snow plough dump truck with a big angled front blade and a salt spreader",
-    "load": "the dump body heaped with salt and grit",
-    "equipment": "front blade, wing plough, beacons",
-    "finish": "salt crust and slush",
-    "tires": "1.2 m spiked studs tyres: off-road mud-terrain tires studded with rows of short steel spikes; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Road salt",
-    "massT": 8.0
-   }
-  },
-  {
    "id": "bushline-9",
    "name": "Bushline",
    "number": 9,
@@ -3501,7 +3046,7 @@
    "tier": 7,
    "unlockRank": 7,
    "order": 7,
-   "status": "planned",
+   "status": "playable",
    "drive": "8×8",
    "axles": 4,
    "massT": 15.0,
@@ -3529,44 +3074,6 @@
    "load": {
     "name": "Gravel",
     "massT": 12.0
-   }
-  },
-  {
-   "id": "bedrock-15",
-   "name": "Bedrock",
-   "number": 15,
-   "class": "heavy-duty",
-   "tier": 15,
-   "unlockRank": 7,
-   "order": 55,
-   "status": "playable",
-   "drive": "6×6",
-   "axles": 3,
-   "massT": 18.6,
-   "lengthM": 9.7,
-   "powerKw": 422,
-   "torqueNm": 2416,
-   "topSpeedKmh": 99,
-   "fuelL": 507,
-   "wheelType": "chained",
-   "tireDiameterM": 1.35,
-   "stats": {
-    "power": 78,
-    "speed": 82,
-    "grip": 93,
-    "capacity": 75
-   },
-   "price": 54600,
-   "art": {
-    "body": "signal red heavy-duty work truck",
-    "load": "racked drill pipes",
-    "equipment": "folded knuckle crane",
-    "finish": "work-worn paint and dried mud",
-    "tires": "1.35 m off-road mud-terrain tires wrapped in heavy steel twin-ring tractor chains"
-   },
-   "load": {
-    "name": "Drill pipes",
-    "massT": 16
    }
   },
   {
@@ -3722,44 +3229,6 @@
    }
   },
   {
-   "id": "transformer-10",
-   "name": "Transformer",
-   "number": 10,
-   "class": "heavy-duty",
-   "tier": 10,
-   "unlockRank": 10,
-   "order": 10,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 5.0,
-   "lengthM": 7.0,
-   "powerKw": 350,
-   "torqueNm": 1300,
-   "topSpeedKmh": 150,
-   "fuelL": 180,
-   "wheelType": "flotation",
-   "tireDiameterM": 1.5,
-   "stats": {
-    "power": 47,
-    "speed": 44,
-    "grip": 90,
-    "capacity": 3
-   },
-   "price": 78000,
-   "art": {
-    "body": "candy-blue mega-lifted heavy-duty crew-cab pickup towering on giant tyres, with chrome exhaust stacks behind the cab",
-    "load": "a quad bike strapped in the open bed",
-    "equipment": "light bar, huge front bumper",
-    "finish": "gloss paint, mud up the tyres",
-    "tires": "1.5 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Quad bike",
-    "massT": 0.4
-   }
-  },
-  {
    "id": "forester-1",
    "name": "Forester",
    "number": 1,
@@ -3912,44 +3381,6 @@
    }
   },
   {
-   "id": "boulder-boss-16",
-   "name": "Boulder Boss",
-   "number": 16,
-   "class": "heavy-duty",
-   "tier": 16,
-   "unlockRank": 12,
-   "order": 56,
-   "status": "playable",
-   "drive": "6×6",
-   "axles": 3,
-   "massT": 19.3,
-   "lengthM": 9.9,
-   "powerKw": 433,
-   "torqueNm": 2831,
-   "topSpeedKmh": 100,
-   "fuelL": 526,
-   "wheelType": "chained",
-   "tireDiameterM": 1.33,
-   "stats": {
-    "power": 82,
-    "speed": 85,
-    "grip": 93,
-    "capacity": 80
-   },
-   "price": 93600,
-   "art": {
-    "body": "racing green heavy-duty work truck",
-    "load": "painted steel bridge girders",
-    "equipment": "rotating mixer drum",
-    "finish": "work-worn paint and dried mud",
-    "tires": "1.33 m off-road mud-terrain tires wrapped in heavy steel ladder chains (straight cross links)"
-   },
-   "load": {
-    "name": "Steel girders",
-    "massT": 20
-   }
-  },
-  {
    "id": "dually-baron-13",
    "name": "Dually Baron",
    "number": 13,
@@ -3985,44 +3416,6 @@
    "load": {
     "name": "Welding rig",
     "massT": 0.8
-   }
-  },
-  {
-   "id": "timberjack-14",
-   "name": "Timberjack",
-   "number": 14,
-   "class": "heavy-duty",
-   "tier": 14,
-   "unlockRank": 13,
-   "order": 54,
-   "status": "playable",
-   "drive": "6×6",
-   "axles": 3,
-   "massT": 17.9,
-   "lengthM": 9.6,
-   "powerKw": 410,
-   "torqueNm": 2941,
-   "topSpeedKmh": 98,
-   "fuelL": 489,
-   "wheelType": "chained",
-   "tireDiameterM": 1.3,
-   "stats": {
-    "power": 74,
-    "speed": 79,
-    "grip": 92,
-    "capacity": 70
-   },
-   "price": 101400,
-   "art": {
-    "body": "arctic white heavy-duty work truck",
-    "load": "a dump body heaped with big granite boulders",
-    "equipment": "steel dump body and mud flaps",
-    "finish": "work-worn paint and dried mud",
-    "tires": "1.30 m off-road mud-terrain tires wrapped in heavy steel V-bar cleated chains"
-   },
-   "load": {
-    "name": "Boulders",
-    "massT": 20
    }
   },
   {
@@ -4099,44 +3492,6 @@
    "load": {
     "name": "One giant log",
     "massT": 28
-   }
-  },
-  {
-   "id": "concrete-pumper-15",
-   "name": "Concrete Pumper",
-   "number": 15,
-   "class": "heavy-duty",
-   "tier": 15,
-   "unlockRank": 15,
-   "order": 15,
-   "status": "planned",
-   "drive": "8×4",
-   "axles": 4,
-   "massT": 20.0,
-   "lengthM": 12.0,
-   "powerKw": 380,
-   "torqueNm": 2100,
-   "topSpeedKmh": 85,
-   "fuelL": 350,
-   "wheelType": "all-terrain",
-   "tireDiameterM": 1.2,
-   "stats": {
-    "power": 51,
-    "speed": 25,
-    "grip": 62,
-    "capacity": 21
-   },
-   "price": 117000,
-   "art": {
-    "body": "yellow four-axle truck with a folded concrete pump boom over the cab",
-    "load": "the folded boom",
-    "equipment": "outriggers, hopper",
-    "finish": "concrete splashes",
-    "tires": "1.2 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Pump boom",
-    "massT": 3.0
    }
   },
   {
@@ -4261,7 +3616,7 @@
    "tier": 17,
    "unlockRank": 17,
    "order": 17,
-   "status": "planned",
+   "status": "playable",
    "drive": "6×6",
    "axles": 3,
    "massT": 18.0,
@@ -4520,78 +3875,6 @@
    }
   },
   {
-   "id": "cedar-hauler-7",
-   "name": "Cedar Hauler",
-   "number": 7,
-   "class": "heavy-duty",
-   "tier": 7,
-   "unlockRank": 20,
-   "order": 47,
-   "status": "playable",
-   "drive": "10×10",
-   "axles": 3,
-   "massT": 13.4,
-   "lengthM": 8.4,
-   "powerKw": 329,
-   "torqueNm": 2165,
-   "topSpeedKmh": 91,
-   "fuelL": 360,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 1.19,
-   "stats": {
-    "power": 44,
-    "speed": 58,
-    "grip": 84,
-    "capacity": 38
-   },
-   "price": 156000,
-   "art": {
-    "body": "olive heavy-duty work truck",
-    "load": "16 m logs on bunks with a logging trailer",
-    "equipment": "rotating mixer drum",
-    "finish": "work-worn paint and dried mud",
-    "tires": "1.19 m mud-terrain: deep chunky mud lugs with open voids"
-   },
-   "load": {
-    "name": "Long logs",
-    "massT": 16
-   }
-  },
-  {
-   "id": "moon-rover-1",
-   "name": "Moon Rover",
-   "number": 1,
-   "class": "offroad",
-   "tier": 1,
-   "unlockRank": 1,
-   "order": 1,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 1.6,
-   "lengthM": 3.4,
-   "powerKw": 40,
-   "torqueNm": 200,
-   "topSpeedKmh": 45,
-   "fuelL": 60,
-   "wheelType": "flotation",
-   "tireDiameterM": 1.6,
-   "stats": {
-    "power": 10,
-    "speed": 13,
-    "grip": 90,
-    "capacity": 0
-   },
-   "price": 0,
-   "art": {
-    "body": "orange boxy amphibious skid-steer 4×4 on four enormous low-pressure tyres, with a flat roof and a front door",
-    "load": "none: the vehicle alone, nothing carried",
-    "equipment": "roof rack, spot lamps",
-    "finish": "river mud",
-    "tires": "1.6 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
-   }
-  },
-  {
    "id": "mire-lark-1",
    "name": "Mire Lark",
    "number": 1,
@@ -4703,40 +3986,6 @@
    "load": {
     "name": "Giraffe",
     "massT": 1.5
-   }
-  },
-  {
-   "id": "mudlark-3",
-   "name": "Mudlark",
-   "number": 3,
-   "class": "offroad",
-   "tier": 3,
-   "unlockRank": 3,
-   "order": 3,
-   "status": "playable",
-   "drive": "4×4",
-   "axles": 2,
-   "massT": 3.0,
-   "lengthM": 5.0,
-   "powerKw": 120,
-   "torqueNm": 600,
-   "topSpeedKmh": 60,
-   "fuelL": 150,
-   "wheelType": "flotation",
-   "tireDiameterM": 1.8,
-   "stats": {
-    "power": 15,
-    "speed": 18,
-    "grip": 90,
-    "capacity": 0
-   },
-   "price": 30600,
-   "art": {
-    "body": "Florida-style swamp buggy: a tall open steel frame with a high bench seat towering on huge tractor tyres",
-    "load": "none: the vehicle alone, nothing carried",
-    "equipment": "roll bar, spot lamps",
-    "finish": "swamp mud",
-    "tires": "1.8 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
    }
   },
   {
@@ -5693,7 +4942,7 @@
    "tier": 16,
    "unlockRank": 16,
    "order": 16,
-   "status": "planned",
+   "status": "playable",
    "drive": "8×8",
    "axles": 4,
    "massT": 25.0,
@@ -5919,9 +5168,9 @@
    "number": 19,
    "class": "offroad",
    "tier": 19,
-   "unlockRank": 19,
+   "unlockRank": 20,
    "order": 19,
-   "status": "planned",
+   "status": "playable",
    "drive": "8×8",
    "axles": 4,
    "massT": 26.0,
@@ -5938,7 +5187,7 @@
     "grip": 90,
     "capacity": 50
    },
-   "price": 193800,
+   "price": 204000,
    "art": {
     "body": "olive 8×8 amphibious heavy carrier with a boat hull, a high cab and a cargo deck",
     "load": "containers on the deck",
@@ -5987,82 +5236,6 @@
    "load": {
     "name": "Rocket engine",
     "massT": 18
-   }
-  },
-  {
-   "id": "ice-breaker-20",
-   "name": "Ice Breaker",
-   "number": 20,
-   "class": "offroad",
-   "tier": 20,
-   "unlockRank": 20,
-   "order": 20,
-   "status": "planned",
-   "drive": "8×8",
-   "axles": 4,
-   "massT": 40.0,
-   "lengthM": 18.0,
-   "powerKw": 800,
-   "torqueNm": 4000,
-   "topSpeedKmh": 60,
-   "fuelL": 900,
-   "wheelType": "flotation",
-   "tireDiameterM": 1.9,
-   "stats": {
-    "power": 100,
-    "speed": 18,
-    "grip": 90,
-    "capacity": 100
-   },
-   "price": 204000,
-   "art": {
-    "body": "grey enormous eight-wheeled heavy missile-carrier-style chassis with two separate cabs either side of a long engine bay",
-    "load": "a long equipment container on the deck",
-    "equipment": "spot lamps, mirrors",
-    "finish": "mud and dust",
-    "tires": "1.9 m flotation tyres: huge low-pressure balloon tires with wide paddle lugs; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Module",
-    "massT": 20.0
-   }
-  },
-  {
-   "id": "floe-smasher-19",
-   "name": "Floe Smasher",
-   "number": 19,
-   "class": "offroad",
-   "tier": 19,
-   "unlockRank": 20,
-   "order": 79,
-   "status": "playable",
-   "drive": "8×8",
-   "axles": 4,
-   "massT": 23.1,
-   "lengthM": 11.3,
-   "powerKw": 918,
-   "torqueNm": 5528,
-   "topSpeedKmh": 50,
-   "fuelL": 678,
-   "wheelType": "spiked",
-   "tireDiameterM": 2.0,
-   "stats": {
-    "power": 94,
-    "speed": 94,
-    "grip": 94,
-    "capacity": 94
-   },
-   "price": 204000,
-   "art": {
-    "body": "racing green all-terrain 8×8 cargo truck",
-    "load": "a glass aquarium with a friendly orca, water sloshing",
-    "equipment": "crane boom and recovery spades",
-    "finish": "thick dried mud",
-    "tires": "2.00 m spiked studs: winter tires studded with rows of steel spikes"
-   },
-   "load": {
-    "name": "Orca aquarium",
-    "massT": 20
    }
   },
   {
@@ -6139,44 +5312,6 @@
    "load": {
     "name": "Excavator",
     "massT": 35
-   }
-  },
-  {
-   "id": "ship-mover-2",
-   "name": "Ship Mover",
-   "number": 2,
-   "class": "heavy",
-   "tier": 2,
-   "unlockRank": 2,
-   "order": 2,
-   "status": "planned",
-   "drive": "8×8",
-   "axles": 8,
-   "massT": 50.0,
-   "lengthM": 20.0,
-   "powerKw": 500,
-   "torqueNm": 3500,
-   "topSpeedKmh": 20,
-   "fuelL": 600,
-   "wheelType": "all-terrain",
-   "tireDiameterM": 1.0,
-   "stats": {
-    "power": 18,
-    "speed": 6,
-    "grip": 62,
-    "capacity": 27
-   },
-   "price": 25200,
-   "art": {
-    "body": "yellow self-propelled modular transporter: a flat platform on many small wheel pairs with a small control cab",
-    "load": "a ship hull section",
-    "equipment": "beacons, control cab",
-    "finish": "shipyard grime",
-    "tires": "1.0 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Boat hull",
-    "massT": 80.0
    }
   },
   {
@@ -6291,44 +5426,6 @@
    "load": {
     "name": "Boulder",
     "massT": 50
-   }
-  },
-  {
-   "id": "wind-hauler-4",
-   "name": "Wind Hauler",
-   "number": 4,
-   "class": "heavy",
-   "tier": 4,
-   "unlockRank": 4,
-   "order": 4,
-   "status": "playable",
-   "drive": "14×14",
-   "axles": 7,
-   "massT": 30.0,
-   "lengthM": 30.0,
-   "powerKw": 550,
-   "torqueNm": 3600,
-   "topSpeedKmh": 75,
-   "fuelL": 900,
-   "wheelType": "all-terrain",
-   "tireDiameterM": 1.25,
-   "stats": {
-    "power": 20,
-    "speed": 22,
-    "grip": 62,
-    "capacity": 8
-   },
-   "price": 50400,
-   "art": {
-    "body": "white heavy conventional tractor with an extendable blade trailer",
-    "load": "a long white wind-turbine blade",
-    "equipment": "escort beacons, oversize banners",
-    "finish": "road dust",
-    "tires": "1.25 m all-terrain tyres: blocky all-terrain tread with sipes; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Turbine blade",
-    "massT": 25.0
    }
   },
   {
@@ -6518,44 +5615,6 @@
    }
   },
   {
-   "id": "bridge-layer-7",
-   "name": "Bridge Layer",
-   "number": 7,
-   "class": "heavy",
-   "tier": 7,
-   "unlockRank": 7,
-   "order": 7,
-   "status": "playable",
-   "drive": "10×10",
-   "axles": 5,
-   "massT": 40.0,
-   "lengthM": 14.0,
-   "powerKw": 600,
-   "torqueNm": 4000,
-   "topSpeedKmh": 65,
-   "fuelL": 900,
-   "wheelType": "mud-terrain",
-   "tireDiameterM": 1.5,
-   "stats": {
-    "power": 21,
-    "speed": 19,
-    "grip": 80,
-    "capacity": 5
-   },
-   "price": 88200,
-   "art": {
-    "body": "olive 10×10 military bridge-layer carrying a folded scissor bridge",
-    "load": "the folded bridge sections",
-    "equipment": "launch arm, spades",
-    "finish": "mud",
-    "tires": "1.5 m mud-terrain tyres: deep chunky mud lugs with open voids; perfectly round, every tyre the same size"
-   },
-   "load": {
-    "name": "Bridge",
-    "massT": 15.0
-   }
-  },
-  {
    "id": "juggernaut-7",
    "name": "Juggernaut",
    "number": 7,
@@ -6677,8 +5736,8 @@
    "tier": 9,
    "unlockRank": 9,
    "order": 9,
-   "status": "planned",
-   "drive": "6×6",
+   "status": "playable",
+   "drive": "16×16",
    "axles": 8,
    "massT": 45.0,
    "lengthM": 28.0,
@@ -6753,8 +5812,8 @@
    "tier": 10,
    "unlockRank": 10,
    "order": 10,
-   "status": "planned",
-   "drive": "8×8",
+   "status": "playable",
+   "drive": "14×14",
    "axles": 7,
    "massT": 30.0,
    "lengthM": 24.0,
@@ -7133,8 +6192,8 @@
    "tier": 15,
    "unlockRank": 15,
    "order": 15,
-   "status": "planned",
-   "drive": "8×6",
+   "status": "playable",
+   "drive": "18×18",
    "axles": 9,
    "massT": 40.0,
    "lengthM": 26.0,

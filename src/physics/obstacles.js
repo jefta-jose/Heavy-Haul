@@ -1,13 +1,12 @@
 import { seededRandom } from './math.js';
-import { STATION_WIDTH_M, SPEED_SIGN_AREA_GAP_M } from '../game-config.js';
+import { STATION_WIDTH_M, SPEED_SIGN_AREA_GAP_M, OBSTACLE_SIT } from '../game-config.js';
 
 // Static obstacles on the trail. Every shape the tires hit is also what the renderer draws:
 // boulders use hulls traced from rock art, crushable shale breaks under the vehicle's weight,
 // and fallen logs are round bodies lying across the track. Which round and traced kinds exist, and
 // how each one breaks, is data: trail.obstacleKinds and trail.propKinds in season.json.
 
-export const CRUSH_IMPULSE = 900;
-
+export const CRUSH_IMPULSE = 900;   // N·s of accumulated tire impulse that breaks a crushable rock
 
 export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -25,6 +24,8 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const propKinds = trail.propKinds ?? {};
   const props = (trail.props ?? []).map(p => ({ x: p.x, kind: propKinds[p.kind], name: p.kind }));
   const reserved = x => runs.some(r => x > r.x0 - pad && x < r.x1 + pad) || props.some(p => Math.abs(p.x - x) < p.kind.width * S / 2 + pad) || terrain.nearHole(x, 1.5 * S);
+  // loose stones keep well clear of a log or pipe run, so no truck has wheels on the last log and its nose on a boulder
+  const clearOfRuns = x => !reserved(x) && !runs.some(r => x > r.x0 - 2 * pad && x < r.x1 + 2 * pad);
 
   // Body from a traced hull, sitting `above` metres proud of the lowest ground under it.
   const rockBody = (x, aboveM, widthM, hull = null, canFlip = true) => {
@@ -34,10 +35,18 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     const by = g + above - (sh.h - sh.top) * s;
     const verts = sh.hull.map(([px, py]) => V((px - sh.w / 2) * s * (flip ? -1 : 1), (sh.h - py) * s));
     const body = world.createBody({ position: V(x, by) });
-    return { body, verts, rec: { x, y: by, w: wM, h: sh.h * s, flip, above, body } };
+    // a traced top profile (stairs, slabs, humps) collides as one slice per segment, so steps stay steps rather than a ramp
+    const slices = sh.profile?.slice(1).map((p, i) => [sh.profile[i], p].map(([px, py]) => [(px - sh.w / 2) * s * (flip ? -1 : 1), (sh.h - py) * s]))
+      .map(([[x0, y0], [x1, y1]]) => [V(x0, y0), V(x1, y1), V(x1, 0), V(x0, 0)]).filter(q => Math.abs(q[0].x - q[1].x) > 0.02);
+    return { body, verts, slices, rec: { x, y: by, w: wM, h: sh.h * s, flip, above, body } };
   };
-  const boulder = (x, above, wM) => {
-    const { body, verts, rec } = rockBody(x, above, wM);
+  // a hard boulder is never taller than the smallest tyre's radius (0.65 m): no wheel can climb a step higher than that
+  const MAX_BOULDER_M = 0.62;
+  // ...and never on the steep face of a roller, where the slope and the stone add up to one wall
+  const steep = x => Math.abs(visH(x + 1.5) - visH(x - 1.5)) > 0.3;
+  const boulder = (x, above, wM, loose = true) => {
+    if (loose && steep(x)) return;
+    const { body, verts, rec } = rockBody(x, Math.min(above, MAX_BOULDER_M / S), wM);
     body.createFixture(new pl.Polygon(verts), { friction: 0.72, userData: { surf: 'rock', obstacle: true } });
     rocks.push(rec);
   };
@@ -50,26 +59,27 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
 
   // Traced props: solid, or broken by tires.
   const placeProp = (x, kind, name) => {
-    const { body, verts, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
+    const { body, verts, slices, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
     Object.assign(rec, { art: kind.art, prop: name, surf: kind.surf });
     if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, body, ...kind.crush });
-    body.createFixture(new pl.Polygon(verts), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
+    const fixture = { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } };
+    if (slices?.length) for (const q of slices) body.createFixture(new pl.Polygon(q), fixture);
+    else body.createFixture(new pl.Polygon(verts), fixture);
     rocks.push(rec);
   };
   // trail.crushables: how close together things that break under the tires lie, per surface (metres, [min, max])
   const crushables = trail.crushables ?? {};
   const between = ([a, b]) => a + rr() * (b - a);
 
-  // climbable boulders and loose stones on every firm section, unless the season turns them off (trail.stones: false)
-  const stones = trail.stones !== false;
+  // climbable boulders on every firm section
   for (const [z0, z1, s] of zones) {
-    if (s === 'mud' || !stones) continue;
+    if (s === 'mud') continue;
     const gap = (s === 'rock' ? 5 : 11) * Math.sqrt(S) * (crushables[s] ? 2 : 1);   // fewer hard boulders where the crushables go
-    for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 8 + pad)) boulder(x, s === 'creek' ? 0.16 + rr() * 0.13 : 0.2 + rr() * 0.2, 1.1 + rr() * 0.9);
+    for (let x = z0 + 7; x < z1 - 7; x += gap + rr() * gap) if (clearOfRuns(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 8 + pad)) boulder(x, s === 'creek' ? 0.16 + rr() * 0.13 : 0.2 + rr() * 0.2, 1.1 + rr() * 0.9);
   }
   for (const [z0, z1, s] of zones) {
-    if (s === 'mud' || !stones) continue;
-    for (let x = z0 + 8; x < z1 - 8; x += crushables[s] ? between(crushables[s]) : ((s === 'rock' ? 7 : 11) + rr() * 10) * Math.sqrt(S)) if (!reserved(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6 + pad) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + (crushables[s] ? crushables.room : pad))) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
+    if (s === 'mud') continue;
+    for (let x = z0 + 8; x < z1 - 8; x += crushables[s] ? between(crushables[s]) : ((s === 'rock' ? 7 : 11) + rr() * 10) * Math.sqrt(S)) if (clearOfRuns(x) && !gardenAt(x) && !nearStep(x) && !nearCalm(x, 6 + pad) && !rocks.some(r => Math.abs(r.x - x) < r.w / 2 + (crushables[s] ? crushables.room : pad))) crushable(x, 0.12 + rr() * 0.09, 0.7 + rr() * 0.4);
   }
   // Repeated low crests articulate the suspension; occasional larger stones
   // punctuate a garden without turning the whole road into a wall of boulders.
@@ -80,18 +90,17 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
       const large = index++ % 5 === 4;
       // rounder stones that stand proud of the mud (still within reach of the tires)
       // every other small stone in a garden breaks under the tires
-      if (crushables.rock && !large && index % 2 === 1) crushable(x, 0.3 + rr() * 0.12, 1.25 + rr() * 0.4);
-      else boulder(x, large ? 0.5 : 0.3 + rr() * 0.12, large ? 1.9 : 1.25 + rr() * 0.4);
+      // never taller than the smallest tyre's radius (0.65 m): a wheel cannot climb a step higher than that
+      if (crushables.rock && !large && index % 2 === 1) crushable(x, 0.25 + rr() * 0.07, 1.2 + rr() * 0.4);
+      else boulder(x, large ? 0.31 : 0.25 + rr() * 0.06, large ? 1.6 : 1.2 + rr() * 0.4, false);
       rocks.at(-1).garden = true;
     }
   }
-  // Every crossing is a horizontal run of 4–6 obstacles. Each circle sits on
-  // its own local road bed; none rests on another log or pipe. Edge gaps are
-  // explicit so a spaced run lets a tire return to the road between crests.
-  // Everything round is bedded into the road.
+  // Every crossing is a horizontal run of 4–6 identical obstacles, evenly spaced (spec.gap), each sitting on the drawn
+  // road (its centre OBSTACLE_SIT of its radius above it, so it lies half sunk in, like a log bedded in a forest track); none rests on another log or pipe.
   for (const { spec, index, radius: r, positions } of runs) {
     for (const [order, x] of positions.entries()) {
-      const y = Math.max(colH(x - r * 0.6), colH(x), colH(x + r * 0.6)) + r * 0.3;
+      const y = Math.max(visH(x - r * 0.6), visH(x), visH(x + r * 0.6)) + r * OBSTACLE_SIT;
       const body = world.createBody({ position: V(x, y) });
       const kind = trail.obstacleKinds[spec.kind], rec = { x, y, r, seed: rr(), kind: spec.kind, run: index, order, body };
       if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, above: r, w: 2 * r, surf: kind.surf, ...kind.crush });

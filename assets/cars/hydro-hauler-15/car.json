@@ -1,0 +1,321 @@
+{
+  "id": "hydro-hauler-15",
+  "name": "Hydro Hauler",
+  "number": 15,
+  "class": "heavy",
+  "drive": "18×18",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Heavy tractor hauling a hydro turbine",
+  "description": "Blue heavy tractor pulling a beam trailer.",
+  "stats": {
+    "power": 32,
+    "speed": 18,
+    "grip": 62,
+    "capacity": 30
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1148,
+      674
+    ],
+    "pixelsPerMetre": 98.571,
+    "axles": [
+      9.688,
+      8.217,
+      5.762,
+      4.271,
+      -4.007,
+      -5.417,
+      -6.838,
+      -8.268,
+      -9.688
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2102.5,
+        673.5,
+        73
+      ],
+      [
+        1957.5,
+        673.5,
+        73
+      ],
+      [
+        1715.5,
+        673.5,
+        73
+      ],
+      [
+        1568.5,
+        673.5,
+        73
+      ],
+      [
+        752.5,
+        673.5,
+        73
+      ],
+      [
+        613.5,
+        673.5,
+        73
+      ],
+      [
+        473.5,
+        673.5,
+        73
+      ],
+      [
+        332.5,
+        673.5,
+        73
+      ],
+      [
+        192.5,
+        673.5,
+        73
+      ]
+    ],
+    "exhaust": [
+      7.634,
+      5.604
+    ],
+    "winch": [
+      10.83,
+      0.35
+    ],
+    "nose": 10.88,
+    "tail": -10.759
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 40000.0,
+    "centreOfMass": [
+      -0.698,
+      1.888
+    ],
+    "size": [
+      21.639,
+      5.899
+    ],
+    "wheelMass": 583,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -10.388,
+        10.388,
+        1.05,
+        0.93,
+        0.4
+      ],
+      [
+        -10.759,
+        -9.898,
+        0.84,
+        1.354,
+        0.4
+      ],
+      [
+        -9.898,
+        -8.595,
+        0.455,
+        1.354,
+        0.4
+      ],
+      [
+        -8.595,
+        -6.431,
+        0.455,
+        1.354,
+        0.4
+      ],
+      [
+        -6.431,
+        -4.267,
+        0.455,
+        4.053,
+        0.4
+      ],
+      [
+        -4.267,
+        -2.103,
+        1.05,
+        5.666,
+        0.4
+      ],
+      [
+        -2.103,
+        0.061,
+        1.05,
+        5.899,
+        0.4
+      ],
+      [
+        0.061,
+        2.225,
+        1.05,
+        5.493,
+        0.4
+      ],
+      [
+        2.225,
+        4.389,
+        1.05,
+        5.037,
+        0.4
+      ],
+      [
+        4.389,
+        6.553,
+        0.455,
+        1.537,
+        0.4
+      ],
+      [
+        6.553,
+        8.717,
+        0.455,
+        3.049,
+        0.4
+      ],
+      [
+        9.898,
+        10.88,
+        0.84,
+        1.943,
+        0.4
+      ],
+      [
+        8.717,
+        9.898,
+        0.455,
+        1.943,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 90.0,
+      "centreOfMass": [
+        -3.185,
+        1.3
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.3671,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 419,
+    "exhaustBrake": 560,
+    "gears": {
+      "H": 11.366,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 412020,
+    "openDiffGrip": 1,
+    "fuelLitres": 1200
+  },
+  "load": {
+    "name": "Turbine",
+    "massT": 90.0
+  }
+}

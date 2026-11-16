@@ -60,7 +60,7 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
 // Ruts are not softened for anyone: tuning is how a light truck gets through, and the breakdown
 // truck is for when even that is not enough.
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
-  const scout = content.cars.find(c => c.id === 'dune-pup-1'); if (!scout) return;
+  const scout = content.cars.find(c => c.id === 'ridge-pup-2'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
   const metres = car => [365, 2130, 2330].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
@@ -85,7 +85,7 @@ test('a power is a label on the car, and changes none of its numbers', () => {
   for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
 });
 
-test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
+test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {
   const solid = (() => { const p = newSim(); p.init(40); return p.logs.find(l => l.kind !== 'pipe' && l.x > 45).x; })();
   const crash = (car, shield) => { const c = spawn(newSim(car), solid - car.rig.nose - 4); if (shield) assert(c.usePower(), 'the shield starts'); c.main.parts.truck.setLinearVelocity({ x: 15, y: 0 }); advance(c, 2); return c.main.st.damage; };
   const car = withPower(content.car, 'invincible');

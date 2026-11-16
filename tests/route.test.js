@@ -14,8 +14,12 @@ const wrecker = content.service.filter(s => s.role === 'breakdown').sort((a, b) 
 
 // call the breakdown truck ahead of the main truck, back it up to the hook reach, hook on and
 // drive away until the main truck is out and rolling, then unhook
+// one breakdown truck per run, as in the game: the first rescue calls it, later ones bring the same truck back ahead
+let called = null;
 function rescue(sim) {
-  const main = sim.main, v = sim.spawnService(wrecker, undefined, main.car.class);
+  const main = sim.main;
+  let v = sim.vehicles.includes(called) ? called : null;
+  if (v) sim.respawn(sim.serviceSpot(wrecker), v); else v = called = sim.spawnService(wrecker, undefined, main.car.class);
   Object.assign(main.ctl, { gas: 0, brake: 0 });   // as the game does on a switch: the stuck truck's pedals let go
   Object.assign(v.ctl, { gear: 'R', awd: true, diff: true });
   for (let i = 0; i < 120 * 2; i++) sim.step(DT);   // let it settle
@@ -27,7 +31,7 @@ function rescue(sim) {
     // if the service truck stalls on the tow, back up a little and take a run at it
     v.ctl.gear = 'L'; const x0 = main.parts.truck.getPosition().x; let go = 0, stall = 0, back = 0;
     // tow well clear: out of the pit and over whatever sits just past it, as a player would
-    while (go < 60 && main.parts.truck.getPosition().x - x0 < 25) {
+    while (go < 60 && main.parts.truck.getPosition().x - x0 < 35) {
       if (back > 0) { back -= DT; v.ctl.gear = 'R'; if (back <= 0) v.ctl.gear = 'L'; }
       else if (stall > 1.5) { back = 1.2; stall = 0; }
       v.ctl.gas = 1; sim.step(DT); go += DT;
@@ -45,7 +49,8 @@ test('the full trail can be driven, with a breakdown truck for the worst mud', (
   for (let i = 0; i < legs.length - 1; i++) {
     sim.init(legs[i]); sim.ctl.gear = 'L';
     let hold = 0, t = 0, stuck = 0, backT = 0, tries = 0, rescues = 0, winchT = 0, stalled = null, crawl = 0, mark = legs[i];
-    while (t < 300) {
+    const limit = Math.max(300, (legs[i + 1] - legs[i]) * 0.4);   // a longer leg gets proportionally longer
+    while (t < limit) {
       const p = sim.truck.getPosition(), speed = sim.st.speed;
       if (sim.surfAt(p.x) === 'mud' || sim.surfAt(p.x + 8) === 'mud' || sim.surfAt(p.x) === 'rock' || stuck > 1) hold = 12;
       hold -= DT; sim.ctl.awd = sim.ctl.diff = hold > 0;

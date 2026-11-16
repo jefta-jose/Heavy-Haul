@@ -1,4 +1,4 @@
-import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M } from '../../game-config.js';
+import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M, LOG_SHOWN_BELOW_AXIS } from '../../game-config.js';
 import { RUT_OFFSETS } from './mud.js';
 import { roadSpan } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
@@ -17,6 +17,7 @@ export function createProps(scene) {
     if (hashRandom(x + 19) > 0.4) front.push({ x: x + hashRandom(x + 3), key: 'reeds', w: 0.55 + hashRandom(x + 27) * 0.85, y: -0.9 - hashRandom(x + 8) * 1.4, flip: hashRandom(x + 4) > 0.5 });
   }
   let barkPattern = null;
+  const beddedSprites = new Map();
   const LOG_DEPTH = [0.32, 0.8];   // across the road, so trunks have convincing volume
 
   function sprite(key, x, y, width, flip = false) {
@@ -72,8 +73,44 @@ export function createProps(scene) {
   function crossingSprite(l, faceOnly = false) {
     const key = scene.season.trail.obstacleKinds[l.kind].art, img = scene.cache.img[key];
     if (!img) return false;
-    const { ctx } = scene.view, [cx, cy, radius] = scene.season.render.obstacles[key].face;
+    const { ctx } = scene.view, spec = scene.season.render.obstacles[key], [cx, cy, radius] = spec.face;
     const original = scene.images[key], scale = l.r / radius;
+    if (spec.far) {
+      // A straight cylinder lying across the road, its middle on the road's centre line: the far half runs back behind the
+      // vehicle, the near half and its end face come forward in front of the near tires (faceOnly is that front pass).
+      // Half sunk along its whole length. The tires still meet it where the physics circle is, on the tire line.
+      const [fx, fy] = spec.far, ax = (fx - cx) * scale, ay = -(fy - cy) * scale, len = Math.hypot(ax, ay), ux = ax / len, uy = ay / len;
+      const { visH } = scene.sim, span = roadSpan(scene), g = visH(l.x), mid = span ? g + (span.far - span.near) / 2 : g;
+      const t = (mid - l.y) / uy, px = l.x + ux * t, py = mid;   // the sprite's midpoint, on the axis through the tire contact
+      const mx = (cx + fx) / 2, my = (cy + fy) / 2;
+      // Bury the underside with a short, irregular soil transition rather than slicing the
+      // painted cylinder with a ruler-straight edge. Cache at the image's actual resolution.
+      let bedded = beddedSprites.get(key);
+      if (!bedded || bedded.img !== img) {
+        const canvas = makeCanvas(img.width, img.height), mask = makeCanvas(img.width, img.height);
+        const paint = canvas.getContext('2d'), soil = mask.getContext('2d'), k = img.width / original.width;
+        paint.drawImage(img, 0, 0);
+        soil.translate(mx * k, my * k); soil.rotate(Math.atan2(fy - cy, fx - cx));
+        const reach = Math.hypot(img.width, img.height), depth = radius * k * LOG_SHOWN_BELOW_AXIS;
+        // Positive local y points into the buried underside.
+        for (let x = -reach; x < reach; x += 2) {
+          const edge = depth + (hashRandom(Math.floor(x / 5)) - 0.5) * radius * k * 0.06;
+          const fade = Math.max(2, radius * k * 0.14), grad = soil.createLinearGradient(0, edge - fade, 0, edge + fade);
+          grad.addColorStop(0, '#fff'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+          soil.fillStyle = grad; soil.fillRect(x, -reach, 2, reach * 2);
+        }
+        paint.globalCompositeOperation = 'destination-in'; paint.drawImage(mask, 0, 0);
+        bedded = { img, canvas }; beddedSprites.set(key, bedded);
+      }
+      ctx.save();
+      ctx.beginPath();   // and the pass's half of the road: behind the tire line, or in front of it
+      const x0 = px - len, x1 = px + len;
+      for (let x = x0; x <= x1 + 0.08; x += 0.08) ctx.lineTo(x, visH(x) - 0.02);
+      ctx.lineTo(x1, faceOnly ? g - 50 : g + 50); ctx.lineTo(x0, faceOnly ? g - 50 : g + 50); ctx.closePath(); ctx.clip();
+      ctx.translate(px - mx * scale, py + my * scale); ctx.scale(1, -1);
+      ctx.drawImage(bedded.canvas, 0, 0, original.width * scale, original.height * scale); ctx.restore();
+      return true;
+    }
     ctx.save();
     ctx.beginPath();
     const left = l.x - cx * scale, right = left + original.width * scale;

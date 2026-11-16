@@ -210,3 +210,12 @@ drawing only, tires still roll on `visH`), rolling bumps on every open stretch (
 (`trail.crushables`), huge logs, rocks and pipes (`trail.obstacleScale`, `trail.obstacleRuns`), and deep bogs with one mud hole
 each and none elsewhere (`trail.heavyMud`, `trail.holes`). The swamp has no bridges, water, painted bank or fallen trees. Run
 `npm run test:route` with `HAUL_SEASON=<id>` and adjust the trail until a scout and the longest truck clear it.
+
+**Obstacles (user direction, 2026-11-16):** the no-obstacle test commit (bd54239) was reverted: obstacles, speed limit signs
+and flat highways are back. Log, pipe and drum runs are 4–6 identical obstacles, evenly spaced (one `gap` per run), sitting
+half sunk in the road (`OBSTACLE_SIT`). Rocks and props stay drawn on both wheel tracks. Nothing hard stands taller than
+the smallest tyre's radius (0.65 m): boulders are capped and kept off the steep faces of rollers and clear of log runs, and
+a chassis resting on a crushable breaks it. Each map has its own obstacle set: swamp rotten and sawn logs, autumn big sawn
+logs, spring spaced pipes and oil drums. The mud-hole art was deleted on request (the bog's dark colour stays). The current
+log and pipe sprites taper in perspective; straight ones and new obstacle types are requested in
+`assets/seasons/OBSTACLES-PROMPT.md`.

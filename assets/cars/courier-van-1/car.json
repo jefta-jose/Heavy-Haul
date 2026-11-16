@@ -4,7 +4,7 @@
   "number": 1,
   "class": "highway",
   "drive": "4×4",
-  "wheelType": "mud-terrain",
+  "wheelType": "flotation",
   "status": "playable",
   "tagline": "Boxy delivery van with a loaded roof rack",
   "description": "White 1980s boxy American delivery van with a short bonnet, sliding side door and roof rack.",

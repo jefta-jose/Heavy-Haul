@@ -1,0 +1,214 @@
+{
+  "id": "volt-ranger-19",
+  "name": "Volt Ranger",
+  "number": 19,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Electric adventure pickup with camp gear",
+  "description": "Pale green smooth electric adventure pickup with a full-width light strip, upright oval headlights and a short bed.",
+  "stats": {
+    "power": 82,
+    "speed": 51,
+    "grip": 62,
+    "capacity": 45
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1006,
+      724
+    ],
+    "pixelsPerMetre": 267.692,
+    "axles": [
+      2.142,
+      -2.142
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1579.5,
+        723.5,
+        184
+      ],
+      [
+        432.5,
+        723.5,
+        184
+      ]
+    ],
+    "exhaust": [
+      -3.244,
+      0.268
+    ],
+    "winch": [
+      3.174,
+      0.325
+    ],
+    "nose": 3.224,
+    "tail": -3.444
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3200.0,
+    "centreOfMass": [
+      0.0,
+      0.716
+    ],
+    "size": [
+      6.668,
+      2.236
+    ],
+    "wheelMass": 194,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.792,
+        2.792,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.444,
+        -2.337,
+        0.78,
+        2.236,
+        0.4
+      ],
+      [
+        -2.337,
+        -0.111,
+        0.423,
+        2.236,
+        0.4
+      ],
+      [
+        2.337,
+        3.224,
+        0.78,
+        1.997,
+        0.4
+      ],
+      [
+        -0.111,
+        2.337,
+        0.423,
+        1.997,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.18,
+      "centreOfMass": [
+        -2.11,
+        1.425
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4307,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 117,
+    "exhaustBrake": 151,
+    "gears": {
+      "H": 10.176,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 5403,
+    "openDiffGrip": 1,
+    "fuelLitres": 100
+  },
+  "load": {
+    "name": "Camp gear",
+    "massT": 0.18
+  }
+}

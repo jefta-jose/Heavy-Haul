@@ -1,0 +1,235 @@
+{
+  "id": "drill-rig-17",
+  "name": "Drill Rig",
+  "number": 17,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 truck with a folded drilling mast",
+  "description": "White and red 6×6 truck carrying a folded drilling mast.",
+  "stats": {
+    "power": 54,
+    "speed": 24,
+    "grip": 80,
+    "capacity": 29
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1064,
+      682
+    ],
+    "pixelsPerMetre": 223.077,
+    "axles": [
+      2.994,
+      -1.659,
+      -2.994
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1732.5,
+        681.5,
+        154
+      ],
+      [
+        694.5,
+        681.5,
+        154
+      ],
+      [
+        396.5,
+        681.5,
+        154
+      ]
+    ],
+    "exhaust": [
+      1.633,
+      2.176
+    ],
+    "winch": [
+      3.879,
+      0.325
+    ],
+    "nose": 3.929,
+    "tail": -4.27
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 18000.0,
+    "centreOfMass": [
+      -0.553,
+      0.774
+    ],
+    "size": [
+      8.199,
+      2.418
+    ],
+    "wheelMass": 169,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.644,
+        3.644,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.27,
+        -3.189,
+        0.78,
+        2.284,
+        0.4
+      ],
+      [
+        -3.189,
+        -2.22,
+        0.423,
+        2.284,
+        0.4
+      ],
+      [
+        -2.22,
+        -0.17,
+        0.423,
+        2.262,
+        0.4
+      ],
+      [
+        -0.17,
+        1.879,
+        0.423,
+        2.418,
+        0.4
+      ],
+      [
+        3.189,
+        3.929,
+        0.78,
+        1.975,
+        0.4
+      ],
+      [
+        1.879,
+        3.189,
+        0.423,
+        1.975,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 4.0,
+      "centreOfMass": [
+        -0.99,
+        1.644
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2068,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 328,
+    "exhaustBrake": 424,
+    "gears": {
+      "H": 10.652,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 21089,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Drilling mast",
+    "massT": 4.0
+  }
+}

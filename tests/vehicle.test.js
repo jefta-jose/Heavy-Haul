@@ -73,7 +73,7 @@ test('AWD and DIFF clearly change progress in deep mud', () => {
   assert(both > awd * 3 && both > 25, `AWD + DIFF gets through (${both.toFixed(1)} m)`);
 });
 
-test('trail has climbable obstacles and rocks break under the tires', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
+test('trail has climbable obstacles and rocks break under the tires', () => {
   const s = spawn(newSim(), content.season.trail.start);
   assert(s.logs.length > 30 && s.rocks.some(r => r.crush) && s.rocks.some(r => !r.crush), 'logs, boulders and crushable rocks exist');
   // Approach an actual crushable stone, rather than assuming the seeded road
@@ -233,8 +233,8 @@ test('the handbrake holds the truck on a slope and against the throttle', () => 
   assert(s.truck.getPosition().x > x0 + 2, 'released, it drives');
 });
 
-test('hitting a solid obstacle at speed damages the truck, and a damaged truck is slower', { skip: !content.season.trail.obstacleRuns?.length && 'this season has no obstacles on the road' }, () => {
-  const run = content.season.trail.obstacleRuns.find(r => r.kind === 'pipe');
+test('hitting a solid obstacle at speed damages the truck, and a damaged truck is slower', () => {
+  const run = content.season.trail.obstacleRuns.find(r => !content.season.trail.obstacleKinds[r.kind].crush);   // a solid log or pipe run
   const ram = kmh => { const s = spawn(newSim(), run.x - 8), v = kmh / 3.6; for (const b of [s.truck, ...s.wheels]) b.setLinearVelocity(s.V(v, 0)); advance(s, 2); return s.st.damage; };
   assert.equal(ram(6), 0, 'a slow crawl over it does no harm');
   assert(ram(40) > 0, 'a fast hit does');

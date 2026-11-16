@@ -278,7 +278,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'the run uses the chosen power');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'nitro', 'and it is kept');
-    assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'dune-pup-1' ? 'moon-rover-1' : 'dune-pup-1', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
+    assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'ridge-pup-2' ? 'mire-lark-1' : 'ridge-pup-2', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'and coming back finds it still on');
     await capture('00c-powers');
     await page.locator('.power', { hasText: 'Nitro' }).click();
@@ -479,14 +479,14 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
     // an off-road truck gets its own class's service trucks
-    await page.evaluate(() => { __haul.garage.select('moon-rover-1'); __haul.startRun(__haul.garage.selection); });
+    await page.evaluate(() => { __haul.garage.select('mire-lark-1'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await page.evaluate(() => { __haul.sim.respawn(30); for (let i = 0; i < 120; i++) __haul.sim.step(1 / 120); __haul.snap(); });
-    await capture('10-moon-rover');
+    await capture('10-mire-lark');
     await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Moon Rover gets the off-road Bog Wrecker');
+    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Mire Lark gets the off-road Bog Wrecker');
     await page.waitForTimeout(150); await capture('10c-bog-wrecker');
-    await page.evaluate(() => { __haul.garage.select('dune-pup-1'); });
+    await page.evaluate(() => { __haul.garage.select('ridge-pup-2'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
     await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);

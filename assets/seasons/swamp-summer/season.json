@@ -294,41 +294,11 @@
       ],
       [
         528,
-        576,
-        "highway"
-      ],
-      [
-        576,
-        608,
-        "mud"
-      ],
-      [
-        608,
-        744,
-        "highway"
-      ],
-      [
-        744,
-        772,
-        "mud"
-      ],
-      [
-        772,
         928,
         "highway"
       ],
       [
         928,
-        1006,
-        "dirt"
-      ],
-      [
-        1006,
-        1032,
-        "mud"
-      ],
-      [
-        1032,
         1050,
         "dirt"
       ],
@@ -354,26 +324,6 @@
       ],
       [
         1490,
-        1536,
-        "highway"
-      ],
-      [
-        1536,
-        1568,
-        "mud"
-      ],
-      [
-        1568,
-        1700,
-        "highway"
-      ],
-      [
-        1700,
-        1728,
-        "mud"
-      ],
-      [
-        1728,
         1890,
         "highway"
       ],
@@ -404,41 +354,11 @@
       ],
       [
         2452,
-        2500,
-        "highway"
-      ],
-      [
-        2500,
-        2532,
-        "mud"
-      ],
-      [
-        2532,
-        2662,
-        "highway"
-      ],
-      [
-        2662,
-        2690,
-        "mud"
-      ],
-      [
-        2690,
         2852,
         "highway"
       ],
       [
         2852,
-        2956,
-        "dirt"
-      ],
-      [
-        2956,
-        2990,
-        "mud"
-      ],
-      [
-        2990,
         3012,
         "dirt"
       ],
@@ -464,26 +384,6 @@
       ],
       [
         3414,
-        3460,
-        "highway"
-      ],
-      [
-        3460,
-        3492,
-        "mud"
-      ],
-      [
-        3492,
-        3644,
-        "highway"
-      ],
-      [
-        3644,
-        3672,
-        "mud"
-      ],
-      [
-        3672,
         3814,
         "highway"
       ],
@@ -539,13 +439,63 @@
       ],
       "fade": 2.5,
       "mud": 0.85,
-      "intensity": 1.5,
-      "highway": 0.5
+      "intensity": 1.5
     },
     "obstacleSeed": 4242,
     "obstacleScale": 2,
     "bridges": [],
-    "rockGardens": [],
+    "rockGardens": [
+      {
+        "x0": 78,
+        "x1": 111,
+        "gap": 2.7
+      },
+      {
+        "x0": 452,
+        "x1": 472,
+        "gap": 2.5
+      },
+      {
+        "x0": 1000,
+        "x1": 1020,
+        "gap": 2.8
+      },
+      {
+        "x0": 1398,
+        "x1": 1420,
+        "gap": 2.9
+      },
+      {
+        "x0": 2000,
+        "x1": 2020,
+        "gap": 2.6
+      },
+      {
+        "x0": 2414,
+        "x1": 2434,
+        "gap": 2.5
+      },
+      {
+        "x0": 2962,
+        "x1": 2982,
+        "gap": 2.8
+      },
+      {
+        "x0": 3360,
+        "x1": 3382,
+        "gap": 2.9
+      },
+      {
+        "x0": 3962,
+        "x1": 3982,
+        "gap": 2.6
+      },
+      {
+        "x0": 4012,
+        "x1": 4038,
+        "gap": 2.8
+      }
+    ],
     "holes": [
       {
         "x": 180,
@@ -706,25 +656,123 @@
         4126
       ]
     ],
-    "obstacleRuns": [],
+    "obstacleRuns": [
+      {
+        "id": "rottenLog-60",
+        "kind": "rottenLog",
+        "x": 60,
+        "count": 5,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-218",
+        "kind": "rottenLog",
+        "x": 218,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "log-270",
+        "kind": "log",
+        "x": 270,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-423",
+        "kind": "rottenLog",
+        "x": 423,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-944",
+        "kind": "rottenLog",
+        "x": 944,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "log-984",
+        "kind": "log",
+        "x": 984,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-1252",
+        "kind": "rottenLog",
+        "x": 1252,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-1364",
+        "kind": "rottenLog",
+        "x": 1364,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-2180",
+        "kind": "rottenLog",
+        "x": 2180,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "log-2232",
+        "kind": "log",
+        "x": 2232,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-2906",
+        "kind": "rottenLog",
+        "x": 2906,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-2944",
+        "kind": "rottenLog",
+        "x": 2944,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "log-3214",
+        "kind": "log",
+        "x": 3214,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "rottenLog-3326",
+        "kind": "rottenLog",
+        "x": 3326,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      }
+    ],
     "obstacleKinds": {
       "log": {
         "art": "logCrossing",
-        "surf": "wood",
-        "friction": 0.85
-      },
-      "pipe": {
-        "art": "pipe",
-        "surf": "rock",
-        "friction": 0.8
-      },
-      "oilDrum": {
-        "art": "oilDrum",
-        "surf": "rock",
-        "friction": 0.7
-      },
-      "corduroyLog": {
-        "art": "corduroyLog",
         "surf": "wood",
         "friction": 0.85
       },
@@ -880,9 +928,653 @@
             ]
           ]
         }
+      },
+      "buriedTyres": {
+        "art": "buriedTyres",
+        "surf": "rock",
+        "friction": 0.9,
+        "width": 1.463,
+        "above": 0.29,
+        "flip": true,
+        "hull": {
+          "w": 2121,
+          "h": 468,
+          "top": 11,
+          "hull": [
+            [
+              80,
+              244
+            ],
+            [
+              200,
+              127
+            ],
+            [
+              440,
+              51
+            ],
+            [
+              1240,
+              11
+            ],
+            [
+              1920,
+              188
+            ],
+            [
+              2080,
+              351
+            ],
+            [
+              2121,
+              468
+            ],
+            [
+              0,
+              468
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              468
+            ],
+            [
+              0,
+              450
+            ],
+            [
+              80,
+              244
+            ],
+            [
+              160,
+              162
+            ],
+            [
+              240,
+              107
+            ],
+            [
+              320,
+              71
+            ],
+            [
+              400,
+              65
+            ],
+            [
+              480,
+              56
+            ],
+            [
+              560,
+              70
+            ],
+            [
+              640,
+              119
+            ],
+            [
+              720,
+              173
+            ],
+            [
+              800,
+              177
+            ],
+            [
+              880,
+              81
+            ],
+            [
+              960,
+              35
+            ],
+            [
+              1040,
+              16
+            ],
+            [
+              1120,
+              2
+            ],
+            [
+              1200,
+              9
+            ],
+            [
+              1280,
+              22
+            ],
+            [
+              1360,
+              68
+            ],
+            [
+              1440,
+              140
+            ],
+            [
+              1520,
+              218
+            ],
+            [
+              1600,
+              205
+            ],
+            [
+              1680,
+              166
+            ],
+            [
+              1760,
+              151
+            ],
+            [
+              1840,
+              161
+            ],
+            [
+              1920,
+              188
+            ],
+            [
+              2000,
+              250
+            ],
+            [
+              2080,
+              351
+            ],
+            [
+              2120,
+              463
+            ],
+            [
+              2121,
+              468
+            ]
+          ]
+        }
+      },
+      "fallenTree": {
+        "art": "fallenTree",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.422,
+        "above": 0.5,
+        "flip": true,
+        "hull": {
+          "w": 2121,
+          "h": 477,
+          "top": 1,
+          "hull": [
+            [
+              40,
+              238
+            ],
+            [
+              80,
+              73
+            ],
+            [
+              120,
+              36
+            ],
+            [
+              200,
+              1
+            ],
+            [
+              2040,
+              163
+            ],
+            [
+              2120,
+              221
+            ],
+            [
+              2121,
+              477
+            ],
+            [
+              0,
+              477
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              477
+            ],
+            [
+              0,
+              476
+            ],
+            [
+              80,
+              405
+            ],
+            [
+              160,
+              371
+            ],
+            [
+              240,
+              338
+            ],
+            [
+              320,
+              304
+            ],
+            [
+              400,
+              270
+            ],
+            [
+              480,
+              242
+            ],
+            [
+              560,
+              242
+            ],
+            [
+              640,
+              242
+            ],
+            [
+              720,
+              242
+            ],
+            [
+              800,
+              242
+            ],
+            [
+              880,
+              242
+            ],
+            [
+              960,
+              242
+            ],
+            [
+              1040,
+              242
+            ],
+            [
+              1120,
+              242
+            ],
+            [
+              1200,
+              242
+            ],
+            [
+              1280,
+              242
+            ],
+            [
+              1360,
+              242
+            ],
+            [
+              1440,
+              242
+            ],
+            [
+              1520,
+              242
+            ],
+            [
+              1600,
+              242
+            ],
+            [
+              1680,
+              253
+            ],
+            [
+              1760,
+              286
+            ],
+            [
+              1840,
+              320
+            ],
+            [
+              1920,
+              354
+            ],
+            [
+              2000,
+              388
+            ],
+            [
+              2080,
+              422
+            ],
+            [
+              2120,
+              438
+            ],
+            [
+              2121,
+              477
+            ]
+          ]
+        }
+      },
+      "rootNetwork": {
+        "art": "rootNetwork",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.205,
+        "above": 0.225,
+        "flip": true,
+        "hull": {
+          "w": 2146,
+          "h": 219,
+          "top": 0,
+          "hull": [
+            [
+              40,
+              171
+            ],
+            [
+              240,
+              59
+            ],
+            [
+              640,
+              19
+            ],
+            [
+              1080,
+              0
+            ],
+            [
+              1480,
+              17
+            ],
+            [
+              1920,
+              65
+            ],
+            [
+              2146,
+              219
+            ],
+            [
+              0,
+              219
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              219
+            ],
+            [
+              0,
+              216
+            ],
+            [
+              80,
+              152
+            ],
+            [
+              160,
+              111
+            ],
+            [
+              240,
+              59
+            ],
+            [
+              320,
+              55
+            ],
+            [
+              400,
+              82
+            ],
+            [
+              480,
+              92
+            ],
+            [
+              560,
+              49
+            ],
+            [
+              640,
+              19
+            ],
+            [
+              720,
+              26
+            ],
+            [
+              800,
+              58
+            ],
+            [
+              880,
+              64
+            ],
+            [
+              960,
+              31
+            ],
+            [
+              1040,
+              1
+            ],
+            [
+              1120,
+              4
+            ],
+            [
+              1200,
+              40
+            ],
+            [
+              1280,
+              65
+            ],
+            [
+              1360,
+              49
+            ],
+            [
+              1440,
+              20
+            ],
+            [
+              1520,
+              21
+            ],
+            [
+              1600,
+              69
+            ],
+            [
+              1680,
+              103
+            ],
+            [
+              1760,
+              77
+            ],
+            [
+              1840,
+              56
+            ],
+            [
+              1920,
+              65
+            ],
+            [
+              2000,
+              121
+            ],
+            [
+              2080,
+              155
+            ],
+            [
+              2145,
+              215
+            ],
+            [
+              2146,
+              219
+            ]
+          ]
+        }
       }
     },
-    "props": [],
+    "props": [
+      {
+        "kind": "fallenTree",
+        "x": 313
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 336
+      },
+      {
+        "kind": "branchPile",
+        "x": 480
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 490
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1191
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 1202
+      },
+      {
+        "kind": "branchPile",
+        "x": 1211
+      },
+      {
+        "kind": "branchPile",
+        "x": 1230
+      },
+      {
+        "kind": "branchPile",
+        "x": 1386
+      },
+      {
+        "kind": "fallenTree",
+        "x": 1439
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 1450
+      },
+      {
+        "kind": "branchPile",
+        "x": 1899
+      },
+      {
+        "kind": "branchPile",
+        "x": 1910
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 1950
+      },
+      {
+        "kind": "branchPile",
+        "x": 1973
+      },
+      {
+        "kind": "branchPile",
+        "x": 2052
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 2071
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 2275
+      },
+      {
+        "kind": "branchPile",
+        "x": 2289
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2880
+      },
+      {
+        "kind": "fallenTree",
+        "x": 3153
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 3176
+      },
+      {
+        "kind": "branchPile",
+        "x": 3193
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 3345
+      },
+      {
+        "kind": "concreteSlab",
+        "x": 3892
+      },
+      {
+        "kind": "branchPile",
+        "x": 3928
+      },
+      {
+        "kind": "branchPile",
+        "x": 3937
+      },
+      {
+        "kind": "rootTangle",
+        "x": 3947
+      },
+      {
+        "kind": "branchPile",
+        "x": 3994
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 4070
+      },
+      {
+        "kind": "fallenTree",
+        "x": 4083
+      }
+    ],
+    "crushables": {
+      "rock": [
+        2,
+        3.8
+      ],
+      "dirt": [
+        4,
+        8
+      ],
+      "room": 0.4,
+      "pileEvery": 3
+    },
     "stations": [
       {
         "x": 520
@@ -955,7 +1647,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 2004
+        "x": 1996
       },
       {
         "art": "gatorSign",
@@ -1078,8 +1770,7 @@
           ]
         }
       }
-    ],
-    "stones": false
+    ]
   },
   "surfaces": {
     "gravel": {
@@ -1223,24 +1914,10 @@
       "source": "source/deep-mud-v2.png"
     },
     "logCrossing": {
-      "file": "art/log-crossing.webp",
-      "source": "source/log-crossing-v1.png"
-    },
-    "pipe": {
-      "file": "art/pipe.webp",
-      "source": "source/pipe-v1.png"
-    },
-    "oilDrum": {
-      "file": "art/oil-drum.webp",
-      "source": "source/oil-drum.png"
-    },
-    "corduroyLog": {
-      "file": "art/corduroy-log.webp",
-      "source": "source/corduroy-log.png"
+      "file": "art/log-straight.webp"
     },
     "rottenLog": {
-      "file": "art/rotten-log.webp",
-      "source": "source/rotten-log.png"
+      "file": "art/rotten-log-straight.webp"
     },
     "rootTangle": {
       "file": "art/root-tangle.webp",
@@ -1362,6 +2039,15 @@
       ],
       "width": 1200,
       "quality": 86
+    },
+    "buriedTyres": {
+      "file": "art/buried-tyres.webp"
+    },
+    "fallenTree": {
+      "file": "art/fallen-tree.webp"
+    },
+    "rootNetwork": {
+      "file": "art/root-network.webp"
     }
   },
   "rockHulls": "rock-hulls.json",
@@ -1400,37 +2086,24 @@
     "obstacles": {
       "logCrossing": {
         "face": [
-          575,
-          600,
-          250
-        ]
-      },
-      "pipe": {
-        "face": [
-          565,
-          463,
-          375
-        ]
-      },
-      "oilDrum": {
-        "face": [
-          467,
-          556,
-          450
-        ]
-      },
-      "corduroyLog": {
-        "face": [
-          224,
-          704,
-          178
+          360,
+          1048,
+          280
+        ],
+        "far": [
+          1343,
+          360
         ]
       },
       "rottenLog": {
         "face": [
-          299,
-          686,
+          360,
+          1048,
           280
+        ],
+        "far": [
+          1343,
+          360
         ]
       }
     },

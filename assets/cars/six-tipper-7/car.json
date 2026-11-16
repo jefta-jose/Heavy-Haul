@@ -1,0 +1,242 @@
+{
+  "id": "six-tipper-7",
+  "name": "Six Tipper",
+  "number": 7,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 tipper heaped with gravel",
+  "description": "White and blue European forward-control 8×8 tipper truck with a central tube chassis and swing axles.",
+  "stats": {
+    "power": 44,
+    "speed": 25,
+    "grip": 80,
+    "capacity": 86
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      922,
+      724
+    ],
+    "pixelsPerMetre": 192.99,
+    "axles": [
+      3.27,
+      1.731,
+      -1.938,
+      -3.27
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.663,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1553.5,
+        723.5,
+        136
+      ],
+      [
+        1256.5,
+        723.5,
+        136
+      ],
+      [
+        548.5,
+        723.5,
+        136
+      ],
+      [
+        291.5,
+        723.5,
+        136
+      ]
+    ],
+    "exhaust": [
+      2.845,
+      2.553
+    ],
+    "winch": [
+      4.595,
+      0.332
+    ],
+    "nose": 4.645,
+    "tail": -4.355
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 15000.0,
+    "centreOfMass": [
+      -0.052,
+      0.908
+    ],
+    "size": [
+      9.0,
+      2.837
+    ],
+    "wheelMass": 199,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.933,
+        3.933,
+        0.166,
+        0.464,
+        0.4
+      ],
+      [
+        -4.355,
+        -3.469,
+        0.796,
+        2.475,
+        0.4
+      ],
+      [
+        -3.469,
+        -2.105,
+        0.431,
+        2.475,
+        0.4
+      ],
+      [
+        -2.105,
+        0.145,
+        0.431,
+        2.759,
+        0.4
+      ],
+      [
+        0.145,
+        2.395,
+        0.431,
+        2.552,
+        0.4
+      ],
+      [
+        3.469,
+        4.645,
+        0.796,
+        2.837,
+        0.4
+      ],
+      [
+        2.395,
+        3.469,
+        0.431,
+        2.837,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 12.0,
+      "centreOfMass": [
+        -1.205,
+        1.263
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.461,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 398,
+    "exhaustBrake": 513,
+    "gears": {
+      "H": 10.806,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 26400,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Gravel",
+    "massT": 12.0
+  }
+}

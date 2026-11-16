@@ -1,0 +1,256 @@
+{
+  "id": "car-carrier-8",
+  "name": "Car Carrier",
+  "number": 8,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Cab-over car transporter",
+  "description": "Silver cab-over truck with a two-deck car transporter trailer.",
+  "stats": {
+    "power": 67,
+    "speed": 32,
+    "grip": 62,
+    "capacity": 27
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1187,
+      648
+    ],
+    "pixelsPerMetre": 117.614,
+    "axles": [
+      7.478,
+      3.89,
+      2.241,
+      -5.838,
+      -7.478
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.782,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2066.5,
+        648.5,
+        98
+      ],
+      [
+        1644.5,
+        648.5,
+        98
+      ],
+      [
+        1450.5,
+        648.5,
+        98
+      ],
+      [
+        500.5,
+        648.5,
+        98
+      ],
+      [
+        307.5,
+        648.5,
+        98
+      ]
+    ],
+    "exhaust": [
+      6.074,
+      4.382
+    ],
+    "winch": [
+      8.724,
+      0.391
+    ],
+    "nose": 8.774,
+    "tail": -9.226
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 16000.0,
+    "centreOfMass": [
+      0.059,
+      1.476
+    ],
+    "size": [
+      18.0,
+      4.613
+    ],
+    "wheelMass": 319,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -8.26,
+        8.26,
+        1.173,
+        1.004,
+        0.4
+      ],
+      [
+        -9.226,
+        -7.713,
+        0.938,
+        4.613,
+        0.4
+      ],
+      [
+        -7.713,
+        -5.625,
+        0.508,
+        4.613,
+        0.4
+      ],
+      [
+        -5.625,
+        -2.025,
+        1.173,
+        4.544,
+        0.4
+      ],
+      [
+        -2.025,
+        1.575,
+        1.173,
+        4.503,
+        0.4
+      ],
+      [
+        1.575,
+        5.175,
+        0.508,
+        4.595,
+        0.4
+      ],
+      [
+        7.713,
+        8.774,
+        0.938,
+        4.094,
+        0.4
+      ],
+      [
+        5.175,
+        7.713,
+        0.508,
+        4.094,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8.0,
+      "centreOfMass": [
+        -2.026,
+        2.941
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.855,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 503,
+    "exhaustBrake": 650,
+    "gears": {
+      "H": 10.59,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 21063,
+    "openDiffGrip": 1,
+    "fuelLitres": 700
+  },
+  "load": {
+    "name": "Cars",
+    "massT": 8.0
+  }
+}

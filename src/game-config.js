@@ -32,6 +32,8 @@ export const AUTO_DOWN_AT = 0.45;             // shift back down to the short ge
 export const AUTO_HOLD_S = 1.2;               // the least time between shifts, so it never hunts between gears
 export const REVERSE_AFTER_S = 0.35;          // hold the brake this long at a standstill and the truck starts reversing
 export const START_BARRIER_BEHIND_M = 10;     // a wall this far behind the trail start (the truck's middle) stops reversing off the trail; a longer rig starts moved forward until its tail clears it
+export const OBSTACLE_SIT = 0.1;               // a log, pipe or drum's centre sits this share of its radius above the drawn road: about half of it is sunk in
+export const LOG_SHOWN_BELOW_AXIS = 0.6;      // how much of a lying log, pipe or drum shows below its axis, as a share of its radius (the rest is bedded in the road)
 
 // ---------- fuel and stations ----------
 // How long a full tank lasts at full gas, in seconds. Fuel burns over time, so being stuck drains it. Stations are

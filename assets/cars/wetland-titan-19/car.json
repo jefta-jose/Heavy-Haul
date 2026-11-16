@@ -1,0 +1,256 @@
+{
+  "id": "wetland-titan-19",
+  "name": "Wetland Titan",
+  "number": 19,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "8×8 amphibious heavy carrier",
+  "description": "Olive 8×8 amphibious heavy carrier with a boat hull, a high cab and a cargo deck.",
+  "stats": {
+    "power": 81,
+    "speed": 19,
+    "grip": 90,
+    "capacity": 50
+  },
+  "biomes": [
+    "Swamp",
+    "Water",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1115,
+      638
+    ],
+    "pixelsPerMetre": 152.0,
+    "axles": [
+      4.444,
+      2.372,
+      -2.418,
+      -4.444
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 1.0,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1790.5,
+        638.5,
+        161
+      ],
+      [
+        1475.5,
+        638.5,
+        161
+      ],
+      [
+        747.5,
+        638.5,
+        161
+      ],
+      [
+        439.5,
+        638.5,
+        161
+      ]
+    ],
+    "exhaust": [
+      3.472,
+      3.153
+    ],
+    "winch": [
+      6.792,
+      0.5
+    ],
+    "nose": 6.842,
+    "tail": -6.638
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 26000.0,
+    "centreOfMass": [
+      -0.012,
+      1.121
+    ],
+    "size": [
+      13.48,
+      3.503
+    ],
+    "wheelMass": 647,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -5.444,
+        5.444,
+        0.9,
+        1.2,
+        0.4
+      ],
+      [
+        -6.638,
+        -4.744,
+        1.2,
+        2.438,
+        0.4
+      ],
+      [
+        -4.744,
+        -4.391,
+        0.65,
+        2.438,
+        0.4
+      ],
+      [
+        -4.391,
+        -2.145,
+        0.65,
+        2.918,
+        0.4
+      ],
+      [
+        -2.145,
+        0.102,
+        0.65,
+        2.918,
+        0.4
+      ],
+      [
+        0.102,
+        2.349,
+        0.65,
+        2.918,
+        0.4
+      ],
+      [
+        2.349,
+        4.595,
+        0.65,
+        3.503,
+        0.4
+      ],
+      [
+        4.744,
+        6.842,
+        1.2,
+        2.484,
+        0.4
+      ],
+      [
+        4.595,
+        4.744,
+        0.65,
+        2.484,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 10.0,
+      "centreOfMass": [
+        -1.246,
+        1.6
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.9717,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 807,
+    "exhaustBrake": 1041,
+    "gears": {
+      "H": 19.154,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 53794,
+    "openDiffGrip": 1,
+    "fuelLitres": 700
+  },
+  "load": {
+    "name": "Cargo",
+    "massT": 10.0
+  }
+}
