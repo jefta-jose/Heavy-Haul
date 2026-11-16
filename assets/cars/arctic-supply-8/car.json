@@ -1,0 +1,235 @@
+{
+  "id": "arctic-supply-8",
+  "name": "Arctic Supply",
+  "number": 8,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "6×6 cold-climate supply truck",
+  "description": "White bonneted 6×6 cold-climate truck with an insulated box body and a heated cab.",
+  "stats": {
+    "power": 44,
+    "speed": 25,
+    "grip": 88,
+    "capacity": 57
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1159,
+      634
+    ],
+    "pixelsPerMetre": 210.769,
+    "axles": [
+      3.544,
+      -2.159,
+      -3.544
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1906,
+        634,
+        145
+      ],
+      [
+        704,
+        634,
+        145
+      ],
+      [
+        412,
+        634,
+        145
+      ]
+    ],
+    "exhaust": [
+      1.906,
+      2.267
+    ],
+    "winch": [
+      4.775,
+      0.325
+    ],
+    "nose": 4.825,
+    "tail": -4.906
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      -0.72,
+      0.764
+    ],
+    "size": [
+      9.731,
+      2.386
+    ],
+    "wheelMass": 169,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.194,
+        4.194,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -4.906,
+        -3.739,
+        0.78,
+        2.349,
+        0.4
+      ],
+      [
+        -3.739,
+        -2.473,
+        0.423,
+        2.349,
+        0.4
+      ],
+      [
+        -2.473,
+        -0.04,
+        0.423,
+        2.349,
+        0.4
+      ],
+      [
+        -0.04,
+        2.392,
+        0.423,
+        2.386,
+        0.4
+      ],
+      [
+        3.739,
+        4.825,
+        0.78,
+        2.382,
+        0.4
+      ],
+      [
+        2.392,
+        3.739,
+        0.423,
+        2.382,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8.0,
+      "centreOfMass": [
+        -1.5,
+        1.217
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1671,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 318,
+    "exhaustBrake": 410,
+    "gears": {
+      "H": 10.595,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 21089,
+    "openDiffGrip": 1,
+    "fuelLitres": 450
+  },
+  "load": {
+    "name": "Supplies",
+    "massT": 8.0
+  }
+}

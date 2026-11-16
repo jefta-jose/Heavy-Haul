@@ -1,0 +1,214 @@
+{
+  "id": "arctic-cruiser-7",
+  "name": "Arctic Cruiser",
+  "number": 7,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Arctic expedition SUV on balloon tyres",
+  "description": "White and red Arctic-expedition full-size SUV on huge balloon tyres, with cut-out arches and fender extensions.",
+  "stats": {
+    "power": 27,
+    "speed": 47,
+    "grip": 90,
+    "capacity": 62
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      966,
+      748
+    ],
+    "pixelsPerMetre": 312.308,
+    "axles": [
+      1.511,
+      -1.511
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1438,
+        748,
+        215
+      ],
+      [
+        494,
+        748,
+        215
+      ]
+    ],
+    "exhaust": [
+      -2.56,
+      0.258
+    ],
+    "winch": [
+      2.691,
+      0.325
+    ],
+    "nose": 2.741,
+    "tail": -2.724
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3000.0,
+    "centreOfMass": [
+      0.0,
+      0.687
+    ],
+    "size": [
+      5.465,
+      2.146
+    ],
+    "wheelMass": 189,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.161,
+        2.161,
+        0.163,
+        0.456,
+        0.4
+      ],
+      [
+        -2.724,
+        -1.706,
+        0.78,
+        2.146,
+        0.4
+      ],
+      [
+        -1.706,
+        0.008,
+        0.423,
+        2.146,
+        0.4
+      ],
+      [
+        1.706,
+        2.741,
+        0.78,
+        1.973,
+        0.4
+      ],
+      [
+        0.008,
+        1.706,
+        0.423,
+        1.973,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.25,
+      "centreOfMass": [
+        -0.538,
+        1.733
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3456,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 94,
+    "exhaustBrake": 121,
+    "gears": {
+      "H": 10.372,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 5196,
+    "openDiffGrip": 1,
+    "fuelLitres": 160
+  },
+  "load": {
+    "name": "Expedition rack",
+    "massT": 0.25
+  }
+}

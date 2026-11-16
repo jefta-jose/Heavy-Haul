@@ -1,0 +1,203 @@
+{
+  "id": "dirt-bull-14",
+  "name": "Dirt Bull",
+  "number": 14,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "V10 wedge supercar on rally suspension",
+  "description": "Sand-beige sharp V10 wedge supercar raised on rally suspension, with a roof air scoop, a light bar and plastic arch guards.",
+  "stats": {
+    "power": 60,
+    "speed": 76,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Sand",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      931,
+      678
+    ],
+    "pixelsPerMetre": 295.385,
+    "axles": [
+      1.729,
+      -1.729
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1442,
+        678,
+        204
+      ],
+      [
+        420,
+        678,
+        204
+      ]
+    ],
+    "exhaust": [
+      -2.605,
+      0.246
+    ],
+    "winch": [
+      2.845,
+      0.325
+    ],
+    "nose": 2.895,
+    "tail": -2.775
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.525
+    ],
+    "size": [
+      5.67,
+      1.642
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.379,
+        2.379,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -2.775,
+        -1.924,
+        0.78,
+        1.642,
+        0.4
+      ],
+      [
+        -1.924,
+        0.059,
+        0.423,
+        1.642,
+        0.4
+      ],
+      [
+        1.924,
+        2.895,
+        0.78,
+        1.622,
+        0.4
+      ],
+      [
+        0.059,
+        1.924,
+        0.423,
+        1.622,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2975,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 81,
+    "exhaustBrake": 104,
+    "gears": {
+      "H": 9.098,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 80
+  }
+}

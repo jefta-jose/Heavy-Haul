@@ -1,0 +1,235 @@
+{
+  "id": "snow-dog-9",
+  "name": "Snow Dog",
+  "number": 9,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "spiked",
+  "status": "playable",
+  "tagline": "6×6 Arctic expedition truck",
+  "description": "White and orange 6×6 Arctic expedition truck with an insulated habitation box.",
+  "stats": {
+    "power": 35,
+    "speed": 24,
+    "grip": 88,
+    "capacity": 15
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      998,
+      756
+    ],
+    "pixelsPerMetre": 162.857,
+    "axles": [
+      3.024,
+      -1.612,
+      -3.024
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1490,
+        756,
+        121
+      ],
+      [
+        735,
+        756,
+        121
+      ],
+      [
+        505,
+        756,
+        121
+      ]
+    ],
+    "exhaust": [
+      1.362,
+      3.095
+    ],
+    "winch": [
+      4.257,
+      0.35
+    ],
+    "nose": 4.307,
+    "tail": -4.897
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 12000.0,
+    "centreOfMass": [
+      -0.537,
+      1.1
+    ],
+    "size": [
+      9.204,
+      3.439
+    ],
+    "wheelMass": 188,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.724,
+        3.724,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -4.897,
+        -3.234,
+        0.84,
+        3.439,
+        0.4
+      ],
+      [
+        -3.234,
+        -2.596,
+        0.455,
+        3.439,
+        0.4
+      ],
+      [
+        -2.596,
+        -0.295,
+        0.455,
+        3.396,
+        0.4
+      ],
+      [
+        -0.295,
+        2.006,
+        0.455,
+        3.052,
+        0.4
+      ],
+      [
+        3.234,
+        4.307,
+        0.84,
+        2.075,
+        0.4
+      ],
+      [
+        2.006,
+        3.234,
+        0.455,
+        2.075,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 3.0,
+      "centreOfMass": [
+        -1.676,
+        1.754
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7463,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 203,
+    "exhaustBrake": 261,
+    "gears": {
+      "H": 13.043,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 15690,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Habitat box",
+    "massT": 3.0
+  }
+}

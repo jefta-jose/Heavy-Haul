@@ -1,0 +1,263 @@
+{
+  "id": "cab-over-king-7",
+  "name": "Cab-Over King",
+  "number": 7,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "1980s cab-over semi with a reefer trailer",
+  "description": "White flat-nosed 1980s American cab-over semi tractor with a tall sleeper and a refrigerated box trailer on a close rear tandem.",
+  "stats": {
+    "power": 67,
+    "speed": 34,
+    "grip": 62,
+    "capacity": 33
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1140,
+      658
+    ],
+    "pixelsPerMetre": 129.231,
+    "axles": [
+      7.119,
+      3.119,
+      1.764,
+      -5.796,
+      -7.119
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2060,
+        658,
+        89
+      ],
+      [
+        1543,
+        658,
+        89
+      ],
+      [
+        1368,
+        658,
+        89
+      ],
+      [
+        391,
+        658,
+        89
+      ],
+      [
+        220,
+        658,
+        89
+      ]
+    ],
+    "exhaust": [
+      5.002,
+      3.617
+    ],
+    "winch": [
+      8.253,
+      0.325
+    ],
+    "nose": 8.303,
+    "tail": -8.202
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 13000.0,
+    "centreOfMass": [
+      -0.183,
+      1.218
+    ],
+    "size": [
+      16.505,
+      3.807
+    ],
+    "wheelMass": 215,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -7.769,
+        7.769,
+        0.585,
+        0.885,
+        0.4
+      ],
+      [
+        -8.202,
+        -7.314,
+        0.78,
+        3.319,
+        0.4
+      ],
+      [
+        -7.314,
+        -5.451,
+        0.422,
+        3.319,
+        0.4
+      ],
+      [
+        -5.451,
+        -2.7,
+        0.422,
+        3.319,
+        0.4
+      ],
+      [
+        -2.7,
+        0.051,
+        0.422,
+        3.319,
+        0.4
+      ],
+      [
+        0.051,
+        2.802,
+        0.422,
+        3.319,
+        0.4
+      ],
+      [
+        2.802,
+        5.552,
+        0.422,
+        3.807,
+        0.4
+      ],
+      [
+        7.314,
+        8.303,
+        0.78,
+        3.389,
+        0.4
+      ],
+      [
+        5.552,
+        7.314,
+        0.422,
+        3.389,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 10.0,
+      "centreOfMass": [
+        -3.25,
+        1.25
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4776,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 401,
+    "exhaustBrake": 518,
+    "gears": {
+      "H": 8.711,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 16778,
+    "openDiffGrip": 1,
+    "fuelLitres": 600
+  },
+  "load": {
+    "name": "Reefer freight",
+    "massT": 10.0
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "id": "oilfield-service-14",
+  "name": "Oilfield Service",
+  "number": 14,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 oilfield truck with drill pipes",
+  "description": "Blue bonneted 6×6 oilfield truck with a big winch behind the cab and a pipe rack bed.",
+  "stats": {
+    "power": 51,
+    "speed": 26,
+    "grip": 80,
+    "capacity": 43
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1163,
+      612
+    ],
+    "pixelsPerMetre": 207.297,
+    "axles": [
+      3.786,
+      -2.344,
+      -3.786
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.704,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1948,
+        612,
+        155
+      ],
+      [
+        677,
+        612,
+        155
+      ],
+      [
+        378,
+        612,
+        155
+      ]
+    ],
+    "exhaust": [
+      2.135,
+      2.112
+    ],
+    "winch": [
+      4.885,
+      0.352
+    ],
+    "nose": 4.935,
+    "tail": -5.065
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 14000.0,
+    "centreOfMass": [
+      -0.781,
+      0.711
+    ],
+    "size": [
+      10.0,
+      2.223
+    ],
+    "wheelMass": 187,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.49,
+        4.49,
+        0.176,
+        0.494,
+        0.4
+      ],
+      [
+        -5.065,
+        -3.997,
+        0.845,
+        2.166,
+        0.4
+      ],
+      [
+        -3.997,
+        -2.565,
+        0.458,
+        2.166,
+        0.4
+      ],
+      [
+        -2.565,
+        -0.065,
+        0.458,
+        2.113,
+        0.4
+      ],
+      [
+        -0.065,
+        2.435,
+        0.458,
+        2.223,
+        0.4
+      ],
+      [
+        3.997,
+        4.935,
+        0.845,
+        1.891,
+        0.4
+      ],
+      [
+        2.435,
+        3.997,
+        0.458,
+        1.891,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 6.0,
+      "centreOfMass": [
+        -2.065,
+        1.134
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1765,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 320,
+    "exhaustBrake": 413,
+    "gears": {
+      "H": 11.413,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 20765,
+    "openDiffGrip": 1,
+    "fuelLitres": 400
+  },
+  "load": {
+    "name": "Drill pipes",
+    "massT": 6.0
+  }
+}

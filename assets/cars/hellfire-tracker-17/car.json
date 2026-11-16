@@ -1,0 +1,203 @@
+{
+  "id": "hellfire-tracker-17",
+  "name": "Hellfire Tracker",
+  "number": 17,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Supercharged muscle SUV",
+  "description": "Dark red American muscle SUV with a supercharger bonnet bulge, a wide grille and quad exhausts.",
+  "stats": {
+    "power": 88,
+    "speed": 85,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      974,
+      697
+    ],
+    "pixelsPerMetre": 273.846,
+    "axles": [
+      1.707,
+      -1.707
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1441,
+        697,
+        189
+      ],
+      [
+        506,
+        697,
+        189
+      ]
+    ],
+    "exhaust": [
+      -2.992,
+      0.288
+    ],
+    "winch": [
+      2.866,
+      0.325
+    ],
+    "nose": 2.916,
+    "tail": -3.175
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.615
+    ],
+    "size": [
+      6.091,
+      1.921
+    ],
+    "wheelMass": 57,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.357,
+        2.357,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.175,
+        -1.902,
+        0.78,
+        1.921,
+        0.4
+      ],
+      [
+        -1.902,
+        -0.13,
+        0.423,
+        1.921,
+        0.4
+      ],
+      [
+        1.902,
+        2.916,
+        0.78,
+        1.596,
+        0.4
+      ],
+      [
+        -0.13,
+        1.902,
+        0.423,
+        1.596,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1713,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 46,
+    "exhaustBrake": 60,
+    "gears": {
+      "H": 6.898,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 1824,
+    "openDiffGrip": 1,
+    "fuelLitres": 93
+  }
+}

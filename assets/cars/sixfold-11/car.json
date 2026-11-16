@@ -1,0 +1,228 @@
+{
+  "id": "sixfold-11",
+  "name": "Sixfold",
+  "number": 11,
+  "class": "scout",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Luxury boxy 6×6 off-roader",
+  "description": "Matte sand luxury boxy 6×6 off-roader: a tall upright SUV cabin with an open rear pickup bed over two close rear axles.",
+  "stats": {
+    "power": 53,
+    "speed": 47,
+    "grip": 80,
+    "capacity": 75
+  },
+  "biomes": [
+    "Sand",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1123,
+      659
+    ],
+    "pixelsPerMetre": 243.077,
+    "axles": [
+      2.736,
+      -1.386,
+      -2.736
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1788,
+        659,
+        167
+      ],
+      [
+        786,
+        659,
+        167
+      ],
+      [
+        458,
+        659,
+        167
+      ]
+    ],
+    "exhaust": [
+      -3.694,
+      0.286
+    ],
+    "winch": [
+      3.677,
+      0.325
+    ],
+    "nose": 3.727,
+    "tail": -3.924
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 3800.0,
+    "centreOfMass": [
+      -0.462,
+      0.762
+    ],
+    "size": [
+      7.651,
+      2.382
+    ],
+    "wheelMass": 218,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.386,
+        3.386,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.924,
+        -2.931,
+        0.78,
+        1.88,
+        0.4
+      ],
+      [
+        -2.931,
+        -1.374,
+        0.423,
+        1.88,
+        0.4
+      ],
+      [
+        -1.374,
+        1.177,
+        0.423,
+        2.382,
+        0.4
+      ],
+      [
+        2.931,
+        3.727,
+        0.78,
+        2.131,
+        0.4
+      ],
+      [
+        1.177,
+        2.931,
+        0.423,
+        2.131,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.3,
+      "centreOfMass": [
+        -2.776,
+        1.316
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4769,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 130,
+    "exhaustBrake": 167,
+    "gears": {
+      "H": 10.372,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 6554,
+    "openDiffGrip": 1,
+    "fuelLitres": 158
+  },
+  "load": {
+    "name": "Bed spares",
+    "massT": 0.3
+  }
+}

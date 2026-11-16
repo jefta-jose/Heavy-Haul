@@ -1,0 +1,221 @@
+{
+  "id": "dually-baron-13",
+  "name": "Dually Baron",
+  "number": 13,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "One-ton dually crew-cab with a welding rig",
+  "description": "Chrome-trimmed black heavy-duty one-ton dually crew-cab with flared dual rear wheels and a flatbed tray.",
+  "stats": {
+    "power": 48,
+    "speed": 47,
+    "grip": 62,
+    "capacity": 6
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1186,
+      630
+    ],
+    "pixelsPerMetre": 232.308,
+    "axles": [
+      2.886,
+      -2.886
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1857,
+        630,
+        160
+      ],
+      [
+        516,
+        630,
+        160
+      ]
+    ],
+    "exhaust": [
+      -4.387,
+      0.328
+    ],
+    "winch": [
+      4.226,
+      0.325
+    ],
+    "nose": 4.276,
+    "tail": -4.655
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 4400.0,
+    "centreOfMass": [
+      0.0,
+      0.7
+    ],
+    "size": [
+      8.931,
+      2.186
+    ],
+    "wheelMass": 71,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.536,
+        3.536,
+        0.162,
+        0.456,
+        0.4
+      ],
+      [
+        -4.655,
+        -3.081,
+        0.78,
+        1.804,
+        0.4
+      ],
+      [
+        -3.081,
+        -1.678,
+        0.422,
+        1.804,
+        0.4
+      ],
+      [
+        -1.678,
+        1.299,
+        0.422,
+        2.186,
+        0.4
+      ],
+      [
+        3.081,
+        4.276,
+        0.78,
+        1.541,
+        0.4
+      ],
+      [
+        1.299,
+        3.081,
+        0.422,
+        1.541,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.8,
+      "centreOfMass": [
+        -3.315,
+        1.115
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2796,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 76,
+    "exhaustBrake": 98,
+    "gears": {
+      "H": 9.469,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 4985,
+    "openDiffGrip": 1,
+    "fuelLitres": 182
+  },
+  "load": {
+    "name": "Welding rig",
+    "massT": 0.8
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "id": "canyon-bronc-10",
+  "name": "Canyon Bronc",
+  "number": 10,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Retro-modern two-door off-road SUV",
+  "description": "Olive and white two-door retro-modern off-road SUV with a squared-off nose, round headlights, wide box flares and a hard top.",
+  "stats": {
+    "power": 41,
+    "speed": 53,
+    "grip": 80,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1021,
+      749
+    ],
+    "pixelsPerMetre": 292.308,
+    "axles": [
+      1.656,
+      -1.656
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1505,
+        749,
+        201
+      ],
+      [
+        537,
+        749,
+        201
+      ]
+    ],
+    "exhaust": [
+      -2.918,
+      0.245
+    ],
+    "winch": [
+      2.564,
+      0.325
+    ],
+    "nose": 2.614,
+    "tail": -3.089
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.652
+    ],
+    "size": [
+      5.703,
+      2.038
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.306,
+        2.306,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.089,
+        -1.851,
+        0.78,
+        2.038,
+        0.4
+      ],
+      [
+        -1.851,
+        -0.238,
+        0.423,
+        2.038,
+        0.4
+      ],
+      [
+        1.851,
+        2.614,
+        0.78,
+        1.916,
+        0.4
+      ],
+      [
+        -0.238,
+        1.851,
+        0.423,
+        1.916,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2793,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 76,
+    "exhaustBrake": 98,
+    "gears": {
+      "H": 10.08,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 95
+  }
+}

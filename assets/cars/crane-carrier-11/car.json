@@ -1,0 +1,242 @@
+{
+  "id": "crane-carrier-11",
+  "name": "Crane Carrier",
+  "number": 11,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 crane truck with steel beams",
+  "description": "Yellow 6×6 truck with a knuckle-boom crane behind the cab and a flatbed.",
+  "stats": {
+    "power": 47,
+    "speed": 24,
+    "grip": 62,
+    "capacity": 43
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1163,
+      621
+    ],
+    "pixelsPerMetre": 179.095,
+    "axles": [
+      4.121,
+      -2.759,
+      -4.121
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.664,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1901,
+        621,
+        126
+      ],
+      [
+        669,
+        621,
+        126
+      ],
+      [
+        425,
+        621,
+        126
+      ]
+    ],
+    "exhaust": [
+      2.342,
+      2.345
+    ],
+    "winch": [
+      5.372,
+      0.332
+    ],
+    "nose": 5.422,
+    "tail": -5.578
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 16000.0,
+    "centreOfMass": [
+      -0.92,
+      0.79
+    ],
+    "size": [
+      11.0,
+      2.468
+    ],
+    "wheelMass": 177,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.785,
+        4.785,
+        0.166,
+        0.465,
+        0.4
+      ],
+      [
+        -5.578,
+        -4.32,
+        0.797,
+        1.815,
+        0.4
+      ],
+      [
+        -4.32,
+        -3.378,
+        0.432,
+        1.815,
+        0.4
+      ],
+      [
+        -3.378,
+        -1.178,
+        0.432,
+        1.815,
+        0.4
+      ],
+      [
+        -1.178,
+        1.022,
+        0.432,
+        2.379,
+        0.4
+      ],
+      [
+        1.022,
+        3.221,
+        0.432,
+        2.468,
+        0.4
+      ],
+      [
+        4.32,
+        5.422,
+        0.797,
+        1.664,
+        0.4
+      ],
+      [
+        3.221,
+        4.32,
+        0.432,
+        1.664,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 6.0,
+      "centreOfMass": [
+        -2.278,
+        1.259
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.2044,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 328,
+    "exhaustBrake": 423,
+    "gears": {
+      "H": 10.882,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 21544,
+    "openDiffGrip": 1,
+    "fuelLitres": 350
+  },
+  "load": {
+    "name": "Steel beams",
+    "massT": 6.0
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "id": "razorback-5",
+  "name": "Razorback",
+  "number": 5,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Long-travel side-by-side UTV",
+  "description": "Neon green long-travel two-seat side-by-side UTV with a roll cage, window nets and exposed suspension.",
+  "stats": {
+    "power": 19,
+    "speed": 41,
+    "grip": 80,
+    "capacity": 8
+  },
+  "biomes": [
+    "Sand",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      945,
+      756
+    ],
+    "pixelsPerMetre": 292.308,
+    "axles": [
+      1.848,
+      -1.848
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1485,
+        756,
+        201
+      ],
+      [
+        405,
+        756,
+        201
+      ]
+    ],
+    "exhaust": [
+      -2.412,
+      0.681
+    ],
+    "winch": [
+      2.55,
+      0.325
+    ],
+    "nose": 2.6,
+    "tail": -2.676
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2470.0,
+    "centreOfMass": [
+      0.0,
+      0.726
+    ],
+    "size": [
+      5.276,
+      2.269
+    ],
+    "wheelMass": 162,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.498,
+        2.498,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.676,
+        -2.043,
+        0.78,
+        2.269,
+        0.4
+      ],
+      [
+        -2.043,
+        -0.037,
+        0.423,
+        2.269,
+        0.4
+      ],
+      [
+        2.043,
+        2.6,
+        0.78,
+        2.207,
+        0.4
+      ],
+      [
+        -0.037,
+        2.043,
+        0.423,
+        2.207,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.03,
+      "centreOfMass": [
+        -2.148,
+        1.35
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2581,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 70,
+    "exhaustBrake": 90,
+    "gears": {
+      "H": 10.682,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 40
+  },
+  "load": {
+    "name": "Spare tyre",
+    "massT": 0.03
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "id": "kensington-10",
+  "name": "Kensington",
+  "number": 10,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Ultra-luxury grand SUV with luggage",
+  "description": "Two-tone silver and black ultra-luxury grand SUV with a tall chrome mesh grille and a long bonnet.",
+  "stats": {
+    "power": 67,
+    "speed": 88,
+    "grip": 62,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      944,
+      773
+    ],
+    "pixelsPerMetre": 227.692,
+    "axles": [
+      2.187,
+      -2.187
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1442,
+        773,
+        157
+      ],
+      [
+        446,
+        773,
+        157
+      ]
+    ],
+    "exhaust": [
+      -3.269,
+      0.317
+    ],
+    "winch": [
+      3.464,
+      0.325
+    ],
+    "nose": 3.514,
+    "tail": -3.479
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2400.0,
+    "centreOfMass": [
+      0.0,
+      0.846
+    ],
+    "size": [
+      6.993,
+      2.644
+    ],
+    "wheelMass": 57,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -2.837,
+        2.837,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.479,
+        -2.382,
+        0.78,
+        2.644,
+        0.4
+      ],
+      [
+        -2.382,
+        0.018,
+        0.423,
+        2.644,
+        0.4
+      ],
+      [
+        2.382,
+        3.514,
+        0.78,
+        1.867,
+        0.4
+      ],
+      [
+        0.018,
+        2.382,
+        0.423,
+        1.867,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.1,
+      "centreOfMass": [
+        -0.332,
+        2.135
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1606,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 44,
+    "exhaustBrake": 56,
+    "gears": {
+      "H": 6.815,
+      "L": 31.6,
+      "R": 24.7
+    },
+    "brakeTorque": 1824,
+    "openDiffGrip": 1,
+    "fuelLitres": 85
+  },
+  "load": {
+    "name": "Luggage",
+    "massT": 0.1
+  }
+}

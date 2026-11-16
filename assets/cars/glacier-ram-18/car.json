@@ -1,0 +1,263 @@
+{
+  "id": "glacier-ram-18",
+  "name": "Glacier Ram",
+  "number": 18,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "8×8 recovery truck on balloon tyres",
+  "description": "Dark red heavy 8×8 off-road truck on huge balloon tyres with a recovery crane.",
+  "stats": {
+    "power": 75,
+    "speed": 21,
+    "grip": 90,
+    "capacity": 20
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1095,
+      616
+    ],
+    "pixelsPerMetre": 143.158,
+    "axles": [
+      5.106,
+      3.164,
+      -3.185,
+      -5.106
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.95,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1826,
+        616,
+        144
+      ],
+      [
+        1548,
+        616,
+        144
+      ],
+      [
+        639,
+        616,
+        144
+      ],
+      [
+        364,
+        616,
+        144
+      ]
+    ],
+    "exhaust": [
+      3.29,
+      3.185
+    ],
+    "winch": [
+      7.613,
+      0.475
+    ],
+    "nose": 7.663,
+    "tail": -6.915
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 24000.0,
+    "centreOfMass": [
+      -0.005,
+      1.073
+    ],
+    "size": [
+      14.578,
+      3.353
+    ],
+    "wheelMass": 503,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -6.056,
+        6.056,
+        0.855,
+        1.155,
+        0.4
+      ],
+      [
+        -6.915,
+        -5.391,
+        1.14,
+        3.115,
+        0.4
+      ],
+      [
+        -5.391,
+        -4.833,
+        0.618,
+        3.115,
+        0.4
+      ],
+      [
+        -4.833,
+        -2.75,
+        0.618,
+        3.046,
+        0.4
+      ],
+      [
+        -2.75,
+        -0.668,
+        0.618,
+        3.06,
+        0.4
+      ],
+      [
+        -0.668,
+        1.415,
+        0.618,
+        3.241,
+        0.4
+      ],
+      [
+        1.415,
+        3.498,
+        0.618,
+        3.353,
+        0.4
+      ],
+      [
+        5.391,
+        5.58,
+        1.14,
+        3.122,
+        0.4
+      ],
+      [
+        3.498,
+        5.391,
+        0.618,
+        3.122,
+        0.4
+      ],
+      [
+        5.58,
+        7.663,
+        1.14,
+        2.117,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 4.0,
+      "centreOfMass": [
+        -2.542,
+        1.995
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.156,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 586,
+    "exhaustBrake": 755,
+    "gears": {
+      "H": 17.995,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 39748,
+    "openDiffGrip": 1,
+    "fuelLitres": 600
+  },
+  "load": {
+    "name": "Crane",
+    "massT": 4.0
+  }
+}

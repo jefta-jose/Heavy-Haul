@@ -1,0 +1,250 @@
+{
+  "id": "earthquake-20",
+  "name": "Earthquake",
+  "number": 20,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Largest electric mining haul truck heaped with ore",
+  "description": "Orange largest ultra-class electric mining haul truck with a canopy and a gigantic dump body.",
+  "stats": {
+    "power": 100,
+    "speed": 18,
+    "grip": 86,
+    "capacity": 100
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      935,
+      711
+    ],
+    "pixelsPerMetre": 103.077,
+    "axles": [
+      4.414,
+      -4.414
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.95,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1390,
+        711,
+        213
+      ],
+      [
+        480,
+        711,
+        213
+      ]
+    ],
+    "exhaust": [
+      5.26,
+      4.832
+    ],
+    "winch": [
+      8.128,
+      0.975
+    ],
+    "nose": 8.178,
+    "tail": -8.033
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 70000,
+    "centreOfMass": [
+      0.0,
+      1.819
+    ],
+    "size": [
+      16.211,
+      5.685
+    ],
+    "wheelMass": 850,
+    "tireGrip": 1.15,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -6.364,
+        6.364,
+        1.755,
+        2.055,
+        0.4
+      ],
+      [
+        -8.033,
+        -5.717,
+        2.34,
+        4.676,
+        0.4
+      ],
+      [
+        -5.717,
+        -4.999,
+        2.34,
+        5.181,
+        0.4
+      ],
+      [
+        -4.999,
+        -3.401,
+        1.268,
+        5.181,
+        0.4
+      ],
+      [
+        -3.401,
+        -1.085,
+        1.268,
+        5.685,
+        0.4
+      ],
+      [
+        -1.085,
+        1.231,
+        1.268,
+        5.491,
+        0.4
+      ],
+      [
+        1.231,
+        3.547,
+        1.268,
+        4.987,
+        0.4
+      ],
+      [
+        4.999,
+        5.862,
+        2.34,
+        5.171,
+        0.4
+      ],
+      [
+        3.547,
+        4.999,
+        1.268,
+        5.171,
+        0.4
+      ],
+      [
+        5.862,
+        8.178,
+        2.34,
+        5.151,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 100,
+      "centreOfMass": [
+        -2.359,
+        2.55
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 10.2109,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 1038,
+    "exhaustBrake": 1380,
+    "gears": {
+      "H": 24.356,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 1624350,
+    "openDiffGrip": 1,
+    "fuelLitres": 3500
+  },
+  "load": {
+    "name": "Ore",
+    "massT": 100
+  }
+}

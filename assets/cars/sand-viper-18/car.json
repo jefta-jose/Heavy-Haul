@@ -1,0 +1,221 @@
+{
+  "id": "sand-viper-18",
+  "name": "Sand Viper",
+  "number": 18,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Wide-body desert pre-runner pickup",
+  "description": "Matte grey wide-body desert pre-runner crew-cab pickup with long-travel suspension, huge flared fenders and a bonnet scoop.",
+  "stats": {
+    "power": 72,
+    "speed": 53,
+    "grip": 62,
+    "capacity": 37
+  },
+  "biomes": [
+    "Sand",
+    "Gravel",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1117,
+      662
+    ],
+    "pixelsPerMetre": 261.538,
+    "axles": [
+      2.463,
+      -2.463
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1761,
+        662,
+        180
+      ],
+      [
+        473,
+        662,
+        180
+      ]
+    ],
+    "exhaust": [
+      -3.485,
+      0.253
+    ],
+    "winch": [
+      3.597,
+      0.325
+    ],
+    "nose": 3.647,
+    "tail": -3.706
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 2600.0,
+    "centreOfMass": [
+      0.0,
+      0.676
+    ],
+    "size": [
+      7.353,
+      2.111
+    ],
+    "wheelMass": 171,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.113,
+        3.113,
+        0.162,
+        0.454,
+        0.4
+      ],
+      [
+        -3.706,
+        -2.658,
+        0.78,
+        1.709,
+        0.4
+      ],
+      [
+        -2.658,
+        -1.254,
+        0.422,
+        1.709,
+        0.4
+      ],
+      [
+        -1.254,
+        1.197,
+        0.422,
+        2.111,
+        0.4
+      ],
+      [
+        2.658,
+        3.647,
+        0.78,
+        1.346,
+        0.4
+      ],
+      [
+        1.197,
+        2.658,
+        0.422,
+        1.346,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.15,
+      "centreOfMass": [
+        -2.603,
+        1.166
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3399,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 93,
+    "exhaustBrake": 119,
+    "gears": {
+      "H": 10.08,
+      "L": 40.9,
+      "R": 32.1
+    },
+    "brakeTorque": 4396,
+    "openDiffGrip": 1,
+    "fuelLitres": 136
+  },
+  "load": {
+    "name": "Bed spares",
+    "massT": 0.15
+  }
+}

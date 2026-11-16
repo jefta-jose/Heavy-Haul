@@ -1,0 +1,221 @@
+{
+  "id": "volt-titan-20",
+  "name": "Volt Titan",
+  "number": 20,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Electric super pickup with a generator",
+  "description": "White slab-sided electric super pickup with a full-width light-bar grille, removable roof panels and a short bed.",
+  "stats": {
+    "power": 100,
+    "speed": 50,
+    "grip": 62,
+    "capacity": 3
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1202,
+      644
+    ],
+    "pixelsPerMetre": 218.462,
+    "axles": [
+      2.911,
+      -2.911
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1838,
+        644,
+        151
+      ],
+      [
+        566,
+        644,
+        151
+      ]
+    ],
+    "exhaust": [
+      -4.209,
+      0.309
+    ],
+    "winch": [
+      3.942,
+      0.325
+    ],
+    "nose": 3.992,
+    "tail": -4.463
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 4100.0,
+    "centreOfMass": [
+      0.0,
+      0.823
+    ],
+    "size": [
+      8.455,
+      2.572
+    ],
+    "wheelMass": 65,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.561,
+        3.561,
+        0.162,
+        0.455,
+        0.4
+      ],
+      [
+        -4.463,
+        -3.106,
+        0.78,
+        1.941,
+        0.4
+      ],
+      [
+        -3.106,
+        -1.645,
+        0.422,
+        1.941,
+        0.4
+      ],
+      [
+        -1.645,
+        1.173,
+        0.422,
+        2.572,
+        0.4
+      ],
+      [
+        3.106,
+        3.992,
+        0.78,
+        1.707,
+        0.4
+      ],
+      [
+        1.173,
+        3.106,
+        0.422,
+        1.707,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -3.195,
+        1.312
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2842,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 77,
+    "exhaustBrake": 100,
+    "gears": {
+      "H": 9.333,
+      "L": 34.3,
+      "R": 26.9
+    },
+    "brakeTorque": 4314,
+    "openDiffGrip": 1,
+    "fuelLitres": 120
+  },
+  "load": {
+    "name": "Generator",
+    "massT": 0.4
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "id": "crag-crusher-14",
+  "name": "Crag Crusher",
+  "number": 14,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Forward-control 6×6 hauling crates",
+  "description": "Red forward-control 6×6 cross-country truck with a stubby nose and a flatbed of crates.",
+  "stats": {
+    "power": 56,
+    "speed": 22,
+    "grip": 80,
+    "capacity": 30
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1126,
+      623
+    ],
+    "pixelsPerMetre": 201.333,
+    "axles": [
+      3.385,
+      -1.82,
+      -3.385
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1808,
+        623,
+        160
+      ],
+      [
+        760,
+        623,
+        160
+      ],
+      [
+        445,
+        623,
+        160
+      ]
+    ],
+    "exhaust": [
+      2.283,
+      2.478
+    ],
+    "winch": [
+      4.969,
+      0.375
+    ],
+    "nose": 5.019,
+    "tail": -4.751
+  },
+  "camera": {
+    "zoom": 1.95
+  },
+  "physics": {
+    "mass": 18000.0,
+    "centreOfMass": [
+      -0.607,
+      0.835
+    ],
+    "size": [
+      9.77,
+      2.608
+    ],
+    "wheelMass": 286,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.135,
+        4.135,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.751,
+        -3.61,
+        0.9,
+        2.091,
+        0.4
+      ],
+      [
+        -3.61,
+        -2.308,
+        0.487,
+        2.091,
+        0.4
+      ],
+      [
+        -2.308,
+        0.134,
+        0.487,
+        2.245,
+        0.4
+      ],
+      [
+        0.134,
+        2.577,
+        0.487,
+        2.493,
+        0.4
+      ],
+      [
+        3.61,
+        5.019,
+        0.9,
+        2.608,
+        0.4
+      ],
+      [
+        2.577,
+        3.61,
+        0.487,
+        2.608,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 6.0,
+      "centreOfMass": [
+        -1.82,
+        1.33
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.3736,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 373,
+    "exhaustBrake": 481,
+    "gears": {
+      "H": 14.129,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 26897,
+    "openDiffGrip": 1,
+    "fuelLitres": 450
+  },
+  "load": {
+    "name": "Crates",
+    "massT": 6.0
+  }
+}

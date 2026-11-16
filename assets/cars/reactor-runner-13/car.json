@@ -1,0 +1,321 @@
+{
+  "id": "reactor-runner-13",
+  "name": "Reactor Runner",
+  "number": 13,
+  "class": "heavy",
+  "drive": "18×18",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Heavy tractor hauling a reactor vessel",
+  "description": "Orange heavy tractor with a multi-axle trailer.",
+  "stats": {
+    "power": 29,
+    "speed": 16,
+    "grip": 62,
+    "capacity": 23
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1130,
+      610
+    ],
+    "pixelsPerMetre": 95.385,
+    "axles": [
+      9.504,
+      5.436,
+      4.042,
+      2.595,
+      -4.146,
+      -5.488,
+      -6.82,
+      -8.162,
+      -9.504
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 558,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2037,
+        610,
+        66
+      ],
+      [
+        1649,
+        610,
+        66
+      ],
+      [
+        1516,
+        610,
+        66
+      ],
+      [
+        1378,
+        610,
+        66
+      ],
+      [
+        735,
+        610,
+        66
+      ],
+      [
+        607,
+        610,
+        66
+      ],
+      [
+        480,
+        610,
+        66
+      ],
+      [
+        352,
+        610,
+        66
+      ],
+      [
+        224,
+        610,
+        66
+      ]
+    ],
+    "exhaust": [
+      7.233,
+      4.153
+    ],
+    "winch": [
+      11.131,
+      0.325
+    ],
+    "nose": 11.181,
+    "tail": -10.751
+  },
+  "camera": {
+    "zoom": 2.45
+  },
+  "physics": {
+    "mass": 50000.0,
+    "centreOfMass": [
+      -1.394,
+      1.399
+    ],
+    "size": [
+      21.932,
+      4.372
+    ],
+    "wheelMass": 479,
+    "tireGrip": 1.15,
+    "mudPull": 1.8,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -10.154,
+        10.154,
+        0.585,
+        0.885,
+        0.4
+      ],
+      [
+        -10.751,
+        -9.699,
+        0.78,
+        3.711,
+        0.4
+      ],
+      [
+        -9.699,
+        -8.558,
+        0.422,
+        3.711,
+        0.4
+      ],
+      [
+        -8.558,
+        -6.365,
+        0.422,
+        4.068,
+        0.4
+      ],
+      [
+        -6.365,
+        -4.172,
+        0.422,
+        4.372,
+        0.4
+      ],
+      [
+        -4.172,
+        -1.978,
+        0.422,
+        4.194,
+        0.4
+      ],
+      [
+        -1.978,
+        0.215,
+        0.422,
+        3.921,
+        0.4
+      ],
+      [
+        0.215,
+        2.408,
+        0.422,
+        3.061,
+        0.4
+      ],
+      [
+        2.408,
+        4.601,
+        0.422,
+        2.013,
+        0.4
+      ],
+      [
+        4.601,
+        6.795,
+        0.422,
+        2.359,
+        0.4
+      ],
+      [
+        6.795,
+        8.988,
+        0.422,
+        3.187,
+        0.4
+      ],
+      [
+        9.699,
+        11.181,
+        0.78,
+        2.181,
+        0.4
+      ],
+      [
+        8.988,
+        9.699,
+        0.422,
+        2.181,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 70.0,
+      "centreOfMass": [
+        -4.171,
+        1.25
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.0074,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 355,
+    "exhaustBrake": 475,
+    "gears": {
+      "H": 10.674,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 353160,
+    "openDiffGrip": 1,
+    "fuelLitres": 1200
+  },
+  "load": {
+    "name": "Reactor vessel",
+    "massT": 70.0
+  }
+}
