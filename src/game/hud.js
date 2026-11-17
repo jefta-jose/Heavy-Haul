@@ -1,5 +1,6 @@
 import { formatCoins } from './format.js';
 import { TOW_RELEASE_M } from '../game-config.js';
+import { routeFeatures, drivingAdvice } from './drive-coach.js';
 // Everything drawn in HTML over the canvas: the depot sign, coins, surface chip, toasts, the gauges (revs, speed, fuel), drive and service buttons, and the message
 // overlays. Kept lean on purpose (2026-11-06): no status panel, no trail map, no park or engine buttons.
 
@@ -11,6 +12,33 @@ export function createHud({ sim, season }) {
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
+  let features = [], featureTrail = null, featureCar = null, stuckSeconds = 0, impactT = 0;
+  let coachAdvice = null, guidancePlaying = false;
+  let shownGuidance = null;
+
+  function layoutNotices() {
+    const lane = $('hudNotices'), bounds = $('hud').getBoundingClientRect();
+    const routeOnly = !$('routePreview').hidden;
+    const width = Math.min(routeOnly ? bounds.height < 520 ? 220 : 300 : 460, Math.max(0, bounds.width - 32));
+    const left = bounds.left + (bounds.width - width) / 2, right = left + width;
+    const header = [...document.querySelectorAll('#hud .top > .stack, #hud .top > .trip, #hud .top > .right')].map(el => el.getBoundingClientRect());
+    let top = Math.max(bounds.top + 40, ...header.filter(r => r.right > left && r.left < right).map(r => r.bottom)) + 8;
+    const chips = document.querySelector('#hud .sidechips');
+    if ([...chips.children].some(el => !el.hidden && el.getBoundingClientRect().height > 0)) {
+      const r = chips.getBoundingClientRect();
+      if (r.right > left && r.left < right) top = Math.max(top, r.bottom + 8);
+    }
+    const y = `${Math.round(top - bounds.top)}px`, w = `${Math.round(width)}px`;
+    if (lane.style.top !== y) lane.style.top = y;
+    if (lane.style.width !== w) lane.style.width = w;
+  }
+  function showGuidance() {
+    const coaching = document.documentElement.dataset.controlCoach !== 'off';
+    const active = !guidancePlaying ? null : impactT > 0 ? 'impactNote' : toastT > 0 ? 'toast' : coachAdvice && coaching ? 'driveCoach' : 'routePreview';
+    for (const id of ['impactNote', 'toast', 'driveCoach', 'routePreview']) { const hidden = id !== active; if ($(id).hidden !== hidden) $(id).hidden = hidden; }
+    if ($('hudNotices').hidden !== !active) $('hudNotices').hidden = !active;
+    if (active !== shownGuidance) { shownGuidance = active; if (active) layoutNotices(); }
+  }
 
   const km = m => m >= 1000 ? `${(m / 1000).toFixed(2)} km` : `${Math.round(m)} m`;
 
@@ -22,9 +50,8 @@ export function createHud({ sim, season }) {
   // hints sit centred just under the depot sign, wherever the layout puts it
   const FILLING = 'Fueling and healing...';
   function toast(msg, secs = 2.5) {
-    const sign = els.depotSign.getBoundingClientRect(), hud = els.toast.offsetParent?.getBoundingClientRect();
-    if (hud && sign.height) els.toast.style.top = `${Math.round(sign.bottom - hud.top + 8)}px`;
-    els.toast.textContent = msg; els.toast.classList.add('on'); toastT = secs; }
+    els.toast.textContent = msg; els.toast.classList.add('on'); toastT = secs;
+    showGuidance(); }
   // a teaching hint: shown the first HINT_TIMES times on this device, then the sound and the
   // button lights say it on their own
   const HINT_TIMES = 3;
@@ -34,7 +61,7 @@ export function createHud({ sim, season }) {
     if (seen < HINT_TIMES) toast(msg, secs);
   }
 
-  function resizeGauges(DPR) { els.gauges.width = Math.round(els.gauges.clientWidth * DPR); els.gauges.height = Math.round(els.gauges.clientHeight * DPR); }
+  function resizeGauges(DPR) { els.gauges.width = Math.round(els.gauges.clientWidth * DPR); els.gauges.height = Math.round(els.gauges.clientHeight * DPR); layoutNotices(); }
   // analog dials: metal bezel, dark face, minor and major ticks, a lit arc that follows the value,
   // a red zone, a tapered needle, and a readout in the middle (the gear, or the digital speed)
   const A0 = Math.PI * 0.75, A1 = Math.PI * 2.25, FONT = 'Barlow Condensed, Arial Narrow, sans-serif';
@@ -147,6 +174,7 @@ export function createHud({ sim, season }) {
   let shownGear = null, gearPop = 0;
   function drawGauges() {
     const w = els.gauges.width, h = els.gauges.height; gx.clearRect(0, 0, w, h);
+    if (!w || !h) return;   // digital mode does not draw hidden analog instruments
     // fuel on the left, the big speedometer in the middle, the revs with the gear on the right;
     // the two small dials are the same size and sit level with the bottom of the speedometer
     const r = Math.min(w / 4.8, h / 2.02), rs = r * 0.66, gap = r * 0.08, x0 = (w - 4.8 * r) / 2, cy = h / 2, cys = cy + r - rs;
@@ -211,14 +239,44 @@ export function createHud({ sim, season }) {
   // DOM properties retain their last value, so stationary HUD values need no writes.
   const setText = (el, value) => { if (el.textContent !== value) el.textContent = value; };
   function update(dt, { coins, run, playing = true }) {
+    guidancePlaying = playing;
+    if (playing && impactT > 0) impactT = Math.max(0, impactT - dt);
     // the arrow shows only over the drive itself: not under the pause menu, the garage or a loading screen
     const want = playing && (stuckArrow || !!towStep) && els.msgOv.hidden;
     if (want !== arrowOn) { arrowOn = want; showArrow(); }
     showPower();
-    if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
+    if (playing && impactT <= 0 && toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
+    showGuidance();
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
     hudT += dt; if (hudT < 0.1) return; const step = hudT; hudT = 0;
     const mx = sim.main.parts.truck.getPosition().x;
+    const st = sim.st, ctl = sim.ctl;
+    setText($('speedTxt'), String(Math.round(Math.abs(st.speed) * 3.6)));
+    setText($('fuelTxt'), sim.active.role === 'service' ? '∞' : `${Math.round(st.fuel)}%`);
+    $('fuelTxt').classList.toggle('low', st.fuel < 15 && sim.active.role !== 'service');
+    setText($('gearTxt'), ctl.gear);
+    $('gearTxt').dataset.gear = ctl.gear;
+    setText($('rpmTxt'), String(Math.round((st.soundRpm ?? st.rpm) / 100) * 100));
+    $('fuelMiniFill').style.width = `${sim.active.role === 'service' ? 100 : Math.max(0, Math.min(100, st.fuel))}%`;
+    $('rpmMiniFill').style.width = `${Math.max(0, Math.min(100, (st.soundRpm ?? st.rpm) / (sim.car.drivetrain.governedRpm ?? 2300) * 100))}%`;
+    setText($('damageTxt'), `${Math.round(sim.main.st.damage ?? 0)}%`);
+    if (featureTrail !== season.trail || featureCar !== sim.car) { featureTrail = season.trail; featureCar = sim.car; features = routeFeatures(trail, sim.active.tireData.massT); }
+    const activeX = sim.truck.getPosition().x;
+    const next = features.find(f => f.end >= activeX);
+    if (next) {
+      const distance = Math.max(0, next.x - activeX);
+      setText($('routeNext'), next.label);
+      setText($('routeDistance'), distance > 0 ? km(distance) : 'NOW');
+      setText($('routeAdvice'), next.advice);
+      $('routePreview').dataset.kind = next.kind;
+    }
+    $('routeFill').style.width = `${Math.max(0, Math.min(100, (mx - trail.start) / Math.max(1, trail.depot - trail.start) * 100))}%`;
+    stuckSeconds = playing && ctl.gas > 0.5 && Math.abs(st.speed) < 0.6 ? stuckSeconds + step : 0;
+    const advice = playing ? drivingAdvice({ st, ctl, angle: sim.truck.getAngle(), stuckSeconds, next, distance: next ? next.x - activeX : Infinity }) : null;
+    const coach = $('driveCoach'); coach.hidden = !advice;
+    if (advice) { setText(coach, advice.text); coach.dataset.tone = advice.tone; }
+    coachAdvice = advice;
+    showGuidance(); layoutNotices();
     const damageWidth = `${sim.main.st.damage ?? 0}%`;
     if (els.damageFill.style.width !== damageWidth) els.damageFill.style.width = damageWidth;
     els.damageFill.parentElement.parentElement.classList.toggle('healing', !!sim.main.st.filling && sim.main.st.damage > 0);   // its border beats green while a station repairs it
@@ -339,7 +397,12 @@ export function createHud({ sim, season }) {
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     showCalled, coinBonus, showMission, failMission,
-    resetTrip() {},
+    resetTrip() { featureTrail = null; stuckSeconds = 0; impactT = 0; toastT = 0; coachAdvice = null; guidancePlaying = false; showGuidance(); },
+    showImpact(event) {
+      const note = $('impactNote');
+      note.textContent = `${event.location ?? 'Obstacle'} impact · +${event.amount.toFixed(1)}% damage`;
+      impactT = 2.2; showGuidance();
+    },
     // what the lean HUD leaves out, for the pause menu: the truck, its cargo, fuel and the next station
     pauseSpec() {
       const car = sim.main.car, mx = sim.main.parts.truck.getPosition().x;

@@ -26,7 +26,7 @@
   <div class="hud" id="hud">
     <div class="top">
       <div class="stack">
-        <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>Damage</b><div class="fuelbar"><i id="damageFill"></i></div></div>
+        <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>Damage <span id="damageTxt">0%</span></b><div class="fuelbar"><i id="damageFill"></i></div></div>
         <span class="chip" id="surfChip" data-surf="dirt"><small>Surface</small><b id="surfTxt">Dirt</b></span>
       </div>
       <div class="trip" aria-label="Distance to the depot">
@@ -49,7 +49,16 @@
       <div class="mission" id="missionChip" hidden><span></span></div>
       <div class="trap" id="trap" hidden><span><i>High speed:</i> <b id="trapNum">0</b> km/h</span></div>
     </div>
-    <div class="toast" id="toast"></div>
+    <div class="hud-notices" id="hudNotices" aria-label="Driving guidance" hidden>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <div class="route-preview" id="routePreview" aria-label="Trail preview">
+      <div class="route-line"><i id="routeFill"></i></div>
+      <div class="route-next"><b id="routeNext">Trail start</b><span id="routeDistance"></span></div>
+      <small id="routeAdvice"></small>
+    </div>
+    <div class="drive-coach" id="driveCoach" role="status" aria-live="polite" hidden></div>
+    <div class="impact-note" id="impactNote" role="status" hidden></div>
+    </div>
     <div class="bottom">
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"></div>
@@ -59,6 +68,14 @@
       <div class="dash">
         <button class="btn primary action" id="actionBtn" hidden></button>
         <canvas id="gauges" aria-hidden="true"></canvas>
+        <div class="digital-dash" aria-label="Vehicle instruments">
+          <div class="digital-speed"><b id="speedTxt">0</b><small>km/h</small></div>
+          <div class="digital-vitals">
+            <div class="vital vital-fuel"><small>Fuel</small><b id="fuelTxt">100%</b><i class="vital-track" aria-hidden="true"><i id="fuelMiniFill"></i></i></div>
+            <div class="vital vital-gear"><small>Gear</small><b id="gearTxt" data-gear="L">L</b></div>
+            <div class="vital vital-rpm"><small>RPM</small><b id="rpmTxt">0</b><i class="vital-track" aria-hidden="true"><i id="rpmMiniFill"></i></i></div>
+          </div>
+        </div>
       </div>
       <div class="side">
         <button class="winch" id="winch" aria-label="Winch: hook or unhook" aria-pressed="false"><!--icon:winch-->WINCH</button>
@@ -111,17 +128,34 @@
       </div>
     </header>
     <nav class="g-menu" aria-label="Garage">
+      <button class="g-item" id="gMenuFleet"><!--icon:garage-gear--><span>Fleet<small>Browse & compare</small></span></button>
       <button class="g-item" id="gMenuTune"><!--icon:garage-gear--><span>Upgrades</span></button>
       <button class="g-item" id="gMenuMissions"><!--icon:garage-mission--><span>Missions<small id="gMissionOn"></small></span></button>
       <button class="g-item" id="gMenuPowers"><!--icon:garage-power--><span>Powers<small id="gPowerOn"></small></span></button>
       <button class="g-item" id="gMenuSell"><!--icon:garage-sell--><span>Sell<small id="gSellFor"></small></span></button>
       <button class="g-item" id="garageSoundBtn"><!--icon:garage-sound--><span>Sound</span></button>
+      <button class="g-item" id="gMenuControls"><!--icon:garage-gear--><span>Controls</span></button>
     </nav>
     <footer class="g-bar">
       <dl class="g-spec" id="gSpec"></dl>
       <button class="g-levels" id="gLevels" aria-label="Upgrades"></button>
       <button class="g-drive" id="startBtn"><span>Drive</span></button>
     </footer>
+    <div class="overlay" id="fleetOv" hidden>
+      <div class="card fleet-card" role="dialog" aria-modal="true" aria-labelledby="fleetTitle">
+        <div class="cbody">
+          <div class="tunehead"><div><div class="eyebrow">Your next expedition</div><h3 id="fleetTitle">Fleet & comparison</h3></div><button class="btn" id="fleetDone">Done</button></div>
+          <div class="fleet-filters">
+            <input id="fleetSearch" type="search" placeholder="Search trucks" aria-label="Search trucks">
+            <select id="fleetClass" aria-label="Filter by class"><option value="all">All classes</option></select>
+            <select id="fleetOwned" aria-label="Filter ownership"><option value="all">All trucks</option><option value="owned">Owned</option><option value="favourites">Favourites</option><option value="open">Unlocked</option></select>
+            <select id="fleetRank" aria-label="Maximum unlock rank"><option value="20">All ranks</option></select>
+          </div>
+          <p class="fleet-note" id="fleetCount"></p>
+          <div class="fleet-layout"><div class="fleet-grid" id="fleetGrid"></div><section class="fleet-detail" id="fleetDetail" aria-label="Truck comparison"></section></div>
+        </div>
+      </div>
+    </div>
     <div class="overlay" id="tuneOv" hidden>
       <div class="card slim">
         <div class="cbody">
@@ -190,6 +224,18 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="overlay" id="controlsOv" hidden>
+  <div class="card slim" role="dialog" aria-modal="true" aria-labelledby="controlsTitle"><div class="cbody">
+    <div class="eyebrow">Make it yours</div><h3 id="controlsTitle">Driving controls</h3>
+    <label class="control-option">Pedal size<select id="controlSize"><option value="standard">Standard</option><option value="large">Large</option></select></label>
+    <label class="control-option">Pedal layout<select id="controlLayout"><option value="standard">Brake left · gas right</option><option value="left">Gas left · brake right</option></select></label>
+    <label class="control-option">Instruments<select id="controlDash"><option value="digital">Digital</option><option value="analog">Analog + digital</option></select></label>
+    <label class="control-option">Driving hints<select id="controlCoach"><option value="on">On</option><option value="off">Off</option></select></label>
+    <p class="powernote">Keyboard: arrows drive · Q AWD · E DIFF · V switch truck · C zoom · Space winch. Controller triggers operate the pedals.</p>
+    <div class="btns"><button class="btn primary" id="controlsDone">Done</button></div>
+  </div></div>
 </div>
 
 <script>/*JS*/</script>

@@ -63,6 +63,9 @@ export function createView(canvas, sim) {
     const hw = view.W / 2 / view.ppm, hh = view.H / 2 / view.ppm;
     const nose = sim.truck.getWorldPoint(sim.V(sim.car.rig.nose, 0)).x;
     let x = nose - (FRAMING.front - 0.5) * 2 * hw;
+    // Look farther down the trail as speed builds, without changing sprite scale.
+    const speed = sim.truck.getLinearVelocity().x;
+    x += Math.max(-hw * 0.1, Math.min(hw * 0.16, speed * 0.18));
     // long rigs (a truck with its trailer drawn in): slide back so the tail stays in view too,
     // centring the rig if it is longer than the screen
     const rig = sim.car.rig, tail = sim.truck.getWorldPoint(sim.V(Math.min(...rig.axles) - rig.radius - 0.6, 0)).x;

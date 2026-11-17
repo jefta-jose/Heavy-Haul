@@ -8,6 +8,8 @@ import { formatCoins } from './format.js';
 
 import { deriveSpecs } from '../../tools/lib/specs.js';
 import { wallet } from './wallet.js';
+import { fleetStats, upgradePreview, CLASS_JOBS } from './fleet-stats.js';
+import { bindModalFocus } from './modal-focus.js';
 import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, clampLevel, loadTuning, saveTuning, validLevels, loadPowers, savePowers } from './tuning.js';
 
 const $ = id => document.getElementById(id);
@@ -48,6 +50,10 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // saved levels are trimmed to the four knobs when read
   const tuneOf = id => (tuning[id] = validLevels(playable.get(id) ?? car, tuning[id] ?? {}));
   const powers = loadPowers();
+  let favouriteIds = [];
+  try { const saved = JSON.parse(localStorage.getItem('hh_favourites')); if (Array.isArray(saved)) favouriteIds = saved.filter(id => playable.has(id)); } catch {}
+  const favourites = new Set(favouriteIds);
+  let fleetPick = car.id, comparisonId = car.id;
   const tuned = () => withPower(applyTuning(car, tuning[car.id]), powers[car.id]);
   // all the screen art, for the style sheet
   for (const [id, uri] of Object.entries(content.hud)) document.documentElement.style.setProperty(`--hud-${id}`, `url("${uri}")`);
@@ -130,6 +136,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     $('gShow').classList.toggle('locked', !isOpen(car.id));
     const t = tuned(), live = deriveSpecs(t), load = t.load ?? r.load;
     $('gBadge').textContent = `${classes[rank[car.class]]?.name ?? car.class} · rank ${unlockOf(car.id)}${load ? ` · ${load.name}` : ''}`;
+    if (KNOBS.every(k => clampLevel(tuneOf(car.id)[k.id]) === MAX_LEVEL)) $('gBadge').textContent += ' · MAX UPGRADED';
     renderDrive();
     const spec = $('gSpec'), before = Object.fromEntries([...spec.querySelectorAll('dd')].map(d => [d.dataset.k, d.textContent])), same = spec.dataset.car === car.id;
     spec.dataset.car = car.id; spec.innerHTML = '';
@@ -177,6 +184,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         else { buy.setAttribute('aria-disabled', 'true'); buy.addEventListener('click', () => { const c = $('tuneCoins').parentElement; c.classList.remove('short'); void c.offsetWidth; c.classList.add('short'); }); }
       }
       row.append(pic, name, bar, buy);
+      const next = applyTuning(car, { ...t, [knob.id]: Math.min(MAX_LEVEL, level + STEP) });
+      row.append(el('small', 'tpreview', `${full ? 'Stock → fitted' : 'Next step'} · ${upgradePreview(full ? car : tuned(), next, knob.id)}`));
       box.append(row);
     }
     // the levels again on the bar, so a truck's upgrades show without opening the panel
@@ -239,6 +248,15 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       box.append(b);
     }
     $('gMissionOn').textContent = active?.title ?? 'None';
+    const missionButton = $('gMenuMissions');
+    missionButton.title = 'Choose a mission';
+    missionButton.classList.remove('mismatch');
+    if (active) {
+      const fits = (!active.class || active.class === car.class) && (!active.car || active.car === car.id);
+      $('gMissionOn').textContent = fits ? 'Mission selected' : 'Switch truck';
+      missionButton.title = `${active.title} · +${missions.xpFor(active).toLocaleString('en-US')} XP · ${active.text}`;
+      missionButton.classList.toggle('mismatch', !fits);
+    }
   }
   const missionsOv = $('missionsOv');
   $('gMenuMissions').addEventListener('click', () => { renderMissions(); missionsOv.hidden = false; });
@@ -277,6 +295,58 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const scrollRow = d => $('garageList').scrollBy({ left: d * $('garageList').clientWidth * 0.8 });
   $('gRowPrev').addEventListener('click', () => scrollRow(-1));
   $('gRowNext').addEventListener('click', () => scrollRow(1));
+
+  for (const c of classes) { const option = el('option', null, c.name); option.value = c.id; $('fleetClass').append(option); }
+  for (let i = 1; i < 20; i++) { const option = el('option', null, `Up to rank ${i}`); option.value = String(i); $('fleetRank').append(option); }
+  function renderFleetDetail() {
+    const candidate = playable.get(fleetPick), reference = playable.get(comparisonId);
+    const box = $('fleetDetail'); box.replaceChildren();
+    if (!candidate || !reference) return;
+    const current = applyTuning(candidate, tuneOf(candidate.id)), baseline = applyTuning(reference, tuneOf(reference.id));
+    const a = fleetStats(current), b = fleetStats(baseline);
+    const picture = el('img', 'fleet-hero'); picture.src = candidate.artUri.master; picture.alt = `${candidate.name} side profile`;
+    box.append(picture, el('h4', null, `${candidate.name} ${candidate.number ?? ''}`), el('p', 'fleet-role', CLASS_JOBS[candidate.class]));
+    const table = el('table', 'fleet-comparison'), head = el('thead'), tr = el('tr');
+    for (const label of ['Specification', 'Selected', reference.name]) { const th = el('th', null, label); th.scope = 'col'; tr.append(th); } head.append(tr); table.append(head);
+    const body = el('tbody');
+    for (const [name, stat] of Object.entries(a)) {
+      const row = el('tr'), title = el('th', null, name); title.scope = 'row'; row.append(title);
+      for (const value of [stat.value, b[name].value]) row.append(el('td', null, `${value.toFixed(stat.digits)} ${stat.unit}`));
+      body.append(row);
+    }
+    table.append(body); box.append(table, el('p', 'fleet-note', 'Uses your saved upgrades. Power / weight helps compare loaded pull; terrain, clearance and balance still matter.'));
+    const actions = el('div', 'btns'), fav = el('button', 'btn', favourites.has(candidate.id) ? '★ Favourite' : '☆ Favourite');
+    fav.setAttribute('aria-pressed', String(favourites.has(candidate.id)));
+    fav.addEventListener('click', () => {
+      if (favourites.has(candidate.id)) favourites.delete(candidate.id); else favourites.add(candidate.id);
+      try { localStorage.setItem('hh_favourites', JSON.stringify([...favourites])); } catch {}
+      renderFleet();
+    });
+    const pin = el('button', 'btn', 'Compare against this'); pin.addEventListener('click', () => { comparisonId = candidate.id; renderFleetDetail(); });
+    const choose = el('button', 'btn primary', owns(candidate.id) ? 'Select truck' : isOpen(candidate.id) ? 'View in garage' : `View · rank ${unlockOf(candidate.id)}`);
+    choose.addEventListener('click', () => { pick(candidate); $('fleetOv').hidden = true; $('gMenuFleet').focus(); });
+    actions.append(fav, pin, choose); box.append(actions);
+  }
+  function renderFleet() {
+    const query = $('fleetSearch').value.trim().toLowerCase(), filter = $('fleetClass').value, owned = $('fleetOwned').value, maxRank = Number($('fleetRank').value);
+    const matches = order.filter(c => (filter === 'all' || c.class === filter) && `${c.name} ${c.number ?? ''}`.toLowerCase().includes(query) && unlockOf(c.id) <= maxRank && (owned === 'all' || owned === 'owned' && owns(c.id) || owned === 'open' && isOpen(c.id) || owned === 'favourites' && favourites.has(c.id)));
+    const grid = $('fleetGrid'); grid.replaceChildren();
+    $('fleetCount').textContent = `${matches.length} trucks · tap a truck to compare its fitted specifications`;
+    if (!matches.some(c => c.id === fleetPick)) fleetPick = matches[0]?.id ?? null;
+    for (const c of matches) {
+      const button = el('button', 'fleet-tile' + (fleetPick === c.id ? ' on' : ''));
+      button.setAttribute('aria-pressed', String(fleetPick === c.id));
+      const img = el('img'); img.src = c.artUri.master; img.alt = ''; img.loading = 'lazy';
+      button.append(img, el('b', null, `${favourites.has(c.id) ? '★ ' : ''}${c.name} ${c.number ?? ''}`), el('small', null, `${classes[rank[c.class]]?.name} · ${owns(c.id) ? 'Owned' : `Rank ${unlockOf(c.id)}`}`));
+      button.addEventListener('click', () => { fleetPick = c.id; renderFleet(); $('fleetDetail').scrollTop = 0; }); grid.append(button);
+    }
+    if (!matches.length) grid.append(el('p', 'fleet-note', 'No matching trucks. Try another filter.'));
+    renderFleetDetail();
+  }
+  $('gMenuFleet').addEventListener('click', () => { comparisonId = fleetPick = car.id; $('fleetOv').hidden = false; renderFleet(); $('fleetSearch').focus(); });
+  $('fleetDone').addEventListener('click', () => { $('fleetOv').hidden = true; $('gMenuFleet').focus(); });
+  bindModalFocus($('fleetOv'), () => $('fleetDone').click());
+  for (const id of ['fleetSearch', 'fleetClass', 'fleetOwned', 'fleetRank']) $(id).addEventListener(id === 'fleetSearch' ? 'input' : 'change', renderFleet);
   $('gStencil').textContent = content.season.name.split(' ')[0];
   // dust hanging in the lamplight: a few specks, placed once
   for (let i = 0; i < 16; i++) {

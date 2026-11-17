@@ -19,6 +19,7 @@ import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
 import { createWinchGuide } from './game/winch-guide.js';
+import { createControlSettings } from './game/control-settings.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
@@ -67,7 +68,7 @@ const renderer = createRenderer({
     if (e.type === 'splash') audio.splash(e.power);
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
-    else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
+    else if (e.type === 'damage') { renderer.hitGlow(e.point); hud.showImpact(e); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
@@ -91,6 +92,8 @@ let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, uiAudio, onClose: () => { if (session.state === 'pause') showPause(); } });
+const controls = createControlSettings({ onClose: () => { if (session.state === 'pause') showPause(); resize(); } });
+document.getElementById('gMenuControls').addEventListener('click', () => controls.open());
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   if (session.state !== 'play') return;
@@ -104,11 +107,11 @@ const IN_APP = !!window.Capacitor?.isNativePlatform?.();
 if (IN_APP) document.getElementById('fsBtn').hidden = true;
 const showPause = () => {
   const spec = hud.pauseSpec();
-  const buttons = IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
+  const buttons = [['Controls', () => { hud.hideMessage(); controls.open(); }], ...(IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]])];
   session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
 function pause() {
-  if (sound.isOpen) return;
+  if (sound.isOpen || controls.isOpen) return;
   if (session.state === 'play') showPause();
   else if (session.state === 'pause') session.resume();
 }

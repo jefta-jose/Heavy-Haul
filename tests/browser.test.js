@@ -195,15 +195,15 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.click('#startBtn');
     await page.waitForFunction(() => __haul.session.state === 'play');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
-    // the lean phone HUD (2026-11-06): no status panel, trail map, PARK or ENGINE; the depot distance and
-    // three dials (revs, speed, fuel) between the pedals, and no pedal labels
+    // Digital speed and fuel stay readable between the pedals, with the depot
+    // distance above; PARK and ENGINE remain in the pause menu.
     const hud = await page.evaluate(() => {
       const box = id => document.getElementById(id).getBoundingClientRect(), gone = ['carName', 'fuelFill', 'track', 'handbrakeBtn', 'engineBtn'];
-      return { gone: gone.every(id => !document.getElementById(id)), dist: /to depot/.test(document.getElementById('depotSign').textContent) && !document.getElementById('mapcard'), wide: box('gauges').width > box('gauges').height * 2.2, pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
+      return { gone: gone.every(id => !document.getElementById(id)), dist: /to depot/.test(document.getElementById('depotSign').textContent) && !document.getElementById('mapcard'), readable: document.getElementById('speedTxt').getBoundingClientRect().height >= 25 && /%/.test(document.getElementById('fuelTxt').textContent), pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
     });
     assert(hud.gone, 'the status panel, trail map, PARK and ENGINE are gone');
     assert(hud.dist, 'the distance to the depot shows');
-    assert(hud.wide, 'three dials fit between the pedals');
+    assert(hud.readable, 'digital speed and fuel are readable between the pedals');
     assert.equal(hud.pedalText, '', 'the pedals carry no text');
     await page.click('#pauseBtn');
     assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');
@@ -690,4 +690,122 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'it can be bought again');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
+});
+
+test('expedition HUD, fleet comparisons and saved controls work on phones', { timeout: 120000 }, async () => {
+  await buildApp();
+  const types = { '.html': 'text/html', '.webp': 'image/webp', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
+  const server = http.createServer((req, res) => {
+    const pathname = new URL(req.url, 'http://x').pathname;
+    const file = path.join(ROOT, 'www', pathname === '/' ? 'index.html' : pathname);
+    fs.readFile(file, (error, bytes) => {
+      res.writeHead(error ? 404 : 200, { 'Content-Type': types[path.extname(file)] ?? 'application/octet-stream' });
+      res.end(error ? '' : bytes);
+    });
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true });
+    const errors = []; page.on('pageerror', error => errors.push(error.message));
+    await ownAll(page);
+    await page.addInitScript(() => {
+      localStorage.setItem('hh_wallet', '10000000');
+      localStorage.setItem('hh_tuning_levels', JSON.stringify({ 'earthquake-20': { engine: 100, suspension: 100, speed: 100, grip: 100 } }));
+    });
+    await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, body: '' }));
+    const url = `http://127.0.0.1:${server.address().port}/`;
+    await page.goto(url); await page.waitForFunction(() => window.__haul);
+    await page.evaluate(() => __haul.loader.hide(0)); await page.waitForFunction(() => document.getElementById('loader').hidden);
+    await page.evaluate(() => {
+      const mission = __haul.missions.offers[0];
+      mission.title = 'An exceptionally long freight delivery contract'; mission.class = 'heavy';
+      __haul.missions.choose(mission.id); __haul.garage.show();
+    });
+    for (const [width, height] of [[1440, 900], [1024, 768], [844, 390], [667, 375], [568, 320], [390, 844], [320, 568]]) {
+      await page.setViewportSize({ width, height });
+      await page.evaluate(() => document.fonts.ready);
+      const menu = await page.evaluate(() => {
+        const box = document.querySelector('.g-menu'), style = getComputedStyle(box);
+        return { scrollX: box.scrollWidth - box.clientWidth, scrollY: box.scrollHeight - box.clientHeight, overflowX: style.overflowX, overflowY: style.overflowY,
+          items: [...box.querySelectorAll('.g-item')].map(b => ({ id: b.id, x: b.scrollWidth - b.clientWidth, y: b.scrollHeight - b.clientHeight, bottom: b.getBoundingClientRect().bottom, textBottom: b.querySelector('span').getBoundingClientRect().bottom })) };
+      });
+      assert(menu.scrollX <= 1 && menu.scrollY <= 1, `${width}×${height}: menu contents fit`);
+      assert(!['auto', 'scroll'].includes(menu.overflowX) && !['auto', 'scroll'].includes(menu.overflowY), 'garage actions do not scroll');
+      for (const item of menu.items) assert(item.x <= 1 && item.y <= 1 && item.textBottom <= item.bottom, `${width}×${height}: ${item.id} text fits its button`);
+    }
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.evaluate(() => { __haul.missions.choose(__haul.missions.active.id); __haul.garage.show(); });
+    await page.locator('#gMenuFleet').click();
+    await page.locator('#fleetSearch').fill('earthquake');
+    assert.equal(await page.locator('.fleet-tile').count(), 1);
+    assert.equal(await page.locator('.fleet-comparison tbody tr').count(), 6);
+    await page.getByRole('button', { name: '☆ Favourite', exact: true }).click();
+    await page.locator('#fleetOwned').selectOption('favourites'); assert.equal(await page.locator('.fleet-tile').count(), 1);
+    await page.locator('#fleetSearch').fill('no such truck'); assert.equal(await page.locator('.fleet-tile').count(), 0);
+    await page.locator('#fleetSearch').fill('earthquake');
+    await page.getByRole('button', { name: 'Select truck', exact: true }).click();
+    assert.match(await page.locator('#gBadge').innerText(), /MAX UPGRADED/);
+    await page.locator('#gMenuTune').click(); assert.equal(await page.locator('.tpreview').count(), 4);
+    assert.match(await page.locator('.tpreview').first().innerText(), /kW/); await page.locator('#tuneDone').click();
+    await page.locator('#gMenuControls').click();
+    await page.locator('#controlsDone').focus(); await page.keyboard.press('Tab');
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'controlSize', 'focus stays inside controls');
+    await page.keyboard.press('Escape'); assert(await page.locator('#controlsOv').isHidden());
+    await page.locator('#gMenuControls').click();
+    await page.locator('#controlLayout').selectOption('left'); await page.locator('#controlSize').selectOption('large');
+    await page.locator('#controlsDone').click();
+    await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.loader.hide(0); });
+    await page.waitForFunction(() => __haul.renderer.ready && !__haul.loader.visible);
+    const gas = await page.locator('#gas').boundingBox(), brake = await page.locator('#brake').boundingBox();
+    assert(gas.x < brake.x, 'left-handed pedals are reversed'); assert(gas.width >= 92);
+    assert(await page.locator('#speedTxt').isVisible()); assert(await page.locator('#hudNotices').isVisible());
+    await page.locator('#awdBtn').tap(); assert.equal(await page.locator('#awdBtn').getAttribute('aria-pressed'), 'true');
+    await page.evaluate(() => { __haul.sim.main.st.damage = 25; });
+    await page.waitForFunction(() => document.getElementById('damageTxt').textContent === '25%');
+    // A station alert takes the shared message slot from driving advice.
+    await page.waitForTimeout(3200);
+    await page.evaluate(() => {
+      const x = __haul.sim.trail.stations[0].x - 35;
+      __haul.sim.respawn(x); __haul.sim.main.st.damage = 65; __haul.sim.main.st.fuel = 50; __haul.session.run.announced = null; __haul.snap();
+    });
+    await page.waitForFunction(() => /Fuel station ahead/.test(document.getElementById('toast').textContent) && !document.getElementById('toast').hidden);
+    assert(await page.locator('#driveCoach').isHidden()); assert(await page.locator('#routePreview').isHidden());
+    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'only the station alert is shown');
+    await page.evaluate(() => __haul.sim.events.push({ type: 'damage', amount: 2, location: 'Front tyre', point: { x: 1, y: 0 } }));
+    await page.waitForFunction(() => !document.getElementById('impactNote').hidden);
+    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'impact feedback occupies the same slot');
+    await page.waitForFunction(() => !document.getElementById('toast').hidden);
+    assert.match(await page.locator('#toast').innerText(), /Fuel station ahead/, 'station alert resumes after the impact');
+    await page.waitForFunction(() => !document.getElementById('driveCoach').hidden, null, { timeout: 10000 });
+    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'coaching resumes after the alert');
+    await page.locator('#pauseBtn').click(); await page.getByRole('button', { name: 'Controls', exact: true }).click();
+    await page.locator('#controlDash').selectOption('analog'); await page.locator('#controlsDone').click();
+    await page.getByRole('button', { name: 'Resume', exact: true }).click(); assert(await page.locator('#gauges').isVisible());
+    for (const [width, height] of [[844, 390], [667, 375], [390, 844], [320, 568]]) {
+      await page.setViewportSize({ width, height });
+      await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+      const bounds = await page.evaluate(() => {
+        const rect = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { x: r.x, right: r.right, y: r.y, bottom: r.bottom, height: r.height }; };
+        return { dash: rect('.digital-dash'), gas: rect('#gas'), brake: rect('#brake'), route: rect('#routePreview') };
+      });
+      assert(bounds.gas.right <= bounds.dash.x + 1, `${width}: left gas clears instruments`);
+      assert(bounds.dash.right <= bounds.brake.x + 1, `${width}: instruments clear right brake`);
+      assert(bounds.route.height < 90 && bounds.route.bottom <= height, `${width}: route preview stays compact`);
+      const collision = await page.evaluate(() => {
+        const a = document.getElementById('hudNotices').getBoundingClientRect();
+        return [...document.querySelectorAll('#hud .stack, #hud .trip, #hud .right, #hud .sidechips')].some(el => {
+          const b = el.getBoundingClientRect(); return b.width > 0 && b.height > 0 && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+        });
+      });
+      assert(!collision, `${width}: driving messages clear existing HUD plates`);
+    }
+    await page.reload(); await page.waitForFunction(() => window.__haul);
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlLayout), 'left');
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlSize), 'large');
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlDash), 'analog');
+    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_favourites'))), ['earthquake-20']);
+    assert.equal(await page.locator('#gJob, #gContract').count(), 0, 'garage descriptions do not float over the bay');
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); await new Promise(r => server.close(r)); }
 });

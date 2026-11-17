@@ -16,6 +16,7 @@ export const ZOOM_STEPS = [1, 1.3, 1.7];
 // ---------- damage ----------
 export const DAMAGE_START_KMH = 20;           // hitting a solid obstacle slower than this does no harm
 export const DAMAGE_PER_HIT = 10;              // how much a hit hurts: % of damage for a hit 10 km/h over the start speed; it grows fast with speed
+export const DAMAGE_MAX_PER_HIT = 25;          // a single crossing impact must leave time to react
 export const DAMAGE_HIT_COOLDOWN_S = 2;     // one obstacle run hurts a few times, not once per tire per log
 export const SPEED_SIGN_AREA_GAP_M = 15;      // a speed limit sign, showing DAMAGE_START_KMH, stands at the first obstacle of each group; obstacles closer together than this are one group
 export const SPEED_SIGN_HEIGHT_M = 5;         // how tall the sign is drawn, post included

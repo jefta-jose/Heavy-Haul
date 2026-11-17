@@ -13,6 +13,7 @@ export function createVehicleLayer(scene) {
   const caches = new Map();
   const rigCache = item => { if (!caches.has(item.id)) caches.set(item.id, createRigCache(view, item.rig, item.artUri, item.art)); return caches.get(item.id); };
   let flash = null, hitBurst = 0;
+  let hitPoint = null;
   // each vehicle's drawn body lift: it eases toward what its wheels ask for, once a frame. A new run or respawn builds new parts, so it starts level
   const lifts = new WeakMap();
   const liftOf = v => { if (!lifts.has(v.parts)) lifts.set(v.parts, { lift: 0, tilt: 0, vLift: 0, vTilt: 0 }); return lifts.get(v.parts); };
@@ -86,6 +87,18 @@ export function createVehicleLayer(scene) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts, glow = powerGlow(v);
     settle(v);
+    // A small contact patch anchors the tyres to the surface. It disappears
+    // when a wheel lifts, and never casts a detached shadow under an airborne rig.
+    for (let i = 0; i < wheels.length; i++) {
+      const p = wheels[i].getPosition(), r = wheelRadius(rig, i), ground = scene.sim.visH(p.x);
+      const clearance = p.y - r - ground;
+      if (clearance > 0.12 || clearance < -r * 0.8) continue;
+      const { ctx } = view;
+      ctx.save(); ctx.translate(p.x, ground + 0.015); ctx.scale(r * 0.8, r * 0.12);
+      const shade = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+      shade.addColorStop(0, 'rgba(9,8,6,0.32)'); shade.addColorStop(1, 'rgba(9,8,6,0)');
+      ctx.fillStyle = shade; ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    }
     if (glow?.kind === 'nitro') drawSpeedLines(v);
     if (glow) drawGlow(v, glow);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));
@@ -129,7 +142,7 @@ export function createVehicleLayer(scene) {
 
   const layer = {
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
-    hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; },
+    hitGlow(point) { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; hitPoint = point ?? null; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
@@ -140,7 +153,7 @@ export function createVehicleLayer(scene) {
       const img = scene.hud['g2-burst'];
       if (hitBurst > 0 && sim.main && img?.complete && img.naturalWidth) {
         hitBurst -= Math.min(0.05, dt || 1 / 60);
-        const t = 1 - hitBurst / HIT_BURST_S, s = 1.3 + t * 1.6, at = sim.main.parts.truck.getWorldPoint({ x: sim.main.car.rig.nose, y: 0 }), { ctx } = view;
+        const t = 1 - hitBurst / HIT_BURST_S, s = 1.3 + t * 1.6, at = sim.main.parts.truck.getWorldPoint(hitPoint ?? { x: sim.main.car.rig.nose, y: 0 }), { ctx } = view;
         ctx.save(); ctx.globalAlpha = Math.max(0, 1 - t); ctx.translate(at.x - s / 2, at.y + s / 2); ctx.scale(1, -1); ctx.drawImage(img, 0, 0, s, s); ctx.restore();
       }
     },

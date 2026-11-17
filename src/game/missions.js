@@ -9,6 +9,7 @@ import { classXp } from './progress.js';
 import { MISSION_BASE_XP } from '../game-config.js';
 
 const KEY = 'hh_missions', VERSION = 2;
+const CLASS_GOALS = { scout: { sprint: 2, clean: 2 }, highway: { cameras: 3, timed: 2 }, 'heavy-duty': { deliver: 2, clean: 2 }, offroad: { bogs: 3 }, heavy: { crusher: 3, deliver: 2 } };
 const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const hits = (m, r) => (r.cameras ?? []).filter(k => k >= m.kmh).length;
 
@@ -113,7 +114,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       if (force) lock.class = force;
       else if (random() < (locks.car?.chance ?? 0) && owned().length) { lock.car = pick(owned()); lock.class = lock.car.class; }
       else if (random() < (locks.class?.chance ?? 0) && classes.length) lock.class = pick(classes).id;
-      const choices = Object.entries(goals).filter(([k]) => GOALS[k] && !avoid.has(k) && (!force || GOALS[k].depot)).map(([k, g]) => [k, g.weight ?? 1]);
+      const choices = Object.entries(goals).filter(([k]) => GOALS[k] && !avoid.has(k) && (!force || GOALS[k].depot)).map(([k, g]) => [k, (g.weight ?? 1) * (CLASS_GOALS[lock.class]?.[k] ?? 1)]);
       if (!choices.length) return null;
       const m = makeGoal(weighted(choices), lock); if (!m) continue;
       const n = Number(weighted(twistCount.map(([k, w]) => [k, w]))) || 0;

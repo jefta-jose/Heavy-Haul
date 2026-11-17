@@ -5,12 +5,15 @@ import { formatCoins } from './format.js';
 import { CRASH_SECONDS, STUCK_GLOW_S, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
+import { finishRecord, checkpointFeedback } from './run-records.js';
+import { createCrossingTrials } from './crossing-trials.js';
 
 const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI);
 
 export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp, onSuccess, onFailure }) {
   const trail = season.trail;
   const serviceRolls = new Map();
+  let trials = null;
 
   const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, helpGlow: false, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
   const run = fresh();
@@ -19,7 +22,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   // Rescue driving and attached tow cables never count as earning or mission progress.
   const canProgress = () => sim.active === sim.main && !sim.main.winched && !sim.vehicles.some(v => v.cable?.target === sim.main);
 
-  api.reset = () => { serviceRolls.clear(); Object.assign(run, fresh()); };
+  api.reset = () => { serviceRolls.clear(); trials = null; Object.assign(run, fresh()); run.cleanCrossings = 0; run.splits = {}; };
   // coins add themselves: for new ground, for clearing a bog and for what gets crushed
   api.earn = (n, bonus = false) => { if (!canProgress()) return; wallet.add(n, bonus); run.earned += n; if (bonus) hud.coinBonus(n); };
   // XP, scaled by the main truck's class; a new rank is announced at once
@@ -82,9 +85,12 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (!done) onSuccess?.();
     const rank = progress?.progress;
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
+    const record = finishRecord(season, sim.main.car, run);
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
       ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
       ['Winch time', `${Math.round(run.winchSecs)} s`],
+      ['Driving medals', record.medals.join(' · ')], ['Personal best', record.summary],
+      ['Clean crossings', String(run.cleanCrossings ?? 0)],
       ['Coins on the road', formatCoins(run.earned)],
       ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP`]] : []),
       ...(rank ? [['XP this run', `${Math.round(run.xp).toLocaleString('en-US')}`], ['Rank', rank.rank >= 20 ? 'Rank 20 (top)' : `Rank ${rank.rank} · ${rank.xp.toLocaleString('en-US')} / ${rank.to.toLocaleString('en-US')} XP`]] : []),
@@ -97,6 +103,15 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (api.state !== 'play') return;
     const main = sim.main, mainTruck = main.parts.truck, p = mainTruck.getPosition(), st = sim.st, ctl = sim.ctl, driving = sim.active.parts.truck.getPosition();
     run.time += dt;
+    // Real trucks have different overhangs; wait for the rear axle and tyre to
+    // clear before awarding the optional clean-crossing goal.
+    if (main.car.rig && mainTruck.getWorldPoint) {
+      trials ??= createCrossingTrials(trail, main.tireData.massT);
+      const rig = main.car.rig, front = mainTruck.getWorldPoint(sim.V(Math.max(...rig.axles) + rig.radius, 0)).x;
+      const rear = mainTruck.getWorldPoint(sim.V(Math.min(...rig.axles) - rig.radius, 0)).x;
+      const crossed = trials.update({ x: p.x, front, rear, damage: main.st.damage, assisted: !canProgress() });
+      if (crossed?.clean) { run.cleanCrossings = (run.cleanCrossings ?? 0) + 1; if (!hud.toastActive) hud.toast(`Clean crossing · ${crossed.label} · ${run.cleanCrossings} this run`, 2.5); }
+    }
     // Check crashes before rewards and delivery so reaching the depot cannot
     // overwrite a rollover failure. Each service truck has its own timer,
     // including when parked or after switching back to the main truck.
@@ -131,7 +146,10 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
       else if (canProgress()) { const t = missions.track(missionRun()); if (t?.done) missionDone(t.done); else hud.showMission(t); }
     }
     if (sim.vehicles.some(v => v.cable?.taut)) run.winchSecs += dt;
-    for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
+    for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) {
+      run.checkpoint = c; (run.splits ??= {})[c] = run.time;
+      if (!hud.toastActive && canProgress()) hud.toast(run.helped || run.powered ? `Checkpoint · ${Math.round(run.time)} s` : checkpointFeedback(season, main.car, c, run.time), 3);
+    }
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
     if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Park fully in the purple ${sim.winchReach} m section ahead of your truck, tap WINCH, then drive forward` : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : 'Stuck? Call the breakdown truck to tow you', 3);
