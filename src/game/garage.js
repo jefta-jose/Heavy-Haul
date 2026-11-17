@@ -40,7 +40,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const playable = new Map(content.cars.map(c => [c.id, c]));
   // the playable cars in unlock order (class, then the rank that opens them): the showroom arrows step through these
   const unlockOf = id => rosterOf(id)?.unlockRank ?? rosterOf(id)?.tier ?? 0;
-  const order = [...content.cars].sort((a, b) => rank[a.class] - rank[b.class] || unlockOf(a.id) - unlockOf(b.id));
+  const orderOf = id => rosterOf(id)?.order ?? 0;
+  const order = [...content.cars].sort((a, b) => rank[a.class] - rank[b.class] || unlockOf(a.id) - unlockOf(b.id) || orderOf(a.id) - orderOf(b.id));
   const owns = id => progress?.owns(id) ?? true, isOpen = id => progress?.isOpen(id) ?? true;
   let car = (owns(content.defaultCar) && playable.get(content.defaultCar)) || order.find(c => owns(c.id)) || order[0], cls = car.class;
   const tuning = loadTuning();
@@ -90,7 +91,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // the class's vehicles: playable ones with their art, planned ones locked
   function renderList() {
     const list = $('garageList'); list.innerHTML = '';
-    for (const r of content.roster.cars.filter(c => c.class === cls).sort((a, b) => unlockOf(a.id) - unlockOf(b.id))) {
+    for (const r of content.roster.cars.filter(c => c.class === cls).sort((a, b) => unlockOf(a.id) - unlockOf(b.id) || orderOf(a.id) - orderOf(b.id))) {
       const p = playable.get(r.id), open = p && isOpen(r.id), mine = p && owns(r.id);
       const b = el('button', 'gtile' + (p ? '' : ' locked') + (p && !open ? ' ranked' : '') + (r.id === car.id ? ' on' : ''));
       const thumb = el('span', 'gthumb');

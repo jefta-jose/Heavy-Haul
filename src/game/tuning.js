@@ -57,7 +57,7 @@ export function applyTuning(car, levels = {}) {
 const { invincible, nitro } = POWER_TIMES;
 export const POWERS = [
   { id: 'invincible', label: 'Invincible', what: `Tap the button: no hit hurts for ${invincible.seconds} s, then it recharges for ${invincible.cooldown} s` },
-  { id: 'nitro', label: 'Nitro', what: `Tap the button: nitro speed for ${nitro.seconds} s, then instant brakes on your next brake tap to save the truck. Recharges for ${nitro.cooldown} s` },
+  { id: 'nitro', label: 'Nitro', what: `Tap the button: for ${nitro.seconds} s the gas pedal gives nitro speed (let go and the truck slows as usual), then instant brakes on your next brake tap to save the truck. Recharges for ${nitro.cooldown} s` },
 ];
 export const withPower = (car, id) => POWERS.some(p => p.id === id) ? { ...car, power: id } : car;
 

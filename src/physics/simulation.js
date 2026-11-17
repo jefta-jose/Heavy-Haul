@@ -314,7 +314,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     st.brake += Math.max(-dt * BRAKE.fall, Math.min(dt * BRAKE.rise, pedals.brake - st.brake));
     // parking hold: stopped, no throttle, no pedal -> brakes on so the vehicle doesn't roll back
     let nitroRunning = car.power === 'nitro' && st.powerT > 0;
-    st.hold = want < 0.05 && pedals.brake < 0.05 && Math.abs(fwd) < 0.6 && !v.winched && !nitroRunning;
+    st.hold = want < 0.05 && pedals.brake < 0.05 && Math.abs(fwd) < 0.6 && !v.winched;
     const brake = Math.max(st.brake, st.hold ? 0.7 : 0);
     const grounded = wheels.some(w => load.get(w)?.imp > 0);
     // nitro's instant brake: armed by the boost, it waits through the recharge and after for any tap on the brake, at any
@@ -333,10 +333,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
     const { ratio, dir, omAvg, govOmega, driveOmega, driven, caps } = v.drivetrain.update({ ctl, st, wheels, joints, dt, gripOf: i => gripOf(v, i) });
 
-    // the Nitro power: a push along the truck, past what the engine and gears allow, up to a share of its own top speed
-    const nitro = nitroRunning && !v.winched && !ctl.handbrake && brake <= 0.01;
-    if (nitro && grounded && fwd < dc.governedRpm / dc.gears.H * 2 * Math.PI / 60 * car.rig.radius * NITRO_TOP_SHARE) {
-      const m = [truck, ...wheels].reduce((sum, b) => sum + b.getMass(), 0) * NITRO_ACCEL;
+    // the Nitro power: a push along the truck, past what the engine and gears allow, up to a share of its own top speed.
+    // It only pushes while a drive pedal is held (forward, or back in reverse): let go and the truck slows and stops as usual.
+    const nitro = nitroRunning && want > 0.05 && !v.winched && !ctl.handbrake && brake <= 0.01;
+    const nitroDir = ctl.gear === 'R' ? -1 : 1;
+    if (nitro && grounded && fwd * nitroDir < dc.governedRpm / dc.gears.H * 2 * Math.PI / 60 * car.rig.radius * NITRO_TOP_SHARE) {
+      const m = [truck, ...wheels].reduce((sum, b) => sum + b.getMass(), 0) * NITRO_ACCEL * want * nitroDir;
       truck.applyForceToCenter(V(m * Math.cos(ang), m * Math.sin(ang)), true);
     }
 

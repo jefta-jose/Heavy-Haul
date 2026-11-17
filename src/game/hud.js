@@ -308,16 +308,20 @@ export function createHud({ sim, season }) {
   // the arrow under the breakdown button (or over it, where a layout puts the button low on the screen)
   const switchOv = $('switchOv'), arrow = $('helpArrow');
   let switchFade = 0, stuckArrow = false, arrowOn = false;
-  // the one help arrow points at the next button to press: WINCH during a tow, the way back to your truck after it,
-  // else the breakdown button while the main truck is stuck
+  // the help arrow and its words point at WINCH during a tow. The top-bar buttons (call for help while the main truck is
+  // stuck, the way back to your truck after a tow) glow instead: an arrow under them pushed the chips below down (2026-11-17).
   function arrowTarget() {
     if (towStep === 'hook') return [els.winch, 'Tap WINCH to hook'];
     if (towStep === 'release') return [els.winch, 'Tap WINCH to release'];
-    if (towStep === 'return') return [els.switchBtn.hidden ? els.breakdownCallBtn : els.switchBtn, 'Back to your truck'];
-    if (stuckArrow) return [els.breakdownCallBtn, els.breakdownCallBtn.classList.contains('called') ? 'Your breakdown truck' : 'Call for help'];
     return [null, ''];
   }
+  function showGlow() {
+    const back = arrowOn && towStep === 'return';
+    els.switchBtn.classList.toggle('stuck-help', back && !els.switchBtn.hidden);
+    els.breakdownCallBtn.classList.toggle('stuck-help', stuckArrow || (back && els.switchBtn.hidden));
+  }
   function showArrow() {
+    showGlow();
     const [b, text] = arrowTarget(), r = b?.getBoundingClientRect(), on = !!b && arrowOn && !b.hidden && r.width > 0 && switchOv.hidden;
     arrow.hidden = !on;
     // the power and mission chips sit under the button: they step down out of the arrow's way
@@ -361,7 +365,6 @@ export function createHud({ sim, season }) {
     // the breakdown button asks to be pressed while the main truck is stuck, with an arrow pointing at it
     glowHelp(on) {
       on = !!on && available.breakdown !== false;
-      els.breakdownCallBtn.classList.toggle('stuck-help', on);
       if (on !== stuckArrow) { stuckArrow = on; showArrow(); }
     },
     // while a truck change settles: a full-screen wait over everything, so repeated taps land on nothing

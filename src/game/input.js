@@ -6,6 +6,8 @@
 
 export function createInput(els, actions) {
   const keys = {}, held = { gas: 0, brake: 0 };
+  // with both pedals down, the one pressed last is in charge; the other counts again once the last one is let go
+  let wasGas = false, wasBrake = false, last = null;
 
   function bindHold(el, name) {
     let originY = 0, pointer = null;
@@ -61,7 +63,12 @@ export function createInput(els, actions) {
         padBrake = Math.max(padBrake, pad.buttons[6]?.value ?? 0);
       }
       if (padGas > 0.02 || padBrake > 0.02) actions.onAnyInput();
-      return { gas: Math.max(Number(gas || 0), padGas > 0.02 ? padGas : 0), brake: Math.max(Number(brake || 0), padBrake > 0.02 ? padBrake : 0) };
+      const g = Math.max(Number(gas || 0), padGas > 0.02 ? padGas : 0), b = Math.max(Number(brake || 0), padBrake > 0.02 ? padBrake : 0);
+      if (g > 0 && !wasGas) last = 'gas';
+      if (b > 0 && !wasBrake) last = 'brake';
+      wasGas = g > 0; wasBrake = b > 0;
+      if (g > 0 && b > 0) return last === 'brake' ? { gas: 0, brake: b } : { gas: g, brake: 0 };
+      return { gas: g, brake: b };
     },
   };
 }

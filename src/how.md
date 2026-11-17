@@ -198,7 +198,7 @@ pull). Weight and load are never tuned. Selling a step refunds it.
 
 **What are powers?**
 One per truck, chosen in the garage. Invincible: tap the shield and no hit hurts for 15 s (30 s
-recharge). Nitro: 15 s of speed past top speed (30 s recharge); each boost arms an instant brake, used by the next tap on the brake at any speed.
+recharge). Nitro: for 15 s the drive pedal pushes past top speed; no pedal, no push (30 s recharge); each boost arms an instant brake, used by the next tap on the brake at any speed.
 
 **How do I earn coins?**
 0.5 coins per new metre, 5 per thing crushed, 50 per bog, plus the trail bonus and the load's value at

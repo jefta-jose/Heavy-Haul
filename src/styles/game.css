@@ -3730,16 +3730,21 @@ dl.spec dd {
 }
 
 /* the breakdown button glows amber while the main truck is stuck */
+/* the top-bar button to press next (call for help when stuck, back to your truck after a tow) glows hard: no arrow or words */
 .ibtn.stuck-help {
-  color: #ffe29a;
-  border-color: #f5c518;
-  box-shadow: 0 0 12px rgba(245, 197, 24, .75);
-  animation: stuck-help 1.1s ease-in-out infinite;
+  color: #fff3c4;
+  border-color: #ffd23a;
+  background-color: rgba(245, 197, 24, .28);
+  box-shadow: 0 0 18px 4px rgba(245, 197, 24, .85), 0 0 0 2px rgba(255, 226, 120, .9);
+  animation: stuck-help 1s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes stuck-help {
   50% {
-    box-shadow: 0 0 26px rgba(245, 197, 24, .95), 0 0 0 5px rgba(245, 197, 24, .2);
+    background-color: rgba(245, 197, 24, .5);
+    box-shadow: 0 0 40px 12px rgba(245, 197, 24, 1), 0 0 0 7px rgba(245, 197, 24, .35);
   }
 }
 

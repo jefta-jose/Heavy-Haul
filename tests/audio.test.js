@@ -45,9 +45,16 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
     assert.equal(input.read().gas, 1, 'touch stays at full pedal while held');
     els.gas.handlers.pointerup();
     const buttons = Array.from({ length: 8 }, () => ({ value: 0 }));
-    buttons[7].value = 0.42; buttons[6].value = 0.27;
+    buttons[7].value = 0.42;
     pads = [{ mapping: 'standard', buttons }];
-    assert.deepEqual(input.read(), { gas: 0.42, brake: 0.27 });
+    assert.deepEqual(input.read(), { gas: 0.42, brake: 0 });
+    // both pedals down: the one pressed last is in charge, and letting it go hands back to the other
+    buttons[6].value = 0.27;
+    assert.deepEqual(input.read(), { gas: 0, brake: 0.27 }, 'brake pressed last wins');
+    buttons[7].value = 0; input.read(); buttons[7].value = 0.42;
+    assert.deepEqual(input.read(), { gas: 0.42, brake: 0 }, 'gas pressed again wins');
+    buttons[7].value = 0;
+    assert.deepEqual(input.read(), { gas: 0, brake: 0.27 }, 'let go, the brake counts again');
     pads = [];
     els.gas.handlers.pointerdown({ ...event, pointerType: 'pen', pressure: 0.6 });
     assert.equal(input.read().gas, 0.6);
