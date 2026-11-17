@@ -19,7 +19,6 @@ import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
 import { createWinchGuide } from './game/winch-guide.js';
-import { createControlSettings } from './game/control-settings.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
@@ -68,7 +67,7 @@ const renderer = createRenderer({
     if (e.type === 'splash') audio.splash(e.power);
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
-    else if (e.type === 'damage') { renderer.hitGlow(e.point); hud.showImpact(e); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
+    else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
@@ -80,7 +79,7 @@ const garage = createGarage({
   onStart: selection => driveOff(selection),
   onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
   onSell: () => { haptics.tick(); uiAudio.play('ui-buy'); },
-  onSeason: id => switchSeason(id),
+  onSeason: id => { pendingSeason = id; try { localStorage.setItem('haul.season', id); } catch (e) {} },
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
@@ -92,8 +91,6 @@ let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, uiAudio, onClose: () => { if (session.state === 'pause') showPause(); } });
-const controls = createControlSettings({ onClose: () => { if (session.state === 'pause') showPause(); resize(); } });
-document.getElementById('gMenuControls').addEventListener('click', () => controls.open());
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   if (session.state !== 'play') return;
@@ -107,11 +104,11 @@ const IN_APP = !!window.Capacitor?.isNativePlatform?.();
 if (IN_APP) document.getElementById('fsBtn').hidden = true;
 const showPause = () => {
   const spec = hud.pauseSpec();
-  const buttons = [['Controls', () => { hud.hideMessage(); controls.open(); }], ...(IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]])];
+  const buttons = IN_APP ? [] : [[document.fullscreenElement ? 'Exit fullscreen' : 'Fullscreen', () => { goFullscreen(); session.resume(); }]];
   session.pause(() => { hud.hideMessage(); sound.open(); }, { spec, buttons });
 };
 function pause() {
-  if (sound.isOpen || controls.isOpen) return;
+  if (sound.isOpen) return;
   if (session.state === 'play') showPause();
   else if (session.state === 'pause') session.resume();
 }
@@ -221,7 +218,11 @@ function runLine(car) {
 async function driveOff(sel) {
   if (loading) return; loading = true;
   startAudio();   // inside the tap, or the phone will not play it
+  if (pendingSeason && pendingSeason !== content.season.id) loader.setPlace(content.playableSeasons.find(x => x.season.id === pendingSeason)?.season.name ?? season.name, '');
   loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
+  // a map picked in the garage is swapped in here, behind the loading screen that shows anyway (2026-11-18): picking is instant
+  if (pendingSeason && pendingSeason !== content.season.id) await switchSeason(pendingSeason, { quiet: true });
+  pendingSeason = null;
   prepareRun(sel);
   await until(() => renderer.ready, 15000);
   await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
@@ -245,16 +246,18 @@ function launchProgress() {
   launching = false;
   decoded([selection.car.artUri?.master, content.hud['garage-bay']]).then(() => loader.hide());
 }
-// Another map, picked in the garage: swapped in place behind the turning gears used for switching trucks. No reload,
-// so the garage music never stops; the new terrain, art and ambience are ready before the gears lift.
-let switchingSeason = false;
-async function switchSeason(id) {
+// Another map: swapped in place, no reload, so the music never stops. From the garage it happens behind the drive loading
+// screen (driveOff, `quiet`); called on its own (tests) it shows the turning gears until the new art is ready.
+let switchingSeason = false, pendingSeason = null;
+async function switchSeason(id, { quiet = false } = {}) {
   const next = content.playableSeasons?.find(x => x.season.id === id);
-  if (!next || id === content.season.id || switchingSeason || loading) return;
+  if (!next || id === content.season.id || switchingSeason || (loading && !quiet)) return;
   switchingSeason = true;
   try { localStorage.setItem('haul.season', id); } catch (e) {}
-  hud.busy(true, `Heading to ${next.season.name}`);
-  await new Promise(r => setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(r)), 180));   // the gears are up first
+  if (!quiet) {
+    hud.busy(true, `Heading to ${next.season.name}`);
+    await new Promise(r => setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(r)), 180));   // the gears are up first
+  }
   Object.assign(content, { season: next.season, rockHulls: next.rockHulls, seasonArt: Object.fromEntries(Object.entries(next.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
   sim.setSeason(next.season, next.rockHulls);
   const art = renderer.setSeason();
@@ -264,8 +267,7 @@ async function switchSeason(id) {
   missions.endRun();   // fresh offers sized to this trail
   garage.seasonChanged();
   await Promise.race([art, new Promise(r => setTimeout(r, 15000))]);
-  await framesDrawn(2);
-  hud.busy(false);
+  if (!quiet) { await framesDrawn(2); hud.busy(false); }
   switchingSeason = false;
 }
 

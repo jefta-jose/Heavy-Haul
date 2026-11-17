@@ -39,7 +39,6 @@ export function createInput(els, actions) {
   els.powerBtn.addEventListener('contextmenu', e => e.preventDefault());
 
   window.addEventListener('keydown', e => {
-    if (e.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
     keys[e.code] = true;
     if (e.code === 'KeyS' && !e.repeat) actions.usePower();
     if (e.code === 'KeyQ' && !e.repeat) actions.toggle('awd');

@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_MAX_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -107,15 +107,14 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     if (v.car.power === 'invincible' && v.st.powerT > 0) return;   // the Invincible power: no damage, and no throw
     const truck = v.parts.truck, vel = truck.getLinearVelocity(), kmh = Math.hypot(vel.x, vel.y) * 3.6;
     if (kmh < DAMAGE_START_KMH) return;
-    const severity = (kmh - DAMAGE_START_KMH) / 10, amount = Math.min(DAMAGE_MAX_PER_HIT, severity * severity * DAMAGE_PER_HIT);
-    const wheel = v.parts.wheels.includes(body), local = truck.getLocalPoint(body.getPosition());
-    addDamage(v, amount, wheel ? (local.x > 0 ? 'Front tyre' : 'Rear tyre') : 'Chassis', { x: local.x, y: local.y });
+    const severity = (kmh - DAMAGE_START_KMH) / 10, amount = severity * severity * DAMAGE_PER_HIT;
+    addDamage(v, amount);
     v.hitT = DAMAGE_HIT_COOLDOWN_S;
     if (v.car.physics.size[0] <= TIP_MAX_LENGTH_M) truck.applyAngularImpulse(truck.getInertia() * TIP_KICK * severity * Math.sign(vel.x || 1), true);
   }
-  function addDamage(v, amount, location, point) {
+  function addDamage(v, amount) {
     v.st.damage = Math.min(100, v.st.damage + amount);
-    events.push({ type: 'damage', amount, damage: v.st.damage, location, point });
+    events.push({ type: 'damage', amount, damage: v.st.damage });
   }
 
   // Every power runs, then recharges, then waits to be used again

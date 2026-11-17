@@ -71,7 +71,6 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await tap('#gMenuTune');
     await tap('.tbuy:not([aria-disabled]):not(:disabled) >> nth=0', 'ui-buy');
     await tap('#tuneDone', 'ui-confirm');
-    await page.locator('#gBack').tap();   // Sound sits on the Cars screen
     await tap('#garageSoundBtn');
     assert(await page.locator('#vol-effects').isVisible(), 'effects volume is adjustable');
     fs.mkdirSync(CAPTURES, { recursive: true });
@@ -88,7 +87,6 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await page.keyboard.press('Enter');
     await expectCue(beforeKeyboard, 'ui-confirm');
     // Pointer-only HUD controls must not double-play if the browser follows with click.
-    await page.locator('.gtile.on').tap();   // back to the car view, where Drive is
     await tap('#startBtn', 'ui-confirm');
     await page.waitForFunction(() => document.querySelector('#loader.done'));
     await tap('#loader', 'ui-confirm');
@@ -185,9 +183,8 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     // picking another class drops the old engine for the new one
     const scoutMB = (await status()).decodedMB, otherEngine = page.waitForResponse(/engine-heavy-duty/);
     await page.evaluate(() => { __haul.garage.show(); });
-    if (await page.locator('#gBack').isVisible()) await page.click('#gBack');   // the car panel, if open, closes onto the Cars screen
+    await page.click('#hcVehicle');
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
-    await page.locator('.gtile:not(.locked)').first().click();
     await otherEngine;
     await page.waitForFunction(mb => __haul.audio.status().decodedMB !== mb, scoutMB);
     assert.equal((await status()).error, null);
@@ -196,19 +193,18 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.reload({ waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.__haul?.renderer.ready);
     assert(!await page.locator('#startFs').isVisible(), 'no fullscreen button in the garage');
-    await page.locator('.gtile.on').click();   // the chosen car's panel, with Drive
     await page.click('#startBtn');
     await page.waitForFunction(() => __haul.session.state === 'play');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
-    // Digital speed and fuel stay readable between the pedals, with the depot
-    // distance above; PARK and ENGINE remain in the pause menu.
+    // the lean phone HUD (2026-11-06): no status panel, trail map, PARK or ENGINE; the depot distance and
+    // three dials (revs, speed, fuel) between the pedals, and no pedal labels
     const hud = await page.evaluate(() => {
       const box = id => document.getElementById(id).getBoundingClientRect(), gone = ['carName', 'fuelFill', 'track', 'handbrakeBtn', 'engineBtn'];
-      return { gone: gone.every(id => !document.getElementById(id)), dist: /to depot/.test(document.getElementById('depotSign').textContent) && !document.getElementById('mapcard'), readable: document.getElementById('speedTxt').getBoundingClientRect().height >= 25 && /%/.test(document.getElementById('fuelTxt').textContent), pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
+      return { gone: gone.every(id => !document.getElementById(id)), dist: /to depot/.test(document.getElementById('depotSign').textContent) && !document.getElementById('mapcard'), wide: box('gauges').width > box('gauges').height * 2.2, pedalText: box('gas') && document.getElementById('gas').textContent + document.getElementById('brake').textContent };
     });
     assert(hud.gone, 'the status panel, trail map, PARK and ENGINE are gone');
     assert(hud.dist, 'the distance to the depot shows');
-    assert(hud.readable, 'digital speed and fuel are readable between the pedals');
+    assert(hud.wide, 'three dials fit between the pedals');
     assert.equal(hud.pedalText, '', 'the pedals carry no text');
     await page.click('#pauseBtn');
     assert.equal(await page.getByRole('button', { name: /fullscreen/i }).filter({ visible: true }).count(), 0, 'no fullscreen button in the pause menu');
@@ -236,47 +232,34 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.addInitScript(() => { if (!sessionStorage.getItem('haul-seeded')) { sessionStorage.setItem('haul-seeded', '1'); localStorage.setItem('hh_wallet', '999999'); } });
     await page.goto(url, { waitUntil: 'networkidle' }); await ready();
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads offline');
-    assert.match(await page.locator('#gName').innerText(), /\S/, 'garage card is filled from car.json');
-    // seasons on top, then the class tabs, then the chosen class's vehicles, planned ones locked
-    assert.equal(await page.locator('.g-season.on').count(), 1, 'the season being played is selected');
-    assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class');
-    const scoutCounts = await page.evaluate(() => {
-      const cars = __haul.content.roster.cars.filter(c => c.class === 'scout');
-      return { playable: cars.filter(c => c.status === 'playable').length, planned: cars.filter(c => c.status !== 'playable').length };
-    });
-    assert.equal(await page.locator('.gtile:not(.locked)').count(), scoutCounts.playable, 'every playable scout is selectable');
-    assert.equal(await page.locator('.gtile.locked').count(), scoutCounts.planned, 'only unfinished scouts remain locked');
-    await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
-    const heavyDutyCount = await page.evaluate(() => __haul.content.roster.cars.filter(c => c.class === 'heavy-duty' && c.status === 'playable').length);
-    assert.equal(await page.locator('.gtile:not(.locked)').count(), heavyDutyCount, 'class availability follows the current roster');
+    assert.match(await page.locator('#hcTitle').innerText(), /\S/, 'garage card is filled from car.json');
+    // the Hill Climb Racing style garage (2026-11-18): one bar, SEASONS and VEHICLE open their page on the stage
+    assert.equal(await page.locator('.hc-bar .hc-btn').count(), 5, 'seasons, vehicle, missions, upgrade and play');
+    await page.click('#hcSeasons');
+    assert.equal(await page.locator('#hcTitle').innerText(), (await page.evaluate(() => __haul.content.season.name)).toUpperCase(), 'the seasons page opens on the map being played');
+    await page.click('#hcSeasons');
+    assert.equal(await page.locator('#garage').getAttribute('data-page'), 'home', 'its own button closes it');
+    assert(!await page.locator('.g-class').first().isVisible(), 'the class tabs only show on the vehicle page');
+    await page.click('#hcVehicle');
+    assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
-    // the garage opens on the Cars screen; a tile opens that car's panel over it, and × closes it
-    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'cars', 'the garage opens on the Cars screen');
-    assert(!await page.locator('#startBtn').isVisible(), 'Drive waits for a car to be chosen');
-    const named = await page.locator('#gName').innerText();
-    await page.locator('.gtile:not(.locked):not(.on)').first().click();
-    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'car', 'a tile opens the car panel');
-    assert(await page.locator('#garageList').isVisible(), 'the cars stay in view behind the panel');
-    assert.notEqual(await page.locator('#gName').innerText(), named, 'a tile changes the truck');
-    assert(await page.locator('#startBtn').isVisible() && await page.locator('#gMenuTune').isVisible(), 'the panel has Drive and the upgrades');
-    assert.equal(await page.locator('#gPrev, #gNext, #gRowPrev, #gRowNext').count(), 0, 'no arrows beside the truck');
-    await page.click('#gMenuTune'); assert(await page.locator('#tuneOv').isVisible());
-    await page.keyboard.press('Escape');
-    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'car', 'Escape on a card leaves the panel open');
-    if (await page.locator('#tuneOv').isVisible()) await page.click('#tuneDone');
-    await page.click('#gBack');
-    assert.equal(await page.locator('.gtile.on').count(), 1, 'the Cars screen marks the chosen truck');
-    await page.fill('#gSearch', 'earthquake');
-    assert.equal(await page.locator('.gtile').count(), 1, 'search finds a truck in another class');
-    await page.fill('#gSearch', '');
-    await page.locator('.gtile:not(.locked)').first().click();
+    const named = await page.locator('#hcTitle').innerText();
+    await page.keyboard.press('ArrowRight');
+    assert.notEqual(await page.locator('#hcTitle').innerText(), named, 'swiping on changes the truck');
+    await page.keyboard.press('ArrowLeft');
+    assert.equal(await page.locator('#hcTitle').innerText(), named, 'and back brings it back');
+    await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy-duty', 'a tab picks an owned truck of its class');
+    await page.locator('.g-class', { hasText: 'Scouts' }).click();
+    await page.click('#hcVehicle');
+    assert(!await page.locator('.g-class').first().isVisible(), 'and the tabs go when the page closes');
     await capture('00-garage');
     // tuning sits in the garage's panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
     assert(!await page.locator('.tune').first().isVisible(), 'the upgrades stay out of the way until asked for');
     await page.click('#gMenuTune');
     assert(await page.locator('.tune').first().isVisible(), 'the knobs are on the Upgrades card');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
-    assert.deepEqual(await page.locator('.tune .tname b').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
+    assert.deepEqual(await page.locator('.tune .tname').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
     const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tbuy');
     for (let i = 0; i < 2; i++) await plus(engine).click();
         assert.equal(await engine.locator('.tbar').getAttribute('aria-valuenow'), '50');
@@ -288,9 +271,9 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     }
     await capture('00b-tuning');
     await page.click('#tuneDone');
-    // powers: one at a time, kept until another is chosen, and tapping the one that is on turns it off
+    // powers, on the Upgrade card: one at a time, kept until another is chosen, and tapping the one that is on turns it off
     assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
-    await page.click('#gMenuPowers');
+    await page.click('#gMenuTune');
     await page.locator('.power', { hasText: 'Invincible' }).click();
     await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
@@ -301,7 +284,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await capture('00c-powers');
     await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
-    await page.click('#powersDone');
+    await page.click('#tuneDone');
     assert(await page.evaluate(() => __haul.session.coins < 999999), 'upgrades cost coins');
     await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
@@ -406,7 +389,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
 
     // stuck in a heavy-mud pit: call the scouts' breakdown truck, which starts at the beginning of the
     // trail, drive it out, winch the truck back out of the pit and switch back
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.locator('.gtile.on').click(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.heavyMud[0] - 6); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.waitForTimeout(150); await capture('03-deep-mud');
     const x0 = await page.evaluate(() => __haul.sim.main.parts.truck.getPosition().x);
@@ -507,7 +490,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.evaluate(() => { __haul.garage.select('ridge-pup-2'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.locator('.gtile.on').click(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
     await page.setViewportSize({ width: 844, height: 390 }); await page.waitForTimeout(200);
     const groundY = await page.evaluate(() => { const { H, ppm, cam } = __haul.view; return H / 2 - (__haul.sim.visH(__haul.sim.truck.getPosition().x) - cam.y) * ppm; });
     assert(groundY < (await page.locator('#gas').boundingBox()).y + 4, 'phone pedals leave tire contact visible');
@@ -634,18 +617,18 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     const needs = new RegExp(`rank ${next.unlockRank}\\b`, 'i');
     assert(await page.evaluate(id => __haul.progress.owns(id), starter), 'the weakest scout is owned');
     await page.evaluate(id => __haul.garage.select(id), next.id);
-    assert.match(await page.locator('#startBtn').innerText(), new RegExp(`requires rank ${next.unlockRank}\\b`, 'i'), 'a locked truck says the rank it needs');
+    assert.match(await page.locator('#startBtn').innerText(), needs, 'a locked truck says the rank it needs');
     assert(await page.locator('#startBtn').isDisabled());
-    assert.match(await page.locator('.gtile.on').innerText(), needs, 'and so does its tile');
+    assert.match(await page.locator('.hc-card.main').innerText(), /locked/i, 'and its card says it is locked');
     await page.evaluate(([price, xp]) => { __haul.progress.addXp(xp); __haul.session.earn(price * 2, true); __haul.garage.show(); }, [next.price, RANK_XP[next.unlockRank - 1] + 50]);
     assert.equal((await p()).rank, next.unlockRank, 'XP brings the rank it needs');
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
-    assert.match(await page.locator('.gtile.on').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its tile shows the price');
+    assert.match(await page.locator('.hc-card.main').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its card shows the price');
     const coins = await page.evaluate(() => __haul.session.coins);
     await page.click('#startBtn');
     assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'bought');
     assert.equal(await page.evaluate(() => __haul.session.coins), coins - next.price, 'for its price');
-    assert.match(await page.locator('#startBtn').innerText(), /drive/i, 'and it drives');
+    assert.match(await page.locator('#startBtn').innerText(), /play/i, 'and it drives');
     assert.match(await page.locator('#gRankNum').innerText(), needs, 'the garage shows the rank');
     // A sale-value refresh used to replace the tuning object retained by these buttons.
     // Buy on a non-starter, with no delay between clicks, and check every debit against saved levels.
@@ -693,11 +676,12 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
     await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
     await page.click('#missionsDone');
-    assert.notEqual(await page.locator('#gMissionOn').innerText(), 'None', 'the menu names the chosen mission');
+    assert.notEqual(await page.locator('.hc-card.right').innerText(), 'NONE CHOSEN', 'the mission card names the chosen mission');
     await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
     // selling the truck just bought, with an upgrade on it, gives back the price and the upgrade
     await page.evaluate(id => __haul.garage.tune(id, 'engine', 25), next.id);
     const beforeSell = await page.evaluate(() => __haul.session.coins);
+    await page.click('#hcVehicle');   // SELL sits on the vehicle page, under the truck's numbers
     await page.click('#gMenuSell');
     await page.screenshot({ path: path.join(CAPTURES, '00g-sell.png') });
     const refund = await page.evaluate(() => Number(document.querySelector('#sellConfirm').textContent.replace(/\D/g, '')));
@@ -708,126 +692,4 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'it can be bought again');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
-});
-
-test('expedition HUD, the Cars screen and saved controls work on phones', { timeout: 120000 }, async () => {
-  await buildApp();
-  const types = { '.html': 'text/html', '.webp': 'image/webp', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
-  const server = http.createServer((req, res) => {
-    const pathname = new URL(req.url, 'http://x').pathname;
-    const file = path.join(ROOT, 'www', pathname === '/' ? 'index.html' : pathname);
-    fs.readFile(file, (error, bytes) => {
-      res.writeHead(error ? 404 : 200, { 'Content-Type': types[path.extname(file)] ?? 'application/octet-stream' });
-      res.end(error ? '' : bytes);
-    });
-  });
-  await new Promise(r => server.listen(0, '127.0.0.1', r));
-  const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
-  try {
-    const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true });
-    const errors = []; page.on('pageerror', error => errors.push(error.message));
-    await ownAll(page);
-    await page.addInitScript(() => {
-      localStorage.setItem('hh_wallet', '10000000');
-      localStorage.setItem('hh_tuning_levels', JSON.stringify({ 'earthquake-20': { engine: 100, suspension: 100, speed: 100, grip: 100 } }));
-    });
-    await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, body: '' }));
-    const url = `http://127.0.0.1:${server.address().port}/`;
-    await page.goto(url); await page.waitForFunction(() => window.__haul);
-    await page.evaluate(() => __haul.loader.hide(0)); await page.waitForFunction(() => document.getElementById('loader').hidden);
-    await page.evaluate(() => {
-      const mission = __haul.missions.offers[0];
-      mission.title = 'An exceptionally long freight delivery contract'; mission.class = 'heavy';
-      __haul.missions.choose(mission.id); __haul.garage.show(); __haul.garage.select(__haul.garage.selection.car.id);   // the car view, where the menu is
-    });
-    for (const [width, height] of [[1440, 900], [1024, 768], [844, 390], [667, 375], [568, 320], [390, 844], [320, 568]]) {
-      await page.setViewportSize({ width, height });
-      await page.evaluate(() => document.fonts.ready);
-      const menu = await page.evaluate(() => {
-        const box = document.querySelector('.g-menu'), style = getComputedStyle(box);
-        return { scrollX: box.scrollWidth - box.clientWidth, scrollY: box.scrollHeight - box.clientHeight, overflowX: style.overflowX, overflowY: style.overflowY,
-          items: [...box.querySelectorAll('.g-item')].map(b => ({ id: b.id, x: b.scrollWidth - b.clientWidth, y: b.scrollHeight - b.clientHeight, bottom: b.getBoundingClientRect().bottom, textBottom: b.querySelector('span').getBoundingClientRect().bottom })) };
-      });
-      assert(menu.scrollX <= 1 && menu.scrollY <= 1, `${width}×${height}: menu contents fit`);
-      assert(!['auto', 'scroll'].includes(menu.overflowX) && !['auto', 'scroll'].includes(menu.overflowY), 'garage actions do not scroll');
-      for (const item of menu.items) assert(item.x <= 1 && item.y <= 1 && item.textBottom <= item.bottom, `${width}×${height}: ${item.id} text fits its button`);
-    }
-    await page.setViewportSize({ width: 844, height: 390 });
-    await page.evaluate(() => { __haul.missions.choose(__haul.missions.active.id); __haul.garage.show(); });
-    await page.locator('#gBack').click();
-    await page.locator('#gSearch').fill('earthquake');
-    assert.equal(await page.locator('.gtile').count(), 1);
-    await page.locator('.gtile').click();
-    await page.locator('#gFav').click(); assert.equal(await page.locator('#gFav').getAttribute('aria-pressed'), 'true', 'starred');
-    await page.locator('#gBack').click();
-    await page.locator('#gSearch').fill('');
-    await page.locator('#gFilter [data-f="fav"]').click(); assert.equal(await page.locator('.gtile').count(), 1, 'the star filter shows favourites');
-    await page.locator('#gSearch').fill('no such truck'); assert.equal(await page.locator('.gtile').count(), 0);
-    await page.locator('#gSearch').fill(''); await page.locator('#gFilter [data-f="all"]').click();
-    await page.locator('#gSearch').fill('earthquake');
-    await page.locator('.gtile').click();
-    assert.match(await page.locator('#gBadge').innerText(), /MAX UPGRADED/);
-    await page.locator('#gMenuTune').click(); assert.equal(await page.locator('.tpreview').count(), 4);
-    assert.match(await page.locator('.tpreview').first().innerText(), /kW/); await page.locator('#tuneDone').click();
-    await page.locator('#gBack').click();
-    await page.locator('#gMenuControls').click();
-    await page.locator('#controlsDone').focus(); await page.keyboard.press('Tab');
-    assert.equal(await page.evaluate(() => document.activeElement.id), 'controlSize', 'focus stays inside controls');
-    await page.keyboard.press('Escape'); assert(await page.locator('#controlsOv').isHidden());
-    await page.locator('#gMenuControls').click();
-    await page.locator('#controlLayout').selectOption('left'); await page.locator('#controlSize').selectOption('large');
-    await page.locator('#controlsDone').click();
-    await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.loader.hide(0); });
-    await page.waitForFunction(() => __haul.renderer.ready && !__haul.loader.visible);
-    const gas = await page.locator('#gas').boundingBox(), brake = await page.locator('#brake').boundingBox();
-    assert(gas.x < brake.x, 'left-handed pedals are reversed'); assert(gas.width >= 92);
-    assert(await page.locator('#speedTxt').isVisible()); assert(await page.locator('#hudNotices').isVisible());
-    await page.locator('#awdBtn').tap(); assert.equal(await page.locator('#awdBtn').getAttribute('aria-pressed'), 'true');
-    await page.evaluate(() => { __haul.sim.main.st.damage = 25; });
-    await page.waitForFunction(() => document.getElementById('damageTxt').textContent === '25%');
-    // A station alert takes the shared message slot from driving advice.
-    await page.waitForTimeout(3200);
-    await page.evaluate(() => {
-      const x = __haul.sim.trail.stations[0].x - 35;
-      __haul.sim.respawn(x); __haul.sim.main.st.damage = 65; __haul.sim.main.st.fuel = 50; __haul.session.run.announced = null; __haul.snap();
-    });
-    await page.waitForFunction(() => /Fuel station ahead/.test(document.getElementById('toast').textContent) && !document.getElementById('toast').hidden);
-    assert(await page.locator('#driveCoach').isHidden()); assert(await page.locator('#routePreview').isHidden());
-    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'only the station alert is shown');
-    await page.evaluate(() => __haul.sim.events.push({ type: 'damage', amount: 2, location: 'Front tyre', point: { x: 1, y: 0 } }));
-    await page.waitForFunction(() => !document.getElementById('impactNote').hidden);
-    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'impact feedback occupies the same slot');
-    await page.waitForFunction(() => !document.getElementById('toast').hidden);
-    assert.match(await page.locator('#toast').innerText(), /Fuel station ahead/, 'station alert resumes after the impact');
-    await page.waitForFunction(() => !document.getElementById('driveCoach').hidden, null, { timeout: 10000 });
-    assert.equal(await page.locator('#hudNotices > :visible').count(), 1, 'coaching resumes after the alert');
-    await page.locator('#pauseBtn').click(); await page.getByRole('button', { name: 'Controls', exact: true }).click();
-    await page.locator('#controlDash').selectOption('analog'); await page.locator('#controlsDone').click();
-    await page.getByRole('button', { name: 'Resume', exact: true }).click(); assert(await page.locator('#gauges').isVisible());
-    for (const [width, height] of [[844, 390], [667, 375], [390, 844], [320, 568]]) {
-      await page.setViewportSize({ width, height });
-      await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
-      const bounds = await page.evaluate(() => {
-        const rect = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { x: r.x, right: r.right, y: r.y, bottom: r.bottom, height: r.height }; };
-        return { dash: rect('.digital-dash'), gas: rect('#gas'), brake: rect('#brake'), route: rect('#routePreview') };
-      });
-      assert(bounds.gas.right <= bounds.dash.x + 1, `${width}: left gas clears instruments`);
-      assert(bounds.dash.right <= bounds.brake.x + 1, `${width}: instruments clear right brake`);
-      assert(bounds.route.height < 90 && bounds.route.bottom <= height, `${width}: route preview stays compact`);
-      const collision = await page.evaluate(() => {
-        const a = document.getElementById('hudNotices').getBoundingClientRect();
-        return [...document.querySelectorAll('#hud .stack, #hud .trip, #hud .right, #hud .sidechips')].some(el => {
-          const b = el.getBoundingClientRect(); return b.width > 0 && b.height > 0 && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-        });
-      });
-      assert(!collision, `${width}: driving messages clear existing HUD plates`);
-    }
-    await page.reload(); await page.waitForFunction(() => window.__haul);
-    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlLayout), 'left');
-    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlSize), 'large');
-    assert.equal(await page.evaluate(() => document.documentElement.dataset.controlDash), 'analog');
-    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_favourites'))), ['earthquake-20']);
-    assert.equal(await page.locator('#gJob, #gContract').count(), 0, 'garage descriptions do not float over the bay');
-    assert.deepEqual(errors, []);
-  } finally { await browser.close(); await new Promise(r => server.close(r)); }
 });

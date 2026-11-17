@@ -26,7 +26,7 @@
   <div class="hud" id="hud">
     <div class="top">
       <div class="stack">
-        <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>Damage <span id="damageTxt">0%</span></b><div class="fuelbar"><i id="damageFill"></i></div></div>
+        <div class="dmgrow meterrow" title="Damage: at 100% the engine dies"><!--icon:damage--><b>Damage</b><div class="fuelbar"><i id="damageFill"></i></div></div>
         <span class="chip" id="surfChip" data-surf="dirt"><small>Surface</small><b id="surfTxt">Dirt</b></span>
       </div>
       <div class="trip" aria-label="Distance to the depot">
@@ -49,16 +49,7 @@
       <div class="mission" id="missionChip" hidden><span></span></div>
       <div class="trap" id="trap" hidden><span><i>High speed:</i> <b id="trapNum">0</b> km/h</span></div>
     </div>
-    <div class="hud-notices" id="hudNotices" aria-label="Driving guidance" hidden>
-    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-    <div class="route-preview" id="routePreview" aria-label="Trail preview">
-      <div class="route-line"><i id="routeFill"></i></div>
-      <div class="route-next"><b id="routeNext">Trail start</b><span id="routeDistance"></span></div>
-      <small id="routeAdvice"></small>
-    </div>
-    <div class="drive-coach" id="driveCoach" role="status" aria-live="polite" hidden></div>
-    <div class="impact-note" id="impactNote" role="status" hidden></div>
-    </div>
+    <div class="toast" id="toast"></div>
     <div class="bottom">
       <div class="side">
         <div class="pedal" id="brake" role="button" aria-label="Brake"></div>
@@ -68,14 +59,6 @@
       <div class="dash">
         <button class="btn primary action" id="actionBtn" hidden></button>
         <canvas id="gauges" aria-hidden="true"></canvas>
-        <div class="digital-dash" aria-label="Vehicle instruments">
-          <div class="digital-speed"><b id="speedTxt">0</b><small>km/h</small></div>
-          <div class="digital-vitals">
-            <div class="vital vital-fuel"><small>Fuel</small><b id="fuelTxt">100%</b><i class="vital-track" aria-hidden="true"><i id="fuelMiniFill"></i></i></div>
-            <div class="vital vital-gear"><small>Gear</small><b id="gearTxt" data-gear="L">L</b></div>
-            <div class="vital vital-rpm"><small>RPM</small><b id="rpmTxt">0</b><i class="vital-track" aria-hidden="true"><i id="rpmMiniFill"></i></i></div>
-          </div>
-        </div>
       </div>
       <div class="side">
         <button class="winch" id="winch" aria-label="Winch: hook or unhook" aria-pressed="false"><!--icon:winch-->WINCH</button>
@@ -100,65 +83,43 @@
   <!-- points at the breakdown button while the main truck is stuck -->
   <div class="help-arrow" id="helpArrow" aria-hidden="true" hidden><i></i><span id="helpArrowTxt">Breakdown truck</span></div>
 
-  <div class="overlay garage" id="garage" data-view="cars">
+  <div class="overlay garage hc" id="garage" data-page="home">
     <!-- icons the build found (assets/hud/icons/class-*.svg, garage-*.svg), copied in by garage.js -->
     <template id="classIcons"><!--icons:class--></template>
     <template id="garageIcons"><!--icons:garage--></template>
-    <div class="g-stencil" aria-hidden="true"><b id="gStencil"></b><span>Heavy Haul</span></div>
-    <div class="g-dust" id="gDust" aria-hidden="true"></div>
-    <div class="g-scrim"></div>
-    <header class="g-top">
-      <div class="g-band">
-        <div class="g-logo"><b>Heavy Haul</b><span>Trucks</span></div>
-        <nav class="g-seasons" id="gSeasons" aria-label="Season"></nav>
+    <header class="hc-top">
+      <div class="g-logo"><b>Heavy Haul</b><span>Trucks</span></div>
+      <div class="hc-right">
+        <button class="hc-icon" id="garageSoundBtn" aria-label="Sound"><!--icon:garage-sound--></button>
         <div class="g-rank" id="gRank" title="Your rank: each one opens a truck in every class"><b id="gRankNum">Rank 1</b><span class="g-rankbar"><i id="gRankFill"></i></span><small id="gRankXp"></small></div>
         <div class="g-coins" id="gCoinsBox" title="Your coins"><i class="coinic"></i><b id="gCoins"></b></div>
       </div>
     </header>
-    <!-- the Cars screen (the garage's home, 2026-11-17): class tabs, search and filters, the other controls, and every car as a tile -->
-    <section class="g-carsview" id="gCarsView" aria-label="Cars">
-      <div class="g-toolbar">
-        <nav class="g-classes" id="gClasses" aria-label="Vehicle class"></nav>
-        <input id="gSearch" type="search" placeholder="Search all cars" aria-label="Search all cars" autocomplete="off">
-        <div class="g-pickfilter" id="gFilter" role="group" aria-label="Show">
-          <button data-f="all" aria-pressed="true">All</button><button data-f="owned" aria-pressed="false">Owned</button><button data-f="fav" aria-pressed="false" aria-label="Favourites">★</button>
-        </div>
-        <div class="g-tools">
-          <button class="g-tool" id="garageSoundBtn"><!--icon:garage-sound--><span>Sound</span></button>
-          <button class="g-tool" id="gMenuControls"><!--icon:garage-gear--><span>Controls</span></button>
-        </div>
-      </div>
-      <div class="g-gridhead"><h2 id="gClassName"></h2><small id="gPickCount"></small></div>
-      <div class="g-cars" id="garageList"></div>
+    <!-- the stage: a title over three cards (the middle one large); swipe or tap a side card to move -->
+    <section class="hc-stage" id="hcStage">
+      <!-- the class tabs: shown at the top while the Vehicle page is open, gone when another button is pressed -->
+      <div class="g-classes" id="gClasses" aria-label="Vehicle class"></div>
+      <h2 class="hc-title" id="hcTitle"></h2>
+      <div class="hc-cards" id="hcCards"></div>
+      <div class="hc-under"><dl class="g-spec hc-spec" id="gSpec"></dl><button class="hc-sell" id="gMenuSell" hidden>Sell <small id="gSellFor"></small></button></div>
     </section>
-    <!-- the car panel (2026-11-17): opens over the Cars screen when a car is tapped, so the cars stay in view behind it; Upgrades,
-         Missions, Powers and Sell open their cards on top of it -->
-    <div class="g-carhud" id="gCarHud">
-      <div class="g-hudcard" role="dialog" aria-modal="true" aria-labelledby="gName">
-        <button class="g-back" id="gBack" aria-label="Close">×</button>
-        <div class="g-show" id="gShow"><img class="g-car" id="garageArt" alt=""></div>
-        <div class="g-hudside">
-          <div class="g-name"><h3 id="gName"></h3><div class="g-badge" id="gBadge"></div></div>
-          <dl class="g-spec" id="gSpec"></dl>
-          <nav class="g-menu" aria-label="This car">
-            <button class="g-item" id="gMenuTune"><!--icon:garage-gear--><span>Upgrades</span></button>
-            <button class="g-item" id="gMenuMissions"><!--icon:garage-mission--><span>Missions<small id="gMissionOn"></small></span></button>
-            <button class="g-item" id="gMenuPowers"><!--icon:garage-power--><span>Powers<small id="gPowerOn"></small></span></button>
-            <button class="g-item" id="gMenuSell"><!--icon:garage-sell--><span>Sell<small id="gSellFor"></small></span></button>
-            <button class="g-item fav" id="gFav" aria-pressed="false"><b class="star" aria-hidden="true">☆</b><span>Favourite</span></button>
-          </nav>
-          <div class="g-hudfoot"><button class="g-levels" id="gLevels" aria-label="Upgrades"></button><button class="g-drive" id="startBtn"><span>Drive</span></button></div>
-        </div>
-      </div>
-    </div>
+    <!-- the bar: home's five buttons, or a page's back, tabs and action -->
+    <nav class="hc-bar" aria-label="Garage">
+      <button class="hc-btn" id="hcSeasons"><!--icon:garage-gear--><span>Seasons</span></button>
+      <button class="hc-btn" id="hcVehicle"><!--icon:garage-engine--><span>Vehicle</span></button>
+      <button class="hc-btn" id="gMenuMissions"><!--icon:garage-mission--><span>Missions</span></button>
+      <button class="hc-btn" id="gMenuTune"><!--icon:garage-speed--><span>Upgrade</span></button>
+      <button class="hc-btn go" id="startBtn"><span>Play</span></button>
+    </nav>
     <div class="overlay" id="tuneOv" hidden>
-      <div class="card slim">
+      <div class="card hc-tunecard">
         <div class="cbody">
           <div class="tunehead">
-            <div><div class="eyebrow" id="tuneFor"></div><h3>Upgrades</h3></div>
+            <div><div class="eyebrow" id="tuneFor"></div><h3>Upgrade</h3></div>
             <div class="g-coins"><i class="coinic"></i><b id="tuneCoins"></b></div>
           </div>
           <div class="tunes" id="tuneList"></div>
+          <div class="hc-powers"><div class="eyebrow">Power for this truck · one at a time</div><div class="powerlist" id="powerList"></div></div>
           <div class="btns"><button class="btn" id="tuneReset" hidden>Reset to stock</button><button class="btn primary" id="tuneDone">Done</button></div>
         </div>
       </div>
@@ -180,16 +141,6 @@
           <div class="powerlist" id="missionList"></div>
           <p class="powernote">A mission stays chosen until you finish it; the others change after every run. Failing one costs nothing.</p>
           <div class="btns"><button class="btn primary" id="missionsDone">Done</button></div>
-        </div>
-      </div>
-    </div>
-    <div class="overlay" id="powersOv" hidden>
-      <div class="card slim">
-        <div class="cbody">
-          <div class="tunehead"><div><div class="eyebrow" id="powersFor"></div><h3>Powers</h3></div></div>
-          <div class="powerlist" id="powerList"></div>
-          <p class="powernote">One at a time for this truck, until you change it.</p>
-          <div class="btns"><button class="btn primary" id="powersDone">Done</button></div>
         </div>
       </div>
     </div>
@@ -219,18 +170,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="overlay" id="controlsOv" hidden>
-  <div class="card slim" role="dialog" aria-modal="true" aria-labelledby="controlsTitle"><div class="cbody">
-    <div class="eyebrow">Make it yours</div><h3 id="controlsTitle">Driving controls</h3>
-    <label class="control-option">Pedal size<select id="controlSize"><option value="standard">Standard</option><option value="large">Large</option></select></label>
-    <label class="control-option">Pedal layout<select id="controlLayout"><option value="standard">Brake left · gas right</option><option value="left">Gas left · brake right</option></select></label>
-    <label class="control-option">Instruments<select id="controlDash"><option value="digital">Digital</option><option value="analog">Analog + digital</option></select></label>
-    <label class="control-option">Driving hints<select id="controlCoach"><option value="on">On</option><option value="off">Off</option></select></label>
-    <p class="powernote">Keyboard: arrows drive · Q AWD · E DIFF · V switch truck · C zoom · Space winch. Controller triggers operate the pedals.</p>
-    <div class="btns"><button class="btn primary" id="controlsDone">Done</button></div>
-  </div></div>
 </div>
 
 <script>/*JS*/</script>

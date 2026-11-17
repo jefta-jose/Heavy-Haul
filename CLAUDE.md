@@ -166,7 +166,16 @@ so the drawn tires reach that size.
 
 ## Garage and loading screens
 
-Heavy, dark and SnowRunner-inspired, on the user's direction (2026-11-04): an arcade look with rays, gloss and bouncing was built and rejected as wrong for the name Heavy Haul. Keep motion slow, and keep the empty space filled: seasons, classes and cars across the top, specs and Drive on the bar along the floor. See `docs/game-design.md`.
+**Hill Climb Racing style (user decision, 2026-11-18):** Codex's fleet, comparison, driving-coach, route-preview and
+control-settings additions were removed (bad on phones), and the garage was rebuilt as one dark stage with a title over three cards
+(the middle one large) and one bar of five buttons that never changes: SEASONS, VEHICLE, MISSIONS, UPGRADE and PLAY. Home shows the
+season, the last truck picked (kept in `haul.car`) and the mission. SEASONS and VEHICLE open their page on the stage and any other
+button closes it; the Vehicle page shows the class tabs at the top. Swiping (or tapping a side card, or the arrow keys) moves
+through the cards, and the middle one is picked at once; on the Vehicle page PLAY becomes BUY for an open truck not owned. UPGRADE
+opens a card of four tiles (one per knob) with the powers below. Picking a map is instant: the world is swapped behind the drive
+loading screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop
+of its panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Keep it dark and heavy, motion slow. See
+`src/game/garage.js`.
 
 ## Rosters
 
