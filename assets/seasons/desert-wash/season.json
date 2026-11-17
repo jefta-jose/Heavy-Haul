@@ -714,14 +714,14 @@
         "x": 226,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pole-500",
         "kind": "pole",
         "x": 500,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -730,14 +730,14 @@
         "x": 1018,
         "count": 5,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pole-1365",
         "kind": "pole",
         "x": 1365,
         "count": 5,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -745,7 +745,7 @@
         "kind": "pole",
         "x": 1530,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -754,7 +754,7 @@
         "x": 2190,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pipe-2290",
@@ -762,14 +762,14 @@
         "x": 2290,
         "count": 6,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pole-2590",
         "kind": "pole",
         "x": 2590,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -778,7 +778,7 @@
         "x": 3150,
         "count": 6,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pipe-3530",
@@ -786,7 +786,7 @@
         "x": 3530,
         "count": 5,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pipe-3640",
@@ -794,7 +794,7 @@
         "x": 3640,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "pipe-3740",
@@ -802,7 +802,7 @@
         "x": 3740,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       }
     ],
     "obstacleKinds": {
@@ -2232,7 +2232,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 505
+        "x": 588.8
       },
       {
         "art": "rustedPickup",
@@ -2252,12 +2252,12 @@
       },
       {
         "art": "fenceSection",
-        "x": 1590,
+        "x": 1590.3,
         "count": 3
       },
       {
         "art": "stiltShack",
-        "x": 2117
+        "x": 2045.5
       },
       {
         "art": "warningSign",
@@ -2282,7 +2282,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 3571.5
+        "x": 3505.5
       },
       {
         "art": "fenceSection",
@@ -2446,16 +2446,16 @@
       "file": "art/backdrop.webp"
     },
     "ground": {
-      "file": "art/ground.webp"
+      "file": "../autumn-forest/art/ground.webp"
     },
     "roadEdge": {
-      "file": "art/road-edge.webp"
+      "file": "../autumn-forest/art/road-edge.webp"
     },
     "roadFar": {
       "file": "art/road-far.webp"
     },
     "roadSoil": {
-      "file": "art/road-soil.webp"
+      "file": "../autumn-forest/art/road-soil.webp"
     },
     "reeds": {
       "file": "art/reeds.webp"
@@ -2519,20 +2519,44 @@
     },
     "stiltShack": {
       "file": "art/cabin.webp",
-      "heightM": 4
+      "heightM": 6,
+      "crop": [
+        0,
+        0,
+        1449,
+        798
+      ]
     },
     "rustedPickup": {
       "file": "art/rusted-pickup.webp",
-      "heightM": 2.3,
-      "lean": true
+      "heightM": 1.95,
+      "lean": true,
+      "crop": [
+        0,
+        0,
+        2126,
+        646
+      ]
     },
     "waterTower": {
       "file": "art/water-tower.webp",
-      "heightM": 7
+      "heightM": 7.5,
+      "crop": [
+        0,
+        0,
+        771,
+        1451
+      ]
     },
     "warningSign": {
       "file": "art/warning-sign.webp",
-      "heightM": 3.6
+      "heightM": 3.6,
+      "crop": [
+        0,
+        0,
+        799,
+        1467
+      ]
     },
     "highwaySign": {
       "file": "art/highway-sign.webp"

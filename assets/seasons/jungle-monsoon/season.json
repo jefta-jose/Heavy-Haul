@@ -2269,15 +2269,15 @@
         "x": 140
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 158
       },
       {
         "art": "stiltShack",
-        "x": 243
+        "x": 241
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 358
       },
       {
@@ -2290,11 +2290,11 @@
         "x": 1020
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 1053
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 1086
       },
       {
@@ -2302,12 +2302,12 @@
         "x": 1150
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 1278
       },
       {
         "art": "rustedPickup",
-        "x": 1380
+        "x": 1392.9
       },
       {
         "art": "fenceSection",
@@ -2316,10 +2316,10 @@
       },
       {
         "art": "stiltShack",
-        "x": 1996
+        "x": 1998
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 2120
       },
       {
@@ -2328,7 +2328,7 @@
         "count": 2
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 2320
       },
       {
@@ -2337,37 +2337,37 @@
       },
       {
         "art": "fenceSection",
-        "x": 2916,
+        "x": 2917.7,
         "count": 3
       },
       {
         "art": "rustedPickup",
-        "x": 2951
+        "x": 2959.5
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 3015
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 3048
       },
       {
         "art": "waterTower",
-        "x": 3200
+        "x": 3200.9
       },
       {
-        "art": "gatorSign",
+        "art": "warningSign",
         "x": 3240
       },
       {
         "art": "fenceSection",
-        "x": 3875,
+        "x": 3954.7,
         "count": 3
       },
       {
         "art": "stiltShack",
-        "x": 3937
+        "x": 4017.2
       },
       {
         "art": "rustedPickup",
@@ -2526,16 +2526,16 @@
       "file": "art/backdrop.webp"
     },
     "ground": {
-      "file": "art/ground.webp"
+      "file": "../autumn-forest/art/ground.webp"
     },
     "roadEdge": {
-      "file": "art/road-edge.webp"
+      "file": "../autumn-forest/art/road-edge.webp"
     },
     "roadFar": {
       "file": "art/road-far.webp"
     },
     "roadSoil": {
-      "file": "art/road-soil.webp"
+      "file": "../autumn-forest/art/road-soil.webp"
     },
     "reeds": {
       "file": "art/reeds.webp"
@@ -2599,20 +2599,44 @@
     },
     "stiltShack": {
       "file": "art/cabin.webp",
-      "heightM": 6
+      "heightM": 6,
+      "crop": [
+        0,
+        0,
+        1508,
+        819
+      ]
     },
     "rustedPickup": {
       "file": "art/rusted-pickup.webp",
-      "heightM": 2.4,
-      "lean": true
+      "heightM": 1.95,
+      "lean": true,
+      "crop": [
+        0,
+        0,
+        1644,
+        690
+      ]
     },
     "waterTower": {
       "file": "art/water-tower.webp",
-      "heightM": 7.5
+      "heightM": 7.5,
+      "crop": [
+        0,
+        0,
+        926,
+        1443
+      ]
     },
     "warningSign": {
       "file": "art/warning-sign.webp",
-      "heightM": 3.6
+      "heightM": 3.6,
+      "crop": [
+        0,
+        0,
+        774,
+        1489
+      ]
     },
     "highwaySign": {
       "file": "art/highway-sign.webp"
@@ -2620,9 +2644,9 @@
     "speedSign": {
       "file": "art/speed-sign.webp",
       "face": [
-        333.0,
+        333,
         361.5,
-        326.0
+        326
       ]
     },
     "fuelStation": {
@@ -2677,7 +2701,7 @@
         "face": [
           383.5,
           861.1,
-          320.0
+          320
         ],
         "far": [
           1244.5,

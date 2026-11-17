@@ -1,6 +1,6 @@
-import { STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M, LOG_SHOWN_BELOW_AXIS } from '../../game-config.js';
+import { ROADSIDE_SINK_M, STATION_BAY_M, STATION_WIDTH_M, DAMAGE_START_KMH, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M, LOG_SHOWN_BELOW_AXIS } from '../../game-config.js';
 import { RUT_OFFSETS } from './mud.js';
-import { roadSpan } from './ground.js';
+import { roadSpan, roadFarLine } from './ground.js';
 import { makeCanvas, hashRandom } from '../canvas-utils.js';
 
 const SIGN_FONT = '"Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
@@ -280,8 +280,8 @@ export function createProps(scene) {
     for (const st of scene.sim.terrain.stations) {
       const half = STATION_BAY_M / 2; if (st.x + half + 8 < lo || st.x - half - 8 > hi) continue;
       // the building stands on the ground it is on: it leans with the slope across its width
-      const lean = Math.atan((visH(st.x + STATION_WIDTH_M / 2) - visH(st.x - STATION_WIDTH_M / 2)) / STATION_WIDTH_M);
-      ctx.save(); ctx.translate(st.x, visH(st.x) + rise * 0.96); ctx.rotate(lean);
+      const at = seat(st.x, STATION_WIDTH_M, true);
+      ctx.save(); ctx.translate(st.x, at.y); ctx.rotate(at.angle);
       if (img) { const w = STATION_WIDTH_M, h = w * img.height / img.width; ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -h, w, h); ctx.restore(); continue; }
       const base = 0;
       ctx.fillStyle = '#3a4a3c'; for (const dx of [-3.4, 3.4]) ctx.fillRect(dx - 0.12, base, 0.24, 3);
@@ -315,21 +315,31 @@ export function createProps(scene) {
     const h = SPEED_SIGN_HEIGHT_M, w = h * img.width / img.height, sign = paintedSign(img);
     for (const x of scene.sim.speedSigns) {
       if (x + w < lo || x - w > hi) continue;
-      ctx.save(); ctx.translate(x, visH(x) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(sign, -w / 2, -h, w, h); ctx.restore();
+      ctx.save(); ctx.translate(x, seat(x, w * 0.3, false).y); ctx.scale(1, -1); ctx.drawImage(sign, -w / 2, -h, w, h); ctx.restore();
     }
   }
   // Roadside scenery (trail.scenery): fences, a shack, wrecks, towers and warning signs on the road's far edge, drawing only.
   // Each piece's art says how tall it is, whether it leans with the ground (`lean`), and how far apart repeated sections stand (`repeatPx`).
+  // Where a roadside piece stands: on the road's drawn far edge (not the terrain line, which the edge smooths and wobbles
+  // around), across its whole width. `lean` tilts it to the edge's slope between its ends; either way its base line goes
+  // through the lowest point of the edge under it, so no part of its foot hangs in the air above the road.
+  function seat(x, w, lean) {
+    const { visH } = scene.sim, span = roadSpan(scene);
+    const edge = span ? (u => roadFarLine(visH, u, span)) : (u => visH(u) + 1.2 * 0.96);
+    const slope = lean ? (edge(x + w / 2) - edge(x - w / 2)) / w : 0;
+    let y = Infinity;
+    for (let d = -w / 2; d <= w / 2 + 0.01; d += 0.2) y = Math.min(y, edge(x + d) - d * slope);
+    return { y: y - ROADSIDE_SINK_M, angle: Math.atan(slope) };
+  }
   function scenery() {
-    const { ctx } = scene.view, [lo, hi] = scene.view.viewX(), { visH } = scene.sim, rise = (roadSpan(scene)?.far ?? 1.2) * 0.96;
+    const { ctx } = scene.view, [lo, hi] = scene.view.viewX();
     for (const item of scene.season.trail.scenery ?? []) {
       const img = scene.cache.img[item.art], a = scene.season.art[item.art]; if (!img) continue;
       const h = a.heightM, w = h * img.width / img.height, step = a.repeatPx ? a.repeatPx * h / (a.crop[3] - a.crop[1]) : 0;
       for (let k = 0; k < (item.count ?? 1); k++) {
         const x = item.x + k * step; if (x + w < lo || x - w > hi) continue;
         ctx.save();
-        if (a.lean) { ctx.translate(x, visH(x) + rise); ctx.rotate(Math.atan((visH(x + w / 2) - visH(x - w / 2)) / w)); }
-        else ctx.translate(x, Math.min(visH(x - w / 2), visH(x), visH(x + w / 2)) + rise - 0.08);   // upright, sunk at its lowest ground so no side floats
+        const at = seat(x, w, a.lean); ctx.translate(x, at.y); ctx.rotate(at.angle);
         ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -h, w, h); ctx.restore();
       }
     }
@@ -343,7 +353,7 @@ export function createProps(scene) {
       const ht = w * img.height / img.width;
       for (const at of [h.x0 + w, h.x1 - SPEED_TRAP_FROM_END_M + w / 2 + 1]) {
         if (at + w < lo || at - w > hi) continue;
-        ctx.save(); ctx.translate(at, visH(at) + rise * 0.96); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore();
+        ctx.save(); ctx.translate(at, seat(at, w, false).y); ctx.scale(1, -1); ctx.drawImage(img, -w / 2, -ht, w, ht); ctx.restore();
       }
     }
   }

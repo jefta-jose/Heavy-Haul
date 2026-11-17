@@ -4747,3 +4747,41 @@ button:focus-visible,select:focus-visible,input:focus-visible { outline:2px soli
   .g-carhud .g-menu .g-item { font-size: 17px; }
   .garage .g-carhud .g-drive { height: 54px; font-size: 30px; }
 }
+
+/* the car panel's left side (user request, 2026-11-18): a CSS studio instead of the bay photo, the car centred in it.
+   A dark steel wall under one warm spotlight, a faint panel grid, a floor line through the car's wheels and a hazard stripe along the foot. */
+.g-carhud .g-show {
+  position: relative;
+  place-items: center;
+  padding: 36px 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 62% 48% at 50% 46%, rgba(255, 196, 92, .2), rgba(255, 196, 92, .05) 55%, transparent 75%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .02) 0 1px, transparent 1px 64px),
+    linear-gradient(180deg, #1b1d21, #121417 58%, #0c0d0f);
+}
+/* the floor: the lower part of the studio darkens */
+.g-carhud .g-show::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 64%;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .28) 40%, rgba(0, 0, 0, .45));   /* no hard line: cars differ in height, so a line would miss most of their wheels */
+  pointer-events: none;
+}
+/* a hazard stripe along the foot */
+.g-carhud .g-show::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  background: repeating-linear-gradient(-45deg, rgba(242, 194, 26, .7) 0 10px, rgba(16, 17, 19, .9) 10px 20px);
+  opacity: .55;
+  pointer-events: none;
+}
+.g-carhud .g-car { position: relative; z-index: 1; align-self: center; }

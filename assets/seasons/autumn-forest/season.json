@@ -2250,7 +2250,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 265
+        "x": 289
       },
       {
         "art": "warningSign",
@@ -2258,11 +2258,11 @@
       },
       {
         "art": "rustedPickup",
-        "x": 410
+        "x": 418.9
       },
       {
         "art": "fenceSection",
-        "x": 540,
+        "x": 552.9,
         "count": 3
       },
       {
@@ -2283,12 +2283,12 @@
       },
       {
         "art": "fenceSection",
-        "x": 1615,
+        "x": 1615.5,
         "count": 2
       },
       {
         "art": "stiltShack",
-        "x": 2155
+        "x": 2212.4
       },
       {
         "art": "warningSign",
@@ -2305,7 +2305,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 3242
+        "x": 3244.2
       },
       {
         "art": "warningSign",
@@ -2313,7 +2313,7 @@
       },
       {
         "art": "waterTower",
-        "x": 3537
+        "x": 3501
       },
       {
         "art": "fenceSection",
@@ -2561,7 +2561,7 @@
       ],
       "alphaFloor": 24,
       "quality": 88,
-      "heightM": 4.2
+      "heightM": 6
     },
     "rustedPickup": {
       "file": "art/rusted-pickup.webp",
@@ -2574,7 +2574,7 @@
       ],
       "alphaFloor": 24,
       "quality": 88,
-      "heightM": 2.2,
+      "heightM": 1.95,
       "lean": true
     },
     "waterTower": {
@@ -2588,7 +2588,7 @@
       ],
       "alphaFloor": 24,
       "quality": 88,
-      "heightM": 6.5
+      "heightM": 7.5
     },
     "warningSign": {
       "file": "art/warning-sign.webp",

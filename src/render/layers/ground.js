@@ -43,7 +43,7 @@ export function roadSpan(scene) {
   return { far: road.far * metres, near: road.near * metres, edge: road.edge * metres, farEdge: road.farEdge * metres };
 }
 const roadMid = (visH, x) => (visH(x - 1) + 2 * visH(x) + visH(x + 1)) / 4;
-const roadFarLine = (visH, x, span) => Math.max(roadMid(visH, x) + span.far + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08, visH(x) + 0.3);
+export const roadFarLine = (visH, x, span) => Math.max(roadMid(visH, x) + span.far + Math.sin(x * 1.7) * 0.04 + Math.sin(x * 0.53) * 0.08, visH(x) + 0.3);
 const roadNearLine = (visH, x, span) => Math.min(roadMid(visH, x) - span.near, visH(x) - 0.2);
 
 // a strip of art bent along a line, column by column; every other tile is mirrored, so the joins match

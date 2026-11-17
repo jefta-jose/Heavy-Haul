@@ -714,14 +714,14 @@
         "x": 226,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "charredLog-500",
         "kind": "charredLog",
         "x": 500,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -730,14 +730,14 @@
         "x": 1018,
         "count": 5,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "charredLog-1365",
         "kind": "charredLog",
         "x": 1365,
         "count": 5,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -745,7 +745,7 @@
         "kind": "charredLog",
         "x": 1530,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -754,7 +754,7 @@
         "x": 2190,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "steamPipe-2290",
@@ -762,14 +762,14 @@
         "x": 2290,
         "count": 6,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "charredLog-2590",
         "kind": "charredLog",
         "x": 2590,
         "count": 4,
-        "radius": 0.27,
+        "radius": 0.25,
         "gap": 0.9
       },
       {
@@ -778,7 +778,7 @@
         "x": 3150,
         "count": 6,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "steamPipe-3530",
@@ -786,7 +786,7 @@
         "x": 3530,
         "count": 5,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "steamPipe-3640",
@@ -794,7 +794,7 @@
         "x": 3640,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       },
       {
         "id": "steamPipe-3740",
@@ -802,7 +802,7 @@
         "x": 3740,
         "count": 4,
         "radius": 0.25,
-        "gap": 1.6
+        "gap": 0.9
       }
     ],
     "obstacleKinds": {
@@ -2232,7 +2232,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 505
+        "x": 588.8
       },
       {
         "art": "rustedPickup",
@@ -2252,12 +2252,12 @@
       },
       {
         "art": "fenceSection",
-        "x": 1590,
+        "x": 1590.3,
         "count": 3
       },
       {
         "art": "stiltShack",
-        "x": 2117
+        "x": 2045.5
       },
       {
         "art": "warningSign",
@@ -2282,7 +2282,7 @@
       },
       {
         "art": "stiltShack",
-        "x": 3571.5
+        "x": 3505.5
       },
       {
         "art": "fenceSection",
@@ -2519,20 +2519,44 @@
     },
     "stiltShack": {
       "file": "art/cabin.webp",
-      "heightM": 4
+      "heightM": 6,
+      "crop": [
+        0,
+        0,
+        1496,
+        808
+      ]
     },
     "rustedPickup": {
       "file": "art/rusted-pickup.webp",
-      "heightM": 2.3,
-      "lean": true
+      "heightM": 1.95,
+      "lean": true,
+      "crop": [
+        0,
+        0,
+        2091,
+        670
+      ]
     },
     "waterTower": {
       "file": "art/water-tower.webp",
-      "heightM": 7
+      "heightM": 7.5,
+      "crop": [
+        0,
+        0,
+        970,
+        1414
+      ]
     },
     "warningSign": {
       "file": "art/warning-sign.webp",
-      "heightM": 3.6
+      "heightM": 3.6,
+      "crop": [
+        0,
+        0,
+        821,
+        1480
+      ]
     },
     "highwaySign": {
       "file": "art/highway-sign.webp"
@@ -2540,9 +2564,9 @@
     "speedSign": {
       "file": "art/speed-sign.webp",
       "face": [
-        343.0,
+        343,
         305.5,
-        285.0
+        285
       ]
     },
     "fuelStation": {
@@ -2591,7 +2615,7 @@
         ],
         "far": [
           1241.3,
-          222.0
+          222
         ]
       },
       "logCrossing": {
@@ -2602,7 +2626,7 @@
         ],
         "far": [
           1251.2,
-          215.0
+          215
         ]
       }
     },

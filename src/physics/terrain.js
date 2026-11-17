@@ -1,5 +1,5 @@
 import { smoothstep as sm, seededRandom, valueNoise } from './math.js';
-import { STATION_BAY_M } from '../game-config.js';
+import { STATION_BAY_M, SCENERY_FLAT_M } from '../game-config.js';
 
 // One height profile shared by physics and rendering. The macro shape comes from the trail keys
 // (monotone cubic, so slopes run continuously), plus value noise scaled by surface, plus authored
@@ -9,6 +9,14 @@ import { STATION_BAY_M } from '../game-config.js';
 const DX = 0.25;          // height-field spacing in metres
 const TIRE_CLIMB = 0.84;  // step faces stay under ~40 degrees (smoothstep peak slope is 1.5 h / face)
 
+// a run's whole length, gaps included (2026-11-18: the gaps were left out, so a run's tail sat on rolling ground)
+export const runLength = (r, scale = 1) => {
+  const d = 2 * (r.radius ?? 0.5) * (scale ?? 1);
+  let len = d * r.count;
+  for (let i = 1; i < r.count; i++) len += r.gaps?.[i - 1] ?? r.gap ?? 1;
+  return len;
+};
+
 export function createTerrain(trail, surfaces) {
   const { keys: KEYS, zones: ZONES, heavyMud: HEAVY_MUD } = trail;
   const X0 = KEYS[0][0], X1 = KEYS[KEYS.length - 1][0];
@@ -17,6 +25,8 @@ export function createTerrain(trail, surfaces) {
   const features = [];
   const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
   const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
+  // upright roadside scenery (a shack, a tower, a sign) stands on level road: its footprint is kept clear of rollers and steps
+  const flatScenery = (trail.scenery ?? []).filter(it => SCENERY_FLAT_M[it.art]).map(it => [it.x - SCENERY_FLAT_M[it.art] / 2, it.x + SCENERY_FLAT_M[it.art] / 2]);
   const authored = x => nearHole(x, 2) || gardens.some(g => x > g.x0 - 2 && x < g.x1 + 2) || (trail.ramps ?? []).some(r => x > r.x - 2 && x < r.x + r.face + r.plateau + r.back + 2)
     // a step or pothole under a run of logs or pipes could make it too tall to climb at all
     || (trail.obstacleRuns ?? []).some(r => x > r.x - 8 && x < r.x + (r.gaps ?? []).reduce((a, b) => a + b, 0) + 2 * (r.radius ?? 0.5) * (trail.obstacleScale ?? 1) * r.count + 3);
@@ -119,7 +129,8 @@ export function createTerrain(trail, surfaces) {
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
     for (const r of trail.ramps ?? []) keep.push([r.x, r.x + r.face + r.plateau + r.back]);
-    for (const r of trail.obstacleRuns ?? []) keep.push([r.x - 1, r.x + (r.gaps ?? []).reduce((a, b) => a + b, 0) + 2 * (r.radius ?? 0.5) * S * r.count + 1]);
+    for (const r of trail.obstacleRuns ?? []) keep.push([r.x - 1, r.x + runLength(r, S) + 1]);
+    keep.push(...flatScenery);
     for (const p of trail.props ?? []) { const w = (trail.propKinds?.[p.kind]?.width ?? 2) * S; keep.push([p.x - w / 2, p.x + w / 2]); }
     for (const f of features) {
       if (f.type === 'ledge') keep.push([f.x0, f.x0 + f.face + f.plat + Math.min(f.back, 6)]);

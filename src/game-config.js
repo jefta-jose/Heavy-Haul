@@ -20,6 +20,10 @@ export const DAMAGE_MAX_PER_HIT = 25;          // a single crossing impact must 
 export const DAMAGE_HIT_COOLDOWN_S = 2;     // one obstacle run hurts a few times, not once per tire per log
 export const SPEED_SIGN_AREA_GAP_M = 15;      // a speed limit sign, showing DAMAGE_START_KMH, stands at the first obstacle of each group; obstacles closer together than this are one group
 export const SPEED_SIGN_HEIGHT_M = 5;         // how tall the sign is drawn, post included
+
+// ---------- roadside scenery and crossings (2026-11-18: every map follows Blackwater Swamp's layout style) ----------
+export const ROADSIDE_SINK_M = 0.04;          // how far a roadside piece's foot sits below the road's drawn far edge, metres, so no hairline of sky shows under it
+export const SCENERY_FLAT_M = { stiltShack: 10, waterTower: 7, warningSign: 2.5, gatorSign: 2.5 };   // level road kept under each upright roadside piece, metres; leaning pieces (fences, wrecks) follow the ground
 export const DAMAGE_SLOWEST_POWER = 0.4;      // power and top speed just before the truck is wrecked (1 = no slowdown)
 
 // ---------- tipping and crashing ----------

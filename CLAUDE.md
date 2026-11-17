@@ -219,4 +219,10 @@ a chassis resting on a crushable breaks it. Each map has its own obstacle set: s
 logs, spring spaced pipes and oil drums. The mud-hole art was deleted on request (the bog's dark colour stays). The current
 log and pipe sprites taper in perspective; straight ones and new obstacle types are requested in
 `assets/seasons/OBSTACLES-PROMPT.md`. Fallen trees were removed from every map with their art on 2026-11-17 (user
+
+**Layout style (user direction, 2026-11-18):** every map follows Blackwater Swamp's placement. `node tools/content/tidy-layout.js`
+(`--dry` to preview) sets every run to the swamp's spacing and size (gap 0.9, radius 0.25), draws roadside pieces at the swamp's
+heights, moves any roadside piece off crossings, low obstacles, stations and highway signs, and slides wide upright pieces (shacks,
+towers) to the levellest clear spot nearby. The terrain keeps rollers off a run's whole length and off the ground under upright
+pieces (`SCENERY_FLAT_M`). Run it after laying out a new map; the swamp itself is left as authored.
 decision); each one became a buried-tyres obstacle (`buriedTyres`) at the same spot. Do not add them back.
