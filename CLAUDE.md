@@ -176,7 +176,7 @@ roster run `npm run scaffold` (`-- --refresh` rewrites README-only folders, `-- 
 folders of removed entries). A playable car's spec numbers (`massT`, `powerKw`, `torqueNm`,
 `topSpeedKmh`, `fuelL`, `tireDiameterM`, load mass) are worked out from its `car.json` whenever content loads
 (`tools/lib/specs.js`); the roster's own numbers only count for planned cars. When something becomes playable, set `status` both in its own JSON and
-in the roster. Each roster car also has an `unlockRank` (1 to 20; each class is sorted by its derived power and spread evenly over the ranks, so several cars share a rank and rank 1 cars are free starters; re-ranked 2026-11-17: sort by powerKw, then torque, then top speed, rank = floor(i × 20 / n) + 1, and `order` is the position in the class) and a `price` (its class's base times that rank): keep both when adding or reordering cars. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
+in the roster. Each roster car also has an `unlockRank` (1 to 20, rank = floor(i × 20 / n) + 1 where `order` is the position in the class; several cars share a rank and rank 1 cars are free starters) and a `price`. **Class ladders (user decision, 2026-11-17):** specs and prices are not measured but set by formula: `CLASS_LADDER` in `src/game-config.js` gives each class a base and a step per car for power per loaded tonne (`torqueScale`, capped under the class's breakdown truck), `tireGrip` and `mudPull`, plus the first paid car's price and a price step. `npm run rebalance` writes them into every car.json and cars.json (`-- --dry` prints only). After adding or reordering cars, run it; to change balance, edit the ladder numbers. The user tests the result themselves: do not run bog or route simulations to tune it. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
 
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
@@ -218,4 +218,5 @@ the smallest tyre's radius (0.65 m): boulders are capped and kept off the steep 
 a chassis resting on a crushable breaks it. Each map has its own obstacle set: swamp rotten and sawn logs, autumn big sawn
 logs, spring spaced pipes and oil drums. The mud-hole art was deleted on request (the bog's dark colour stays). The current
 log and pipe sprites taper in perspective; straight ones and new obstacle types are requested in
-`assets/seasons/OBSTACLES-PROMPT.md`.
+`assets/seasons/OBSTACLES-PROMPT.md`. Fallen trees were removed from every map with their art on 2026-11-17 (user
+decision); each one became a buried-tyres obstacle (`buriedTyres`) at the same spot. Do not add them back.

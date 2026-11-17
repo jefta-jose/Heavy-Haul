@@ -51,6 +51,21 @@ export const STATION_REPAIR_SECONDS = 10;     // 100% damage to none
 // to this and stronger ones are left alone. Higher is more fun and less heavy.
 export const MIN_PULL_BY_CLASS = { scout: 0.9, highway: 0.7, 'heavy-duty': 0.65, offroad: 0.8, heavy: 0.6 };
 
+// ---------- class ladders (npm run rebalance writes these into every car.json and cars.json) ----------
+// Each class's cars, in roster order (cars.json `order`), climb from the first car's values by one step per car:
+//   kwPerT   engine power per loaded tonne (empty mass + load); the engine's torqueScale is set to give it,
+//            capped just under the class's breakdown truck so that truck stays the strongest
+//   grip     physics.tireGrip, all surfaces       mudPull  physics.mudPull, deep mud in L (higher = less bog drag)
+//   price    the first car you buy (rank 2); every later car costs priceStep more. Rank 1 cars are free.
+// Car i (0 = first) gets value + i x step. Ranks are spread evenly: rank = floor(i x 20 / cars in class) + 1.
+export const CLASS_LADDER = {
+  scout:        { kwPerT: 30, kwPerTStep: 1.0,  grip: 1.0,  gripStep: 0.015, mudPull: 1.0, mudPullStep: 0.05,  price: 6000,  priceStep: 1800 },
+  highway:      { kwPerT: 20, kwPerTStep: 0.35, grip: 1.0,  gripStep: 0.014, mudPull: 1.0, mudPullStep: 0.045, price: 10800, priceStep: 3000 },
+  'heavy-duty': { kwPerT: 18, kwPerTStep: 0.5,  grip: 1.0,  gripStep: 0.015, mudPull: 1.0, mudPullStep: 0.05,  price: 15600, priceStep: 4700 },
+  offroad:      { kwPerT: 22, kwPerTStep: 0.6,  grip: 1.05, gripStep: 0.014, mudPull: 1.2, mudPullStep: 0.045, price: 20400, priceStep: 5400 },
+  heavy:        { kwPerT: 8,  kwPerTStep: 0.5,  grip: 1.1,  gripStep: 0.012, mudPull: 1.5, mudPullStep: 0.035, price: 25200, priceStep: 6700 },
+};
+
 // ---------- recovery trucks ----------
 export const SERVICE_TORQUE_MULTIPLIER = 1.6; // more pulling power without changing gearing or top speed
 export const SERVICE_GRIP_MULTIPLIER = 1.8;   // traction to move both the recovery truck and its load
