@@ -14,7 +14,7 @@ export function createHud({ sim, season }) {
   let toastT = 0, hudT = 0, gaugeT = 0;
   let features = [], featureTrail = null, featureCar = null, stuckSeconds = 0, impactT = 0;
   let coachAdvice = null, guidancePlaying = false;
-  let shownGuidance = null;
+  let shownGuidance = null, shownChips = '';
 
   function layoutNotices() {
     const lane = $('hudNotices'), bounds = $('hud').getBoundingClientRect();
@@ -272,11 +272,14 @@ export function createHud({ sim, season }) {
     }
     $('routeFill').style.width = `${Math.max(0, Math.min(100, (mx - trail.start) / Math.max(1, trail.depot - trail.start) * 100))}%`;
     stuckSeconds = playing && ctl.gas > 0.5 && Math.abs(st.speed) < 0.6 ? stuckSeconds + step : 0;
-    const advice = playing ? drivingAdvice({ st, ctl, angle: sim.truck.getAngle(), stuckSeconds, next, distance: next ? next.x - activeX : Infinity }) : null;
+    const advice = playing ? drivingAdvice({ st, ctl, angle: Math.atan2(Math.sin(sim.truck.getAngle()), Math.cos(sim.truck.getAngle())), stuckSeconds, next, distance: next ? next.x - activeX : Infinity }) : null;
     const coach = $('driveCoach'); coach.hidden = !advice;
     if (advice) { setText(coach, advice.text); coach.dataset.tone = advice.tone; }
     coachAdvice = advice;
-    showGuidance(); layoutNotices();
+    showGuidance();
+    // re-place the lane only when the chips that can push it down appear or go
+    const chipSig = [...document.querySelectorAll('#hud .sidechips > *')].map(e => e.hidden ? 0 : 1).join('');
+    if (chipSig !== shownChips) { shownChips = chipSig; if (shownGuidance) layoutNotices(); }
     const damageWidth = `${sim.main.st.damage ?? 0}%`;
     if (els.damageFill.style.width !== damageWidth) els.damageFill.style.width = damageWidth;
     els.damageFill.parentElement.parentElement.classList.toggle('healing', !!sim.main.st.filling && sim.main.st.damage > 0);   // its border beats green while a station repairs it

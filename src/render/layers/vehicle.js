@@ -87,18 +87,6 @@ export function createVehicleLayer(scene) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts, glow = powerGlow(v);
     settle(v);
-    // A small contact patch anchors the tyres to the surface. It disappears
-    // when a wheel lifts, and never casts a detached shadow under an airborne rig.
-    for (let i = 0; i < wheels.length; i++) {
-      const p = wheels[i].getPosition(), r = wheelRadius(rig, i), ground = scene.sim.visH(p.x);
-      const clearance = p.y - r - ground;
-      if (clearance > 0.12 || clearance < -r * 0.8) continue;
-      const { ctx } = view;
-      ctx.save(); ctx.translate(p.x, ground + 0.015); ctx.scale(r * 0.8, r * 0.12);
-      const shade = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-      shade.addColorStop(0, 'rgba(9,8,6,0.32)'); shade.addColorStop(1, 'rgba(9,8,6,0)');
-      ctx.fillStyle = shade; ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    }
     if (glow?.kind === 'nitro') drawSpeedLines(v);
     if (glow) drawGlow(v, glow);
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));

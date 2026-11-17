@@ -70,7 +70,16 @@ export function createLoader({ photos = [], facts = [] } = {}, { title = 'Heavy 
       const wait = Math.max(350, minMs - (performance.now() - shownAt));
       label.textContent = 'Tap to continue';
       await new Promise(r => {
-        const done = () => { clearTimeout(t); el.removeEventListener('pointerdown', done); r(); };
+        const done = e => {
+          clearTimeout(t); el.removeEventListener('pointerdown', done);
+          // the tap that dismissed the screen must not land as a click on whatever is under it (a car tile in the garage)
+          if (e) {
+            const swallow = ev => { ev.stopPropagation(); ev.preventDefault(); };
+            window.addEventListener('click', swallow, { capture: true, once: true });
+            setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 700);
+          }
+          r();
+        };
         const t = setTimeout(done, wait); el.addEventListener('pointerdown', done);
       });
       if (mine !== token) return;

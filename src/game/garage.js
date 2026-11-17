@@ -1,6 +1,7 @@
 import { formatCoins } from './format.js';
 // The garage: a dark warehouse bay with the chosen truck parked on the floor and its name at its wheels. Across the top the picking
-// goes from wide to narrow: the seasons, the classes, then the class's trucks; previous and next buttons stand either side of the truck. A bar along the floor
+// shows only the seasons. The Cars panel on the right (2026-11-17, in the spirit of Forza Horizon's car lists) holds the class tabs, a search,
+// owned and favourite filters, the class's cars as tiles, and the chosen car's actions: Buy, Upgrade, Powers, Sell and a favourite star. A bar along the floor
 // shows the truck's numbers and upgrade levels and ends in Drive; the Upgrades card pops up with a row per tuning knob. Every car carries
 // its own load (part of its art and weight), so the pick is the job. Planned vehicles and seasons show locked. Each car can be tuned
 // (tuning.js): the run uses the tuned copy, and the settings are saved per car. Trucks open by rank (progress.js): a locked one
@@ -8,8 +9,7 @@ import { formatCoins } from './format.js';
 
 import { deriveSpecs } from '../../tools/lib/specs.js';
 import { wallet } from './wallet.js';
-import { fleetStats, upgradePreview, CLASS_JOBS } from './fleet-stats.js';
-import { bindModalFocus } from './modal-focus.js';
+import { upgradePreview } from './upgrade-preview.js';
 import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, clampLevel, loadTuning, saveTuning, validLevels, loadPowers, savePowers } from './tuning.js';
 
 const $ = id => document.getElementById(id);
@@ -53,7 +53,6 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   let favouriteIds = [];
   try { const saved = JSON.parse(localStorage.getItem('hh_favourites')); if (Array.isArray(saved)) favouriteIds = saved.filter(id => playable.has(id)); } catch {}
   const favourites = new Set(favouriteIds);
-  let fleetPick = car.id, comparisonId = car.id;
   const tuned = () => withPower(applyTuning(car, tuning[car.id]), powers[car.id]);
   // all the screen art, for the style sheet
   for (const [id, uri] of Object.entries(content.hud)) document.documentElement.style.setProperty(`--hud-${id}`, `url("${uri}")`);
@@ -78,6 +77,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // class tabs: icon (when its art exists) and name
   function renderClasses() {
     const box = $('gClasses'); box.innerHTML = '';
+    $('gClassName').textContent = $('gSearch').value.trim() ? 'Search' : classes[rank[cls]]?.name ?? '';
     for (const c of classes) {
       const ready = content.cars.filter(x => x.class === c.id).length;
       const b = el('button', 'g-class' + (c.id === cls ? ' on' : '') + (ready ? '' : ' empty'));
@@ -85,36 +85,71 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       b.append(el('b', null, c.name));
       if (c.tagline) b.title = c.tagline;
       b.setAttribute('aria-pressed', String(c.id === cls));
+      b.setAttribute('aria-label', c.name);
       b.addEventListener('click', () => {
-        cls = c.id;
-        const first = order.find(x => x.class === cls);
-        if (first && car.class !== cls) pick(first); else render();
+        // on the Cars screen a tab only changes the tiles: the chosen car stays chosen until a tile is tapped
+        cls = c.id; $('gSearch').value = '';
+        renderClasses(); renderList();
       });
       box.append(b);
     }
   }
 
-  // the class's vehicles: playable ones with their art, planned ones locked
+  // the picker beside the truck (2026-11-17, replaced the row over it and the arrows): the class's vehicles as tiles, planned
+  // ones locked; a search looks through every class, and the filter narrows to owned or favourite trucks
+  let filter = 'all';
   function renderList() {
-    const list = $('garageList'); list.innerHTML = '';
-    for (const r of content.roster.cars.filter(c => c.class === cls).sort((a, b) => unlockOf(a.id) - unlockOf(b.id) || orderOf(a.id) - orderOf(b.id))) {
+    const list = $('garageList'), query = $('gSearch').value.trim().toLowerCase();
+    list.replaceChildren();
+    const keep = r => {
+      const p = playable.get(r.id);
+      if (filter === 'owned') return p && owns(r.id);
+      if (filter === 'fav') return p && favourites.has(r.id);
+      return true;
+    };
+    const pool = content.roster.cars.filter(c => (query ? `${c.name} ${c.number ?? ''}`.toLowerCase().includes(query) : c.class === cls) && keep(c));
+    pool.sort((a, b) => rank[a.class] - rank[b.class] || unlockOf(a.id) - unlockOf(b.id) || orderOf(a.id) - orderOf(b.id));
+    for (const r of pool) {
       const p = playable.get(r.id), open = p && isOpen(r.id), mine = p && owns(r.id);
       const b = el('button', 'gtile' + (p ? '' : ' locked') + (p && !open ? ' ranked' : '') + (r.id === car.id ? ' on' : ''));
+      b.dataset.state = !p ? 'planned' : !open ? 'lock' : !mine ? 'buy' : 'own';
+      b.setAttribute('aria-pressed', String(r.id === car.id));
       const thumb = el('span', 'gthumb');
       if (p) { const img = el('img'); img.src = p.artUri.master; img.alt = ''; img.loading = 'lazy'; thumb.append(img); }
       else thumb.append(gIcon('lock'));
-      b.append(thumb, el('b', null, r.name));
-      // what it takes: the rank that opens it, then its price, and nothing once it is owned
-      if (p && !open) { const tag = el('span', 'gtag lock'); tag.append(gIcon('lock'), el('span', null, `Rank ${unlockOf(r.id)}`)); b.append(tag); b.title = `${r.name}: requires rank ${unlockOf(r.id)}`; }
-      else if (p && !mine) { const tag = el('span', 'gtag price'); tag.append(el('i', 'coinic'), el('span', null, formatCoins(progress.price(r.id)))); b.append(tag); }
-      if (p) b.addEventListener('click', () => pick(p));
+      // what it takes, in the corner: the rank that opens it, then its price, and Owned once it is
+      let tag = el('span', 'gtag planned', 'Coming');
+      if (p && !open) { tag = el('span', 'gtag lock'); tag.append(gIcon('lock'), el('span', null, `Rank ${unlockOf(r.id)}`)); b.title = `${r.name}: requires rank ${unlockOf(r.id)}`; }
+      else if (p && !mine) { tag = el('span', 'gtag price'); tag.append(el('i', 'coinic'), el('span', null, formatCoins(progress.price(r.id)))); }
+      else if (p) tag = el('span', 'gtag own', 'Owned');
+      const name = el('span', 'gname');
+      name.append(el('b', null, r.name), el('small', null, query ? classes[rank[r.class]]?.name ?? '' : `Rank ${unlockOf(r.id)}`));
+      b.append(tag, thumb, name);
+      if (favourites.has(r.id)) b.append(el('i', 'gfav', '★'));
+      // the numbers that tell one car from the next: power (as upgraded), weight on the road, and drive
+      if (p) { const sp = deriveSpecs(mine ? applyTuning(p, tuneOf(r.id)) : p); b.append(el('span', 'gstats', `${sp.powerKw} kW · ${grossTonnes(p).toFixed(1)} t · ${p.drive ?? ''}`)); }
+      if (p) b.addEventListener('click', () => { pick(p); setView('car'); });
       else { b.disabled = true; b.title = `${r.name}: not in the garage yet`; }
       list.append(b);
     }
-    // centre the chosen tile in the row only: scrollIntoView would also scroll every box around it, the whole game included
+    if (!pool.length) list.append(el('p', 'g-pickempty', filter === 'fav' ? 'No favourites yet: open a car and tap Favourite.' : 'No matching cars.'));
+    $('gPickCount').textContent = query ? `${pool.length} found` : `${pool.filter(r => playable.has(r.id) && owns(r.id)).length} / ${pool.length} owned`;
+    $('gClassName').textContent = query ? 'Search' : classes[rank[cls]]?.name ?? '';
+    // bring the chosen tile into view inside the picker only: scrollIntoView would also scroll every box around it
     const on = list.querySelector('.gtile.on');
-    if (on) { const a = on.getBoundingClientRect(), b = list.getBoundingClientRect(); list.scrollLeft += a.left + a.width / 2 - b.left - b.width / 2; }
+    if (on) {
+      const a = on.getBoundingClientRect(), b = list.getBoundingClientRect();
+      if (a.top < b.top || a.bottom > b.bottom) list.scrollTop += a.top + a.height / 2 - b.top - b.height / 2;
+      if (a.left < b.left || a.right > b.right) list.scrollLeft += a.left + a.width / 2 - b.left - b.width / 2;
+    }
   }
+  $('gSearch').addEventListener('input', renderList);
+  $('gSearch').addEventListener('keydown', e => { if (e.key === 'Escape' && $('gSearch').value) { e.stopPropagation(); $('gSearch').value = ''; renderList(); } });
+  for (const b of $('gFilter').querySelectorAll('button')) b.addEventListener('click', () => {
+    filter = b.dataset.f;
+    for (const o of $('gFilter').querySelectorAll('button')) o.setAttribute('aria-pressed', String(o === b));
+    renderList();
+  });
 
   // the truck: parked, named, and a spec sheet of live numbers, so an upgrade shows up at once
   let enterBack = false;
@@ -283,70 +318,31 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     sellOv.hidden = true; render();
   });
 
-  // previous and next: through the chosen class's playable trucks, and round again
-  function pick(next, back = false) { enterBack = back; car = next; cls = next.class; render(); }
-  function step(d) {
-    const all = order.filter(x => x.class === cls);
-    if (all.length) pick(all[(Math.max(all.indexOf(car), d < 0 ? 0 : -1) + d + all.length) % all.length], d < 0);
-  }
-  $('gPrev').addEventListener('click', () => step(-1));
-  $('gNext').addEventListener('click', () => step(1));
-  // the arrows on the row only scroll the list: the truck changes when one is tapped
-  const scrollRow = d => $('garageList').scrollBy({ left: d * $('garageList').clientWidth * 0.8 });
-  $('gRowPrev').addEventListener('click', () => scrollRow(-1));
-  $('gRowNext').addEventListener('click', () => scrollRow(1));
+  // a tapped tile: the new truck rolls in from the side it sits on in the unlock order
+  function pick(next) { enterBack = order.indexOf(next) < order.indexOf(car); car = next; cls = next.class; render(); }
 
-  for (const c of classes) { const option = el('option', null, c.name); option.value = c.id; $('fleetClass').append(option); }
-  for (let i = 1; i < 20; i++) { const option = el('option', null, `Up to rank ${i}`); option.value = String(i); $('fleetRank').append(option); }
-  function renderFleetDetail() {
-    const candidate = playable.get(fleetPick), reference = playable.get(comparisonId);
-    const box = $('fleetDetail'); box.replaceChildren();
-    if (!candidate || !reference) return;
-    const current = applyTuning(candidate, tuneOf(candidate.id)), baseline = applyTuning(reference, tuneOf(reference.id));
-    const a = fleetStats(current), b = fleetStats(baseline);
-    const picture = el('img', 'fleet-hero'); picture.src = candidate.artUri.master; picture.alt = `${candidate.name} side profile`;
-    box.append(picture, el('h4', null, `${candidate.name} ${candidate.number ?? ''}`), el('p', 'fleet-role', CLASS_JOBS[candidate.class]));
-    const table = el('table', 'fleet-comparison'), head = el('thead'), tr = el('tr');
-    for (const label of ['Specification', 'Selected', reference.name]) { const th = el('th', null, label); th.scope = 'col'; tr.append(th); } head.append(tr); table.append(head);
-    const body = el('tbody');
-    for (const [name, stat] of Object.entries(a)) {
-      const row = el('tr'), title = el('th', null, name); title.scope = 'row'; row.append(title);
-      for (const value of [stat.value, b[name].value]) row.append(el('td', null, `${value.toFixed(stat.digits)} ${stat.unit}`));
-      body.append(row);
-    }
-    table.append(body); box.append(table, el('p', 'fleet-note', 'Uses your saved upgrades. Power / weight helps compare loaded pull; terrain, clearance and balance still matter.'));
-    const actions = el('div', 'btns'), fav = el('button', 'btn', favourites.has(candidate.id) ? '★ Favourite' : '☆ Favourite');
-    fav.setAttribute('aria-pressed', String(favourites.has(candidate.id)));
-    fav.addEventListener('click', () => {
-      if (favourites.has(candidate.id)) favourites.delete(candidate.id); else favourites.add(candidate.id);
-      try { localStorage.setItem('hh_favourites', JSON.stringify([...favourites])); } catch {}
-      renderFleet();
-    });
-    const pin = el('button', 'btn', 'Compare against this'); pin.addEventListener('click', () => { comparisonId = candidate.id; renderFleetDetail(); });
-    const choose = el('button', 'btn primary', owns(candidate.id) ? 'Select truck' : isOpen(candidate.id) ? 'View in garage' : `View · rank ${unlockOf(candidate.id)}`);
-    choose.addEventListener('click', () => { pick(candidate); $('fleetOv').hidden = true; $('gMenuFleet').focus(); });
-    actions.append(fav, pin, choose); box.append(actions);
+  // favourite: a star on the car's tile, and the ★ filter
+  $('gFav').addEventListener('click', () => {
+    if (favourites.has(car.id)) favourites.delete(car.id); else favourites.add(car.id);
+    try { localStorage.setItem('hh_favourites', JSON.stringify([...favourites])); } catch {}
+    renderList(); renderDrive();
+  });
+  // two screens: Cars (every car as a tile, the garage's home) and the car view (the chosen car in the bay, with its upgrades,
+  // missions, powers, sale and favourite star). A run returns to the car view of the car it used.
+  function setView(v) {
+    if ($('garage').dataset.view === v) return;
+    $('garage').dataset.view = v;
+    if (v === 'cars') { renderList(); $('garageList').querySelector('.gtile.on')?.focus({ preventScroll: true }); }
+    else { $('gSearch').blur(); $('garageArt').classList.remove('enter'); void $('garageArt').offsetWidth; $('garageArt').classList.add('enter'); $('gBack').focus({ preventScroll: true }); }
   }
-  function renderFleet() {
-    const query = $('fleetSearch').value.trim().toLowerCase(), filter = $('fleetClass').value, owned = $('fleetOwned').value, maxRank = Number($('fleetRank').value);
-    const matches = order.filter(c => (filter === 'all' || c.class === filter) && `${c.name} ${c.number ?? ''}`.toLowerCase().includes(query) && unlockOf(c.id) <= maxRank && (owned === 'all' || owned === 'owned' && owns(c.id) || owned === 'open' && isOpen(c.id) || owned === 'favourites' && favourites.has(c.id)));
-    const grid = $('fleetGrid'); grid.replaceChildren();
-    $('fleetCount').textContent = `${matches.length} trucks · tap a truck to compare its fitted specifications`;
-    if (!matches.some(c => c.id === fleetPick)) fleetPick = matches[0]?.id ?? null;
-    for (const c of matches) {
-      const button = el('button', 'fleet-tile' + (fleetPick === c.id ? ' on' : ''));
-      button.setAttribute('aria-pressed', String(fleetPick === c.id));
-      const img = el('img'); img.src = c.artUri.master; img.alt = ''; img.loading = 'lazy';
-      button.append(img, el('b', null, `${favourites.has(c.id) ? '★ ' : ''}${c.name} ${c.number ?? ''}`), el('small', null, `${classes[rank[c.class]]?.name} · ${owns(c.id) ? 'Owned' : `Rank ${unlockOf(c.id)}`}`));
-      button.addEventListener('click', () => { fleetPick = c.id; renderFleet(); $('fleetDetail').scrollTop = 0; }); grid.append(button);
-    }
-    if (!matches.length) grid.append(el('p', 'fleet-note', 'No matching trucks. Try another filter.'));
-    renderFleetDetail();
-  }
-  $('gMenuFleet').addEventListener('click', () => { comparisonId = fleetPick = car.id; $('fleetOv').hidden = false; renderFleet(); $('fleetSearch').focus(); });
-  $('fleetDone').addEventListener('click', () => { $('fleetOv').hidden = true; $('gMenuFleet').focus(); });
-  bindModalFocus($('fleetOv'), () => $('fleetDone').click());
-  for (const id of ['fleetSearch', 'fleetClass', 'fleetOwned', 'fleetRank']) $(id).addEventListener(id === 'fleetSearch' ? 'input' : 'change', renderFleet);
+  $('gBack').addEventListener('click', () => setView('cars'));
+  $('gCarHud').addEventListener('click', e => { if (e.target === $('gCarHud')) setView('cars'); });   // a tap beside the panel closes it
+  // Escape closes the panel, unless a card over it is open: that card takes the Escape (capture, so this sees it before the card closes)
+  window.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || $('garage').hidden || $('garage').dataset.view !== 'car') return;
+    if (document.querySelector('.overlay:not(.garage):not([hidden])')) return;
+    setView('cars');
+  }, true);
   $('gStencil').textContent = content.season.name.split(' ')[0];
   // dust hanging in the lamplight: a few specks, placed once
   for (let i = 0; i < 16; i++) {
@@ -363,6 +359,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     else if (open) { const price = progress.price(car.id); btn.append(el('span', 'gbuy', 'Buy'), el('i', 'coinic'), el('b', null, formatCoins(price))); btn.classList.toggle('poor', wallet.coins < price); }
     else { btn.append(gIcon('lock'), el('span', 'gneed', `Requires rank ${unlockOf(car.id)}`)); }
     for (const id of ['gMenuTune', 'gMenuPowers', 'gLevels']) $(id).disabled = !mine;
+    const fav = favourites.has(car.id); $('gFav').querySelector('.star').textContent = fav ? '★' : '☆'; $('gFav').setAttribute('aria-pressed', String(fav));
     const canSell = mine && unlockOf(car.id) > 1;
     $('gMenuSell').disabled = !canSell; $('gSellFor').textContent = canSell ? formatCoins(sellValue(car)) : mine ? 'Starter' : '';
     if (progress) {
@@ -375,19 +372,20 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   function render() { renderSeasons(); renderClasses(); renderList(); renderDetail(); renderTuning(); renderPowers(); renderMissions(); onSelect(car); }
   render();
 
-  $('startBtn').addEventListener('click', () => {
+  function buyOrDrive() {
     if (owns(car.id)) { onStart({ car: tuned() }); return; }
     if (!isOpen(car.id)) return;
     if (progress.buy(car.id, wallet)) { onBuy?.(); render(); return; }
     const c = $('gCoinsBox'); c.classList.remove('short'); void c.offsetWidth; c.classList.add('short');   // not enough coins
-  });
+  }
+  $('startBtn').addEventListener('click', buyOrDrive);
 
   return {
     show() { $('garage').hidden = false; render(); },
     // after a map switch: the season row and the bay's stencil
     seasonChanged() { $('gStencil').textContent = content.season.name.split(' ')[0]; render(); },
     hide() { $('garage').hidden = true; },
-    select(carId) { car = playable.get(carId) ?? car; cls = car.class; render(); return { car: tuned() }; },   // tests and quick starts
+    select(carId) { car = playable.get(carId) ?? car; cls = car.class; render(); setView('car'); return { car: tuned() }; },   // tests and quick starts
     tune(carId, knob, k) { tuneOf(carId)[knob] = clampLevel(k); saveTuning(tuning); render(); },
     get selection() { return { car: tuned() }; },
   };

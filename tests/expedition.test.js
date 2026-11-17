@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { routeFeatures, drivingAdvice } from '../src/game/drive-coach.js';
 import { finishRecord, recordKey, checkpointFeedback } from '../src/game/run-records.js';
-import { fleetStats, upgradePreview } from '../src/game/fleet-stats.js';
+import { upgradePreview } from '../src/game/upgrade-preview.js';
 import { applyTuning } from '../src/game/tuning.js';
 import { content, newSim, spawn, advance } from './helpers.js';
 import { DAMAGE_MAX_PER_HIT } from '../src/game-config.js';
@@ -57,13 +57,10 @@ test('personal bests separate maps and tuning, reject assisted runs and survive 
   assert.doesNotThrow(() => finishRecord(season, car, run, { getItem() { throw Error(); }, setItem() { throw Error(); } }));
 });
 
-test('fleet comparisons use loaded weight and show actual upgrade gains on every playable truck', () => {
+test('the Upgrades card shows the real gain of a full upgrade on every playable truck', () => {
   for (const car of content.cars) {
-    const a = fleetStats(car), tuned = applyTuning(car, { engine: 100, suspension: 100, grip: 100, speed: 100 }), b = fleetStats(tuned);
-    for (const stat of Object.values(a)) assert(Number.isFinite(stat.value), car.id);
-    assert(b['Power / weight'].value > a['Power / weight'].value, car.id);
-    assert.equal(a['Gross weight'].value, b['Gross weight'].value);
-    assert.match(upgradePreview(car, tuned, 'engine'), /kW/);
+    const tuned = applyTuning(car, { engine: 100, suspension: 100, grip: 100, speed: 100 });
+    assert.match(upgradePreview(car, tuned, 'engine'), /kW/, car.id);
   }
 });
 

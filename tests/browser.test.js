@@ -71,6 +71,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await tap('#gMenuTune');
     await tap('.tbuy:not([aria-disabled]):not(:disabled) >> nth=0', 'ui-buy');
     await tap('#tuneDone', 'ui-confirm');
+    await page.locator('#gBack').tap();   // Sound sits on the Cars screen
     await tap('#garageSoundBtn');
     assert(await page.locator('#vol-effects').isVisible(), 'effects volume is adjustable');
     fs.mkdirSync(CAPTURES, { recursive: true });
@@ -87,6 +88,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await page.keyboard.press('Enter');
     await expectCue(beforeKeyboard, 'ui-confirm');
     // Pointer-only HUD controls must not double-play if the browser follows with click.
+    await page.locator('.gtile.on').tap();   // back to the car view, where Drive is
     await tap('#startBtn', 'ui-confirm');
     await page.waitForFunction(() => document.querySelector('#loader.done'));
     await tap('#loader', 'ui-confirm');
@@ -183,7 +185,9 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     // picking another class drops the old engine for the new one
     const scoutMB = (await status()).decodedMB, otherEngine = page.waitForResponse(/engine-heavy-duty/);
     await page.evaluate(() => { __haul.garage.show(); });
+    if (await page.locator('#gBack').isVisible()) await page.click('#gBack');   // the car panel, if open, closes onto the Cars screen
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
+    await page.locator('.gtile:not(.locked)').first().click();
     await otherEngine;
     await page.waitForFunction(mb => __haul.audio.status().decodedMB !== mb, scoutMB);
     assert.equal((await status()).error, null);
@@ -192,6 +196,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     await page.reload({ waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.__haul?.renderer.ready);
     assert(!await page.locator('#startFs').isVisible(), 'no fullscreen button in the garage');
+    await page.locator('.gtile.on').click();   // the chosen car's panel, with Drive
     await page.click('#startBtn');
     await page.waitForFunction(() => __haul.session.state === 'play');
     assert(!await page.locator('#fsBtn').isVisible(), 'no fullscreen button on the HUD');
@@ -245,13 +250,26 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     const heavyDutyCount = await page.evaluate(() => __haul.content.roster.cars.filter(c => c.class === 'heavy-duty' && c.status === 'playable').length);
     assert.equal(await page.locator('.gtile:not(.locked)').count(), heavyDutyCount, 'class availability follows the current roster');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
-    // the buttons beside the truck step through its class, and the row over it follows
+    // the garage opens on the Cars screen; a tile opens that car's panel over it, and × closes it
+    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'cars', 'the garage opens on the Cars screen');
+    assert(!await page.locator('#startBtn').isVisible(), 'Drive waits for a car to be chosen');
     const named = await page.locator('#gName').innerText();
-    await page.click('#gNext');
-    assert.notEqual(await page.locator('#gName').innerText(), named, 'next changes the truck');
-    await page.click('#gPrev');
-    assert.equal(await page.locator('#gName').innerText(), named, 'previous brings it back');
-    assert.equal(await page.locator('.gtile.on').count(), 1, 'the row marks the chosen truck');
+    await page.locator('.gtile:not(.locked):not(.on)').first().click();
+    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'car', 'a tile opens the car panel');
+    assert(await page.locator('#garageList').isVisible(), 'the cars stay in view behind the panel');
+    assert.notEqual(await page.locator('#gName').innerText(), named, 'a tile changes the truck');
+    assert(await page.locator('#startBtn').isVisible() && await page.locator('#gMenuTune').isVisible(), 'the panel has Drive and the upgrades');
+    assert.equal(await page.locator('#gPrev, #gNext, #gRowPrev, #gRowNext').count(), 0, 'no arrows beside the truck');
+    await page.click('#gMenuTune'); assert(await page.locator('#tuneOv').isVisible());
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#garage').getAttribute('data-view'), 'car', 'Escape on a card leaves the panel open');
+    if (await page.locator('#tuneOv').isVisible()) await page.click('#tuneDone');
+    await page.click('#gBack');
+    assert.equal(await page.locator('.gtile.on').count(), 1, 'the Cars screen marks the chosen truck');
+    await page.fill('#gSearch', 'earthquake');
+    assert.equal(await page.locator('.gtile').count(), 1, 'search finds a truck in another class');
+    await page.fill('#gSearch', '');
+    await page.locator('.gtile:not(.locked)').first().click();
     await capture('00-garage');
     // tuning sits in the garage's panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
     assert(!await page.locator('.tune').first().isVisible(), 'the upgrades stay out of the way until asked for');
@@ -388,7 +406,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
 
     // stuck in a heavy-mud pit: call the scouts' breakdown truck, which starts at the beginning of the
     // trail, drive it out, winch the truck back out of the pit and switch back
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.locator('.gtile.on').click(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.heavyMud[0] - 6); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.waitForTimeout(150); await capture('03-deep-mud');
     const x0 = await page.evaluate(() => __haul.sim.main.parts.truck.getPosition().x);
@@ -489,7 +507,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.evaluate(() => { __haul.garage.select('ridge-pup-2'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
-    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
+    await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.locator('.gtile.on').click(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(400);
     await page.setViewportSize({ width: 844, height: 390 }); await page.waitForTimeout(200);
     const groundY = await page.evaluate(() => { const { H, ppm, cam } = __haul.view; return H / 2 - (__haul.sim.visH(__haul.sim.truck.getPosition().x) - cam.y) * ppm; });
     assert(groundY < (await page.locator('#gas').boundingBox()).y + 4, 'phone pedals leave tire contact visible');
@@ -692,7 +710,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
   } finally { await browser.close(); server.close(); }
 });
 
-test('expedition HUD, fleet comparisons and saved controls work on phones', { timeout: 120000 }, async () => {
+test('expedition HUD, the Cars screen and saved controls work on phones', { timeout: 120000 }, async () => {
   await buildApp();
   const types = { '.html': 'text/html', '.webp': 'image/webp', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
   const server = http.createServer((req, res) => {
@@ -720,7 +738,7 @@ test('expedition HUD, fleet comparisons and saved controls work on phones', { ti
     await page.evaluate(() => {
       const mission = __haul.missions.offers[0];
       mission.title = 'An exceptionally long freight delivery contract'; mission.class = 'heavy';
-      __haul.missions.choose(mission.id); __haul.garage.show();
+      __haul.missions.choose(mission.id); __haul.garage.show(); __haul.garage.select(__haul.garage.selection.car.id);   // the car view, where the menu is
     });
     for (const [width, height] of [[1440, 900], [1024, 768], [844, 390], [667, 375], [568, 320], [390, 844], [320, 568]]) {
       await page.setViewportSize({ width, height });
@@ -736,18 +754,22 @@ test('expedition HUD, fleet comparisons and saved controls work on phones', { ti
     }
     await page.setViewportSize({ width: 844, height: 390 });
     await page.evaluate(() => { __haul.missions.choose(__haul.missions.active.id); __haul.garage.show(); });
-    await page.locator('#gMenuFleet').click();
-    await page.locator('#fleetSearch').fill('earthquake');
-    assert.equal(await page.locator('.fleet-tile').count(), 1);
-    assert.equal(await page.locator('.fleet-comparison tbody tr').count(), 6);
-    await page.getByRole('button', { name: '☆ Favourite', exact: true }).click();
-    await page.locator('#fleetOwned').selectOption('favourites'); assert.equal(await page.locator('.fleet-tile').count(), 1);
-    await page.locator('#fleetSearch').fill('no such truck'); assert.equal(await page.locator('.fleet-tile').count(), 0);
-    await page.locator('#fleetSearch').fill('earthquake');
-    await page.getByRole('button', { name: 'Select truck', exact: true }).click();
+    await page.locator('#gBack').click();
+    await page.locator('#gSearch').fill('earthquake');
+    assert.equal(await page.locator('.gtile').count(), 1);
+    await page.locator('.gtile').click();
+    await page.locator('#gFav').click(); assert.equal(await page.locator('#gFav').getAttribute('aria-pressed'), 'true', 'starred');
+    await page.locator('#gBack').click();
+    await page.locator('#gSearch').fill('');
+    await page.locator('#gFilter [data-f="fav"]').click(); assert.equal(await page.locator('.gtile').count(), 1, 'the star filter shows favourites');
+    await page.locator('#gSearch').fill('no such truck'); assert.equal(await page.locator('.gtile').count(), 0);
+    await page.locator('#gSearch').fill(''); await page.locator('#gFilter [data-f="all"]').click();
+    await page.locator('#gSearch').fill('earthquake');
+    await page.locator('.gtile').click();
     assert.match(await page.locator('#gBadge').innerText(), /MAX UPGRADED/);
     await page.locator('#gMenuTune').click(); assert.equal(await page.locator('.tpreview').count(), 4);
     assert.match(await page.locator('.tpreview').first().innerText(), /kW/); await page.locator('#tuneDone').click();
+    await page.locator('#gBack').click();
     await page.locator('#gMenuControls').click();
     await page.locator('#controlsDone').focus(); await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => document.activeElement.id), 'controlSize', 'focus stays inside controls');

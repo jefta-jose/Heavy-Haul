@@ -1,0 +1,2363 @@
+{
+  "id": "highland-quarry",
+  "name": "Slatecut Quarry",
+  "place": "Slate country, North Wales, UK",
+  "season": "autumn",
+  "status": "playable",
+  "trail": {
+    "name": "Slatecut Quarry",
+    "finishBonus": 5200,
+    "keys": [
+      [
+        -60,
+        0
+      ],
+      [
+        70,
+        0
+      ],
+      [
+        100,
+        4
+      ],
+      [
+        150,
+        11.5
+      ],
+      [
+        178,
+        13
+      ],
+      [
+        205,
+        12.5
+      ],
+      [
+        255,
+        4
+      ],
+      [
+        280,
+        2
+      ],
+      [
+        300,
+        1.6
+      ],
+      [
+        360,
+        1.6
+      ],
+      [
+        385,
+        2
+      ],
+      [
+        420,
+        7
+      ],
+      [
+        465,
+        14
+      ],
+      [
+        492,
+        15.5
+      ],
+      [
+        530,
+        14.5
+      ],
+      [
+        575,
+        10.5
+      ],
+      [
+        612,
+        10
+      ],
+      [
+        628,
+        10
+      ],
+      [
+        1028,
+        7
+      ],
+      [
+        1040,
+        7
+      ],
+      [
+        1080,
+        8
+      ],
+      [
+        1180,
+        22
+      ],
+      [
+        1210,
+        23
+      ],
+      [
+        1240,
+        22.5
+      ],
+      [
+        1300,
+        14
+      ],
+      [
+        1340,
+        10
+      ],
+      [
+        1360,
+        9
+      ],
+      [
+        1460,
+        9
+      ],
+      [
+        1480,
+        10
+      ],
+      [
+        1530,
+        17
+      ],
+      [
+        1560,
+        19
+      ],
+      [
+        1600,
+        19
+      ],
+      [
+        1650,
+        16
+      ],
+      [
+        1692,
+        15
+      ],
+      [
+        1708,
+        15
+      ],
+      [
+        2108,
+        12
+      ],
+      [
+        2150,
+        12
+      ],
+      [
+        2190,
+        18
+      ],
+      [
+        2215,
+        19
+      ],
+      [
+        2245,
+        13
+      ],
+      [
+        2275,
+        12
+      ],
+      [
+        2310,
+        18
+      ],
+      [
+        2335,
+        19
+      ],
+      [
+        2365,
+        12
+      ],
+      [
+        2400,
+        11
+      ],
+      [
+        2480,
+        11
+      ],
+      [
+        2500,
+        12
+      ],
+      [
+        2560,
+        22
+      ],
+      [
+        2590,
+        24
+      ],
+      [
+        2640,
+        22
+      ],
+      [
+        2700,
+        17
+      ],
+      [
+        2792,
+        16
+      ],
+      [
+        2808,
+        16
+      ],
+      [
+        3208,
+        13
+      ],
+      [
+        3260,
+        13
+      ],
+      [
+        3300,
+        10
+      ],
+      [
+        3340,
+        5
+      ],
+      [
+        3360,
+        4
+      ],
+      [
+        3500,
+        4
+      ],
+      [
+        3520,
+        5
+      ],
+      [
+        3570,
+        13
+      ],
+      [
+        3610,
+        20
+      ],
+      [
+        3640,
+        22
+      ],
+      [
+        3700,
+        22
+      ],
+      [
+        3760,
+        20
+      ],
+      [
+        3850,
+        18
+      ],
+      [
+        3900,
+        18
+      ],
+      [
+        3950,
+        20
+      ],
+      [
+        4000,
+        21
+      ],
+      [
+        4300,
+        21
+      ]
+    ],
+    "zones": [
+      [
+        -60,
+        70,
+        "dirt"
+      ],
+      [
+        70,
+        140,
+        "dirt"
+      ],
+      [
+        140,
+        205,
+        "rock"
+      ],
+      [
+        205,
+        262,
+        "dirt"
+      ],
+      [
+        262,
+        385,
+        "mud"
+      ],
+      [
+        385,
+        440,
+        "dirt"
+      ],
+      [
+        440,
+        505,
+        "rock"
+      ],
+      [
+        505,
+        628,
+        "dirt"
+      ],
+      [
+        628,
+        1028,
+        "highway"
+      ],
+      [
+        1028,
+        1180,
+        "dirt"
+      ],
+      [
+        1180,
+        1232,
+        "rock"
+      ],
+      [
+        1232,
+        1330,
+        "dirt"
+      ],
+      [
+        1330,
+        1480,
+        "mud"
+      ],
+      [
+        1480,
+        1500,
+        "dirt"
+      ],
+      [
+        1500,
+        1580,
+        "rock"
+      ],
+      [
+        1580,
+        1708,
+        "dirt"
+      ],
+      [
+        1708,
+        2108,
+        "highway"
+      ],
+      [
+        2108,
+        2185,
+        "dirt"
+      ],
+      [
+        2185,
+        2222,
+        "rock"
+      ],
+      [
+        2222,
+        2305,
+        "dirt"
+      ],
+      [
+        2305,
+        2342,
+        "rock"
+      ],
+      [
+        2342,
+        2365,
+        "dirt"
+      ],
+      [
+        2365,
+        2500,
+        "mud"
+      ],
+      [
+        2500,
+        2550,
+        "dirt"
+      ],
+      [
+        2550,
+        2612,
+        "rock"
+      ],
+      [
+        2612,
+        2808,
+        "dirt"
+      ],
+      [
+        2808,
+        3208,
+        "highway"
+      ],
+      [
+        3208,
+        3330,
+        "dirt"
+      ],
+      [
+        3330,
+        3520,
+        "mud"
+      ],
+      [
+        3520,
+        3580,
+        "dirt"
+      ],
+      [
+        3580,
+        3650,
+        "rock"
+      ],
+      [
+        3650,
+        4100,
+        "dirt"
+      ],
+      [
+        4100,
+        4300,
+        "gravel"
+      ]
+    ],
+    "waters": [],
+    "heavyMud": [
+      340,
+      1370,
+      1445,
+      2398,
+      2478,
+      3372,
+      3492
+    ],
+    "start": 30,
+    "depot": 4200,
+    "checkpoints": [
+      30,
+      800,
+      1240,
+      1900,
+      2290,
+      2950,
+      3650
+    ],
+    "seed": 20261106,
+    "rollers": {
+      "seed": 6121,
+      "height": [
+        0.5,
+        1
+      ],
+      "wave": [
+        10,
+        17
+      ],
+      "fade": 3,
+      "mud": 0.7,
+      "intensity": 1.3
+    },
+    "obstacleSeed": 5309,
+    "obstacleScale": 2,
+    "bridges": [],
+    "rockGardens": [
+      {
+        "x0": 148,
+        "x1": 178,
+        "gap": 2.8
+      },
+      {
+        "x0": 482,
+        "x1": 502,
+        "gap": 2.8
+      },
+      {
+        "x0": 1186,
+        "x1": 1228,
+        "gap": 2.8
+      },
+      {
+        "x0": 1545,
+        "x1": 1575,
+        "gap": 2.8
+      },
+      {
+        "x0": 2188,
+        "x1": 2218,
+        "gap": 2.8
+      },
+      {
+        "x0": 2310,
+        "x1": 2340,
+        "gap": 2.8
+      },
+      {
+        "x0": 2590,
+        "x1": 2610,
+        "gap": 2.8
+      },
+      {
+        "x0": 3586,
+        "x1": 3620,
+        "gap": 2.8
+      },
+      {
+        "x0": 3760,
+        "x1": 3780,
+        "gap": 2.8
+      }
+    ],
+    "holes": [
+      {
+        "x": 340,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 1370,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 1445,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2398,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 2478,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 3372,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      },
+      {
+        "x": 3492,
+        "width": 6,
+        "depth": 0.3,
+        "kind": "mud"
+      }
+    ],
+    "ramps": [
+      {
+        "x": 448,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 470,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1508,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 1530,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2556,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 2578,
+        "height": 0.45,
+        "face": 1.3,
+        "plateau": 3,
+        "back": 5
+      },
+      {
+        "x": 3624,
+        "height": 0.42,
+        "face": 1.25,
+        "plateau": 3,
+        "back": 5
+      }
+    ],
+    "recoverySections": [
+      [
+        392,
+        404
+      ],
+      [
+        1484,
+        1496
+      ],
+      [
+        1352,
+        1360
+      ],
+      [
+        2504,
+        2516
+      ],
+      [
+        2614,
+        2626
+      ],
+      [
+        3524,
+        3536
+      ],
+      [
+        4105,
+        4118
+      ]
+    ],
+    "obstacleRuns": [
+      {
+        "id": "pitProp-52",
+        "kind": "pitProp",
+        "x": 52,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "roller-395",
+        "kind": "roller",
+        "x": 395,
+        "count": 5,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-1045",
+        "kind": "pitProp",
+        "x": 1045,
+        "count": 5,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "roller-1600",
+        "kind": "roller",
+        "x": 1600,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-2122",
+        "kind": "pitProp",
+        "x": 2122,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-2250",
+        "kind": "pitProp",
+        "x": 2250,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-2650",
+        "kind": "pitProp",
+        "x": 2650,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-3230",
+        "kind": "pitProp",
+        "x": 3230,
+        "count": 4,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "roller-3700",
+        "kind": "roller",
+        "x": 3700,
+        "count": 6,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-3870",
+        "kind": "pitProp",
+        "x": 3870,
+        "count": 5,
+        "radius": 0.25,
+        "gap": 0.9
+      },
+      {
+        "id": "pitProp-3990",
+        "kind": "pitProp",
+        "x": 3990,
+        "count": 5,
+        "radius": 0.25,
+        "gap": 0.9
+      }
+    ],
+    "obstacleKinds": {
+      "pitProp": {
+        "art": "logCrossing",
+        "surf": "wood",
+        "friction": 0.85
+      },
+      "roller": {
+        "art": "pipe",
+        "surf": "rock",
+        "friction": 0.8
+      }
+    },
+    "propKinds": {
+      "rootTangle": {
+        "art": "rootTangle",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.2,
+        "above": 0.3,
+        "hull": {
+          "w": 2072,
+          "h": 464,
+          "top": 10,
+          "hull": [
+            [
+              80,
+              220
+            ],
+            [
+              320,
+              130
+            ],
+            [
+              930,
+              20
+            ],
+            [
+              1420,
+              10
+            ],
+            [
+              1610,
+              90
+            ],
+            [
+              1990,
+              290
+            ],
+            [
+              2060,
+              460
+            ],
+            [
+              10,
+              460
+            ]
+          ]
+        }
+      },
+      "branchPile": {
+        "art": "branchPile",
+        "surf": "rock",
+        "friction": 0.8,
+        "width": 1.4,
+        "above": 0.18,
+        "crush": {
+          "impulse": 250
+        },
+        "hull": {
+          "w": 1442,
+          "h": 298,
+          "top": 0,
+          "hull": [
+            [
+              0,
+              287
+            ],
+            [
+              189,
+              140
+            ],
+            [
+              476,
+              49
+            ],
+            [
+              756,
+              0
+            ],
+            [
+              1099,
+              84
+            ],
+            [
+              1330,
+              189
+            ],
+            [
+              1435,
+              287
+            ],
+            [
+              119,
+              294
+            ]
+          ]
+        }
+      },
+      "boulderSteps": {
+        "art": "boulderSteps",
+        "surf": "rock",
+        "friction": 0.8,
+        "width": 1.3905,
+        "above": 0.207,
+        "flip": false,
+        "hull": {
+          "w": 2133,
+          "h": 345,
+          "top": 0,
+          "hull": [
+            [
+              50,
+              250
+            ],
+            [
+              470,
+              30
+            ],
+            [
+              580,
+              10
+            ],
+            [
+              1470,
+              0
+            ],
+            [
+              1740,
+              30
+            ],
+            [
+              1910,
+              140
+            ],
+            [
+              2130,
+              340
+            ],
+            [
+              10,
+              340
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              345
+            ],
+            [
+              0,
+              324
+            ],
+            [
+              80,
+              234
+            ],
+            [
+              160,
+              206
+            ],
+            [
+              240,
+              137
+            ],
+            [
+              320,
+              118
+            ],
+            [
+              400,
+              118
+            ],
+            [
+              480,
+              49
+            ],
+            [
+              560,
+              15
+            ],
+            [
+              640,
+              16
+            ],
+            [
+              720,
+              12
+            ],
+            [
+              800,
+              4
+            ],
+            [
+              880,
+              10
+            ],
+            [
+              960,
+              7
+            ],
+            [
+              1040,
+              4
+            ],
+            [
+              1120,
+              6
+            ],
+            [
+              1200,
+              7
+            ],
+            [
+              1280,
+              7
+            ],
+            [
+              1360,
+              4
+            ],
+            [
+              1440,
+              2
+            ],
+            [
+              1520,
+              6
+            ],
+            [
+              1600,
+              17
+            ],
+            [
+              1680,
+              28
+            ],
+            [
+              1760,
+              42
+            ],
+            [
+              1840,
+              121
+            ],
+            [
+              1920,
+              169
+            ],
+            [
+              2000,
+              213
+            ],
+            [
+              2080,
+              277
+            ],
+            [
+              2132,
+              341
+            ],
+            [
+              2133,
+              345
+            ]
+          ]
+        }
+      },
+      "rootNetwork": {
+        "art": "rootNetwork",
+        "surf": "wood",
+        "friction": 0.85,
+        "width": 2.205,
+        "above": 0.225,
+        "flip": true,
+        "hull": {
+          "w": 2129,
+          "h": 466,
+          "top": 0,
+          "hull": [
+            [
+              70,
+              330
+            ],
+            [
+              270,
+              220
+            ],
+            [
+              630,
+              110
+            ],
+            [
+              1270,
+              0
+            ],
+            [
+              1580,
+              50
+            ],
+            [
+              1920,
+              170
+            ],
+            [
+              2120,
+              460
+            ],
+            [
+              10,
+              460
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              466
+            ],
+            [
+              0,
+              454
+            ],
+            [
+              80,
+              322
+            ],
+            [
+              160,
+              292
+            ],
+            [
+              240,
+              235
+            ],
+            [
+              320,
+              206
+            ],
+            [
+              400,
+              188
+            ],
+            [
+              480,
+              160
+            ],
+            [
+              560,
+              142
+            ],
+            [
+              640,
+              115
+            ],
+            [
+              720,
+              107
+            ],
+            [
+              800,
+              121
+            ],
+            [
+              880,
+              86
+            ],
+            [
+              960,
+              55
+            ],
+            [
+              1040,
+              53
+            ],
+            [
+              1120,
+              59
+            ],
+            [
+              1200,
+              22
+            ],
+            [
+              1280,
+              1
+            ],
+            [
+              1360,
+              9
+            ],
+            [
+              1440,
+              42
+            ],
+            [
+              1520,
+              46
+            ],
+            [
+              1600,
+              60
+            ],
+            [
+              1680,
+              104
+            ],
+            [
+              1760,
+              125
+            ],
+            [
+              1840,
+              166
+            ],
+            [
+              1920,
+              167
+            ],
+            [
+              2000,
+              205
+            ],
+            [
+              2080,
+              326
+            ],
+            [
+              2128,
+              455
+            ],
+            [
+              2129,
+              466
+            ]
+          ]
+        }
+      },
+      "buriedTyres": {
+        "art": "buriedTyres",
+        "surf": "rock",
+        "friction": 0.9,
+        "width": 1.463,
+        "above": 0.29,
+        "flip": true,
+        "hull": {
+          "w": 2163,
+          "h": 468,
+          "top": 0,
+          "hull": [
+            [
+              50,
+              330
+            ],
+            [
+              220,
+              160
+            ],
+            [
+              360,
+              90
+            ],
+            [
+              1050,
+              0
+            ],
+            [
+              1780,
+              80
+            ],
+            [
+              2050,
+              230
+            ],
+            [
+              2150,
+              460
+            ],
+            [
+              10,
+              460
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              468
+            ],
+            [
+              0,
+              439
+            ],
+            [
+              80,
+              328
+            ],
+            [
+              160,
+              218
+            ],
+            [
+              240,
+              145
+            ],
+            [
+              320,
+              104
+            ],
+            [
+              400,
+              82
+            ],
+            [
+              480,
+              86
+            ],
+            [
+              560,
+              103
+            ],
+            [
+              640,
+              146
+            ],
+            [
+              720,
+              214
+            ],
+            [
+              800,
+              113
+            ],
+            [
+              880,
+              56
+            ],
+            [
+              960,
+              15
+            ],
+            [
+              1040,
+              2
+            ],
+            [
+              1120,
+              2
+            ],
+            [
+              1200,
+              17
+            ],
+            [
+              1280,
+              47
+            ],
+            [
+              1360,
+              98
+            ],
+            [
+              1440,
+              202
+            ],
+            [
+              1520,
+              172
+            ],
+            [
+              1600,
+              120
+            ],
+            [
+              1680,
+              91
+            ],
+            [
+              1760,
+              78
+            ],
+            [
+              1840,
+              91
+            ],
+            [
+              1920,
+              119
+            ],
+            [
+              2000,
+              173
+            ],
+            [
+              2080,
+              296
+            ],
+            [
+              2160,
+              434
+            ],
+            [
+              2162,
+              442
+            ],
+            [
+              2163,
+              468
+            ]
+          ]
+        }
+      },
+      "concreteSlabs": {
+        "art": "concreteSlabs",
+        "surf": "rock",
+        "friction": 0.8,
+        "width": 1.752,
+        "above": 0.3,
+        "flip": false,
+        "hull": {
+          "w": 2103,
+          "h": 447,
+          "top": 10,
+          "hull": [
+            [
+              70,
+              200
+            ],
+            [
+              220,
+              70
+            ],
+            [
+              390,
+              20
+            ],
+            [
+              1790,
+              10
+            ],
+            [
+              2010,
+              120
+            ],
+            [
+              2090,
+              350
+            ],
+            [
+              2090,
+              440
+            ],
+            [
+              20,
+              440
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              447
+            ],
+            [
+              0,
+              375
+            ],
+            [
+              80,
+              193
+            ],
+            [
+              160,
+              124
+            ],
+            [
+              240,
+              63
+            ],
+            [
+              320,
+              49
+            ],
+            [
+              400,
+              18
+            ],
+            [
+              480,
+              24
+            ],
+            [
+              560,
+              23
+            ],
+            [
+              640,
+              17
+            ],
+            [
+              720,
+              17
+            ],
+            [
+              800,
+              23
+            ],
+            [
+              880,
+              32
+            ],
+            [
+              960,
+              29
+            ],
+            [
+              1040,
+              40
+            ],
+            [
+              1120,
+              44
+            ],
+            [
+              1200,
+              48
+            ],
+            [
+              1280,
+              97
+            ],
+            [
+              1360,
+              98
+            ],
+            [
+              1440,
+              83
+            ],
+            [
+              1520,
+              82
+            ],
+            [
+              1600,
+              85
+            ],
+            [
+              1680,
+              85
+            ],
+            [
+              1760,
+              1
+            ],
+            [
+              1840,
+              89
+            ],
+            [
+              1920,
+              86
+            ],
+            [
+              2000,
+              107
+            ],
+            [
+              2080,
+              281
+            ],
+            [
+              2102,
+              383
+            ],
+            [
+              2103,
+              447
+            ]
+          ]
+        }
+      },
+      "steelBeams": {
+        "art": "steelBeams",
+        "surf": "rock",
+        "friction": 0.6,
+        "width": 1.592,
+        "above": 0.272,
+        "flip": true,
+        "hull": {
+          "w": 2136,
+          "h": 396,
+          "top": 0,
+          "hull": [
+            [
+              30,
+              310
+            ],
+            [
+              230,
+              130
+            ],
+            [
+              360,
+              100
+            ],
+            [
+              1210,
+              0
+            ],
+            [
+              1890,
+              110
+            ],
+            [
+              2050,
+              240
+            ],
+            [
+              2130,
+              390
+            ],
+            [
+              20,
+              390
+            ]
+          ],
+          "profile": [
+            [
+              0,
+              396
+            ],
+            [
+              0,
+              385
+            ],
+            [
+              80,
+              272
+            ],
+            [
+              160,
+              177
+            ],
+            [
+              240,
+              126
+            ],
+            [
+              320,
+              106
+            ],
+            [
+              400,
+              132
+            ],
+            [
+              480,
+              141
+            ],
+            [
+              560,
+              123
+            ],
+            [
+              640,
+              153
+            ],
+            [
+              720,
+              154
+            ],
+            [
+              800,
+              131
+            ],
+            [
+              880,
+              136
+            ],
+            [
+              960,
+              102
+            ],
+            [
+              1040,
+              89
+            ],
+            [
+              1120,
+              82
+            ],
+            [
+              1200,
+              2
+            ],
+            [
+              1280,
+              9
+            ],
+            [
+              1360,
+              113
+            ],
+            [
+              1440,
+              122
+            ],
+            [
+              1520,
+              115
+            ],
+            [
+              1600,
+              119
+            ],
+            [
+              1680,
+              66
+            ],
+            [
+              1760,
+              96
+            ],
+            [
+              1840,
+              112
+            ],
+            [
+              1920,
+              179
+            ],
+            [
+              2000,
+              228
+            ],
+            [
+              2080,
+              301
+            ],
+            [
+              2135,
+              383
+            ],
+            [
+              2136,
+              396
+            ]
+          ]
+        }
+      }
+    },
+    "props": [
+      {
+        "kind": "branchPile",
+        "x": 78
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 116
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 198
+      },
+      {
+        "kind": "branchPile",
+        "x": 220
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 241
+      },
+      {
+        "kind": "branchPile",
+        "x": 412
+      },
+      {
+        "kind": "boulderSteps",
+        "x": 455
+      },
+      {
+        "kind": "branchPile",
+        "x": 546
+      },
+      {
+        "kind": "concreteSlabs",
+        "x": 581
+      },
+      {
+        "kind": "rootTangle",
+        "x": 590
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 1082
+      },
+      {
+        "kind": "branchPile",
+        "x": 1095
+      },
+      {
+        "kind": "branchPile",
+        "x": 1125
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 1146
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 1243
+      },
+      {
+        "kind": "branchPile",
+        "x": 1261
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 1302
+      },
+      {
+        "kind": "steelBeams",
+        "x": 1587
+      },
+      {
+        "kind": "branchPile",
+        "x": 1660
+      },
+      {
+        "kind": "steelBeams",
+        "x": 1669
+      },
+      {
+        "kind": "branchPile",
+        "x": 2162
+      },
+      {
+        "kind": "rootTangle",
+        "x": 2236
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 2283
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 2299
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 2550
+      },
+      {
+        "kind": "branchPile",
+        "x": 2685
+      },
+      {
+        "kind": "boulderSteps",
+        "x": 2730
+      },
+      {
+        "kind": "concreteSlabs",
+        "x": 2739
+      },
+      {
+        "kind": "branchPile",
+        "x": 2754
+      },
+      {
+        "kind": "rootNetwork",
+        "x": 3260
+      },
+      {
+        "kind": "branchPile",
+        "x": 3269
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 3298
+      },
+      {
+        "kind": "branchPile",
+        "x": 3550
+      },
+      {
+        "kind": "steelBeams",
+        "x": 3559
+      },
+      {
+        "kind": "rootTangle",
+        "x": 3634
+      },
+      {
+        "kind": "branchPile",
+        "x": 3788
+      },
+      {
+        "kind": "boulderSteps",
+        "x": 3815
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 3925
+      },
+      {
+        "kind": "steelBeams",
+        "x": 3937
+      },
+      {
+        "kind": "buriedTyres",
+        "x": 4060
+      }
+    ],
+    "crushables": {
+      "rock": [
+        2.5,
+        5
+      ],
+      "dirt": [
+        3,
+        6
+      ],
+      "room": 0.4,
+      "pileEvery": 2
+    },
+    "stations": [
+      {
+        "x": 620
+      },
+      {
+        "x": 1700
+      },
+      {
+        "x": 2800
+      }
+    ],
+    "scenery": [
+      {
+        "art": "fenceSection",
+        "x": 40,
+        "count": 2
+      },
+      {
+        "art": "warningSign",
+        "x": 96
+      },
+      {
+        "art": "stiltShack",
+        "x": 265
+      },
+      {
+        "art": "warningSign",
+        "x": 255
+      },
+      {
+        "art": "rustedPickup",
+        "x": 410
+      },
+      {
+        "art": "fenceSection",
+        "x": 540,
+        "count": 3
+      },
+      {
+        "art": "warningSign",
+        "x": 1068
+      },
+      {
+        "art": "rustedPickup",
+        "x": 1160
+      },
+      {
+        "art": "warningSign",
+        "x": 1318
+      },
+      {
+        "art": "waterTower",
+        "x": 1478
+      },
+      {
+        "art": "fenceSection",
+        "x": 1615,
+        "count": 2
+      },
+      {
+        "art": "stiltShack",
+        "x": 2155
+      },
+      {
+        "art": "warningSign",
+        "x": 2352
+      },
+      {
+        "art": "rustedPickup",
+        "x": 2520
+      },
+      {
+        "art": "fenceSection",
+        "x": 2700,
+        "count": 3
+      },
+      {
+        "art": "stiltShack",
+        "x": 3242
+      },
+      {
+        "art": "warningSign",
+        "x": 3315
+      },
+      {
+        "art": "waterTower",
+        "x": 3537
+      },
+      {
+        "art": "fenceSection",
+        "x": 3720,
+        "count": 3
+      },
+      {
+        "art": "rustedPickup",
+        "x": 3830
+      },
+      {
+        "art": "stiltShack",
+        "x": 4119
+      }
+    ],
+    "highways": [
+      {
+        "x0": 628,
+        "x1": 1028,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 5113,
+          "height": [
+            2.2,
+            3.4
+          ],
+          "wave": [
+            80,
+            120
+          ]
+        }
+      },
+      {
+        "x0": 1708,
+        "x1": 2108,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 5127,
+          "height": [
+            2.2,
+            3.4
+          ],
+          "wave": [
+            80,
+            120
+          ]
+        }
+      },
+      {
+        "x0": 2808,
+        "x1": 3208,
+        "sign": "highwaySign",
+        "waves": {
+          "seed": 5139,
+          "height": [
+            2.2,
+            3.4
+          ],
+          "wave": [
+            80,
+            120
+          ]
+        }
+      }
+    ]
+  },
+  "surfaces": {
+    "gravel": {
+      "mu": 0.85,
+      "label": "Quarry track",
+      "rolling": 0.022,
+      "noise": [
+        0.12,
+        0.045,
+        0.014
+      ]
+    },
+    "dirt": {
+      "mu": 0.88,
+      "label": "Slate gravel",
+      "rolling": 0.035,
+      "noise": [
+        0.3,
+        0.11,
+        0.03
+      ]
+    },
+    "rock": {
+      "mu": 0.74,
+      "label": "Wet slate",
+      "rolling": 0.04,
+      "noise": [
+        0.38,
+        0.16,
+        0.045
+      ]
+    },
+    "mud": {
+      "mu": 0.3,
+      "label": "Peat bog",
+      "rolling": 0.12,
+      "sink": 0.24,
+      "bog": 2800,
+      "suction": 700,
+      "noise": [
+        0.2,
+        0.07,
+        0.02
+      ],
+      "heavySink": 0.22,
+      "heavyDrag": 0.35,
+      "heavyGrip": 0.6,
+      "bogRefT": 2.5
+    },
+    "creek": {
+      "mu": 0.55,
+      "label": "Moor stream",
+      "rolling": 0.05,
+      "sink": 0,
+      "noise": [
+        0.2,
+        0.09,
+        0.03
+      ]
+    },
+    "highway": {
+      "mu": 0.95,
+      "label": "Highway",
+      "rolling": 0.015,
+      "noise": [
+        0,
+        0,
+        0
+      ]
+    },
+    "wood": {
+      "mu": 0.82,
+      "label": "Timber bridge",
+      "rolling": 0.025,
+      "noise": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "art": {
+    "backdrop": {
+      "file": "art/backdrop.webp"
+    },
+    "ground": {
+      "file": "art/ground.webp"
+    },
+    "roadEdge": {
+      "file": "art/road-edge.webp"
+    },
+    "roadFar": {
+      "file": "art/road-far.webp"
+    },
+    "roadSoil": {
+      "file": "art/road-soil.webp"
+    },
+    "reeds": {
+      "file": "art/reeds.webp"
+    },
+    "rock": {
+      "file": "art/rock.webp"
+    },
+    "granite": {
+      "file": "art/granite.webp"
+    },
+    "wetmud": {
+      "file": "art/wet-mud.webp"
+    },
+    "deepMud": {
+      "file": "art/deepMud.webp"
+    },
+    "pipe": {
+      "file": "art/roller-straight.webp"
+    },
+    "logCrossing": {
+      "file": "art/pit-prop-straight.webp"
+    },
+    "branchPile": {
+      "file": "art/branch-pile.webp"
+    },
+    "rootTangle": {
+      "file": "art/root-tangle.webp"
+    },
+    "buriedTyres": {
+      "file": "art/buried-tyres.webp"
+    },
+    "steelBeams": {
+      "file": "art/steel-beams.webp"
+    },
+    "concreteSlabs": {
+      "file": "art/concrete-slabs.webp"
+    },
+    "rootNetwork": {
+      "file": "art/root-network.webp"
+    },
+    "boulderSteps": {
+      "file": "art/boulder-steps.webp"
+    },
+    "fenceSection": {
+      "file": "art/fence-section.webp",
+      "heightM": 1.3,
+      "lean": true,
+      "crop": [
+        0,
+        0,
+        2065,
+        438
+      ],
+      "repeatPx": 2053
+    },
+    "stiltShack": {
+      "file": "art/cabin.webp",
+      "heightM": 4.2
+    },
+    "rustedPickup": {
+      "file": "art/rusted-pickup.webp",
+      "heightM": 3,
+      "lean": true
+    },
+    "waterTower": {
+      "file": "art/water-tower.webp",
+      "heightM": 8
+    },
+    "warningSign": {
+      "file": "art/warning-sign.webp",
+      "heightM": 3.6
+    },
+    "highwaySign": {
+      "file": "art/highway-sign.webp"
+    },
+    "speedSign": {
+      "file": "art/speed-sign.webp",
+      "face": [
+        334.5,
+        334.0,
+        324.5
+      ]
+    },
+    "fuelStation": {
+      "file": "art/fuel-station.webp"
+    }
+  },
+  "rockHulls": "rock-hulls.json",
+  "render": {
+    "sky": "#9db5d3",
+    "bankTile": 14,
+    "parallax": {
+      "backdrop": 0.055
+    },
+    "forestFloor": false,
+    "road": {
+      "far": 0.12,
+      "near": 0.1,
+      "edge": 0.09,
+      "farEdge": 0.1,
+      "soilTileM": 18
+    },
+    "lane": {
+      "materials": {
+        "dirt": "ground",
+        "gravel": "ground",
+        "creek": "wetmud",
+        "mud": "wetmud",
+        "rock": "granite",
+        "highway": "granite"
+      },
+      "tints": {
+        "mud": "rgba(16,14,12,0.3)",
+        "dirt": "rgba(70,78,84,0.14)",
+        "gravel": "rgba(150,158,164,0.24)",
+        "rock": "rgba(40,48,58,0.14)",
+        "creek": "rgba(30,40,44,0.3)",
+        "highway": "rgba(28,29,32,0.8)"
+      }
+    },
+    "obstacles": {
+      "pipe": {
+        "face": [
+          400.1,
+          837.8,
+          328.0
+        ],
+        "far": [
+          1207.9,
+          272.4
+        ]
+      },
+      "logCrossing": {
+        "face": [
+          492.6,
+          901.5,
+          335.5
+        ],
+        "far": [
+          1312.4,
+          327.7
+        ]
+      }
+    },
+    "midground": false,
+    "backdropHorizon": 0.657,
+    "backdropFloor": "#859a8e"
+  },
+  "ambience": [
+    {
+      "sound": "crows",
+      "x": [
+        140,
+        210
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        440,
+        520
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        1180,
+        1240
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        1500,
+        1600
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        2180,
+        2350
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        2550,
+        2620
+      ]
+    },
+    {
+      "sound": "crows",
+      "x": [
+        3580,
+        3700
+      ]
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        262,
+        385
+      ],
+      "gain": 0.6
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        1330,
+        1480
+      ],
+      "gain": 0.6
+    },
+    {
+      "sound": "frogs",
+      "x": [
+        3330,
+        3520
+      ],
+      "gain": 0.6
+    }
+  ]
+}

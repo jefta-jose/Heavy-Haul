@@ -34,6 +34,8 @@ for item in ([] if args.cars or args.art else json.loads(hud.read_text()).get('a
 source_sizes = {}
 for spec, key, entry in jobs:
     folder = spec.parent
+    if 'source' not in entry:   # prepared once and encoded already; its master was deleted
+        continue
     src, dst = folder / entry['source'], folder / entry['file']
     if not src.exists():
         print(f'not generated yet: {src.relative_to(ROOT)}')

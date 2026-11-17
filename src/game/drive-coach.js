@@ -1,6 +1,6 @@
 import { DAMAGE_START_KMH } from '../game-config.js';
 
-const names = { rottenLog: 'Rotten logs', log: 'Log crossing', pipe: 'Pipe crossing', drum: 'Drum crossing', buriedTyres: 'Buried tyres' };
+const names = { rottenLog: 'Rotten logs', log: 'Log crossing', pipe: 'Pipe crossing', drum: 'Drum crossing', oilDrum: 'Drum crossing', pole: 'Pole crossing', pitProp: 'Pit props', roller: 'Roller crossing', bamboo: 'Bamboo bundles', steamPipe: 'Steam pipes', charredLog: 'Charred logs', buriedTyres: 'Buried tyres' };
 
 // Shared by the route preview and coaching: use the actual authored crossings.
 export function routeFeatures(trail, vehicleMassT = 0) {
