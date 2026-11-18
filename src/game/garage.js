@@ -21,7 +21,6 @@ const $ = id => document.getElementById(id);
 // a car's whole weight on the road: empty, wheels and load
 const grossTonnes = c => (c.physics.mass + c.physics.wheelMass * c.rig.axles.length) / 1000 + (c.physics.load?.massT ?? 0);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const SWIPE_PX = 40;   // a horizontal drag this long on the stage moves one card
 
 export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSell, onSeason }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
@@ -84,9 +83,11 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const carTag = c => !owns(c.id) ? (isOpen(c.id) ? null : `Rank ${unlockOf(c.id)}`) : null;
   const carSub = c => owns(c.id) ? `${classes[rank[c.class]]?.name ?? ''} · ${c.drive ?? ''}` : isOpen(c.id) ? `${formatCoins(progress.price(c.id))} coins` : 'Locked';
 
-  function renderStage() {
-    const box = $('hcCards'); box.replaceChildren();
+  // rebuild: false keeps the sliding row as it is (a swipe landing); true redraws its cards (a purchase, a new class)
+  function renderStage(rebuild = true) {
+    const box = $('hcCards');
     if (page === 'home') {
+      deck.clear(); box.replaceChildren();
       const s = seasonList.find(x => x.id === seasonId), m = missions?.active;
       $('hcTitle').textContent = nameOf(car);
       box.append(
@@ -97,24 +98,26 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const frame = box.querySelector('.right .hc-frame'); frame.prepend(gIcon('mission'));
       if (m) frame.append(el('span', 'hc-stars', '★'.repeat(missions.starsFor?.(m) ?? 1)));
     } else if (page === 'seasons') {
-      const n = seasonList.length, at = i => seasonList[(i + n) % n];
-      const s = at(seasonAt), open = s.status === 'playable';
-      $('hcTitle').textContent = s.name;
-      const sCard = (where, x, d) => card(where, { label: where === 'main' ? '' : x.name, sub: where === 'main' && x.id === seasonId ? 'Selected' : null, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status === 'playable' ? null : 'Coming later', onClick: d ? () => stepSeason(d) : null });
-      if (n > 1) box.append(sCard('side left', at(seasonAt - 1), -1));
-      box.append(sCard('main', s, 0));
-      if (n > 1) box.append(sCard('side right', at(seasonAt + 1), 1));
+      const n = seasonList.length;
+      deck.set({
+        key: 'seasons', items: seasonList, at: seasonAt, rebuild,
+        make: x => card('slide', { label: x.name, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status === 'playable' ? null : 'Coming later' }),
+        near: i => { $('hcTitle').textContent = seasonList[i].name; },
+        land: landSeason,
+      });
+      $('hcTitle').textContent = seasonList[seasonAt]?.name ?? '';
+      if (!n) deck.clear();
     } else {
-      const list = classCars(cls), n = list.length;
+      const list = classCars(cls);
       if (!list.includes(browse)) browse = list[0];
-      const i = list.indexOf(browse), at = k => list[(k + n) % n];
       $('hcTitle').textContent = browse ? nameOf(browse) : 'No trucks yet';
-      if (browse) {
-        const vCard = (where, c, d) => card(where, { label: where === 'main' ? '' : nameOf(c), sub: carSub(c), pic: c.artUri.master, kind: 'car', locked: carTag(c), onClick: d ? () => stepCar(d) : null });
-        if (n > 1) box.append(vCard('side left', at(i - 1), -1));
-        box.append(vCard('main', browse, 0));
-        if (n > 1) box.append(vCard('side right', at(i + 1), 1));
-      }
+      if (browse) deck.set({
+        key: `vehicle:${cls}`, items: list, at: list.indexOf(browse), rebuild,
+        make: c => card('slide', { label: nameOf(c), sub: carSub(c), pic: c.artUri.master, kind: 'car', locked: carTag(c) }),
+        near: i => { $('hcTitle').textContent = nameOf(list[i]); },
+        land: i => landCar(list[i]),
+      });
+      else deck.clear();
     }
     renderSpec();
   }
@@ -129,27 +132,129 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     }
   }
 
-  // ---------- moving through the cards: tap a side card, swipe, or the arrow keys ----------
-  // the map in the middle is the map at once; a planned one is only shown
-  function stepSeason(d) {
-    const n = seasonList.length; seasonAt = (seasonAt + d + n) % n;
-    const s = seasonList[seasonAt];
+  // ---------- moving through the cards: drag (the row follows the finger and a flick carries on), tap a side card, or the arrows ----------
+  // the map that lands in the middle is the map at once; a planned one is only shown
+  function landSeason(i) {
+    seasonAt = i; const s = seasonList[i];
     if (s.status === 'playable' && s.id !== seasonId) { seasonId = s.id; onSeason?.(s.id); }
-    renderStage();
+    renderSpec(); renderPlay();
   }
-  // an owned truck in the middle is the one PLAY drives
-  function stepCar(d) { const list = classCars(cls), n = list.length; if (!n) return; showCar(list[(list.indexOf(browse) + d + n) % n]); }
+  // an owned truck that lands in the middle is the one PLAY drives
+  function landCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); $('hcTitle').textContent = nameOf(c); renderTop(); renderSpec(); renderPlay(); }
   function showCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); render(); }
-  const stepPage = d => page === 'seasons' ? stepSeason(d) : page === 'vehicle' ? stepCar(d) : null;
-  {
-    let x0 = null;
-    $('hcStage').addEventListener('pointerdown', e => { x0 = e.clientX; });
-    $('hcStage').addEventListener('pointerup', e => {
-      if (x0 == null) return; const dx = e.clientX - x0; x0 = null;
-      if (Math.abs(dx) > SWIPE_PX) { stepPage(dx < 0 ? 1 : -1); swallowClick(); }
+  const stepPage = d => { if (page !== 'home') deck.go(d); };
+
+  // the sliding row: every card sits at a float position, the middle one at 0; side cards shrink, tilt and dim
+  const deck = (() => {
+    const box = $('hcCards'), slots = new Map();   // virtual index (unbounded, so the row wraps) -> card element
+    let cfg = null, key = null, pos = 0, vel = 0, target = null, raf = 0, last = 0, near = null;
+    let m = { step1: 1, step2: 1, side: .55 };
+    const n = () => cfg?.items.length ?? 0, wrap = k => ((k % n()) + n()) % n();
+    function measure() {
+      const W = box.clientWidth || 1, H = box.clientHeight || 1, tall = W < H * 1.3;
+      const w = tall ? W * 0.8 : Math.min(W * 0.44, H * 1.6), h = Math.min(H - 10, w * (tall ? 0.78 : 0.76));
+      const side = tall ? 0.62 : 0.56, gap = Math.max(10, W * 0.02), sw = w * side;
+      m = { step1: w / 2 + gap + sw / 2, step2: sw + gap, side };
+      box.style.setProperty('--w', `${w}px`); box.style.setProperty('--h', `${h}px`);
+    }
+    function draw() {
+      if (!cfg) return;
+      const count = n(), reach = count > 1 ? 3 : 0, base = Math.round(pos), keep = new Set();
+      for (let k = base - reach; k <= base + reach; k++) {
+        const d = k - pos, ad = Math.abs(d);
+        if (ad > 2.6) continue;
+        keep.add(k);
+        let e = slots.get(k);
+        if (!e) {
+          e = cfg.make(cfg.items[wrap(k)]); e.dataset.k = k; e.tabIndex = -1;
+          e.addEventListener('click', () => { if (k !== Math.round(target ?? pos)) to(k); });
+          slots.set(k, e); box.append(e);
+        }
+        const a = Math.min(ad, 1), sc = 1 - (1 - m.side) * a, sign = Math.sign(d);
+        const x = sign * (a * m.step1 + Math.max(ad - 1, 0) * m.step2);
+        e.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0) rotateY(${(-sign * a * 16).toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+        e.style.opacity = ad <= 1.5 ? 1 : Math.max(0, 1 - (ad - 1.5) / 1.1);
+        e.style.zIndex = String(100 - Math.round(ad * 10));
+        e.style.setProperty('--a', a.toFixed(3)); e.style.setProperty('--s', sc.toFixed(4));
+        e.classList.toggle('mid', ad < 0.5);
+      }
+      for (const [k, e] of slots) if (!keep.has(k)) { e.remove(); slots.delete(k); }
+      const thumb = $('hcTrack')?.firstElementChild;
+      if (thumb && count > 1) { thumb.style.width = `${100 / count}%`; thumb.style.transform = `translateX(${(((pos % count) + count) % count * 100).toFixed(1)}%)`; }
+      const at = count ? wrap(base) : null;
+      if (at !== near) { near = at; if (at != null) cfg.near?.(at); }
+    }
+    // a critically damped spring: no bounce, and a flick's speed carries straight into it
+    function tick(t) {
+      const dt = Math.min(32, t - (last || t)); last = t;
+      if (target != null) {
+        const w = 0.018, acc = w * w * (target - pos) - 2 * w * vel;
+        vel += acc * dt; pos += vel * dt;
+        if (Math.abs(target - pos) < 0.0015 && Math.abs(vel) < 0.0002) {
+          pos = target; vel = 0; const k = target; target = null; raf = 0; last = 0; draw(); cfg?.land(wrap(k)); return;
+        }
+      }
+      draw(); raf = requestAnimationFrame(tick);
+    }
+    const run = () => { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } };
+    function to(k) { if (n() < 2) return; target = k; run(); }
+    // dragging
+    let drag = null;
+    const stage = $('hcStage');
+    stage.addEventListener('pointerdown', e => {
+      if (!cfg || n() < 2 || page === 'home' || e.button > 0 || e.target.closest('.g-classes, .hc-under')) return;
+      drag = { id: e.pointerId, x0: e.clientX, pos0: pos, moving: false, pts: [[e.timeStamp, e.clientX]] };
     });
-    // a swipe must not also count as a tap on the card under the finger
+    stage.addEventListener('pointermove', e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x0;
+      if (!drag.moving) {
+        if (Math.abs(dx) < 6) return;
+        drag.moving = true; drag.x0 = e.clientX; drag.pos0 = pos; target = null; vel = 0;
+        if (raf) { cancelAnimationFrame(raf); raf = 0; }
+        try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      pos = drag.pos0 - (e.clientX - drag.x0) / m.step1;
+      drag.pts.push([e.timeStamp, e.clientX]); if (drag.pts.length > 8) drag.pts.shift();
+      draw();
+    });
+    const release = e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const d = drag; drag = null;
+      if (!d.moving) return;
+      swallowClick();
+      // finger speed over the last ~90 ms, in cards per ms
+      const now = e.timeStamp, recent = d.pts.filter(p => now - p[0] < 90), p0 = recent[0] ?? d.pts[0];
+      const v = now > p0[0] ? -(e.clientX - p0[1]) / (now - p0[0]) / m.step1 : 0;
+      const fling = v * 260 * (1 + Math.abs(v) * 160);
+      let k = Math.round(pos + Math.max(-14, Math.min(14, fling)));
+      const start = Math.round(d.pos0);
+      if (k === start && Math.abs(pos - d.pos0) > 0.12) k += Math.sign(pos - d.pos0);   // a short drag still moves one card
+      vel = v; to(k);
+    };
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
+    // a drag must not also count as a tap on the card under the finger
     const swallowClick = () => { const stop = ev => { ev.stopPropagation(); ev.preventDefault(); }; window.addEventListener('click', stop, { capture: true, once: true }); setTimeout(() => window.removeEventListener('click', stop, { capture: true }), 400); };
+    window.addEventListener('resize', () => { if (cfg) { measure(); draw(); } });
+    return {
+      set(next) {
+        const same = next.key === key && cfg;
+        cfg = next; box.classList.add('deck'); $('hcTrack').hidden = n() < 2;
+        if (same && !next.rebuild) return;
+        if (!same || target == null) { if (raf) cancelAnimationFrame(raf); raf = 0; target = null; vel = 0; pos = Math.max(0, next.at); }
+        key = next.key; near = null;
+        box.replaceChildren(); slots.clear();   // also lets go of home's three cards
+        measure(); draw();
+      },
+      clear() {
+        if (raf) cancelAnimationFrame(raf); raf = 0; cfg = null; key = null; target = null; vel = 0; drag = null;
+        slots.clear(); box.classList.remove('deck'); $('hcTrack').hidden = true;
+      },
+      go(d) { if (n() > 1) to(Math.round(target ?? pos) + d); },
+    };
+  })();
+  {
     window.addEventListener('keydown', e => {
       if (garageEl.hidden || document.querySelector('.garage .overlay:not([hidden])')) return;
       if (e.key === 'ArrowLeft') stepPage(-1); else if (e.key === 'ArrowRight') stepPage(1);
@@ -244,7 +349,12 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     tuning[car.id] = {}; saveTuning(tuning); renderTuning(); render();
   });
   const tuneOv = $('tuneOv');
-  $('gMenuTune').addEventListener('click', () => { go('home'); if (!owns(car.id)) return; renderTuning(); tuneOv.hidden = false; });
+  // only a truck the player owns can be upgraded: the button is off while an unbought one is in view
+  const inView = () => page === 'vehicle' ? browse : car;
+  $('gMenuTune').addEventListener('click', () => {
+    if (!owns(inView().id)) { shake($('gMenuTune')); return; }
+    go('home'); if (!owns(car.id)) return; renderTuning(); tuneOv.hidden = false;
+  });
   $('tuneDone').addEventListener('click', () => { tuneOv.hidden = true; render(); });
 
   // powers: one at a time for this truck, kept until another is picked; tapping the one that is on turns it off
@@ -309,7 +419,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // ---------- PLAY, and the player's rank and coins ----------
   function renderTop() {
     $('gCoins').textContent = formatCoins(wallet.coins);
-    $('gMenuTune').disabled = !owns(car.id);
+    $('gMenuTune').disabled = !owns(inView().id);
     if (progress) {
       const pr = progress.progress;
       $('gRankNum').textContent = `Rank ${pr.rank}`;

@@ -244,10 +244,24 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     const named = await page.locator('#hcTitle').innerText();
+    // the row slides to the next card, so wait for it to land (and the swipe not to buy or pick anything on the way)
     await page.keyboard.press('ArrowRight');
+    await page.waitForFunction(n => document.querySelector('#hcTitle').innerText !== n, named);
+    await page.waitForTimeout(600);
     assert.notEqual(await page.locator('#hcTitle').innerText(), named, 'swiping on changes the truck');
     await page.keyboard.press('ArrowLeft');
+    await page.waitForFunction(n => document.querySelector('#hcTitle').innerText === n, named);
+    await page.waitForTimeout(600);
     assert.equal(await page.locator('#hcTitle').innerText(), named, 'and back brings it back');
+    // a drag follows the finger, and a fast flick carries over several trucks
+    const deckBox = await page.locator('#hcCards').boundingBox(), dy = deckBox.y + deckBox.height / 2, dx = deckBox.x + deckBox.width / 2;
+    await page.mouse.move(dx + 250, dy); await page.mouse.down();
+    for (let i = 1; i <= 5; i++) { await page.mouse.move(dx + 250 - i * 100, dy); await page.waitForTimeout(8); }
+    await page.mouse.up(); await page.waitForTimeout(1200);
+    assert.notEqual(await page.locator('#hcTitle').innerText(), named, 'a flick moves the row');
+    if (await page.locator('#startBtn.buy, #startBtn.locked').count()) assert(await page.locator('#gMenuTune').isDisabled(), 'a truck not owned cannot be upgraded');
+    await page.locator('.g-class', { hasText: 'Scouts' }).click();
+    await page.waitForTimeout(100);
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy-duty', 'a tab picks an owned truck of its class');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();

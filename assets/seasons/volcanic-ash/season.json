@@ -2443,7 +2443,10 @@
   },
   "art": {
     "backdrop": {
-      "file": "art/backdrop.webp"
+      "file": "art/backdrop.webp",
+      "source": "source/backdrop.png",
+      "width": 1800,
+      "quality": 82
     },
     "ground": {
       "file": "art/ground.webp"
@@ -2631,8 +2634,8 @@
       }
     },
     "midground": false,
-    "backdropHorizon": 0.602,
-    "backdropFloor": "#2e4f1e"
+    "backdropHorizon": 0.705,
+    "backdropFloor": "#2b4d30"
   },
   "ambience": [
     {

@@ -4251,6 +4251,32 @@ dl.spec dd {
 .hc-powers { margin-top: 12px; }
 .hc-powers .powerlist { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
 
+/* the sliding row (Seasons and Vehicle): every card is the middle card's size, moved, tilted, shrunk and dimmed by garage.js
+   from its distance to the middle (--a: 0 in the middle, 1 at the side; --s: its scale). A yellow rim marks the middle one. */
+.hc-cards.deck { position: relative; display: block; perspective: 1500px; overflow: visible; }
+.hc-stage { overflow: hidden; }
+.hc-card.slide {
+  position: absolute; left: 50%; top: 50%; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+  display: block; transform-origin: 50% 50%; will-change: transform, opacity; cursor: grab; touch-action: pan-y;
+}
+.hc-card.slide .hc-frame {
+  width: 100%; height: 100%; aspect-ratio: auto;
+  outline: 2px solid rgba(242, 194, 26, calc(.8 - var(--a, 0) * .8));
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .6), 0 0 calc(26px * (1 - var(--a, 0))) rgba(242, 194, 26, calc(.18 * (1 - var(--a, 0))));
+}
+.hc-card.slide::after { content: ''; position: absolute; inset: 0; background: #07080a; opacity: calc(var(--a, 0) * .42); pointer-events: none; }
+.hc-card.slide .hc-label {
+  position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: calc(8px / var(--s, 1)); text-align: center;
+  display: block; font-size: calc(clamp(15px, 1.6vw, 24px) / var(--s, 1)); opacity: var(--a, 0);
+}
+.hc-card.slide .hc-sub { font-size: calc(clamp(12px, 1.2vw, 17px) / max(var(--s, 1), .8)); }
+.hc-card.slide:active .hc-frame { filter: none; }
+.hc-cards.deck:active .hc-card.slide { cursor: grabbing; }
+/* where in the row the middle card is */
+.hc-track { position: relative; width: min(220px, 40vw); height: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; flex: none; }
+.hc-track[hidden] { display: none; }
+.hc-track i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 8px; background: var(--yellow); }
+
 /* phones on their side */
 @media (max-height: 520px) {
   .garage.hc { --hc-bar: 54px; --hc-top: 40px; padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(6px, env(safe-area-inset-bottom)); }
@@ -4263,6 +4289,8 @@ dl.spec dd {
   .hc-title { font-size: 20px; }
   .hc-cards { gap: 10px; }
   .hc-label { font-size: 12px; }
+  .hc-card.slide .hc-label { font-size: calc(12px / var(--s, 1)); margin-bottom: calc(4px / var(--s, 1)); }
+  .hc-card.slide .hc-sub { font-size: calc(10px / max(var(--s, 1), .8)); }
   .hc-sub { font-size: 10px; padding: 12px 6px 5px; }
   .hc-spec dt { font-size: 9px; } .hc-spec dd { font-size: 13px; } .hc-spec .g-cell { padding: 0 8px; }
   .hc-bar { gap: 6px; }
@@ -4326,7 +4354,8 @@ dl.spec dd {
   .hc .hc-stage > .g-classes .g-class b { display: none; }
 }
 /* a map card shows the panorama's scenery, not its flat foreground (until the season has its own card art) */
-.hc-frame.scene { background-size: auto 165%; background-position: center 4%; }
+/* a quarter of the way in: the middle of the original picture on a mirrored panorama, never the mirror join */
+.hc-frame.scene { background-size: auto 165%; background-position: 25% 4%; }
 .hc-frame.scene.card-art { background-size: cover; background-position: center; }
 .hc-powers .powerlist { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (orientation: portrait) and (max-width: 1100px) { .hc-powers .powerlist { grid-template-columns: 1fr; } }
