@@ -4513,3 +4513,451 @@ dl.spec dd {
   .stunt { animation-name: ri-fade; }
   @keyframes ri-fade { 0%, 100% { opacity: 0; } 10%, 85% { opacity: 1; } }
 }
+
+/* ======================================================================================================================
+   BASECAMP theme (2026-11-18): the garage and the driving HUD redrawn. The map being played, blurred, is the garage's room; panels
+   are dark glass parallelograms with a hot orange edge; type is heavy italic. Garage layout: a slanted button rail down the left,
+   the truck large in the middle with its name written huge behind it, the season and mission cards on the right, PLAY in the
+   bottom right corner. Same markup and flow as before (garage.js); everything here overrides the older blocks above.
+   ====================================================================================================================== */
+:root {
+  --bc-acc: #ff6b1f;
+  --bc-acc-hi: #ff9a3c;
+  --bc-acc-lo: #d9420c;
+  --bc-glass: rgba(8, 11, 16, .74);
+  --bc-glass-hi: rgba(20, 25, 33, .82);
+  --bc-line: rgba(255, 255, 255, .13);
+  --bc-skew: -10deg;
+  --bc-unskew: 10deg;
+}
+
+/* ---------- the room ---------- */
+.garage.hc {
+  --rail: clamp(150px, 17vw, 250px);
+  --g-top: 64px;
+  --g-foot: 92px;
+  --play: clamp(210px, 26vw, 380px);
+  --yellow: var(--bc-acc);
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  grid-template-rows: var(--g-top) minmax(0, 1fr) auto auto auto auto minmax(0, 1fr) var(--g-foot);
+  column-gap: clamp(14px, 2.2vw, 34px);
+  padding: 0 max(20px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: #06080b;
+  isolation: isolate;
+}
+.garage.hc::before {
+  content: ''; position: absolute; inset: -40px; z-index: -2; pointer-events: none;
+  background: var(--g-scene, none) center 40% / cover no-repeat, #0b0f14;
+  filter: blur(9px) saturate(1.2) brightness(.5);
+}
+.garage.hc::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 9% at calc(var(--rail) + 36%) 74%, rgba(255, 107, 31, .26), transparent 70%),
+    linear-gradient(90deg, rgba(4, 6, 9, .94) 0, rgba(4, 6, 9, .6) calc(var(--rail) + 30px), rgba(4, 6, 9, .12) 55%, rgba(4, 6, 9, .5) 100%),
+    linear-gradient(180deg, rgba(4, 6, 9, .7) 0, transparent 22%, transparent 58%, rgba(4, 6, 9, .92) 100%);
+}
+
+/* ---------- top: logo, sound, rank, coins ---------- */
+.garage.hc > .hc-top { grid-column: 1 / -1; grid-row: 1; padding-top: env(safe-area-inset-top); }
+.garage.hc .g-logo { padding: 0; background: none; clip-path: none; border: 0; display: flex; align-items: baseline; gap: 10px; }
+.garage.hc .g-logo b { font: italic 900 28px/1 var(--display); letter-spacing: .04em; color: #fff; }
+.garage.hc .g-logo b::before { content: ''; display: inline-block; width: 10px; height: .8em; margin-right: 10px; background: var(--bc-acc); transform: skewX(var(--bc-skew)); box-shadow: 7px 0 0 -2px rgba(255, 107, 31, .55), 14px 0 0 -4px rgba(255, 107, 31, .3); vertical-align: -1px; }
+.garage.hc .g-logo span { font: italic 700 13px/1 var(--display); letter-spacing: .38em; color: var(--bc-acc); margin-left: 10px; }
+.garage.hc .hc-right { gap: 12px; }
+.garage.hc .hc-icon, .garage.hc .g-rank, .garage.hc .g-coins {
+  height: 44px; background: var(--bc-glass); border: 1px solid var(--bc-line); transform: skewX(var(--bc-skew));
+}
+.garage.hc .hc-icon > *, .garage.hc .g-rank > *, .garage.hc .g-coins > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc .hc-icon { width: 48px; }
+.garage.hc .hc-icon svg { color: #fff; }
+.garage.hc .g-rank { padding: 0 16px; grid-template-columns: auto 120px; column-gap: 12px; }
+.garage.hc .g-rank b { font: italic 800 22px/1 var(--display); text-transform: uppercase; }
+.garage.hc .g-rankbar { height: 5px; background: rgba(255, 255, 255, .12); transform: skewX(var(--bc-skew)); }
+.garage.hc .g-rankbar i { background: linear-gradient(90deg, var(--bc-acc-lo), var(--bc-acc-hi)); }
+.garage.hc .g-rank small { color: #aab3bd; }
+.garage.hc .g-coins { padding: 0 16px 0 10px; border-left: 3px solid #f6b92c; }
+.garage.hc .g-coins b { font: italic 800 24px/1 var(--display); color: #ffd04a; }
+
+/* ---------- the rail: SEASONS, VEHICLE, MISSIONS, UPGRADE stacked down the left; PLAY placed apart ---------- */
+.garage.hc > .hc-bar { display: contents !important; }
+.garage.hc #hcSeasons { grid-row: 3; } .garage.hc #hcVehicle { grid-row: 4; } .garage.hc #gMenuMissions { grid-row: 5; } .garage.hc #gMenuTune { grid-row: 6; }
+.garage.hc .hc-btn:not(.go) {
+  grid-column: 1; align-self: center; height: clamp(54px, 9.6vh, 84px); margin: 5px 0 5px 6px; min-width: 0;
+  display: flex; align-items: center; justify-content: flex-start; gap: 14px; padding: 0 14px 0 10px;
+  background: var(--bc-glass); border: 1px solid var(--bc-line); border-left: 4px solid rgba(255, 255, 255, .2); outline: 0;
+  transform: skewX(var(--bc-skew)); box-shadow: 0 10px 22px rgba(0, 0, 0, .35);
+  font: italic 800 clamp(17px, 1.75vw, 26px)/1 var(--display); letter-spacing: .05em; text-transform: uppercase; color: #fff; text-shadow: none;
+  transition: background-color .25s, border-color .25s, transform .25s;
+}
+.garage.hc .hc-btn:not(.go) > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc .hc-btn:not(.go) svg { width: 1.55em; height: 1.55em; padding: .28em; background: rgba(255, 255, 255, .07); color: var(--bc-acc); box-sizing: content-box; }
+.garage.hc .hc-btn:not(.go) span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (hover: hover) { .garage.hc .hc-btn:not(.go):not(:disabled):hover { border-left-color: var(--bc-acc); transform: skewX(var(--bc-skew)) translateX(5px); } }
+.garage.hc .hc-btn:not(.go).on { background: linear-gradient(90deg, var(--bc-acc), var(--bc-acc-lo)); border-color: transparent; border-left-color: #fff; }
+.garage.hc .hc-btn:not(.go).on svg { color: #fff; background: rgba(0, 0, 0, .18); }
+.garage.hc .hc-btn:not(.go):active { filter: brightness(.85); }
+.garage.hc .hc-btn:disabled { opacity: .4; }
+
+/* PLAY: the big corner button. BUY turns it gold; a locked truck turns it to steel */
+.garage.hc #startBtn {
+  grid-column: 2; grid-row: 8; justify-self: end; align-self: stretch; width: var(--play); margin: 8px 6px 4px 0; z-index: 5;
+  display: flex; align-items: center; justify-content: center; gap: 14px; padding: 0 22px;
+  border: 0; outline: 0; transform: skewX(var(--bc-skew));
+  background: linear-gradient(100deg, var(--bc-acc-hi), var(--bc-acc) 42%, var(--bc-acc-lo));
+  box-shadow: 0 12px 34px rgba(255, 107, 31, .32), inset 0 -5px 0 rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .3);
+  font: italic 900 clamp(28px, 3.3vw, 48px)/1 var(--display); letter-spacing: .07em; text-transform: uppercase; color: #fff; text-shadow: 0 2px 0 rgba(0, 0, 0, .25);
+}
+.garage.hc #startBtn > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc #startBtn:not(.buy):not(.locked):not(:disabled)::after {
+  content: ''; width: .9em; height: .62em; flex: none;
+  background: linear-gradient(90deg, #fff 0 0) 0 0 / 0 0 no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Cpath d='M0 0h7l8 10-8 10H0l8-10zM14 0h7l8 10-8 10h-7l8-10z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Cpath d='M0 0h7l8 10-8 10H0l8-10zM14 0h7l8 10-8 10h-7l8-10z'/%3E%3C/svg%3E") center / contain no-repeat;
+  background-color: #fff; animation: bc-nudge 2.4s ease-in-out infinite;
+}
+@keyframes bc-nudge { 0%, 100% { opacity: .55; transform: skewX(var(--bc-unskew)) translateX(0); } 50% { opacity: 1; transform: skewX(var(--bc-unskew)) translateX(5px); } }
+.garage.hc #startBtn:active { filter: brightness(.9); }
+.garage.hc #startBtn.buy { background: linear-gradient(100deg, #ffe066, #f6b92c 45%, #d8900c); color: #1b1305; text-shadow: none; gap: 10px; font-size: clamp(22px, 2.6vw, 38px); box-shadow: 0 12px 30px rgba(246, 185, 44, .28), inset 0 -5px 0 rgba(0, 0, 0, .18); }
+.garage.hc #startBtn.buy .coinic { width: .9em; height: .9em; }
+.garage.hc #startBtn.locked, .garage.hc #startBtn:disabled { background: linear-gradient(100deg, #3c434c, #262b31); box-shadow: none; color: #c3cad2; font-size: clamp(20px, 2.3vw, 34px); opacity: 1; }
+.garage.hc #startBtn.locked svg { width: .9em; height: .9em; color: #fff; }
+
+/* ---------- the stage ---------- */
+.garage.hc > .hc-stage { grid-column: 2; grid-row: 2 / 9; position: relative; align-items: stretch; justify-content: flex-start; gap: 6px; padding-top: 4px; }
+.garage.hc .hc-stage > * { position: relative; z-index: 1; }
+/* the name, written huge and hollow behind the truck */
+.garage.hc .hc-stage::before {
+  content: attr(data-name); position: absolute; left: -2%; right: -2%; top: 46%; transform: translateY(-50%); z-index: 0; pointer-events: none;
+  font: italic 900 clamp(84px, 13.5vw, 230px)/.9 var(--display); text-transform: uppercase; letter-spacing: -.01em; white-space: nowrap; overflow: hidden;
+  color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, .075); text-align: center;
+}
+.garage.hc .hc-title {
+  align-self: flex-start; padding: 0 0 0 20px; max-width: 100%;
+  font: italic 900 clamp(30px, 4.2vw, 62px)/.95 var(--display); letter-spacing: .01em; color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, .55);
+}
+.garage.hc .hc-title::before { content: ''; position: absolute; left: 2px; top: 10%; bottom: 10%; width: 7px; background: var(--bc-acc); transform: skewX(var(--bc-skew)); }
+/* the numbers and SELL sit along the floor, left of PLAY */
+.garage.hc .hc-under {
+  align-self: stretch; min-height: calc(var(--g-foot) - 6px); margin-right: calc(var(--play) + 18px);
+  display: flex; align-items: center; justify-content: flex-start; gap: 16px;
+}
+.garage.hc .hc-spec { gap: 0; }
+.garage.hc .hc-spec .g-cell { padding: 4px clamp(12px, 1.8vw, 26px) 4px 0; margin-right: clamp(12px, 1.8vw, 26px); border: 0; border-right: 1px solid var(--bc-line); background: none; }
+.garage.hc .hc-spec .g-cell:last-child { border-right: 0; margin-right: 0; }
+.garage.hc .hc-spec dt { font: 700 12px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--bc-acc); }
+.garage.hc .hc-spec dd { margin: 5px 0 0; font: italic 800 clamp(18px, 1.9vw, 28px)/1 var(--display); color: #fff; white-space: nowrap; }
+.garage.hc .hc-sell { height: 40px; padding: 0 16px; background: var(--bc-glass); border: 1px solid var(--bc-line); transform: skewX(var(--bc-skew)); font: italic 800 17px var(--display); text-transform: uppercase; color: #fff; }
+.garage.hc .hc-sell small { color: #ffd04a; margin-left: 6px; }
+.garage.hc .hc-track { align-self: center; height: 3px; background: rgba(255, 255, 255, .12); transform: skewX(var(--bc-skew)); }
+.garage.hc .hc-track i { background: var(--bc-acc); }
+
+/* the stage's cards: cut corners, a faint rim */
+.garage.hc .hc-frame {
+  border: 0; outline: 1px solid var(--bc-line); box-shadow: 0 16px 34px rgba(0, 0, 0, .45);
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+.garage.hc .hc-cards { max-height: none; }
+.garage.hc .hc-sub { font: italic 700 clamp(13px, 1.25vw, 19px)/1.1 var(--display); letter-spacing: .04em; }
+.garage.hc .hc-frame.mission { display: grid; align-content: center; justify-items: center; gap: 12px; background: linear-gradient(180deg, rgba(26, 31, 39, .92), rgba(9, 12, 16, .94)); }
+.garage.hc .hc-frame.mission svg { width: clamp(40px, 5vw, 80px); height: clamp(40px, 5vw, 80px); color: var(--bc-acc); }
+.garage.hc .hc-frame.mission .hc-sub { position: static; padding: 0 14px; background: none; text-align: center; font-weight: 800; font-size: calc(clamp(15px, 1.5vw, 24px) / max(var(--s, 1), .8)); }
+.garage.hc .hc-stars { color: #ffd04a; font-size: calc(16px / max(var(--s, 1), .8)); letter-spacing: 3px; }
+.garage.hc .hc-frame.car { background: none; outline: 0; box-shadow: none; clip-path: none; overflow: visible; }
+.garage.hc .hc-truck { position: relative; display: block; }
+
+/* the sliding rows (Seasons, Vehicle) */
+.garage.hc .hc-card.slide .hc-frame {
+  outline: 2px solid rgba(255, 107, 31, calc(.95 - var(--a, 0) * .95));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .55), 0 0 calc(34px * (1 - var(--a, 0))) rgba(255, 107, 31, calc(.3 * (1 - var(--a, 0))));
+}
+.garage.hc .hc-card.slide .hc-frame.car { background: linear-gradient(180deg, rgba(26, 31, 39, .9), rgba(9, 12, 16, .92)); clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px); overflow: hidden; }
+.garage.hc .hc-card.slide .hc-frame.car { display: grid; place-items: end center; }
+.garage.hc .hc-card.slide .hc-frame.car::after {
+  content: ''; position: absolute; left: 6%; right: 6%; bottom: 15%; height: 3px; opacity: 1;
+  background: linear-gradient(90deg, transparent, var(--bc-acc) 30%, var(--bc-acc-hi) 50%, var(--bc-acc) 70%, transparent);
+  box-shadow: 0 0 18px 2px rgba(255, 107, 31, .45);
+}
+.garage.hc .hc-card.slide .hc-truck { width: 88%; height: 78%; margin-bottom: 8%; }
+.garage.hc .hc-card.slide .hc-truck img { width: 100%; height: 100%; max-height: none; object-position: 50% 100%; }
+.garage.hc .hc-card.slide .hc-frame.car .hc-sub { bottom: 5%; }
+.garage.hc .hc-card.slide .hc-label { font-style: italic; font-weight: 800; }
+.garage.hc .hc-lock { font-style: italic; letter-spacing: .06em; }
+.garage.hc .hc-lock svg { color: var(--bc-acc); }
+
+/* the class tabs (Vehicle page) */
+.garage.hc .g-classes { align-self: center; gap: 8px; }
+.garage.hc .g-class { background: var(--bc-glass); border: 1px solid var(--bc-line); border-bottom: 0; transform: skewX(var(--bc-skew)); }
+.garage.hc .g-class > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc .g-class svg { color: var(--bc-acc); }
+.garage.hc .g-class b { font-style: italic; font-weight: 800; letter-spacing: .04em; }
+.garage.hc .g-class.on { background: linear-gradient(90deg, var(--bc-acc), var(--bc-acc-lo)); border-color: transparent; }
+.garage.hc .g-class.on svg { color: #fff; }
+
+/* the cards over the garage: upgrades, missions, selling */
+.garage.hc > .overlay { background: rgba(3, 5, 8, .72); }
+.garage.hc .card {
+  background: linear-gradient(170deg, rgba(24, 30, 38, .97), rgba(9, 12, 16, .98)); border: 1px solid var(--bc-line); border-top: 3px solid var(--bc-acc);
+  border-radius: 0; clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+}
+.garage.hc .card h3 { font: italic 900 30px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.garage.hc .card .eyebrow { color: var(--bc-acc); font-style: italic; letter-spacing: .2em; }
+.garage.hc .card .btn { border-radius: 0; transform: skewX(var(--bc-skew)); font-style: italic; }
+.garage.hc .card .btn > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc .card .btn.primary { background: linear-gradient(100deg, var(--bc-acc-hi), var(--bc-acc) 45%, var(--bc-acc-lo)); border-color: transparent; color: #fff; }
+.garage.hc .hc-tunecard .tune { background: linear-gradient(180deg, rgba(34, 40, 49, .9), rgba(12, 15, 20, .95)); border: 1px solid var(--bc-line); border-bottom: 3px solid rgba(255, 255, 255, .08); clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+.garage.hc .hc-tunecard .tune.changed { border-bottom-color: var(--bc-acc); }
+.garage.hc .hc-tunecard .tpic svg { color: var(--bc-acc); }
+.garage.hc .hc-tunecard .tname { font-style: italic; font-weight: 800; }
+.garage.hc .pip { background: rgba(255, 255, 255, .1); transform: skewX(var(--bc-skew)); }
+.garage.hc .pip.on { background: linear-gradient(90deg, var(--bc-acc-lo), var(--bc-acc-hi)); box-shadow: 0 0 8px rgba(255, 107, 31, .4); }
+.garage.hc .tbuy { border-radius: 0; transform: skewX(var(--bc-skew)); }
+.garage.hc .tbuy > * { transform: skewX(var(--bc-unskew)); }
+.garage.hc .power { border-radius: 0; background: rgba(255, 255, 255, .04); border: 1px solid var(--bc-line); border-left: 3px solid transparent; }
+.garage.hc .power.on { background: rgba(255, 107, 31, .14); border-color: rgba(255, 107, 31, .5); border-left-color: var(--bc-acc); }
+.garage.hc .power .tpic svg { color: var(--bc-acc); }
+
+/* ---------- phones on their side ---------- */
+@media (max-height: 520px) {
+  .garage.hc {
+    --rail: clamp(118px, 17vw, 160px); --g-top: 42px; --g-foot: 58px; --play: clamp(150px, 24vw, 210px);
+    column-gap: 12px; padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+  .garage.hc .g-logo b { font-size: 17px; } .garage.hc .g-logo span { display: none; } .garage.hc .g-logo b::before { width: 7px; margin-right: 8px; }
+  .garage.hc .hc-right { gap: 8px; }
+  .garage.hc .hc-icon, .garage.hc .g-rank, .garage.hc .g-coins { height: 32px; }
+  .garage.hc .hc-icon { width: 36px; }
+  .garage.hc .g-rank { padding: 0 10px; grid-template-columns: auto 56px; column-gap: 8px; } .garage.hc .g-rank b { font-size: 15px; }
+  .garage.hc .g-coins { padding: 0 10px 0 7px; } .garage.hc .g-coins b { font-size: 17px; }
+  .garage.hc .hc-btn:not(.go) { height: min(50px, calc((100vh - var(--g-top) - var(--g-foot) - 30px) / 4 - 6px)); margin: 3px 0 3px 4px; gap: 8px; padding: 0 8px 0 6px; font-size: 14px; border-left-width: 3px; }
+  .garage.hc .hc-btn:not(.go) svg { width: 1.35em; height: 1.35em; padding: .22em; }
+  .garage.hc #startBtn { font-size: 26px; margin: 5px 4px 2px 0; padding: 0 14px; gap: 10px; }
+  .garage.hc #startBtn.buy { font-size: 19px; } .garage.hc #startBtn.locked, .garage.hc #startBtn:disabled { font-size: 18px; }
+  .garage.hc .hc-stage::before { font-size: clamp(62px, 12vw, 120px); -webkit-text-stroke-width: 1.5px; }
+  .garage.hc .hc-title { font-size: 22px; padding-left: 14px; } .garage.hc .hc-title::before { width: 5px; }
+  .garage.hc .hc-under { gap: 10px; margin-right: calc(var(--play) + 10px); }
+  .garage.hc .hc-spec dt { font-size: 9px; letter-spacing: .14em; } .garage.hc .hc-spec dd { font-size: 15px; margin-top: 3px; }
+  .garage.hc .hc-spec .g-cell { padding-right: 9px; margin-right: 9px; }
+  .garage.hc .hc-sell { height: 30px; font-size: 13px; padding: 0 10px; }
+  .garage.hc .hc-frame { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+  .garage.hc .hc-sub { font-size: 11px; }
+  .garage.hc .hc-frame.car .hc-sub { font-size: 10px; padding: 3px 9px; }
+  .garage.hc .card h3 { font-size: 22px; }
+}
+@media (max-height: 520px) {
+  .garage.hc .hc-frame.mission { gap: 6px; }
+  .garage.hc .hc-frame.mission svg { width: 30px; height: 30px; }
+  .garage.hc .hc-frame.mission .hc-sub { font-size: calc(12px / max(var(--s, 1), .8)); }
+  .garage.hc .hc-stars { font-size: calc(11px / max(var(--s, 1), .8)); }
+}
+@media (max-height: 360px) { .garage.hc .hc-spec .g-cell:nth-child(n + 3) { display: none; } }
+
+/* ---------- portrait: the stage on top, the rail as a row of four, PLAY across the bottom ---------- */
+@media (orientation: portrait) and (max-width: 1100px) {
+  .garage.hc {
+    --g-foot: 0px; --play: 0px;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: 54px minmax(0, 1fr) auto 76px; column-gap: 6px;
+  }
+  .garage.hc > .hc-stage { grid-column: 1 / -1; grid-row: 2; }
+  .garage.hc #hcSeasons, .garage.hc #hcVehicle, .garage.hc #gMenuMissions, .garage.hc #gMenuTune { grid-row: 3; grid-column: auto; }
+  .garage.hc .hc-btn:not(.go) { height: 62px; margin: 8px 0 6px; flex-direction: column; justify-content: center; gap: 4px; padding: 4px; font-size: 13px; border-left-width: 0; border-bottom: 3px solid rgba(255, 255, 255, .2); }
+  .garage.hc .hc-btn:not(.go).on { border-bottom-color: #fff; }
+  .garage.hc #startBtn { grid-column: 1 / -1; grid-row: 4; justify-self: stretch; width: auto; margin: 4px 6px 4px; }
+  .garage.hc .hc-under { margin-right: 0; min-height: 0; padding: 6px 0; justify-content: center; flex-wrap: wrap; }
+  .garage.hc .hc-stage::before { top: 34%; font-size: 26vw; }
+  .garage.hc .g-logo span { display: none; }
+  .garage.hc .g-logo b { font-size: 18px; white-space: nowrap; } .garage.hc .g-logo b::before { width: 7px; margin-right: 8px; }
+  .garage.hc .hc-right { gap: 6px; }
+  .garage.hc .hc-icon, .garage.hc .g-rank, .garage.hc .g-coins { height: 34px; }
+  .garage.hc .hc-icon { width: 38px; }
+  .garage.hc .g-rank { padding: 0 10px; grid-template-columns: auto; } .garage.hc .g-rank b { font-size: 16px; }
+  .garage.hc .g-rank small, .garage.hc .g-rankbar { display: none; }
+  .garage.hc .g-coins { padding: 0 10px 0 7px; } .garage.hc .g-coins b { font-size: 18px; }
+  .garage.hc .hc-title { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { .garage.hc #startBtn::after { animation: none; } }
+
+/* ---------- Basecamp driving HUD: dark glass slanted plates, a hot orange edge, heavy italic numbers ---------- */
+.hud {
+  --panel: rgba(8, 11, 16, .78);
+  --panel-edge: rgba(255, 255, 255, .13);
+}
+.hud .stack > .dmgrow, .hud .chip, .hud .pill, .hud .mission, .hud .powerchip, .hud .toast {
+  border-radius: 0; background: var(--bc-glass); border: 1px solid var(--bc-line);
+}
+.hud .stack > .dmgrow {
+  border-left: 4px solid #ff4d3a; clip-path: none;
+  font-family: var(--display); font-style: italic;
+}
+.hud .dmgrow b { font-style: italic; letter-spacing: .12em; }
+.hud .dmgrow .fuelbar { border-radius: 0; transform: skewX(var(--bc-skew)); background: rgba(255, 255, 255, .1); }
+.hud #damageFill { border-radius: 0; background: linear-gradient(90deg, #ff6b1f, #ff2d2d); }
+.hud .dmgrow.healing #damageFill { background: #62d24b; }
+.hud .chip {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding-right: 14px;
+  border-left: 3px solid var(--bc-acc); font-style: italic;
+}
+.hud .chip small { color: var(--bc-acc); }
+.hud .chip.warn small { color: rgba(255, 255, 255, .85); }
+.hud .chip.warn { background: linear-gradient(90deg, var(--bc-acc), var(--bc-acc-lo)); color: #fff; border-color: transparent; border-left-color: #fff; }
+.hud .chip.warn.bog { background: linear-gradient(90deg, #4a3014, #2a1c0c); color: #ffcf8a; border-left-color: var(--bc-acc); box-shadow: none; }
+/* the depot sign: a slanted plate, the orange flag edge, big italic distance */
+.hud .depot {
+  border-radius: 0; background: var(--bc-glass); border: 1px solid var(--bc-line); border-bottom: 2px solid var(--bc-acc);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); box-shadow: none;
+}
+.hud .depot-flag { background: repeating-linear-gradient(-45deg, var(--bc-acc) 0 6px, #140904 6px 11px); margin-left: 4px; }
+.hud .depot-num b { font-style: italic; font-weight: 800; }
+.hud .depot-num small { color: var(--bc-acc); font-style: italic; }
+.hud .depot-label { font-style: italic; }
+.hud .depot.near { border-bottom-color: #62d24b; box-shadow: none; }
+.hud .pill { clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding-left: 16px; padding-right: 16px; border-bottom: 2px solid #f6b92c; }
+.hud .pill span { font-style: italic; font-weight: 800; color: #ffd04a; }
+.hud .ibtn { border-radius: 2px; background: var(--bc-glass); border: 1px solid var(--bc-line); border-bottom: 2px solid rgba(255, 107, 31, .8); }
+.hud .ibtn.zoombtn { font-style: italic; font-weight: 800; }
+.hud .ibtn:active { background: rgba(255, 107, 31, .25); }
+/* drive modes: slanted tags, lit orange when engaged */
+.hud .mode {
+  border-radius: 0; background: var(--bc-glass); border: 1px solid var(--bc-line); color: #c9d1d9;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); font-style: italic; font-weight: 800; letter-spacing: .1em;
+}
+.hud .mode[aria-pressed="true"] { background: linear-gradient(90deg, var(--bc-acc-hi), var(--bc-acc-lo)); color: #fff; border-color: transparent; }
+.hud .mode.nudge { border-color: var(--bc-acc); color: var(--bc-acc-hi); }
+/* pedals keep their tread (gas lugs, brake blocks); only the slab is squared off */
+.hud .pedal { border-radius: 8px 8px 4px 4px; }
+.hud .toast {
+  border-left: 4px solid var(--bc-acc); font-style: italic; font-weight: 700; letter-spacing: .04em;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+}
+.hud .mission { border-left: 4px solid var(--bc-acc); }
+.hud .powerchip { border-left: 4px solid var(--c); }
+.hud .winch, .hud .shieldbtn { border-radius: 2px; }
+
+/* the pause menu, results and other cards over the drive */
+.overlay:not(.garage) .card {
+  background: linear-gradient(170deg, rgba(24, 30, 38, .97), rgba(9, 12, 16, .98)); border: 1px solid var(--bc-line); border-top: 3px solid var(--bc-acc); border-left-width: 1px;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+.overlay:not(.garage) .card h3 { font-style: italic; font-weight: 900; text-transform: uppercase; }
+.overlay:not(.garage) .card .eyebrow { color: var(--bc-acc); font-style: italic; letter-spacing: .2em; }
+.overlay:not(.garage) .btn { clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); font-style: italic; font-weight: 700; padding: 0 20px; }
+.overlay:not(.garage) .btn.primary { background: linear-gradient(100deg, var(--bc-acc-hi), var(--bc-acc) 45%, var(--bc-acc-lo)); color: #fff; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding: 0 24px; }
+
+/* ---------- UPGRADE and MISSIONS as pages on the stage (garage.js sheet()): the stage steps aside and the sheet takes its place,
+   title top left like the other pages, its cards in a row, PLAY and the rail still there ---------- */
+.garage.hc > #tuneOv:not([hidden]), .garage.hc > #missionsOv:not([hidden]) {
+  grid-column: 2; grid-row: 2 / 8; position: absolute; inset: 0; z-index: 4;
+  display: block; padding: 0; background: none; overflow: hidden;
+}
+.garage.hc[data-sheet] > .hc-stage { visibility: hidden; }
+.garage.hc > #tuneOv .card, .garage.hc > #missionsOv .card {
+  width: 100%; height: 100%; max-width: none; margin: 0; padding: 0; background: none !important; border: 0; box-shadow: none; clip-path: none; overflow: visible;
+}
+.garage.hc > #tuneOv .cbody, .garage.hc > #missionsOv .cbody {
+  position: relative; height: 100%; padding: 4px 0 0; display: flex; flex-direction: column; gap: clamp(10px, 2vh, 22px);
+}
+.garage.hc > #tuneOv .tunehead, .garage.hc > #missionsOv .tunehead { justify-content: flex-start; align-items: flex-end; gap: 22px; padding-right: 300px; }
+.garage.hc > #tuneOv .tunehead .eyebrow, .garage.hc > #missionsOv .tunehead .eyebrow { padding-left: 20px; font: italic 800 clamp(12px, 1.1vw, 16px)/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--bc-acc); }
+.garage.hc > #tuneOv h3, .garage.hc > #missionsOv h3 {
+  position: relative; margin: 4px 0 0; padding-left: 20px;
+  font: italic 900 clamp(30px, 4.2vw, 62px)/.95 var(--display); text-transform: uppercase; color: #fff; text-shadow: 0 4px 22px rgba(0, 0, 0, .55);
+}
+.garage.hc > #tuneOv h3::before, .garage.hc > #missionsOv h3::before { content: ''; position: absolute; left: 2px; top: 10%; bottom: 10%; width: 7px; background: var(--bc-acc); transform: skewX(var(--bc-skew)); }
+.garage.hc > #tuneOv .tunehead .g-coins { height: 44px; margin-bottom: 4px; }
+/* Done and Reset: top right, like a page's own controls */
+.garage.hc > #tuneOv .btns, .garage.hc > #missionsOv .btns { position: absolute; top: 8px; right: 6px; margin: 0; display: flex; gap: 10px; }
+.garage.hc > #tuneOv .btn, .garage.hc > #missionsOv .btn { min-height: 44px; padding: 0 22px; font: italic 800 18px/1 var(--display); text-transform: uppercase; letter-spacing: .06em; background: var(--bc-glass); border: 1px solid var(--bc-line); color: #fff; }
+.garage.hc > #tuneOv .btn.primary, .garage.hc > #missionsOv .btn.primary { background: var(--bc-glass); border-color: var(--bc-line); border-left: 3px solid var(--bc-acc); }
+
+/* the upgrade tiles: four tall cards in a row, framed like the stage's cards */
+.garage.hc > #tuneOv .tunes { flex: 0 1 auto; min-height: 0; margin-top: clamp(6px, 3vh, 34px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 28px); }
+.garage.hc > #tuneOv .tune {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(8px, 1.6vh, 16px); padding: clamp(14px, 4vh, 44px) 16px clamp(14px, 3vh, 30px); min-height: 0;
+  background: linear-gradient(180deg, rgba(26, 31, 39, .92), rgba(9, 12, 16, .94)); border: 0; outline: 1px solid var(--bc-line); border-bottom: 3px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .45); clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+.garage.hc > #tuneOv .tune.changed { border-bottom-color: var(--bc-acc); }
+.garage.hc > #tuneOv .tune .tpic svg { width: clamp(40px, 4.6vw, 84px); height: clamp(40px, 4.6vw, 84px); color: var(--bc-acc); }
+.garage.hc > #tuneOv .tname { font: italic 900 clamp(20px, 2vw, 32px)/1 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+.garage.hc > #tuneOv .tlevel { font: 700 clamp(11px, .9vw, 14px)/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: #9aa4ae; }
+.garage.hc > #tuneOv .tbar { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.garage.hc > #tuneOv .tbar .pip { height: 10px; }
+.garage.hc > #tuneOv .tbuy {
+  width: 100%; min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 0;
+  background: linear-gradient(100deg, var(--bc-acc-hi), var(--bc-acc) 45%, var(--bc-acc-lo)); color: #fff; font: italic 900 clamp(17px, 1.6vw, 24px)/1 var(--display); box-shadow: none;
+}
+.garage.hc > #tuneOv .tbuy.poor { background: linear-gradient(100deg, #4a525c, #2d333a); color: #c4ccd4; }
+.garage.hc > #tuneOv .tbuy.max { background: rgba(255, 255, 255, .06); color: #ffd04a; }
+.garage.hc > #tuneOv .tminus { position: absolute; top: 10px; right: 12px; width: 32px; height: 32px; border-radius: 0; background: var(--bc-glass); border: 1px solid var(--bc-line); color: #fff; font-size: 20px; }
+.garage.hc > #tuneOv .tune { position: relative; }
+/* the powers along the floor, under the tiles */
+.garage.hc > #tuneOv .hc-powers { margin: clamp(4px, 1.5vh, 18px) 0 0; flex: none; }
+.garage.hc > #tuneOv .hc-powers .eyebrow { font: italic 800 12px/1 var(--display); letter-spacing: .22em; color: var(--bc-acc); margin-bottom: 8px; text-transform: uppercase; }
+.garage.hc > #tuneOv .powerlist { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.garage.hc > #tuneOv .power { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 10px 16px; text-align: left; }
+.garage.hc > #tuneOv .power .tpic svg { width: 30px; height: 30px; }
+.garage.hc > #tuneOv .power .ptext b { font: italic 800 18px/1 var(--display); text-transform: uppercase; }
+.garage.hc > #tuneOv .power .pstate { padding: 6px 14px; transform: skewX(var(--bc-skew)); background: rgba(255, 255, 255, .07); border: 1px solid var(--bc-line); font: italic 800 13px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; }
+.garage.hc > #tuneOv .power.on .pstate { background: var(--bc-acc); border-color: transparent; color: #fff; }
+
+/* the missions: four tall cards in a row */
+.garage.hc > #missionsOv #missionList { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-content: center; gap: clamp(12px, 1.6vw, 28px); }
+.garage.hc > #missionsOv .power {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; gap: clamp(8px, 1.5vh, 16px); padding: clamp(14px, 4vh, 40px) 16px clamp(14px, 3vh, 30px); min-height: clamp(150px, 30vh, 290px);
+  background: linear-gradient(180deg, rgba(26, 31, 39, .92), rgba(9, 12, 16, .94)); border: 0; outline: 1px solid var(--bc-line); border-bottom: 3px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .45); clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+.garage.hc > #missionsOv .power.on { outline: 2px solid var(--bc-acc); border-bottom-color: var(--bc-acc); background: linear-gradient(180deg, rgba(64, 34, 16, .92), rgba(16, 11, 8, .94)); }
+.garage.hc > #missionsOv .power .tpic svg { width: clamp(32px, 3.4vw, 60px); height: clamp(32px, 3.4vw, 60px); color: var(--bc-acc); }
+.garage.hc > #missionsOv .ptext { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.garage.hc > #missionsOv .ptext b { font: italic 900 clamp(18px, 1.7vw, 28px)/1 var(--display); text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.garage.hc > #missionsOv .mstars { color: #ffd04a; font-style: normal; letter-spacing: 3px; font-size: .7em; }
+.garage.hc > #missionsOv .ptext small { font-size: clamp(12px, 1vw, 15px); line-height: 1.3; color: #c3cbd3; }
+.garage.hc > #missionsOv .pstate { margin-top: auto; flex: none; padding: 7px 18px; transform: skewX(var(--bc-skew)); background: rgba(255, 255, 255, .07); border: 1px solid var(--bc-line); font: italic 800 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: #fff; }
+.garage.hc > #missionsOv .power.on .pstate { background: var(--bc-acc); border-color: transparent; color: #fff; }
+.garage.hc > #missionsOv .powernote { margin: 0 calc(var(--play) + 18px) 0 0; font-size: 13px; color: #8f9aa5; }
+
+@media (max-height: 520px) {
+  .garage.hc > #tuneOv .cbody, .garage.hc > #missionsOv .cbody { gap: 8px; }
+  .garage.hc > #tuneOv .tunehead, .garage.hc > #missionsOv .tunehead { padding-right: 190px; gap: 12px; }
+  .garage.hc > #tuneOv .tunehead .eyebrow, .garage.hc > #missionsOv .tunehead .eyebrow { font-size: 10px; padding-left: 14px; }
+  .garage.hc > #tuneOv h3, .garage.hc > #missionsOv h3 { font-size: 22px; padding-left: 14px; margin-top: 2px; }
+  .garage.hc > #tuneOv h3::before, .garage.hc > #missionsOv h3::before { width: 5px; }
+  .garage.hc > #tuneOv .tunehead .g-coins { height: 30px; margin-bottom: 0; }
+  .garage.hc > #tuneOv .btns, .garage.hc > #missionsOv .btns { top: 2px; gap: 6px; }
+  .garage.hc > #tuneOv .btn, .garage.hc > #missionsOv .btn { min-height: 30px; padding: 0 12px; font-size: 13px; }
+  .garage.hc > #tuneOv .tunes, .garage.hc > #missionsOv #missionList { gap: 8px; }
+  .garage.hc > #tuneOv .tune { gap: 4px; padding: 8px 8px 8px; }
+  .garage.hc > #tuneOv .tune .tpic svg { width: 26px; height: 26px; }
+  .garage.hc > #tuneOv .tname { font-size: 15px; }
+  .garage.hc > #tuneOv .tlevel { font-size: 9px; }
+  .garage.hc > #tuneOv .tbar .pip { height: 6px; }
+  .garage.hc > #tuneOv .tbuy { min-height: 28px; font-size: 14px; }
+  .garage.hc > #tuneOv .tbuy .coinic { width: 15px; height: 15px; }
+  .garage.hc > #tuneOv .tminus { width: 22px; height: 22px; top: 4px; right: 6px; font-size: 14px; }
+  .garage.hc > #tuneOv .hc-powers .eyebrow { font-size: 9px; margin-bottom: 4px; }
+  .garage.hc > #tuneOv .power { padding: 3px 8px; min-height: 0; gap: 8px; }
+  .garage.hc > #tuneOv .power .tpic svg { width: 18px; height: 18px; }
+  .garage.hc > #tuneOv .power .ptext b { font-size: 13px; }
+  .garage.hc > #tuneOv .power .pstate { padding: 3px 8px; font-size: 10px; }
+  .garage.hc > #tuneOv .power .ptext small { display: none; }
+  .garage.hc > #missionsOv .power { gap: 4px; padding: 8px 8px; min-height: 0; height: 100%; }
+  .garage.hc > #missionsOv #missionList { align-content: stretch; }
+  .garage.hc > #missionsOv .power .tpic svg { width: 22px; height: 22px; }
+  .garage.hc > #missionsOv .ptext { gap: 4px; }
+  .garage.hc > #missionsOv .ptext b { font-size: 14px; gap: 2px; }
+  .garage.hc > #missionsOv .ptext small { font-size: 10px; line-height: 1.2; }
+  .garage.hc > #missionsOv .pstate { padding: 4px 10px; font-size: 11px; }
+  .garage.hc > #missionsOv .powernote { display: none; }
+}
+@media (orientation: portrait) and (max-width: 1100px) {
+  .garage.hc > #tuneOv:not([hidden]), .garage.hc > #missionsOv:not([hidden]) { grid-column: 1 / -1; grid-row: 2; }
+  .garage.hc > #tuneOv .tunehead, .garage.hc > #missionsOv .tunehead { padding-right: 0; padding-top: 44px; flex-wrap: wrap; }
+  .garage.hc > #tuneOv .tunes, .garage.hc > #missionsOv #missionList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .garage.hc > #tuneOv .hc-powers { margin-right: 0; }
+  .garage.hc > #missionsOv .powernote { display: none; }
+  .garage.hc > #missionsOv .power { min-height: 0; }
+  .garage.hc > #tuneOv .powerlist { grid-template-columns: 1fr; }
+  .garage.hc .hc-card.slide.side { display: block; }
+}

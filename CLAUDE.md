@@ -166,15 +166,20 @@ so the drawn tires reach that size.
 
 ## Garage and loading screens
 
-**Hill Climb Racing style (user decision, 2026-11-18):** Codex's fleet, comparison, driving-coach, route-preview and
-control-settings additions were removed (bad on phones), and the garage was rebuilt as one dark stage with a title over three cards
-(the middle one large) and one bar of five buttons that never changes: SEASONS, VEHICLE, MISSIONS, UPGRADE and PLAY. Home shows the
-season, the last truck picked (kept in `haul.car`) and the mission. SEASONS and VEHICLE open their page on the stage and any other
-button closes it; the Vehicle page shows the class tabs at the top. Swiping (or tapping a side card, or the arrow keys) moves
-through the cards, and the middle one is picked at once; on the Vehicle page PLAY becomes BUY for an open truck not owned. UPGRADE
-opens a card of four tiles (one per knob) with the powers below. Picking a map is instant: the world is swapped behind the drive
-loading screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop
-of its panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Keep it dark and heavy, motion slow. See
+**Basecamp theme (user decision, 2026-11-18):** the user asked for a completely different, "absolutely cool" garage and HUD. The
+garage keeps the Hill Climb Racing flow and markup (one stage, few taps; Codex's fleet, comparison, coach, route-preview and control
+extras stay out: they were bad on phones), but `game.css`'s Basecamp block lays it out anew: the map being played, blurred, is the
+room; a slanted rail of SEASONS, TRUCKS, MISSIONS and UPGRADE down the left; PLAY (BUY, or the rank needed) in the bottom right
+corner. **Every page has the Trucks page's arrangement (user, 2026-11-19: "the cars section is really done well"):** the title top
+left, a row of cards with the middle one large, the numbers under it. **The garage always opens on TRUCKS** (the button was
+"Vehicle"; the page id stays `vehicle`) and every other page closes back to it: there is no home page. UPGRADE and MISSIONS are
+pages on the stage too (`sheet()` in garage.js): four tall cards in a row (the powers right under the upgrade tiles), only their rail
+button lit, Done top right. Portrait stacks the stage, a row of four and PLAY. Dark glass
+parallelograms, hot orange (`--bc-acc`), heavy italic type; the driving HUD and its dials (hud.js) use the same look, while the pedals
+keep their tread (amber lugs for gas, red blocks for brake). SEASONS opens its page on the stage and closes back to TRUCKS; swiping (or tapping a side card, or the arrow keys) moves through the cards, and the middle one is picked at once; on the
+Trucks page PLAY becomes BUY for an open truck not owned. Picking a map is instant: the world is swapped behind the drive loading
+screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop of its
+panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Test layouts at 1440×810, 844×390, 667×320 and 390×844. See
 `src/game/garage.js`.
 
 ## Rosters

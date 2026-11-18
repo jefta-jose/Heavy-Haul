@@ -85,7 +85,7 @@
   <!-- points at the breakdown button while the main truck is stuck -->
   <div class="help-arrow" id="helpArrow" aria-hidden="true" hidden><i></i><span id="helpArrowTxt">Breakdown truck</span></div>
 
-  <div class="overlay garage hc" id="garage" data-page="home">
+  <div class="overlay garage hc" id="garage" data-page="vehicle">
     <!-- icons the build found (assets/hud/icons/class-*.svg, garage-*.svg), copied in by garage.js -->
     <template id="classIcons"><!--icons:class--></template>
     <template id="garageIcons"><!--icons:garage--></template>
@@ -99,17 +99,17 @@
     </header>
     <!-- the stage: a title over three cards (the middle one large); swipe or tap a side card to move -->
     <section class="hc-stage" id="hcStage">
-      <!-- the class tabs: shown at the top while the Vehicle page is open, gone when another button is pressed -->
-      <div class="g-classes" id="gClasses" aria-label="Vehicle class"></div>
+      <!-- the class tabs: shown at the top on the Trucks page, the one the garage opens on -->
+      <div class="g-classes" id="gClasses" aria-label="Truck class"></div>
       <h2 class="hc-title" id="hcTitle"></h2>
       <div class="hc-cards" id="hcCards"></div>
       <div class="hc-track" id="hcTrack" hidden><i></i></div>
       <div class="hc-under"><dl class="g-spec hc-spec" id="gSpec"></dl><button class="hc-sell" id="gMenuSell" hidden>Sell <small id="gSellFor"></small></button></div>
     </section>
-    <!-- the bar: home's five buttons, or a page's back, tabs and action -->
+    <!-- the rail (SEASONS, TRUCKS, MISSIONS, UPGRADE) and PLAY, placed apart by game.css -->
     <nav class="hc-bar" aria-label="Garage">
       <button class="hc-btn" id="hcSeasons"><!--icon:garage-gear--><span>Seasons</span></button>
-      <button class="hc-btn" id="hcVehicle"><!--icon:garage-engine--><span>Vehicle</span></button>
+      <button class="hc-btn" id="hcVehicle"><!--icon:garage-engine--><span>Trucks</span></button>
       <button class="hc-btn" id="gMenuMissions"><!--icon:garage-mission--><span>Missions</span></button>
       <button class="hc-btn" id="gMenuTune"><!--icon:garage-speed--><span>Upgrade</span></button>
       <button class="hc-btn go" id="startBtn"><span>Play</span></button>

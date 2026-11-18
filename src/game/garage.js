@@ -1,14 +1,15 @@
 import { formatCoins } from './format.js';
-// The garage (2026-11-18, after Hill Climb Racing's menu): one dark stage with three cards and a bar of big buttons.
-//   Home: the season on the left, the truck in the middle (the last one picked, always), the mission on the right;
-//         the bar holds SEASONS, VEHICLE, MISSIONS, UPGRADE and PLAY.
-//   The bar never changes; SEASONS and VEHICLE open their page on the stage, and any other button closes it again.
+// The garage ("Basecamp", 2026-11-18): the map being played, blurred, is the room. The buttons stand in a slanted rail down the left
+// (SEASONS, TRUCKS, MISSIONS, UPGRADE), PLAY sits in the bottom right corner, and every page has the same arrangement: its title top
+// left, a row of cards with the middle one large, the numbers under it. All of it is laid out in game.css.
+//   Trucks: the page the garage opens on, always (user, 2026-11-19), and the one any other page closes back to. The class tabs at
+//           the top; the class's trucks as cards, swiped left and right. An owned truck in the middle is the one PLAY drives; for
+//           an open one PLAY becomes BUY with its price, a locked one shows the rank it needs. SELL beside the numbers gives back
+//           what an owned truck cost.
 //   Seasons: every map as a card; swiping (or tapping a side card) moves to the next, and the middle one is the map at once
-//            (planned maps show locked and are skipped over for PLAY).
-//   Vehicle: the class tabs appear at the top; the class's trucks as cards, swiped left and right. An owned truck in the middle
-//            is the one PLAY drives; for an open one PLAY becomes BUY with its price, a locked one shows the rank it needs.
-//            SELL under the numbers gives back what an owned truck cost.
-//   Upgrade: a card over the home screen, one tile per tuning knob with its level and the price of the next step, and the powers.
+//            (planned maps show locked and are skipped over for PLAY). The room behind changes with it.
+//   Upgrade and Missions: sheets over the stage (sheet()), four tall cards in a row: one per tuning knob with its level and the
+//            price of the next step and the powers under them, or the missions on offer.
 // Every car carries its own load (part of its art and weight). Each car can be tuned (tuning.js): the run uses the tuned copy,
 // saved per car. Trucks open by rank (progress.js); each class's weakest truck is free. Picking a map is instant: the map itself is
 // swapped behind the drive loading screen (main.js).
@@ -54,15 +55,29 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   let seasonId = content.season.id;   // the map PLAY drives on (main.js swaps the world behind the drive loader)
 
   // ---------- pages ----------
-  let page = 'home', browse = car, cls = car.class, seasonAt = 0;
+  let page = 'vehicle', browse = car, cls = car.class, seasonAt = 0;
   const classCars = c => order.filter(x => x.class === c);
   const garageEl = $('garage');
+  // the stage's title, also written huge behind the truck (the stage's data-name, drawn by game.css)
+  const setTitle = t => { $('hcTitle').textContent = t; $('hcStage').dataset.name = t; };
+  // the room: the map PLAY drives on (or the one in the middle while browsing maps), blurred behind everything
+  let sceneFor = null;
+  const setScene = id => { if (id === sceneFor) return; sceneFor = id; const pic = seasonPic(id); garageEl.style.setProperty('--g-scene', pic ? `url("${pic}")` : 'none'); };
+  // UPGRADE and MISSIONS open a sheet over the stage (laid out like a page by game.css); its rail button lights while it is open,
+  // tapping it again closes it, and opening any other page closes it too
+  function sheet(name) {
+    for (const [id, ov, btn] of [['upgrade', 'tuneOv', 'gMenuTune'], ['missions', 'missionsOv', 'gMenuMissions']]) {
+      $(ov).hidden = name !== id; $(btn).classList.toggle('on', name === id);
+    }
+    if (name) garageEl.dataset.sheet = name; else delete garageEl.dataset.sheet;
+    $('hcVehicle').classList.toggle('on', !name && page === 'vehicle');   // only the open sheet's button is lit
+  }
   function go(next) {
-    if (next === page && next !== 'home') next = 'home';   // the page's own button closes it
+    if (garageEl.dataset.sheet) sheet(null);
+    if (next === page) next = 'vehicle';   // a page's own button closes it, back to the trucks
     page = next; garageEl.dataset.page = page;
     browse = car; cls = car.class;   // a truck only looked at (not owned) is let go
     if (page === 'seasons') seasonAt = Math.max(0, seasonList.findIndex(s => s.id === seasonId));
-    for (const [id, p] of [['hcSeasons', 'seasons'], ['hcVehicle', 'vehicle']]) $(id).classList.toggle('on', page === p);
     render();
   }
 
@@ -71,7 +86,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const b = el('button', `hc-card ${where}${locked ? ' locked' : ''}`);
     b.append(el('span', 'hc-label', label ?? ''));
     const frame = el('span', `hc-frame ${kind}`);
-    if (pic && kind === 'car') { const img = el('img'); img.src = pic; img.alt = ''; img.draggable = false; frame.append(img); }
+    // a truck stands in its own box, so its lit floor line sits right under its wheels whatever its shape
+    if (pic && kind === 'car') { const img = el('img'), stand = el('span', 'hc-truck'); img.src = pic; img.alt = ''; img.draggable = false; stand.append(img); frame.append(stand); }
     else if (pic) frame.style.backgroundImage = `url("${pic}")`;
     if (kind === 'scene' && cardArt) frame.classList.add('card-art');
     if (locked) { const lock = el('span', 'hc-lock'); lock.append(gIcon('lock'), el('b', null, locked)); frame.append(lock); }
@@ -86,35 +102,24 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // rebuild: false keeps the sliding row as it is (a swipe landing); true redraws its cards (a purchase, a new class)
   function renderStage(rebuild = true) {
     const box = $('hcCards');
-    if (page === 'home') {
-      deck.clear(); box.replaceChildren();
-      const s = seasonList.find(x => x.id === seasonId), m = missions?.active;
-      $('hcTitle').textContent = nameOf(car);
-      box.append(
-        card('side left', { label: 'Season', sub: s?.name, pic: seasonPic(seasonId), kind: 'scene', cardArt: hasCardArt(seasonId), onClick: () => go('seasons') }),
-        card('main', { label: '', sub: carSub(car), pic: car.artUri.master, kind: 'car', onClick: () => go('vehicle') }),
-        card('side right', { label: 'Mission', sub: m ? m.title : 'None chosen', kind: 'mission', onClick: openMissions }),
-      );
-      const frame = box.querySelector('.right .hc-frame'); frame.prepend(gIcon('mission'));
-      if (m) frame.append(el('span', 'hc-stars', '★'.repeat(missions.starsFor?.(m) ?? 1)));
-    } else if (page === 'seasons') {
+    if (page === 'seasons') {
       const n = seasonList.length;
       deck.set({
         key: 'seasons', items: seasonList, at: seasonAt, rebuild,
         make: x => card('slide', { label: x.name, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status === 'playable' ? null : 'Coming later' }),
-        near: i => { $('hcTitle').textContent = seasonList[i].name; },
+        near: i => { setTitle(seasonList[i].name); if (seasonList[i].status === 'playable') setScene(seasonList[i].id); },
         land: landSeason,
       });
-      $('hcTitle').textContent = seasonList[seasonAt]?.name ?? '';
+      setTitle(seasonList[seasonAt]?.name ?? '');
       if (!n) deck.clear();
     } else {
       const list = classCars(cls);
       if (!list.includes(browse)) browse = list[0];
-      $('hcTitle').textContent = browse ? nameOf(browse) : 'No trucks yet';
+      setTitle(browse ? nameOf(browse) : 'No trucks yet');
       if (browse) deck.set({
         key: `vehicle:${cls}`, items: list, at: list.indexOf(browse), rebuild,
         make: c => card('slide', { label: nameOf(c), sub: carSub(c), pic: c.artUri.master, kind: 'car', locked: carTag(c) }),
-        near: i => { $('hcTitle').textContent = nameOf(list[i]); },
+        near: i => { setTitle(nameOf(list[i])); },
         land: i => landCar(list[i]),
       });
       else deck.clear();
@@ -124,7 +129,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // the numbers under the middle card: the truck's live specs, or nothing for a map
   function renderSpec() {
     const spec = $('gSpec'); spec.replaceChildren();
-    const c = page === 'vehicle' ? browse : page === 'home' ? car : null;
+    const c = page === 'vehicle' ? browse : null;
     spec.hidden = !c; if (!c) return;
     const t = tunedOf(c), live = deriveSpecs(t), load = t.load ?? rosterOf(c.id)?.load;
     for (const [k, v] of [['Power', `${live.powerKw} kW`], ['Top speed', `${live.topSpeedKmh} km/h`], ['Gross', `${grossTonnes(t).toFixed(1)} t`], ...(load ? [['Load', load.name]] : [])]) {
@@ -140,9 +145,9 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     renderSpec(); renderPlay();
   }
   // an owned truck that lands in the middle is the one PLAY drives
-  function landCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); $('hcTitle').textContent = nameOf(c); renderTop(); renderSpec(); renderPlay(); }
+  function landCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); setTitle(nameOf(c)); renderTop(); renderSpec(); renderPlay(); }
   function showCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); render(); }
-  const stepPage = d => { if (page !== 'home') deck.go(d); };
+  const stepPage = d => deck.go(d);
 
   // the sliding row: every card sits at a float position, the middle one at 0; side cards shrink, tilt and dim
   const deck = (() => {
@@ -157,6 +162,16 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       m = { step1: w / 2 + gap + sw / 2, step2: sw + gap, side };
       box.style.setProperty('--w', `${w}px`); box.style.setProperty('--h', `${h}px`);
     }
+    // a card d places from the middle: moved out, tilted, shrunk and dimmed
+    function pose(e, d) {
+      const ad = Math.abs(d), a = Math.min(ad, 1), sc = 1 - (1 - m.side) * a, sign = Math.sign(d);
+      const x = sign * (a * m.step1 + Math.max(ad - 1, 0) * m.step2);
+      e.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0) rotateY(${(-sign * a * 16).toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+      e.style.opacity = ad <= 1.5 ? 1 : Math.max(0, 1 - (ad - 1.5) / 1.1);
+      e.style.zIndex = String(100 - Math.round(ad * 10));
+      e.style.setProperty('--a', a.toFixed(3)); e.style.setProperty('--s', sc.toFixed(4));
+      e.classList.toggle('mid', ad < 0.5);
+    }
     function draw() {
       if (!cfg) return;
       const count = n(), reach = count > 1 ? 3 : 0, base = Math.round(pos), keep = new Set();
@@ -170,13 +185,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
           e.addEventListener('click', () => { if (k !== Math.round(target ?? pos)) to(k); });
           slots.set(k, e); box.append(e);
         }
-        const a = Math.min(ad, 1), sc = 1 - (1 - m.side) * a, sign = Math.sign(d);
-        const x = sign * (a * m.step1 + Math.max(ad - 1, 0) * m.step2);
-        e.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0) rotateY(${(-sign * a * 16).toFixed(2)}deg) scale(${sc.toFixed(4)})`;
-        e.style.opacity = ad <= 1.5 ? 1 : Math.max(0, 1 - (ad - 1.5) / 1.1);
-        e.style.zIndex = String(100 - Math.round(ad * 10));
-        e.style.setProperty('--a', a.toFixed(3)); e.style.setProperty('--s', sc.toFixed(4));
-        e.classList.toggle('mid', ad < 0.5);
+        pose(e, d);
       }
       for (const [k, e] of slots) if (!keep.has(k)) { e.remove(); slots.delete(k); }
       const thumb = $('hcTrack')?.firstElementChild;
@@ -202,7 +211,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     let drag = null;
     const stage = $('hcStage');
     stage.addEventListener('pointerdown', e => {
-      if (!cfg || n() < 2 || page === 'home' || e.button > 0 || e.target.closest('.g-classes, .hc-under')) return;
+      if (!cfg || n() < 2 || e.button > 0 || e.target.closest('.g-classes, .hc-under')) return;
       drag = { id: e.pointerId, x0: e.clientX, pos0: pos, moving: false, pts: [[e.timeStamp, e.clientX]] };
     });
     stage.addEventListener('pointermove', e => {
@@ -244,7 +253,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         if (same && !next.rebuild) return;
         if (!same || target == null) { if (raf) cancelAnimationFrame(raf); raf = 0; target = null; vel = 0; pos = Math.max(0, next.at); }
         key = next.key; near = null;
-        box.replaceChildren(); slots.clear();   // also lets go of home's three cards
+        box.replaceChildren(); slots.clear();
         measure(); draw();
       },
       clear() {
@@ -258,7 +267,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     window.addEventListener('keydown', e => {
       if (garageEl.hidden || document.querySelector('.garage .overlay:not([hidden])')) return;
       if (e.key === 'ArrowLeft') stepPage(-1); else if (e.key === 'ArrowRight') stepPage(1);
-      else if (e.key === 'Escape' && page !== 'home') go('home');
+      else if (e.key === 'Escape' && page !== 'vehicle') go('vehicle');
     });
   }
 
@@ -348,14 +357,14 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const t = tuneOf(car.id); for (const knob of KNOBS) wallet.add(-upgradeCost(car, clampLevel(t[knob.id]), 0));
     tuning[car.id] = {}; saveTuning(tuning); renderTuning(); render();
   });
-  const tuneOv = $('tuneOv');
   // only a truck the player owns can be upgraded: the button is off while an unbought one is in view
   const inView = () => page === 'vehicle' ? browse : car;
   $('gMenuTune').addEventListener('click', () => {
     if (!owns(inView().id)) { shake($('gMenuTune')); return; }
-    go('home'); if (!owns(car.id)) return; renderTuning(); tuneOv.hidden = false;
+    if (garageEl.dataset.sheet === 'upgrade') { sheet(null); render(); return; }
+    go('vehicle'); if (!owns(car.id)) return; renderTuning(); sheet('upgrade');
   });
-  $('tuneDone').addEventListener('click', () => { tuneOv.hidden = true; render(); });
+  $('tuneDone').addEventListener('click', () => { sheet(null); render(); });
 
   // powers: one at a time for this truck, kept until another is picked; tapping the one that is on turns it off
   function renderPowers() {
@@ -388,10 +397,9 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       box.append(b);
     }
   }
-  const missionsOv = $('missionsOv');
-  function openMissions() { renderMissions(); missionsOv.hidden = false; }
-  $('gMenuMissions').addEventListener('click', () => { go('home'); openMissions(); });
-  $('missionsDone').addEventListener('click', () => { missionsOv.hidden = true; render(); });
+  function openMissions() { go('vehicle'); renderMissions(); sheet('missions'); }
+  $('gMenuMissions').addEventListener('click', () => { if (garageEl.dataset.sheet === 'missions') { sheet(null); render(); } else openMissions(); });
+  $('missionsDone').addEventListener('click', () => { sheet(null); render(); });
 
   // ---------- selling: everything spent on the truck comes back; the free starter of each class cannot be sold ----------
   const upgradesSpent = c => KNOBS.reduce((s, k) => s + upgradeCost(c, 0, clampLevel(tuneOf(c.id)[k.id])), 0);
@@ -427,12 +435,15 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       $('gRankXp').textContent = pr.rank >= 20 ? `${pr.xp.toLocaleString('en-US')} XP · top rank` : `${pr.xp.toLocaleString('en-US')} / ${pr.to.toLocaleString('en-US')} XP`;
     }
   }
-  function render() { garageEl.dataset.page = page; renderTop(); if (page === 'vehicle') renderClasses(); renderStage(); renderPlay(); }
+  function render() {
+    garageEl.dataset.page = page;
+    for (const [id, p] of [['hcSeasons', 'seasons'], ['hcVehicle', 'vehicle']]) $(id).classList.toggle('on', page === p);
+    if (page !== 'seasons') setScene(seasonId); renderTop(); if (page === 'vehicle') renderClasses(); renderStage(); renderPlay(); }
   garageEl.dataset.page = page;
   render(); onSelect(car);
 
   return {
-    show() { garageEl.hidden = false; go('home'); },
+    show() { garageEl.hidden = false; go('vehicle'); },
     // after a map switch elsewhere (a test, the stored season at launch)
     seasonChanged() { seasonId = content.season.id; render(); },
     hide() { garageEl.hidden = true; },

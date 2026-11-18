@@ -35,35 +35,23 @@ export function createHud({ sim, season }) {
   }
 
   function resizeGauges(DPR) { els.gauges.width = Math.round(els.gauges.clientWidth * DPR); els.gauges.height = Math.round(els.gauges.clientHeight * DPR); }
-  // analog dials: metal bezel, dark face, minor and major ticks, a lit arc that follows the value,
-  // a red zone, a tapered needle, and a readout in the middle (the gear, or the digital speed)
+  // analog dials (Basecamp theme, 2026-11-18): a dark glass face with a thin ring in the dial's colour, minor and major ticks,
+  // a lit arc that follows the value, a red zone, a white needle glowing orange, and a readout in the middle (the gear, or the speed)
   const A0 = Math.PI * 0.75, A1 = Math.PI * 2.25, FONT = 'Barlow Condensed, Arial Narrow, sans-serif';
-  // the case every dial shares: a drop shadow, a dark outer rim, a brushed-steel ring lit from the top
-  // left, a thin accent ring in the dial's colour, and a deep face with a faint concentric grain
+  // the case every dial shares: a dark glass disc, a thin ring in the dial's colour with a brighter arc along its top, and a deep face
   function bezel(cx, cy, r, accent) {
-    gx.save(); gx.shadowColor = 'rgba(0,0,0,0.6)'; gx.shadowBlur = r * 0.18; gx.shadowOffsetY = r * 0.05;
-    gx.fillStyle = '#07090b'; gx.beginPath(); gx.arc(cx, cy, r, 0, 7); gx.fill(); gx.restore();
-    let g = gx.createLinearGradient(cx - r * 0.7, cy - r * 0.7, cx + r * 0.7, cy + r * 0.7);
-    g.addColorStop(0, '#c3cad0'); g.addColorStop(0.3, '#5d656d'); g.addColorStop(0.55, '#2a3036'); g.addColorStop(0.8, '#6c747b'); g.addColorStop(1, '#30363c');
-    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.97, 0, 7); gx.fill();
-    gx.fillStyle = '#090c0f'; gx.beginPath(); gx.arc(cx, cy, r * 0.905, 0, 7); gx.fill();
-    gx.save(); gx.globalAlpha = 0.55; gx.strokeStyle = accent; gx.lineWidth = r * 0.012;
-    gx.beginPath(); gx.arc(cx, cy, r * 0.885, 0, 7); gx.stroke(); gx.restore();
-    g = gx.createRadialGradient(cx, cy - r * 0.25, r * 0.05, cx, cy, r * 0.88);
-    g.addColorStop(0, '#222930'); g.addColorStop(0.7, '#10151a'); g.addColorStop(1, '#05070a');
-    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.875, 0, 7); gx.fill();
-    gx.strokeStyle = 'rgba(255,255,255,0.025)'; gx.lineWidth = Math.max(1, r * 0.01);
-    for (let k = 0.2; k < 0.85; k += 0.09) { gx.beginPath(); gx.arc(cx, cy, r * k, 0, 7); gx.stroke(); }
+    gx.save(); gx.shadowColor = 'rgba(0,0,0,0.55)'; gx.shadowBlur = r * 0.16;
+    gx.fillStyle = 'rgba(6,9,13,0.86)'; gx.beginPath(); gx.arc(cx, cy, r, 0, 7); gx.fill(); gx.restore();
+    gx.strokeStyle = 'rgba(255,255,255,0.12)'; gx.lineWidth = Math.max(1, r * 0.015); gx.beginPath(); gx.arc(cx, cy, r * 0.965, 0, 7); gx.stroke();
+    gx.save(); gx.strokeStyle = accent; gx.lineWidth = r * 0.035; gx.lineCap = 'round'; gx.shadowColor = accent; gx.shadowBlur = r * 0.12;
+    gx.beginPath(); gx.arc(cx, cy, r * 0.965, Math.PI * 1.2, Math.PI * 1.8); gx.stroke(); gx.restore();
+    const g = gx.createRadialGradient(cx, cy - r * 0.2, r * 0.05, cx, cy, r * 0.9);
+    g.addColorStop(0, '#1c232c'); g.addColorStop(0.75, '#0b0f14'); g.addColorStop(1, '#05070a');
+    gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.92, 0, 7); gx.fill();
     return g;
   }
-  // a faint reflection across the top of the glass, drawn over everything
-  function glass(cx, cy, r) {
-    gx.save(); gx.beginPath(); gx.arc(cx, cy, r * 0.875, 0, 7); gx.clip();
-    const g = gx.createLinearGradient(cx, cy - r, cx, cy);
-    g.addColorStop(0, 'rgba(255,255,255,0.10)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-    gx.fillStyle = g; gx.beginPath(); gx.ellipse(cx - r * 0.12, cy - r * 0.55, r * 0.85, r * 0.5, -0.25, 0, 7); gx.fill();
-    gx.restore();
-  }
+  // no glare on the glass: the Basecamp dials are flat and dark
+  function glass() {}
   function dial(cx, cy, r, val, max, { label, majors, minors = 2, redFrom, readout, unit, lit, badge, pop = 0, small = false }) {
     const t = Math.min(1, Math.max(0, val / max)), at = A0 + (A1 - A0) * t;
     let g = bezel(cx, cy, r, lit[1]);
@@ -97,12 +85,12 @@ export function createHud({ sim, season }) {
     }
     // needle with a soft glow, and the hub
     const c = Math.cos(at), s = Math.sin(at), px = -s, py = c;
-    gx.save(); gx.shadowColor = 'rgba(255,60,40,0.7)'; gx.shadowBlur = r * 0.12;
-    gx.fillStyle = '#ff3b2f'; gx.beginPath();
+    gx.save(); gx.shadowColor = 'rgba(255,107,31,0.95)'; gx.shadowBlur = r * 0.16;
+    gx.fillStyle = '#ffffff'; gx.beginPath();
     gx.moveTo(cx + c * r * 0.84, cy + s * r * 0.84);
     gx.lineTo(cx + px * r * 0.045 - c * r * 0.14, cy + py * r * 0.045 - s * r * 0.14);
     gx.lineTo(cx - px * r * 0.045 - c * r * 0.14, cy - py * r * 0.045 - s * r * 0.14); gx.closePath(); gx.fill(); gx.restore();
-    g = gx.createRadialGradient(cx - r * 0.03, cy - r * 0.03, 0, cx, cy, r * 0.11); g.addColorStop(0, '#8a939b'); g.addColorStop(1, '#22272c');
+    g = gx.createRadialGradient(cx - r * 0.03, cy - r * 0.03, 0, cx, cy, r * 0.11); g.addColorStop(0, '#ff9a3c'); g.addColorStop(1, '#a8360a');
     gx.fillStyle = g; gx.beginPath(); gx.arc(cx, cy, r * 0.1, 0, 7); gx.fill();
     glass(cx, cy, r);
   }
@@ -127,11 +115,11 @@ export function createHud({ sim, season }) {
     gx.fillStyle = '#dfe6ec'; gx.fillText('F', cx + Math.cos(B1) * r * 0.46, cy + Math.sin(B1) * r * 0.46);
     gx.fillStyle = t < 0.2 ? '#ff8a7c' : '#8f9ba6'; gx.font = `700 ${Math.round(r * 0.19)}px ${FONT}`; gx.fillText(unlimited ? 'UNLIMITED' : 'FUEL', cx, cy + r * 0.56);
     const c = Math.cos(at), s = Math.sin(at), px = -s, py = c;
-    gx.save(); gx.shadowColor = 'rgba(255,60,40,0.7)'; gx.shadowBlur = r * 0.12; gx.fillStyle = '#ff3b2f'; gx.beginPath();
+    gx.save(); gx.shadowColor = 'rgba(255,107,31,0.95)'; gx.shadowBlur = r * 0.16; gx.fillStyle = '#ffffff'; gx.beginPath();
     gx.moveTo(cx + c * r * 0.8, cy + s * r * 0.8);
     gx.lineTo(cx + px * r * 0.06 - c * r * 0.14, cy + py * r * 0.06 - s * r * 0.14);
     gx.lineTo(cx - px * r * 0.06 - c * r * 0.14, cy - py * r * 0.06 - s * r * 0.14); gx.closePath(); gx.fill(); gx.restore();
-    const hg = gx.createRadialGradient(cx - r * 0.04, cy - r * 0.04, 0, cx, cy, r * 0.14); hg.addColorStop(0, '#8a939b'); hg.addColorStop(1, '#22272c');
+    const hg = gx.createRadialGradient(cx - r * 0.04, cy - r * 0.04, 0, cx, cy, r * 0.14); hg.addColorStop(0, '#ff9a3c'); hg.addColorStop(1, '#a8360a');
     gx.fillStyle = hg; gx.beginPath(); gx.arc(cx, cy, r * 0.13, 0, 7); gx.fill();
     glass(cx, cy, r);
     if (beating) {
@@ -159,8 +147,8 @@ export function createHud({ sim, season }) {
     shownFuel = shownFuel == null ? fuel : shownFuel + (fuel - shownFuel) * Math.min(1, gaugeDt * 4);
     const m = sim.main.st;
     fuelDial(x0 + rs, cys, rs, shownFuel, unlimited, sim.active === sim.main && m.filling && m.fuel < 100);
-    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 180, { label: 'km/h', majors: 6, minors: 3, redFrom: 150 / 180, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#2fb3ff', '#62d24b'] });
-    dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#f2b705', '#ff7a1a'], small: true });
+    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 180, { label: 'km/h', majors: 6, minors: 3, redFrom: 150 / 180, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#ffb347', '#ff6b1f'] });
+    dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#ffd04a', '#ff3b2f'], small: true });
   }
 
   // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too

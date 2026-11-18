@@ -183,7 +183,6 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     // picking another class drops the old engine for the new one
     const scoutMB = (await status()).decodedMB, otherEngine = page.waitForResponse(/engine-heavy-duty/);
     await page.evaluate(() => { __haul.garage.show(); });
-    await page.click('#hcVehicle');
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
     await otherEngine;
     await page.waitForFunction(mb => __haul.audio.status().decodedMB !== mb, scoutMB);
@@ -233,15 +232,15 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.goto(url, { waitUntil: 'networkidle' }); await ready();
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads offline');
     assert.match(await page.locator('#hcTitle').innerText(), /\S/, 'garage card is filled from car.json');
-    // the Hill Climb Racing style garage (2026-11-18): one bar, SEASONS and VEHICLE open their page on the stage
-    assert.equal(await page.locator('.hc-bar .hc-btn').count(), 5, 'seasons, vehicle, missions, upgrade and play');
+    // the Basecamp garage (2026-11-19): it opens on the Trucks page, and SEASONS opens its page on the stage
+    assert.equal(await page.locator('.hc-bar .hc-btn').count(), 5, 'seasons, trucks, missions, upgrade and play');
+    assert.equal(await page.locator('#garage').getAttribute('data-page'), 'vehicle', 'the garage opens on the trucks');
+    assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
     await page.click('#hcSeasons');
     assert.equal(await page.locator('#hcTitle').innerText(), (await page.evaluate(() => __haul.content.season.name)).toUpperCase(), 'the seasons page opens on the map being played');
     await page.click('#hcSeasons');
-    assert.equal(await page.locator('#garage').getAttribute('data-page'), 'home', 'its own button closes it');
-    assert(!await page.locator('.g-class').first().isVisible(), 'the class tabs only show on the vehicle page');
-    await page.click('#hcVehicle');
-    assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
+    assert.equal(await page.locator('#garage').getAttribute('data-page'), 'vehicle', 'its own button closes it, back to the trucks');
+    assert(await page.locator('.g-class').first().isVisible(), 'with the class tabs');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     const named = await page.locator('#hcTitle').innerText();
     // the row slides to the next card, so wait for it to land (and the swipe not to buy or pick anything on the way)
@@ -265,8 +264,6 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.locator('.g-class', { hasText: 'Heavy Duty' }).click();
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy-duty', 'a tab picks an owned truck of its class');
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
-    await page.click('#hcVehicle');
-    assert(!await page.locator('.g-class').first().isVisible(), 'and the tabs go when the page closes');
     await capture('00-garage');
     // tuning sits in the garage's panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
     assert(!await page.locator('.tune').first().isVisible(), 'the upgrades stay out of the way until asked for');
@@ -633,11 +630,11 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.evaluate(id => __haul.garage.select(id), next.id);
     assert.match(await page.locator('#startBtn').innerText(), needs, 'a locked truck says the rank it needs');
     assert(await page.locator('#startBtn').isDisabled());
-    assert.match(await page.locator('.hc-card.main').innerText(), /locked/i, 'and its card says it is locked');
+    assert.match(await page.locator('.hc-card.mid').innerText(), /locked/i, 'and its card says it is locked');
     await page.evaluate(([price, xp]) => { __haul.progress.addXp(xp); __haul.session.earn(price * 2, true); __haul.garage.show(); }, [next.price, RANK_XP[next.unlockRank - 1] + 50]);
     assert.equal((await p()).rank, next.unlockRank, 'XP brings the rank it needs');
     assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
-    assert.match(await page.locator('.hc-card.main').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its card shows the price');
+    assert.match(await page.locator('.hc-card.mid').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its card shows the price');
     const coins = await page.evaluate(() => __haul.session.coins);
     await page.click('#startBtn');
     assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'bought');
@@ -690,12 +687,12 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
     await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
     await page.click('#missionsDone');
-    assert.notEqual(await page.locator('.hc-card.right').innerText(), 'NONE CHOSEN', 'the mission card names the chosen mission');
+    assert(await page.evaluate(() => !!__haul.missions.active), 'the chosen mission is kept');
     await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
     // selling the truck just bought, with an upgrade on it, gives back the price and the upgrade
     await page.evaluate(id => __haul.garage.tune(id, 'engine', 25), next.id);
     const beforeSell = await page.evaluate(() => __haul.session.coins);
-    await page.click('#hcVehicle');   // SELL sits on the vehicle page, under the truck's numbers
+    // SELL sits on the trucks page, beside the truck's numbers
     await page.click('#gMenuSell');
     await page.screenshot({ path: path.join(CAPTURES, '00g-sell.png') });
     const refund = await page.evaluate(() => Number(document.querySelector('#sellConfirm').textContent.replace(/\D/g, '')));
