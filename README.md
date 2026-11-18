@@ -102,6 +102,7 @@ Browser captures are written to `output/captures/` for visual review.
 | Stickier mud | `surfaces.mud` in `season.json`: `mu`, `bog`, `suction`, `sink`; heavy-mud pits only: `heavySink`, `heavyDrag` (drag as a share of tire load), `heavyGrip` (grip left at the pit centre); `bogRefT` (tire load in t below which bog drag shrinks, so light trucks wiggle through) |
 | Suspension | `physics.suspension` in `car.json` |
 | Trail shape | `trail` in `season.json`; obstacle generation in `terrain.js` / `obstacles.js` |
+| A map's weather and air | `render.atmosphere` in `season.json` (rain, drizzle, snow, ash, embers, leaves, dust, grit, pollen, butterflies; wind, sun shafts, mist, storm, lightning, birds, tumbleweeds, lens drops; see the header of `src/render/layers/atmosphere.js`); shared counts, lens and stunt numbers in `src/game-config.js` |
 
 ## Starting economy and store releases
 

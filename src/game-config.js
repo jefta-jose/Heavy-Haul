@@ -160,3 +160,20 @@ export const WINCH_BAY_OFFSET_M = 2;          // clear gap ahead of the stranded
 export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of another class
 export const NEVER_STUCK_MU = 0.85;          // minimum grip in soft ground for service tires
 export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
+
+// ---------- atmosphere, lens and stunts (src/render/layers/atmosphere.js, src/render/lens.js, src/game/stunts.js) ----------
+// Each map picks its weather in season.json render.atmosphere; these are the shared numbers.
+export const WEATHER_COUNTS = { rain: 240, drizzle: 110, ash: 150, embers: 40, leaves: 55, dust: 12, grit: 80, pollen: 60, butterflies: 7, snow: 120 };  // at density 1 on a 1440 × 810 screen
+export const WEATHER_PHONE_SHARE = 0.6;       // touch screens draw this share of them
+export const WEATHER_NEAR_DEPTH = 0.8;        // particles nearer than this draw in front of the trucks, the rest behind the trail
+export const BIRD_FLOCK_EVERY_S = [12, 28];   // a flock crosses the sky this often (random between the two)
+export const LIGHTNING_EVERY_S = [16, 34];    // on a map with lightning
+export const TUMBLEWEED_EVERY_S = [3, 9];     // on a map with tumbleweeds, one rolls in this often (at most two at once)
+export const LENS_MAX_SPLATS = 8;            // mud and water drops on the camera at once
+export const LENS_MUD_S = 2.5;                // how long mud thrown at the camera stays
+export const LENS_DROP_S = 2.6;               // how long a water drop stays
+export const STUNT_AIR_S = 0.45;              // airborne this long (every tyre off the ground) calls BIG AIR
+export const STUNT_CLIMB_DEG = 27;            // nose up this steep for STUNT_CLIMB_S calls HILL CLIMBER
+export const STUNT_CLIMB_S = 0.9;
+export const STUNT_COMBO_S = 2.5;             // rocks crushed within this of each other count as one ROCK CRUSHER combo
+export const RUN_INTRO_S = 2.0;               // how long the map's title banner stays up at the start of a run

@@ -19,6 +19,7 @@ import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
 import { createWinchGuide } from './game/winch-guide.js';
+import { createStunts } from './game/stunts.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
 // car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
@@ -60,12 +61,13 @@ const music = createMusic(content.music, audio.volumes);
 music.play('garage');
 { const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
+const stunts = createStunts({ sim, box: document.getElementById('stunts'), banner: document.getElementById('runIntro') });
 const guide = createWinchGuide({ box: document.getElementById('winchGuide'), sim, view });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
-    if (e.type === 'splash') audio.splash(e.power);
-    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
+    if (e.type === 'splash') { audio.splash(e.power); stunts.splash(e.power); }
+    else if (e.type === 'crush') { audio.crush(e.size); stunts.crushed(); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
@@ -190,6 +192,7 @@ const input = createInput(hud.els, {
 });
 
 function newRun() {
+  stunts.reset();
   sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
   renderer.warmVehicles(['breakdown'].map(serviceFor));   // so a called truck appears at once
   for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName()}`); }
@@ -227,7 +230,8 @@ async function driveOff(sel) {
   await until(() => renderer.ready, 15000);
   await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
   goRun(); loading = false;
-  loader.hide();
+  // the map's title sweeps in as the loading screen lifts, Forza style
+  loader.hide().then(() => { if (session.state === 'play') stunts.intro({ eyebrow: content.season.place ?? '', title: content.season.name, line: runLine(sel.car) }); });
 }
 async function backToGarage() {
   if (loading) return; loading = true;
@@ -343,6 +347,7 @@ function frame(now) {
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     session.update(dt);
     hud.showFilling(sim.main.st.filling);
+    stunts.update(dt, !loader.visible);
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
@@ -354,7 +359,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, stunts, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

@@ -109,6 +109,13 @@ gradients, drops, and rotating chunks.
 - Tire dust on dirt, gravel and rock, scaled by speed and slip. Mud flecks and mud puffs when spinning.
 - Water: a splash burst on entry, then a bow wave, rooster tail and spray while wading. A translucent
   water surface is drawn in front of the vehicle so the tires read as submerged.
+- Each map's air (2026-11-18, `render.atmosphere`, `src/render/layers/atmosphere.js`): screen-space weather with depth
+  (far particles behind the trail, near ones over the trucks), sun shafts, mist on the road's far edge, bird flocks, lightning
+  and world-space tumbleweeds. Sprites are made once and each kind is one batch; phones draw `WEATHER_PHONE_SHARE` of the
+  particles and one mist band, and a storm's dark sky is baked into the cached backdrop (a per-frame gradient cost ~1 ms in
+  software raster). Monsoon, the heaviest, measured about +2.5 ms a frame in headless Chromium before those two trims.
+- The camera (`src/render/lens.js`): mud from a spinning tyre, splashes and rain land on the lens away from the truck and slide
+  off. There is no camera shake: the user had it removed (2026-11-18). Stunt callouts and the run's title banner are DOM (`src/game/stunts.js`), show only.
 - A per-surface road lane makes the drivable line clear: wet mud, ground soil and granite textures
   (squashed for the elevated view), cross-faded at zone edges, with tire ruts and a crisp far edge.
 

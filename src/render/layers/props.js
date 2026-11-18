@@ -23,7 +23,10 @@ export function createProps(scene) {
   function sprite(key, x, y, width, flip = false) {
     const { ctx } = scene.view, img = scene.cache.img[key], h = width * img.height / img.width;
     const base = key === 'reeds' ? 0.95 : key === 'rock' ? 0.94 : 0.9;
-    ctx.save(); ctx.translate(x, y); ctx.scale(flip ? -1 : 1, -1);
+    ctx.save(); ctx.translate(x, y);
+    // reeds lean with the map's wind and sway in gusts (a shear, so their roots stay put)
+    if (key === 'reeds') { const wind = scene.season.render.atmosphere?.wind ?? 0, t = scene.time ?? 0; ctx.transform(1, 0, wind * 0.06 + Math.sin(t * 1.7 + x * 0.9) * 0.05 + Math.sin(t * 0.6 + x * 0.3) * 0.03, 1, 0, 0); }
+    ctx.scale(flip ? -1 : 1, -1);
     ctx.drawImage(img, -width / 2, -h * base, width, h); ctx.restore();
   }
   function drawList(list) {

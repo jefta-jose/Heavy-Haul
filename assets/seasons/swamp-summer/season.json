@@ -2837,7 +2837,30 @@
     },
     "midground": false,
     "backdropHorizon": 0.665,
-    "backdropFloor": "#8a9b7c"
+    "backdropFloor": "#8a9b7c",
+    "atmosphere": {
+      "weather": [
+        {
+          "kind": "pollen",
+          "density": 1
+        },
+        {
+          "kind": "butterflies",
+          "density": 0.6
+        }
+      ],
+      "wind": 0.25,
+      "rays": {
+        "x": 0.72,
+        "color": "255,232,170",
+        "strength": 0.55
+      },
+      "mist": {
+        "color": "226,238,226",
+        "strength": 0.55
+      },
+      "birds": true
+    }
   },
   "ambience": [
     {

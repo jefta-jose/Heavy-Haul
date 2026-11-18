@@ -2635,7 +2635,25 @@
     },
     "midground": false,
     "backdropHorizon": 0.705,
-    "backdropFloor": "#2b4d30"
+    "backdropFloor": "#2b4d30",
+    "atmosphere": {
+      "weather": [
+        {
+          "kind": "ash",
+          "density": 1
+        },
+        {
+          "kind": "embers",
+          "density": 1
+        }
+      ],
+      "wind": -0.45,
+      "mist": {
+        "color": "200,196,190",
+        "strength": 0.4
+      },
+      "birds": true
+    }
   },
   "ambience": [
     {

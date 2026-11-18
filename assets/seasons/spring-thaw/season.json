@@ -2656,7 +2656,22 @@
     },
     "midground": false,
     "backdropHorizon": 0.705,
-    "backdropFloor": "#879b7b"
+    "backdropFloor": "#879b7b",
+    "atmosphere": {
+      "weather": [
+        {
+          "kind": "drizzle",
+          "density": 1
+        }
+      ],
+      "wind": -0.35,
+      "mist": {
+        "color": "222,232,238",
+        "strength": 0.6
+      },
+      "birds": true,
+      "lensDrops": 0.6
+    }
   },
   "ambience": [
     {

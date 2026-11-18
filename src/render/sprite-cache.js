@@ -39,6 +39,13 @@ export function createSceneryCache(scene) {
       fog.addColorStop(0, 'rgba(169,193,195,0)'); fog.addColorStop(0.7, 'rgba(151,177,177,0.13)'); fog.addColorStop(1, 'rgba(148,167,157,0)');
       g.fillStyle = fog; g.fillRect(0, 0, b.width, b.height);
     }
+    // a stormy map's darker sky top (render.atmosphere.storm), baked in the same way rather than filled each frame
+    const storm = render.atmosphere?.storm;
+    if (storm) {
+      const b = C.img.backdrop, g = b.getContext('2d'), sky = g.createLinearGradient(0, 0, 0, b.height * 0.7);
+      sky.addColorStop(0, `rgba(16,24,30,${storm})`); sky.addColorStop(1, 'rgba(16,24,30,0)');
+      g.fillStyle = sky; g.fillRect(0, 0, b.width, b.height);
+    }
     C.rockSource ??= alphaCrop(A.rock);
     C.img.rock = scaled(C.rockSource, Math.min(1, 5 * px / C.rockSource.width));
     const round = Object.values(season.trail.obstacleKinds ?? {}).map(k => k.art);

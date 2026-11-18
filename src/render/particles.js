@@ -68,6 +68,8 @@ export function createParticles(scene, onEvent) {
       if (touching && surf === 'mud') {
         const rate = Math.abs(spin) > 0.8 ? (slip * 14 + speed * 3) : 0;
         if (Math.random() < rate * dt) emitDrop(p.x - dir * R * 0.35, p.y - R * 0.4, -dir * (0.8 + Math.min(5, slip) * 0.7 + Math.random()), 0.8 + Math.random() * Math.min(4, 1 + slip), 0.02 + Math.random() * 0.04, 0.8, Math.random() < 0.5 ? '#4b3c27' : '#5d4e36');
+        // a spinning wheel (or speed through mud) flings mud at the camera now and then
+        if (Math.random() < ((slip > 0.7 ? slip * 0.35 : 0) + (speed > 3 ? (speed - 3) * 0.08 : 0)) * dt) scene.lens?.splat('mud');
         if (slip > 1.5 && Math.random() < slip * dt * 2) emitPuff('mud', p.x - dir * R * 0.6, gy + 0.1, -dir * (0.6 + slip * 0.2), 0.5, 0.12, 0.4, 0.7, 0.35);
       }
       // water: a splash on entry, then bow wave and spray while moving
@@ -81,6 +83,7 @@ export function createParticles(scene, onEvent) {
           for (let k = 0; k < n; k++) { const a = Math.random() * Math.PI; emitDrop(p.x + Math.cos(a) * R, q.level, Math.cos(a) * speed * 0.6 + v.x * 0.3, 1.5 + Math.random() * speed * 1.2, 0.02 + Math.random() * 0.035, 1.1, waterColor); }
           for (let k = 0; k < 6; k++) emitPuff(q.muddy ? 'mud' : 'spray', p.x + (Math.random() - 0.5) * R * 2, q.level + 0.2, v.x * 0.3, 0.6 + Math.random(), q.muddy ? 0.14 : 0.25, 1.2, 0.8, q.muddy ? 0.25 : 0.5);
           onEvent({ type: 'splash', power: Math.min(1.5, speed / 3) });
+          if (speed > 1.5) scene.lens?.splat(q.muddy ? 'mud' : 'drop', Math.min(6, Math.round(speed * (q.muddy ? 0.5 : 1.2))), q.muddy ? 0.7 : 1);
         }
         sprayAcc[i] += dt * power * 30 * Math.max(0.35, depth);
         while (sprayAcc[i] > 1) {
