@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, TYRE_BURST_HIT, TYRE_LOSE_HIT, TYRE_BURST_GRIP, TYRE_LOST_DAMAGE, STATION_TYRE_SECONDS, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
 import { createTerrain } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -29,8 +29,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   }
   useSeason(season, rockHulls);
   const BRAKE = { rise: 2.5, fall: 5 };
-  const events = [], crushQueue = [], tyreQueue = [];
-  const burstGrip = b => (b.getFixtureList()?.getShape().m_radius ?? 0) < (b.tyreRadius ?? 0) - 1e-6 ? TYRE_BURST_GRIP : 1;
+  const events = [], crushQueue = [];
   const load = new Map();   // tire normal loads, measured from the solver's contact impulses every step
   let world, obstacles, vehicles = [], active = null, main = null, stepDt = 1 / 120;
   // the main vehicle's controls and readings persist across runs (the HUD holds them)
@@ -92,7 +91,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       const fa = c.getFixtureA(), fb = c.getFixtureB(), ua = fa.getUserData(), ub = fb.getUserData();
       const tire = ua && ua.tire ? fa : ub && ub.tire ? fb : null, other = tire === fa ? ub : ua;
       if (!tire || !other || !other.surf) return;
-      const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1) * (td.loose ? 1 : burstGrip(tire.getBody()));
+      const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
       if (td.neverStuck && (other.surf === 'mud' || other.surf === 'creek')) c.setFriction(Math.max(NEVER_STUCK_MU * (td.serviceGrip ?? 1), surfaces[other.surf].mu * m));
       else if (other.surf === 'mud' || other.surf === 'creek') { const x = tire.getBody().getPosition().x; c.setFriction(surfaces[other.surf].mu * mudPatch(x) * pitGrip(x) * m); }
       else if (m !== 1) { c.resetFriction(); c.setFriction(c.getFriction() * m); }   // reset: pre-solve runs every step
@@ -102,7 +101,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   // Damage from a solid obstacle: it grows with the square of the speed over DAMAGE_START_KMH. Things that break
   // under this truck do no harm. A short truck is also thrown nose-up.
   function obstacleHit(fixture, obstacle) {
-    if (fixture.getUserData()?.loose) return;   // a wheel lying loose on the trail
     const body = fixture.getBody(), v = vehicles.find(o => o.parts.truck === body || o.parts.wheels.includes(body));
     if (!v || v.role !== 'main' || v.hitT > 0) return;
     if (obstacle.crush?.alive && v.tireData.massT >= (obstacle.crush.minMassT ?? 0)) return;
@@ -112,24 +110,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const severity = (kmh - DAMAGE_START_KMH) / 10, amount = severity * severity * DAMAGE_PER_HIT;
     addDamage(v, amount);
     v.hitT = DAMAGE_HIT_COOLDOWN_S;
-    // a hard hit bursts the tyre that took it, or the leading tyre when the chassis took it; a burst one hit hard again comes off.
-    // Joints cannot change mid-step, so it waits for the step to end.
-    if (amount >= TYRE_BURST_HIT) {
-      const { wheels, tyres } = v.parts, on = wheels.map((_, i) => i).filter(i => tyres[i] !== 'lost');
-      const i = wheels.includes(body) ? wheels.indexOf(body) : (vel.x * Math.cos(truck.getAngle()) + vel.y * Math.sin(truck.getAngle()) >= 0 ? on[0] : on.at(-1));
-      if (i != null) tyreQueue.push({ v, i, lose: tyres[i] === 'burst' && amount >= TYRE_LOSE_HIT });
-    }
     if (v.car.physics.size[0] <= TIP_MAX_LENGTH_M) truck.applyAngularImpulse(truck.getInertia() * TIP_KICK * severity * Math.sign(vel.x || 1), true);
-  }
-  function breakTyres() {
-    for (const { v, i, lose } of tyreQueue) {
-      const w = v.parts.wheels[i];
-      if (!(lose ? v.parts.tyre.lose(i) : v.parts.tyre.burst(i))) continue;
-      const p = w.getPosition();
-      events.push({ type: 'tyre', state: lose ? 'lost' : 'burst', x: p.x, y: p.y - wheelRadius(v.car.rig, i) * 0.6, r: wheelRadius(v.car.rig, i) });
-      if (lose) addDamage(v, TYRE_LOST_DAMAGE);
-    }
-    tyreQueue.length = 0;
   }
   function addDamage(v, amount) {
     v.st.damage = Math.min(100, v.st.damage + amount);
@@ -267,9 +248,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     spawnParts(v, x);
     return v;
   }
-  function spawnParts(v, x) { v.parts = buildVehicle({ pl, world, terrain, car: v.car, x0: x, tireData: v.tireData }); markRadii(v); }
-  // each wheel body remembers its sound tyre's radius, so a burst one (smaller) is told apart
-  function markRadii(v) { v.parts.wheels.forEach((w, i) => { w.tyreRadius = wheelRadius(v.car.rig, i); }); }
+  function spawnParts(v, x) { v.parts = buildVehicle({ pl, world, terrain, car: v.car, x0: x, tireData: v.tireData }); }
   function removeParts(v) { v.parts.destroy(); }
   // the card's fuel-efficiency stat (0..100): 70 is the reference, every 40 points halves or doubles the burn
   const efficiencyBurn = car => GLOBAL_FUEL_BURN_MULTIPLIER * 2 ** ((70 - (car.stats?.fuelEfficiency ?? 70)) / 40);
@@ -278,8 +257,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // grip available to driven wheel i: friction x measured load x radius
   function gripOf(v, i) {
-    if (v.parts.tyres[i] === 'lost') return 0;
-    const w = v.parts.wheels[i], L = load.get(w), N = (L && L.imp ? L.imp / stepDt : 0) * burstGrip(w);
+    const w = v.parts.wheels[i], L = load.get(w), N = L && L.imp ? L.imp / stepDt : 0;
     const mu = L && L.surf ? surfaces[L.surf].mu : 0.9, m = (L && L.surf ? (v.tireData.grip?.[L.surf] ?? 1) : 1) * (v.tireData.gripScale ?? 1);
     const soft = L && (L.surf === 'mud' || L.surf === 'creek');
     if (soft && v.tireData.neverStuck) return Math.max(NEVER_STUCK_MU * (v.tireData.serviceGrip ?? 1), mu * m) * N * wheelRadius(v.car.rig, i);
@@ -345,7 +323,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     v.rollT = st.rollback ? (v.rollT ?? 0) + dt : 0;
     const easing = st.rollback ? ROLLBACK_EASE_BRAKE * Math.max(0, 1 - v.rollT / ROLLBACK_EASE_S) ** 2 : 0;
     const brake = wrecked && !v.winched ? 1 : Math.max(st.brake, st.hold ? 0.7 : 0, easing);
-    const on = i => v.parts.tyres[i] !== 'lost', grounded = wheels.some((w, i) => on(i) && load.get(w)?.imp > 0);
+    const grounded = wheels.some(w => load.get(w)?.imp > 0);
     // nitro's instant brake: armed by the boost, it waits through the recharge and after for any tap on the brake, at any
     // speed; then it takes the truck's speed straight off, whatever it weighs, finishing the stop even if the pedal is let
     // go, and it is used up. Braking during the boost ends the boost.
@@ -360,7 +338,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       for (const w of wheels) w.setAngularVelocity(w.getAngularVelocity() * keep);
     }
 
-    const { ratio, dir, omAvg, govOmega, driveOmega, driven, caps } = v.drivetrain.update({ ctl, st, wheels, joints, dt, gripOf: i => gripOf(v, i), on });
+    const { ratio, dir, omAvg, govOmega, driveOmega, driven, caps } = v.drivetrain.update({ ctl, st, wheels, joints, dt, gripOf: i => gripOf(v, i) });
 
     // the Nitro power: a push along the truck, past what the engine and gears allow, up to a share of its own top speed.
     // It only pushes while a drive pedal is held (forward, or back in reverse): let go and the truck slows and stops as usual.
@@ -373,7 +351,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
     let mud = 0, slip = 0, surf = null;
     for (let i = 0; i < wheels.length; i++) {
-      if (!on(i)) continue;
       const w = wheels[i], j = joints[i], R = wheelRadius(car.rig, i);
       const s = wheelSurf(w); if (s) surf = s; if (s === 'mud') mud++;
       if (ctl.handbrake) {
@@ -415,17 +392,11 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const st = main.st, x = main.parts.truck.getPosition().x;
     st.atStation = terrain.stationAt(x) ?? null;
     st.inBay = !!st.atStation && Math.abs(st.speed) * 3.6 < STATION_STOP_KMH && main.ctl.gas < 0.1;
-    // a wrecked truck towed in is repaired too, and new tyres and wheels are fitted one at a time
-    const tyres = main.parts.tyres, worn = tyres.findIndex(s => s !== 'ok');
-    st.filling = st.inBay && (st.fuel < 100 || st.damage > 0 || worn >= 0);
-    if (!st.filling) { main.fitT = 0; return; }
+    // a wrecked truck towed in is repaired too
+    st.filling = st.inBay && (st.fuel < 100 || st.damage > 0);
+    if (!st.filling) return;
     st.fuel = Math.min(100, st.fuel + dt * 100 / STATION_FILL_SECONDS);
     st.damage = Math.max(0, st.damage - dt * 100 / STATION_REPAIR_SECONDS);
-    if (worn >= 0 && (main.fitT = (main.fitT ?? 0) + dt) >= STATION_TYRE_SECONDS) {
-      main.fitT = 0; const lost = tyres[worn] === 'lost';
-      main.parts.tyre.refit(worn); markRadii(main);
-      events.push({ type: 'tyre', state: 'fitted', wheel: lost });
-    }
   }
 
   function step(dt) {
@@ -436,7 +407,6 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     for (const v of vehicles) stepVehicle(v, dt);
     load.clear();
     world.step(dt, 10, 6);
-    if (tyreQueue.length) breakTyres();
     stepStation(dt);
     stepPower(dt);
     if (crushQueue.length) crushRocks();

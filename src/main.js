@@ -69,11 +69,6 @@ const renderer = createRenderer({
     if (e.type === 'splash') { audio.splash(e.power); stunts.splash(e.power); }
     else if (e.type === 'crush') { audio.crush(e.size); stunts.crushed(); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
-    else if (e.type === 'tyre') {
-      if (e.state === 'fitted') { hud.toast(e.wheel ? 'New wheel fitted' : 'New tyre fitted', 1.5); return; }
-      audio.bump(e.state === 'lost' ? 1 : 0.85, sim.main.car.physics.mass / 1000); haptics.hit(1);
-      hud.toast(e.state === 'lost' ? 'You lost a wheel! A fuel station fits a new one' : 'Tyre burst! A fuel station fits a new one', 3);
-    }
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });

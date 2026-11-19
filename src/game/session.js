@@ -159,7 +159,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     // a refuelled truck starts up by itself, and stations are worth a mention when you need one
     if (main.st.filling && main.st.engine === 'off' && main.st.fuel > 5) sim.startEngine(main);
     const near = (trail.stations ?? []).find(s => s.x > p.x && s.x - p.x < 45);
-    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10 || main.parts.tyres.some(s => s !== 'ok')) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay to refuel and repair', 3.5); }
+    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay to refuel and repair', 3.5); }
   };
   return api;
 }

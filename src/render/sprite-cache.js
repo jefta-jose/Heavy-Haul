@@ -1,5 +1,4 @@
-import { CRACKS_AT_DAMAGE, CRACK_COUNTS, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SHIELD_WIDTH_M, MUD_COAT_COLOR } from '../game-config.js';
-import { wheelRadius } from '../physics/vehicle.js';
+import { CRACKS_AT_DAMAGE, CRACK_COUNTS, SPEED_SIGN_HEIGHT_M, HIGHWAY_SIGN_WIDTH_M, SHIELD_WIDTH_M } from '../game-config.js';
 import { makeCanvas, scaled, tinted, loadImages, alphaCrop } from './canvas-utils.js';
 
 // a copy with its opacity multiplied in, so it is drawn without globalAlpha
@@ -110,7 +109,7 @@ export function createRigCache(view, rig, sources, art = {}) {
     // far tires: a pre-darkened copy (a per-frame ctx.filter is far too slow)
     C.wheelFar = makeCanvas(C.wheel.width, C.wheel.height);
     const f = C.wheelFar.getContext('2d'); f.drawImage(C.wheel, 0, 0); f.globalCompositeOperation = 'source-atop'; f.fillStyle = 'rgba(10,12,8,0.4)'; f.fillRect(0, 0, C.wheelFar.width, C.wheelFar.height);
-    C.outline = {}; C.cracked = {}; C.halos = {}; C.mud = {}; C.wheelMud = null;
+    C.outline = {}; C.cracked = {}; C.halos = {};
   };
   // The body with damage drawn on it, built once per set of cracks. Cracks are jagged lines painted only where the
   // body is opaque, so they never spill off the truck; each truck's come from its own id.
@@ -139,53 +138,6 @@ export function createRigCache(view, rig, sources, art = {}) {
     for (let i = 0; i < CRACK_COUNTS[tier - 1]; i++) { const [x, y] = onTruck(); crack(x, y, rnd() * 6.28, H * (0.1 + rnd() * 0.16), unit * (1 + rnd() * 0.8), 1 + Math.floor(rnd() * 2)); }
     return (C.cracked[tier] = c);
   };
-  // Mud on the body in three coats, each one over the last: the first splatters the arches and sills, the last reaches the roof.
-  // Thrown up and back off each tyre, heaviest low down, with a few drips. Only the mud: it is drawn over the body (cracks and
-  // all), masked to its outline. Built once per coat and zoom; each truck's splatter comes from its own id.
-  C.mudCoat = (coat, id) => {
-    if (C.mud[coat]) return C.mud[coat];
-    const W = C.body.width, H = C.body.height, k = W / loader.images.body.width, ppm = rig.pixelsPerMetre * k;
-    const alpha = C.body.getContext('2d').getImageData(0, 0, W, H).data;
-    let top = H, bottom = 0;
-    for (let y = 0; y < H; y++) for (let x = 0; x < W; x += 2) if (alpha[(y * W + x) * 4 + 3] > 128) { top = Math.min(top, y); bottom = Math.max(bottom, y); break; }
-    const tall = Math.max(1, bottom - top);
-    C.mudSplats ??= {};
-    const splats = C.mudSplats[k] ??= (() => {
-      let n = 11; for (const ch of id) n = (n * 31 + ch.charCodeAt(0)) >>> 0;
-      const rnd = () => { n = (n * 1664525 + 1013904223) >>> 0; return n / 4294967296; };
-      const out = [];
-      // thrown off each tyre: specks fanned up and back from the arch, reaching further with each coat
-      rig.axles.forEach((ax, i) => {
-        const hx = (rig.bodyOrigin[0] + ax * rig.pixelsPerMetre) * k, hy = (rig.bodyOrigin[1] - rig.wheelY[i] * rig.pixelsPerMetre) * k, R = wheelRadius(rig, i) * ppm;
-        for (let s = 0; s < 420; s++) {
-          const reach = Math.pow(rnd(), 1.3), a = Math.PI * (1.05 + rnd() * 0.55) + (rnd() - 0.5) * 0.4, d = R * (0.95 + reach * 1.6);
-          out.push({ x: hx + Math.cos(a) * d, y: hy + Math.sin(a) * d * 0.8, r: R * (0.016 + rnd() * 0.045) * (1.3 - reach * 0.7), level: reach * 2.7 + rnd() * 0.3, a: 0.75 + rnd() * 0.25 - reach * 0.45 });
-        }
-      });
-      // a crust along the sills, then smears up the sides, thinner and drier higher up; the top third stays clean
-      for (let s = 0; s < 900; s++) {
-        const up = Math.pow(rnd(), 1.8) * 0.66, x = rnd() * W, y = bottom - up * tall;
-        out.push({ x, y, r: tall * (0.008 + rnd() * 0.024) * (1.4 - up), level: up / 0.66 * 2.75 + rnd() * 0.25, a: 0.8 - up * 0.9 + rnd() * 0.2, flat: 1.4 + rnd() * 1.6 });
-      }
-      // drips running down from the splats
-      for (let s = 0; s < 60; s++) { const up = rnd() * 0.5, x = rnd() * W, y = bottom - up * tall; out.push({ x, y, r: tall * 0.006, drip: tall * (0.025 + rnd() * 0.06), level: up * 4 + 0.6, a: 0.55 }); }
-      return out;
-    })();
-    const c = makeCanvas(W, H), g = c.getContext('2d'), [r, gg, b] = MUD_COAT_COLOR;
-    for (const s of splats) {
-      if (s.level > coat) continue;
-      const shade = 0.7 + ((s.x * 7 + s.y * 13) % 10) / 25;   // wetter (darker) and drier patches
-      g.fillStyle = `rgba(${Math.round(r * shade)},${Math.round(gg * shade)},${Math.round(b * shade)},${Math.max(0.12, s.a)})`;
-      g.beginPath();
-      if (s.drip) { g.ellipse(s.x, s.y + s.drip / 2, s.r, s.drip / 2, 0, 0, 7); }
-      else g.ellipse(s.x, s.y, s.r * (s.flat ?? 1), s.r, 0, 0, 7);
-      g.fill();
-    }
-    g.globalCompositeOperation = 'destination-in'; g.drawImage(C.body, 0, 0);
-    return (C.mud[coat] = c);
-  };
-  // the tyres darken with the same mud
-  C.wheelMudOf = () => (C.wheelMud ??= tinted(C.wheel, `rgb(${MUD_COAT_COLOR.join(',')})`));
   // A power's glow, a soft halo around the silhouette. Built once per colour: the stacked copies are too many to draw each frame.
   // `pad` is how many sprite pixels it adds on every side.
   C.haloOf = (color, pale, metresPerBodyPx, metresPerWheelPx) => {

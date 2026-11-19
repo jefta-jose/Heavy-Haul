@@ -1,7 +1,7 @@
 // The vehicle as rigid bodies: one chassis plus one wheel body per axle, joined by sprung
 // wheel joints. Two physical axles carry the four visible tires of a two-axle car; more axles
 // work the same way. All geometry comes from the car's measured registration (car.json `rig`).
-import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE, TYRE_BURST_RADIUS } from '../game-config.js';
+import { WHEEL_RISE_MAX_SHARE, WHEEL_DROP_MAX_SHARE } from '../game-config.js';
 
 export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: true } }) {
   const V = (x, y) => new pl.Vec2(x, y);
@@ -37,51 +37,24 @@ export function buildVehicle({ pl, world, terrain, car, x0, tireData = { tire: t
   const front = Math.max(M / rig.axles.length * 0.25, (M * (com.x - xr)) / (xf - xr));
   const rear = (M - front) / (rig.axles.length - 1);
 
-  const wheels = [], joints = [], springs = [], tyres = [];
-  // one wheel on axle i, hung at its ride height under the truck as it stands now; at a spawn and when a station fits a new one
-  function hang(i, p, axis, angle = 0) {
-    const w = world.createBody({ type: 'dynamic', position: p, angle, angularDamping: 0.02, bullet: true });
+  const wheels = [], joints = [], springs = [];
+  rig.axles.forEach((ax, i) => {
+    const load = i === 0 ? front : rear;
+    const p = P(ax, rig.wheelY[i] - susp.sag);
+    const w = world.createBody({ type: 'dynamic', position: p, angularDamping: 0.02, bullet: true });
     w.createFixture(new pl.Circle(radiusOf(i)), { density: 1, friction: 1.0, ...filt, filterCategoryBits: TIRE_CATEGORY, userData: tireData });
     setMass(w, physics.wheelMass);
-    const sp = springFor(M, com, size, rig.axles[i], physics.wheelMass, i === 0 ? front : rear, susp);
-    const j = world.createJoint(new pl.WheelJoint({ enableMotor: true, maxMotorTorque: 0, motorSpeed: 0, frequencyHz: sp.hz, dampingRatio: sp.zeta }, truck, w, p, axis));
-    wheels[i] = w; joints[i] = j; springs[i] = { j, body: truck, wheel: w, k: sp.k, c: sp.c, axleX: rig.axles[i], load: i === 0 ? front : rear }; tyres[i] = 'ok';
-  }
-  rig.axles.forEach((ax, i) => hang(i, P(ax, rig.wheelY[i] - susp.sag), AXIS));
-
-  // Tyres: 'ok', 'burst' (rolls on a smaller radius) or 'lost' (its joint gone, the wheel loose on the trail). Each returns
-  // whether anything changed.
-  const tyre = {
-    burst(i) { if (tyres[i] !== 'ok') return false; wheels[i].getFixtureList().getShape().m_radius = radiusOf(i) * TYRE_BURST_RADIUS; tyres[i] = 'burst'; return true; },
-    lose(i) {
-      if (tyres[i] === 'lost') return false;
-      world.destroyJoint(joints[i]); tyres[i] = 'lost';
-      const w = wheels[i], f = w.getFixtureList(), up = truck.getWorldVector(V(0, 1)), m = w.getMass();
-      f.setUserData({ tire: true, loose: true, massT: physics.wheelMass / 1000 });   // a loose wheel hurts nothing and drives nothing
-      w.applyLinearImpulse(V(up.x * m * 3 - up.y * m * 1.5, up.y * m * 3), w.getPosition(), true);
-      return true;
-    },
-    // a new tyre, or a whole new wheel at the hub
-    refit(i) {
-      if (tyres[i] === 'ok') return false;
-      if (tyres[i] === 'burst') { wheels[i].getFixtureList().getShape().m_radius = radiusOf(i); tyres[i] = 'ok'; return true; }
-      world.destroyBody(wheels[i]);
-      // a truck sitting on its belly where the wheel was is jacked up first, so the new wheel goes on above the ground
-      const hub = truck.getWorldPoint(V(rig.axles[i], rig.wheelY[i] - susp.sag)), short = terrain.colH(hub.x) + radiusOf(i) + 0.05 - hub.y;
-      if (short > 0) for (const b of [truck, ...wheels.filter((_, k) => k !== i && tyres[k] !== 'lost')]) {
-        b.setPosition(V(b.getPosition().x, b.getPosition().y + short)); b.setLinearVelocity(V(0, 0)); b.setAngularVelocity(0);
-      }
-      hang(i, truck.getWorldPoint(V(rig.axles[i], rig.wheelY[i] - susp.sag)), truck.getWorldVector(V(0, 1)), truck.getAngle());
-      return true;
-    },
-  };
+    const sp = springFor(M, com, size, ax, physics.wheelMass, load, susp);
+    const j = world.createJoint(new pl.WheelJoint({ enableMotor: true, maxMotorTorque: 0, motorSpeed: 0, frequencyHz: sp.hz, dampingRatio: sp.zeta }, truck, w, p, AXIS));
+    wheels.push(w); joints.push(j); springs.push({ j, body: truck, wheel: w, k: sp.k, c: sp.c, axleX: ax, load });
+  });
 
   function setMass(body, m) { setWheelMass(V, body, m); }
   function setMassExplicit(body, m, cm, sz) { setBodyMass(V, body, m, cm, sz); }
-  const bumpStops = dt => applyBumpStops(V, tyres.includes('lost') ? springs.filter((_, i) => tyres[i] !== 'lost') : springs, susp, dt);
+  const bumpStops = dt => applyBumpStops(V, springs, susp, dt);
   function destroy() { for (const b of [truck, ...wheels]) world.destroyBody(b); }
 
-  return { truck, wheels, joints, springs, tyres, tyre, bumpStops, destroy };
+  return { truck, wheels, joints, springs, bumpStops, destroy };
 }
 
 // tires sit in their own collision category
