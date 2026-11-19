@@ -74,14 +74,21 @@ const renderer = createRenderer({
 });
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
 // contracts are sized to the trail being played and the trucks owned
-const missions = createMissions(content.missions, { classes: content.roster.classes, trail: liveTrail, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
+// A map picked in the garage is only swapped in when PLAY is pressed, but contracts are drawn for it at once, so the one chosen
+// next fits the map it will be driven on (pendingSeason).
+let switchingSeason = false, pendingSeason = null;
+const missionSeason = () => (pendingSeason && content.playableSeasons?.find(x => x.season.id === pendingSeason)?.season) || content.season;
+const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
 const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
   onStart: selection => driveOff(selection),
   onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
   onSell: () => { haptics.tick(); uiAudio.play('ui-buy'); },
-  onSeason: id => { pendingSeason = id; try { localStorage.setItem('haul.season', id); } catch (e) {} },
+  onSeason: id => {
+    pendingSeason = id; try { localStorage.setItem('haul.season', id); } catch (e) {}
+    missions.mapChanged();
+  },
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
@@ -220,23 +227,28 @@ function runLine(car) {
 }
 async function driveOff(sel) {
   if (loading) return; loading = true;
-  startAudio();   // inside the tap, or the phone will not play it
-  if (pendingSeason && pendingSeason !== content.season.id) loader.setPlace(content.playableSeasons.find(x => x.season.id === pendingSeason)?.season.name ?? season.name, '');
-  loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
-  // a map picked in the garage is swapped in here, behind the loading screen that shows anyway (2026-11-18): picking is instant
-  if (pendingSeason && pendingSeason !== content.season.id) await switchSeason(pendingSeason, { quiet: true });
-  pendingSeason = null;
-  prepareRun(sel);
-  await until(() => renderer.ready, 15000);
-  await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
-  goRun(); loading = false;
+  // whatever goes wrong behind the screen, it always lifts and taps work again (a stuck `loading` froze PLAY for good)
+  try {
+    startAudio();   // inside the tap, or the phone will not play it
+    if (pendingSeason && pendingSeason !== content.season.id) loader.setPlace(content.playableSeasons.find(x => x.season.id === pendingSeason)?.season.name ?? season.name, '');
+    loader.show('drive', { sub: runLine(sel.car) }); await loader.painted();
+    // a map picked in the garage is swapped in here, behind the loading screen that shows anyway (2026-11-18): picking is instant
+    if (pendingSeason && pendingSeason !== content.season.id) await switchSeason(pendingSeason, { quiet: true });
+    pendingSeason = null;
+    prepareRun(sel);
+    await until(() => renderer.ready, 15000);
+    await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
+    goRun();
+  } catch (e) { console.error(e); } finally { loading = false; }
   loader.hide();
 }
 async function backToGarage() {
   if (loading) return; loading = true;
-  loader.show('garage', { sub: 'Back to the garage' }); await loader.painted();
-  openGarage();
-  await decoded([selection.car.artUri?.master, content.hud['garage-bay']]);
+  try {
+    loader.show('garage', { sub: 'Back to the garage' }); await loader.painted();
+    openGarage();
+    await decoded([selection.car.artUri?.master, content.hud['garage-bay']]);
+  } catch (e) { console.error(e); }
   await loader.hide();
   loading = false;
 }
@@ -251,7 +263,6 @@ function launchProgress() {
 }
 // Another map: swapped in place, no reload, so the music never stops. From the garage it happens behind the drive loading
 // screen (driveOff, `quiet`); called on its own (tests) it shows the turning gears until the new art is ready.
-let switchingSeason = false, pendingSeason = null;
 async function switchSeason(id, { quiet = false } = {}) {
   const next = content.playableSeasons?.find(x => x.season.id === id);
   if (!next || id === content.season.id || switchingSeason || (loading && !quiet)) return;
@@ -267,7 +278,7 @@ async function switchSeason(id, { quiet = false } = {}) {
   ambience.splice(0, ambience.length, ...(next.season.ambience ?? []));
   loader.setPlace(next.season.name, next.season.place ?? '');
   sim.init(sim.trail.start, selection); view.snap(); trap.reset(); session.reset();
-  missions.endRun();   // fresh offers sized to this trail
+  missions.mapChanged();   // fresh offers sized to this trail
   garage.seasonChanged();
   await Promise.race([art, new Promise(r => setTimeout(r, 15000))]);
   if (!quiet) { await framesDrawn(2); hud.busy(false); }
@@ -292,7 +303,8 @@ E.pauseBtn.addEventListener('click', pause);
 E.breakdownCallBtn.addEventListener('click', () => summon('breakdown'));
 E.switchBtn.addEventListener('click', switchVehicle);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
-document.addEventListener('visibilitychange', () => { if (document.hidden && session.state === 'play') pause(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) return; if (session.state === 'play') pause(); session.persist(); });
+window.addEventListener('pagehide', () => session.persist());   // the app or tab closing: the last coins and XP are kept
 window.addEventListener('resize', resize);
 
 // ---------- loop ----------
@@ -327,26 +339,29 @@ function frame(now) {
     const { x, y, vx, vy } = view.cam; resize(); Object.assign(view.cam, { x, y, vx, vy });
   }
   const playing = session.state === 'play';
+  // Behind the drive loading screen ("Tap to continue") the truck settles and the starter cranks, but the run itself waits:
+  // no clock, rewards, speed cameras or pedals until the screen is gone, or timed contracts lost seconds the player never saw.
+  const covered = loader.visible;
   if (playing) {
-    const held = input.read();
+    const held = covered ? { gas: 0, brake: 0 } : input.read();
     sim.ctl.gas = Number(held.gas);   // retain analog pedal position
     if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is wrecked. Call the breakdown truck to tow you to a station.' : 'The tank is empty. Call the breakdown truck to tow you to a station.', 2);
     sim.ctl.brake = Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
-    trap.update(dt);
+    if (!covered) trap.update(dt);
     acc += dt; let n = 0;
     while (acc >= DT && n < 8) { sim.step(DT); acc -= DT; n++; }
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
-    session.update(dt);
+    if (!covered) session.update(dt);
     hud.showFilling(sim.main.st.filling);
-    stunts.update(dt, !loader.visible);
+    stunts.update(dt, !covered);
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
   try { view.follow(dt); renderer.draw(dt, playing); guide.update(playing); } finally { interp.restore(); }
-  hud.update(dt, { coins: session.coins, run: session.run, playing: playing && !loader.visible });
+  hud.update(dt, { coins: session.coins, run: session.run, playing: playing && !covered });
   audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling: sim.main.st.filling }, dt);
   adapt(dt);
   requestAnimationFrame(frame);

@@ -1,8 +1,7 @@
 import { makeCanvas, puff } from '../canvas-utils.js';
-import { roadSpan } from './ground.js';
 import {
   WEATHER_COUNTS, WEATHER_PHONE_SHARE, WEATHER_NEAR_DEPTH, BIRD_FLOCK_EVERY_S, LIGHTNING_EVERY_S, TUMBLEWEED_EVERY_S,
-  RAYS_PARALLAX, RAYS_SPACING,
+  RAYS_PARALLAX, RAYS_SPACING, MIST_BASE,
 } from '../../game-config.js';
 
 // The air of a map: weather, sun shafts, drifting mist, bird flocks, lightning and tumbleweeds, all from
@@ -108,12 +107,12 @@ function fogCanvas(color) {
 }
 
 export function createAtmosphere(scene) {
-  let cfg = null, parts = [], flocks = [], weeds = [], time = 0, size = '', last = null, mistY = null;
+  let cfg = null, parts = [], flocks = [], weeds = [], time = 0, size = '', last = null;
   let birdT = 0, boltT = 0, weedT = 0, flash = 0, flashQ = [], bolt = null, rays = null, fog = null;
 
   function setup() {
     cfg = scene.season.render.atmosphere ?? {};
-    parts = []; flocks = []; weeds = []; last = null; mistY = null; flash = 0; flashQ = []; bolt = null;
+    parts = []; flocks = []; weeds = []; last = null; flash = 0; flashQ = []; bolt = null;
     birdT = rand(2, 6); boltT = between(LIGHTNING_EVERY_S); weedT = rand(1, 3);
     rays = cfg.rays ? raysCanvas(cfg.rays.x ?? 0.75, cfg.rays.color ?? '255,236,190') : null;
     fog = cfg.mist ? fogCanvas(cfg.mist.color ?? '226,236,230') : null;
@@ -310,10 +309,10 @@ export function createAtmosphere(scene) {
       ctx.stroke();
     }
     if (fog) {
-      // between the backdrop and the road: the fog's thick base sits on the road's far edge under the camera (eased so
-      // bumps do not bob it) and it thins upwards into the scenery; two sheets drifting at different depths, a phone draws one
-      const span = roadSpan(scene), target = H / 2 - (scene.sim.visH(cam.x) + (span ? span.far : 0.6) - cam.y) * ppm;
-      mistY = mistY == null || Math.abs(mistY - target) > H ? target : mistY + (target - mistY) * 0.05;
+      // between the backdrop and the road: like the backdrop it stands still on the screen (it never follows the ground,
+      // so slopes do not bob it), thick from MIST_BASE down and thinning upwards into the scenery; the road covers what
+      // lies under it. Two sheets drifting at different depths, a phone draws one
+      const mistY = H * MIST_BASE;
       for (const [factor, drift, lift, alpha] of TOUCH ? [[0.24, 16, 0.3, 2]] : [[0.12, 9, 0.36, 1.5], [0.24, 16, 0.24, 1.7]]) drawFog(factor, drift, mistY - H * lift, mistY + H * 0.02, alpha);
     }
     drawParticles(0);

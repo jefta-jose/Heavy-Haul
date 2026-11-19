@@ -39,6 +39,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const { offerCount = 4, baseXp = MISSION_BASE_XP, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]] } = data;
   if (Array.isArray(ctx)) ctx = { classes: ctx.map(id => ({ id, name: id })) };
   const classes = ctx.classes ?? [], trail = ctx.trail ?? { start: 0, depot: 3500, checkpoints: [], heavyMud: [], highways: [] };
+  const mapId = () => ctx.mapId?.() ?? null;   // the map contracts are drawn for: each one is sized to that trail
   const owned = () => (ctx.owned?.() ?? []).filter(c => c?.id);
   const className = id => classes.find(c => c.id === id)?.name ?? id;
 
@@ -130,19 +131,31 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       m.title = pick(goals[m.goal]?.titles ?? [m.goal]);
       m.text = describe(m);
       m.id = `${m.goal}-${Math.floor(random() * 2 ** 32).toString(36)}`;
+      if (mapId()) m.map = mapId();
       delete m.d;
       return m;
     }
     return null;
   }
 
-  let state = { v: VERSION, offers: [], active: null, driven: {} };
+  let state = { v: VERSION, offers: [], active: null, driven: {}, maps: {} };   // maps: other maps' offers, kept for when you go back
   try {
     const s = JSON.parse(store?.getItem(KEY));
-    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {} };
+    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {}, maps: s.maps ?? {} };
     else if (s?.driven) state.driven = s.driven;   // older saves: keep which classes were driven
   } catch (e) {}
-  if (!state.offers.some(m => m.id === state.active)) state.active = null;
+  // A contract drawn for another map does not fit this one (four cameras where there are three, a checkpoint
+  // that is not here, a time sized to another trail's length): it is dropped, the chosen one too.
+  const fits = m => {
+    if (m.map && mapId() && m.map !== mapId()) return false;
+    if (m.goal === 'cameras' && m.of !== (trail.highways ?? []).length) return false;
+    if (m.goal === 'bogs' && m.of !== (trail.heavyMud ?? []).length) return false;
+    if (m.goal === 'sprint' && !(trail.checkpoints ?? []).includes(m.x)) return false;
+    return true;
+  };
+  const prune = () => { state.offers = state.offers.filter(fits); if (!state.offers.some(m => m.id === state.active)) state.active = null; };
+  let current = mapId();
+  prune();
   const save = () => { try { store?.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
   const activeMission = () => state.offers.find(m => m.id === state.active) ?? null;
 
@@ -189,5 +202,17 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     },
     // a run ended without delivering: new offers beside the chosen one
     endRun() { draw(); },
+    // another map was picked: its own offers come back (and the chosen one, if it had one), or fresh ones are drawn for it;
+    // this map's offers wait until you come back, so browsing maps never loses a chosen contract
+    mapChanged() {
+      const next = mapId();
+      if (next && current && next !== current) {
+        state.maps[current] = { offers: state.offers, active: state.active };
+        const back = state.maps[next]; delete state.maps[next];
+        state.offers = back?.offers ?? []; state.active = back?.active ?? null;
+      }
+      current = next; prune();
+      if (state.offers.length < offerCount) draw(); else save();
+    },
   };
 }

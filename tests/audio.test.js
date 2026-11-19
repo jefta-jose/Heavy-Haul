@@ -39,11 +39,20 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
     assert.equal(input.read().gas, 1);
     els.gas.handlers.pointermove({ ...event, clientY: 165 });
     assert(Math.abs(input.read().gas - 0.35) < 1e-9);
-    els.gas.handlers.pointerup();
+    els.gas.handlers.pointerup(event);
     els.gas.handlers.pointerdown({ ...event, pointerType: 'touch' });
     els.gas.handlers.pointermove({ ...event, pointerType: 'touch', clientY: 165 });
     assert.equal(input.read().gas, 1, 'touch stays at full pedal while held');
-    els.gas.handlers.pointerup();
+    // two fingers on the gas: lifting one leaves it held by the other
+    els.gas.handlers.pointerdown({ ...event, pointerId: 2, pointerType: 'touch' });
+    els.gas.handlers.pointerup(event);
+    assert.equal(input.read().gas, 1, 'the second finger still holds the gas');
+    els.gas.handlers.pointerup({ ...event, pointerId: 2 });
+    assert.equal(input.read().gas, 0, 'both fingers up lets go');
+    // switching away with a finger down never leaves the pedal stuck
+    els.gas.handlers.pointerdown({ ...event, pointerType: 'touch' });
+    win.handlers.blur();
+    assert.equal(input.read().gas, 0, 'blur releases the pedal');
     const buttons = Array.from({ length: 8 }, () => ({ value: 0 }));
     buttons[7].value = 0.42;
     pads = [{ mapping: 'standard', buttons }];
@@ -58,7 +67,7 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
     pads = [];
     els.gas.handlers.pointerdown({ ...event, pointerType: 'pen', pressure: 0.6 });
     assert.equal(input.read().gas, 0.6);
-    els.gas.handlers.pointerup();
+    els.gas.handlers.pointerup(event);
     win.handlers.keydown({ code: 'ArrowRight', preventDefault() {} });
     assert.equal(input.read().gas, 1);
     win.handlers.keyup({ code: 'ArrowRight' });

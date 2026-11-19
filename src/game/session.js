@@ -41,13 +41,16 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   api.crushed = () => { if (canProgress()) run.crushes++; };
   api.helpCalled = () => { run.helped = true; };
   api.cameraSpeed = kmh => { run.camerasSeen++; if (canProgress()) { run.cameraKmh = Math.max(run.cameraKmh, kmh); run.cameras.push(kmh); } };
-  const restartButton = (label = 'Restart') => [label, () => { hud.hideMessage(); api.state = 'play'; onRestart(); }];
-  const garageButton = ['Back to garage', () => { hud.hideMessage(); onGarage(); }];
+  // coins and XP are written every 2 s while driving; anything that leaves or freezes the run writes them at once,
+  // so the last few seconds of rewards are never lost (closing the app from the pause menu, going to the garage)
+  api.persist = () => { wallet.save(); progress?.save(); };
+  const restartButton = (label = 'Restart') => [label, () => { api.persist(); hud.hideMessage(); api.state = 'play'; onRestart(); }];
+  const garageButton = ['Back to garage', () => { api.persist(); hud.hideMessage(); onGarage(); }];
 
   // extra: { spec: [[label, value]...], buttons: [[label, fn]...] } from main.js (the truck's details
   // and the controls the phone HUD leaves out)
   api.pause = (openSound, extra = {}) => {
-    api.state = 'pause';
+    api.state = 'pause'; api.persist();
     hud.showMessage('Paused', 'Expedition on hold', `${trail.name}. Your vehicle will wait right where you left it.`, extra.spec ?? [], [
       ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Sound', openSound], ...(extra.buttons ?? []),
     ]);
@@ -58,7 +61,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     api.state = 'fail';
     onFailure?.();
     missions?.endRun?.();
-    wallet.save(); progress?.save();
+    api.persist();
     const coins = ['Coins this run', formatCoins(run.earned)];
     // a crash or a wreck ends the run: back to the very start of the trail
     if (kind === 'roll') {
@@ -76,8 +79,9 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (!canProgress()) return;
     api.state = 'done';
     const load = sim.main.car.load, loadPay = load ? Math.round(300 + load.massT * 160) : 0, pay = trail.finishBonus + loadPay;
-    wallet.add(pay); wallet.save();
+    wallet.add(pay);
     gainXp(XP_PER_DELIVERY, true);
+    api.persist();   // XP from the delivery is only written at once if canProgress allowed it
     const done = missions?.deliver(missionRun(true)); if (done) missionDone(done);
     if (!done) onSuccess?.();
     const rank = progress?.progress;
@@ -117,7 +121,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (p.x > run.farthest) { if (canProgress()) { api.earn((p.x - run.farthest) * COINS_PER_METRE); gainXp((p.x - run.farthest) * XP_PER_METRE); } run.farthest = p.x; }
     const bogs = trail.heavyMud ?? [];
     while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + 12) { if (canProgress()) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; } run.bogsDone++; }
-    if ((run.saveT += dt) > 2) { run.saveT = 0; wallet.save(); progress?.save(); }
+    if ((run.saveT += dt) > 2) { run.saveT = 0; api.persist(); }
     if (run.time > 6) hud.setCardVisible(false);
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);
     // what contracts' twists watch: a station fill, a power used, the longest time sat stuck in the main truck

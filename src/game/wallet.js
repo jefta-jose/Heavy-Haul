@@ -7,7 +7,8 @@ try {
   const raw = localStorage.getItem(KEY), saved = Number(raw);
   if (raw !== null && Number.isFinite(saved) && saved >= 0) coins = saved;
 } catch (e) {}
-const save = () => { try { localStorage.setItem(KEY, String(Math.floor(coins))); } catch (e) {} };
+// the fraction is saved too, or every reload loses up to a coin
+const save = () => { try { localStorage.setItem(KEY, String(Math.round(coins * 1000) / 1000)); } catch (e) {} };
 
 export const wallet = {
   get coins() { return Math.floor(coins); },

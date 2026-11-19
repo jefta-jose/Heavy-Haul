@@ -10,28 +10,32 @@ export function createInput(els, actions) {
   let wasGas = false, wasBrake = false, last = null;
 
   function bindHold(el, name) {
-    let originY = 0, pointer = null;
+    // every finger (or mouse, or pen) on the pedal counts: the pedal is the deepest of them, and lifting one finger
+    // leaves it held by the others (with one id kept, lifting either of two fingers let go of the gas)
+    const pointers = new Map();   // pointerId -> { originY, value }
+    const apply = () => { let v = 0; for (const p of pointers.values()) v = Math.max(v, p.value); held[name] = v; };
     const down = e => {
       e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch (_) {}
-      originY = e.clientY; pointer = e.pointerId;
-      held[name] = e.pointerType === 'pen' && e.pressure > 0 ? e.pressure : 1;
-      actions.onAnyInput();
+      pointers.set(e.pointerId, { originY: e.clientY, value: e.pointerType === 'pen' && e.pressure > 0 ? e.pressure : 1 });
+      apply(); actions.onAnyInput();
     };
-    const up = () => { held[name] = 0; pointer = null; };
+    const up = e => { if (pointers.delete(e.pointerId)) apply(); };
     el.addEventListener('pointermove', e => {
-      if (e.pointerId !== pointer) return;
+      const p = pointers.get(e.pointerId); if (!p) return;
       // A finger is full pedal while it is down, wherever the thumb drifts (as in Hill Climb Racing):
       // easing off by sliding made thumbs lose power without noticing. A mouse can drag down to ease
       // off; pens give real pressure.
-      if (e.pointerType === 'pen' && e.pressure > 0) held[name] = e.pressure;
-      else if (e.pointerType === 'mouse') held[name] = Math.max(0, Math.min(1, 1 - (e.clientY - originY) / 100));
+      if (e.pointerType === 'pen' && e.pressure > 0) p.value = e.pressure;
+      else if (e.pointerType === 'mouse') p.value = Math.max(0, Math.min(1, 1 - (e.clientY - p.originY) / 100));
+      apply();
     });
     el.title = 'Hold for full pedal';
     el.addEventListener('pointerdown', down);
     el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('lostpointercapture', up);
     el.addEventListener('contextmenu', e => e.preventDefault());
+    return () => { pointers.clear(); apply(); };
   }
-  bindHold(els.gas, 'gas'); bindHold(els.brake, 'brake');
+  const releases = [bindHold(els.gas, 'gas'), bindHold(els.brake, 'brake')];
   els.winch.addEventListener('pointerdown', e => { e.preventDefault(); actions.onAnyInput(); actions.winch(); });
   els.winch.addEventListener('contextmenu', e => e.preventDefault());
 
@@ -50,6 +54,8 @@ export function createInput(els, actions) {
     actions.onAnyInput();
   });
   window.addEventListener('keyup', e => { keys[e.code] = false; });
+  // switching away (another app, a call, alt-tab) can swallow the pointerup or keyup: nothing stays held when it comes back
+  window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; releases.forEach(r => r()); });
 
   return {
     read() {
