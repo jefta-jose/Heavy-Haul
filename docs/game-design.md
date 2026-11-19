@@ -87,11 +87,13 @@ greyed out and says "Not available"; no other class's truck is sent instead.
    it tows the hooked vehicle. The cable is a stiff, tension-only spring capped at the winch's
    force, and both vehicles feel it. A towed vehicle's parking brake and engine braking let go so it
    rolls. Tap WINCH again to unhook.
-3. Tow the truck into a fuel station's bay to refuel and repair it. This is the way out when the tank is dry or the damage is getting close to 100%, so tow early.
+3. Tow the truck into a fuel station's bay to refuel and repair it and fit new tyres and wheels. This is the way out when the tank is dry or the truck is wrecked.
 4. Control returns to the main truck. The service truck **stays parked** where it was left.
    **V** or the swap button switches vehicles at any time.
 
-A truck that rolls over, or reaches 100% damage, ends the run: it restarts from the beginning of the trail.
+A truck that rolls over ends the run: it restarts from the beginning of the trail. A truck at 100% damage is wrecked, not finished
+(2026-11-20): its engine dies and its brakes lock where it stands, and the breakdown button glows until it is towed into a
+station's bay, which repairs it and starts it again. Only a class with no breakdown truck, or a map with no station, still ends the run.
 
 ## Sound, engine and handbrake
 
@@ -156,7 +158,13 @@ Their wheels must suit the truck and load (the hard rule in `AGENTS.md`).
 
 ## Damage
 
-Hitting a solid obstacle at speed damages the truck: a red glow, the damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the engine dies, and a wreck or a crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+Hitting a solid obstacle at speed damages the truck: a red glow, the damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the truck is wrecked: see the recovery steps above. A crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+
+**Tyres (2026-11-20).** A hard hit bursts the tyre that took it (a chassis hit bursts the leading tyre): it rolls flattened on a smaller radius, sags that corner and grips less. Hit hard again, a burst tyre comes off with its wheel, which lies on the trail; the truck limps on the rest, its corner on the ground. A station's bay fits one new tyre or wheel at a time while it repairs, jacking the truck up first if it sits on its belly.
+
+**Rolling on slopes (2026-11-20).** The parking brake holds the truck you drive only on gentle ground. On a slope steeper than `ROLLBACK_SLOPE_DEG`, uphill or downhill, with neither pedal pressed it rolls downhill like a car in neutral: the brakes let go over `ROLLBACK_EASE_S`, so it creeps off and then gathers speed. The brake pedal and handbrake still hold it. A truck you have stepped out of keeps its brakes on, and a wreck is locked.
+
+**Mud on the body (2026-11-20).** Driving in mud splatters the truck from the arches and sills up in three coats (spinning tyres throw it faster); on dry ground it slowly drops off, and water washes it off fast. Drawing only: `MUD_*` in `src/game-config.js`, sprites in `src/render/sprite-cache.js`.
 
 ## Controls
 

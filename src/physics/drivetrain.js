@@ -15,9 +15,10 @@ export function createDrivetrain(cfg) {
   }
 
   // Returns everything the wheel loop needs for this step.
-  function update({ ctl, st, wheels, joints, dt, gripOf }) {
+  // on: whether wheel i is still on the truck (a lost one drives nothing and its spin counts for nothing)
+  function update({ ctl, st, wheels, joints, dt, gripOf, on = () => true }) {
     const ratio = cfg.gears[ctl.gear] || cfg.gears.H, dir = ctl.gear === 'R' ? 1 : -1;   // -1: clockwise = forward
-    let omAvg = 0; for (const w of wheels) omAvg += w.getAngularVelocity(); omAvg /= wheels.length;
+    let omAvg = 0, n = 0; for (let i = 0; i < wheels.length; i++) if (on(i)) { omAvg += wheels[i].getAngularVelocity(); n++; } omAvg /= Math.max(1, n);
     const wheelRpm = Math.abs(omAvg) * ratio * 60 / (2 * Math.PI);
     // engine speed follows the wheels once moving; at a stall-speed launch the converter slips
     // a stopped engine runs down to rest; on the starter it turns at cranking speed
@@ -28,8 +29,8 @@ export function createDrivetrain(cfg) {
     const driveOmega = Math.min(govOmega, st.rpmCmd * 2 * Math.PI / 60 / ratio);
     const tEng = engineTorque(Math.max(st.rpm, 900)) * st.throttle * (1 + cfg.converterBoost * Math.max(0, 1 - wheelRpm / cfg.converterCoupleRpm));
     // Every axle is powered, trailer axles included. AWD off: all but the front axle. AWD on: all of them.
-    const driven = wheels.map((_, i) => i).filter(i => ctl.awd || i > 0);
-    const perWheel = tEng * ratio * cfg.efficiency / driven.length;
+    const driven = wheels.map((_, i) => i).filter(i => (ctl.awd || i > 0) && on(i));
+    const perWheel = tEng * ratio * cfg.efficiency / Math.max(1, driven.length);
     // Open differentials send equal torque to every driven wheel, so the wheel with the least grip
     // limits all of them. Grip comes from each tire's measured load (gripOf).
     let gripMin = Infinity;

@@ -76,6 +76,7 @@ export function createRenderer({ view, sim, content, onEvent }) {
     draw,
     flash: on => vehicles.flash(on),
     hitGlow: () => vehicles.hitGlow(),
+    mud: (v, c) => vehicles.mud(v, c),
     warmVehicles: items => vehicles.warm(items),
     get ready() { return sceneryReady && vehicles.ready; },
     get frames() { return frames; },

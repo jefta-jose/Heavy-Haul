@@ -1,6 +1,6 @@
 import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius, drawnBodyLift, easeBodyLift } from '../../physics/vehicle.js';
-import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE } from '../../game-config.js';
+import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE, TYRE_BURST_RADIUS, MUD_COAT_SECONDS, MUD_CLEAN_SECONDS, MUD_WASH_SECONDS } from '../../game-config.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires. Near tires stay in front of the body throughout suspension travel. The
@@ -18,7 +18,7 @@ export function createVehicleLayer(scene) {
   const liftOf = v => { if (!lifts.has(v.parts)) lifts.set(v.parts, { lift: 0, tilt: 0, vLift: 0, vTilt: 0 }); return lifts.get(v.parts); };
   function easeLift(v, dt) {
     const { truck, wheels } = v.parts, rig = v.car.rig;
-    easeBodyLift(liftOf(v), drawnBodyLift(rig, wheels.map((w, i) => truck.getLocalPoint(w.getPosition()).y - rig.wheelY[i])), BODY_LIFT_RESPONSE, Math.min(0.05, dt || 0));
+    easeBodyLift(liftOf(v), drawnBodyLift(rig, wheels.map((w, i) => v.parts.tyres?.[i] === 'lost' ? 0 : truck.getLocalPoint(w.getPosition()).y - rig.wheelY[i])), BODY_LIFT_RESPONSE, Math.min(0.05, dt || 0));
   }
   let raised = { lift: 0, tilt: 0 };
   const settle = v => { raised = liftOf(v); };
@@ -29,8 +29,16 @@ export function createVehicleLayer(scene) {
     ctx.save(); ctx.translate(p.x + dx, p.y + dy); ctx.rotate(body.getAngle()); raise(ctx); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.bodyOrigin[0] * k, -rig.bodyOrigin[1] * k, A.width * k, A.height * k); ctx.restore();
   }
-  function drawWheel(rig, C, w, src, far = false, dx = 0, dy = 0, i = 0) {
+  // a burst tyre is drawn flattened where it meets the ground, with its rubber bulging out
+  function drawWheel(rig, C, w, src, far = false, dx = 0, dy = 0, i = 0, burst = false) {
     const { ctx } = view, p = w.getPosition(), s = wheelRadius(rig, i) / rig.wheelArtRadius * (far ? 0.95 : 1), img = C.wheelSize;
+    if (burst) {
+      const R = wheelRadius(rig, i), x = p.x + dx + (far ? rig.farWheelOffset[0] : 0), floor = p.y + dy + (far ? rig.farWheelOffset[1] : 0) - R * TYRE_BURST_RADIUS;
+      ctx.save(); ctx.beginPath(); ctx.rect(x - R * 2, floor, R * 4, R * 4); ctx.clip();
+      drawWheel(rig, C, w, src, far, dx, dy, i); ctx.restore();
+      if (src === C.wheel || src === C.wheelFar) { ctx.fillStyle = far ? '#121210' : '#1c1b18'; ctx.beginPath(); ctx.ellipse(x, floor + R * 0.04, R * 1.04, R * 0.07, 0, 0, 7); ctx.fill(); }
+      return;
+    }
     ctx.save(); ctx.translate(p.x + dx + (far ? rig.farWheelOffset[0] : 0), p.y + dy + (far ? rig.farWheelOffset[1] : 0)); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, img.width * s, img.height * s); ctx.restore();
   }
@@ -54,7 +62,7 @@ export function createVehicleLayer(scene) {
     wheels.forEach((w, i) => {
       const q = w.getPosition(), s = artRadius(i);
       ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(w.getAngle()); ctx.scale(1, -1);
-      put(halo.wheel, C.wheel, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, W.width * s, W.height * s); ctx.restore();
+      if (v.parts.tyres?.[i] !== 'lost') put(halo.wheel, C.wheel, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, W.width * s, W.height * s); ctx.restore();
     });
     ctx.restore();
   }
@@ -88,16 +96,49 @@ export function createVehicleLayer(scene) {
     settle(v);
     if (glow?.kind === 'nitro') drawSpeedLines(v);
     if (glow) drawGlow(v, glow);
-    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i));
+    const tyres = v.parts.tyres ?? [], on = i => tyres[i] !== 'lost';
+    wheels.forEach((w, i) => { if (on(i)) drawWheel(rig, C, w, C.wheelFar, true, 0, 0, i, tyres[i] === 'burst'); });
     // a far tire sinks like the near one: ground over its bottom, behind the body
     const [fx, fy] = rig.farWheelOffset;
     wheels.forEach((w, i) => {
+      if (!on(i)) return;
       const p = w.getPosition(), r = wheelRadius(rig, i), x = p.x + fx;
       if (p.y - r + 0.03 < scene.sim.visH(x)) layer.farLip?.(x, r * 1.1, fy);
     });
     drawBody(rig, C, truck, C.bodyAtDamage(v.st.damage ?? 0, v.car.id));
-    wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i));
+    // mud: the coat below fully, the next one fading in
+    const coat = coatOf(v) * 3, full = Math.floor(coat);
+    if (full >= 1) drawBody(rig, C, truck, C.mudCoat(Math.min(3, full), v.car.id));
+    if (full < 3 && coat - full > 0.02) { view.ctx.globalAlpha = coat - full; drawBody(rig, C, truck, C.mudCoat(full + 1, v.car.id)); view.ctx.globalAlpha = 1; }
+    wheels.forEach((w, i) => { if (on(i)) drawWheel(rig, C, w, C.wheel, false, 0, 0, i, tyres[i] === 'burst'); });
+    if (coat > 0.05) {
+      view.ctx.globalAlpha = coat * 0.09;   // up to 0.27 at a full coat
+      wheels.forEach((w, i) => { if (on(i)) drawWheel(rig, C, w, C.wheelMudOf(), false, 0, 0, i, tyres[i] === 'burst'); });
+      view.ctx.globalAlpha = 1;
+    }
     if (glow?.kind === 'invincible') drawSparkles(v, glow.strength);
+  }
+
+  // How muddy each vehicle is, 0 to 1: tyres in mud cake it (spinning ones faster), water washes it, dry ground slowly drops it.
+  // Drawing only, so the physics never sees it; a new run builds new vehicles and starts clean.
+  const coats = new WeakMap();
+  const coatOf = v => coats.get(v) ?? 0;
+  function mudUp(v, dt) {
+    dt = Math.min(0.05, dt || 0); if (!dt) return;
+    const sim = scene.sim, { wheels, truck } = v.parts, tyres = v.parts.tyres ?? [], speed = Math.abs(truck.getLinearVelocity().x);
+    let n = 0, mud = 0, water = 0, spin = 0;
+    wheels.forEach((w, i) => {
+      if (tyres[i] === 'lost') return; n++;
+      const p = w.getPosition(), R = wheelRadius(v.car.rig, i), surf = sim.surfAt(p.x);
+      if (p.y - R - sim.colH(p.x) > 0.25) return;   // in the air
+      if (surf === 'mud') { mud++; spin = Math.max(spin, Math.abs(w.getAngularVelocity() * R) - speed); }
+      else if (surf === 'creek') water++;
+    });
+    let c = coatOf(v);
+    if (mud) c += speed > 0.2 || spin > 0.3 ? dt / MUD_COAT_SECONDS * mud / n * (1 + Math.min(1, Math.max(0, spin) / 3)) : 0;   // standing still in mud adds none
+    else if (water) c -= dt / MUD_WASH_SECONDS * water / n;
+    else c -= dt / MUD_CLEAN_SECONDS;
+    coats.set(v, Math.max(0, Math.min(1, c)));
   }
 
   // AWD / DIFF feedback, and the red glow of a hit: a pulsing colored border traced around the vehicle silhouette. AWD / DIFF
@@ -111,7 +152,7 @@ export function createVehicleLayer(scene) {
     const { ctx } = view, o = C.outlineOf(flash.color), f = flash.t / flash.max, pulse = 0.65 + 0.35 * Math.sin((flash.max - flash.t) * 14);
     for (const [d, a] of [[0.075, 0.35], [0.04, 1]]) {
       ctx.globalAlpha = Math.min(1, f * 2.2) * pulse * a;
-      for (let i = 0; i < 8; i++) { const t = i * Math.PI / 4, dx = Math.cos(t) * d, dy = Math.sin(t) * d; drawBody(v.car.rig, C, v.parts.truck, o.body, dx, dy); v.parts.wheels.forEach((w, i) => drawWheel(v.car.rig, C, w, o.wheel, false, dx, dy, i)); }
+      for (let i = 0; i < 8; i++) { const t = i * Math.PI / 4, dx = Math.cos(t) * d, dy = Math.sin(t) * d; drawBody(v.car.rig, C, v.parts.truck, o.body, dx, dy); v.parts.wheels.forEach((w, i) => { if (v.parts.tyres?.[i] !== 'lost') drawWheel(v.car.rig, C, w, o.wheel, false, dx, dy, i, v.parts.tyres?.[i] === 'burst'); }); }
     }
     ctx.globalAlpha = 1;
   }
@@ -128,13 +169,17 @@ export function createVehicleLayer(scene) {
   }
 
   const layer = {
+    // how muddy a vehicle is, 0 to 1; with c, sets it (tests and screenshots)
+    mud(v, c) { if (c != null) coats.set(v, c); return coatOf(v); },
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
     hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
       const lit = flash?.main ? sim.main : sim.active;
-      for (const v of list) { easeLift(v, dt); if (v === lit) border(v, dt); drawVehicle(v); }
+      for (const v of list) { easeLift(v, dt); mudUp(v, dt); if (v === lit) border(v, dt); drawVehicle(v); }
+      // wheels that came off lie where they fell, drawn on their own
+      for (const v of sim.vehicles) { const C = rigCache(v.car); if (C.body) v.parts.tyres?.forEach((s, i) => { if (s === 'lost') drawWheel(v.car.rig, C, v.parts.wheels[i], C.wheel, false, 0, 0, i); }); }
       for (const v of sim.vehicles) winchCable(v);
       // a star of impact on the nose
       const img = scene.hud['g2-burst'];

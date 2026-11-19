@@ -20,6 +20,28 @@ export const SPEED_SIGN_HEIGHT_M = 5;         // how tall the sign is drawn, pos
 export const ROADSIDE_SINK_M = 0.04;          // how far a roadside piece's foot sits below the road's drawn far edge, metres, so no hairline of sky shows under it
 export const SCENERY_FLAT_M = { stiltShack: 10, waterTower: 7, warningSign: 2.5, gatorSign: 2.5 };   // level road kept under each upright roadside piece, metres; leaning pieces (fences, wrecks) follow the ground
 export const DAMAGE_SLOWEST_POWER = 0.4;      // power and top speed just before the truck is wrecked (1 = no slowdown)
+// At 100% damage the run no longer ends: the truck is wrecked where it stands (engine dead, brakes locked) and the breakdown
+// button glows until it is towed into a station's bay, which repairs it. Only a class with no breakdown truck still ends the run.
+
+// ---------- burst and lost tyres ----------
+// A hard hit bursts the tyre that took it (the chassis's hits go to the leading tyre); a burst tyre hit hard again comes off and
+// lies where it fell. A station's bay fits new ones while it repairs.
+export const TYRE_BURST_HIT = 6;              // % of damage in one hit that bursts a tyre (about 28 km/h into a log)
+export const TYRE_LOSE_HIT = 10;              // % of damage in one hit that takes a burst tyre off (about 30 km/h)
+export const TYRE_BURST_RADIUS = 0.82;        // a burst tyre rolls on this share of its radius: that corner sags and drags
+export const TYRE_BURST_GRIP = 0.55;          // and grips this share of a sound one
+export const TYRE_LOST_DAMAGE = 8;            // extra % of damage when a wheel comes off
+export const STATION_TYRE_SECONDS = 1.5;      // a station fits one new tyre or wheel in this long
+
+// ---------- rolling back on slopes ----------
+// The parking brake only holds the truck you drive on gentle ground. On a slope steeper than this, uphill or downhill, with neither pedal
+// pressed it rolls downhill like a car in neutral: off slowly, gathering speed, held back only by rolling resistance and a share of its
+// engine braking. The brake pedal or the handbrake still hold it.
+// A truck you have stepped out of (driving another) keeps its brakes on, and a wrecked one is locked.
+export const ROLLBACK_SLOPE_DEG = 9;
+export const ROLLBACK_ENGINE_BRAKE = 0.12;
+export const ROLLBACK_EASE_S = 2;             // the brakes let go gradually over this long, so it creeps off before it gathers speed
+export const ROLLBACK_EASE_BRAKE = 0.5;       // how much brake is left the moment it starts to let go (1 = full brake)
 
 // ---------- tipping and crashing ----------
 export const TIP_MAX_LENGTH_M = 10;           // only trucks this short or shorter tip backwards from a hit
@@ -130,6 +152,14 @@ export const CRACKS_AT_DAMAGE = [25, 50, 75]; // % of damage where each new set 
 export const CRACK_COUNTS = [7, 16, 30];      // how many cracks each set shows
 export const HIT_GLOW_SECONDS = 0.7;          // how long the red glow lasts after a hit
 export const HIT_GLOW_COLOR = '#ff2a1a';
+
+// ---------- mud on the body ----------
+// Driving in mud splatters the body from the wheel arches up; out of it the mud slowly dries and drops off, and water washes it fast.
+// Drawing only: 0 is clean, 1 caked to the roof.
+export const MUD_COAT_SECONDS = 6;            // seconds with every wheel in mud to cake a clean truck (wheel spin throws it on up to twice as fast)
+export const MUD_CLEAN_SECONDS = 45;          // seconds on dry ground to drop all of it
+export const MUD_WASH_SECONDS = 5;            // seconds in water to wash all of it off
+export const MUD_COAT_COLOR = [74, 54, 33];   // wet mud, darkest
 
 // ---------- loading screens ----------
 export const LOADER_MIN_MS_LAUNCH = 6000;     // how long the launch loading screen stays up so its facts can be read; a tap skips the rest once loaded

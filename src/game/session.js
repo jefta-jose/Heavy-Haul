@@ -12,7 +12,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   const trail = season.trail;
   const serviceRolls = new Map();
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, helpGlow: false, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, winchSecs: 0, recoveries: 0, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, helped: false, maxDamage: 0, helpGlow: false, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0, wrecked: false });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -112,7 +112,12 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
       serviceRolls.set(vehicle, rolling);
       if (rolling > CRASH_SECONDS) { fail('roll'); return; }
     }
-    if (main.st.damage >= 100) { fail('wreck'); return; }
+    // wrecked: the truck is locked where it stands until the breakdown truck tows it into a station's bay. Only a class with
+    // no breakdown truck, or a map with no station, still ends the run.
+    const wrecked = main.st.damage >= 100;
+    if (wrecked && (!api.canCall?.('breakdown') || !(trail.stations ?? []).length)) { fail('wreck'); return; }
+    if (wrecked && !run.wrecked) hud.toast('Wrecked! Call the breakdown truck and tow it to a fuel station to repair', 4.5);
+    run.wrecked = wrecked;
     // odometer: every metre the main truck rolls, forwards or back (a recovery teleport is not driving)
     if (run.lastX != null && Math.abs(p.x - run.lastX) < 5) run.odometer += Math.abs(p.x - run.lastX);
     run.lastX = p.x;
@@ -138,23 +143,23 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
-    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(sim.active !== main ? `Park fully in the purple ${sim.winchReach} m section ahead of your truck, tap WINCH, then drive forward` : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : 'Stuck? Call the breakdown truck to tow you', 3);
+    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(wrecked && sim.active === main ? 'Wrecked: call the breakdown truck and tow it to a fuel station' : sim.active !== main ? `Park fully in the purple ${sim.winchReach} m section ahead of your truck, tap WINCH, then drive forward` : !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : 'Stuck? Call the breakdown truck to tow you', 3);
     const ahead = sim.surfAt(driving.x + 10);
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(driving.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
     hud.nudge('diff', !ctl.diff && (st.diffLimited || run.stuckT > 2));
     // stuck in the main truck (or out of fuel), the breakdown button glows until it is moving again
-    if (sim.active === main && (run.stuckT > STUCK_GLOW_S || main.st.fuel <= 0)) run.helpGlow = true;
-    else if (sim.active !== main || run.stuckT < 0.5) run.helpGlow = false;
+    if (sim.active === main && (run.stuckT > STUCK_GLOW_S || main.st.fuel <= 0 || wrecked)) run.helpGlow = true;
+    else if (sim.active !== main || (run.stuckT < 0.5 && !wrecked)) run.helpGlow = false;
     hud.glowHelp?.(run.helpGlow);
     // The main vehicle: empty tank and delivery. Service trucks have unlimited fuel.
-    if (main.st.fuel <= 0 && Math.abs(main.st.speed) < 0.4 && sim.active === main) run.emptyT += dt; else run.emptyT = Math.min(0, run.emptyT + dt);
+    if (main.st.fuel <= 0 && !wrecked && Math.abs(main.st.speed) < 0.4 && sim.active === main) run.emptyT += dt; else run.emptyT = Math.min(0, run.emptyT + dt);
     if (run.emptyT > 2.5) { fail('fuel'); return; }
     if (p.x > trail.depot + 2) deliver();
     // a refuelled truck starts up by itself, and stations are worth a mention when you need one
     if (main.st.filling && main.st.engine === 'off' && main.st.fuel > 5) sim.startEngine(main);
     const near = (trail.stations ?? []).find(s => s.x > p.x && s.x - p.x < 45);
-    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay to refuel and repair', 3.5); }
+    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10 || main.parts.tyres.some(s => s !== 'ok')) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay to refuel and repair', 3.5); }
   };
   return api;
 }
