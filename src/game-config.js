@@ -75,7 +75,7 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 // XP needed in total to reach each rank, rank 1 to 20. Reaching a rank opens one more truck in every class, to buy for its
 // price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
 export const RANK_XP = [0, 300, 1050, 2175, 3600, 5400, 7500, 9975, 12675, 15600, 18900, 22425, 26250, 30300, 34650, 39225, 44025, 49125, 54450, 60000];
-export const STARTING_RANK = 20;              // local testing value; manually reset to 1 for Google Play
+export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 10;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 100;           // for reaching the depot
@@ -83,7 +83,7 @@ export const MISSION_BASE_XP = 100;          // a mission's XP before its diffic
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 5000000;              // local testing value; manually reset to 20000 for Google Play
+export const STARTING_COINS = 20000;              // local testing value; manually reset to 20000 for Google Play
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
