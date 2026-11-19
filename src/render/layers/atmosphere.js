@@ -2,6 +2,7 @@ import { makeCanvas, puff } from '../canvas-utils.js';
 import { roadSpan } from './ground.js';
 import {
   WEATHER_COUNTS, WEATHER_PHONE_SHARE, WEATHER_NEAR_DEPTH, BIRD_FLOCK_EVERY_S, LIGHTNING_EVERY_S, TUMBLEWEED_EVERY_S,
+  RAYS_PARALLAX, RAYS_SPACING,
 } from '../../game-config.js';
 
 // The air of a map: weather, sun shafts, drifting mist, bird flocks, lightning and tumbleweeds, all from
@@ -11,8 +12,8 @@ import {
 //   "atmosphere": {
 //     "weather": [{ "kind": "rain", "density": 1 }],   rain, drizzle, snow, ash, embers, leaves, dust, grit, pollen, butterflies
 //     "wind": -0.6,                                     blowing to the right when positive (leaves, dust, rain slant, tumbleweeds)
-//     "rays": { "x": 0.8, "color": "255,236,190", "strength": 0.5 },   sun shafts from this share of the screen width
-//     "mist": { "color": "226,236,230", "strength": 0.5 },             low fog drifting along the far side of the trail
+//     "rays": { "x": 0.8, "color": "255,236,190", "strength": 0.5 },   sun shafts, starting at this share of the screen width and sliding past as you drive
+//     "mist": { "color": "226,236,230", "strength": 0.5 },             ground fog rising between the road and the backdrop
 //     "storm": 0.3, "lightning": true,                 a darker sky top (baked into the backdrop) and flashes
 //     "birds": true, "tumbleweeds": true, "lensDrops": 1.5            rain drops landing on the camera, per second
 //   }
@@ -65,9 +66,12 @@ function sprites() {
   };
   return SPR;
 }
-// soft shafts of sunlight fanning down from above the top edge, at x (share of the width)
+// soft shafts of sunlight fanning down from above the top edge; x (share of the width) only sets their slant. The source
+// sits in the middle of a canvas wide enough for every shaft, and the canvas fades out at its sides and bottom, so no
+// shaft is ever cut off by its edge as the shafts slide across the screen
+const RAYS_W = 1024, RAYS_H = 512;
 function raysCanvas(x, color) {
-  const c = makeCanvas(512, 384), g = c.getContext('2d'), ox = x * 512, oy = -80;
+  const c = makeCanvas(RAYS_W, RAYS_H), g = c.getContext('2d'), ox = RAYS_W / 2, oy = -80;
   g.globalCompositeOperation = 'lighter';
   for (let i = 0; i < 9; i++) {
     const a = Math.PI / 2 + (x - 0.5) * -1.1 + rand(-0.55, 0.55), w = rand(0.025, 0.075), len = rand(380, 520);
@@ -77,14 +81,27 @@ function raysCanvas(x, color) {
     g.lineTo(ox + Math.cos(a - w) * len, oy + Math.sin(a - w) * len); g.lineTo(ox + Math.cos(a + w) * len, oy + Math.sin(a + w) * len);
     g.closePath(); g.fill();
   }
+  g.globalCompositeOperation = 'destination-in';
+  const side = g.createLinearGradient(0, 0, RAYS_W, 0);
+  side.addColorStop(0, 'rgba(0,0,0,0)'); side.addColorStop(0.15, 'rgba(0,0,0,1)'); side.addColorStop(0.85, 'rgba(0,0,0,1)'); side.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = side; g.fillRect(0, 0, RAYS_W, RAYS_H);
+  const foot = g.createLinearGradient(0, 0, 0, RAYS_H);
+  foot.addColorStop(0, 'rgba(0,0,0,1)'); foot.addColorStop(0.7, 'rgba(0,0,0,1)'); foot.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = foot; g.fillRect(0, 0, RAYS_W, RAYS_H);
   return c;
 }
-// a seamless strip of soft fog blobs (it tiles horizontally)
+// a seamless sheet of ground fog (it tiles horizontally): thick at the bottom, thinning upwards into an uneven,
+// billowy top, so it reads as fog rising from below rather than a flat strip
 function fogCanvas(color) {
-  const [r, gg, b] = color.split(',').map(Number), blob = puff(r, gg, b), c = makeCanvas(1024, 160), g = c.getContext('2d');
-  for (let i = 0; i < 46; i++) {
-    const w = rand(140, 340), h = rand(36, 80), x = rand(0, 1024), y = rand(62, 118);
-    g.globalAlpha = rand(0.18, 0.42);
+  const [r, gg, b] = color.split(',').map(Number), blob = puff(r, gg, b), c = makeCanvas(1024, 256), g = c.getContext('2d');
+  const base = g.createLinearGradient(0, 96, 0, 256);
+  base.addColorStop(0, `rgba(${color},0)`); base.addColorStop(0.45, `rgba(${color},0.4)`); base.addColorStop(1, `rgba(${color},0.75)`);
+  g.fillStyle = base; g.fillRect(0, 0, 1024, 256);
+  // billows: big low ones fill the body, smaller ones climb higher and break up the top edge
+  for (let i = 0; i < 70; i++) {
+    const k = Math.random(), w = rand(120, 360) * (1 - k * 0.5), h = rand(50, 110) * (1 - k * 0.45);
+    const x = rand(0, 1024), y = 256 - k * 190 - rand(0, 30);
+    g.globalAlpha = rand(0.16, 0.38) * (1 - k * 0.45);
     for (const dx of [-1024, 0, 1024]) g.drawImage(blob, x + dx - w / 2, y - h / 2, w, h);
   }
   return c;
@@ -264,8 +281,16 @@ export function createAtmosphere(scene) {
     const { W, H, ppm, cam } = scene.view, ctx = screen(), s = Math.min(1.35, Math.max(0.75, H / 810));
     if (rays && scene.view.quality >= 0.85) {
       ctx.globalCompositeOperation = 'lighter';
-      ctx.globalAlpha = (cfg.rays.strength ?? 0.5) * (0.72 + 0.28 * Math.sin(time * 0.35));
-      ctx.drawImage(rays, -W * 0.06 + Math.sin(time * 0.11) * W * 0.02, 0, W * 1.12, H * 0.92);
+      // the shafts' source slides back as the truck drives on and the clusters repeat, fading in and out at the edges
+      const share = cfg.rays.x ?? 0.75, period = W * RAYS_SPACING, rw = W * 1.12 * RAYS_W / 512;
+      const src = (((share * W - cam.x * ppm * RAYS_PARALLAX) % period) + period) % period;
+      const pulse = (cfg.rays.strength ?? 0.5) * (0.72 + 0.28 * Math.sin(time * 0.35));
+      for (const o of [src - period, src, src + period]) {
+        const edge = Math.min(o + W * 0.25, W * 1.25 - o) / (W * 0.35);
+        if (edge <= 0) continue;
+        ctx.globalAlpha = pulse * Math.min(1, edge);
+        ctx.drawImage(rays, o - rw / 2 + Math.sin(time * 0.11) * W * 0.02, 0, rw, H * 0.92 * RAYS_H / 384);
+      }
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     }
     if (bolt) {
@@ -285,20 +310,32 @@ export function createAtmosphere(scene) {
       ctx.stroke();
     }
     if (fog) {
-      // the band rests on the ground's height under the camera, eased so bumps do not bob it
+      // between the backdrop and the road: the fog's thick base sits on the road's far edge under the camera (eased so
+      // bumps do not bob it) and it thins upwards into the scenery; two sheets drifting at different depths, a phone draws one
       const span = roadSpan(scene), target = H / 2 - (scene.sim.visH(cam.x) + (span ? span.far : 0.6) - cam.y) * ppm;
       mistY = mistY == null || Math.abs(mistY - target) > H ? target : mistY + (target - mistY) * 0.05;
-      const bandH = H * 0.26, tileW = bandH / 160 * 1024 * 1.8, strength = cfg.mist.strength ?? 0.5;
-      // two bands drifting at different depths; a phone draws only the nearer one (each is a wide translucent blit)
-      for (const [factor, drift, lift, alpha] of TOUCH ? [[0.24, 16, 0.7, 1.25]] : [[0.12, 9, 0.85, 0.75], [0.24, 16, 0.6, 1]]) {
-        const off = ((cam.x * ppm * factor + time * drift * s * Math.sign(cfg.wind || 1)) % tileW + tileW) % tileW, y = mistY - bandH * lift;
-        ctx.globalAlpha = strength * alpha;
-        for (let x = -off; x < W; x += tileW) ctx.drawImage(fog, x, y, tileW + 1, bandH);
-      }
-      ctx.globalAlpha = 1;
+      for (const [factor, drift, lift, alpha] of TOUCH ? [[0.24, 16, 0.3, 2]] : [[0.12, 9, 0.36, 1.5], [0.24, 16, 0.24, 1.7]]) drawFog(factor, drift, mistY - H * lift, mistY + H * 0.02, alpha);
     }
     drawParticles(0);
     scene.view.worldTransform();
+  }
+
+  // one tiling sheet of fog from `top` down to `bottom` (its thickest part, at the road's far edge), then solid to the screen's bottom
+  function drawFog(factor, drift, top, bottom, alpha) {
+    const { W, H, ppm, cam } = scene.view, ctx = screen(), s = Math.min(1.35, Math.max(0.75, H / 810));
+    const sheetH = Math.max(H * 0.1, bottom - top), tileW = Math.max(H * 0.9, sheetH * 2.6);
+    const off = ((cam.x * ppm * factor + time * drift * s * Math.sign(cfg.wind || 1)) % tileW + tileW) % tileW;
+    ctx.globalAlpha = Math.min(1, (cfg.mist.strength ?? 0.5) * alpha);
+    // whole-pixel tiles that meet edge to edge: an overlap would show as a brighter seam
+    // and below it the sheet's bottom rows stretched to the screen's bottom edge, so where the road dips the fog still
+    // rises from below instead of ending in a straight line (the road covers what lies under it)
+    const tail = H - (top + sheetH);
+    for (let x = -off; x < W; x += tileW) {
+      const a = Math.floor(x), w = Math.floor(x + tileW) - a;
+      ctx.drawImage(fog, a, top, w, sheetH);
+      if (tail > 0) ctx.drawImage(fog, 0, fog.height - 4, fog.width, 4, a, top + sheetH - 1, w, tail + 1);
+    }
+    ctx.globalAlpha = 1;
   }
 
   // on the trail, behind the trucks (world transform)

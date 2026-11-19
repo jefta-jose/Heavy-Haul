@@ -1,17 +1,13 @@
 // Everything you might want to tune about how the game plays, one line each. Change a number, save, and the game reloads.
 
 // ---------- camera ----------
-// How far out the camera sits for every truck in a class: 1 = 11.8 m of trail across a desktop screen, so 1.6 = 19 m.
-// Lower is closer. The truck's nose sits at 60% of the screen, so the class's longest truck (scout 8.1 m, offroad 11.8,
-// heavy-duty 13.7, highway 16.4, heavy 16.5) still fits behind it. Phones show a little more. Overrides car.json camera.zoom.
-// Scout, highway and heavy-duty look right; offroad and heavy were raised on 2026-11-06 because their tall trucks
-// filled the screen (they now show a truck's height at about the same share as highway and heavy-duty).
-export const ZOOM_BY_CLASS = { scout: 1.6, offroad: 2.2, 'heavy-duty': 2.0, highway: 2.3, heavy: 2.85 };
-// Service trucks are often taller than their class's trucks, so while you drive one the camera eases out to at
-// least its height (physics.size[1], metres) divided by this; never closer than its class's zoom. Lower shows more.
-export const SERVICE_HEIGHT_PER_ZOOM = 1.6;
-// The zoom button (C) cycles these multiples of the vehicle's own zoom, so a long rig can be shown whole; remembered on the device.
-export const ZOOM_STEPS = [1, 1.3, 1.7];
+// There is no zoom button: every vehicle gets its own fixed zoom from its size (physics.size, metres). Its height fills
+// CAMERA_HEIGHT_SHARE of the screen height, and a long rig is framed wide enough that it fits whole (CAMERA_LENGTH_SHARE
+// of the width). Pulled back on 2026-11-19 (the Prime Mover's 31% felt too close and long rigs did not fit).
+// 1 zoom = 11.8 m of trail across a desktop screen and 6 m from top to bottom; the nose sits at 60% of the screen width.
+export const CAMERA_HEIGHT_SHARE = 0.27;       // the vehicle's height fills this share of the screen height
+export const CAMERA_LENGTH_SHARE = 0.72;       // its length never takes more than this share of the screen width, so long rigs fit
+export const CAMERA_MIN_ZOOM = 1.55;           // never closer than this: small cars show trail around them
 
 // ---------- damage ----------
 export const DAMAGE_START_KMH = 20;           // hitting a solid obstacle slower than this does no harm
@@ -79,7 +75,7 @@ export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the
 // XP needed in total to reach each rank, rank 1 to 20. Reaching a rank opens one more truck in every class, to buy for its
 // price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
 export const RANK_XP = [0, 300, 1050, 2175, 3600, 5400, 7500, 9975, 12675, 15600, 18900, 22425, 26250, 30300, 34650, 39225, 44025, 49125, 54450, 60000];
-export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
+export const STARTING_RANK = 20;              // local testing value; manually reset to 1 for Google Play
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 10;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 100;           // for reaching the depot
@@ -87,7 +83,7 @@ export const MISSION_BASE_XP = 100;          // a mission's XP before its diffic
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 50000;              // local testing value; manually reset to 20000 for Google Play
+export const STARTING_COINS = 5000000;              // local testing value; manually reset to 20000 for Google Play
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
@@ -167,6 +163,8 @@ export const WEATHER_COUNTS = { rain: 240, drizzle: 110, ash: 150, embers: 40, l
 export const WEATHER_PHONE_SHARE = 0.6;       // touch screens draw this share of them
 export const WEATHER_NEAR_DEPTH = 0.8;        // particles nearer than this draw in front of the trucks, the rest behind the trail
 export const BIRD_FLOCK_EVERY_S = [12, 28];   // a flock crosses the sky this often (random between the two)
+export const RAYS_PARALLAX = 0.08;            // sun shafts slide past at this share of the camera's speed (far away, like light through distant trees)
+export const RAYS_SPACING = 1.6;              // screen widths between one cluster of sun shafts and the next
 export const LIGHTNING_EVERY_S = [16, 34];    // on a map with lightning
 export const TUMBLEWEED_EVERY_S = [3, 9];     // on a map with tumbleweeds, one rolls in this often (at most two at once)
 export const LENS_MAX_SPLATS = 8;            // mud and water drops on the camera at once
@@ -176,4 +174,3 @@ export const STUNT_AIR_S = 0.45;              // airborne this long (every tyre 
 export const STUNT_CLIMB_DEG = 27;            // nose up this steep for STUNT_CLIMB_S calls HILL CLIMBER
 export const STUNT_CLIMB_S = 0.9;
 export const STUNT_COMBO_S = 2.5;             // rocks crushed within this of each other count as one ROCK CRUSHER combo
-export const RUN_INTRO_S = 2.0;               // how long the map's title banner stays up at the start of a run

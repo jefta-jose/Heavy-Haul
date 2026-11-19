@@ -1,6 +1,6 @@
 import { wheelRadius } from '../physics/vehicle.js';
 import {
-  STUNT_AIR_S, STUNT_CLIMB_DEG, STUNT_CLIMB_S, STUNT_COMBO_S, RUN_INTRO_S,
+  STUNT_AIR_S, STUNT_CLIMB_DEG, STUNT_CLIMB_S, STUNT_COMBO_S,
 } from '../game-config.js';
 
 // Forza-style moments, for show only (no coins or XP: the economy stays in session.js):
@@ -9,9 +9,9 @@ import {
 //   MUD BOGGER     through a heavy-mud pit on your own, with no service truck
 //   HILL CLIMBER   nose up past STUNT_CLIMB_DEG for STUNT_CLIMB_S
 //   SPLASH DOWN    a big splash into water
-// and the map's title banner at the start of a run.
+// (The map's title banner at the start of a run was removed on 2026-11-19, user request.)
 
-export function createStunts({ sim, box, banner }) {
+export function createStunts({ sim, box }) {
   let air = 0, climbT = 0, climbCool = 0, crushN = 0, crushT = 0, pit = null, helped = false, splashCool = 0, vehicle = null, lastX = null, settle = 1;
 
   function call(title, sub = '') {
@@ -54,12 +54,5 @@ export function createStunts({ sim, box, banner }) {
     crushed() { crushN++; crushT = STUNT_COMBO_S; },
     splash(power) { if (power > 0.9 && !splashCool) { call('Splash down'); splashCool = 6; } },
     reset() { air = climbT = crushN = 0; pit = null; helped = false; lastX = null; settle = 1; box.replaceChildren(); },
-    // the map's name swept across the screen as the run begins
-    intro({ eyebrow, title, line }) {
-      const [e, t, l] = ['.ri-eyebrow', '.ri-title', '.ri-line'].map(q => banner.querySelector(q));
-      e.textContent = eyebrow; t.textContent = title; l.textContent = line;
-      banner.style.setProperty('--ri', `${RUN_INTRO_S}s`);
-      banner.classList.remove('on'); void banner.offsetWidth; banner.classList.add('on');
-    },
   };
 }

@@ -4,7 +4,8 @@
 import test from 'node:test';
 import { formatCoins } from '../src/game/format.js';
 import { upgradeCost } from '../src/game/tuning.js';
-import { ZOOM_BY_CLASS, CRASH_SECONDS, RANK_XP } from '../src/game-config.js';
+import { CRASH_SECONDS, RANK_XP } from '../src/game-config.js';
+import { zoomFor } from '../src/game/view.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -237,7 +238,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert.equal(await page.locator('#garage').getAttribute('data-page'), 'vehicle', 'the garage opens on the trucks');
     assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
     await page.click('#hcSeasons');
-    assert.equal(await page.locator('#hcTitle').innerText(), (await page.evaluate(() => __haul.content.season.name)).toUpperCase(), 'the seasons page opens on the map being played');
+    assert.equal((await page.locator('#hcTitle').innerText()).toUpperCase(), (await page.evaluate(() => __haul.content.season.name)).toUpperCase(), 'the seasons page opens on the map being played');
     await page.click('#hcSeasons');
     assert.equal(await page.locator('#garage').getAttribute('data-page'), 'vehicle', 'its own button closes it, back to the trucks');
     assert(await page.locator('.g-class').first().isVisible(), 'with the class tabs');
@@ -340,9 +341,9 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.click('#awdBtn'); await page.click('#diffBtn');
     assert(await page.evaluate(() => __haul.sim.ctl.awd && __haul.sim.ctl.diff), 'AWD and DIFF buttons engage');
 
-    // The camera uses the class's zoom from game-config.js; there is no zoom button any more.
-    assert.equal(await page.locator('#cameraBtn').count(), 0, 'no zoom button');
-    assert.equal(await page.evaluate(() => __haul.view.zoom), ZOOM_BY_CLASS[await page.evaluate(() => __haul.sim.car.class)], 'the class sets the zoom');
+    // Every vehicle has its own fixed zoom, framed from its size (zoomFor); there is no zoom button.
+    assert.equal(await page.locator('#cameraBtn, #zoomBtn').count(), 0, 'no zoom button');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), zoomFor(await page.evaluate(() => ({ rig: __haul.sim.car.rig, physics: { size: __haul.sim.car.physics.size } }))), 'the vehicle sets the zoom');
     // the steps above jump the car ahead instantly: give the camera spring real frames to catch up
     const noseInFrame = () => { const { W, ppm, cam } = __haul.view, nose = __haul.sim.truck.getWorldPoint(__haul.sim.V(__haul.sim.car.rig.nose, 0)); const x = (nose.x - cam.x) * ppm + W / 2; return x > W * 0.5 && x < W * 0.9; };
     await page.waitForFunction(noseInFrame, null, { timeout: 4000 }).catch(() => {});
@@ -509,12 +510,11 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(100);
     for (const id of ['#pauseBtn', '#gas', '#brake']) { const b = await page.locator(id).boundingBox(); assert(b.x >= 0 && b.x + b.width <= 391, `${id} fits portrait`); }
     await capture('07-portrait');
-    // a service truck never brings the camera closer than its class's zoom (a taller one eases out), and
-    // back in the main truck the zoom is the class's again
+    // a service truck is framed by its own size, and back in the main truck the zoom is the main truck's again
     await page.setViewportSize({ width: 844, height: 390 });
     const scoutZoom = await page.evaluate(() => __haul.view.zoom);
     await page.evaluate(() => __haul.summon('breakdown'));
-    assert(await page.evaluate(() => __haul.view.zoom) >= scoutZoom, 'the breakdown truck is framed at least as wide as the main truck');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), zoomFor(await page.evaluate(() => ({ rig: __haul.sim.car.rig, physics: { size: __haul.sim.car.physics.size } }))), 'the breakdown truck is framed by its own size');
     await page.waitForFunction(() => !document.querySelector('#switchBtn').classList.contains('busy'));   // taps wait for the spinner
     // the winch guide leads the breakdown truck to its reach line, green once inside it
     await page.waitForFunction(() => !document.querySelector('#winchGuide').hidden);
@@ -543,12 +543,9 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
         await page.waitForTimeout(150);
         const fits = await page.evaluate(() => {
           const { sim: s, view: v } = __haul, r = s.car.rig;
-          const left = r.nose - s.car.physics.size[0];
-          const xs = [left, r.nose].map(x => {
-            const p = s.truck.getWorldPoint(s.V(x, 0));
-            return (p.x - v.cam.x) * v.ppm + v.W / 2;
-          });
-          return xs[0] >= 0 && xs[1] <= v.W;
+          // the nose is on screen with room ahead; a long rig's tail may run off the left edge
+          const p = s.truck.getWorldPoint(s.V(r.nose, 0)), x = (p.x - v.cam.x) * v.ppm + v.W / 2;
+          return x > v.W * 0.4 && x <= v.W * 0.8;
         });
         assert(fits, `${id} fits ${label}`);
         await capture(`new-cars/${id}-${label}`);

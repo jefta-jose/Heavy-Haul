@@ -61,7 +61,7 @@ const music = createMusic(content.music, audio.volumes);
 music.play('garage');
 { const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
-const stunts = createStunts({ sim, box: document.getElementById('stunts'), banner: document.getElementById('runIntro') });
+const stunts = createStunts({ sim, box: document.getElementById('stunts') });
 const guide = createWinchGuide({ box: document.getElementById('winchGuide'), sim, view });
 const renderer = createRenderer({
   view, sim, content,
@@ -188,7 +188,7 @@ function handbrake() {
 }
 const trap = createSpeedTrap({ sim, trail: liveTrail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
-  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, zoom: cycleZoom, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
 
 function newRun() {
@@ -230,8 +230,7 @@ async function driveOff(sel) {
   await until(() => renderer.ready, 15000);
   await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
   goRun(); loading = false;
-  // the map's title sweeps in as the loading screen lifts, Forza style
-  loader.hide().then(() => { if (session.state === 'play') stunts.intro({ eyebrow: content.season.place ?? '', title: content.season.name, line: runLine(sel.car) }); });
+  loader.hide();
 }
 async function backToGarage() {
   if (loading) return; loading = true;
@@ -287,11 +286,6 @@ async function goFullscreen() {
 
 const E = hud.els;
 E.fsBtn.addEventListener('click', goFullscreen);
-// the zoom button: steps the camera out (ZOOM_STEPS) to see more of the trail or the whole of a long rig, then back in
-const showZoom = () => { E.zoomBtn.textContent = `${view.zoomStep}×`; };
-function cycleZoom() { if (session.state !== 'play') return; const k = view.cycleZoom(); showZoom(); view.snap(); hud.toast(k === 1 ? 'Camera: close' : `Camera: ${k}× wider`, 1.2); }
-E.zoomBtn.addEventListener('click', cycleZoom);
-showZoom();
 E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 E.pauseBtn.addEventListener('click', pause);

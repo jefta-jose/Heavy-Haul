@@ -78,7 +78,7 @@ same trail. Keep JSON valid: no comments or trailing commas.
 | Stronger brakes | `drivetrain.brakeTorque` | Increase it. |
 | Greater fuel range | `drivetrain.fuelLitres` | Increase tank capacity; this does not reduce litres burned per second. |
 | Lower fuel consumption | `drivetrain.fuelBurn` or `stats.fuelEfficiency` | Lower `fuelBurn` (default `1`), or increase `fuelEfficiency`. |
-| Wider camera view | `ZOOM_BY_CLASS` in `src/game-config.js` | One zoom per class; `camera.zoom` here is only a fallback for a class without one. |
+| Camera view | `CAMERA_*` in `src/game-config.js` | Every vehicle is framed from `physics.size`; `camera.zoom` here is ignored. |
 
 For example, changing high gear from `15` to `12` allows 25% more theoretical wheel speed but
 provides 20% less wheel torque at the same engine torque. Changing `torqueScale` from `0.17` to
@@ -184,4 +184,4 @@ to the hub line, including tandem gaps, with the separate tire dropped by a thir
 
 Keep `axles` and `wheelY` arrays aligned. Changing axle positions, tire radius or wheel height
 affects physics as well as appearance. Moving artwork registration does not move collision
-boxes. `camera.zoom` controls framing: higher shows more world, lower brings the view closer.
+boxes. Camera framing comes from `physics.size` (`zoomFor`), not from `camera.zoom`.

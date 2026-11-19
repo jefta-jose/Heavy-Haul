@@ -1,19 +1,18 @@
-import { ZOOM_BY_CLASS, SERVICE_HEIGHT_PER_ZOOM, ZOOM_STEPS } from '../game-config.js';
+import { CAMERA_HEIGHT_SHARE, CAMERA_LENGTH_SHARE, CAMERA_MIN_ZOOM } from '../game-config.js';
 
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
 // Framing: the vehicle's nose sits at FRAMING.front of the screen width and the ground at
-// FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each class has one zoom,
-// ZOOM_BY_CLASS in game-config.js (1.5 = 17.7 m of trail across the screen; higher shows more). The zoom follows the vehicle
-// you drive: a service truck taller than its class's trucks eases out to fit it (zoomFor). A zoom change
-// resamples every sprite, so it only happens when you switch vehicles. A class without one falls back to car.json camera.zoom, then a zoom sized to its length.
+// FRAMING.ground of the height from the bottom (higher on phones, clear of the dials and pedals). Each vehicle has one fixed
+// zoom framed from its own size (zoomFor, CAMERA_* in game-config.js); there is no zoom button. A zoom change resamples
+// every sprite, so it only happens when you switch vehicles.
 // The camera follows with a critically damped spring fed the vehicle's velocity, so it keeps
 // pace under acceleration. Vertically it is fed the ground's own slope ahead (smooth: suspension
 // bounce never shakes it), and the car is never let off the top or bottom of the screen, so a fast
 // run down or up a steep grade keeps it in view.
 
 const FRAMING = {
-  front: 0.60, ground: 0.30, groundPhone: 0.42,
+  front: 0.60, frontMax: 0.78, ground: 0.30, groundPhone: 0.42,
   zoom: 1.5,
   width: 11.8, height: 6.0, shortHeight: 6.7,
   spring: { x: 2.2, y: 1.35 },
@@ -43,30 +42,21 @@ export function createView(canvas, sim) {
   const widthPerZoom = () => Math.max(FRAMING.width, view.W * (view.H < 520 ? FRAMING.shortHeight : FRAMING.height) / Math.max(1, view.H));
   const scale = () => { view.ppm = Math.max(1, view.W / (widthPerZoom() * view.zoom)); };
 
-  // frame the run with the vehicle's zoom, times the player's zoom step (the zoom button, remembered on the device)
-  let base = FRAMING.zoom, step = 0;
-  try { step = Math.max(0, ZOOM_STEPS.indexOf(Number(localStorage.getItem('haul.zoomStep')))); } catch (e) {}
-  const apply = () => {
-    const zoom = Math.max(0.8, Math.min(8, base * ZOOM_STEPS[step]));
+  // frame the run with the vehicle's own zoom
+  view.setZoom = zoom => {
+    zoom = Math.max(0.8, Math.min(8, Number(zoom) || FRAMING.zoom));
     if (zoom === view.zoom) return;
     view.zoom = zoom; view.resize();
   };
-  view.setZoom = zoom => { base = Number(zoom) || FRAMING.zoom; apply(); };
-  view.cycleZoom = () => {
-    step = (step + 1) % ZOOM_STEPS.length;
-    try { localStorage.setItem('haul.zoomStep', String(ZOOM_STEPS[step])); } catch (e) {}
-    apply(); return ZOOM_STEPS[step];
-  };
-  Object.defineProperty(view, 'zoomStep', { get: () => ZOOM_STEPS[step] });
 
   function target() {
     const hw = view.W / 2 / view.ppm, hh = view.H / 2 / view.ppm;
     const nose = sim.truck.getWorldPoint(sim.V(sim.car.rig.nose, 0)).x;
     let x = nose - (FRAMING.front - 0.5) * 2 * hw;
-    // long rigs (a truck with its trailer drawn in): slide back so the tail stays in view too,
-    // centring the rig if it is longer than the screen
+    // long rigs: slide back so more of the tail stays in view, but never past FRAMING.frontMax, so the nose keeps
+    // room ahead; the tail of a rig longer than that runs off the left edge
     const rig = sim.car.rig, tail = sim.truck.getWorldPoint(sim.V(Math.min(...rig.axles) - rig.radius - 0.6, 0)).x;
-    if (tail < x - hw + 1) x = Math.max(tail - 1 + hw, (nose + tail) / 2);
+    if (tail < x - hw + 1) x = Math.max(tail - 1 + hw, nose - (FRAMING.frontMax - 0.5) * 2 * hw);
     const gy = (sim.visH(nose - 4) + sim.visH(nose - 5.7)) / 2;
     return { x, y: gy + hh - view.groundFrac * 2 * hh };
   }
@@ -87,12 +77,11 @@ export function createView(canvas, sim) {
   return view;
 }
 
-// A car's zoom: its class's ZOOM_BY_CLASS (else its car.json camera.zoom, else 1.5), but never less than wide enough to show
-// about 1.6 times its length: there is no length cap, so a long rig gets the room it needs. A service truck also gets at least
-// enough zoom for its height (SERVICE_HEIGHT_PER_ZOOM). The zoom button multiplies the result (view.cycleZoom).
+// A vehicle's zoom: its height fills CAMERA_HEIGHT_SHARE of the screen height, wide enough that a long rig fits
+// (CAMERA_LENGTH_SHARE of the width), never closer than CAMERA_MIN_ZOOM.
 export function zoomFor(car) {
-  const tall = car.role && car.physics?.size ? Math.round(car.physics.size[1] / SERVICE_HEIGHT_PER_ZOOM * 100) / 100 : 0;
-  const rig = car.rig, length = rig ? rig.nose - (Math.min(...rig.axles) - rig.radius) : 0;
-  const long = Math.round(Math.min(5, length * 1.6 / FRAMING.width) * 10) / 10;
-  return Math.max(ZOOM_BY_CLASS[car.class] ?? car.camera?.zoom ?? FRAMING.zoom, tall, long);
+  const rig = car.rig, size = car.physics?.size;
+  const length = size?.[0] ?? (rig ? rig.nose - (Math.min(...rig.axles) - rig.radius) : 0), height = size?.[1] ?? 2.5;
+  const zoom = Math.max(CAMERA_MIN_ZOOM, height / (CAMERA_HEIGHT_SHARE * FRAMING.height), length / (CAMERA_LENGTH_SHARE * FRAMING.width));
+  return Math.round(Math.min(5, zoom) * 100) / 100;
 }

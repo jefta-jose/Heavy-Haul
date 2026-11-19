@@ -168,7 +168,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   api.hook = on => { play('hook-clank', on ? 0.85 : 0.6); if (on) setTimeout(() => play('cargo-heavy-chains', 0.4), 90); };
   // one-shots from the world
   api.splash = power => power < 0.6 ? play('splash-small', 0.4 + power * 0.6) : play('splash', Math.min(1, 0.5 + power * 0.35), { rate: power > 1.2 ? 0.85 : 1 });
-  // a rock breaking under a tire: the thump underneath and the load shaking on its bed
   // the load shaking, spaced out so a run of logs doesn't pile up
   let hitAt = -9;
   function loadHit(car, gain) {
@@ -177,13 +176,14 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     hitAt = ac.currentTime;
     play(h.effect, h.gain * gain, { rate: h.rate, seconds: h.seconds });
   }
-  function cargo(strength, car, massT) {
-    const g = Math.min(1, 0.25 + strength * 0.8);
-    if (car.class === 'heavy') { play('rattle', g * 0.75, { rate: 0.8 }); loadHit(car, g * 0.9); }
-    else if (massT < 8) { play('cargo-light', g * 0.8); if (strength > 0.4) play('cargo-chains', g * 0.5); }
-    else { play('rattle', g * 0.8); play('cargo-heavy-chains', g * 0.55, { rate: 0.95 }); }
-  }
-  api.crush = size => { play('underbody', Math.min(1, 0.5 + size * 0.4)); if (api.active) cargo(Math.min(1, size), api.active.car, heaviness(api.active)); };
+  // breaking a crushable sounds the same on every truck: the scout's crunch and light rattle. A truck carrying a
+  // load still shakes it with its own class's load sound (HIT_SOUNDS), as on a log or rock.
+  api.crush = size => {
+    const strength = Math.min(1, size), g = Math.min(1, 0.25 + strength * 0.8);
+    play('underbody', Math.min(1, 0.5 + size * 0.4));
+    play('cargo-light', g * 0.8); if (strength > 0.4) play('cargo-chains', g * 0.5);
+    if (api.active?.car.load) loadHit(api.active.car, g * 0.9);
+  };
   // a tire touching a log, pipe or rock: the load shakes, harder with speed, and not while it just sits there
   api.hit = () => {
     const v = api.active, speed = Math.abs(v?.st.speed ?? 0);

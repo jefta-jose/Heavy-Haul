@@ -28,9 +28,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   vehicles carry nothing (`load` absent; a run then pays the trail bonus only). A vehicle that has a load carries it
   as part of its own art and mass: no separate trailers or loads, loads never fall off and are not animated (dropped on
   2026-10-29); a tractor and its semi-trailer are one image and one rigid body with all their axles.
-- **No snow chains and no length cap (2026-11-12):** Codex could not draw chains or keep within a cap. Long rigs are
-  framed by `zoomFor` (never narrower than about 1.6 times the vehicle's length) and the top-bar zoom button
-  (`ZOOM_STEPS`, key C). **The one art rule the user insists on: every tyre a perfect circle that fits the vehicle.**
+- **No snow chains and no length cap (2026-11-12):** Codex could not draw chains or keep within a cap. Each vehicle
+  gets one fixed zoom from its own size (`zoomFor`, `CAMERA_*` in `src/game-config.js`); the zoom button was removed on 2026-11-19
+  (user: close like Forza Horizon, but long rigs must fit on screen). **The one art rule the user insists on: every tyre a perfect circle that fits the vehicle.**
 - Winching belongs to the breakdown trucks: there are no winch posts. Each class has a breakdown truck; fuel trucks were removed on 2026-11-04, and refuelling and repairs happen at fuel stations (`trail.stations`).
   The top-bar button calls the main truck's class's one, once per run, from the start of the
   trail; afterwards they switch to them. Park the breakdown truck wholly inside the purple recovery bay ahead of the stuck truck (its own length plus `WINCH_BAY_SLACK_M`), tap WINCH to hook the
@@ -115,9 +115,10 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    - `art`, `rig` (axles front-first in metres, `wheelY`, `radius`, pivots, `archCircles`, exhaust,
      winch and nose points), and the card fields. **Hard rule: `rig.farWheelOffset` is `[0.2, 0.13]` on every
      car**, whatever its size; never tune it per car;
-   - camera: one zoom per class, `ZOOM_BY_CLASS` in `src/game-config.js`, tuned by the user (2026-11-06; service trucks ease out to `SERVICE_HEIGHT_PER_ZOOM`;
-     1.5 = 17.7 m of trail across the screen). `camera.zoom` in car.json is only a fallback for a class
-     without one; `zoomFor` widens it for a long vehicle, and the player's zoom button (`ZOOM_STEPS`) multiplies it. Check the whole rig fits with room ahead on desktop and phone at the first step;
+   - camera: nothing to set. `zoomFor` frames every vehicle from `physics.size`: its height fills `CAMERA_HEIGHT_SHARE` of the
+     screen, a long rig fits whole (`CAMERA_LENGTH_SHARE`), never closer than `CAMERA_MIN_ZOOM` (all in `src/game-config.js`; pulled
+     back on 2026-11-19 because the Prime Mover framing felt too close and long rigs did not fit). There is no zoom button and
+     `camera.zoom` in car.json is ignored;
    - `physics`: empty mass and centre of mass from `massT`, plus, for a vehicle with a load, `physics.load` (`massT` from the
      roster, `centreOfMass` at the middle of the load in the art), collision boxes traced from the
      body outline including the load, suspension sized to the loaded weight;
@@ -142,7 +143,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    the batch. Regenerate only an actual visible defect, never an accepted resolution exception
    or placement drift that can be corrected and verified at export.
 6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
-   its class's `ZOOM_BY_CLASS` frames it on desktop and phone. Then set `"status": "playable"` in `car.json` and in
+   `zoomFor` frames it well on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
 Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a breakdown
@@ -166,18 +167,18 @@ so the drawn tires reach that size.
 
 ## Garage and loading screens
 
-**Basecamp theme (user decision, 2026-11-18):** the user asked for a completely different, "absolutely cool" garage and HUD. The
-garage keeps the Hill Climb Racing flow and markup (one stage, few taps; Codex's fleet, comparison, coach, route-preview and control
-extras stay out: they were bad on phones), but `game.css`'s Basecamp block lays it out anew: the map being played, blurred, is the
-room; a slanted rail of SEASONS, TRUCKS, MISSIONS and UPGRADE down the left; PLAY (BUY, or the rank needed) in the bottom right
-corner. **Every page has the Trucks page's arrangement (user, 2026-11-19: "the cars section is really done well"):** the title top
-left, a row of cards with the middle one large, the numbers under it. **The garage always opens on TRUCKS** (the button was
-"Vehicle"; the page id stays `vehicle`) and every other page closes back to it: there is no home page. UPGRADE and MISSIONS are
-pages on the stage too (`sheet()` in garage.js): four tall cards in a row (the powers right under the upgrade tiles), only their rail
-button lit, Done top right. Portrait stacks the stage, a row of four and PLAY. Dark glass
-parallelograms, hot orange (`--bc-acc`), heavy italic type; the driving HUD and its dials (hud.js) use the same look, while the pedals
-keep their tread (amber lugs for gas, red blocks for brake). SEASONS opens its page on the stage and closes back to TRUCKS; swiping (or tapping a side card, or the arrow keys) moves through the cards, and the middle one is picked at once; on the
-Trucks page PLAY becomes BUY for an open truck not owned. Picking a map is instant: the world is swapped behind the drive loading
+**Garage layout (user decision, 2026-11-19):** after trying a Basecamp left-rail layout, a "showroom" and a Forza Horizon card
+menu, the user went back to the warehouse-bay garage of commit 1c8adbb and said to keep it: the bay with its lamps as the room, the
+page's title centred over a row of tilted cards (the middle one large, yellow-rimmed), the numbers under it, and one centred bar of
+big buttons along the bottom (SEASONS, TRUCKS, MISSIONS, UPGRADE, PLAY in green). It is the older `.hc` block in `game.css`; the
+logo, sound, rank and coins sit together **in the centre of the top bar** (the small "garage top bar, centred" block at the end).
+Do not restyle it again without references from the user. The garage keeps the Hill Climb Racing flow and markup (one stage, few
+taps; Codex's fleet, comparison, coach, route-preview and control extras stay out: they were bad on phones). **The garage always
+opens on TRUCKS** (the page id stays `vehicle`) and every other page closes back to it. UPGRADE and MISSIONS open as cards over the
+garage (`sheet()` in garage.js). The driving HUD (hud.js) keeps the Basecamp look (dark glass slanted plates, hot orange `--bc-acc`),
+and the pedals keep their tread (amber lugs for gas, red blocks for brake). Swiping (or tapping a side card, or the arrow keys)
+moves through the cards and the middle one is picked at once; on the Trucks page PLAY becomes BUY for an open truck not owned.
+There is no map-title banner at the start of a run (removed on request, 2026-11-19). Picking a map is instant: the world is swapped behind the drive loading
 screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop of its
 panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Test layouts at 1440×810, 844×390, 667×320 and 390×844. See
 `src/game/garage.js`.
@@ -240,3 +241,6 @@ heights, moves any roadside piece off crossings, low obstacles, stations and hig
 towers) to the levellest clear spot nearby. The terrain keeps rollers off a run's whole length and off the ground under upright
 pieces (`SCENERY_FLAT_M`). Run it after laying out a new map; the swamp itself is left as authored.
 decision); each one became a buried-tyres obstacle (`buriedTyres`) at the same spot. Do not add them back.
+Steel beams and steel plates were removed from every map with their art on 2026-11-19 (user: they did not look nice); do not
+add them back. Boulder steps and buried tyres were enlarged the same day to match the rock gardens' boulders (`propKinds` width
+×1.6 / ×1.5, `above` 0.45 / 0.4), so they are fun to climb.

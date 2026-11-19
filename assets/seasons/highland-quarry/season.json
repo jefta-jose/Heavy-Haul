@@ -869,8 +869,8 @@
         "art": "boulderSteps",
         "surf": "rock",
         "friction": 0.8,
-        "width": 1.3905,
-        "above": 0.207,
+        "width": 2.2248,
+        "above": 0.45,
         "flip": false,
         "hull": {
           "w": 2133,
@@ -1207,8 +1207,8 @@
         "art": "buriedTyres",
         "surf": "rock",
         "friction": 0.9,
-        "width": 1.463,
-        "above": 0.29,
+        "width": 2.1945,
+        "above": 0.4,
         "flip": true,
         "hull": {
           "w": 2163,
@@ -1544,175 +1544,6 @@
             ]
           ]
         }
-      },
-      "steelBeams": {
-        "art": "steelBeams",
-        "surf": "rock",
-        "friction": 0.6,
-        "width": 1.592,
-        "above": 0.272,
-        "flip": true,
-        "hull": {
-          "w": 2136,
-          "h": 396,
-          "top": 0,
-          "hull": [
-            [
-              30,
-              310
-            ],
-            [
-              230,
-              130
-            ],
-            [
-              360,
-              100
-            ],
-            [
-              1210,
-              0
-            ],
-            [
-              1890,
-              110
-            ],
-            [
-              2050,
-              240
-            ],
-            [
-              2130,
-              390
-            ],
-            [
-              20,
-              390
-            ]
-          ],
-          "profile": [
-            [
-              0,
-              396
-            ],
-            [
-              0,
-              385
-            ],
-            [
-              80,
-              272
-            ],
-            [
-              160,
-              177
-            ],
-            [
-              240,
-              126
-            ],
-            [
-              320,
-              106
-            ],
-            [
-              400,
-              132
-            ],
-            [
-              480,
-              141
-            ],
-            [
-              560,
-              123
-            ],
-            [
-              640,
-              153
-            ],
-            [
-              720,
-              154
-            ],
-            [
-              800,
-              131
-            ],
-            [
-              880,
-              136
-            ],
-            [
-              960,
-              102
-            ],
-            [
-              1040,
-              89
-            ],
-            [
-              1120,
-              82
-            ],
-            [
-              1200,
-              2
-            ],
-            [
-              1280,
-              9
-            ],
-            [
-              1360,
-              113
-            ],
-            [
-              1440,
-              122
-            ],
-            [
-              1520,
-              115
-            ],
-            [
-              1600,
-              119
-            ],
-            [
-              1680,
-              66
-            ],
-            [
-              1760,
-              96
-            ],
-            [
-              1840,
-              112
-            ],
-            [
-              1920,
-              179
-            ],
-            [
-              2000,
-              228
-            ],
-            [
-              2080,
-              301
-            ],
-            [
-              2135,
-              383
-            ],
-            [
-              2136,
-              396
-            ]
-          ]
-        }
       }
     },
     "props": [
@@ -1785,16 +1616,8 @@
         "x": 1302
       },
       {
-        "kind": "steelBeams",
-        "x": 1587
-      },
-      {
         "kind": "branchPile",
         "x": 1660
-      },
-      {
-        "kind": "steelBeams",
-        "x": 1669
       },
       {
         "kind": "branchPile",
@@ -1849,10 +1672,6 @@
         "x": 3550
       },
       {
-        "kind": "steelBeams",
-        "x": 3559
-      },
-      {
         "kind": "rootTangle",
         "x": 3634
       },
@@ -1867,10 +1686,6 @@
       {
         "kind": "buriedTyres",
         "x": 3925
-      },
-      {
-        "kind": "steelBeams",
-        "x": 3937
       },
       {
         "kind": "buriedTyres",
@@ -2125,7 +1940,7 @@
   "art": {
     "backdrop": {
       "file": "art/backdrop.webp",
-      "source": "source/backdrop.png",
+      "source": "source/backdrop-v2.png",
       "width": 1800,
       "quality": 82
     },
@@ -2170,9 +1985,6 @@
     },
     "buriedTyres": {
       "file": "art/buried-tyres.webp"
-    },
-    "steelBeams": {
-      "file": "art/steel-beams.webp"
     },
     "concreteSlabs": {
       "file": "art/concrete-slabs.webp"
@@ -2309,8 +2121,8 @@
       }
     },
     "midground": false,
-    "backdropHorizon": 0.696,
-    "backdropFloor": "#869b83",
+    "backdropHorizon": 0.772,
+    "backdropFloor": "#7d9480",
     "atmosphere": {
       "weather": [
         {

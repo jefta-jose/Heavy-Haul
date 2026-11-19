@@ -187,8 +187,7 @@ coins. Each class's weakest truck is free.
 
 **What are the classes?**
 Five, weakest to strongest: scout, highway, heavy-duty, offroad, heavy. Each has 20 trucks and one
-breakdown truck, and each class has one camera zoom (`ZOOM_BY_CLASS`). Nothing is longer than 16.8 m,
-load included.
+breakdown truck.
 
 **How do upgrades work?**
 Four knobs in the garage ([tuning.js](game/tuning.js)): engine, suspension, speed and grip, each 0 to
@@ -231,8 +230,8 @@ so you see ahead ([view.js](game/view.js)). Vertically it follows the slope of t
 the suspension bounce, and never lets the truck leave the screen.
 
 **Why is there no zoom button?**
-Obstacles are one size for every truck, so each class has one fixed zoom, tuned to fit its longest
-truck with room ahead.
+Every truck has its own fixed zoom, framed from its size so it fills the screen like a chase camera
+(`CAMERA_*` in game-config.js). A long rig stays big; its trailer's tail may run off the left edge.
 
 **Why does it look blurrier on a slow phone?**
 If frames run slow for a couple of seconds, the canvas resolution steps down (not below 80% on phones)
