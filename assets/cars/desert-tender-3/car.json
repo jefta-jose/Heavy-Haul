@@ -1,0 +1,220 @@
+{
+  "id": "desert-tender-3",
+  "name": "Desert Tender",
+  "number": 3,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Rally service pickup carrying spare wheels",
+  "description": "Maroon rally service 4×4 crew-cab pickup with a rear rack, on all-terrain tyres, with light bar, recovery boards; four race spare wheels and tool cases on the rack.",
+  "stats": {
+    "power": 35,
+    "speed": 73,
+    "grip": 45,
+    "capacity": 10
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      995,
+      736
+    ],
+    "pixelsPerMetre": 262.963,
+    "axles": [
+      2.008,
+      -2.008
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1523,
+        736,
+        159
+      ],
+      [
+        467,
+        736,
+        159
+      ]
+    ],
+    "exhaust": [
+      -2.933,
+      0.203
+    ],
+    "winch": [
+      2.866,
+      0.439
+    ],
+    "nose": 2.966,
+    "tail": -3.259
+  },
+  "physics": {
+    "mudPull": 1.218,
+    "tireGrip": 1.068,
+    "mass": 4400.0,
+    "centreOfMass": [
+      0.0,
+      0.716
+    ],
+    "size": [
+      6.225,
+      2.236
+    ],
+    "wheelMass": 81,
+    "bodyBoxes": [
+      [
+        -2.683,
+        2.683,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -3.259,
+        -2.211,
+        0.81,
+        2.046,
+        0.4
+      ],
+      [
+        2.211,
+        2.966,
+        0.81,
+        1.304,
+        0.4
+      ],
+      [
+        -2.211,
+        -1.184,
+        0.439,
+        2.046,
+        0.4
+      ],
+      [
+        -1.184,
+        0.891,
+        0.439,
+        2.209,
+        0.4
+      ],
+      [
+        0.891,
+        2.211,
+        0.439,
+        1.304,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.5,
+      "centreOfMass": [
+        -2.014,
+        1.789
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2164,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 5.321,
+      "L": 32.82,
+      "R": 25.76
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 135
+  },
+  "load": {
+    "name": "Spare wheels",
+    "massT": 0.5
+  }
+}

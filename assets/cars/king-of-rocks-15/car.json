@@ -91,7 +91,7 @@
   },
   "physics": {
     "mudPull": 2.1,
-    "tireGrip": 1.33,
+    "tireGrip": 1.332,
     "mass": 2450.0,
     "centreOfMass": [
       0.0,

@@ -1,0 +1,223 @@
+{
+  "id": "erg-runner-7",
+  "name": "Erg Runner",
+  "number": 7,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Cab-over 6×6 desert rally-raid race truck",
+  "description": "White cab-over 6×6 desert rally-raid race truck with a cargo box and side vents, on all-terrain tyres, with spare wheels on the box sides, roof light pod.",
+  "stats": {
+    "power": 49,
+    "speed": 90,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      920,
+      750
+    ],
+    "pixelsPerMetre": 184.667,
+    "axles": [
+      2.797,
+      -1.264,
+      -2.797
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1436,
+        750,
+        124
+      ],
+      [
+        686,
+        750,
+        124
+      ],
+      [
+        403,
+        750,
+        124
+      ]
+    ],
+    "exhaust": [
+      -3.648,
+      0.225
+    ],
+    "winch": [
+      4.251,
+      0.488
+    ],
+    "nose": 4.351,
+    "tail": -4.053
+  },
+  "physics": {
+    "mudPull": 1.532,
+    "tireGrip": 1.165,
+    "mass": 11000,
+    "centreOfMass": [
+      0.0,
+      1.035
+    ],
+    "size": [
+      8.404,
+      3.233
+    ],
+    "wheelMass": 132,
+    "bodyBoxes": [
+      [
+        -3.547,
+        3.547,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.053,
+        -3.022,
+        0.9,
+        2.908,
+        0.4
+      ],
+      [
+        3.022,
+        4.351,
+        0.9,
+        3.233,
+        0.4
+      ],
+      [
+        -3.022,
+        -1.952,
+        0.488,
+        2.908,
+        0.4
+      ],
+      [
+        -1.952,
+        0.149,
+        0.488,
+        3.141,
+        0.4
+      ],
+      [
+        0.149,
+        2.25,
+        0.488,
+        3.141,
+        0.4
+      ],
+      [
+        2.25,
+        3.022,
+        0.488,
+        3.233,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5396,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 4.817,
+      "L": 18.31,
+      "R": 14.45
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 342
+  }
+}

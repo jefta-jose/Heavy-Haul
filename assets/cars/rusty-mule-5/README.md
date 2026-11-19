@@ -1,9 +1,9 @@
 # Rusty Mule 5
 
-Status: **planned** · class `scout`, rank 5 of 20 · 4×4, 2 axles · 2.9 t empty · 115 kW · mud-terrain tires, 1.35 m
-Load: **Firewood**, 0.6 t
+Status: **planned** · class `scout`, rank 5 of 20 · 4×4, 2 axles · 2.6 t empty · 115 kW · mud-terrain tires, 1.35 m
+Load: **Spare tyre**, 0.1 t
 
-Size: about 5.6 m long with its load. There is no length cap: draw it at its natural proportions (the game frames long vehicles with its zoom).
+Size: about 5.4 m long with its load. There is no length cap: draw it at its natural proportions (the game frames long vehicles with its zoom).
 
 **Wheels (hard rule, see AGENTS.md):** 2 axles. Every tyre is a perfect circle (never oval or squashed), the same size, centred in its arch and filling it. One wheel in each arch, where this kind of vehicle has them.
 
@@ -11,10 +11,10 @@ Size: about 5.6 m long with its load. There is no length cap: draw it at its nat
 
 ## Art brief
 
-- Vehicle: cream white 1970s full-size 4×4 pickup with a long bed and chrome-free steel bumpers
-- Load (drawn as part of the vehicle): split firewood stacked in the bed
-- Equipment: headache rack with spotlights
-- Finish: dusty, sun-faded paint
+- Vehicle: dark charcoal grey 1970s American coupe utility: a long, low two-door car body with a long flat bonnet, a sloping sedan-style cab roof with thin chrome window trim and an open pickup bed built into the rear bodywork, a chrome rocker strip along the sills; raised on a modest lift kit with wider wheel arches to clear off-road tyres
+- Load (drawn as part of the vehicle): a spare tyre lying in the bed
+- Equipment: slotted five-spoke steel rally rims painted silver, chrome bumpers, side mirror on the door
+- Finish: light dust and mud spatter on the lower panels
 - Tires: oversized off-road mud-terrain: deep chunky mud lugs with open voids; perfectly round, every tyre the same size, no chains or spikes
 
 ## Codex delivers (see AGENTS.md)

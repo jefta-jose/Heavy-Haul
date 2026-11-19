@@ -1,0 +1,220 @@
+{
+  "id": "surveyor-5",
+  "name": "Surveyor",
+  "number": 5,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Portal-axle 4×4 utility truck with a small crane",
+  "description": "Blue portal-axle multipurpose 4×4 truck with a short flatbed and a small crane, on mud-terrain tyres, with loader crane, front implement plate; survey cases and marker poles on the flatbed.",
+  "stats": {
+    "power": 39,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 14
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      954,
+      709
+    ],
+    "pixelsPerMetre": 257.241,
+    "axles": [
+      1.633,
+      -1.633
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1374,
+        709,
+        167
+      ],
+      [
+        534,
+        709,
+        167
+      ]
+    ],
+    "exhaust": [
+      -2.75,
+      0.217
+    ],
+    "winch": [
+      2.835,
+      0.471
+    ],
+    "nose": 2.935,
+    "tail": -3.055
+  },
+  "physics": {
+    "mudPull": 1.33,
+    "tireGrip": 1.099,
+    "mass": 6000,
+    "centreOfMass": [
+      0.0,
+      0.755
+    ],
+    "size": [
+      5.99,
+      2.36
+    ],
+    "wheelMass": 160,
+    "bodyBoxes": [
+      [
+        -2.358,
+        2.358,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -3.055,
+        -1.851,
+        0.87,
+        2.294,
+        0.4
+      ],
+      [
+        1.851,
+        2.935,
+        0.87,
+        1.225,
+        0.4
+      ],
+      [
+        -1.851,
+        -1.059,
+        0.471,
+        2.294,
+        0.4
+      ],
+      [
+        -1.059,
+        0.938,
+        0.471,
+        2.018,
+        0.4
+      ],
+      [
+        0.938,
+        1.851,
+        0.471,
+        1.225,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 1,
+      "centreOfMass": [
+        -1.977,
+        1.463
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3045,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.396,
+      "L": 28.1,
+      "R": 22.19
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 180
+  },
+  "load": {
+    "name": "Survey gear",
+    "massT": 1
+  }
+}

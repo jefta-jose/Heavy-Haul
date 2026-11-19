@@ -97,8 +97,8 @@
     "zoom": 1.95
   },
   "physics": {
-    "mudPull": 2.55,
-    "tireGrip": 1.465,
+    "mudPull": 2.549,
+    "tireGrip": 1.464,
     "mass": 16000.0,
     "centreOfMass": [
       -0.768,

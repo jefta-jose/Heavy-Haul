@@ -1,0 +1,202 @@
+{
+  "id": "dust-beetle-1",
+  "name": "Dust Beetle",
+  "number": 1,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Open-tub beach buggy with a roll bar",
+  "description": "Sand beige 1970s fibreglass beach buggy with an open tub body, rear engine and a tubular roll bar, on all-terrain tyres, with twin spotlights on the roll bar, spare wheel on the rear deck.",
+  "stats": {
+    "power": 25,
+    "speed": 63,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      966,
+      759
+    ],
+    "pixelsPerMetre": 342.308,
+    "axles": [
+      1.532,
+      -1.532
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1490,
+        759,
+        200
+      ],
+      [
+        441,
+        759,
+        200
+      ]
+    ],
+    "exhaust": [
+      -2.265,
+      0.195
+    ],
+    "winch": [
+      2.259,
+      0.423
+    ],
+    "nose": 2.359,
+    "tail": -2.517
+  },
+  "physics": {
+    "mudPull": 1,
+    "tireGrip": 1,
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.645
+    ],
+    "size": [
+      4.876,
+      2.016
+    ],
+    "wheelMass": 162,
+    "bodyBoxes": [
+      [
+        -2.182,
+        2.182,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.517,
+        -1.727,
+        0.78,
+        1.727,
+        0.4
+      ],
+      [
+        1.727,
+        2.359,
+        0.78,
+        1.08,
+        0.4
+      ],
+      [
+        -1.727,
+        -0.079,
+        0.423,
+        1.727,
+        0.4
+      ],
+      [
+        -0.079,
+        1.727,
+        0.423,
+        0.917,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1534,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.933,
+      "L": 40.9,
+      "R": 32.11
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 81
+  }
+}

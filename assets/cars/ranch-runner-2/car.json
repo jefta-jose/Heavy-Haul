@@ -1,0 +1,213 @@
+{
+  "id": "ranch-runner-2",
+  "name": "Ranch Runner",
+  "number": 2,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Farm side-by-side hauling hay",
+  "description": "Burnt orange farm side-by-side UTV with a two-seat cage cab and a short tipping cargo bed, on mud-terrain tyres, with front brush guard, cab roof rack; two square hay bales strapped in the bed.",
+  "stats": {
+    "power": 30,
+    "speed": 47,
+    "grip": 70,
+    "capacity": 10
+  },
+  "biomes": [
+    "Mud",
+    "Dirt",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      941,
+      777
+    ],
+    "pixelsPerMetre": 259.231,
+    "axles": [
+      1.686,
+      -1.686
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1378,
+        777,
+        151
+      ],
+      [
+        504,
+        777,
+        151
+      ]
+    ],
+    "exhaust": [
+      -2.479,
+      0.195
+    ],
+    "winch": [
+      2.596,
+      0.423
+    ],
+    "nose": 2.696,
+    "tail": -2.754
+  },
+  "physics": {
+    "mudPull": 1.131,
+    "tireGrip": 1.04,
+    "mass": 2600.0,
+    "centreOfMass": [
+      0.0,
+      0.881
+    ],
+    "size": [
+      5.451,
+      2.754
+    ],
+    "wheelMass": 164,
+    "bodyBoxes": [
+      [
+        -2.336,
+        2.336,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.754,
+        -1.881,
+        0.78,
+        2.693,
+        0.4
+      ],
+      [
+        1.881,
+        2.696,
+        0.78,
+        2.642,
+        0.4
+      ],
+      [
+        -1.881,
+        -0.029,
+        0.423,
+        2.693,
+        0.4
+      ],
+      [
+        -0.029,
+        1.881,
+        0.423,
+        2.642,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.3,
+      "centreOfMass": [
+        -1.827,
+        1.707
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1939,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 8.051,
+      "L": 40.9,
+      "R": 32.11
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 86
+  },
+  "load": {
+    "name": "Hay bales",
+    "massT": 0.3
+  }
+}

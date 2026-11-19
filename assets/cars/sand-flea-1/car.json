@@ -1,0 +1,202 @@
+{
+  "id": "sand-flea-1",
+  "name": "Sand Flea",
+  "number": 1,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Caged-engine Baja buggy",
+  "description": "Olive drab classic rear-engine Baja buggy: rounded little sedan body with cut-away fenders and an exposed caged engine at the back, on all-terrain tyres, with tube front bumper, roof-mounted light pod.",
+  "stats": {
+    "power": 27,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      974,
+      755
+    ],
+    "pixelsPerMetre": 302.308,
+    "axles": [
+      1.538,
+      -1.538
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1439,
+        755,
+        176
+      ],
+      [
+        509,
+        755,
+        176
+      ]
+    ],
+    "exhaust": [
+      -2.525,
+      0.195
+    ],
+    "winch": [
+      2.46,
+      0.423
+    ],
+    "nose": 2.56,
+    "tail": -2.805
+  },
+  "physics": {
+    "mudPull": 1.052,
+    "tireGrip": 1.016,
+    "mass": 2500.0,
+    "centreOfMass": [
+      0.0,
+      0.732
+    ],
+    "size": [
+      5.365,
+      2.289
+    ],
+    "wheelMass": 162,
+    "bodyBoxes": [
+      [
+        -2.188,
+        2.188,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.805,
+        -1.733,
+        0.78,
+        1.892,
+        0.4
+      ],
+      [
+        1.733,
+        2.56,
+        0.78,
+        2.134,
+        0.4
+      ],
+      [
+        -1.733,
+        -0.122,
+        0.423,
+        1.892,
+        0.4
+      ],
+      [
+        -0.122,
+        1.733,
+        0.423,
+        2.134,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1593,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.636,
+      "L": 40.9,
+      "R": 32.11
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 86
+  }
+}

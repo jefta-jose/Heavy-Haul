@@ -1,0 +1,209 @@
+{
+  "id": "gully-imp-3",
+  "name": "Gully Imp",
+  "number": 3,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Four-seat turbo side-by-side",
+  "description": "Sky blue long-travel turbo sport side-by-side with a four-seat roll cage and exposed coil-over shocks, on mud-terrain tyres, with LED light bar on the cage, rear spare wheel.",
+  "stats": {
+    "power": 32,
+    "speed": 70,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Dirt",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      974,
+      725
+    ],
+    "pixelsPerMetre": 268.889,
+    "axles": [
+      2.044,
+      -2.044
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1523,
+        725,
+        163
+      ],
+      [
+        424,
+        725,
+        163
+      ]
+    ],
+    "exhaust": [
+      -2.8,
+      0.203
+    ],
+    "winch": [
+      2.899,
+      0.439
+    ],
+    "nose": 2.999,
+    "tail": -3.111
+  },
+  "physics": {
+    "mudPull": 1.183,
+    "tireGrip": 1.055,
+    "mass": 2600.0,
+    "centreOfMass": [
+      0.0,
+      0.694
+    ],
+    "size": [
+      6.11,
+      2.168
+    ],
+    "wheelMass": 177,
+    "bodyBoxes": [
+      [
+        -2.719,
+        2.719,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -3.111,
+        -2.247,
+        0.81,
+        1.945,
+        0.4
+      ],
+      [
+        2.247,
+        2.999,
+        0.81,
+        1.257,
+        0.4
+      ],
+      [
+        -2.247,
+        -1.074,
+        0.439,
+        1.945,
+        0.4
+      ],
+      [
+        -1.074,
+        0.963,
+        0.439,
+        2.142,
+        0.4
+      ],
+      [
+        0.963,
+        2.247,
+        0.439,
+        1.257,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1796,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.574,
+      "L": 42.47,
+      "R": 33.34
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 99
+  }
+}

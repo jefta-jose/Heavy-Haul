@@ -1,0 +1,209 @@
+{
+  "id": "ridge-mantis-5",
+  "name": "Ridge Mantis",
+  "number": 5,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Tube-frame crawler pickup",
+  "description": "Khaki crawler truck with a tube frame and pickup-shaped body, on mud-terrain tyres, with front winch, rock sliders, light bar.",
+  "stats": {
+    "power": 39,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      862,
+      761
+    ],
+    "pixelsPerMetre": 268.125,
+    "axles": [
+      1.557,
+      -1.557
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1279,
+        761,
+        193
+      ],
+      [
+        444,
+        761,
+        193
+      ]
+    ],
+    "exhaust": [
+      -2.513,
+      0.24
+    ],
+    "winch": [
+      2.718,
+      0.52
+    ],
+    "nose": 2.818,
+    "tail": -2.792
+  },
+  "physics": {
+    "mudPull": 1.539,
+    "tireGrip": 1.155,
+    "mass": 5000,
+    "centreOfMass": [
+      0.0,
+      0.702
+    ],
+    "size": [
+      5.609,
+      2.193
+    ],
+    "wheelMass": 197,
+    "bodyBoxes": [
+      [
+        -2.357,
+        2.357,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -2.792,
+        -1.797,
+        0.96,
+        1.29,
+        0.4
+      ],
+      [
+        1.797,
+        2.818,
+        0.96,
+        1.26,
+        0.4
+      ],
+      [
+        -1.797,
+        -0.922,
+        0.52,
+        1.29,
+        0.4
+      ],
+      [
+        -0.922,
+        0.948,
+        0.52,
+        2.171,
+        0.4
+      ],
+      [
+        0.948,
+        1.797,
+        0.52,
+        1.242,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2702,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 166,
+    "exhaustBrake": 214,
+    "gears": {
+      "H": 8.161,
+      "L": 31.01,
+      "R": 24.48
+    },
+    "brakeTorque": 14644,
+    "openDiffGrip": 1,
+    "fuelLitres": 207
+  }
+}

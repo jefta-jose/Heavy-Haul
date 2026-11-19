@@ -1,0 +1,209 @@
+{
+  "id": "recon-lynx-3",
+  "name": "Recon Lynx",
+  "number": 3,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Armoured 4×4 scout car",
+  "description": "Sand camouflage 4×4 armoured scout car with sloped plates, on mud-terrain tyres, with roof hatch, smoke launchers, spare wheel.",
+  "stats": {
+    "power": 32,
+    "speed": 63,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      956,
+      730
+    ],
+    "pixelsPerMetre": 266.897,
+    "axles": [
+      1.785,
+      -1.785
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1433,
+        730,
+        174
+      ],
+      [
+        480,
+        730,
+        174
+      ]
+    ],
+    "exhaust": [
+      -2.591,
+      0.217
+    ],
+    "winch": [
+      2.626,
+      0.471
+    ],
+    "nose": 2.726,
+    "tail": -2.879
+  },
+  "physics": {
+    "mudPull": 1.369,
+    "tireGrip": 1.103,
+    "mass": 6000,
+    "centreOfMass": [
+      0.0,
+      0.671
+    ],
+    "size": [
+      5.605,
+      2.098
+    ],
+    "wheelMass": 171,
+    "bodyBoxes": [
+      [
+        -2.51,
+        2.51,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -2.879,
+        -2.002,
+        0.87,
+        1.933,
+        0.4
+      ],
+      [
+        2.002,
+        2.726,
+        0.87,
+        1.281,
+        0.4
+      ],
+      [
+        -2.002,
+        -1.011,
+        0.471,
+        1.933,
+        0.4
+      ],
+      [
+        -1.011,
+        0.857,
+        0.471,
+        2.053,
+        0.4
+      ],
+      [
+        0.857,
+        2.002,
+        0.471,
+        1.281,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2963,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 166,
+    "exhaustBrake": 214,
+    "gears": {
+      "H": 6.617,
+      "L": 38.22,
+      "R": 30.0
+    },
+    "brakeTorque": 14644,
+    "openDiffGrip": 1,
+    "fuelLitres": 189
+  }
+}

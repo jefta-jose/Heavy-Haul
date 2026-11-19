@@ -1,0 +1,209 @@
+{
+  "id": "trek-coach-3",
+  "name": "Trek Coach",
+  "number": 3,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "4×4 camper van with a pop-up roof",
+  "description": "Silver grey 4×4 camper van with a pop-up roof and side awning rolled up, on all-terrain tyres, with rear bike rack, roof solar panel, snorkel.",
+  "stats": {
+    "power": 32,
+    "speed": 70,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      954,
+      816
+    ],
+    "pixelsPerMetre": 225.926,
+    "axles": [
+      1.899,
+      -1.899
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1383,
+        816,
+        137
+      ],
+      [
+        525,
+        816,
+        137
+      ]
+    ],
+    "exhaust": [
+      -3.274,
+      0.203
+    ],
+    "winch": [
+      2.923,
+      0.439
+    ],
+    "nose": 3.023,
+    "tail": -3.638
+  },
+  "physics": {
+    "mudPull": 1.169,
+    "tireGrip": 1.053,
+    "mass": 4500.0,
+    "centreOfMass": [
+      0.0,
+      1.054
+    ],
+    "size": [
+      6.661,
+      3.293
+    ],
+    "wheelMass": 82,
+    "bodyBoxes": [
+      [
+        -2.574,
+        2.574,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -3.638,
+        -2.102,
+        0.81,
+        2.793,
+        0.4
+      ],
+      [
+        2.102,
+        3.023,
+        0.81,
+        2.266,
+        0.4
+      ],
+      [
+        -2.102,
+        -1.418,
+        0.439,
+        2.793,
+        0.4
+      ],
+      [
+        -1.418,
+        0.803,
+        0.439,
+        3.16,
+        0.4
+      ],
+      [
+        0.803,
+        2.102,
+        0.439,
+        2.266,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1966,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 5.574,
+      "L": 32.82,
+      "R": 25.76
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 126
+  }
+}

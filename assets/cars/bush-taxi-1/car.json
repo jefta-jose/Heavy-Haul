@@ -1,0 +1,220 @@
+{
+  "id": "bush-taxi-1",
+  "name": "Bush Taxi",
+  "number": 1,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "4×4 minibus with a loaded roof rack",
+  "description": "Navy blue 4×4 minibus with rows of side windows and a long roof rack, on all-terrain tyres, with front bull bar, snorkel; suitcases and sacks tied on the roof rack.",
+  "stats": {
+    "power": 27,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 9
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      986,
+      795
+    ],
+    "pixelsPerMetre": 270.0,
+    "axles": [
+      1.943,
+      -1.943
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1510,
+        795,
+        157
+      ],
+      [
+        461,
+        795,
+        157
+      ]
+    ],
+    "exhaust": [
+      -3.048,
+      0.195
+    ],
+    "winch": [
+      2.954,
+      0.423
+    ],
+    "nose": 3.054,
+    "tail": -3.387
+  },
+  "physics": {
+    "mudPull": 1.073,
+    "tireGrip": 1.023,
+    "mass": 4000.0,
+    "centreOfMass": [
+      0.0,
+      0.862
+    ],
+    "size": [
+      6.441,
+      2.693
+    ],
+    "wheelMass": 73,
+    "bodyBoxes": [
+      [
+        -2.593,
+        2.593,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.387,
+        -2.138,
+        0.78,
+        2.593,
+        0.4
+      ],
+      [
+        2.138,
+        3.054,
+        0.78,
+        2.037,
+        0.4
+      ],
+      [
+        -2.138,
+        -1.24,
+        0.423,
+        2.593,
+        0.4
+      ],
+      [
+        -1.24,
+        0.907,
+        0.423,
+        2.685,
+        0.4
+      ],
+      [
+        0.907,
+        2.138,
+        0.423,
+        2.037,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -0.489,
+        2.504
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1855,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 5.636,
+      "L": 31.6,
+      "R": 24.81
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 112
+  },
+  "load": {
+    "name": "Luggage",
+    "massT": 0.4
+  }
+}

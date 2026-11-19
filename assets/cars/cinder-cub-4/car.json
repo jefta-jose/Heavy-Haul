@@ -1,0 +1,202 @@
+{
+  "id": "cinder-cub-4",
+  "name": "Cinder Cub",
+  "number": 4,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Short-wheelbase 1960s 4×4 with a canvas top",
+  "description": "Cherry red short-wheelbase boxy 1960s utility 4×4 with a canvas soft top and flat fenders, on mud-terrain tyres, with jerrycan on the tailgate, front winch drum.",
+  "stats": {
+    "power": 37,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      931,
+      721
+    ],
+    "pixelsPerMetre": 300.769,
+    "axles": [
+      1.307,
+      -1.307
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1324,
+        721,
+        175
+      ],
+      [
+        538,
+        721,
+        175
+      ]
+    ],
+    "exhaust": [
+      -2.259,
+      0.195
+    ],
+    "winch": [
+      2.447,
+      0.423
+    ],
+    "nose": 2.547,
+    "tail": -2.51
+  },
+  "physics": {
+    "mudPull": 1.288,
+    "tireGrip": 1.087,
+    "mass": 2700.0,
+    "centreOfMass": [
+      0.0,
+      0.668
+    ],
+    "size": [
+      5.057,
+      2.088
+    ],
+    "wheelMass": 166,
+    "bodyBoxes": [
+      [
+        -1.957,
+        1.957,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.51,
+        -1.502,
+        0.78,
+        2.041,
+        0.4
+      ],
+      [
+        1.502,
+        2.547,
+        0.78,
+        1.476,
+        0.4
+      ],
+      [
+        -1.502,
+        0.018,
+        0.423,
+        2.041,
+        0.4
+      ],
+      [
+        0.018,
+        1.502,
+        0.423,
+        1.476,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.198,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 6.631,
+      "L": 40.9,
+      "R": 32.11
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 90
+  }
+}

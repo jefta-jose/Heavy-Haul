@@ -1,0 +1,220 @@
+{
+  "id": "crusher-7",
+  "name": "Crusher",
+  "number": 7,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Two-axle mining hauler full of ore",
+  "description": "Mining yellow two-axle large mining hauler, on giant tyres, with handrails; ore heaped in the dump body.",
+  "stats": {
+    "power": 49,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 50
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      945,
+      745
+    ],
+    "pixelsPerMetre": 171.071,
+    "axles": [
+      2.525,
+      -2.525
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.4,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1377,
+        745,
+        215
+      ],
+      [
+        513,
+        745,
+        215
+      ]
+    ],
+    "exhaust": [
+      -4.577,
+      0.42
+    ],
+    "winch": [
+      4.828,
+      0.91
+    ],
+    "nose": 4.928,
+    "tail": -5.086
+  },
+  "physics": {
+    "mudPull": 1.939,
+    "tireGrip": 1.25,
+    "mass": 40000,
+    "centreOfMass": [
+      0.0,
+      1.25
+    ],
+    "size": [
+      10.013,
+      3.905
+    ],
+    "wheelMass": 359,
+    "bodyBoxes": [
+      [
+        -3.925,
+        3.925,
+        0.35,
+        0.98,
+        0.4
+      ],
+      [
+        -5.086,
+        -2.945,
+        1.68,
+        3.8,
+        0.4
+      ],
+      [
+        2.945,
+        4.928,
+        1.68,
+        2.262,
+        0.4
+      ],
+      [
+        -2.945,
+        -1.08,
+        0.91,
+        3.8,
+        0.4
+      ],
+      [
+        -1.08,
+        0.922,
+        0.91,
+        3.63,
+        0.4
+      ],
+      [
+        0.922,
+        2.925,
+        0.91,
+        3.443,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 40,
+      "centreOfMass": [
+        -2.082,
+        3.124
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.5703,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 22.071,
+      "L": 83.87,
+      "R": 66.21
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 585
+  },
+  "load": {
+    "name": "Ore",
+    "massT": 40
+  }
+}

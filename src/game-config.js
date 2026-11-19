@@ -59,11 +59,11 @@ export const MIN_PULL_BY_CLASS = { scout: 0.9, highway: 0.7, 'heavy-duty': 0.65,
 //   price    the first car you buy (rank 2); every later car costs priceStep more. Rank 1 cars are free.
 // Car i (0 = first) gets value + i x step. Ranks are spread evenly: rank = floor(i x 20 / cars in class) + 1.
 export const CLASS_LADDER = {
-  scout:        { kwPerT: 30, kwPerTStep: 1.0,  grip: 1.0,  gripStep: 0.015, mudPull: 1.0, mudPullStep: 0.05,  price: 6000,  priceStep: 1800 },
-  highway:      { kwPerT: 20, kwPerTStep: 0.35, grip: 1.0,  gripStep: 0.014, mudPull: 1.0, mudPullStep: 0.045, price: 10800, priceStep: 3000 },
-  'heavy-duty': { kwPerT: 18, kwPerTStep: 0.5,  grip: 1.0,  gripStep: 0.015, mudPull: 1.0, mudPullStep: 0.05,  price: 15600, priceStep: 4700 },
-  offroad:      { kwPerT: 22, kwPerTStep: 0.6,  grip: 1.05, gripStep: 0.014, mudPull: 1.2, mudPullStep: 0.045, price: 20400, priceStep: 5400 },
-  heavy:        { kwPerT: 8,  kwPerTStep: 0.5,  grip: 1.1,  gripStep: 0.012, mudPull: 1.5, mudPullStep: 0.035, price: 25200, priceStep: 6700 },
+  scout:        { kwPerT: 30, kwPerTStep: 0.5238,  grip: 1.0,  gripStep: 0.0079, mudPull: 1.0, mudPullStep: 0.0262,  price: 6000,  priceStep: 943 },
+  highway:      { kwPerT: 20, kwPerTStep: 0.1885, grip: 1.0,  gripStep: 0.0075, mudPull: 1.0, mudPullStep: 0.0242, price: 10800, priceStep: 1615 },
+  'heavy-duty': { kwPerT: 18, kwPerTStep: 0.2541,  grip: 1.0,  gripStep: 0.0076, mudPull: 1.0, mudPullStep: 0.0254,  price: 15600, priceStep: 2389 },
+  offroad:      { kwPerT: 22, kwPerTStep: 0.3231,  grip: 1.05, gripStep: 0.0075, mudPull: 1.2, mudPullStep: 0.0242, price: 20400, priceStep: 2908 },
+  heavy:        { kwPerT: 8,  kwPerTStep: 0.2727,  grip: 1.1,  gripStep: 0.0065, mudPull: 1.5, mudPullStep: 0.0191, price: 25200, priceStep: 3655 },
 };
 
 // ---------- recovery trucks ----------

@@ -1,0 +1,241 @@
+{
+  "id": "grit-5",
+  "name": "Grit",
+  "number": 5,
+  "class": "heavy",
+  "drive": "6×6",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "6×6 articulated dump truck full of gravel",
+  "description": "Green 6×6 articulated dump truck, on giant tyres, with ladders, beacons; gravel in the dump body.",
+  "stats": {
+    "power": 39,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 44
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1080,
+      630
+    ],
+    "pixelsPerMetre": 186.111,
+    "axles": [
+      3.729,
+      -1.515,
+      -3.729
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1774,
+        630,
+        150
+      ],
+      [
+        798,
+        630,
+        150
+      ],
+      [
+        386,
+        630,
+        150
+      ]
+    ],
+    "exhaust": [
+      -4.923,
+      0.27
+    ],
+    "winch": [
+      5.445,
+      0.585
+    ],
+    "nose": 5.545,
+    "tail": -5.47
+  },
+  "physics": {
+    "mudPull": 1.767,
+    "tireGrip": 1.191,
+    "mass": 25000,
+    "centreOfMass": [
+      0.0,
+      0.98
+    ],
+    "size": [
+      11.015,
+      3.063
+    ],
+    "wheelMass": 129,
+    "bodyBoxes": [
+      [
+        -4.629,
+        4.629,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -5.47,
+        -3.999,
+        1.08,
+        2.697,
+        0.4
+      ],
+      [
+        3.999,
+        5.545,
+        1.08,
+        1.95,
+        0.4
+      ],
+      [
+        -3.999,
+        -3.267,
+        0.585,
+        2.697,
+        0.4
+      ],
+      [
+        -3.267,
+        -1.064,
+        0.585,
+        2.998,
+        0.4
+      ],
+      [
+        -1.064,
+        1.139,
+        0.585,
+        2.746,
+        0.4
+      ],
+      [
+        1.139,
+        3.342,
+        0.585,
+        2.756,
+        0.4
+      ],
+      [
+        3.342,
+        3.999,
+        0.585,
+        1.95,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -2.165,
+        2.297
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1973,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 14.189,
+      "L": 53.92,
+      "R": 42.57
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 360
+  },
+  "load": {
+    "name": "Gravel",
+    "massT": 20
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "id": "thicket-5",
+  "name": "Thicket",
+  "number": 5,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "1970s two-door full-size SUV with a roof-rack spare",
+  "description": "Matte black 1970s two-door full-size SUV with a removable hardtop and squared-off body, on mud-terrain tyres, with roof rack with a spare wheel, tow hooks.",
+  "stats": {
+    "power": 39,
+    "speed": 63,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      906,
+      752
+    ],
+    "pixelsPerMetre": 302.963,
+    "axles": [
+      1.345,
+      -1.345
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1313,
+        752,
+        184
+      ],
+      [
+        498,
+        752,
+        184
+      ]
+    ],
+    "exhaust": [
+      -2.206,
+      0.203
+    ],
+    "winch": [
+      2.225,
+      0.439
+    ],
+    "nose": 2.325,
+    "tail": -2.451
+  },
+  "physics": {
+    "mudPull": 1.341,
+    "tireGrip": 1.103,
+    "mass": 2800.0,
+    "centreOfMass": [
+      0.0,
+      0.694
+    ],
+    "size": [
+      4.776,
+      2.169
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.02,
+        2.02,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -2.451,
+        -1.547,
+        0.81,
+        2.155,
+        0.4
+      ],
+      [
+        1.547,
+        2.325,
+        0.81,
+        1.423,
+        0.4
+      ],
+      [
+        -1.547,
+        -0.063,
+        0.439,
+        2.155,
+        0.4
+      ],
+      [
+        -0.063,
+        1.547,
+        0.439,
+        1.423,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2095,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 6.161,
+      "L": 23.41,
+      "R": 18.48
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 99
+  }
+}

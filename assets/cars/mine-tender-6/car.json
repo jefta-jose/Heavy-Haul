@@ -1,0 +1,255 @@
+{
+  "id": "mine-tender-6",
+  "name": "Mine Tender",
+  "number": 6,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "10×10 mining water truck",
+  "description": "Cream 10×10 mining service water truck, on all-terrain tyres, with spray bars, beacons; the water tank.",
+  "stats": {
+    "power": 44,
+    "speed": 37,
+    "grip": 45,
+    "capacity": 40
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1197,
+      602
+    ],
+    "pixelsPerMetre": 165.294,
+    "axles": [
+      4.441,
+      2.051,
+      0.03,
+      -2.529,
+      -4.441
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1931,
+        602,
+        126
+      ],
+      [
+        1536,
+        602,
+        126
+      ],
+      [
+        1202,
+        602,
+        126
+      ],
+      [
+        779,
+        602,
+        126
+      ],
+      [
+        463,
+        602,
+        126
+      ]
+    ],
+    "exhaust": [
+      -6.169,
+      0.255
+    ],
+    "winch": [
+      6.016,
+      0.552
+    ],
+    "nose": 6.116,
+    "tail": -6.854
+  },
+  "physics": {
+    "mudPull": 1.844,
+    "tireGrip": 1.217,
+    "mass": 30000,
+    "centreOfMass": [
+      0.0,
+      1.009
+    ],
+    "size": [
+      12.971,
+      3.152
+    ],
+    "wheelMass": 496,
+    "bodyBoxes": [
+      [
+        -5.291,
+        5.291,
+        0.212,
+        0.595,
+        0.4
+      ],
+      [
+        -6.854,
+        -4.696,
+        1.02,
+        3.091,
+        0.4
+      ],
+      [
+        4.696,
+        6.116,
+        1.02,
+        2.111,
+        0.4
+      ],
+      [
+        -4.693,
+        -2.531,
+        0.552,
+        2.952,
+        0.4
+      ],
+      [
+        -2.531,
+        -0.369,
+        0.552,
+        2.874,
+        0.4
+      ],
+      [
+        -0.369,
+        1.793,
+        0.552,
+        2.874,
+        0.4
+      ],
+      [
+        1.793,
+        3.955,
+        0.552,
+        2.807,
+        0.4
+      ],
+      [
+        3.955,
+        4.696,
+        0.552,
+        2.111,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 20,
+      "centreOfMass": [
+        -1.666,
+        2.206
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4544,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 13.4,
+      "L": 50.92,
+      "R": 40.2
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 468
+  },
+  "load": {
+    "name": "Water",
+    "massT": 20
+  }
+}

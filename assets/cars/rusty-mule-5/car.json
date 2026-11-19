@@ -1,0 +1,213 @@
+{
+  "id": "rusty-mule-5",
+  "name": "Rusty Mule",
+  "number": 5,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Lifted 1970s coupe utility",
+  "description": "Dark charcoal grey 1970s American coupe utility: a long, low two-door car body with a long flat bonnet, a sloping sedan-style cab roof with thin chrome window trim and an open pickup bed built into the rear bodywork, a chrome rocker strip along the sills; raised on a modest lift kit with wider wheel arches to clear off-road tyres, on mud-terrain tyres, with slotted five-spoke steel rally rims painted silver, chrome bumpers, side mirror on the door; a spare tyre lying in the bed.",
+  "stats": {
+    "power": 42,
+    "speed": 60,
+    "grip": 70,
+    "capacity": 4
+  },
+  "biomes": [
+    "Dirt",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1138,
+      591
+    ],
+    "pixelsPerMetre": 374.074,
+    "axles": [
+      1.581,
+      -1.581
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1729,
+        591,
+        227
+      ],
+      [
+        546,
+        591,
+        227
+      ]
+    ],
+    "exhaust": [
+      -2.429,
+      0.203
+    ],
+    "winch": [
+      2.593,
+      0.439
+    ],
+    "nose": 2.693,
+    "tail": -2.699
+  },
+  "physics": {
+    "mudPull": 1.393,
+    "tireGrip": 1.119,
+    "mass": 2600.0,
+    "centreOfMass": [
+      0.0,
+      0.399
+    ],
+    "size": [
+      5.392,
+      1.246
+    ],
+    "wheelMass": 177,
+    "bodyBoxes": [
+      [
+        -2.256,
+        2.256,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -2.699,
+        -1.784,
+        0.81,
+        1.11,
+        0.4
+      ],
+      [
+        1.784,
+        2.693,
+        0.81,
+        1.11,
+        0.4
+      ],
+      [
+        -1.784,
+        -0.003,
+        0.439,
+        1.002,
+        0.4
+      ],
+      [
+        -0.003,
+        1.784,
+        0.439,
+        1.072,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.1,
+      "centreOfMass": [
+        -1.89,
+        0.934
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2078,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 6.503,
+      "L": 24.71,
+      "R": 19.51
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 104
+  },
+  "load": {
+    "name": "Spare tyre",
+    "massT": 0.1
+  }
+}

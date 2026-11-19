@@ -1,0 +1,209 @@
+{
+  "id": "lodge-wagon-7",
+  "name": "Lodge Wagon",
+  "number": 7,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Full-size 1980s three-row wagon with a roof box",
+  "description": "Sand beige 1980s full-size boxy body-on-frame wagon with three rows of windows, on all-terrain tyres, with roof cargo box, side steps, brush guard.",
+  "stats": {
+    "power": 49,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1029,
+      669
+    ],
+    "pixelsPerMetre": 305.926,
+    "axles": [
+      1.644,
+      -1.644
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1532,
+        669,
+        185
+      ],
+      [
+        526,
+        669,
+        185
+      ]
+    ],
+    "exhaust": [
+      -2.539,
+      0.203
+    ],
+    "winch": [
+      2.685,
+      0.439
+    ],
+    "nose": 2.785,
+    "tail": -2.821
+  },
+  "physics": {
+    "mudPull": 1.576,
+    "tireGrip": 1.174,
+    "mass": 3000,
+    "centreOfMass": [
+      0.0,
+      0.622
+    ],
+    "size": [
+      5.606,
+      1.945
+    ],
+    "wheelMass": 185,
+    "bodyBoxes": [
+      [
+        -2.319,
+        2.319,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -2.821,
+        -1.846,
+        0.81,
+        1.942,
+        0.4
+      ],
+      [
+        1.846,
+        2.785,
+        0.81,
+        1.11,
+        0.4
+      ],
+      [
+        -1.846,
+        -0.952,
+        0.439,
+        1.942,
+        0.4
+      ],
+      [
+        -0.952,
+        0.916,
+        0.439,
+        1.935,
+        0.4
+      ],
+      [
+        0.916,
+        1.846,
+        0.439,
+        1.039,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2532,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.853,
+      "L": 22.24,
+      "R": 17.56
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 112
+  }
+}

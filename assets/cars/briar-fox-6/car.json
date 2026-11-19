@@ -1,0 +1,202 @@
+{
+  "id": "briar-fox-6",
+  "name": "Briar Fox",
+  "number": 6,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Boxy 1980s four-door 4×4 wagon",
+  "description": "Teal 1980s boxy four-door 4×4 wagon with tall glasshouse and a spare wheel on the rear door, on all-terrain tyres, with full-length roof rack, front bull bar.",
+  "stats": {
+    "power": 44,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      910,
+      709
+    ],
+    "pixelsPerMetre": 305.926,
+    "axles": [
+      1.417,
+      -1.417
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1343,
+        709,
+        185
+      ],
+      [
+        476,
+        709,
+        185
+      ]
+    ],
+    "exhaust": [
+      -2.296,
+      0.203
+    ],
+    "winch": [
+      2.258,
+      0.439
+    ],
+    "nose": 2.358,
+    "tail": -2.551
+  },
+  "physics": {
+    "mudPull": 1.445,
+    "tireGrip": 1.134,
+    "mass": 2800.0,
+    "centreOfMass": [
+      0.0,
+      0.539
+    ],
+    "size": [
+      4.91,
+      1.683
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.092,
+        2.092,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -2.551,
+        -1.619,
+        0.81,
+        1.68,
+        0.4
+      ],
+      [
+        1.619,
+        2.358,
+        0.81,
+        1.68,
+        0.4
+      ],
+      [
+        -1.619,
+        -0.096,
+        0.439,
+        1.68,
+        0.4
+      ],
+      [
+        -0.096,
+        1.619,
+        0.439,
+        1.68,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2215,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.853,
+      "L": 22.24,
+      "R": 17.56
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 104
+  }
+}

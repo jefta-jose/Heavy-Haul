@@ -1,0 +1,220 @@
+{
+  "id": "fence-line-1",
+  "name": "Fence Line",
+  "number": 1,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "1-ton pickup hauling fence posts",
+  "description": "Safety yellow heavy-duty 1-ton 4×4 pickup with a long bed, on all-terrain tyres, with headache rack, front winch; fence posts and wire rolls in the bed.",
+  "stats": {
+    "power": 25,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 18
+  },
+  "biomes": [
+    "Mud",
+    "Dirt",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      968,
+      758
+    ],
+    "pixelsPerMetre": 268.889,
+    "axles": [
+      1.828,
+      -1.828
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1459,
+        758,
+        163
+      ],
+      [
+        476,
+        758,
+        163
+      ]
+    ],
+    "exhaust": [
+      -3.008,
+      0.203
+    ],
+    "winch": [
+      3.015,
+      0.439
+    ],
+    "nose": 3.115,
+    "tail": -3.342
+  },
+  "physics": {
+    "mudPull": 1,
+    "tireGrip": 1,
+    "mass": 3600.0,
+    "centreOfMass": [
+      0.0,
+      0.783
+    ],
+    "size": [
+      6.456,
+      2.447
+    ],
+    "wheelMass": 119,
+    "bodyBoxes": [
+      [
+        -2.503,
+        2.503,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -3.342,
+        -2.03,
+        0.81,
+        1.837,
+        0.4
+      ],
+      [
+        2.03,
+        3.115,
+        0.81,
+        1.41,
+        0.4
+      ],
+      [
+        -2.03,
+        -1.189,
+        0.439,
+        1.837,
+        0.4
+      ],
+      [
+        -1.189,
+        0.963,
+        0.439,
+        2.183,
+        0.4
+      ],
+      [
+        0.963,
+        2.03,
+        0.439,
+        1.41,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.8,
+      "centreOfMass": [
+        -2.18,
+        1.517
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1624,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 5.853,
+      "L": 35.62,
+      "R": 27.96
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 144
+  },
+  "load": {
+    "name": "Fence posts",
+    "massT": 0.8
+  }
+}

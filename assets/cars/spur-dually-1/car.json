@@ -1,0 +1,220 @@
+{
+  "id": "spur-dually-1",
+  "name": "Spur Dually",
+  "number": 1,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Service pickup carrying a welding rig",
+  "description": "Fire red heavy-duty 4×4 dually pickup with a service tool bed, on mud-terrain tyres, with tool lockers, amber beacons; a welding machine and gas bottles on the tool bed.",
+  "stats": {
+    "power": 27,
+    "speed": 63,
+    "grip": 70,
+    "capacity": 19
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      968,
+      788
+    ],
+    "pixelsPerMetre": 265.926,
+    "axles": [
+      1.925,
+      -1.925
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1480,
+        788,
+        161
+      ],
+      [
+        456,
+        788,
+        161
+      ]
+    ],
+    "exhaust": [
+      -3.005,
+      0.203
+    ],
+    "winch": [
+      3.036,
+      0.439
+    ],
+    "nose": 3.136,
+    "tail": -3.339
+  },
+  "physics": {
+    "mudPull": 1.051,
+    "tireGrip": 1.015,
+    "mass": 4200.0,
+    "centreOfMass": [
+      0.0,
+      0.876
+    ],
+    "size": [
+      6.475,
+      2.738
+    ],
+    "wheelMass": 125,
+    "bodyBoxes": [
+      [
+        -2.6,
+        2.6,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -3.339,
+        -2.127,
+        0.81,
+        2.162,
+        0.4
+      ],
+      [
+        2.127,
+        3.136,
+        0.81,
+        1.647,
+        0.4
+      ],
+      [
+        -2.127,
+        -1.181,
+        0.439,
+        2.162,
+        0.4
+      ],
+      [
+        -1.181,
+        0.978,
+        0.439,
+        2.459,
+        0.4
+      ],
+      [
+        0.978,
+        2.127,
+        0.439,
+        1.647,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 1.0,
+      "centreOfMass": [
+        -2.173,
+        1.862
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.1974,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 6.161,
+      "L": 35.62,
+      "R": 27.96
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 162
+  },
+  "load": {
+    "name": "Welding rig",
+    "massT": 1.0
+  }
+}

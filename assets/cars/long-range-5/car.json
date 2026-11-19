@@ -1,0 +1,220 @@
+{
+  "id": "long-range-5",
+  "name": "Long Range",
+  "number": 5,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Cab-over 4×4 expedition truck with a living box",
+  "description": "Royal blue 4×4 cab-over expedition truck with a tall living box, on all-terrain tyres, with sand ladders, jerrycans, light bar; the living box with a roof hatch and water tanks.",
+  "stats": {
+    "power": 42,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 21
+  },
+  "biomes": [
+    "Gravel",
+    "Dirt",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      924,
+      755
+    ],
+    "pixelsPerMetre": 213.103,
+    "axles": [
+      1.943,
+      -1.943
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1338,
+        755,
+        139
+      ],
+      [
+        510,
+        755,
+        139
+      ]
+    ],
+    "exhaust": [
+      -3.083,
+      0.217
+    ],
+    "winch": [
+      3.452,
+      0.471
+    ],
+    "nose": 3.552,
+    "tail": -3.426
+  },
+  "physics": {
+    "mudPull": 1.387,
+    "tireGrip": 1.12,
+    "mass": 8500.0,
+    "centreOfMass": [
+      0.0,
+      1.032
+    ],
+    "size": [
+      6.978,
+      3.224
+    ],
+    "wheelMass": 114,
+    "bodyBoxes": [
+      [
+        -2.668,
+        2.668,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -3.426,
+        -2.16,
+        0.87,
+        3.121,
+        0.4
+      ],
+      [
+        2.16,
+        3.552,
+        0.87,
+        2.708,
+        0.4
+      ],
+      [
+        -2.16,
+        -1.1,
+        0.471,
+        3.121,
+        0.4
+      ],
+      [
+        -1.1,
+        1.226,
+        0.471,
+        2.97,
+        0.4
+      ],
+      [
+        1.226,
+        2.16,
+        0.471,
+        2.708,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 2.2,
+      "centreOfMass": [
+        -0.984,
+        1.934
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5003,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.286,
+      "L": 23.89,
+      "R": 18.86
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 180
+  },
+  "load": {
+    "name": "Living box",
+    "massT": 2.2
+  }
+}

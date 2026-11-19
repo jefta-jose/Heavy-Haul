@@ -1,0 +1,283 @@
+{
+  "id": "dozer-carrier-2",
+  "name": "Dozer Carrier",
+  "number": 2,
+  "class": "heavy",
+  "drive": "12×12",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Prime mover hauling a bulldozer",
+  "description": "White 8×8 prime mover with a short lowboy trailer, on all-terrain tyres, with oversize flags, beacons; a bulldozer chained on the lowboy.",
+  "stats": {
+    "power": 30,
+    "speed": 40,
+    "grip": 45,
+    "capacity": 44
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1160,
+      644
+    ],
+    "pixelsPerMetre": 115.333,
+    "axles": [
+      7.712,
+      5.892,
+      3.637,
+      2.068,
+      -6.178,
+      -7.712
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2049,
+        644,
+        77
+      ],
+      [
+        1839,
+        644,
+        77
+      ],
+      [
+        1579,
+        644,
+        77
+      ],
+      [
+        1398,
+        644,
+        77
+      ],
+      [
+        447,
+        644,
+        77
+      ],
+      [
+        270,
+        644,
+        77
+      ]
+    ],
+    "exhaust": [
+      -8.596,
+      0.225
+    ],
+    "winch": [
+      8.991,
+      0.488
+    ],
+    "nose": 9.091,
+    "tail": -9.551
+  },
+  "physics": {
+    "mudPull": 1.596,
+    "tireGrip": 1.133,
+    "mass": 25000,
+    "centreOfMass": [
+      0.0,
+      1.468
+    ],
+    "size": [
+      18.642,
+      4.587
+    ],
+    "wheelMass": 378,
+    "bodyBoxes": [
+      [
+        -8.462,
+        8.462,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -9.551,
+        -7.937,
+        0.9,
+        1.882,
+        0.4
+      ],
+      [
+        7.937,
+        9.091,
+        0.9,
+        3.607,
+        0.4
+      ],
+      [
+        -7.937,
+        -7.22,
+        0.488,
+        1.882,
+        0.4
+      ],
+      [
+        -7.22,
+        -4.89,
+        0.488,
+        3.685,
+        0.4
+      ],
+      [
+        -4.89,
+        -2.56,
+        0.488,
+        4.587,
+        0.4
+      ],
+      [
+        -2.56,
+        -0.23,
+        0.488,
+        3.858,
+        0.4
+      ],
+      [
+        -0.23,
+        2.1,
+        0.488,
+        2.072,
+        0.4
+      ],
+      [
+        2.1,
+        4.431,
+        0.488,
+        2.358,
+        0.4
+      ],
+      [
+        4.431,
+        6.761,
+        0.488,
+        3.858,
+        0.4
+      ],
+      [
+        6.761,
+        7.937,
+        0.488,
+        3.607,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 20.0,
+      "centreOfMass": [
+        -5.823,
+        2.752
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9481,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 155,
+    "exhaustBrake": 207,
+    "gears": {
+      "H": 10.838,
+      "L": 50.77,
+      "R": 39.85
+    },
+    "brakeTorque": 161865,
+    "openDiffGrip": 1,
+    "fuelLitres": 468
+  },
+  "load": {
+    "name": "Bulldozer",
+    "massT": 20.0
+  }
+}

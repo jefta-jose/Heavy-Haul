@@ -1,0 +1,227 @@
+{
+  "id": "pit-pony-1",
+  "name": "Pit Pony",
+  "number": 1,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Compact mining dump truck full of ore",
+  "description": "Mining yellow compact two-axle rigid mining dump truck, on giant tyres, with ladder, handrails; ore heaped in the dump body.",
+  "stats": {
+    "power": 25,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 41
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      924,
+      776
+    ],
+    "pixelsPerMetre": 207.727,
+    "axles": [
+      2.14,
+      -2.14
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.1,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1369,
+        776,
+        205
+      ],
+      [
+        480,
+        776,
+        205
+      ]
+    ],
+    "exhaust": [
+      -3.516,
+      0.33
+    ],
+    "winch": [
+      3.811,
+      0.715
+    ],
+    "nose": 3.911,
+    "tail": -3.907
+  },
+  "physics": {
+    "mudPull": 1.5,
+    "tireGrip": 1.1,
+    "mass": 22000,
+    "centreOfMass": [
+      0.0,
+      1.051
+    ],
+    "size": [
+      7.818,
+      3.283
+    ],
+    "wheelMass": 185,
+    "bodyBoxes": [
+      [
+        -3.24,
+        3.24,
+        0.275,
+        0.77,
+        0.4
+      ],
+      [
+        -3.907,
+        -2.47,
+        1.32,
+        2.893,
+        0.4
+      ],
+      [
+        2.47,
+        3.911,
+        1.32,
+        2.98,
+        0.4
+      ],
+      [
+        -2.47,
+        -1.952,
+        0.715,
+        2.893,
+        0.4
+      ],
+      [
+        -1.952,
+        0.002,
+        0.715,
+        3.221,
+        0.4
+      ],
+      [
+        0.002,
+        1.957,
+        0.715,
+        3.124,
+        0.4
+      ],
+      [
+        1.957,
+        2.47,
+        0.715,
+        2.98,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 15.0,
+      "centreOfMass": [
+        -1.327,
+        2.561
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6665,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 17.342,
+      "L": 44.0,
+      "R": 34.54
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 405
+  },
+  "load": {
+    "name": "Ore",
+    "massT": 15.0
+  }
+}

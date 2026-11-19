@@ -1,0 +1,209 @@
+{
+  "id": "field-medic-2",
+  "name": "Field Medic",
+  "number": 2,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "4×4 field ambulance",
+  "description": "Municipal orange 4×4 ambulance with a boxy patient module on a bonneted chassis, on all-terrain tyres, with light bars, side steps, roof spotlights.",
+  "stats": {
+    "power": 30,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      976,
+      775
+    ],
+    "pixelsPerMetre": 246.429,
+    "axles": [
+      1.98,
+      -1.98
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1464,
+        775,
+        155
+      ],
+      [
+        488,
+        775,
+        155
+      ]
+    ],
+    "exhaust": [
+      -3.115,
+      0.21
+    ],
+    "winch": [
+      3.065,
+      0.455
+    ],
+    "nose": 3.165,
+    "tail": -3.461
+  },
+  "physics": {
+    "mudPull": 1.102,
+    "tireGrip": 1.03,
+    "mass": 5500.0,
+    "centreOfMass": [
+      0.0,
+      0.932
+    ],
+    "size": [
+      6.627,
+      2.914
+    ],
+    "wheelMass": 145,
+    "bodyBoxes": [
+      [
+        -2.68,
+        2.68,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -3.461,
+        -2.19,
+        0.84,
+        2.82,
+        0.4
+      ],
+      [
+        2.19,
+        3.165,
+        0.84,
+        1.656,
+        0.4
+      ],
+      [
+        -2.19,
+        -1.253,
+        0.455,
+        2.82,
+        0.4
+      ],
+      [
+        -1.253,
+        0.956,
+        0.455,
+        2.776,
+        0.4
+      ],
+      [
+        0.956,
+        2.19,
+        0.455,
+        1.656,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2138,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 6.07,
+      "L": 36.94,
+      "R": 29.0
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 171
+  }
+}

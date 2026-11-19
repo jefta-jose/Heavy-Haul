@@ -1,0 +1,234 @@
+{
+  "id": "ranch-hauler-8",
+  "name": "Ranch Hauler",
+  "number": 8,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 ranch flatbed with fence posts and wire",
+  "description": "Navy blue 6×6 bonneted ranch flatbed truck, on all-terrain tyres, with headache rack, front winch; bundles of fence posts and rolled wire on the flatbed.",
+  "stats": {
+    "power": 51,
+    "speed": 63,
+    "grip": 45,
+    "capacity": 23
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1111,
+      674
+    ],
+    "pixelsPerMetre": 246.207,
+    "axles": [
+      2.782,
+      -1.267,
+      -2.782
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1796,
+        674,
+        160
+      ],
+      [
+        799,
+        674,
+        160
+      ],
+      [
+        426,
+        674,
+        160
+      ]
+    ],
+    "exhaust": [
+      -3.765,
+      0.217
+    ],
+    "winch": [
+      4.315,
+      0.471
+    ],
+    "nose": 4.415,
+    "tail": -4.183
+  },
+  "physics": {
+    "mudPull": 1.605,
+    "tireGrip": 1.188,
+    "mass": 10000,
+    "centreOfMass": [
+      0.0,
+      0.785
+    ],
+    "size": [
+      8.598,
+      2.453
+    ],
+    "wheelMass": 120,
+    "bodyBoxes": [
+      [
+        -3.507,
+        3.507,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.183,
+        -2.999,
+        0.87,
+        2.031,
+        0.4
+      ],
+      [
+        2.999,
+        4.415,
+        0.87,
+        1.543,
+        0.4
+      ],
+      [
+        -2.999,
+        -2.034,
+        0.471,
+        2.031,
+        0.4
+      ],
+      [
+        -2.034,
+        0.116,
+        0.471,
+        2.031,
+        0.4
+      ],
+      [
+        0.116,
+        2.265,
+        0.471,
+        2.262,
+        0.4
+      ],
+      [
+        2.265,
+        2.999,
+        0.471,
+        1.543,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 3,
+      "centreOfMass": [
+        -1.604,
+        1.521
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6527,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.617,
+      "L": 25.15,
+      "R": 19.85
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 225
+  },
+  "load": {
+    "name": "Fence posts",
+    "massT": 3
+  }
+}

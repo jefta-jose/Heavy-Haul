@@ -1,0 +1,220 @@
+{
+  "id": "mast-rover-3",
+  "name": "Mast Rover",
+  "number": 3,
+  "class": "heavy-duty",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "4×4 utility bucket truck",
+  "description": "Forest green 4×4 utility bucket truck with a folded boom, on all-terrain tyres, with outriggers stowed, tool lockers; the folded insulated boom and work bucket.",
+  "stats": {
+    "power": 35,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 12
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      984,
+      755
+    ],
+    "pixelsPerMetre": 225.0,
+    "axles": [
+      2.276,
+      -2.276
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1496,
+        755,
+        141
+      ],
+      [
+        472,
+        755,
+        141
+      ]
+    ],
+    "exhaust": [
+      -3.244,
+      0.21
+    ],
+    "winch": [
+      3.198,
+      0.455
+    ],
+    "nose": 3.298,
+    "tail": -3.604
+  },
+  "physics": {
+    "mudPull": 1.229,
+    "tireGrip": 1.068,
+    "mass": 7000,
+    "centreOfMass": [
+      0.0,
+      0.923
+    ],
+    "size": [
+      6.902,
+      2.884
+    ],
+    "wheelMass": 156,
+    "bodyBoxes": [
+      [
+        -2.976,
+        2.976,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -3.604,
+        -2.486,
+        0.84,
+        2.596,
+        0.4
+      ],
+      [
+        2.486,
+        3.298,
+        0.84,
+        2.88,
+        0.4
+      ],
+      [
+        -2.486,
+        -1.304,
+        0.455,
+        2.596,
+        0.4
+      ],
+      [
+        -1.304,
+        0.997,
+        0.455,
+        2.64,
+        0.4
+      ],
+      [
+        0.997,
+        2.486,
+        0.455,
+        2.88,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 1,
+      "centreOfMass": [
+        -0.498,
+        2.451
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3319,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 6.744,
+      "L": 36.94,
+      "R": 29.0
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 189
+  },
+  "load": {
+    "name": "Boom",
+    "massT": 1
+  }
+}

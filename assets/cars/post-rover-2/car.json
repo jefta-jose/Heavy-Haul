@@ -1,0 +1,220 @@
+{
+  "id": "post-rover-2",
+  "name": "Post Rover",
+  "number": 2,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Lifted parcel van on mud tyres",
+  "description": "Safety orange lifted 4×4 parcel delivery van with a tall box body, on all-terrain tyres, with roof spotlights, side steps; cardboard parcels stacked behind the rear doors.",
+  "stats": {
+    "power": 30,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 11
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      974,
+      766
+    ],
+    "pixelsPerMetre": 259.231,
+    "axles": [
+      1.834,
+      -1.834
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1449,
+        766,
+        151
+      ],
+      [
+        498,
+        766,
+        151
+      ]
+    ],
+    "exhaust": [
+      -2.869,
+      0.195
+    ],
+    "winch": [
+      2.818,
+      0.423
+    ],
+    "nose": 2.918,
+    "tail": -3.188
+  },
+  "physics": {
+    "mudPull": 1.121,
+    "tireGrip": 1.038,
+    "mass": 4200.0,
+    "centreOfMass": [
+      0.0,
+      0.805
+    ],
+    "size": [
+      6.107,
+      2.515
+    ],
+    "wheelMass": 74,
+    "bodyBoxes": [
+      [
+        -2.484,
+        2.484,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -3.188,
+        -2.029,
+        0.78,
+        2.457,
+        0.4
+      ],
+      [
+        2.029,
+        2.918,
+        0.78,
+        2.245,
+        0.4
+      ],
+      [
+        -2.029,
+        -1.153,
+        0.423,
+        2.457,
+        0.4
+      ],
+      [
+        -1.153,
+        0.883,
+        0.423,
+        2.496,
+        0.4
+      ],
+      [
+        0.883,
+        2.029,
+        0.423,
+        2.245,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.5,
+      "centreOfMass": [
+        -0.746,
+        1.383
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2014,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 5.636,
+      "L": 31.6,
+      "R": 24.81
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 117
+  },
+  "load": {
+    "name": "Parcels",
+    "massT": 0.5
+  }
+}

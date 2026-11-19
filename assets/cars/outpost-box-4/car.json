@@ -1,0 +1,220 @@
+{
+  "id": "outpost-box-4",
+  "name": "Outpost Box",
+  "number": 4,
+  "class": "highway",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Medium 4×4 box truck full of supplies",
+  "description": "Sage green medium 4×4 box truck with a short conventional bonnet, on all-terrain tyres, with front winch, roof ladder; the box body full of supplies, roof spare wheels.",
+  "stats": {
+    "power": 37,
+    "speed": 63,
+    "grip": 45,
+    "capacity": 24
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      966,
+      753
+    ],
+    "pixelsPerMetre": 240.714,
+    "axles": [
+      1.849,
+      -1.849
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1411,
+        753,
+        151
+      ],
+      [
+        521,
+        753,
+        151
+      ]
+    ],
+    "exhaust": [
+      -2.759,
+      0.21
+    ],
+    "winch": [
+      2.908,
+      0.455
+    ],
+    "nose": 3.008,
+    "tail": -3.066
+  },
+  "physics": {
+    "mudPull": 1.266,
+    "tireGrip": 1.083,
+    "mass": 6500.0,
+    "centreOfMass": [
+      0.0,
+      0.892
+    ],
+    "size": [
+      6.074,
+      2.788
+    ],
+    "wheelMass": 98,
+    "bodyBoxes": [
+      [
+        -2.549,
+        2.549,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -3.066,
+        -2.059,
+        0.84,
+        2.779,
+        0.4
+      ],
+      [
+        2.059,
+        3.008,
+        0.84,
+        1.433,
+        0.4
+      ],
+      [
+        -2.059,
+        -1.041,
+        0.455,
+        2.779,
+        0.4
+      ],
+      [
+        -1.041,
+        0.983,
+        0.455,
+        2.75,
+        0.4
+      ],
+      [
+        0.983,
+        2.059,
+        0.455,
+        1.433,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 2,
+      "centreOfMass": [
+        -0.94,
+        1.673
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3821,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.389,
+      "L": 34.03,
+      "R": 26.71
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 153
+  },
+  "load": {
+    "name": "Supplies",
+    "massT": 2
+  }
+}

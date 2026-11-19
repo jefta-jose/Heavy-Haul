@@ -1,0 +1,209 @@
+{
+  "id": "scoop-3",
+  "name": "Scoop",
+  "number": 3,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Big wheel loader with a raised bucket",
+  "description": "Red big wheel loader with a raised bucket, on giant tyres, with bucket, ladders.",
+  "stats": {
+    "power": 32,
+    "speed": 27,
+    "grip": 80,
+    "capacity": 0
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      895,
+      786
+    ],
+    "pixelsPerMetre": 230.5,
+    "axles": [
+      1.592,
+      -1.592
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 1.0,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1262,
+        786,
+        207
+      ],
+      [
+        528,
+        786,
+        207
+      ]
+    ],
+    "exhaust": [
+      -3.022,
+      0.3
+    ],
+    "winch": [
+      3.857,
+      0.65
+    ],
+    "nose": 3.957,
+    "tail": -3.358
+  },
+  "physics": {
+    "mudPull": 1.634,
+    "tireGrip": 1.146,
+    "mass": 25000,
+    "centreOfMass": [
+      0.0,
+      1.002
+    ],
+    "size": [
+      7.315,
+      3.132
+    ],
+    "wheelMass": 117,
+    "bodyBoxes": [
+      [
+        -2.592,
+        2.592,
+        0.25,
+        0.7,
+        0.4
+      ],
+      [
+        -3.358,
+        -1.892,
+        1.2,
+        1.805,
+        0.4
+      ],
+      [
+        1.892,
+        3.957,
+        1.2,
+        2.842,
+        0.4
+      ],
+      [
+        -1.892,
+        -0.92,
+        0.65,
+        1.805,
+        0.4
+      ],
+      [
+        -0.92,
+        1.518,
+        0.65,
+        2.551,
+        0.4
+      ],
+      [
+        1.518,
+        1.892,
+        0.65,
+        2.842,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5572,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 322,
+    "exhaustBrake": 429,
+    "gears": {
+      "H": 21.677,
+      "L": 54.19,
+      "R": 42.54
+    },
+    "brakeTorque": 617400,
+    "openDiffGrip": 1,
+    "fuelLitres": 405
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "id": "brushfire-7",
+  "name": "Brushfire",
+  "number": 7,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 wildland fire engine",
+  "description": "Safety yellow 6×6 wildland fire engine with lockers and a water tank, on mud-terrain tyres, with roof monitor nozzle, hose reels, light bar; the water tank behind the lockers.",
+  "stats": {
+    "power": 49,
+    "speed": 63,
+    "grip": 70,
+    "capacity": 27
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      954,
+      708
+    ],
+    "pixelsPerMetre": 203.448,
+    "axles": [
+      2.821,
+      -1.037,
+      -2.821
+    ],
+    "wheelY": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1528,
+        708,
+        132
+      ],
+      [
+        743,
+        708,
+        132
+      ],
+      [
+        380,
+        708,
+        132
+      ]
+    ],
+    "exhaust": [
+      -3.813,
+      0.217
+    ],
+    "winch": [
+      4.039,
+      0.471
+    ],
+    "nose": 4.139,
+    "tail": -4.237
+  },
+  "physics": {
+    "mudPull": 1.533,
+    "tireGrip": 1.16,
+    "mass": 11000,
+    "centreOfMass": [
+      0.0,
+      0.945
+    ],
+    "size": [
+      8.376,
+      2.954
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.546,
+        3.546,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.237,
+        -3.038,
+        0.87,
+        2.428,
+        0.4
+      ],
+      [
+        3.038,
+        4.139,
+        0.87,
+        1.868,
+        0.4
+      ],
+      [
+        -3.038,
+        -2.143,
+        0.471,
+        2.428,
+        0.4
+      ],
+      [
+        -2.143,
+        -0.049,
+        0.471,
+        2.541,
+        0.4
+      ],
+      [
+        -0.049,
+        2.045,
+        0.471,
+        2.866,
+        0.4
+      ],
+      [
+        2.045,
+        3.038,
+        0.471,
+        1.868,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -2.562,
+        1.831
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7148,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 6.617,
+      "L": 25.15,
+      "R": 19.85
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  },
+  "load": {
+    "name": "Water",
+    "massT": 4
+  }
+}

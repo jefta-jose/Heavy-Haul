@@ -1,0 +1,202 @@
+{
+  "id": "wildcard-7",
+  "name": "Wildcard",
+  "number": 7,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Doors-off two-door 4×4 with a roll cage",
+  "description": "Mustard yellow modern removable-top two-door 4×4 with doors off and an exposed roll cage, on mud-terrain tyres, with rock sliders, front stinger bumper with winch.",
+  "stats": {
+    "power": 47,
+    "speed": 70,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Dirt"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      857,
+      768
+    ],
+    "pixelsPerMetre": 309.286,
+    "axles": [
+      1.212,
+      -1.212
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1232,
+        768,
+        194
+      ],
+      [
+        482,
+        768,
+        194
+      ]
+    ],
+    "exhaust": [
+      -1.9,
+      0.21
+    ],
+    "winch": [
+      2.396,
+      0.455
+    ],
+    "nose": 2.496,
+    "tail": -2.111
+  },
+  "physics": {
+    "mudPull": 1.498,
+    "tireGrip": 1.15,
+    "mass": 2800.0,
+    "centreOfMass": [
+      0.0,
+      0.566
+    ],
+    "size": [
+      4.607,
+      1.769
+    ],
+    "wheelMass": 194,
+    "bodyBoxes": [
+      [
+        -1.912,
+        1.912,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -2.111,
+        -1.422,
+        0.84,
+        1.765,
+        0.4
+      ],
+      [
+        1.422,
+        2.496,
+        0.84,
+        1.14,
+        0.4
+      ],
+      [
+        -1.422,
+        0.192,
+        0.455,
+        1.765,
+        0.4
+      ],
+      [
+        0.192,
+        1.422,
+        0.455,
+        1.086,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2274,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.781,
+      "L": 21.97,
+      "R": 17.34
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 112
+  }
+}

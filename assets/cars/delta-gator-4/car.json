@@ -1,0 +1,209 @@
+{
+  "id": "delta-gator-4",
+  "name": "Delta Gator",
+  "number": 4,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "4×4 amphibious truck",
+  "description": "Rust brown 4×4 amphibious truck with a boat-shaped hull, on mud-terrain tyres, with propeller guard, bow light, life ring.",
+  "stats": {
+    "power": 37,
+    "speed": 53,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Water",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      929,
+      704
+    ],
+    "pixelsPerMetre": 251.333,
+    "axles": [
+      1.786,
+      -1.786
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1378,
+        704,
+        169
+      ],
+      [
+        480,
+        704,
+        169
+      ]
+    ],
+    "exhaust": [
+      -2.926,
+      0.225
+    ],
+    "winch": [
+      3.258,
+      0.488
+    ],
+    "nose": 3.358,
+    "tail": -3.251
+  },
+  "physics": {
+    "mudPull": 1.466,
+    "tireGrip": 1.133,
+    "mass": 6000,
+    "centreOfMass": [
+      0.0,
+      0.76
+    ],
+    "size": [
+      6.609,
+      2.375
+    ],
+    "wheelMass": 183,
+    "bodyBoxes": [
+      [
+        -2.536,
+        2.536,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -3.251,
+        -2.011,
+        0.9,
+        1.584,
+        0.4
+      ],
+      [
+        2.011,
+        3.358,
+        0.9,
+        1.5,
+        0.4
+      ],
+      [
+        -2.011,
+        -1.048,
+        0.488,
+        1.584,
+        0.4
+      ],
+      [
+        -1.048,
+        1.155,
+        0.488,
+        2.367,
+        0.4
+      ],
+      [
+        1.155,
+        2.011,
+        0.488,
+        1.5,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3137,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 166,
+    "exhaustBrake": 214,
+    "gears": {
+      "H": 8.129,
+      "L": 39.54,
+      "R": 31.04
+    },
+    "brakeTorque": 14644,
+    "openDiffGrip": 1,
+    "fuelLitres": 180
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "id": "pebble-pickup-3",
+  "name": "Pebble Pickup",
+  "number": 3,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Lifted 1980s compact pickup with camping gear",
+  "description": "Forest green lifted 1980s compact two-door pickup with a short bed, on all-terrain tyres, with roof light bar, tube rock sliders; duffel bags, a cooler and a folded tent under a cargo net.",
+  "stats": {
+    "power": 35,
+    "speed": 63,
+    "grip": 45,
+    "capacity": 10
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      972,
+      730
+    ],
+    "pixelsPerMetre": 282.308,
+    "axles": [
+      1.72,
+      -1.72
+    ],
+    "wheelY": [
+      0.0,
+      0.0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1458,
+        730,
+        165
+      ],
+      [
+        487,
+        730,
+        165
+      ]
+    ],
+    "exhaust": [
+      -2.498,
+      0.195
+    ],
+    "winch": [
+      2.519,
+      0.423
+    ],
+    "nose": 2.619,
+    "tail": -2.775
+  },
+  "physics": {
+    "mudPull": 1.236,
+    "tireGrip": 1.071,
+    "mass": 2700.0,
+    "centreOfMass": [
+      0.0,
+      0.723
+    ],
+    "size": [
+      5.395,
+      2.26
+    ],
+    "wheelMass": 166,
+    "bodyBoxes": [
+      [
+        -2.37,
+        2.37,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.775,
+        -1.915,
+        0.78,
+        1.874,
+        0.4
+      ],
+      [
+        1.915,
+        2.619,
+        0.78,
+        1.828,
+        0.4
+      ],
+      [
+        -1.915,
+        -0.078,
+        0.423,
+        1.874,
+        0.4
+      ],
+      [
+        -0.078,
+        1.915,
+        0.423,
+        1.828,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.3,
+      "centreOfMass": [
+        -1.696,
+        1.401
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2127,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.933,
+      "L": 40.9,
+      "R": 32.11
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 90
+  },
+  "load": {
+    "name": "Camping gear",
+    "massT": 0.3
+  }
+}
