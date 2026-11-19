@@ -3,7 +3,7 @@
   "name": "Megahaul",
   "number": 13,
   "class": "heavy",
-  "drive": "10×10",
+  "drive": "8×8",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Teal prime mover carrying a transformer",
@@ -23,89 +23,83 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v3.png",
-      "width": 1000
+      "source": "source/vehicle-master-v1.png"
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v2.png"
+      "source": "source/body-v1.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v2.png",
-      "width": 512,
-      "sourceSize": [
-        1254,
-        1254
-      ]
+      "source": "source/wheel-v1.png"
     }
   },
   "rig": {
     "bodyOrigin": [
-      971,
-      781
+      958,
+      649
     ],
-    "pixelsPerMetre": 103.59,
+    "pixelsPerMetre": 86.885246,
     "axles": [
-      6.14,
-      2.23,
-      0.203,
-      -4.122,
-      -6.14
+      8.873774,
+      4.373585,
+      -6.353208,
+      -8.862264
     ],
     "wheelY": [
       0,
       0,
       0,
-      0,
       0
     ],
-    "radius": 0.975,
+    "radius": 1.22,
+    "wheelScale": [
+      1,
+      1,
+      1,
+      1
+    ],
     "wheelPivot": [
-      627,
+      626,
       627
     ],
-    "wheelArtRadius": 578,
+    "wheelArtRadius": 610.5,
     "farWheelOffset": [
       0.2,
       0.13
     ],
     "archCircles": [
       [
-        1607,
-        781,
-        103
+        1729,
+        649,
+        109
       ],
       [
-        1202,
-        781,
-        103
+        1338,
+        649,
+        109
       ],
       [
-        992,
-        781,
-        103
+        406,
+        649,
+        109
       ],
       [
-        544,
-        781,
-        103
-      ],
-      [
-        335,
-        781,
-        103
+        188,
+        649,
+        109
       ]
     ],
-    "nose": 8.263,
     "exhaust": [
-      1.82450043,
-      3.65865431
+      7.147358,
+      5.167736
     ],
     "winch": [
-      8.163,
-      0.682
-    ]
+      11.271,
+      0.61
+    ],
+    "nose": 11.371321,
+    "tail": -10.807358
   },
   "camera": {
     "zoom": 2.55
@@ -114,84 +108,84 @@
     "mudPull": 2.589,
     "mass": 62200,
     "centreOfMass": [
-      2,
-      0.8
+      6.341698,
+      1.464
     ],
     "size": [
-      16.305,
-      5.396
+      22.179,
+      6.71
     ],
-    "wheelMass": 300,
+    "wheelMass": 444,
     "tireGrip": 1.471,
     "bodyBoxes": [
       [
-        -8.041,
-        8.263,
-        0.975,
-        1.475,
+        -10.807358,
+        11.371321,
+        1.2566,
+        1.7446,
         1
       ],
       [
-        -8.041,
-        -5.712,
-        1.475,
-        2.259,
+        -5.881321,
+        -3.418302,
+        1.6836,
+        4.810943,
         0.4
       ],
       [
-        -5.712,
-        -3.383,
-        1.475,
-        5.309,
+        -3.418302,
+        -0.955283,
+        1.6836,
+        6.042453,
         0.4
       ],
       [
-        -3.383,
-        -1.054,
-        1.475,
-        5.348,
+        -0.955283,
+        1.519245,
+        1.6836,
+        5.973396,
         0.4
       ],
       [
-        -1.054,
-        1.276,
-        1.475,
-        4.054,
+        1.519245,
+        3.982264,
+        1.6836,
+        2.451509,
         0.4
       ],
       [
-        1.276,
-        3.605,
-        1.475,
-        4.141,
+        3.982264,
+        6.445283,
+        1.6836,
+        3.717547,
         0.4
       ],
       [
-        3.605,
-        5.934,
-        1.475,
-        4.17,
+        6.445283,
+        8.908302,
+        1.6836,
+        4.500189,
         0.4
       ],
       [
-        5.934,
-        8.263,
-        1.475,
-        2.22,
+        8.908302,
+        11.371321,
+        1.6836,
+        4.097358,
         0.4
       ]
     ],
     "suspension": {
-      "sag": 0.2,
+      "sag": 0.22,
       "travelUp": 0.5,
       "travelDown": 0.6,
-      "damping": 0.55
+      "damping": 0.5
     },
     "load": {
       "massT": 90,
       "centreOfMass": [
-        -3.234,
-        3.359
+        -1.818491,
+        3.441321
       ]
     }
   },
@@ -230,7 +224,7 @@
         0
       ]
     ],
-    "torqueScale": 8.0676,
+    "torqueScale": 8.0685,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
@@ -243,9 +237,9 @@
     "engineBrake": 428,
     "exhaustBrake": 570,
     "gears": {
-      "H": 11.272,
-      "L": 52,
-      "R": 38
+      "H": 14.104,
+      "L": 65.067,
+      "R": 47.549
     },
     "brakeTorque": 727135,
     "openDiffGrip": 1,
