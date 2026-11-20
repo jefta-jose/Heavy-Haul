@@ -1,0 +1,200 @@
+{
+  "id": "boulder-jack-15",
+  "name": "Boulder Jack",
+  "number": 15,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Tube-chassis rock racer",
+  "description": "Olive drab rock-racing tube-chassis 4×4 with a minimal body, exposed suspension and a high cage, on mud-terrain tyres, with front winch, rear spare wheel, light pods.",
+  "stats": {
+    "power": 75,
+    "speed": 73,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      754,
+      643
+    ],
+    "pixelsPerMetre": 320.267,
+    "axles": [
+      1.291,
+      -1.291
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1167,
+        643,
+        216
+      ],
+      [
+        340,
+        643,
+        216
+      ]
+    ],
+    "nose": 2.359,
+    "tail": -2.137,
+    "exhaust": [
+      -1.737,
+      0.225
+    ],
+    "winch": [
+      2.259,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.179,
+    "tireGrip": 1.356,
+    "mass": 3000,
+    "centreOfMass": [
+      0,
+      0.618
+    ],
+    "size": [
+      4.496,
+      1.93
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.041,
+        2.041,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -2.137,
+        -1.516,
+        0.9,
+        1.667,
+        0.4
+      ],
+      [
+        -1.516,
+        0.111,
+        0.487,
+        1.667,
+        0.4
+      ],
+      [
+        0.111,
+        1.516,
+        0.487,
+        1.233,
+        0.4
+      ],
+      [
+        1.516,
+        2.359,
+        0.9,
+        1.233,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3289,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.912,
+      "L": 22.464,
+      "R": 17.737
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 194
+  }
+}

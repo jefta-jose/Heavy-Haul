@@ -1,0 +1,232 @@
+{
+  "id": "hook-lift-11",
+  "name": "Hook Lift",
+  "number": 11,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 hook-lift truck",
+  "description": "Blue 6×6 hook-lift truck, on all-terrain tyres, with hook arm, beacons; a steel roll-off bin full of rubble.",
+  "stats": {
+    "power": 63,
+    "speed": 53,
+    "grip": 45,
+    "capacity": 29
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      893,
+      715
+    ],
+    "pixelsPerMetre": 186.444,
+    "axles": [
+      3.245,
+      -1.749,
+      -3.245
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1498,
+        715,
+        121
+      ],
+      [
+        567,
+        715,
+        121
+      ],
+      [
+        288,
+        715,
+        121
+      ]
+    ],
+    "nose": 4.709,
+    "tail": -4.285,
+    "exhaust": [
+      -3.885,
+      0.218
+    ],
+    "winch": [
+      4.609,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.838,
+    "tireGrip": 1.251,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.899
+    ],
+    "size": [
+      8.995,
+      2.81
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.97,
+        3.97,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.285,
+        -3.462,
+        0.87,
+        2.569,
+        0.4
+      ],
+      [
+        -3.462,
+        -2.037,
+        0.471,
+        2.569,
+        0.4
+      ],
+      [
+        -2.037,
+        0.212,
+        0.471,
+        2.633,
+        0.4
+      ],
+      [
+        0.212,
+        2.461,
+        0.471,
+        2.489,
+        0.4
+      ],
+      [
+        2.461,
+        3.463,
+        0.471,
+        1.791,
+        0.4
+      ],
+      [
+        3.463,
+        4.709,
+        0.87,
+        1.791,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 5,
+      "centreOfMass": [
+        -1.559,
+        1.833
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9156,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.858,
+      "L": 29.866,
+      "R": 23.573
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 279
+  },
+  "load": {
+    "name": "Roll-off bin",
+    "massT": 5
+  }
+}

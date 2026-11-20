@@ -1,0 +1,232 @@
+{
+  "id": "thornback-11",
+  "name": "Thornback",
+  "number": 11,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 army truck with loader crane",
+  "description": "Khaki 6×6 army truck with a loader crane, on mud-terrain tyres, with crane, front winch; crates on the bed.",
+  "stats": {
+    "power": 63,
+    "speed": 53,
+    "grip": 70,
+    "capacity": 25
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../ural-bear-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      848,
+      675
+    ],
+    "pixelsPerMetre": 197.791,
+    "axles": [
+      3.008,
+      -1.395,
+      -3.008
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1443,
+        675,
+        137
+      ],
+      [
+        572,
+        675,
+        137
+      ],
+      [
+        253,
+        675,
+        137
+      ]
+    ],
+    "nose": 4.525,
+    "tail": -4.075,
+    "exhaust": [
+      -3.675,
+      0.232
+    ],
+    "winch": [
+      4.425,
+      0.504
+    ]
+  },
+  "physics": {
+    "mudPull": 2.071,
+    "tireGrip": 1.32,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.852
+    ],
+    "size": [
+      8.6,
+      2.664
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.783,
+        3.783,
+        0.194,
+        0.542,
+        0.4
+      ],
+      [
+        -4.075,
+        -3.24,
+        0.93,
+        2.584,
+        0.4
+      ],
+      [
+        -3.24,
+        -1.925,
+        0.504,
+        2.584,
+        0.4
+      ],
+      [
+        -1.925,
+        0.225,
+        0.504,
+        2.629,
+        0.4
+      ],
+      [
+        0.225,
+        2.375,
+        0.504,
+        2.457,
+        0.4
+      ],
+      [
+        2.375,
+        3.241,
+        0.504,
+        1.557,
+        0.4
+      ],
+      [
+        3.241,
+        4.525,
+        0.93,
+        1.557,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.686,
+        1.439
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.0977,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 8.4,
+      "L": 25.731,
+      "R": 20.152
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 297
+  },
+  "load": {
+    "name": "Supplies",
+    "massT": 4
+  }
+}

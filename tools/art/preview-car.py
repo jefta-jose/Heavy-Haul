@@ -16,7 +16,11 @@ folder, out = Path(sys.argv[1]), sys.argv[2]
 car = json.loads((folder / 'car.json').read_text())
 rig = car['rig']
 body = registered_image(Image.open(folder / car['art']['body']['source']).convert('RGBA'), car['art']['body'])
-wheel = Image.open(folder / car['art']['wheel']['source']).convert('RGBA')
+wa = car['art']['wheel']
+if 'source' in wa:
+    wheel = Image.open(folder / wa['source']).convert('RGBA')
+else:   # a library wheel (assets/cars/WHEEL-LIBRARY.md): the donor's runtime sprite, back at source scale
+    wheel = Image.open(folder / wa['file']).convert('RGBA').resize(tuple(wa['sourceSize']), Image.LANCZOS)
 ppm, (ox, oy) = rig['pixelsPerMetre'], rig['bodyOrigin']
 scales = rig.get('wheelScale') or [1] * len(rig['axles'])
 def sprites(scale):

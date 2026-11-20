@@ -1,0 +1,200 @@
+{
+  "id": "safari-comet-16",
+  "name": "Safari Comet",
+  "number": 16,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Safari-lifted sports coupe",
+  "description": "Sky blue rear-engine sports coupe raised on long-travel safari suspension with flared arches, on all-terrain tyres, with roof rack with a spare wheel, light pod on the bonnet.",
+  "stats": {
+    "power": 80,
+    "speed": 97,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../sandpiper-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      900,
+      669
+    ],
+    "pixelsPerMetre": 373.077,
+    "axles": [
+      1.277,
+      -1.277
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1376,
+        669,
+        218
+      ],
+      [
+        423,
+        669,
+        218
+      ]
+    ],
+    "nose": 2.266,
+    "tail": -2.333,
+    "exhaust": [
+      -1.933,
+      0.195
+    ],
+    "winch": [
+      2.166,
+      0.423
+    ]
+  },
+  "physics": {
+    "mudPull": 2.284,
+    "tireGrip": 1.387,
+    "mass": 2600,
+    "centreOfMass": [
+      0,
+      0.531
+    ],
+    "size": [
+      4.6,
+      1.659
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -1.927,
+        1.927,
+        0.163,
+        0.455,
+        0.4
+      ],
+      [
+        -2.333,
+        -1.472,
+        0.78,
+        1.632,
+        0.4
+      ],
+      [
+        -1.472,
+        -0.034,
+        0.423,
+        1.632,
+        0.4
+      ],
+      [
+        -0.034,
+        1.472,
+        0.423,
+        0.957,
+        0.4
+      ],
+      [
+        1.472,
+        2.266,
+        0.78,
+        0.957,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2962,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 3.887,
+      "L": 14.769,
+      "R": 11.661
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 234
+  }
+}

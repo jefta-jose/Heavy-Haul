@@ -1,0 +1,207 @@
+{
+  "id": "sparkrock-13",
+  "name": "Sparkrock",
+  "number": 13,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Electric crew-cab off-road pickup",
+  "description": "Teal electric off-road crew-cab pickup with smooth slab sides and a full-width light strip, on all-terrain tyres, with bed tonneau, underbody skid plates.",
+  "stats": {
+    "power": 68,
+    "speed": 77,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../sandpiper-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      912,
+      658
+    ],
+    "pixelsPerMetre": 292.857,
+    "axles": [
+      1.803,
+      -1.803
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1440,
+        658,
+        184
+      ],
+      [
+        384,
+        658,
+        184
+      ]
+    ],
+    "nose": 2.711,
+    "tail": -2.882,
+    "exhaust": [
+      -2.482,
+      0.21
+    ],
+    "winch": [
+      2.611,
+      0.455
+    ]
+  },
+  "physics": {
+    "mudPull": 2.022,
+    "tireGrip": 1.308,
+    "mass": 3400,
+    "centreOfMass": [
+      0,
+      0.548
+    ],
+    "size": [
+      5.593,
+      1.711
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.503,
+        2.503,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -2.882,
+        -2.013,
+        0.84,
+        1.117,
+        0.4
+      ],
+      [
+        -2.013,
+        -1.018,
+        0.455,
+        1.117,
+        0.4
+      ],
+      [
+        -1.018,
+        0.847,
+        0.455,
+        1.707,
+        0.4
+      ],
+      [
+        0.847,
+        2.013,
+        0.455,
+        1.13,
+        0.4
+      ],
+      [
+        2.013,
+        2.711,
+        0.84,
+        1.13,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.35,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.278,
+      "L": 20.055,
+      "R": 15.835
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 171
+  }
+}

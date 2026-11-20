@@ -1,0 +1,221 @@
+{
+  "id": "rescue-hawk-13",
+  "name": "Rescue Hawk",
+  "number": 13,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 heavy rescue truck",
+  "description": "Brown 6×6 heavy rescue truck with a tall locker body, on all-terrain tyres, with light tower, roof beacons, side lockers.",
+  "stats": {
+    "power": 68,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1106,
+      544
+    ],
+    "pixelsPerMetre": 186.146,
+    "axles": [
+      3.446,
+      -1.695,
+      -3.446
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1747,
+        544,
+        125
+      ],
+      [
+        790,
+        544,
+        125
+      ],
+      [
+        464,
+        544,
+        125
+      ]
+    ],
+    "nose": 4.741,
+    "tail": -4.848,
+    "exhaust": [
+      -4.448,
+      0.225
+    ],
+    "winch": [
+      4.641,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.94,
+    "tireGrip": 1.281,
+    "mass": 14000,
+    "centreOfMass": [
+      0,
+      0.916
+    ],
+    "size": [
+      9.589,
+      2.863
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.196,
+        4.196,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.848,
+        -3.671,
+        0.9,
+        2.767,
+        0.4
+      ],
+      [
+        -3.671,
+        -2.451,
+        0.488,
+        2.767,
+        0.4
+      ],
+      [
+        -2.451,
+        -0.054,
+        0.488,
+        2.826,
+        0.4
+      ],
+      [
+        -0.054,
+        2.344,
+        0.488,
+        2.45,
+        0.4
+      ],
+      [
+        2.344,
+        3.671,
+        0.488,
+        1.638,
+        0.4
+      ],
+      [
+        3.671,
+        4.741,
+        0.9,
+        1.638,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7817,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.226,
+      "L": 27.463,
+      "R": 21.676
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 306
+  }
+}

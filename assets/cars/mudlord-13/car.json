@@ -1,0 +1,232 @@
+{
+  "id": "mudlord-13",
+  "name": "Mudlord",
+  "number": 13,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 building-materials flatbed",
+  "description": "Black 6×6 bonneted off-road truck with a flatbed, on mud-terrain tyres, with front winch, headache rack; pallets of materials strapped down.",
+  "stats": {
+    "power": 68,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 25
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1021,
+      565
+    ],
+    "pixelsPerMetre": 234.643,
+    "axles": [
+      2.847,
+      -1.172,
+      -2.847
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1689,
+        565,
+        168
+      ],
+      [
+        746,
+        565,
+        168
+      ],
+      [
+        353,
+        565,
+        168
+      ]
+    ],
+    "nose": 4.177,
+    "tail": -4.232,
+    "exhaust": [
+      -3.832,
+      0.24
+    ],
+    "winch": [
+      4.077,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.168,
+    "tireGrip": 1.35,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.743
+    ],
+    "size": [
+      8.409,
+      2.323
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.647,
+        3.647,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -4.232,
+        -3.087,
+        0.96,
+        1.901,
+        0.4
+      ],
+      [
+        -3.087,
+        -2.13,
+        0.52,
+        1.901,
+        0.4
+      ],
+      [
+        -2.13,
+        -0.028,
+        0.52,
+        1.871,
+        0.4
+      ],
+      [
+        -0.028,
+        2.074,
+        0.52,
+        2.169,
+        0.4
+      ],
+      [
+        2.074,
+        3.087,
+        0.52,
+        1.479,
+        0.4
+      ],
+      [
+        3.087,
+        4.177,
+        0.96,
+        1.479,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.68,
+        1.562
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1417,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 9.249,
+      "L": 28.332,
+      "R": 22.189
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 306
+  },
+  "load": {
+    "name": "Building materials",
+    "massT": 4
+  }
+}

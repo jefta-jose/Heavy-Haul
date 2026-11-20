@@ -1,0 +1,207 @@
+{
+  "id": "trophy-hawk-15",
+  "name": "Trophy Hawk",
+  "number": 15,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Desert trophy truck",
+  "description": "Burnt orange desert trophy truck: a pickup body on a long-travel race chassis with a big rear bed cage, on all-terrain tyres, with two spare wheels in the bed cage, roof scoop.",
+  "stats": {
+    "power": 78,
+    "speed": 93,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../overland-owl-12/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      994,
+      581
+    ],
+    "pixelsPerMetre": 306.724,
+    "axles": [
+      1.788,
+      -1.788
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1542,
+        581,
+        200
+      ],
+      [
+        445,
+        581,
+        200
+      ]
+    ],
+    "nose": 2.88,
+    "tail": -2.916,
+    "exhaust": [
+      -2.516,
+      0.218
+    ],
+    "winch": [
+      2.78,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 2.231,
+    "tireGrip": 1.371,
+    "mass": 3000,
+    "centreOfMass": [
+      0,
+      0.59
+    ],
+    "size": [
+      5.797,
+      1.842
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.513,
+        2.513,
+        0.181,
+        0.508,
+        0.4
+      ],
+      [
+        -2.916,
+        -2.005,
+        0.87,
+        1.79,
+        0.4
+      ],
+      [
+        -2.005,
+        -0.984,
+        0.471,
+        1.79,
+        0.4
+      ],
+      [
+        -0.984,
+        0.948,
+        0.471,
+        1.832,
+        0.4
+      ],
+      [
+        0.948,
+        2.006,
+        0.471,
+        1.148,
+        0.4
+      ],
+      [
+        2.006,
+        2.88,
+        0.87,
+        1.148,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3354,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 4.49,
+      "L": 17.062,
+      "R": 13.471
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 216
+  }
+}

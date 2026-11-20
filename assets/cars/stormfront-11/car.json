@@ -1,0 +1,228 @@
+{
+  "id": "stormfront-11",
+  "name": "Stormfront",
+  "number": 11,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 armoured personnel carrier",
+  "description": "Rust brown 8×8 armoured personnel carrier with sloped hull, on mud-terrain tyres, with roof hatches, smoke launchers.",
+  "stats": {
+    "power": 61,
+    "speed": 60,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      878,
+      672
+    ],
+    "pixelsPerMetre": 210.5,
+    "axles": [
+      2.558,
+      0.853,
+      -0.853,
+      -2.558
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1417,
+        672,
+        142
+      ],
+      [
+        1058,
+        672,
+        142
+      ],
+      [
+        699,
+        672,
+        142
+      ],
+      [
+        340,
+        672,
+        142
+      ]
+    ],
+    "nose": 4.026,
+    "tail": -3.969,
+    "exhaust": [
+      -3.569,
+      0.225
+    ],
+    "winch": [
+      3.926,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.999,
+    "tireGrip": 1.298,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      0.802
+    ],
+    "size": [
+      7.995,
+      2.508
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.308,
+        3.308,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -3.969,
+        -2.783,
+        0.9,
+        2.48,
+        0.4
+      ],
+      [
+        -2.783,
+        -1.97,
+        0.488,
+        2.48,
+        0.4
+      ],
+      [
+        -1.97,
+        0.029,
+        0.488,
+        2.413,
+        0.4
+      ],
+      [
+        0.029,
+        2.027,
+        0.488,
+        2.428,
+        0.4
+      ],
+      [
+        2.027,
+        2.783,
+        0.488,
+        1.705,
+        0.4
+      ],
+      [
+        2.783,
+        4.026,
+        0.9,
+        1.705,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1989,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 7.226,
+      "L": 22.134,
+      "R": 17.335
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 315
+  }
+}

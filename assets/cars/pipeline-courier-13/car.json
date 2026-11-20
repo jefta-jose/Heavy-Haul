@@ -1,0 +1,274 @@
+{
+  "id": "pipeline-courier-13",
+  "name": "Pipeline Courier",
+  "number": 13,
+  "class": "highway",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "10×10 pipe flatbed road train",
+  "description": "Lemon yellow conventional off-road tractor with a flatbed semi-trailer, on all-terrain tyres, with headache rack, beacons; steel pipe sections chained on the flatbed.",
+  "stats": {
+    "power": 71,
+    "speed": 57,
+    "grip": 45,
+    "capacity": 39
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../fuel-runner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      878,
+      590
+    ],
+    "pixelsPerMetre": 100.727,
+    "axles": [
+      6.885,
+      3.778,
+      2.209,
+      -5.356,
+      -6.885
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1572,
+        590,
+        63
+      ],
+      [
+        1259,
+        590,
+        63
+      ],
+      [
+        1101,
+        590,
+        63
+      ],
+      [
+        339,
+        590,
+        63
+      ],
+      [
+        185,
+        590,
+        63
+      ]
+    ],
+    "nose": 8.364,
+    "tail": -8.136,
+    "exhaust": [
+      -7.736,
+      0.21
+    ],
+    "winch": [
+      8.264,
+      0.455
+    ]
+  },
+  "physics": {
+    "mudPull": 2.016,
+    "tireGrip": 1.315,
+    "mass": 14000,
+    "centreOfMass": [
+      0,
+      1.179
+    ],
+    "size": [
+      16.5,
+      3.683
+    ],
+    "wheelMass": 342,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -7.585,
+        7.585,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -8.136,
+        -7.095,
+        0.84,
+        2.74,
+        0.4
+      ],
+      [
+        -7.095,
+        -6.073,
+        0.455,
+        2.74,
+        0.4
+      ],
+      [
+        -6.073,
+        -4.011,
+        0.455,
+        2.74,
+        0.4
+      ],
+      [
+        -4.011,
+        -1.948,
+        0.455,
+        2.74,
+        0.4
+      ],
+      [
+        -1.948,
+        0.114,
+        0.455,
+        2.74,
+        0.4
+      ],
+      [
+        0.114,
+        2.177,
+        0.455,
+        2.74,
+        0.4
+      ],
+      [
+        2.177,
+        4.239,
+        0.455,
+        3.356,
+        0.4
+      ],
+      [
+        4.239,
+        6.302,
+        0.455,
+        3.356,
+        0.4
+      ],
+      [
+        6.302,
+        7.095,
+        0.455,
+        2.065,
+        0.4
+      ],
+      [
+        7.095,
+        8.364,
+        0.84,
+        2.065,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 9,
+      "centreOfMass": [
+        -2.729,
+        1.631
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.311,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 644,
+    "exhaustBrake": 831,
+    "gears": {
+      "H": 7.141,
+      "L": 22.66,
+      "R": 17.712
+    },
+    "brakeTorque": 26684,
+    "openDiffGrip": 1,
+    "fuelLitres": 324
+  },
+  "load": {
+    "name": "Pipes",
+    "massT": 9
+  }
+}

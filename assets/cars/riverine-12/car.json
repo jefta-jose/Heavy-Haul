@@ -1,0 +1,228 @@
+{
+  "id": "riverine-12",
+  "name": "Riverine",
+  "number": 12,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 amphibious armoured carrier",
+  "description": "Swamp green 8×8 amphibious armoured carrier, on mud-terrain tyres, with trim vane, roof hatches.",
+  "stats": {
+    "power": 66,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1052,
+      514
+    ],
+    "pixelsPerMetre": 247.738,
+    "axles": [
+      2.507,
+      0.836,
+      -0.836,
+      -2.507
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1673,
+        514,
+        167
+      ],
+      [
+        1259,
+        514,
+        167
+      ],
+      [
+        845,
+        514,
+        167
+      ],
+      [
+        431,
+        514,
+        167
+      ]
+    ],
+    "nose": 4.335,
+    "tail": -4.057,
+    "exhaust": [
+      -3.657,
+      0.225
+    ],
+    "winch": [
+      4.235,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.12,
+    "tireGrip": 1.335,
+    "mass": 17000,
+    "centreOfMass": [
+      0,
+      0.631
+    ],
+    "size": [
+      8.392,
+      1.974
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.257,
+        3.257,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.057,
+        -2.732,
+        0.9,
+        1.703,
+        0.4
+      ],
+      [
+        -2.732,
+        -1.959,
+        0.487,
+        1.703,
+        0.4
+      ],
+      [
+        -1.959,
+        0.139,
+        0.487,
+        1.703,
+        0.4
+      ],
+      [
+        0.139,
+        2.237,
+        0.487,
+        1.933,
+        0.4
+      ],
+      [
+        2.237,
+        2.732,
+        0.487,
+        1.639,
+        0.4
+      ],
+      [
+        2.732,
+        4.335,
+        0.9,
+        1.639,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.1906,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 7.651,
+      "L": 23.436,
+      "R": 18.355
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 324
+  }
+}

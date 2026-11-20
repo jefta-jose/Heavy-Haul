@@ -1,0 +1,232 @@
+{
+  "id": "peatlander-10",
+  "name": "Peatlander",
+  "number": 10,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "6×6 balloon-tyre crawler",
+  "description": "Grey-green 6×6 balloon-tyre crawler truck with a cargo box, on flotation tyres, with front winch, amber beacon; the boxy cargo body.",
+  "stats": {
+    "power": 59,
+    "speed": 47,
+    "grip": 85,
+    "capacity": 15
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../floodwalker-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      835,
+      674
+    ],
+    "pixelsPerMetre": 204.025,
+    "axles": [
+      2.784,
+      -1.015,
+      -2.784
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1403,
+        674,
+        156
+      ],
+      [
+        628,
+        674,
+        156
+      ],
+      [
+        267,
+        674,
+        156
+      ]
+    ],
+    "nose": 4.401,
+    "tail": -3.794,
+    "exhaust": [
+      -3.394,
+      0.255
+    ],
+    "winch": [
+      4.301,
+      0.553
+    ]
+  },
+  "physics": {
+    "mudPull": 1.95,
+    "tireGrip": 1.283,
+    "mass": 11000,
+    "centreOfMass": [
+      0,
+      0.768
+    ],
+    "size": [
+      8.195,
+      2.666
+    ],
+    "wheelMass": 360,
+    "bodyBoxes": [
+      [
+        -3.634,
+        3.634,
+        0.212,
+        0.595,
+        0.4
+      ],
+      [
+        -3.794,
+        -3.039,
+        1.02,
+        2.323,
+        0.4
+      ],
+      [
+        -3.039,
+        -1.745,
+        0.552,
+        2.323,
+        0.4
+      ],
+      [
+        -1.745,
+        0.304,
+        0.552,
+        2.323,
+        0.4
+      ],
+      [
+        0.304,
+        2.353,
+        0.552,
+        2.343,
+        0.4
+      ],
+      [
+        2.353,
+        3.039,
+        0.552,
+        1.47,
+        0.4
+      ],
+      [
+        3.039,
+        4.401,
+        1.02,
+        1.47,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.22,
+      "travelUp": 0.55,
+      "travelDown": 0.65,
+      "damping": 0.5
+    },
+    "load": {
+      "massT": 2,
+      "centreOfMass": [
+        -1.31,
+        1.651
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.8494,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 282,
+    "exhaustBrake": 363,
+    "gears": {
+      "H": 10.529,
+      "L": 32.217,
+      "R": 25.256
+    },
+    "brakeTorque": 28370,
+    "openDiffGrip": 1,
+    "fuelLitres": 279
+  },
+  "load": {
+    "name": "Cargo box",
+    "massT": 2
+  }
+}

@@ -1,0 +1,295 @@
+{
+  "id": "bulk-bear-11",
+  "name": "Bulk Bear",
+  "number": 11,
+  "class": "heavy",
+  "drive": "14×14",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "14×14 prime mover with transformer lowbed",
+  "description": "Green 8×8 off-road prime mover with a heavy lowbed, on all-terrain tyres, with oversize flags, beacons; an electrical transformer.",
+  "stats": {
+    "power": 63,
+    "speed": 33,
+    "grip": 45,
+    "capacity": 53
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../steppe-liner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      896,
+      620
+    ],
+    "pixelsPerMetre": 85.15,
+    "axles": [
+      8.056,
+      6.4,
+      3.582,
+      1.95,
+      -4.674,
+      -6.365,
+      -8.056
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1582,
+        620,
+        61
+      ],
+      [
+        1441,
+        620,
+        61
+      ],
+      [
+        1201,
+        620,
+        61
+      ],
+      [
+        1062,
+        620,
+        61
+      ],
+      [
+        498,
+        620,
+        61
+      ],
+      [
+        354,
+        620,
+        61
+      ],
+      [
+        210,
+        620,
+        61
+      ]
+    ],
+    "nose": 9.865,
+    "tail": -10.135,
+    "exhaust": [
+      -9.735,
+      0.24
+    ],
+    "winch": [
+      9.765,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.188,
+    "tireGrip": 1.334,
+    "mass": 40000,
+    "centreOfMass": [
+      0,
+      1.563
+    ],
+    "size": [
+      20,
+      4.885
+    ],
+    "wheelMass": 378,
+    "bodyBoxes": [
+      [
+        -8.856,
+        8.856,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -10.135,
+        -8.296,
+        0.96,
+        3.911,
+        0.4
+      ],
+      [
+        -8.296,
+        -7.913,
+        0.52,
+        3.911,
+        0.4
+      ],
+      [
+        -7.913,
+        -5.691,
+        0.52,
+        4.827,
+        0.4
+      ],
+      [
+        -5.691,
+        -3.468,
+        0.52,
+        4.827,
+        0.4
+      ],
+      [
+        -3.468,
+        -1.246,
+        0.52,
+        3.922,
+        0.4
+      ],
+      [
+        -1.246,
+        0.976,
+        0.52,
+        2.736,
+        0.4
+      ],
+      [
+        0.976,
+        3.198,
+        0.52,
+        3.582,
+        0.4
+      ],
+      [
+        3.198,
+        5.42,
+        0.52,
+        3.958,
+        0.4
+      ],
+      [
+        5.42,
+        7.643,
+        0.52,
+        3.981,
+        0.4
+      ],
+      [
+        7.643,
+        8.296,
+        0.52,
+        2.466,
+        0.4
+      ],
+      [
+        8.296,
+        9.865,
+        0.96,
+        2.466,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 45,
+      "centreOfMass": [
+        -5.559,
+        3.191
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.4101,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 155,
+    "exhaustBrake": 207,
+    "gears": {
+      "H": 13.873,
+      "L": 64.989,
+      "R": 51.01
+    },
+    "brakeTorque": 161865,
+    "openDiffGrip": 1,
+    "fuelLitres": 612
+  },
+  "load": {
+    "name": "Transformer",
+    "massT": 45
+  }
+}

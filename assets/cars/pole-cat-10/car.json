@@ -1,0 +1,232 @@
+{
+  "id": "pole-cat-10",
+  "name": "Pole Cat",
+  "number": 10,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 digger-derrick utility truck",
+  "description": "Forest green 6×6 digger-derrick utility truck, on all-terrain tyres, with derrick boom stowed, auger; wooden utility poles on the side racks.",
+  "stats": {
+    "power": 59,
+    "speed": 53,
+    "grip": 45,
+    "capacity": 25
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      918,
+      720
+    ],
+    "pixelsPerMetre": 176.874,
+    "axles": [
+      3.488,
+      -1.905,
+      -3.488
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1535,
+        720,
+        115
+      ],
+      [
+        581,
+        720,
+        115
+      ],
+      [
+        301,
+        720,
+        115
+      ]
+    ],
+    "nose": 4.828,
+    "tail": -4.766,
+    "exhaust": [
+      -4.366,
+      0.218
+    ],
+    "winch": [
+      4.728,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.737,
+    "tireGrip": 1.22,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.85
+    ],
+    "size": [
+      9.594,
+      2.657
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.213,
+        4.213,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.766,
+        -3.705,
+        0.87,
+        2.629,
+        0.4
+      ],
+      [
+        -3.705,
+        -2.367,
+        0.471,
+        2.629,
+        0.4
+      ],
+      [
+        -2.367,
+        0.031,
+        0.471,
+        2.589,
+        0.4
+      ],
+      [
+        0.031,
+        2.43,
+        0.471,
+        2.657,
+        0.4
+      ],
+      [
+        2.43,
+        3.706,
+        0.471,
+        1.713,
+        0.4
+      ],
+      [
+        3.706,
+        4.828,
+        0.87,
+        1.713,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.166,
+        1.582
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.8291,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.858,
+      "L": 29.866,
+      "R": 23.573
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 270
+  },
+  "load": {
+    "name": "Utility poles",
+    "massT": 4
+  }
+}

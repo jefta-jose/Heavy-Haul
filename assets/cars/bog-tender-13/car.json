@@ -1,0 +1,232 @@
+{
+  "id": "bog-tender-13",
+  "name": "Bog Tender",
+  "number": 13,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "6×6 swamp generator truck",
+  "description": "Black 6×6 swamp utility truck with wide flotation tyres, on flotation tyres, with front winch, amber beacon; a generator set and fuel drums on the flatbed.",
+  "stats": {
+    "power": 71,
+    "speed": 50,
+    "grip": 85,
+    "capacity": 25
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../floodwalker-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1071,
+      515
+    ],
+    "pixelsPerMetre": 202.674,
+    "axles": [
+      2.995,
+      -1.155,
+      -2.995
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1678,
+        515,
+        145
+      ],
+      [
+        837,
+        515,
+        145
+      ],
+      [
+        464,
+        515,
+        145
+      ]
+    ],
+    "nose": 4.362,
+    "tail": -4.233,
+    "exhaust": [
+      -3.833,
+      0.24
+    ],
+    "winch": [
+      4.262,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.016,
+    "tireGrip": 1.304,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.799
+    ],
+    "size": [
+      8.595,
+      2.497
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.795,
+        3.795,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -4.233,
+        -3.235,
+        0.96,
+        2.339,
+        0.4
+      ],
+      [
+        -3.235,
+        -2.085,
+        0.52,
+        2.339,
+        0.4
+      ],
+      [
+        -2.085,
+        0.064,
+        0.52,
+        2.171,
+        0.4
+      ],
+      [
+        0.064,
+        2.213,
+        0.52,
+        2.284,
+        0.4
+      ],
+      [
+        2.213,
+        3.235,
+        0.52,
+        1.391,
+        0.4
+      ],
+      [
+        3.235,
+        4.362,
+        0.96,
+        1.391,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.641,
+        1.755
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9182,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 9.249,
+      "L": 35.153,
+      "R": 27.745
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 297
+  },
+  "load": {
+    "name": "Generator",
+    "massT": 4
+  }
+}
