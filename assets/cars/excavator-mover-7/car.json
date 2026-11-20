@@ -1,0 +1,297 @@
+{
+  "id": "excavator-mover-7",
+  "name": "Excavator Mover",
+  "number": 7,
+  "class": "heavy",
+  "drive": "14×14",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "14×14 low-loader with excavator",
+  "description": "Rust red prime mover with a lowbed trailer, on all-terrain tyres, with oversize flags, beacons; a tracked excavator on the lowbed.",
+  "stats": {
+    "power": 47,
+    "speed": 37,
+    "grip": 45,
+    "capacity": 47
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1120,
+      648
+    ],
+    "pixelsPerMetre": 105.333,
+    "axles": [
+      8.454,
+      4.324,
+      2.53,
+      -3.555,
+      -5.188,
+      -6.821,
+      -8.454
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2011,
+        648,
+        71
+      ],
+      [
+        1576,
+        648,
+        71
+      ],
+      [
+        1387,
+        648,
+        71
+      ],
+      [
+        746,
+        648,
+        71
+      ],
+      [
+        574,
+        648,
+        71
+      ],
+      [
+        402,
+        648,
+        71
+      ],
+      [
+        230,
+        648,
+        71
+      ]
+    ],
+    "nose": 10.068,
+    "tail": -9.907,
+    "exhaust": [
+      -9.507,
+      0.225
+    ],
+    "winch": [
+      9.968,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.882,
+    "tireGrip": 1.23,
+    "mass": 34000,
+    "centreOfMass": [
+      0,
+      1.519
+    ],
+    "size": [
+      19.975,
+      4.747
+    ],
+    "wheelMass": 378,
+    "bodyBoxes": [
+      [
+        -9.204,
+        9.204,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -9.907,
+        -8.679,
+        0.9,
+        2.155,
+        0.4
+      ],
+      [
+        -8.679,
+        -7.687,
+        0.488,
+        2.155,
+        0.4
+      ],
+      [
+        -7.687,
+        -5.468,
+        0.488,
+        1.861,
+        0.4
+      ],
+      [
+        -5.468,
+        -3.248,
+        0.488,
+        3.778,
+        0.4
+      ],
+      [
+        -3.248,
+        -1.029,
+        0.488,
+        4.177,
+        0.4
+      ],
+      [
+        -1.029,
+        1.19,
+        0.488,
+        4.519,
+        0.4
+      ],
+      [
+        1.19,
+        3.41,
+        0.488,
+        4.415,
+        0.4
+      ],
+      [
+        3.41,
+        5.629,
+        0.488,
+        3.788,
+        0.4
+      ],
+      [
+        5.629,
+        7.849,
+        0.488,
+        3.864,
+        0.4
+      ],
+      [
+        7.849,
+        8.679,
+        0.488,
+        2.373,
+        0.4
+      ],
+      [
+        8.679,
+        10.068,
+        0.9,
+        2.373,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 30,
+      "centreOfMass": [
+        -2.494,
+        3.962
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.9392,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 155,
+    "exhaustBrake": 207,
+    "gears": {
+      "H": 11.824,
+      "L": 55.388,
+      "R": 43.475
+    },
+    "brakeTorque": 161865,
+    "openDiffGrip": 1,
+    "fuelLitres": 558
+  },
+  "load": {
+    "name": "Tracked excavator",
+    "massT": 30
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "id": "sentinel-6",
+  "name": "Sentinel",
+  "number": 6,
+  "class": "offroad",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Armoured 4×4 patrol",
+  "description": "Black 4×4 armoured patrol truck with a V-shaped hull, on mud-terrain tyres, with roof hatch, spare wheel, antennas.",
+  "stats": {
+    "power": 44,
+    "speed": 60,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      972,
+      778
+    ],
+    "pixelsPerMetre": 244,
+    "axles": [
+      1.773,
+      -1.773
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1405,
+        778,
+        164
+      ],
+      [
+        540,
+        778,
+        164
+      ]
+    ],
+    "nose": 3.174,
+    "tail": -3.416,
+    "exhaust": [
+      -3.016,
+      0.225
+    ],
+    "winch": [
+      3.074,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.636,
+    "tireGrip": 1.185,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.948
+    ],
+    "size": [
+      6.59,
+      2.963
+    ],
+    "wheelMass": 208,
+    "bodyBoxes": [
+      [
+        -2.523,
+        2.523,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -3.416,
+        -1.998,
+        0.9,
+        2.193,
+        0.4
+      ],
+      [
+        -1.998,
+        -1.219,
+        0.487,
+        2.193,
+        0.4
+      ],
+      [
+        -1.219,
+        0.977,
+        0.487,
+        2.369,
+        0.4
+      ],
+      [
+        0.977,
+        1.998,
+        0.487,
+        1.23,
+        0.4
+      ],
+      [
+        1.998,
+        3.174,
+        0.9,
+        1.23,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6809,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 166,
+    "exhaustBrake": 214,
+    "gears": {
+      "H": 7.226,
+      "L": 24.163,
+      "R": 18.97
+    },
+    "brakeTorque": 14644,
+    "openDiffGrip": 1,
+    "fuelLitres": 234
+  }
+}

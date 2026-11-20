@@ -1,0 +1,234 @@
+{
+  "id": "timberline-freight-9",
+  "name": "Timberline Freight",
+  "number": 9,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 lumber flatbed",
+  "description": "Silver grey 6×6 conventional truck with a long-nose cab and flatbed, on all-terrain tyres, with headache rack, mud flaps; strapped packs of sawn lumber.",
+  "stats": {
+    "power": 56,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 31
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1200,
+      649
+    ],
+    "pixelsPerMetre": 227.586,
+    "axles": [
+      3.377,
+      -1.747,
+      -3.377
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1968,
+        649,
+        148
+      ],
+      [
+        802,
+        649,
+        148
+      ],
+      [
+        431,
+        649,
+        148
+      ]
+    ],
+    "nose": 4.422,
+    "tail": -4.967,
+    "exhaust": [
+      -4.567,
+      0.218
+    ],
+    "winch": [
+      4.322,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.702,
+    "tireGrip": 1.218,
+    "mass": 11000,
+    "centreOfMass": [
+      0,
+      0.847
+    ],
+    "size": [
+      9.39,
+      2.645
+    ],
+    "wheelMass": 132,
+    "bodyBoxes": [
+      [
+        -4.102,
+        4.102,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.967,
+        -3.594,
+        0.87,
+        1.977,
+        0.4
+      ],
+      [
+        -3.594,
+        -2.62,
+        0.471,
+        1.977,
+        0.4
+      ],
+      [
+        -2.62,
+        -0.272,
+        0.471,
+        1.977,
+        0.4
+      ],
+      [
+        -0.272,
+        2.075,
+        0.471,
+        2.408,
+        0.4
+      ],
+      [
+        2.075,
+        3.594,
+        0.471,
+        2.043,
+        0.4
+      ],
+      [
+        3.594,
+        4.422,
+        0.87,
+        2.043,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 5,
+      "centreOfMass": [
+        -2.002,
+        1.61
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.8317,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.985,
+      "L": 26.55,
+      "R": 20.953
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  },
+  "load": {
+    "name": "Lumber",
+    "massT": 5
+  }
+}

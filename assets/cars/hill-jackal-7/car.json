@@ -1,0 +1,234 @@
+{
+  "id": "hill-jackal-7",
+  "name": "Hill Jackal",
+  "number": 7,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 army cargo truck",
+  "description": "Olive drab 6×6 army cargo truck with a canvas canopy, on mud-terrain tyres, with front winch, spare wheel; the canvas-covered cargo bed.",
+  "stats": {
+    "power": 49,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 25
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      976,
+      767
+    ],
+    "pixelsPerMetre": 230.667,
+    "axles": [
+      2.616,
+      -0.93,
+      -2.616
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1580,
+        767,
+        155
+      ],
+      [
+        762,
+        767,
+        155
+      ],
+      [
+        373,
+        767,
+        155
+      ]
+    ],
+    "nose": 3.943,
+    "tail": -3.852,
+    "exhaust": [
+      -3.452,
+      0.225
+    ],
+    "winch": [
+      3.843,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.732,
+    "tireGrip": 1.215,
+    "mass": 9000,
+    "centreOfMass": [
+      0,
+      0.837
+    ],
+    "size": [
+      7.795,
+      2.618
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.366,
+        3.366,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -3.852,
+        -2.841,
+        0.9,
+        2.545,
+        0.4
+      ],
+      [
+        -2.841,
+        -1.903,
+        0.488,
+        2.545,
+        0.4
+      ],
+      [
+        -1.903,
+        0.046,
+        0.488,
+        2.545,
+        0.4
+      ],
+      [
+        0.046,
+        1.994,
+        0.488,
+        2.588,
+        0.4
+      ],
+      [
+        1.994,
+        2.841,
+        0.488,
+        1.487,
+        0.4
+      ],
+      [
+        2.841,
+        3.943,
+        0.9,
+        1.487,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 3,
+      "centreOfMass": [
+        -1.869,
+        1.92
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7133,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 7.651,
+      "L": 23.436,
+      "R": 18.355
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  },
+  "load": {
+    "name": "Crates",
+    "massT": 3
+  }
+}

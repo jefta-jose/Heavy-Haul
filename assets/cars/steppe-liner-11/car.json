@@ -1,0 +1,234 @@
+{
+  "id": "steppe-liner-11",
+  "name": "Steppe Liner",
+  "number": 11,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 curtain-side freighter",
+  "description": "Sage green 6×6 cab-over truck with a curtain-side box body, on all-terrain tyres, with roof spare wheel, side steps; the curtain-side box full of freight.",
+  "stats": {
+    "power": 61,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 29
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      940,
+      718
+    ],
+    "pixelsPerMetre": 176,
+    "axles": [
+      3.264,
+      -1.594,
+      -3.264
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1515,
+        718,
+        118
+      ],
+      [
+        660,
+        718,
+        118
+      ],
+      [
+        366,
+        718,
+        118
+      ]
+    ],
+    "nose": 4.827,
+    "tail": -4.821,
+    "exhaust": [
+      -4.421,
+      0.225
+    ],
+    "winch": [
+      4.727,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 1.799,
+    "tireGrip": 1.248,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      1.164
+    ],
+    "size": [
+      9.648,
+      3.636
+    ],
+    "wheelMass": 132,
+    "bodyBoxes": [
+      [
+        -4.014,
+        4.014,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.821,
+        -3.489,
+        0.9,
+        3.148,
+        0.4
+      ],
+      [
+        -3.489,
+        -2.409,
+        0.488,
+        3.148,
+        0.4
+      ],
+      [
+        -2.409,
+        0.003,
+        0.488,
+        3.148,
+        0.4
+      ],
+      [
+        0.003,
+        2.415,
+        0.488,
+        3.148,
+        0.4
+      ],
+      [
+        2.415,
+        3.489,
+        0.488,
+        3.625,
+        0.4
+      ],
+      [
+        3.489,
+        4.827,
+        0.9,
+        3.625,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 5,
+      "centreOfMass": [
+        -1.401,
+        1.974
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9084,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 7.226,
+      "L": 27.466,
+      "R": 21.675
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 261
+  },
+  "load": {
+    "name": "Freight",
+    "massT": 5
+  }
+}

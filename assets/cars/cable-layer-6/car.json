@@ -1,0 +1,234 @@
+{
+  "id": "cable-layer-6",
+  "name": "Cable Layer",
+  "number": 6,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 cable-drum carrier",
+  "description": "Brown 6×6 bonneted truck with a cable-drum carrier, on all-terrain tyres, with side tool lockers, beacons; a big wooden cable drum on its stand.",
+  "stats": {
+    "power": 44,
+    "speed": 57,
+    "grip": 45,
+    "capacity": 29
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      972,
+      760
+    ],
+    "pixelsPerMetre": 204.138,
+    "axles": [
+      2.922,
+      -1.286,
+      -2.922
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1568,
+        760,
+        133
+      ],
+      [
+        709,
+        760,
+        133
+      ],
+      [
+        375,
+        760,
+        133
+      ]
+    ],
+    "nose": 4.205,
+    "tail": -4.387,
+    "exhaust": [
+      -3.987,
+      0.218
+    ],
+    "winch": [
+      4.105,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.432,
+    "tireGrip": 1.129,
+    "mass": 10000,
+    "centreOfMass": [
+      0,
+      1.039
+    ],
+    "size": [
+      8.592,
+      3.248
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.647,
+        3.647,
+        0.181,
+        0.508,
+        0.4
+      ],
+      [
+        -4.387,
+        -3.139,
+        0.87,
+        2.616,
+        0.4
+      ],
+      [
+        -3.139,
+        -2.239,
+        0.471,
+        2.616,
+        0.4
+      ],
+      [
+        -2.239,
+        -0.091,
+        0.471,
+        3.218,
+        0.4
+      ],
+      [
+        -0.091,
+        2.057,
+        0.471,
+        2.827,
+        0.4
+      ],
+      [
+        2.057,
+        3.14,
+        0.471,
+        1.68,
+        0.4
+      ],
+      [
+        3.14,
+        4.205,
+        0.87,
+        1.68,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.432,
+        2.187
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.6371,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.396,
+      "L": 28.11,
+      "R": 22.186
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 225
+  },
+  "load": {
+    "name": "Cable drum",
+    "massT": 4
+  }
+}

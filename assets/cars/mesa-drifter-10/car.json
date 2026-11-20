@@ -1,0 +1,202 @@
+{
+  "id": "mesa-drifter-10",
+  "name": "Mesa Drifter",
+  "number": 10,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Expedition 4×4 wagon",
+  "description": "Forest green 1990s rally-raid boxy 4×4 wagon with widened arches and a raised air intake, on mud-terrain tyres, with snorkel, roof light pod, sand ladders on the side.",
+  "stats": {
+    "power": 59,
+    "speed": 77,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1000,
+      780
+    ],
+    "pixelsPerMetre": 351.429,
+    "axles": [
+      1.391,
+      -1.391
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1489,
+        780,
+        221
+      ],
+      [
+        511,
+        780,
+        221
+      ]
+    ],
+    "nose": 2.242,
+    "tail": -2.558,
+    "exhaust": [
+      -2.158,
+      0.21
+    ],
+    "winch": [
+      2.142,
+      0.455
+    ]
+  },
+  "physics": {
+    "mudPull": 1.786,
+    "tireGrip": 1.237,
+    "mass": 3000,
+    "centreOfMass": [
+      0,
+      0.579
+    ],
+    "size": [
+      4.8,
+      1.807
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.091,
+        2.091,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -2.558,
+        -1.601,
+        0.84,
+        1.648,
+        0.4
+      ],
+      [
+        -1.601,
+        -0.158,
+        0.455,
+        1.648,
+        0.4
+      ],
+      [
+        -0.158,
+        1.601,
+        0.455,
+        1.653,
+        0.4
+      ],
+      [
+        1.601,
+        2.242,
+        0.84,
+        1.653,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.279,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.278,
+      "L": 20.055,
+      "R": 15.835
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 130
+  }
+}

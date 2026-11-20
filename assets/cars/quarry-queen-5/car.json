@@ -1,0 +1,241 @@
+{
+  "id": "quarry-queen-5",
+  "name": "Quarry Queen",
+  "number": 5,
+  "class": "heavy",
+  "drive": "6×6",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "6×6 rock dump truck",
+  "description": "Blue 6×6 larger articulated dump truck, on giant tyres, with rock guard, beacons; stone in the dump body.",
+  "stats": {
+    "power": 42,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 45
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      966,
+      703
+    ],
+    "pixelsPerMetre": 153.684,
+    "axles": [
+      3.764,
+      -1.636,
+      -3.764
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.95,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 574,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1544,
+        703,
+        131
+      ],
+      [
+        714,
+        703,
+        131
+      ],
+      [
+        387,
+        703,
+        131
+      ]
+    ],
+    "nose": 5.632,
+    "tail": -5.866,
+    "exhaust": [
+      -5.466,
+      0.285
+    ],
+    "winch": [
+      5.532,
+      0.617
+    ]
+  },
+  "physics": {
+    "mudPull": 1.806,
+    "tireGrip": 1.204,
+    "mass": 30000,
+    "centreOfMass": [
+      0,
+      1.156
+    ],
+    "size": [
+      11.498,
+      3.611
+    ],
+    "wheelMass": 448,
+    "bodyBoxes": [
+      [
+        -4.714,
+        4.714,
+        0.237,
+        0.665,
+        0.4
+      ],
+      [
+        -5.866,
+        -4.049,
+        1.14,
+        3.227,
+        0.4
+      ],
+      [
+        -4.049,
+        -3.566,
+        0.617,
+        3.227,
+        0.4
+      ],
+      [
+        -3.566,
+        -1.267,
+        0.617,
+        3.54,
+        0.4
+      ],
+      [
+        -1.267,
+        1.033,
+        0.617,
+        3.338,
+        0.4
+      ],
+      [
+        1.033,
+        3.332,
+        0.617,
+        3.208,
+        0.4
+      ],
+      [
+        3.332,
+        4.049,
+        0.617,
+        1.907,
+        0.4
+      ],
+      [
+        4.049,
+        5.632,
+        1.14,
+        1.907,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 25,
+      "centreOfMass": [
+        -2.354,
+        2.719
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.5299,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 14.977,
+      "L": 76,
+      "R": 59.66
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 414
+  },
+  "load": {
+    "name": "Stone",
+    "massT": 25
+  }
+}

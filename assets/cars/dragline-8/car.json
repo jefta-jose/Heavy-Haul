@@ -1,0 +1,251 @@
+{
+  "id": "dragline-8",
+  "name": "Dragline",
+  "number": 8,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "10×10 crane carrier",
+  "description": "Orange 10×10 all-terrain mobile crane with the boom stowed, on all-terrain tyres, with boom, outriggers.",
+  "stats": {
+    "power": 51,
+    "speed": 40,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Rock",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1153,
+      666
+    ],
+    "pixelsPerMetre": 150,
+    "axles": [
+      5.093,
+      3.227,
+      -1.34,
+      -3.22,
+      -5.093
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1917,
+        666,
+        108
+      ],
+      [
+        1637,
+        666,
+        108
+      ],
+      [
+        952,
+        666,
+        108
+      ],
+      [
+        670,
+        666,
+        108
+      ],
+      [
+        389,
+        666,
+        108
+      ]
+    ],
+    "nose": 6.813,
+    "tail": -7.167,
+    "exhaust": [
+      -6.767,
+      0.24
+    ],
+    "winch": [
+      6.713,
+      0.52
+    ]
+  },
+  "physics": {
+    "mass": 48000,
+    "centreOfMass": [
+      0,
+      1.142
+    ],
+    "size": [
+      13.98,
+      3.567
+    ],
+    "wheelMass": 367,
+    "tireGrip": 1.263,
+    "mudPull": 1.978,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -5.893,
+        5.893,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -7.167,
+        -5.333,
+        0.96,
+        3.493,
+        0.4
+      ],
+      [
+        -5.333,
+        -4.837,
+        0.52,
+        3.493,
+        0.4
+      ],
+      [
+        -4.837,
+        -2.507,
+        0.52,
+        3.527,
+        0.4
+      ],
+      [
+        -2.507,
+        -0.177,
+        0.52,
+        3.5,
+        0.4
+      ],
+      [
+        -0.177,
+        2.153,
+        0.52,
+        3.5,
+        0.4
+      ],
+      [
+        2.153,
+        4.483,
+        0.52,
+        3.5,
+        0.4
+      ],
+      [
+        4.483,
+        5.333,
+        0.52,
+        3.527,
+        0.4
+      ],
+      [
+        5.333,
+        6.813,
+        0.96,
+        3.527,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.6015,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 186,
+    "exhaustBrake": 248,
+    "gears": {
+      "H": 11.561,
+      "L": 46.261,
+      "R": 39.953
+    },
+    "brakeTorque": 190163,
+    "openDiffGrip": 1,
+    "fuelLitres": 540
+  }
+}

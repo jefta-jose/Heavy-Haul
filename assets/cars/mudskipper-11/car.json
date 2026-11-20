@@ -1,0 +1,213 @@
+{
+  "id": "mudskipper-11",
+  "name": "Mudskipper",
+  "number": 11,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Portal-axle 4×4 utility truck",
+  "description": "Cherry red compact portal-axle multipurpose 4×4 with a small two-seat cab and a short drop-side flatbed, on mud-terrain tyres, with front implement plate, amber beacon; steel tool boxes and a coiled hose on the flatbed.",
+  "stats": {
+    "power": 61,
+    "speed": 60,
+    "grip": 70,
+    "capacity": 11
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      948,
+      746
+    ],
+    "pixelsPerMetre": 303.448,
+    "axles": [
+      1.547,
+      -1.547
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1418,
+        746,
+        198
+      ],
+      [
+        479,
+        746,
+        198
+      ]
+    ],
+    "nose": 2.526,
+    "tail": -2.48,
+    "exhaust": [
+      -2.08,
+      0.218
+    ],
+    "winch": [
+      2.426,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.838,
+    "tireGrip": 1.253,
+    "mass": 3200,
+    "centreOfMass": [
+      0,
+      0.728
+    ],
+    "size": [
+      5.006,
+      2.274
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.272,
+        2.272,
+        0.181,
+        0.508,
+        0.4
+      ],
+      [
+        -2.48,
+        -1.764,
+        0.87,
+        1.865,
+        0.4
+      ],
+      [
+        -1.764,
+        0.023,
+        0.471,
+        1.865,
+        0.4
+      ],
+      [
+        0.023,
+        1.765,
+        0.471,
+        2.043,
+        0.4
+      ],
+      [
+        1.765,
+        2.526,
+        0.87,
+        2.043,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 0.4,
+      "centreOfMass": [
+        -1.333,
+        1.686
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3449,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 6.985,
+      "L": 26.541,
+      "R": 20.956
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 126
+  },
+  "load": {
+    "name": "Tool boxes",
+    "massT": 0.4
+  }
+}

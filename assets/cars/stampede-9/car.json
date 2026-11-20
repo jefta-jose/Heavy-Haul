@@ -1,0 +1,202 @@
+{
+  "id": "stampede-9",
+  "name": "Stampede",
+  "number": 9,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Lifted muscle-car trail racer",
+  "description": "Burnt orange 1960s muscle coupe converted into a lifted off-road buggy: long hood, cut-away fenders, exposed roll cage, on mud-terrain tyres, with blower poking through the hood, rear spare wheel.",
+  "stats": {
+    "power": 54,
+    "speed": 77,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1024,
+      662
+    ],
+    "pixelsPerMetre": 379.259,
+    "axles": [
+      1.396,
+      -1.396
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.675,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1553,
+        662,
+        230
+      ],
+      [
+        494,
+        662,
+        230
+      ]
+    ],
+    "nose": 2.364,
+    "tail": -2.525,
+    "exhaust": [
+      -2.125,
+      0.203
+    ],
+    "winch": [
+      2.264,
+      0.439
+    ]
+  },
+  "physics": {
+    "mudPull": 1.681,
+    "tireGrip": 1.205,
+    "mass": 2600,
+    "centreOfMass": [
+      0,
+      0.427
+    ],
+    "size": [
+      4.888,
+      1.334
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.071,
+        2.071,
+        0.169,
+        0.472,
+        0.4
+      ],
+      [
+        -2.525,
+        -1.598,
+        0.81,
+        1.31,
+        0.4
+      ],
+      [
+        -1.598,
+        -0.08,
+        0.439,
+        1.31,
+        0.4
+      ],
+      [
+        -0.08,
+        1.599,
+        0.439,
+        1.052,
+        0.4
+      ],
+      [
+        1.599,
+        2.364,
+        0.81,
+        1.052,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.2313,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.089,
+      "L": 19.338,
+      "R": 15.269
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 135
+  }
+}

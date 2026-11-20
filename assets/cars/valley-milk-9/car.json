@@ -1,0 +1,234 @@
+{
+  "id": "valley-milk-9",
+  "name": "Valley Milk",
+  "number": 9,
+  "class": "highway",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "6×6 milk tanker",
+  "description": "Safety orange 6×6 bonneted truck with a short polished tank body, on all-terrain tyres, with tank walkway, roof beacon; the stainless tank with a rear ladder.",
+  "stats": {
+    "power": 54,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 29
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "art/wheel.webp",
+      "source": "source/wheel-v1.png",
+      "width": 512,
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      970,
+      695
+    ],
+    "pixelsPerMetre": 197.241,
+    "axles": [
+      3.006,
+      -1.318,
+      -3.006
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1563,
+        695,
+        128
+      ],
+      [
+        710,
+        695,
+        128
+      ],
+      [
+        377,
+        695,
+        128
+      ]
+    ],
+    "nose": 4.315,
+    "tail": -4.482,
+    "exhaust": [
+      -4.082,
+      0.218
+    ],
+    "winch": [
+      4.215,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.653,
+    "tireGrip": 1.203,
+    "mass": 10000,
+    "centreOfMass": [
+      0,
+      0.924
+    ],
+    "size": [
+      8.796,
+      2.885
+    ],
+    "wheelMass": 132,
+    "bodyBoxes": [
+      [
+        -3.731,
+        3.731,
+        0.181,
+        0.508,
+        0.4
+      ],
+      [
+        -4.482,
+        -3.223,
+        0.87,
+        2.707,
+        0.4
+      ],
+      [
+        -3.223,
+        -2.283,
+        0.471,
+        2.707,
+        0.4
+      ],
+      [
+        -2.283,
+        -0.084,
+        0.471,
+        2.819,
+        0.4
+      ],
+      [
+        -0.084,
+        2.115,
+        0.471,
+        2.682,
+        0.4
+      ],
+      [
+        2.115,
+        3.223,
+        0.471,
+        1.501,
+        0.4
+      ],
+      [
+        3.223,
+        4.315,
+        0.87,
+        1.501,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.951,
+        2.051
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7164,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.985,
+      "L": 26.55,
+      "R": 20.953
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 234
+  },
+  "load": {
+    "name": "Milk tank",
+    "massT": 4
+  }
+}
