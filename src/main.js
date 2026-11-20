@@ -327,7 +327,7 @@ window.addEventListener('resize', resize);
 // seconds the canvas resolution steps down, and after a long steady spell it climbs back. Start-up frames are slow while art caches build, so
 // adaptation waits 5 s, and the resize happens before drawing (resizing clears the canvas).
 const DT = 1 / 120, TOUCH = matchMedia('(pointer: coarse)').matches;
-const MIN_QUALITY = TOUCH ? 0.8 : 0.6;   // a phone stays this sharp even if it can't hold 50 fps
+const MIN_QUALITY = TOUCH ? 0.65 : 0.6;   // how far a slow device may step its resolution down (phones: 0.8 until 2026-11-21)
 let last = performance.now(), acc = 0, slowT = 0, frameAvg = 1 / 60, pendingResize = false;
 // a climb that soon has to step down again means this phone can't hold it: wait twice as long next time
 let steadyT = 0, climbAfter = 20, climbedAt = -Infinity;

@@ -24,11 +24,16 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v3.png",
-      "width": 1000
+      "width": 1000,
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v2.png"
+      "source": "source/body-v2.png",
+      "sourceSize": [
+        1966,
+        1079
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",

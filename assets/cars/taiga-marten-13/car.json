@@ -3,11 +3,11 @@
   "name": "Taiga Marten",
   "number": 13,
   "class": "scout",
-  "drive": "4\u00d74",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
-  "tagline": "Safety orange 4\u00d74 pickup scout with an open bed",
-  "description": "Safety orange 4\u00d74 pickup scout with an open bed, carrying two brown-and-white calves behind wooden side rails.",
+  "tagline": "Safety orange 4×4 pickup scout with an open bed",
+  "description": "Safety orange 4×4 pickup scout with an open bed, carrying two brown-and-white calves behind wooden side rails.",
   "stats": {
     "power": 69,
     "speed": 76,
@@ -24,11 +24,16 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v2.png",
-      "width": 1000
+      "width": 1000,
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v1.png",
+      "sourceSize": [
+        1784,
+        882
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",

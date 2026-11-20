@@ -3,11 +3,11 @@
   "name": "Bog Hopper",
   "number": 14,
   "class": "scout",
-  "drive": "4\u00d74",
+  "drive": "4×4",
   "wheelType": "chained",
   "status": "playable",
-  "tagline": "Olive 4\u00d74 pickup scout with an open bed",
-  "description": "Olive 4\u00d74 pickup scout with an open bed, carrying three goats behind wooden side rails.",
+  "tagline": "Olive 4×4 pickup scout with an open bed",
+  "description": "Olive 4×4 pickup scout with an open bed, carrying three goats behind wooden side rails.",
   "stats": {
     "power": 74,
     "speed": 79,
@@ -24,11 +24,16 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v1.png",
-      "width": 1000
+      "width": 1000,
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png"
+      "source": "source/body-v1.png",
+      "sourceSize": [
+        1774,
+        887
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",

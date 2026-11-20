@@ -24,7 +24,8 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v1.png",
-      "width": 1000
+      "width": 1000,
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
@@ -42,7 +43,11 @@
           1.00834296,
           -3.52111146
         ]
-      }
+      },
+      "sourceSize": [
+        2172,
+        724
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",

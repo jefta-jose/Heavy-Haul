@@ -1,17 +1,16 @@
 import { makeCanvas, puff } from '../canvas-utils.js';
 import {
   WEATHER_COUNTS, WEATHER_PHONE_SHARE, WEATHER_NEAR_DEPTH, BIRD_FLOCK_EVERY_S, LIGHTNING_EVERY_S, TUMBLEWEED_EVERY_S,
-  RAYS_PARALLAX, RAYS_SPACING, MIST_BASE,
+  MIST_BASE,
 } from '../../game-config.js';
 
-// The air of a map: weather, sun shafts, drifting mist, bird flocks, lightning and tumbleweeds, all from
+// The air of a map: weather, drifting mist, bird flocks, lightning and tumbleweeds, all from
 // season.json render.atmosphere. Everything is drawn in screen space from sprites made once (no per-frame
 // gradients or filters) and batched into a few paths, so a phone keeps its frame rate:
 //
 //   "atmosphere": {
 //     "weather": [{ "kind": "rain", "density": 1 }],   rain, drizzle, snow, ash, embers, leaves, dust, grit, pollen, butterflies
 //     "wind": -0.6,                                     blowing to the right when positive (leaves, dust, rain slant, tumbleweeds)
-//     "rays": { "x": 0.8, "color": "255,236,190", "strength": 0.5 },   sun shafts, starting at this share of the screen width and sliding past as you drive
 //     "mist": { "color": "226,236,230", "strength": 0.5 },             ground fog rising between the road and the backdrop
 //     "storm": 0.3, "lightning": true,                 a darker sky top (baked into the backdrop) and flashes
 //     "birds": true, "tumbleweeds": true, "lensDrops": 1.5            rain drops landing on the camera, per second
@@ -65,30 +64,6 @@ function sprites() {
   };
   return SPR;
 }
-// soft shafts of sunlight fanning down from above the top edge; x (share of the width) only sets their slant. The source
-// sits in the middle of a canvas wide enough for every shaft, and the canvas fades out at its sides and bottom, so no
-// shaft is ever cut off by its edge as the shafts slide across the screen
-const RAYS_W = 1024, RAYS_H = 512;
-function raysCanvas(x, color) {
-  const c = makeCanvas(RAYS_W, RAYS_H), g = c.getContext('2d'), ox = RAYS_W / 2, oy = -80;
-  g.globalCompositeOperation = 'lighter';
-  for (let i = 0; i < 9; i++) {
-    const a = Math.PI / 2 + (x - 0.5) * -1.1 + rand(-0.55, 0.55), w = rand(0.025, 0.075), len = rand(380, 520);
-    const grad = g.createLinearGradient(ox, oy, ox + Math.cos(a) * len, oy + Math.sin(a) * len);
-    grad.addColorStop(0, `rgba(${color},0)`); grad.addColorStop(0.25, `rgba(${color},${rand(0.22, 0.4).toFixed(2)})`); grad.addColorStop(1, `rgba(${color},0)`);
-    g.fillStyle = grad; g.beginPath(); g.moveTo(ox, oy);
-    g.lineTo(ox + Math.cos(a - w) * len, oy + Math.sin(a - w) * len); g.lineTo(ox + Math.cos(a + w) * len, oy + Math.sin(a + w) * len);
-    g.closePath(); g.fill();
-  }
-  g.globalCompositeOperation = 'destination-in';
-  const side = g.createLinearGradient(0, 0, RAYS_W, 0);
-  side.addColorStop(0, 'rgba(0,0,0,0)'); side.addColorStop(0.15, 'rgba(0,0,0,1)'); side.addColorStop(0.85, 'rgba(0,0,0,1)'); side.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = side; g.fillRect(0, 0, RAYS_W, RAYS_H);
-  const foot = g.createLinearGradient(0, 0, 0, RAYS_H);
-  foot.addColorStop(0, 'rgba(0,0,0,1)'); foot.addColorStop(0.7, 'rgba(0,0,0,1)'); foot.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = foot; g.fillRect(0, 0, RAYS_W, RAYS_H);
-  return c;
-}
 // a seamless sheet of ground fog (it tiles horizontally): thick at the bottom, thinning upwards into an uneven,
 // billowy top, so it reads as fog rising from below rather than a flat strip
 function fogCanvas(color) {
@@ -108,13 +83,12 @@ function fogCanvas(color) {
 
 export function createAtmosphere(scene) {
   let cfg = null, parts = [], flocks = [], weeds = [], time = 0, size = '', last = null;
-  let birdT = 0, boltT = 0, weedT = 0, flash = 0, flashQ = [], bolt = null, rays = null, fog = null;
+  let birdT = 0, boltT = 0, weedT = 0, flash = 0, flashQ = [], bolt = null, fog = null;
 
   function setup() {
     cfg = scene.season.render.atmosphere ?? {};
     parts = []; flocks = []; weeds = []; last = null; flash = 0; flashQ = []; bolt = null;
     birdT = rand(2, 6); boltT = between(LIGHTNING_EVERY_S); weedT = rand(1, 3);
-    rays = cfg.rays ? raysCanvas(cfg.rays.x ?? 0.75, cfg.rays.color ?? '255,236,190') : null;
     fog = cfg.mist ? fogCanvas(cfg.mist.color ?? '226,236,230') : null;
     size = '';
   }
@@ -274,24 +248,10 @@ export function createAtmosphere(scene) {
     }
   }
 
-  // behind the trail: sun shafts, bolts, birds, mist and the far weather (a storm's dark sky is baked into the backdrop: sprite-cache.js)
+  // behind the trail: bolts, birds, mist and the far weather (a storm's dark sky is baked into the backdrop: sprite-cache.js)
   function drawSky() {
     if (!cfg) setup();
     const { W, H, ppm, cam } = scene.view, ctx = screen(), s = Math.min(1.35, Math.max(0.75, H / 810));
-    if (rays && scene.view.quality >= 0.85) {
-      ctx.globalCompositeOperation = 'lighter';
-      // the shafts' source slides back as the truck drives on and the clusters repeat, fading in and out at the edges
-      const share = cfg.rays.x ?? 0.75, period = W * RAYS_SPACING, rw = W * 1.12 * RAYS_W / 512;
-      const src = (((share * W - cam.x * ppm * RAYS_PARALLAX) % period) + period) % period;
-      const pulse = (cfg.rays.strength ?? 0.5) * (0.72 + 0.28 * Math.sin(time * 0.35));
-      for (const o of [src - period, src, src + period]) {
-        const edge = Math.min(o + W * 0.25, W * 1.25 - o) / (W * 0.35);
-        if (edge <= 0) continue;
-        ctx.globalAlpha = pulse * Math.min(1, edge);
-        ctx.drawImage(rays, o - rw / 2 + Math.sin(time * 0.11) * W * 0.02, 0, rw, H * 0.92 * RAYS_H / 384);
-      }
-      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
-    }
     if (bolt) {
       ctx.lineJoin = 'round';
       for (const [w, a] of [[9, 0.18], [3.2, 0.55], [1.4, 1]]) {

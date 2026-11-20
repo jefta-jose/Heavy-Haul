@@ -23,15 +23,24 @@
   "art": {
     "master": {
       "file": "art/master.webp",
-      "source": "source/vehicle-master-v1.png"
+      "source": "source/vehicle-master-v1.png",
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v2.png"
+      "source": "source/body-v2.png",
+      "sourceSize": [
+        2146,
+        733
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",
-      "source": "source/wheel-v1.png"
+      "source": "source/wheel-v1.png",
+      "sourceSize": [
+        1254,
+        1254
+      ]
     }
   },
   "rig": {

@@ -3,11 +3,11 @@
   "name": "Mechanic Scout",
   "number": null,
   "class": "scout",
-  "drive": "4\u00d74",
+  "drive": "4×4",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Scout-class recovery pickup that never gets stuck",
-  "description": "A yellow 4\u00d74 recovery pickup for the scouts. Call it from the start of the trail, back it up to a stuck scout, hook the winch and tow. It never gets stuck and never runs dry.",
+  "description": "A yellow 4×4 recovery pickup for the scouts. Call it from the start of the trail, back it up to a stuck scout, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
     "power": 95,
     "grip": 88,
@@ -21,11 +21,16 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v7.png",
-      "width": 1000
+      "width": 1000,
+      "quality": 85
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v5.png"
+      "source": "source/body-v5.png",
+      "sourceSize": [
+        1900,
+        1129
+      ]
     },
     "wheel": {
       "file": "art/wheel.webp",

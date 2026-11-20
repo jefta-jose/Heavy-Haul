@@ -2280,11 +2280,6 @@
         }
       ],
       "wind": -1,
-      "rays": {
-        "x": 0.85,
-        "color": "255,226,180",
-        "strength": 0.35
-      },
       "birds": true,
       "birdColor": "rgba(48,30,22,0.8)",
       "tumbleweeds": true

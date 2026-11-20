@@ -25,7 +25,7 @@ export function createVehicleLayer(scene) {
   const raise = ctx => { if (raised.lift || raised.tilt) { ctx.translate(0, raised.lift); ctx.rotate(Math.atan(raised.tilt)); } };
 
   function drawBody(rig, C, body, src, dx = 0, dy = 0) {
-    const { ctx } = view, p = body.getPosition(), k = 1 / rig.pixelsPerMetre, A = C.images.body;
+    const { ctx } = view, p = body.getPosition(), k = 1 / rig.pixelsPerMetre, A = C.bodySize;
     ctx.save(); ctx.translate(p.x + dx, p.y + dy); ctx.rotate(body.getAngle()); raise(ctx); ctx.scale(1, -1);
     ctx.drawImage(src, -rig.bodyOrigin[0] * k, -rig.bodyOrigin[1] * k, A.width * k, A.height * k); ctx.restore();
   }
@@ -43,7 +43,7 @@ export function createVehicleLayer(scene) {
     return null;
   }
   function drawGlow(v, { color, pale, strength }) {
-    const C = rigCache(v.car), rig = v.car.rig, { ctx } = view, { truck, wheels } = v.parts, A = C.images.body, W = C.wheelSize, k = 1 / rig.pixelsPerMetre;
+    const C = rigCache(v.car), rig = v.car.rig, { ctx } = view, { truck, wheels } = v.parts, A = C.bodySize, W = C.wheelSize, k = 1 / rig.pixelsPerMetre;
     const artRadius = i => wheelRadius(rig, i) / rig.wheelArtRadius;
     const halo = C.haloOf(color, pale, A.width * k / C.body.width, W.width * artRadius(0) / C.wheel.width);
     const put = (h, src, x, y, w, ht) => { const px = h.pad * w / src.width, py = h.pad * ht / src.height; ctx.drawImage(h.canvas, x - px, y - py, w + px * 2, ht + py * 2); };
@@ -60,7 +60,7 @@ export function createVehicleLayer(scene) {
   }
   // Nitro's speed lines: thin blue streaks racing back off the truck's tail
   function drawSpeedLines(v) {
-    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
+    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).bodySize, k = 1 / rig.pixelsPerMetre;
     const tail = -rig.bodyOrigin[0] * k, height = A.height * k, top = rig.bodyOrigin[1] * k;
     ctx.save(); ctx.lineCap = 'round';
     for (let i = 0; i < 9; i++) {
@@ -72,7 +72,7 @@ export function createVehicleLayer(scene) {
     ctx.restore();
   }
   function drawSparkles(v, strength) {
-    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
+    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).bodySize, k = 1 / rig.pixelsPerMetre;
     const a = A.width * k / 2 + 0.2, b = A.height * k / 2 + 0.15, cx = (A.width / 2 - rig.bodyOrigin[0]) * k, cy = (rig.bodyOrigin[1] - A.height / 2) * k;
     ctx.save(); ctx.fillStyle = '#fff';
     for (let i = 0; i < 7; i++) {

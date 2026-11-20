@@ -142,7 +142,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    unrelated cars, seasons and HUD art. Reuse measured registrations and run checks once after
    the batch. Regenerate only an actual visible defect, never an accepted resolution exception
    or placement drift that can be corrected and verified at export.
-6. Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
+6. Run `uv run --with pillow python tools/art/shrink-art.py` (2026-11-21): it shrinks bodies and wheels to what the camera can
+   show and records `sourceSize`, so the rig keeps its measured pixels. Phones need it; it is safe to re-run.
+   Check that every wheel sits in its arch at rest and under compression, nothing floats or clips, and
    `zoomFor` frames it well on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
