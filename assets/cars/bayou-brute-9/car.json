@@ -1,0 +1,207 @@
+{
+  "id": "bayou-brute-9",
+  "name": "Bayou Brute",
+  "number": 9,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "Giant-tyre swamp buggy",
+  "description": "Sand camouflage 6×6 swamp buggy with giant tyres and a raised cab, on flotation tyres, with roof spotlights, tube railings.",
+  "stats": {
+    "power": 56,
+    "speed": 43,
+    "grip": 85,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Water",
+    "Forest"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../floodwalker-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      875,
+      722
+    ],
+    "pixelsPerMetre": 235.556,
+    "axles": [
+      2.29,
+      -0.112,
+      -2.29
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1414,
+        722,
+        191
+      ],
+      [
+        848,
+        722,
+        191
+      ],
+      [
+        335,
+        722,
+        191
+      ]
+    ],
+    "nose": 3.755,
+    "tail": -3.64,
+    "exhaust": [
+      -3.24,
+      0.27
+    ],
+    "winch": [
+      3.655,
+      0.585
+    ]
+  },
+  "physics": {
+    "mudPull": 1.902,
+    "tireGrip": 1.268,
+    "mass": 9000,
+    "centreOfMass": [
+      0,
+      0.916
+    ],
+    "size": [
+      7.395,
+      2.861
+    ],
+    "wheelMass": 184,
+    "bodyBoxes": [
+      [
+        -3.19,
+        3.19,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -3.64,
+        -2.56,
+        1.08,
+        1.507,
+        0.4
+      ],
+      [
+        -2.56,
+        0,
+        0.585,
+        1.507,
+        0.4
+      ],
+      [
+        0,
+        2.56,
+        0.585,
+        2.607,
+        0.4
+      ],
+      [
+        2.56,
+        3.755,
+        1.08,
+        1.571,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.5739,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 166,
+    "exhaustBrake": 214,
+    "gears": {
+      "H": 12.612,
+      "L": 42.17,
+      "R": 33.1
+    },
+    "brakeTorque": 14644,
+    "openDiffGrip": 1,
+    "fuelLitres": 270
+  }
+}

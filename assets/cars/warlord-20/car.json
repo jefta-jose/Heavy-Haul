@@ -1,0 +1,260 @@
+{
+  "id": "warlord-20",
+  "name": "Warlord",
+  "number": 20,
+  "class": "offroad",
+  "drive": "12×12",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "12×12 cross-country hauler",
+  "description": "Dark olive 12×12 heavy cross-country truck, carrying tarped heavy cargo, on mud-terrain tyres, with front winch, roof spotlights.",
+  "stats": {
+    "power": 95,
+    "speed": 47,
+    "grip": 70,
+    "capacity": 30
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "load": {
+    "name": "Heavy cargo",
+    "massT": 12
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1082,
+      591
+    ],
+    "pixelsPerMetre": 148.889,
+    "axles": [
+      5.437,
+      3.328,
+      0.85,
+      -1.172,
+      -3.274,
+      -5.437
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1891,
+        591,
+        121
+      ],
+      [
+        1577,
+        591,
+        121
+      ],
+      [
+        1208,
+        591,
+        121
+      ],
+      [
+        907,
+        591,
+        121
+      ],
+      [
+        594,
+        591,
+        121
+      ],
+      [
+        272,
+        591,
+        121
+      ]
+    ],
+    "nose": 7.23,
+    "tail": -7.17,
+    "exhaust": [
+      -6.77,
+      0.27
+    ],
+    "winch": [
+      7.13,
+      0.585
+    ]
+  },
+  "physics": {
+    "mudPull": 2.749,
+    "tireGrip": 1.53,
+    "mass": 28000,
+    "centreOfMass": [
+      0,
+      1.212
+    ],
+    "size": [
+      14.4,
+      3.788
+    ],
+    "wheelMass": 503,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -6.337,
+        6.337,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -7.17,
+        -5.707,
+        1.08,
+        2.418,
+        0.4
+      ],
+      [
+        -5.707,
+        -3.424,
+        0.585,
+        3.009,
+        0.4
+      ],
+      [
+        -3.424,
+        -1.141,
+        0.585,
+        3.029,
+        0.4
+      ],
+      [
+        -1.141,
+        1.141,
+        0.585,
+        3.063,
+        0.4
+      ],
+      [
+        1.141,
+        3.424,
+        0.585,
+        3.157,
+        0.4
+      ],
+      [
+        3.424,
+        5.707,
+        0.585,
+        3.13,
+        0.4
+      ],
+      [
+        5.707,
+        7.23,
+        1.08,
+        1.76,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.47,
+        2.273
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.4827,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 586,
+    "exhaustBrake": 755,
+    "gears": {
+      "H": 17.995,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 39748,
+    "openDiffGrip": 1,
+    "fuelLitres": 504
+  }
+}

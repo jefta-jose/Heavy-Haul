@@ -1,0 +1,214 @@
+{
+  "id": "red-clay-14",
+  "name": "Red Clay",
+  "number": 14,
+  "class": "offroad",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Armoured expedition 6×6",
+  "description": "Olive drab 6×6 armoured expedition truck, on mud-terrain tyres, with roof cargo, ladders, spare wheels.",
+  "stats": {
+    "power": 73,
+    "speed": 60,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../ural-bear-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1209,
+      665
+    ],
+    "pixelsPerMetre": 226.25,
+    "axles": [
+      2.78,
+      -1.109,
+      -2.78
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1838,
+        665,
+        163
+      ],
+      [
+        958,
+        665,
+        163
+      ],
+      [
+        580,
+        665,
+        163
+      ]
+    ],
+    "nose": 4.23,
+    "tail": -4.782,
+    "exhaust": [
+      -4.382,
+      0.24
+    ],
+    "winch": [
+      4.13,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.265,
+    "tireGrip": 1.38,
+    "mass": 14000,
+    "centreOfMass": [
+      0,
+      0.888
+    ],
+    "size": [
+      9.012,
+      2.776
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.58,
+        3.58,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -4.782,
+        -3.02,
+        0.96,
+        2.723,
+        0.4
+      ],
+      [
+        -3.02,
+        -1.007,
+        0.52,
+        2.771,
+        0.4
+      ],
+      [
+        -1.007,
+        1.007,
+        0.52,
+        2.736,
+        0.4
+      ],
+      [
+        1.007,
+        3.02,
+        0.52,
+        2.25,
+        0.4
+      ],
+      [
+        3.02,
+        4.23,
+        0.96,
+        1.436,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.0344,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 9.249,
+      "L": 28.332,
+      "R": 22.189
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 342
+  }
+}

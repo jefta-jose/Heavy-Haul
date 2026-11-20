@@ -1,0 +1,225 @@
+{
+  "id": "bore-hound-8",
+  "name": "Bore Hound",
+  "number": 8,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Water-well drill rig",
+  "description": "Fire red 6×6 water-well drill rig with its mast folded down, carrying the lowered drilling mast and pipe rack, on all-terrain tyres, with outriggers stowed, tool boxes.",
+  "stats": {
+    "power": 51,
+    "speed": 53,
+    "grip": 45,
+    "capacity": 25
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Drill mast",
+    "massT": 4
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1148,
+      653
+    ],
+    "pixelsPerMetre": 227.586,
+    "axles": [
+      3.087,
+      -1.465,
+      -3.087
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1850,
+        653,
+        149
+      ],
+      [
+        814,
+        653,
+        149
+      ],
+      [
+        445,
+        653,
+        149
+      ]
+    ],
+    "nose": 4.326,
+    "tail": -4.862,
+    "exhaust": [
+      -4.462,
+      0.218
+    ],
+    "winch": [
+      4.226,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.584,
+    "tireGrip": 1.175,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      0.848
+    ],
+    "size": [
+      9.188,
+      2.65
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.812,
+        3.812,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.862,
+        -3.304,
+        0.87,
+        2.518,
+        0.4
+      ],
+      [
+        -3.304,
+        -1.101,
+        0.471,
+        2.469,
+        0.4
+      ],
+      [
+        -1.101,
+        1.102,
+        0.471,
+        2.469,
+        0.4
+      ],
+      [
+        1.102,
+        3.305,
+        0.471,
+        2.601,
+        0.4
+      ],
+      [
+        3.305,
+        4.326,
+        0.87,
+        1.314,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.768,
+        1.59
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.7781,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.858,
+      "L": 29.866,
+      "R": 23.573
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 252
+  }
+}

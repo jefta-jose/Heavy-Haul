@@ -1,0 +1,218 @@
+{
+  "id": "magma-16",
+  "name": "Magma",
+  "number": 16,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Red rock mining hauler",
+  "description": "Red two-axle mining hauler, carrying red rock in the body, on giant tyres, with handrails.",
+  "stats": {
+    "power": 80,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 50
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Red rock",
+    "massT": 60
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../kraken-20/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1029,
+      776
+    ],
+    "pixelsPerMetre": 159.091,
+    "axles": [
+      3.093,
+      -3.093
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 1.65,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1521,
+        776,
+        236
+      ],
+      [
+        537,
+        776,
+        236
+      ]
+    ],
+    "nose": 6.003,
+    "tail": -6.003,
+    "exhaust": [
+      -5.603,
+      0.495
+    ],
+    "winch": [
+      5.903,
+      1.073
+    ]
+  },
+  "physics": {
+    "mudPull": 2.436,
+    "mass": 60000,
+    "centreOfMass": [
+      0,
+      1.484
+    ],
+    "size": [
+      12.006,
+      4.639
+    ],
+    "wheelMass": 350,
+    "tireGrip": 1.419,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -4.743,
+        4.743,
+        0.413,
+        1.155,
+        0.4
+      ],
+      [
+        -6.003,
+        -3.588,
+        1.98,
+        4.161,
+        0.4
+      ],
+      [
+        -3.588,
+        -1.196,
+        1.073,
+        4.526,
+        0.4
+      ],
+      [
+        -1.196,
+        1.196,
+        1.073,
+        4.431,
+        0.4
+      ],
+      [
+        1.196,
+        3.588,
+        1.073,
+        4.293,
+        0.4
+      ],
+      [
+        3.588,
+        6.003,
+        1.98,
+        4.205,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 60,
+      "centreOfMass": [
+        -0.6,
+        3.155
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.7721,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 23.648,
+      "L": 75.733,
+      "R": 55.343
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 810
+  }
+}

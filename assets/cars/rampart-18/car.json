@@ -1,0 +1,232 @@
+{
+  "id": "rampart-18",
+  "name": "Rampart",
+  "number": 18,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Heavy tactical 8×8",
+  "description": "Khaki 8×8 heavy tactical truck with drop sides, carrying stacked olive supply boxes, on mud-terrain tyres, with crane, spare wheel.",
+  "stats": {
+    "power": 87,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 29
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "load": {
+    "name": "Supply boxes",
+    "massT": 8
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1043,
+      647
+    ],
+    "pixelsPerMetre": 199.091,
+    "axles": [
+      3.782,
+      1.678,
+      -1.728,
+      -3.782
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.825,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1796,
+        647,
+        148
+      ],
+      [
+        1377,
+        647,
+        148
+      ],
+      [
+        699,
+        647,
+        148
+      ],
+      [
+        290,
+        647,
+        148
+      ]
+    ],
+    "nose": 5.52,
+    "tail": -5.093,
+    "exhaust": [
+      -4.693,
+      0.247
+    ],
+    "winch": [
+      5.42,
+      0.536
+    ]
+  },
+  "physics": {
+    "mudPull": 2.604,
+    "tireGrip": 1.485,
+    "mass": 20000,
+    "centreOfMass": [
+      0,
+      0.855
+    ],
+    "size": [
+      10.613,
+      2.672
+    ],
+    "wheelMass": 370,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.607,
+        4.607,
+        0.206,
+        0.577,
+        0.4
+      ],
+      [
+        -5.093,
+        -4.029,
+        0.99,
+        2.361,
+        0.4
+      ],
+      [
+        -4.029,
+        -1.343,
+        0.536,
+        2.361,
+        0.4
+      ],
+      [
+        -1.343,
+        1.343,
+        0.536,
+        2.597,
+        0.4
+      ],
+      [
+        1.343,
+        4.029,
+        0.536,
+        2.506,
+        0.4
+      ],
+      [
+        4.029,
+        5.52,
+        0.99,
+        1.939,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -1.287,
+        1.603
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.3274,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 564,
+    "exhaustBrake": 727,
+    "gears": {
+      "H": 14.129,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 41466,
+    "openDiffGrip": 1,
+    "fuelLitres": 414
+  }
+}

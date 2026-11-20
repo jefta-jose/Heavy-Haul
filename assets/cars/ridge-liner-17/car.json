@@ -1,0 +1,267 @@
+{
+  "id": "ridge-liner-17",
+  "name": "Ridge Liner",
+  "number": 17,
+  "class": "highway",
+  "drive": "12×12",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Lowboy dozer hauler",
+  "description": "Maroon long-nose conventional 6×4 tractor with a sleeper and a lowboy trailer, carrying a compact bulldozer chained on the lowboy, on all-terrain tyres, with roo bar, oversize flags.",
+  "stats": {
+    "power": 83,
+    "speed": 57,
+    "grip": 45,
+    "capacity": 38
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "load": {
+    "name": "Small dozer",
+    "massT": 10
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../fuel-runner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1140,
+      607
+    ],
+    "pixelsPerMetre": 119.31,
+    "axles": [
+      7.48,
+      3.441,
+      1.924,
+      -4.446,
+      -5.963,
+      -7.48
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2032,
+        607,
+        78
+      ],
+      [
+        1550,
+        607,
+        78
+      ],
+      [
+        1369,
+        607,
+        78
+      ],
+      [
+        609,
+        607,
+        78
+      ],
+      [
+        428,
+        607,
+        78
+      ],
+      [
+        247,
+        607,
+        78
+      ]
+    ],
+    "nose": 8.746,
+    "tail": -8.746,
+    "exhaust": [
+      -8.346,
+      0.218
+    ],
+    "winch": [
+      8.646,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 2.283,
+    "tireGrip": 1.398,
+    "mass": 16000,
+    "centreOfMass": [
+      0,
+      1.124
+    ],
+    "size": [
+      17.492,
+      3.512
+    ],
+    "wheelMass": 342,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -8.205,
+        8.205,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -8.746,
+        -7.698,
+        0.87,
+        2.825,
+        0.4
+      ],
+      [
+        -7.698,
+        -5.132,
+        0.471,
+        1.366,
+        0.4
+      ],
+      [
+        -5.132,
+        -2.566,
+        0.471,
+        3.235,
+        0.4
+      ],
+      [
+        -2.566,
+        0,
+        0.471,
+        1.844,
+        0.4
+      ],
+      [
+        0,
+        2.566,
+        0.471,
+        1.366,
+        0.4
+      ],
+      [
+        2.566,
+        5.132,
+        0.471,
+        3.118,
+        0.4
+      ],
+      [
+        5.132,
+        7.698,
+        0.471,
+        2.724,
+        0.4
+      ],
+      [
+        7.698,
+        8.746,
+        0.87,
+        2.087,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -2.25,
+        1.932
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.5917,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 644,
+    "exhaustBrake": 831,
+    "gears": {
+      "H": 7.141,
+      "L": 22.66,
+      "R": 17.712
+    },
+    "brakeTorque": 26684,
+    "openDiffGrip": 1,
+    "fuelLitres": 378
+  }
+}

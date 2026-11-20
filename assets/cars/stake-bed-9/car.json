@@ -1,0 +1,225 @@
+{
+  "id": "stake-bed-9",
+  "name": "Stake Bed",
+  "number": 9,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "6×6 farm stake-bed",
+  "description": "Municipal orange 6×6 farm stake-bed truck, carrying square hay bales stacked between stakes, on mud-terrain tyres, with front bull bar, beacons.",
+  "stats": {
+    "power": 54,
+    "speed": 57,
+    "grip": 70,
+    "capacity": 29
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Hay bales",
+    "massT": 4
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      898,
+      696
+    ],
+    "pixelsPerMetre": 197.241,
+    "axles": [
+      3.012,
+      -1.151,
+      -3.012
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1492,
+        696,
+        129
+      ],
+      [
+        671,
+        696,
+        129
+      ],
+      [
+        304,
+        696,
+        129
+      ]
+    ],
+    "nose": 4.345,
+    "tail": -4.477,
+    "exhaust": [
+      -4.077,
+      0.218
+    ],
+    "winch": [
+      4.245,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.635,
+    "tireGrip": 1.19,
+    "mass": 10000,
+    "centreOfMass": [
+      0,
+      0.943
+    ],
+    "size": [
+      8.822,
+      2.946
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.737,
+        3.737,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.477,
+        -3.229,
+        0.87,
+        2.586,
+        0.4
+      ],
+      [
+        -3.229,
+        -1.076,
+        0.471,
+        2.586,
+        0.4
+      ],
+      [
+        -1.076,
+        1.077,
+        0.471,
+        2.576,
+        0.4
+      ],
+      [
+        1.077,
+        3.23,
+        0.471,
+        2.418,
+        0.4
+      ],
+      [
+        3.23,
+        4.345,
+        0.87,
+        1.516,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 4,
+      "centreOfMass": [
+        -1.566,
+        1.768
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.696,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.858,
+      "L": 29.866,
+      "R": 23.573
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  }
+}

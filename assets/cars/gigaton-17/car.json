@@ -1,0 +1,218 @@
+{
+  "id": "gigaton-17",
+  "name": "Gigaton",
+  "number": 17,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Ultra-class mining hauler",
+  "description": "Dark grey two-axle ultra-class mining hauler, carrying ore in the body, on giant tyres, with handrails.",
+  "stats": {
+    "power": 83,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 50
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Ore",
+    "massT": 65
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../titan-tipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1019,
+      806
+    ],
+    "pixelsPerMetre": 159.412,
+    "axles": [
+      3.281,
+      -3.281
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 1.7,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1542,
+        806,
+        244
+      ],
+      [
+        496,
+        806,
+        244
+      ]
+    ],
+    "nose": 6.223,
+    "tail": -6.267,
+    "exhaust": [
+      -5.867,
+      0.51
+    ],
+    "winch": [
+      6.123,
+      1.105
+    ]
+  },
+  "physics": {
+    "mudPull": 2.474,
+    "mass": 64000,
+    "centreOfMass": [
+      0,
+      1.548
+    ],
+    "size": [
+      12.49,
+      4.837
+    ],
+    "wheelMass": 350,
+    "tireGrip": 1.432,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -4.981,
+        4.981,
+        0.425,
+        1.19,
+        0.4
+      ],
+      [
+        -6.267,
+        -3.791,
+        2.04,
+        4.335,
+        0.4
+      ],
+      [
+        -3.791,
+        -1.264,
+        1.105,
+        4.768,
+        0.4
+      ],
+      [
+        -1.264,
+        1.264,
+        1.105,
+        4.655,
+        0.4
+      ],
+      [
+        1.264,
+        3.791,
+        1.105,
+        4.598,
+        0.4
+      ],
+      [
+        3.791,
+        6.223,
+        2.04,
+        4.592,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 65,
+      "centreOfMass": [
+        -0.622,
+        3.289
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 6.3619,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 23.648,
+      "L": 75.733,
+      "R": 55.343
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 855
+  }
+}

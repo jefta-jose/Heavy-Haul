@@ -1,0 +1,232 @@
+{
+  "id": "lumber-wolf-14",
+  "name": "Lumber Wolf",
+  "number": 14,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 log truck with crane",
+  "description": "Safety yellow 8×8 log truck with tall stakes, carrying stacked logs chained between the stakes, on mud-terrain tyres, with headache rack, log crane.",
+  "stats": {
+    "power": 73,
+    "speed": 53,
+    "grip": 70,
+    "capacity": 40
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Logs",
+    "massT": 10
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1175,
+      650
+    ],
+    "pixelsPerMetre": 197.333,
+    "axles": [
+      3.856,
+      0.948,
+      -2.291,
+      -3.856
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1936,
+        650,
+        133
+      ],
+      [
+        1362,
+        650,
+        133
+      ],
+      [
+        723,
+        650,
+        133
+      ],
+      [
+        414,
+        650,
+        133
+      ]
+    ],
+    "nose": 5.184,
+    "tail": -5.412,
+    "exhaust": [
+      -5.012,
+      0.225
+    ],
+    "winch": [
+      5.084,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.067,
+    "tireGrip": 1.319,
+    "mass": 15000,
+    "centreOfMass": [
+      0,
+      0.924
+    ],
+    "size": [
+      10.596,
+      2.889
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.606,
+        4.606,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -5.412,
+        -4.081,
+        0.9,
+        2.169,
+        0.4
+      ],
+      [
+        -4.081,
+        -1.36,
+        0.488,
+        2.787,
+        0.4
+      ],
+      [
+        -1.36,
+        1.36,
+        0.488,
+        2.807,
+        0.4
+      ],
+      [
+        1.36,
+        4.081,
+        0.488,
+        2.209,
+        0.4
+      ],
+      [
+        4.081,
+        5.184,
+        0.9,
+        1.409,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.614,
+        1.733
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4627,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 324
+  }
+}

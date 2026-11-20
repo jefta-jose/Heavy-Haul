@@ -1,0 +1,239 @@
+{
+  "id": "tunnel-boar-9",
+  "name": "Tunnel Boar",
+  "number": 9,
+  "class": "heavy",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Tunnel segment carrier",
+  "description": "White 8×8 tunnel segment carrier, carrying concrete tunnel segments, on all-terrain tyres, with beacons.",
+  "stats": {
+    "power": 54,
+    "speed": 37,
+    "grip": 45,
+    "capacity": 41
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Concrete segments",
+    "massT": 25
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1096,
+      586
+    ],
+    "pixelsPerMetre": 179.412,
+    "axles": [
+      4.244,
+      2.177,
+      -2.321,
+      -4.244
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1857,
+        586,
+        137
+      ],
+      [
+        1486,
+        586,
+        137
+      ],
+      [
+        679,
+        586,
+        137
+      ],
+      [
+        334,
+        586,
+        137
+      ]
+    ],
+    "nose": 5.944,
+    "tail": -6.05,
+    "exhaust": [
+      -5.65,
+      0.255
+    ],
+    "winch": [
+      5.844,
+      0.553
+    ]
+  },
+  "physics": {
+    "mudPull": 2.016,
+    "tireGrip": 1.276,
+    "mass": 36000,
+    "centreOfMass": [
+      0,
+      0.942
+    ],
+    "size": [
+      11.994,
+      2.943
+    ],
+    "wheelMass": 448,
+    "bodyBoxes": [
+      [
+        -5.094,
+        5.094,
+        0.213,
+        0.595,
+        0.4
+      ],
+      [
+        -6.05,
+        -4.499,
+        1.02,
+        2.23,
+        0.4
+      ],
+      [
+        -4.499,
+        -2.249,
+        0.553,
+        2.425,
+        0.4
+      ],
+      [
+        -2.249,
+        0,
+        0.553,
+        2.185,
+        0.4
+      ],
+      [
+        0,
+        2.25,
+        0.553,
+        2.391,
+        0.4
+      ],
+      [
+        2.25,
+        4.499,
+        0.553,
+        2.48,
+        0.4
+      ],
+      [
+        4.499,
+        5.944,
+        1.02,
+        1.639,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 25,
+      "centreOfMass": [
+        -1.553,
+        1.766
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.1117,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 12.612,
+      "L": 64,
+      "R": 50.24
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 504
+  }
+}

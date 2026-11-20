@@ -1,0 +1,232 @@
+{
+  "id": "quarry-hauler-18",
+  "name": "Quarry Hauler",
+  "number": 18,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 rock dump truck",
+  "description": "Blue 8×8 heavy rock dump truck, carrying boulders heaped in the dump body, on mud-terrain tyres, with rock guard, mud flaps.",
+  "stats": {
+    "power": 87,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 41
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Boulders",
+    "massT": 12
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1080,
+      637
+    ],
+    "pixelsPerMetre": 194.839,
+    "axles": [
+      3.849,
+      1.853,
+      -1.858,
+      -3.849
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1830,
+        637,
+        136
+      ],
+      [
+        1441,
+        637,
+        136
+      ],
+      [
+        718,
+        637,
+        136
+      ],
+      [
+        330,
+        637,
+        136
+      ]
+    ],
+    "nose": 5.245,
+    "tail": -5.179,
+    "exhaust": [
+      -4.779,
+      0.232
+    ],
+    "winch": [
+      5.145,
+      0.504
+    ]
+  },
+  "physics": {
+    "mudPull": 2.372,
+    "tireGrip": 1.41,
+    "mass": 17000,
+    "centreOfMass": [
+      0,
+      1.015
+    ],
+    "size": [
+      10.424,
+      3.172
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.624,
+        4.624,
+        0.194,
+        0.543,
+        0.4
+      ],
+      [
+        -5.179,
+        -4.081,
+        0.93,
+        2.515,
+        0.4
+      ],
+      [
+        -4.081,
+        -1.36,
+        0.504,
+        2.936,
+        0.4
+      ],
+      [
+        -1.36,
+        1.361,
+        0.504,
+        2.931,
+        0.4
+      ],
+      [
+        1.361,
+        4.082,
+        0.504,
+        2.756,
+        0.4
+      ],
+      [
+        4.082,
+        5.245,
+        0.93,
+        2.469,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.467,
+        1.903
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.8761,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 369
+  }
+}

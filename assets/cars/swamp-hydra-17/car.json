@@ -1,0 +1,246 @@
+{
+  "id": "swamp-hydra-17",
+  "name": "Swamp Hydra",
+  "number": 17,
+  "class": "offroad",
+  "drive": "10×10",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "10×10 flotation truck",
+  "description": "Rust brown 10×10 cross-country truck with flotation tyres, carrying a tarped cargo body, on flotation tyres, with front winch, beacons.",
+  "stats": {
+    "power": 85,
+    "speed": 47,
+    "grip": 85,
+    "capacity": 27
+  },
+  "biomes": [
+    "Swamp",
+    "Water",
+    "Mud"
+  ],
+  "load": {
+    "name": "Cargo",
+    "massT": 8
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../floodwalker-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1075,
+      655
+    ],
+    "pixelsPerMetre": 177.778,
+    "axles": [
+      4.404,
+      2.183,
+      -0.051,
+      -2.211,
+      -4.404
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1858,
+        655,
+        144
+      ],
+      [
+        1463,
+        655,
+        144
+      ],
+      [
+        1066,
+        655,
+        144
+      ],
+      [
+        682,
+        655,
+        144
+      ],
+      [
+        292,
+        655,
+        144
+      ]
+    ],
+    "nose": 6.081,
+    "tail": -5.912,
+    "exhaust": [
+      -5.512,
+      0.27
+    ],
+    "winch": [
+      5.981,
+      0.585
+    ]
+  },
+  "physics": {
+    "mudPull": 2.531,
+    "tireGrip": 1.463,
+    "mass": 22000,
+    "centreOfMass": [
+      0,
+      1.141
+    ],
+    "size": [
+      11.993,
+      3.566
+    ],
+    "wheelMass": 647,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -5.304,
+        5.304,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -5.912,
+        -4.674,
+        1.08,
+        2.869,
+        0.4
+      ],
+      [
+        -4.674,
+        -2.337,
+        0.585,
+        2.886,
+        0.4
+      ],
+      [
+        -2.337,
+        0,
+        0.585,
+        2.874,
+        0.4
+      ],
+      [
+        0,
+        2.337,
+        0.585,
+        2.903,
+        0.4
+      ],
+      [
+        2.337,
+        4.674,
+        0.585,
+        3.099,
+        0.4
+      ],
+      [
+        4.674,
+        6.081,
+        1.08,
+        1.654,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -1.415,
+        2.14
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.4347,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 807,
+    "exhaustBrake": 1041,
+    "gears": {
+      "H": 19.154,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 53794,
+    "openDiffGrip": 1,
+    "fuelLitres": 432
+  }
+}

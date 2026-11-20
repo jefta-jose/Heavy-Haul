@@ -1,0 +1,288 @@
+{
+  "id": "generator-hauler-13",
+  "name": "Generator Hauler",
+  "number": 13,
+  "class": "heavy",
+  "drive": "16×16",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Modular generator mover",
+  "description": "Cream prime mover with a modular trailer, carrying a huge generator, on all-terrain tyres, with oversize flags.",
+  "stats": {
+    "power": 68,
+    "speed": 33,
+    "grip": 45,
+    "capacity": 54
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Generator",
+    "massT": 50
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../fuel-runner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1115,
+      560
+    ],
+    "pixelsPerMetre": 100,
+    "axles": [
+      8.6,
+      4.95,
+      3.13,
+      -0.74,
+      -2.74,
+      -4.75,
+      -6.58,
+      -8.6
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1975,
+        560,
+        72
+      ],
+      [
+        1610,
+        560,
+        72
+      ],
+      [
+        1428,
+        560,
+        72
+      ],
+      [
+        1041,
+        560,
+        72
+      ],
+      [
+        841,
+        560,
+        72
+      ],
+      [
+        640,
+        560,
+        72
+      ],
+      [
+        457,
+        560,
+        72
+      ],
+      [
+        255,
+        560,
+        72
+      ]
+    ],
+    "nose": 10.19,
+    "tail": -10.73,
+    "exhaust": [
+      -10.33,
+      0.24
+    ],
+    "winch": [
+      10.09,
+      0.52
+    ]
+  },
+  "physics": {
+    "mass": 42000,
+    "centreOfMass": [
+      0,
+      1.344
+    ],
+    "size": [
+      20.92,
+      4.2
+    ],
+    "wheelMass": 495,
+    "tireGrip": 1.36,
+    "mudPull": 2.264,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -9.4,
+        9.4,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -10.73,
+        -8.84,
+        0.96,
+        1.75,
+        0.4
+      ],
+      [
+        -8.84,
+        -6.314,
+        0.52,
+        3.08,
+        0.4
+      ],
+      [
+        -6.314,
+        -3.789,
+        0.52,
+        3.42,
+        0.4
+      ],
+      [
+        -3.789,
+        -1.263,
+        0.52,
+        4.19,
+        0.4
+      ],
+      [
+        -1.263,
+        1.263,
+        0.52,
+        4.19,
+        0.4
+      ],
+      [
+        1.263,
+        3.789,
+        0.52,
+        1.58,
+        0.4
+      ],
+      [
+        3.789,
+        6.314,
+        0.52,
+        3.48,
+        0.4
+      ],
+      [
+        6.314,
+        8.84,
+        0.52,
+        3.17,
+        0.4
+      ],
+      [
+        8.84,
+        10.19,
+        0.96,
+        1.92,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 50,
+      "centreOfMass": [
+        -2.52,
+        2.31
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.9165,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 252,
+    "exhaustBrake": 336,
+    "gears": {
+      "H": 12.085,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 258418,
+    "openDiffGrip": 1,
+    "fuelLitres": 648
+  }
+}

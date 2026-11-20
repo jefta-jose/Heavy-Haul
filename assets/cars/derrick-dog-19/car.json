@@ -1,0 +1,239 @@
+{
+  "id": "derrick-dog-19",
+  "name": "Derrick Dog",
+  "number": 19,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Drilling rig carrier",
+  "description": "Lime green 8×8 drilling rig carrier with the mast folded, carrying the folded drilling mast, on all-terrain tyres, with outriggers stowed, beacons.",
+  "stats": {
+    "power": 90,
+    "speed": 50,
+    "grip": 45,
+    "capacity": 31
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Drill mast",
+    "massT": 8
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1103,
+      620
+    ],
+    "pixelsPerMetre": 175.484,
+    "axles": [
+      4.08,
+      2.228,
+      -2.228,
+      -4.08
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1819,
+        620,
+        122
+      ],
+      [
+        1494,
+        620,
+        122
+      ],
+      [
+        712,
+        620,
+        122
+      ],
+      [
+        387,
+        620,
+        122
+      ]
+    ],
+    "nose": 5.738,
+    "tail": -5.887,
+    "exhaust": [
+      -5.487,
+      0.232
+    ],
+    "winch": [
+      5.638,
+      0.504
+    ]
+  },
+  "physics": {
+    "mudPull": 2.422,
+    "tireGrip": 1.426,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      0.961
+    ],
+    "size": [
+      11.625,
+      3.003
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.855,
+        4.855,
+        0.194,
+        0.543,
+        0.4
+      ],
+      [
+        -5.887,
+        -4.312,
+        0.93,
+        2.775,
+        0.4
+      ],
+      [
+        -4.312,
+        -2.156,
+        0.504,
+        2.747,
+        0.4
+      ],
+      [
+        -2.156,
+        0,
+        0.504,
+        2.769,
+        0.4
+      ],
+      [
+        0,
+        2.157,
+        0.504,
+        2.958,
+        0.4
+      ],
+      [
+        2.157,
+        4.313,
+        0.504,
+        2.621,
+        0.4
+      ],
+      [
+        4.313,
+        5.738,
+        0.93,
+        2.673,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -1.574,
+        1.802
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.7091,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 387
+  }
+}

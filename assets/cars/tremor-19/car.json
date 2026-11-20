@@ -111,7 +111,7 @@
     "zoom": 2.45
   },
   "physics": {
-    "mudPull": 2.684,
+    "mudPull": 2.627,
     "mass": 86000,
     "centreOfMass": [
       2,
@@ -122,7 +122,7 @@
       4.949
     ],
     "wheelMass": 300,
-    "tireGrip": 1.503,
+    "tireGrip": 1.484,
     "bodyBoxes": [
       [
         -7.345,

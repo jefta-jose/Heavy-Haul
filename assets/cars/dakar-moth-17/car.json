@@ -1,0 +1,186 @@
+{
+  "id": "dakar-moth-17",
+  "name": "Dakar Moth",
+  "number": 17,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Rally-raid buggy",
+  "description": "Cherry red rally-raid buggy with a low mid-engine fibre body, short overhangs and big side vents, on all-terrain tyres, with spare wheels in the side pods, roof scoop.",
+  "stats": {
+    "power": 85,
+    "speed": 90,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../overland-owl-12/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1003,
+      704
+    ],
+    "pixelsPerMetre": 375.862,
+    "axles": [
+      1.481,
+      -1.481
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1559,
+        704,
+        245
+      ],
+      [
+        446,
+        704,
+        245
+      ]
+    ],
+    "nose": 2.335,
+    "tail": -2.265,
+    "exhaust": [
+      -1.865,
+      0.218
+    ],
+    "winch": [
+      2.235,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 2.415,
+    "tireGrip": 1.427,
+    "mass": 3000,
+    "centreOfMass": [
+      0,
+      0.473
+    ],
+    "size": [
+      4.6,
+      1.477
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.206,
+        2.206,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -2.265,
+        -1.699,
+        0.87,
+        1.059,
+        0.4
+      ],
+      [
+        -1.699,
+        1.699,
+        0.471,
+        1.365,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.3566,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 3.887,
+      "L": 14.769,
+      "R": 11.661
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 225
+  }
+}

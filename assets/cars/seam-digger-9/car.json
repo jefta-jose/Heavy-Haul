@@ -1,0 +1,232 @@
+{
+  "id": "seam-digger-9",
+  "name": "Seam Digger",
+  "number": 9,
+  "class": "heavy",
+  "drive": "6×6",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Articulated coal hauler",
+  "description": "Red 6×6 articulated dump truck, carrying coal in the dump body, on giant tyres, with rock guard.",
+  "stats": {
+    "power": 56,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 47
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Coal",
+    "massT": 28
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../titan-tipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1064,
+      623
+    ],
+    "pixelsPerMetre": 178.5,
+    "axles": [
+      4.014,
+      -1.499,
+      -4.014
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 1,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1780,
+        623,
+        161
+      ],
+      [
+        796,
+        623,
+        161
+      ],
+      [
+        347,
+        623,
+        161
+      ]
+    ],
+    "nose": 6.126,
+    "tail": -5.868,
+    "exhaust": [
+      -5.468,
+      0.3
+    ],
+    "winch": [
+      6.026,
+      0.65
+    ]
+  },
+  "physics": {
+    "mudPull": 2.054,
+    "tireGrip": 1.289,
+    "mass": 32000,
+    "centreOfMass": [
+      0,
+      1.101
+    ],
+    "size": [
+      11.994,
+      3.44
+    ],
+    "wheelMass": 448,
+    "bodyBoxes": [
+      [
+        -5.014,
+        5.014,
+        0.25,
+        0.7,
+        0.4
+      ],
+      [
+        -5.868,
+        -4.314,
+        1.2,
+        2.308,
+        0.4
+      ],
+      [
+        -4.314,
+        -2.157,
+        0.65,
+        2.779,
+        0.4
+      ],
+      [
+        -2.157,
+        0,
+        0.65,
+        2.784,
+        0.4
+      ],
+      [
+        0,
+        2.157,
+        0.65,
+        2.426,
+        0.4
+      ],
+      [
+        2.157,
+        4.314,
+        0.65,
+        3.053,
+        0.4
+      ],
+      [
+        4.314,
+        6.126,
+        1.2,
+        1.798,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 28,
+      "centreOfMass": [
+        -1.371,
+        2.064
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.1501,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 14.977,
+      "L": 76,
+      "R": 59.66
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 450
+  }
+}

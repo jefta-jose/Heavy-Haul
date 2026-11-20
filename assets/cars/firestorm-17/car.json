@@ -1,0 +1,239 @@
+{
+  "id": "firestorm-17",
+  "name": "Firestorm",
+  "number": 17,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Off-road crash tender",
+  "description": "Steel grey 8×8 off-road crash-tender fire truck, carrying the water and foam tank inside the body, on all-terrain tyres, with roof monitor, light bars.",
+  "stats": {
+    "power": 85,
+    "speed": 67,
+    "grip": 45,
+    "capacity": 36
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Foam and water",
+    "massT": 10
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../fuel-runner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1074,
+      638
+    ],
+    "pixelsPerMetre": 184.516,
+    "axles": [
+      3.992,
+      2.133,
+      -2.106,
+      -3.992
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1810,
+        638,
+        129
+      ],
+      [
+        1467,
+        638,
+        129
+      ],
+      [
+        685,
+        638,
+        129
+      ],
+      [
+        337,
+        638,
+        129
+      ]
+    ],
+    "nose": 5.688,
+    "tail": -5.52,
+    "exhaust": [
+      -5.12,
+      0.232
+    ],
+    "winch": [
+      5.588,
+      0.504
+    ]
+  },
+  "physics": {
+    "mudPull": 2.321,
+    "tireGrip": 1.395,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      0.964
+    ],
+    "size": [
+      11.208,
+      3.013
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.767,
+        4.767,
+        0.194,
+        0.543,
+        0.4
+      ],
+      [
+        -5.52,
+        -4.224,
+        0.93,
+        2.731,
+        0.4
+      ],
+      [
+        -4.224,
+        -2.112,
+        0.504,
+        2.704,
+        0.4
+      ],
+      [
+        -2.112,
+        0,
+        0.504,
+        2.639,
+        0.4
+      ],
+      [
+        0,
+        2.113,
+        0.504,
+        2.943,
+        0.4
+      ],
+      [
+        2.113,
+        4.225,
+        0.504,
+        2.981,
+        0.4
+      ],
+      [
+        4.225,
+        5.688,
+        0.93,
+        1.447,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.416,
+        1.808
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.7825,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 405
+  }
+}

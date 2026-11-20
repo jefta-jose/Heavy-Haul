@@ -1,0 +1,246 @@
+{
+  "id": "mountain-ox-20",
+  "name": "Mountain Ox",
+  "number": 20,
+  "class": "heavy-duty",
+  "drive": "10×10",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "10×10 heavy log truck",
+  "description": "Black 10×10 heavy logging truck with log bunks, carrying long logs chained on the bunks, on mud-terrain tyres, with log crane, headache rack.",
+  "stats": {
+    "power": 95,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 44
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Logs",
+    "massT": 16
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1120,
+      595
+    ],
+    "pixelsPerMetre": 173.75,
+    "axles": [
+      4.561,
+      2.748,
+      -0.849,
+      -2.679,
+      -4.561
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1912,
+        595,
+        125
+      ],
+      [
+        1597,
+        595,
+        125
+      ],
+      [
+        972,
+        595,
+        125
+      ],
+      [
+        654,
+        595,
+        125
+      ],
+      [
+        327,
+        595,
+        125
+      ]
+    ],
+    "nose": 5.988,
+    "tail": -6.374,
+    "exhaust": [
+      -5.974,
+      0.24
+    ],
+    "winch": [
+      5.888,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.524,
+    "tireGrip": 1.456,
+    "mass": 20000,
+    "centreOfMass": [
+      0,
+      0.928
+    ],
+    "size": [
+      12.362,
+      2.901
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -5.361,
+        5.361,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -6.374,
+        -4.801,
+        0.96,
+        2.463,
+        0.4
+      ],
+      [
+        -4.801,
+        -2.4,
+        0.52,
+        2.435,
+        0.4
+      ],
+      [
+        -2.4,
+        0,
+        0.52,
+        2.435,
+        0.4
+      ],
+      [
+        0,
+        2.401,
+        0.52,
+        2.78,
+        0.4
+      ],
+      [
+        2.401,
+        4.801,
+        0.52,
+        2.757,
+        0.4
+      ],
+      [
+        4.801,
+        5.988,
+        0.96,
+        1.56,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 16,
+      "centreOfMass": [
+        -1.693,
+        1.741
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.4423,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 432
+  }
+}

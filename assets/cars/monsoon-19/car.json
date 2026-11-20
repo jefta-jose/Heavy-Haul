@@ -1,0 +1,246 @@
+{
+  "id": "monsoon-19",
+  "name": "Monsoon",
+  "number": 19,
+  "class": "offroad",
+  "drive": "10×10",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "10×10 army container truck",
+  "description": "Black 10×10 heavy army flatbed, carrying a container on the flatbed, on mud-terrain tyres, with crane, spare wheels.",
+  "stats": {
+    "power": 92,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 29
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "load": {
+    "name": "Container",
+    "massT": 10
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../ural-bear-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1103,
+      633
+    ],
+    "pixelsPerMetre": 170.588,
+    "axles": [
+      4.748,
+      2.708,
+      -0.604,
+      -2.702,
+      -4.748
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1913,
+        633,
+        131
+      ],
+      [
+        1565,
+        633,
+        131
+      ],
+      [
+        1000,
+        633,
+        131
+      ],
+      [
+        642,
+        633,
+        131
+      ],
+      [
+        293,
+        633,
+        131
+      ]
+    ],
+    "nose": 6.19,
+    "tail": -6.384,
+    "exhaust": [
+      -5.984,
+      0.255
+    ],
+    "winch": [
+      6.09,
+      0.553
+    ]
+  },
+  "physics": {
+    "mudPull": 2.7,
+    "tireGrip": 1.515,
+    "mass": 24000,
+    "centreOfMass": [
+      0,
+      1.028
+    ],
+    "size": [
+      12.574,
+      3.212
+    ],
+    "wheelMass": 370,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -5.598,
+        5.598,
+        0.213,
+        0.595,
+        0.4
+      ],
+      [
+        -6.384,
+        -5.003,
+        1.02,
+        3.031,
+        0.4
+      ],
+      [
+        -5.003,
+        -2.501,
+        0.553,
+        3.031,
+        0.4
+      ],
+      [
+        -2.501,
+        0,
+        0.553,
+        3.031,
+        0.4
+      ],
+      [
+        0,
+        2.502,
+        0.553,
+        2.767,
+        0.4
+      ],
+      [
+        2.502,
+        5.003,
+        0.553,
+        2.82,
+        0.4
+      ],
+      [
+        5.003,
+        6.19,
+        1.02,
+        1.536,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.597,
+        1.927
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.9155,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 564,
+    "exhaustBrake": 727,
+    "gears": {
+      "H": 14.129,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 41466,
+    "openDiffGrip": 1,
+    "fuelLitres": 450
+  }
+}

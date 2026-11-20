@@ -1,0 +1,200 @@
+{
+  "id": "apex-nomad-20",
+  "name": "Apex Nomad",
+  "number": 20,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Monster-truck pickup",
+  "description": "Mustard yellow 1990s full-size pickup body on a monster-truck chassis with huge tyres and exposed suspension, on mud-terrain tyres, with roof light bar, tube bumpers.",
+  "stats": {
+    "power": 95,
+    "speed": 77,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1125,
+      688
+    ],
+    "pixelsPerMetre": 357.5,
+    "axles": [
+      1.706,
+      -1.706
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1735,
+        688,
+        257
+      ],
+      [
+        515,
+        688,
+        257
+      ]
+    ],
+    "nose": 2.789,
+    "tail": -3.01,
+    "exhaust": [
+      -2.61,
+      0.24
+    ],
+    "winch": [
+      2.689,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.624,
+    "tireGrip": 1.49,
+    "mass": 3600,
+    "centreOfMass": [
+      0,
+      0.576
+    ],
+    "size": [
+      5.799,
+      1.801
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.506,
+        2.506,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -3.01,
+        -1.946,
+        0.96,
+        1.127,
+        0.4
+      ],
+      [
+        -1.946,
+        0,
+        0.52,
+        1.13,
+        0.4
+      ],
+      [
+        0,
+        1.946,
+        0.52,
+        1.751,
+        0.4
+      ],
+      [
+        1.946,
+        2.789,
+        0.96,
+        1.13,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4584,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.912,
+      "L": 22.464,
+      "R": 17.737
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 288
+  }
+}

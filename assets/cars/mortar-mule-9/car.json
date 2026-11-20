@@ -1,0 +1,225 @@
+{
+  "id": "mortar-mule-9",
+  "name": "Mortar Mule",
+  "number": 9,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Off-road concrete mixer",
+  "description": "White 6×6 off-road concrete mixer, carrying the mixer drum, on all-terrain tyres, with chute, ladder, mud flaps.",
+  "stats": {
+    "power": 56,
+    "speed": 53,
+    "grip": 45,
+    "capacity": 33
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Concrete",
+    "massT": 6
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      905,
+      701
+    ],
+    "pixelsPerMetre": 199.31,
+    "axles": [
+      2.92,
+      -1.134,
+      -2.92
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1487,
+        701,
+        130
+      ],
+      [
+        679,
+        701,
+        130
+      ],
+      [
+        323,
+        701,
+        130
+      ]
+    ],
+    "nose": 4.33,
+    "tail": -4.475,
+    "exhaust": [
+      -4.075,
+      0.218
+    ],
+    "winch": [
+      4.23,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 1.686,
+    "tireGrip": 1.205,
+    "mass": 12000,
+    "centreOfMass": [
+      0,
+      1.012
+    ],
+    "size": [
+      8.805,
+      3.161
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -3.645,
+        3.645,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -4.475,
+        -3.137,
+        0.87,
+        3.161,
+        0.4
+      ],
+      [
+        -3.137,
+        -1.046,
+        0.471,
+        2.915,
+        0.4
+      ],
+      [
+        -1.046,
+        1.046,
+        0.471,
+        2.714,
+        0.4
+      ],
+      [
+        1.046,
+        3.137,
+        0.471,
+        2.599,
+        0.4
+      ],
+      [
+        3.137,
+        4.33,
+        0.87,
+        1.58,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 6,
+      "centreOfMass": [
+        -1.572,
+        1.897
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.9127,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.858,
+      "L": 29.866,
+      "R": 23.573
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 261
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "id": "big-mixer-17",
+  "name": "Big Mixer",
+  "number": 17,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "8×8 concrete mixer",
+  "description": "Forest green 8×8 concrete mixer, carrying the big mixer drum, on all-terrain tyres, with chute, ladder.",
+  "stats": {
+    "power": 83,
+    "speed": 50,
+    "grip": 45,
+    "capacity": 38
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Concrete",
+    "massT": 10
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1094,
+      644
+    ],
+    "pixelsPerMetre": 194.667,
+    "axles": [
+      3.745,
+      1.829,
+      -1.834,
+      -3.745
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1823,
+        644,
+        131
+      ],
+      [
+        1450,
+        644,
+        131
+      ],
+      [
+        737,
+        644,
+        131
+      ],
+      [
+        365,
+        644,
+        131
+      ]
+    ],
+    "nose": 5.183,
+    "tail": -5.193,
+    "exhaust": [
+      -4.793,
+      0.225
+    ],
+    "winch": [
+      5.083,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.27,
+    "tireGrip": 1.38,
+    "mass": 16000,
+    "centreOfMass": [
+      0,
+      0.985
+    ],
+    "size": [
+      10.376,
+      3.077
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.495,
+        4.495,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -5.193,
+        -3.97,
+        0.9,
+        3.072,
+        0.4
+      ],
+      [
+        -3.97,
+        -1.323,
+        0.488,
+        2.99,
+        0.4
+      ],
+      [
+        -1.323,
+        1.323,
+        0.488,
+        2.697,
+        0.4
+      ],
+      [
+        1.323,
+        3.97,
+        0.488,
+        2.337,
+        0.4
+      ],
+      [
+        3.97,
+        5.183,
+        0.9,
+        1.438,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 10,
+      "centreOfMass": [
+        -1.505,
+        1.846
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.629,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 351
+  }
+}

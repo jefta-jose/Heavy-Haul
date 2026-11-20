@@ -1,0 +1,232 @@
+{
+  "id": "landslide-18",
+  "name": "Landslide",
+  "number": 18,
+  "class": "heavy",
+  "drive": "6×6",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Three-axle ultra hauler",
+  "description": "Green three-axle ultra mining hauler, carrying rock in the body, on giant tyres, with handrails.",
+  "stats": {
+    "power": 87,
+    "speed": 33,
+    "grip": 80,
+    "capacity": 51
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Rock",
+    "massT": 70
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../kraken-20/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1076,
+      726
+    ],
+    "pixelsPerMetre": 156.875,
+    "axles": [
+      4.583,
+      -1.256,
+      -4.583
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 1.6,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1795,
+        726,
+        226
+      ],
+      [
+        879,
+        726,
+        226
+      ],
+      [
+        357,
+        726,
+        226
+      ]
+    ],
+    "nose": 6.814,
+    "tail": -6.68,
+    "exhaust": [
+      -6.28,
+      0.48
+    ],
+    "winch": [
+      6.714,
+      1.04
+    ]
+  },
+  "physics": {
+    "mudPull": 2.551,
+    "tireGrip": 1.458,
+    "mass": 66000,
+    "centreOfMass": [
+      0,
+      1.436
+    ],
+    "size": [
+      13.494,
+      4.488
+    ],
+    "wheelMass": 448,
+    "bodyBoxes": [
+      [
+        -6.183,
+        6.183,
+        0.4,
+        1.12,
+        0.4
+      ],
+      [
+        -6.68,
+        -5.063,
+        1.92,
+        3.716,
+        0.4
+      ],
+      [
+        -5.063,
+        -2.531,
+        1.04,
+        4.073,
+        0.4
+      ],
+      [
+        -2.531,
+        0,
+        1.04,
+        4.379,
+        0.4
+      ],
+      [
+        0,
+        2.532,
+        1.04,
+        4.131,
+        0.4
+      ],
+      [
+        2.532,
+        5.063,
+        1.04,
+        4.398,
+        0.4
+      ],
+      [
+        5.063,
+        6.814,
+        1.92,
+        4.398,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 70,
+      "centreOfMass": [
+        -0.533,
+        3.052
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 7.042,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 14.977,
+      "L": 76,
+      "R": 59.66
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 882
+  }
+}

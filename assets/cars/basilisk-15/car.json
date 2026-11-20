@@ -1,0 +1,232 @@
+{
+  "id": "basilisk-15",
+  "name": "Basilisk",
+  "number": 15,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Canvas-top army cargo 8×8",
+  "description": "Desert tan 8×8 army cargo truck with a canvas canopy, carrying the canvas-covered load, on mud-terrain tyres, with front winch, spare wheel.",
+  "stats": {
+    "power": 75,
+    "speed": 53,
+    "grip": 70,
+    "capacity": 27
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "load": {
+    "name": "Crates",
+    "massT": 6
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1154,
+      628
+    ],
+    "pixelsPerMetre": 210,
+    "axles": [
+      3.533,
+      1.286,
+      -1.857,
+      -3.533
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.8,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1896,
+        628,
+        151
+      ],
+      [
+        1424,
+        628,
+        151
+      ],
+      [
+        764,
+        628,
+        151
+      ],
+      [
+        412,
+        628,
+        151
+      ]
+    ],
+    "nose": 4.995,
+    "tail": -4.99,
+    "exhaust": [
+      -4.59,
+      0.24
+    ],
+    "winch": [
+      4.895,
+      0.52
+    ]
+  },
+  "physics": {
+    "mudPull": 2.337,
+    "tireGrip": 1.403,
+    "mass": 16000,
+    "centreOfMass": [
+      0,
+      0.745
+    ],
+    "size": [
+      9.985,
+      2.329
+    ],
+    "wheelMass": 249,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.333,
+        4.333,
+        0.2,
+        0.56,
+        0.4
+      ],
+      [
+        -4.99,
+        -3.773,
+        0.96,
+        2.167,
+        0.4
+      ],
+      [
+        -3.773,
+        -1.258,
+        0.52,
+        2.171,
+        0.4
+      ],
+      [
+        -1.258,
+        1.258,
+        0.52,
+        2.19,
+        0.4
+      ],
+      [
+        1.258,
+        3.773,
+        0.52,
+        2.324,
+        0.4
+      ],
+      [
+        3.773,
+        4.995,
+        0.96,
+        1.367,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 6,
+      "centreOfMass": [
+        -1.497,
+        1.397
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.67,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 339,
+    "exhaustBrake": 437,
+    "gears": {
+      "H": 12.973,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 25104,
+    "openDiffGrip": 1,
+    "fuelLitres": 360
+  }
+}

@@ -1,0 +1,281 @@
+{
+  "id": "outback-monarch-20",
+  "name": "Outback Monarch",
+  "number": 20,
+  "class": "highway",
+  "drive": "14×14",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Road-train mining mover",
+  "description": "Lemon yellow long-nose road-train tractor with a heavy flatbed trailer on two close axle groups, carrying a boxy mining generator set chained on the deck, on all-terrain tyres, with roo bar, oversize flags, beacons.",
+  "stats": {
+    "power": 95,
+    "speed": 57,
+    "grip": 45,
+    "capacity": 47
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "load": {
+    "name": "Mining machine",
+    "massT": 18
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1098,
+      595
+    ],
+    "pixelsPerMetre": 112,
+    "axles": [
+      7.853,
+      4.772,
+      3.103,
+      -0.487,
+      -2.29,
+      -6.138,
+      -7.853
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1977,
+        595,
+        76
+      ],
+      [
+        1632,
+        595,
+        76
+      ],
+      [
+        1445,
+        595,
+        76
+      ],
+      [
+        1043,
+        595,
+        76
+      ],
+      [
+        841,
+        595,
+        76
+      ],
+      [
+        410,
+        595,
+        76
+      ],
+      [
+        218,
+        595,
+        76
+      ]
+    ],
+    "nose": 9.433,
+    "tail": -9.567,
+    "exhaust": [
+      -9.167,
+      0.225
+    ],
+    "winch": [
+      9.333,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.549,
+    "tireGrip": 1.48,
+    "mass": 20000,
+    "centreOfMass": [
+      0,
+      1.226
+    ],
+    "size": [
+      19,
+      3.83
+    ],
+    "wheelMass": 342,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -8.603,
+        8.603,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -9.567,
+        -8.078,
+        0.9,
+        2.098,
+        0.4
+      ],
+      [
+        -8.078,
+        -5.77,
+        0.488,
+        3.009,
+        0.4
+      ],
+      [
+        -5.77,
+        -3.462,
+        0.488,
+        3.295,
+        0.4
+      ],
+      [
+        -3.462,
+        -1.154,
+        0.488,
+        3.295,
+        0.4
+      ],
+      [
+        -1.154,
+        1.154,
+        0.488,
+        1.679,
+        0.4
+      ],
+      [
+        1.154,
+        3.462,
+        0.488,
+        1.616,
+        0.4
+      ],
+      [
+        3.462,
+        5.77,
+        0.488,
+        3.455,
+        0.4
+      ],
+      [
+        5.77,
+        8.078,
+        0.488,
+        3.268,
+        0.4
+      ],
+      [
+        8.078,
+        9.433,
+        0.9,
+        1.696,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 18,
+      "centreOfMass": [
+        -2.317,
+        2.107
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.4312,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 644,
+    "exhaustBrake": 831,
+    "gears": {
+      "H": 7.141,
+      "L": 22.66,
+      "R": 17.712
+    },
+    "brakeTorque": 26684,
+    "openDiffGrip": 1,
+    "fuelLitres": 468
+  }
+}

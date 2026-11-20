@@ -1,0 +1,193 @@
+{
+  "id": "bastion-lux-18",
+  "name": "Bastion Lux",
+  "number": 18,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Portal-axle luxury 4×4",
+  "description": "Matte black boxy luxury 4×4 lifted on portal axles with square body and exposed spare wheel, on mud-terrain tyres, with roof rack with light bar, side exhausts.",
+  "stats": {
+    "power": 87,
+    "speed": 80,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../mudskipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1008,
+      805
+    ],
+    "pixelsPerMetre": 350.667,
+    "axles": [
+      1.563,
+      -1.563
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1556,
+        805,
+        237
+      ],
+      [
+        460,
+        805,
+        237
+      ]
+    ],
+    "nose": 2.324,
+    "tail": -2.672,
+    "exhaust": [
+      -2.272,
+      0.225
+    ],
+    "winch": [
+      2.224,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.467,
+    "tireGrip": 1.442,
+    "mass": 3600,
+    "centreOfMass": [
+      0,
+      0.588
+    ],
+    "size": [
+      4.996,
+      1.837
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.313,
+        2.313,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -2.672,
+        -1.788,
+        0.9,
+        1.837,
+        0.4
+      ],
+      [
+        -1.788,
+        1.788,
+        0.488,
+        1.837,
+        0.4
+      ],
+      [
+        1.788,
+        2.324,
+        0.9,
+        1.075,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4368,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.912,
+      "L": 22.464,
+      "R": 17.737
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 252
+  }
+}

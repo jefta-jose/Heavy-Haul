@@ -1,0 +1,260 @@
+{
+  "id": "ridge-breaker-15",
+  "name": "Ridge Breaker",
+  "number": 15,
+  "class": "heavy",
+  "drive": "12×12",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "12×12 shovel-bucket hauler",
+  "description": "Orange 12×12 heavy off-road flatbed truck, carrying a giant mining shovel bucket, on all-terrain tyres, with beacons.",
+  "stats": {
+    "power": 75,
+    "speed": 33,
+    "grip": 45,
+    "capacity": 38
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "load": {
+    "name": "Mining shovel bucket",
+    "massT": 30
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1121,
+      649
+    ],
+    "pixelsPerMetre": 142.222,
+    "axles": [
+      5.727,
+      3.85,
+      -0.102,
+      -1.972,
+      -3.857,
+      -5.727
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1935,
+        649,
+        115
+      ],
+      [
+        1668,
+        649,
+        115
+      ],
+      [
+        1106,
+        649,
+        115
+      ],
+      [
+        840,
+        649,
+        115
+      ],
+      [
+        572,
+        649,
+        115
+      ],
+      [
+        306,
+        649,
+        115
+      ]
+    ],
+    "nose": 7.717,
+    "tail": -7.281,
+    "exhaust": [
+      -6.881,
+      0.27
+    ],
+    "winch": [
+      7.617,
+      0.585
+    ]
+  },
+  "physics": {
+    "mass": 50000,
+    "centreOfMass": [
+      0,
+      1.364
+    ],
+    "size": [
+      14.998,
+      4.261
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.386,
+    "mudPull": 2.34,
+    "bodyBoxes": [
+      [
+        -6.627,
+        6.627,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -7.281,
+        -5.997,
+        1.08,
+        1.561,
+        0.4
+      ],
+      [
+        -5.997,
+        -3.598,
+        0.585,
+        4.106,
+        0.4
+      ],
+      [
+        -3.598,
+        -1.199,
+        0.585,
+        4.092,
+        0.4
+      ],
+      [
+        -1.199,
+        1.199,
+        0.585,
+        3.544,
+        0.4
+      ],
+      [
+        1.199,
+        3.598,
+        0.585,
+        2.489,
+        0.4
+      ],
+      [
+        3.598,
+        5.997,
+        0.585,
+        3.108,
+        0.4
+      ],
+      [
+        5.997,
+        7.717,
+        1.08,
+        2.081,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 30,
+      "centreOfMass": [
+        -2.032,
+        2.344
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 3.601,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 146,
+    "exhaustBrake": 195,
+    "gears": {
+      "H": 9.393366666666667,
+      "L": 52,
+      "R": 38
+    },
+    "brakeTorque": 161865,
+    "openDiffGrip": 1,
+    "fuelLitres": 720
+  }
+}

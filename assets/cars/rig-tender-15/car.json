@@ -1,0 +1,214 @@
+{
+  "id": "rig-tender-15",
+  "name": "Rig Tender",
+  "number": 15,
+  "class": "heavy-duty",
+  "drive": "6×6",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Oilfield winch truck",
+  "description": "Municipal orange 6×6 oilfield winch truck with gin poles, on mud-terrain tyres, with gin poles, big winch drum, tool boxes.",
+  "stats": {
+    "power": 78,
+    "speed": 53,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1210,
+      632
+    ],
+    "pixelsPerMetre": 222,
+    "axles": [
+      3.259,
+      -1.691,
+      -3.259
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1933,
+        632,
+        150
+      ],
+      [
+        834,
+        632,
+        150
+      ],
+      [
+        486,
+        632,
+        150
+      ]
+    ],
+    "nose": 4.498,
+    "tail": -4.908,
+    "exhaust": [
+      -4.508,
+      0.225
+    ],
+    "winch": [
+      4.398,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.168,
+    "tireGrip": 1.35,
+    "mass": 14000,
+    "centreOfMass": [
+      0,
+      0.793
+    ],
+    "size": [
+      9.406,
+      2.477
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.009,
+        4.009,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -4.908,
+        -3.484,
+        0.9,
+        2.095,
+        0.4
+      ],
+      [
+        -3.484,
+        -1.161,
+        0.488,
+        2.221,
+        0.4
+      ],
+      [
+        -1.161,
+        1.161,
+        0.488,
+        2.329,
+        0.4
+      ],
+      [
+        1.161,
+        3.484,
+        0.488,
+        2.014,
+        0.4
+      ],
+      [
+        3.484,
+        4.498,
+        0.9,
+        1.288,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.8489,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 7.226,
+      "L": 27.463,
+      "R": 21.676
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 324
+  }
+}

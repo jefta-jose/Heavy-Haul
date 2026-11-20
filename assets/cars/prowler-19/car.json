@@ -1,0 +1,193 @@
+{
+  "id": "prowler-19",
+  "name": "Prowler",
+  "number": 19,
+  "class": "scout",
+  "drive": "4×4",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Open-cockpit military scout",
+  "description": "Cream white angular futuristic military-style scout 4×4 with an open cockpit and a high roll hoop, on mud-terrain tyres, with roof light bar, rear spare wheel.",
+  "stats": {
+    "power": 90,
+    "speed": 83,
+    "grip": 70,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      921,
+      776
+    ],
+    "pixelsPerMetre": 315.667,
+    "axles": [
+      1.503,
+      -1.503
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1395,
+        776,
+        213
+      ],
+      [
+        446,
+        776,
+        213
+      ]
+    ],
+    "nose": 2.523,
+    "tail": -2.678,
+    "exhaust": [
+      -2.278,
+      0.225
+    ],
+    "winch": [
+      2.423,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.52,
+    "tireGrip": 1.458,
+    "mass": 3400,
+    "centreOfMass": [
+      0,
+      0.692
+    ],
+    "size": [
+      5.201,
+      2.164
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.253,
+        2.253,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -2.678,
+        -1.728,
+        0.9,
+        1.739,
+        0.4
+      ],
+      [
+        -1.728,
+        1.728,
+        0.488,
+        2.065,
+        0.4
+      ],
+      [
+        1.728,
+        2.523,
+        0.9,
+        1.156,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4192,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 5.912,
+      "L": 22.464,
+      "R": 17.737
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  }
+}

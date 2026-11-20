@@ -1,0 +1,239 @@
+{
+  "id": "pipe-layer-19",
+  "name": "Pipe Layer",
+  "number": 19,
+  "class": "heavy-duty",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "8×8 pipe carrier with crane",
+  "description": "Brown 8×8 flatbed truck with a loader crane, carrying steel pipe sections chained on the bed, on mud-terrain tyres, with loader crane, headache rack.",
+  "stats": {
+    "power": 92,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 40
+  },
+  "biomes": [
+    "Forest",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Pipes",
+    "massT": 12
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../hill-jackal-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1086,
+      612
+    ],
+    "pixelsPerMetre": 188.387,
+    "axles": [
+      3.976,
+      2.113,
+      -2.224,
+      -3.976
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.775,
+    "wheelPivot": [
+      626,
+      627
+    ],
+    "wheelArtRadius": 551,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1835,
+        612,
+        131
+      ],
+      [
+        1484,
+        612,
+        131
+      ],
+      [
+        667,
+        612,
+        131
+      ],
+      [
+        337,
+        612,
+        131
+      ]
+    ],
+    "nose": 5.717,
+    "tail": -5.712,
+    "exhaust": [
+      -5.312,
+      0.232
+    ],
+    "winch": [
+      5.617,
+      0.504
+    ]
+  },
+  "physics": {
+    "mudPull": 2.473,
+    "tireGrip": 1.441,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      1.028
+    ],
+    "size": [
+      11.429,
+      3.211
+    ],
+    "wheelMass": 192,
+    "bodyBoxes": [
+      [
+        -4.751,
+        4.751,
+        0.194,
+        0.543,
+        0.4
+      ],
+      [
+        -5.712,
+        -4.208,
+        0.93,
+        2.474,
+        0.4
+      ],
+      [
+        -4.208,
+        -2.104,
+        0.504,
+        2.474,
+        0.4
+      ],
+      [
+        -2.104,
+        0,
+        0.504,
+        2.495,
+        0.4
+      ],
+      [
+        0,
+        2.105,
+        0.504,
+        2.511,
+        0.4
+      ],
+      [
+        2.105,
+        4.209,
+        0.504,
+        2.851,
+        0.4
+      ],
+      [
+        4.209,
+        5.717,
+        0.93,
+        1.826,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 12,
+      "centreOfMass": [
+        -1.497,
+        1.927
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.0042,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 221,
+    "exhaustBrake": 285,
+    "gears": {
+      "H": 8.129,
+      "L": 30.896,
+      "R": 24.385
+    },
+    "brakeTorque": 17255,
+    "openDiffGrip": 1,
+    "fuelLitres": 396
+  }
+}

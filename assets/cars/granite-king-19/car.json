@@ -1,0 +1,295 @@
+{
+  "id": "granite-king-19",
+  "name": "Granite King",
+  "number": 19,
+  "class": "heavy",
+  "drive": "16×16",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Modular excavator mover",
+  "description": "Cream prime mover with a modular trailer, carrying a mining excavator, on all-terrain tyres, with oversize flags.",
+  "stats": {
+    "power": 92,
+    "speed": 30,
+    "grip": 45,
+    "capacity": 56
+  },
+  "biomes": [
+    "Gravel",
+    "Mud",
+    "Rock"
+  ],
+  "load": {
+    "name": "Mining excavator",
+    "massT": 70
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1121,
+      608
+    ],
+    "pixelsPerMetre": 95.882,
+    "axles": [
+      9.397,
+      6.81,
+      4.954,
+      -0.428,
+      -2.67,
+      -4.912,
+      -7.155,
+      -9.397
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        2022,
+        608,
+        73
+      ],
+      [
+        1774,
+        608,
+        73
+      ],
+      [
+        1596,
+        608,
+        73
+      ],
+      [
+        1080,
+        608,
+        73
+      ],
+      [
+        865,
+        608,
+        73
+      ],
+      [
+        650,
+        608,
+        73
+      ],
+      [
+        435,
+        608,
+        73
+      ],
+      [
+        220,
+        608,
+        73
+      ]
+    ],
+    "nose": 10.648,
+    "tail": -11.337,
+    "exhaust": [
+      -10.937,
+      0.255
+    ],
+    "winch": [
+      10.548,
+      0.553
+    ]
+  },
+  "physics": {
+    "mass": 56000,
+    "centreOfMass": [
+      0,
+      1.579
+    ],
+    "size": [
+      21.985,
+      4.933
+    ],
+    "wheelMass": 495,
+    "tireGrip": 1.49,
+    "mudPull": 2.646,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -10.247,
+        10.247,
+        0.213,
+        0.595,
+        0.4
+      ],
+      [
+        -11.337,
+        -9.652,
+        1.02,
+        2.263,
+        0.4
+      ],
+      [
+        -9.652,
+        -7.239,
+        0.553,
+        4.672,
+        0.4
+      ],
+      [
+        -7.239,
+        -4.826,
+        0.553,
+        4.808,
+        0.4
+      ],
+      [
+        -4.826,
+        -2.413,
+        0.553,
+        4.808,
+        0.4
+      ],
+      [
+        -2.413,
+        0,
+        0.553,
+        4.808,
+        0.4
+      ],
+      [
+        0,
+        2.413,
+        0.553,
+        4.443,
+        0.4
+      ],
+      [
+        2.413,
+        4.826,
+        0.553,
+        2.336,
+        0.4
+      ],
+      [
+        4.826,
+        7.239,
+        0.553,
+        2.493,
+        0.4
+      ],
+      [
+        7.239,
+        9.652,
+        0.553,
+        3.035,
+        0.4
+      ],
+      [
+        9.652,
+        10.648,
+        1.02,
+        2.107,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 70,
+      "centreOfMass": [
+        -2.594,
+        2.713
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 6.9112,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 252,
+    "exhaustBrake": 336,
+    "gears": {
+      "H": 12.085,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 258418,
+    "openDiffGrip": 1,
+    "fuelLitres": 900
+  }
+}

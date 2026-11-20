@@ -1,0 +1,253 @@
+{
+  "id": "mountain-king-17",
+  "name": "Mountain King",
+  "number": 17,
+  "class": "heavy",
+  "drive": "10×10",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "10×10 prime mover",
+  "description": "Yellow-and-black 10×10 prime mover, carrying a giant mining dump body, on all-terrain tyres, with oversize flags.",
+  "stats": {
+    "power": 85,
+    "speed": 33,
+    "grip": 45,
+    "capacity": 47
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Forest"
+  ],
+  "load": {
+    "name": "Dump body",
+    "massT": 40
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1127,
+      635
+    ],
+    "pixelsPerMetre": 133.333,
+    "axles": [
+      5.7,
+      3.352,
+      -1.237,
+      -3.48,
+      -5.7
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.9,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1887,
+        635,
+        108
+      ],
+      [
+        1574,
+        635,
+        108
+      ],
+      [
+        962,
+        635,
+        108
+      ],
+      [
+        663,
+        635,
+        108
+      ],
+      [
+        367,
+        635,
+        108
+      ]
+    ],
+    "nose": 7.687,
+    "tail": -8.31,
+    "exhaust": [
+      -7.91,
+      0.27
+    ],
+    "winch": [
+      7.587,
+      0.585
+    ]
+  },
+  "physics": {
+    "mass": 46000,
+    "centreOfMass": [
+      0,
+      1.356
+    ],
+    "size": [
+      15.997,
+      4.238
+    ],
+    "wheelMass": 300,
+    "tireGrip": 1.445,
+    "mudPull": 2.512,
+    "bodyBoxes": [
+      [
+        -6.6,
+        6.6,
+        0.225,
+        0.63,
+        0.4
+      ],
+      [
+        -8.31,
+        -5.97,
+        1.08,
+        4.132,
+        0.4
+      ],
+      [
+        -5.97,
+        -3.582,
+        0.585,
+        3.352,
+        0.4
+      ],
+      [
+        -3.582,
+        -1.194,
+        0.585,
+        3.352,
+        0.4
+      ],
+      [
+        -1.194,
+        1.194,
+        0.585,
+        3.352,
+        0.4
+      ],
+      [
+        1.194,
+        3.582,
+        0.585,
+        3.54,
+        0.4
+      ],
+      [
+        3.582,
+        5.97,
+        0.585,
+        3.698,
+        0.4
+      ],
+      [
+        5.97,
+        7.687,
+        1.08,
+        2.55,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 40,
+      "centreOfMass": [
+        -1.811,
+        2.543
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 4.3475,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 249,
+    "exhaustBrake": 332,
+    "gears": {
+      "H": 9.025563013022426,
+      "L": 44,
+      "R": 38
+    },
+    "brakeTorque": 298785,
+    "openDiffGrip": 1,
+    "fuelLitres": 792
+  }
+}

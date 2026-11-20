@@ -1,0 +1,218 @@
+{
+  "id": "coal-baron-15",
+  "name": "Coal Baron",
+  "number": 15,
+  "class": "heavy",
+  "drive": "4×4",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Coal mining hauler",
+  "description": "White two-axle mining hauler, carrying coal in the body, on giant tyres, with handrails.",
+  "stats": {
+    "power": 78,
+    "speed": 37,
+    "grip": 80,
+    "capacity": 50
+  },
+  "biomes": [
+    "Rock",
+    "Mud",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Coal",
+    "massT": 58
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../titan-tipper-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      928,
+      748
+    ],
+    "pixelsPerMetre": 147.5,
+    "axles": [
+      3.159,
+      -3.159
+    ],
+    "wheelY": [
+      0,
+      0
+    ],
+    "radius": 1.6,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1394,
+        748,
+        212
+      ],
+      [
+        462,
+        748,
+        212
+      ]
+    ],
+    "nose": 6.034,
+    "tail": -5.776,
+    "exhaust": [
+      -5.376,
+      0.48
+    ],
+    "winch": [
+      5.934,
+      1.04
+    ]
+  },
+  "physics": {
+    "mudPull": 2.379,
+    "mass": 58000,
+    "centreOfMass": [
+      0,
+      1.514
+    ],
+    "size": [
+      11.81,
+      4.732
+    ],
+    "wheelMass": 350,
+    "tireGrip": 1.399,
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "bodyBoxes": [
+      [
+        -4.759,
+        4.759,
+        0.4,
+        1.12,
+        0.4
+      ],
+      [
+        -5.776,
+        -3.639,
+        1.92,
+        3.722,
+        0.4
+      ],
+      [
+        -3.639,
+        -1.213,
+        1.04,
+        4.4,
+        0.4
+      ],
+      [
+        -1.213,
+        1.213,
+        1.04,
+        4.685,
+        0.4
+      ],
+      [
+        1.213,
+        3.639,
+        1.04,
+        4.346,
+        0.4
+      ],
+      [
+        3.639,
+        6.034,
+        1.92,
+        4.522,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 58,
+      "centreOfMass": [
+        -0.471,
+        3.218
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 5.3656,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 480,
+    "exhaustBrake": 638,
+    "gears": {
+      "H": 23.648,
+      "L": 75.733,
+      "R": 55.343
+    },
+    "brakeTorque": 955500,
+    "openDiffGrip": 1,
+    "fuelLitres": 792
+  }
+}

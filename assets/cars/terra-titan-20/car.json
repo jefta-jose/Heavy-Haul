@@ -1,0 +1,232 @@
+{
+  "id": "terra-titan-20",
+  "name": "Terra Titan",
+  "number": 20,
+  "class": "heavy",
+  "drive": "6×6",
+  "wheelType": "giant",
+  "status": "playable",
+  "tagline": "Heaviest mining hauler",
+  "description": "Rust red three-axle heaviest mining hauler, carrying ore in the body, on giant tyres, with handrails.",
+  "stats": {
+    "power": 95,
+    "speed": 33,
+    "grip": 80,
+    "capacity": 52
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Gravel"
+  ],
+  "load": {
+    "name": "Ore",
+    "massT": 75
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../kraken-20/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1065,
+      729
+    ],
+    "pixelsPerMetre": 153.529,
+    "axles": [
+      4.54,
+      -1.016,
+      -4.54
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 1.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 578,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1762,
+        729,
+        235
+      ],
+      [
+        909,
+        729,
+        235
+      ],
+      [
+        368,
+        729,
+        235
+      ]
+    ],
+    "nose": 7.36,
+    "tail": -6.65,
+    "exhaust": [
+      -6.25,
+      0.51
+    ],
+    "winch": [
+      7.26,
+      1.105
+    ]
+  },
+  "physics": {
+    "mudPull": 2.684,
+    "tireGrip": 1.503,
+    "mass": 70000,
+    "centreOfMass": [
+      0,
+      1.43
+    ],
+    "size": [
+      14.01,
+      4.468
+    ],
+    "wheelMass": 448,
+    "bodyBoxes": [
+      [
+        -6.24,
+        6.24,
+        0.425,
+        1.19,
+        0.4
+      ],
+      [
+        -6.65,
+        -5.05,
+        2.04,
+        3.804,
+        0.4
+      ],
+      [
+        -5.05,
+        -2.525,
+        1.105,
+        4.318,
+        0.4
+      ],
+      [
+        -2.525,
+        0,
+        1.105,
+        4.37,
+        0.4
+      ],
+      [
+        0,
+        2.525,
+        1.105,
+        4.175,
+        0.4
+      ],
+      [
+        2.525,
+        5.05,
+        1.105,
+        4.325,
+        0.4
+      ],
+      [
+        5.05,
+        7.36,
+        2.04,
+        3.817,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.2,
+      "travelUp": 0.5,
+      "travelDown": 0.6,
+      "damping": 0.55
+    },
+    "load": {
+      "massT": 75,
+      "centreOfMass": [
+        -0.245,
+        3.038
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1916.82
+      ],
+      [
+        900,
+        2655.453
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2827.65
+      ],
+      [
+        1800,
+        2356.375
+      ],
+      [
+        2150,
+        1578.469
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 8.1356,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 173,
+    "exhaustBrake": 231,
+    "gears": {
+      "H": 14.977,
+      "L": 76,
+      "R": 59.66
+    },
+    "brakeTorque": 176580,
+    "openDiffGrip": 1,
+    "fuelLitres": 990
+  }
+}

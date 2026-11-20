@@ -223,7 +223,7 @@
         0
       ]
     ],
-    "torqueScale": 0.6604,
+    "torqueScale": 0.6601,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

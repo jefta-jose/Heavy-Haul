@@ -1,0 +1,274 @@
+{
+  "id": "gold-coast-19",
+  "name": "Gold Coast",
+  "number": 19,
+  "class": "highway",
+  "drive": "12×12",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Drop-deck machinery rig",
+  "description": "Charcoal conventional tractor with a covered drop-deck trailer, carrying tarped machinery crates on the drop deck, on all-terrain tyres, with sleeper cab, roof spotlights.",
+  "stats": {
+    "power": 92,
+    "speed": 60,
+    "grip": 45,
+    "capacity": 44
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "load": {
+    "name": "Machinery",
+    "massT": 14
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../fuel-runner-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1084,
+      593
+    ],
+    "pixelsPerMetre": 118.621,
+    "axles": [
+      7.621,
+      2.436,
+      0.801,
+      -4.569,
+      -6.095,
+      -7.621
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.725,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 570,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1988,
+        593,
+        77
+      ],
+      [
+        1373,
+        593,
+        77
+      ],
+      [
+        1179,
+        593,
+        77
+      ],
+      [
+        542,
+        593,
+        77
+      ],
+      [
+        361,
+        593,
+        77
+      ],
+      [
+        180,
+        593,
+        77
+      ]
+    ],
+    "nose": 8.978,
+    "tail": -8.944,
+    "exhaust": [
+      -8.544,
+      0.218
+    ],
+    "winch": [
+      8.878,
+      0.471
+    ]
+  },
+  "physics": {
+    "mudPull": 2.5,
+    "tireGrip": 1.465,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      1.203
+    ],
+    "size": [
+      17.922,
+      3.76
+    ],
+    "wheelMass": 342,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -8.346,
+        8.346,
+        0.181,
+        0.507,
+        0.4
+      ],
+      [
+        -8.944,
+        -7.839,
+        0.87,
+        1.914,
+        0.4
+      ],
+      [
+        -7.839,
+        -5.599,
+        0.471,
+        2.495,
+        0.4
+      ],
+      [
+        -5.599,
+        -3.36,
+        0.471,
+        2.841,
+        0.4
+      ],
+      [
+        -3.36,
+        -1.12,
+        0.471,
+        2.849,
+        0.4
+      ],
+      [
+        -1.12,
+        1.12,
+        0.471,
+        2.377,
+        0.4
+      ],
+      [
+        1.12,
+        3.36,
+        0.471,
+        1.568,
+        0.4
+      ],
+      [
+        3.36,
+        5.599,
+        0.471,
+        3.465,
+        0.4
+      ],
+      [
+        5.599,
+        7.839,
+        0.471,
+        3.279,
+        0.4
+      ],
+      [
+        7.839,
+        8.978,
+        0.87,
+        1.973,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 14,
+      "centreOfMass": [
+        -2.233,
+        2.068
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 2.07,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 644,
+    "exhaustBrake": 831,
+    "gears": {
+      "H": 7.141,
+      "L": 22.66,
+      "R": 17.712
+    },
+    "brakeTorque": 26684,
+    "openDiffGrip": 1,
+    "fuelLitres": 432
+  }
+}

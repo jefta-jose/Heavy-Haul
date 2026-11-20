@@ -1,0 +1,232 @@
+{
+  "id": "mountain-courier-18",
+  "name": "Mountain Courier",
+  "number": 18,
+  "class": "highway",
+  "drive": "8×8",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Crane truck for building blocks",
+  "description": "Sand beige 8×8 cab-over cargo truck with a knuckle crane behind the cab, carrying pallets of building blocks on the bed, on all-terrain tyres, with crane, outriggers stowed, beacons.",
+  "stats": {
+    "power": 87,
+    "speed": 57,
+    "grip": 45,
+    "capacity": 31
+  },
+  "biomes": [
+    "Dirt",
+    "Gravel",
+    "Rock"
+  ],
+  "load": {
+    "name": "Building blocks",
+    "massT": 8
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../crane-carrier-11/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1161,
+      654
+    ],
+    "pixelsPerMetre": 192.667,
+    "axles": [
+      3.901,
+      2.333,
+      -2.333,
+      -3.901
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.75,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 577,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1912,
+        654,
+        130
+      ],
+      [
+        1610,
+        654,
+        130
+      ],
+      [
+        711,
+        654,
+        130
+      ],
+      [
+        409,
+        654,
+        130
+      ]
+    ],
+    "nose": 5.447,
+    "tail": -5.551,
+    "exhaust": [
+      -5.151,
+      0.225
+    ],
+    "winch": [
+      5.347,
+      0.488
+    ]
+  },
+  "physics": {
+    "mudPull": 2.404,
+    "tireGrip": 1.435,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      0.925
+    ],
+    "size": [
+      10.998,
+      2.891
+    ],
+    "wheelMass": 132,
+    "bodyBoxes": [
+      [
+        -4.651,
+        4.651,
+        0.188,
+        0.525,
+        0.4
+      ],
+      [
+        -5.551,
+        -4.126,
+        0.9,
+        2.092,
+        0.4
+      ],
+      [
+        -4.126,
+        -1.375,
+        0.488,
+        2.164,
+        0.4
+      ],
+      [
+        -1.375,
+        1.375,
+        0.488,
+        2.17,
+        0.4
+      ],
+      [
+        1.375,
+        4.126,
+        0.488,
+        2.792,
+        0.4
+      ],
+      [
+        4.126,
+        5.447,
+        0.9,
+        2.606,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "load": {
+      "massT": 8,
+      "centreOfMass": [
+        -1.552,
+        1.735
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.6416,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 41,
+    "exhaustBrake": 53,
+    "gears": {
+      "H": 6.985,
+      "L": 26.55,
+      "R": 20.953
+    },
+    "brakeTorque": 2043,
+    "openDiffGrip": 1,
+    "fuelLitres": 405
+  }
+}

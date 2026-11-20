@@ -1,0 +1,232 @@
+{
+  "id": "gorge-titan-17",
+  "name": "Gorge Titan",
+  "number": 17,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "mud-terrain",
+  "status": "playable",
+  "tagline": "Tall-cab 8×8 crawler",
+  "description": "Grey-green 8×8 crawler truck with a tall cab, carrying tarped equipment on the bed, on mud-terrain tyres, with front winch, roof spotlights.",
+  "stats": {
+    "power": 83,
+    "speed": 50,
+    "grip": 70,
+    "capacity": 22
+  },
+  "biomes": [
+    "Mud",
+    "Rock",
+    "Swamp"
+  ],
+  "load": {
+    "name": "Equipment",
+    "massT": 5
+  },
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../ural-bear-7/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1060,
+      691
+    ],
+    "pixelsPerMetre": 207.647,
+    "axles": [
+      3.65,
+      1.517,
+      -1.642,
+      -3.65
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626.5,
+      626.5
+    ],
+    "wheelArtRadius": 571,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1818,
+        691,
+        159
+      ],
+      [
+        1375,
+        691,
+        159
+      ],
+      [
+        719,
+        691,
+        159
+      ],
+      [
+        302,
+        691,
+        159
+      ]
+    ],
+    "nose": 5.225,
+    "tail": -4.97,
+    "exhaust": [
+      -4.57,
+      0.255
+    ],
+    "winch": [
+      5.125,
+      0.553
+    ]
+  },
+  "physics": {
+    "mudPull": 2.483,
+    "tireGrip": 1.448,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      1.051
+    ],
+    "size": [
+      10.195,
+      3.284
+    ],
+    "wheelMass": 370,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -4.5,
+        4.5,
+        0.213,
+        0.595,
+        0.4
+      ],
+      [
+        -4.97,
+        -3.905,
+        1.02,
+        2.35,
+        0.4
+      ],
+      [
+        -3.905,
+        -1.302,
+        0.553,
+        2.499,
+        0.4
+      ],
+      [
+        -1.302,
+        1.302,
+        0.553,
+        2.779,
+        0.4
+      ],
+      [
+        1.302,
+        3.905,
+        0.553,
+        2.938,
+        0.4
+      ],
+      [
+        3.905,
+        5.225,
+        1.02,
+        1.575,
+        0.4
+      ]
+    ],
+    "load": {
+      "massT": 5,
+      "centreOfMass": [
+        -1.372,
+        1.97
+      ]
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.8362,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 564,
+    "exhaustBrake": 727,
+    "gears": {
+      "H": 14.129,
+      "L": 36.9,
+      "R": 28.9
+    },
+    "brakeTorque": 41466,
+    "openDiffGrip": 1,
+    "fuelLitres": 396
+  }
+}

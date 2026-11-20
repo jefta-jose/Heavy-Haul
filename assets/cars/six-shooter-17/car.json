@@ -1,0 +1,207 @@
+{
+  "id": "six-shooter-17",
+  "name": "Six Shooter",
+  "number": 17,
+  "class": "scout",
+  "drive": "6×6",
+  "wheelType": "all-terrain",
+  "status": "playable",
+  "tagline": "Six-wheel desert pickup",
+  "description": "Forest green 6×6 desert pickup conversion: crew cab with a long bed over two close rear axles, on all-terrain tyres, with bed spare wheel, light bar, wide flares.",
+  "stats": {
+    "power": 83,
+    "speed": 83,
+    "grip": 45,
+    "capacity": 0
+  },
+  "biomes": [
+    "Gravel",
+    "Forest",
+    "Mud"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../sandpiper-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1169,
+      692
+    ],
+    "pixelsPerMetre": 333.929,
+    "axles": [
+      2.228,
+      -0.791,
+      -2.228
+    ],
+    "wheelY": [
+      0,
+      0,
+      0
+    ],
+    "radius": 0.7,
+    "wheelPivot": [
+      627,
+      627
+    ],
+    "wheelArtRadius": 547,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1913,
+        692,
+        210
+      ],
+      [
+        905,
+        692,
+        210
+      ],
+      [
+        425,
+        692,
+        210
+      ]
+    ],
+    "nose": 3.138,
+    "tail": -3.261,
+    "exhaust": [
+      -2.861,
+      0.21
+    ],
+    "winch": [
+      3.038,
+      0.455
+    ]
+  },
+  "physics": {
+    "mudPull": 2.336,
+    "tireGrip": 1.403,
+    "mass": 3800,
+    "centreOfMass": [
+      0,
+      0.56
+    ],
+    "size": [
+      6.399,
+      1.749
+    ],
+    "wheelMass": 181,
+    "bodyBoxes": [
+      [
+        -2.928,
+        2.928,
+        0.175,
+        0.49,
+        0.4
+      ],
+      [
+        -3.261,
+        -2.438,
+        0.84,
+        1.078,
+        0.4
+      ],
+      [
+        -2.438,
+        0,
+        0.455,
+        1.461,
+        0.4
+      ],
+      [
+        0,
+        2.438,
+        0.455,
+        1.674,
+        0.4
+      ],
+      [
+        2.438,
+        3.138,
+        0.84,
+        1.063,
+        0.4
+      ]
+    ],
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    }
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 0.4398,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 68,
+    "exhaustBrake": 87,
+    "gears": {
+      "H": 4.856,
+      "L": 18.45,
+      "R": 14.568
+    },
+    "brakeTorque": 3997,
+    "openDiffGrip": 1,
+    "fuelLitres": 243
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "id": "cayman-16",
+  "name": "Cayman",
+  "number": 16,
+  "class": "offroad",
+  "drive": "8×8",
+  "wheelType": "flotation",
+  "status": "playable",
+  "tagline": "8×8 amphibian",
+  "description": "Sand camouflage 8×8 amphibian with flotation tyres, on flotation tyres, with bow winch, propeller guard.",
+  "stats": {
+    "power": 80,
+    "speed": 50,
+    "grip": 85,
+    "capacity": 0
+  },
+  "biomes": [
+    "Mud",
+    "Forest",
+    "Swamp"
+  ],
+  "art": {
+    "master": {
+      "file": "art/master.webp",
+      "source": "source/vehicle-master-v1.png",
+      "width": 1000
+    },
+    "body": {
+      "file": "art/body.webp",
+      "source": "source/body-v1.png"
+    },
+    "wheel": {
+      "file": "../floodwalker-9/art/wheel.webp",
+      "sourceSize": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "rig": {
+    "bodyOrigin": [
+      1076,
+      628
+    ],
+    "pixelsPerMetre": 203.824,
+    "axles": [
+      3.057,
+      1.02,
+      -1.03,
+      -3.057
+    ],
+    "wheelY": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "radius": 0.85,
+    "wheelPivot": [
+      626,
+      626
+    ],
+    "wheelArtRadius": 588,
+    "farWheelOffset": [
+      0.2,
+      0.13
+    ],
+    "archCircles": [
+      [
+        1699,
+        628,
+        156
+      ],
+      [
+        1284,
+        628,
+        156
+      ],
+      [
+        866,
+        628,
+        156
+      ],
+      [
+        453,
+        628,
+        156
+      ]
+    ],
+    "nose": 5.156,
+    "tail": -5.039,
+    "exhaust": [
+      -4.639,
+      0.255
+    ],
+    "winch": [
+      5.056,
+      0.553
+    ]
+  },
+  "physics": {
+    "mudPull": 2.434,
+    "tireGrip": 1.433,
+    "mass": 18000,
+    "centreOfMass": [
+      0,
+      0.944
+    ],
+    "size": [
+      10.195,
+      2.949
+    ],
+    "wheelMass": 152,
+    "suspension": {
+      "sag": 0.15,
+      "travelUp": 0.34,
+      "travelDown": 0.4,
+      "damping": 0.48
+    },
+    "bodyBoxes": [
+      [
+        -3.907,
+        3.907,
+        0.213,
+        0.595,
+        0.4
+      ],
+      [
+        -5.039,
+        -3.312,
+        1.02,
+        1.953,
+        0.4
+      ],
+      [
+        -3.312,
+        -1.104,
+        0.553,
+        1.958,
+        0.4
+      ],
+      [
+        -1.104,
+        1.104,
+        0.553,
+        1.972,
+        0.4
+      ],
+      [
+        1.104,
+        3.312,
+        0.553,
+        2.36,
+        0.4
+      ],
+      [
+        3.312,
+        5.156,
+        1.02,
+        1.737,
+        0.4
+      ]
+    ]
+  },
+  "drivetrain": {
+    "idleRpm": 750,
+    "governedRpm": 2300,
+    "inertia": 0.5,
+    "efficiency": 0.85,
+    "torqueCurve": [
+      [
+        600,
+        1800
+      ],
+      [
+        900,
+        2600
+      ],
+      [
+        1200,
+        2950
+      ],
+      [
+        1500,
+        2900
+      ],
+      [
+        1800,
+        2600
+      ],
+      [
+        2150,
+        2100
+      ],
+      [
+        2300,
+        0
+      ]
+    ],
+    "torqueScale": 1.4129,
+    "converterBoost": 1.1,
+    "converterCoupleRpm": 1000,
+    "driveRamp": {
+      "base": 420,
+      "launch": 1300,
+      "launchUntilRpm": 1100,
+      "maxSlipRpm": 700
+    },
+    "throttleRise": 1.8,
+    "engineBrake": 161,
+    "exhaustBrake": 208,
+    "gears": {
+      "H": 7.651,
+      "L": 23.436,
+      "R": 18.355
+    },
+    "brakeTorque": 13112,
+    "openDiffGrip": 1,
+    "fuelLitres": 378
+  }
+}
