@@ -235,6 +235,7 @@ async function driveOff(sel) {
     // a map picked in the garage is swapped in here, behind the loading screen that shows anyway (2026-11-18): picking is instant
     if (pendingSeason && pendingSeason !== content.season.id) await switchSeason(pendingSeason, { quiet: true });
     pendingSeason = null;
+    if (garage.seasonId !== content.season.id) garage.seasonChanged();   // a switch that did not happen must not leave the garage thinking it did
     prepareRun(sel);
     await until(() => renderer.ready, 15000);
     await framesDrawn(2);   // the first frames build the sprites for this truck's zoom
@@ -267,22 +268,23 @@ async function switchSeason(id, { quiet = false } = {}) {
   const next = content.playableSeasons?.find(x => x.season.id === id);
   if (!next || id === content.season.id || switchingSeason || (loading && !quiet)) return;
   switchingSeason = true;
-  try { localStorage.setItem('haul.season', id); } catch (e) {}
-  if (!quiet) {
-    hud.busy(true, `Heading to ${next.season.name}`);
-    await new Promise(r => setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(r)), 180));   // the gears are up first
-  }
-  Object.assign(content, { season: next.season, rockHulls: next.rockHulls, seasonArt: Object.fromEntries(Object.entries(next.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
-  sim.setSeason(next.season, next.rockHulls);
-  const art = renderer.setSeason();
-  ambience.splice(0, ambience.length, ...(next.season.ambience ?? []));
-  loader.setPlace(next.season.name, next.season.place ?? '');
-  sim.init(sim.trail.start, selection); view.snap(); trap.reset(); session.reset();
-  missions.mapChanged();   // fresh offers sized to this trail
-  garage.seasonChanged();
-  await Promise.race([art, new Promise(r => setTimeout(r, 15000))]);
-  if (!quiet) { await framesDrawn(2); hud.busy(false); }
-  switchingSeason = false;
+  try {
+    try { localStorage.setItem('haul.season', id); } catch (e) {}
+    if (!quiet) {
+      hud.busy(true, `Heading to ${next.season.name}`);
+      await new Promise(r => setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(r)), 180));   // the gears are up first
+    }
+    Object.assign(content, { season: next.season, rockHulls: next.rockHulls, seasonArt: Object.fromEntries(Object.entries(next.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
+    sim.setSeason(next.season, next.rockHulls);
+    const art = renderer.setSeason();
+    ambience.splice(0, ambience.length, ...(next.season.ambience ?? []));
+    loader.setPlace(next.season.name, next.season.place ?? '');
+    sim.init(sim.trail.start, selection); view.snap(); trap.reset(); session.reset();
+    missions.mapChanged();   // fresh offers sized to this trail
+    garage.seasonChanged();
+    await Promise.race([art, new Promise(r => setTimeout(r, 15000))]);
+    if (!quiet) await framesDrawn(2);
+  } finally { if (!quiet) hud.busy(false); switchingSeason = false; }   // a failed switch must not block every later one
 }
 
 async function goFullscreen() {

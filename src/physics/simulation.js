@@ -1,5 +1,5 @@
 import { GLOBAL_FUEL_BURN_MULTIPLIER, WINCH_BAY_SLACK_M, WINCH_BAY_OFFSET_M, CROSS_CLASS_PULL, NEVER_STUCK_MU, SPAWN_REACH, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, SERVICE_TORQUE_MULTIPLIER, SERVICE_GRIP_MULTIPLIER, SERVICE_WINCH_MULTIPLIER, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
-import { createTerrain } from './terrain.js';
+import { createTerrain, seasonSurfaces } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
 import { createDrivetrain } from './drivetrain.js';
@@ -21,7 +21,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   // the season's trail and terrain; sim.setSeason swaps them for another map without a reload
   let trail, surfaces, terrain, visH, colH, zones, X0, X1, BARRIER_X;
   function useSeason(s, hulls) {
-    season = s; rockHulls = hulls; trail = s.trail; surfaces = s.surfaces;
+    season = s; rockHulls = hulls; trail = s.trail; surfaces = seasonSurfaces(s);
     terrain = createTerrain(trail, surfaces);
     ({ visH, colH, zones, X0, X1 } = terrain);
     // behind the start a wall (drawn as a line across the road) stops trucks reversing off the trail

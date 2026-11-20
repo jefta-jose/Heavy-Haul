@@ -44,9 +44,9 @@ export function createStunts({ sim, box }) {
     // through a heavy-mud pit without help
     const main = sim.main, x = main.parts.truck.getPosition().x, pits = sim.trail.heavyMud ?? [];
     if (sim.active !== main || sim.vehicles.some(o => o.cable)) helped = true;
-    const inside = pits.find(c => x > c - 10 && x < c + 10);
+    const half = sim.terrain?.bogHalfM ?? 10, inside = pits.find(c => x > c - half && x < c + half);
     if (inside != null && pit == null) { pit = inside; helped = sim.active !== main; }
-    else if (pit != null && inside == null) { if (x > pit + 10 && !helped) call('Mud bogger', 'no help'); pit = null; }
+    else if (pit != null && inside == null) { if (x > pit + half && !helped) call('Mud bogger', 'no help'); pit = null; }
   }
 
   return {

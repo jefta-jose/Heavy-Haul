@@ -1,7 +1,7 @@
 // Brings every season's crossings and roadside scenery to Blackwater Swamp's style (user decision, 2026-11-18):
 //   - every run of round obstacles uses the swamp's spacing and size (RUN_GAP_M, RUN_RADIUS);
 //   - roadside pieces are drawn at the swamp's heights (SCENERY_HEIGHT_M);
-//   - no roadside piece stands over a crossing, a low obstacle or a station, so none looks as if it is in the road:
+//   - no roadside piece stands over a crossing, a low obstacle, a station or a deep bog, so none looks as if it is in the road:
 //     one that would is moved on along the trail until it is clear;
 //   - an upright piece (a shack, a tower) wider than SLOPE_CHECK_M moves to the levellest clear spot within SEARCH_M, so it
 //     rises at most MAX_RISE_M across its width, as the swamp's do;
@@ -12,7 +12,7 @@
 //   node tools/content/tidy-layout.js --dry    prints what would change
 import fs from 'node:fs';
 import path from 'node:path';
-import { runLength, createTerrain } from '../../src/physics/terrain.js';
+import { runLength, createTerrain, seasonSurfaces } from '../../src/physics/terrain.js';
 import { SCENERY_FLAT_M, STATION_WIDTH_M, HIGHWAY_SIGN_WIDTH_M, SPEED_TRAP_FROM_END_M } from '../../src/game-config.js';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
@@ -45,6 +45,8 @@ for (const id of fs.readdirSync(dir).sort()) {
     ...(t.obstacleRuns ?? []).map(r => [r.x - RUN_RADIUS * S, r.x - RUN_RADIUS * S + runLength(r, S)]),
     ...(t.props ?? []).map(p => { const w = (t.propKinds?.[p.kind]?.width ?? 2) * S; return [p.x - w / 2, p.x + w / 2]; }),
     ...(t.stations ?? []).map(s => [s.x - STATION_WIDTH_M / 2, s.x + STATION_WIDTH_M / 2]),
+    // a deep bog's pit: nothing stands in it (its half length is the map's MUD_HARDNESS bogHalfM, else 10 m)
+    ...(t.heavyMud ?? []).map(c => { const h = seasonSurfaces(season).mud?.bogHalfM ?? 10; return [c - h, c + h]; }),
     // each highway's banner, at its start and past its speed camera (as src/render/layers/props.js draws them)
     ...(t.highways ?? []).flatMap(h => [h.x0 + HIGHWAY_SIGN_WIDTH_M, h.x1 - SPEED_TRAP_FROM_END_M + HIGHWAY_SIGN_WIDTH_M / 2 + 1].map(x => [x - HIGHWAY_SIGN_WIDTH_M / 2, x + HIGHWAY_SIGN_WIDTH_M / 2])),
   ];
@@ -64,7 +66,7 @@ for (const id of fs.readdirSync(dir).sort()) {
   const widthOf = it => { const a = art[it.art]; return a ? (a.crop[2] - a.crop[0]) * a.heightM / (a.crop[3] - a.crop[1]) : 0; };
   const isClear = (x, w) => !busy.some(([c, d]) => x + w / 2 > c - CLEAR_M && x - w / 2 < d + CLEAR_M);
   for (let pass = 0; pass < 3; pass++) {
-    const terrain = createTerrain(t, season.surfaces), rise = (x, w) => { let lo = Infinity, hi = -Infinity; for (let d = -w / 2; d <= w / 2; d += 0.25) { const y = terrain.visH(x + d); lo = Math.min(lo, y); hi = Math.max(hi, y); } return hi - lo; };
+    const terrain = createTerrain(t, seasonSurfaces(season)), rise = (x, w) => { let lo = Infinity, hi = -Infinity; for (let d = -w / 2; d <= w / 2; d += 0.25) { const y = terrain.visH(x + d); lo = Math.min(lo, y); hi = Math.max(hi, y); } return hi - lo; };
     for (const it of t.scenery ?? []) {
       const w = widthOf(it); if (art[it.art]?.lean || w < SLOPE_CHECK_M || rise(it.x, w) <= MAX_RISE_M) continue;
       let best = it.x, bestRise = rise(it.x, w);

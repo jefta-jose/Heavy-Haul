@@ -125,7 +125,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (run.farthest == null) run.farthest = p.x;
     if (p.x > run.farthest) { if (canProgress()) { api.earn((p.x - run.farthest) * COINS_PER_METRE); gainXp((p.x - run.farthest) * XP_PER_METRE); } run.farthest = p.x; }
     const bogs = trail.heavyMud ?? [];
-    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + 12) { if (canProgress()) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; } run.bogsDone++; }
+    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + (sim.terrain?.bogHalfM ?? 10) + 2) { if (canProgress()) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; } run.bogsDone++; }
     if ((run.saveT += dt) > 2) { run.saveT = 0; api.persist(); }
     if (run.time > 6) hud.setCardVisible(false);
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);

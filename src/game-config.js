@@ -170,6 +170,17 @@ export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of 
 export const NEVER_STUCK_MU = 0.85;          // minimum grip in soft ground for service tires
 export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
 
+// ---------- heavy-mud maps (user request, 2026-11-20) ----------
+// A map listed here has its mud made harder than its season.json says, so its difficulty is tuned in one place (1 = as written).
+//   sink      how far tyres sink, in ordinary mud and in the deep bogs
+//   hold      how hard the mud holds a tyre back: bog drag, suction and the deep bogs' extra pull
+//   grip      grip left in the mud (under 1 = slicker)
+//   bogHalfM  half of each deep bog's length, metres (10 on every other map)
+// Where the bogs are is the map's own data: trail.heavyMud in its season.json (one entry per bog centre).
+export const MUD_HARDNESS = {
+  'gumbo-bottoms': { sink: 1.15, hold: 1.2, grip: 0.92, bogHalfM: 14 },
+};
+
 // ---------- atmosphere, lens and stunts (src/render/layers/atmosphere.js, src/render/lens.js, src/game/stunts.js) ----------
 // Each map picks its weather in season.json render.atmosphere; these are the shared numbers.
 export const WEATHER_COUNTS = { rain: 240, drizzle: 110, ash: 150, embers: 40, leaves: 55, dust: 12, grit: 80, pollen: 60, butterflies: 7, snow: 120 };  // at density 1 on a 1440 × 810 screen

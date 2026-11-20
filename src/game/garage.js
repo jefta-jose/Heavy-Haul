@@ -246,8 +246,17 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     // a drag must not also count as a tap on the card under the finger
     const swallowClick = () => { const stop = ev => { ev.stopPropagation(); ev.preventDefault(); }; window.addEventListener('click', stop, { capture: true, once: true }); setTimeout(() => window.removeEventListener('click', stop, { capture: true }), 400); };
     window.addEventListener('resize', () => { if (cfg) { measure(); draw(); } });
+    // a card still sliding to the middle counts as picked: leaving the page or pressing PLAY mid-slide used to drop the pick
+    // (the title and scene had already changed, but `land` never ran, so the map did not switch)
+    function settle() {
+      if (target == null || !cfg) return;
+      if (raf) cancelAnimationFrame(raf); raf = 0; last = 0;
+      const k = target, c = cfg; pos = k; vel = 0; target = null; draw(); c.land(wrap(k));
+    }
     return {
+      settle,
       set(next) {
+        if (next.key !== key) settle();
         const same = next.key === key && cfg;
         cfg = next; box.classList.add('deck'); $('hcTrack').hidden = n() < 2;
         if (same && !next.rebuild) return;
@@ -257,6 +266,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         measure(); draw();
       },
       clear() {
+        settle();
         if (raf) cancelAnimationFrame(raf); raf = 0; cfg = null; key = null; target = null; vel = 0; drag = null;
         slots.clear(); box.classList.remove('deck'); $('hcTrack').hidden = true;
       },
@@ -301,6 +311,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     $('gSellFor').textContent = canSell ? formatCoins(sellValue(c)) : '';
   }
   $('startBtn').addEventListener('click', () => {
+    deck.settle();
     const c = page === 'vehicle' ? browse : car;
     if (owns(c.id)) { onStart({ car: tunedOf(c) }); return; }
     if (!isOpen(c.id)) return;

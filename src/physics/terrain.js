@@ -1,5 +1,13 @@
 import { smoothstep as sm, seededRandom, valueNoise } from './math.js';
-import { STATION_BAY_M, SCENERY_FLAT_M } from '../game-config.js';
+import { STATION_BAY_M, SCENERY_FLAT_M, MUD_HARDNESS } from '../game-config.js';
+
+// A season's surfaces with its MUD_HARDNESS applied (src/game-config.js); a map not listed keeps its own object as written.
+export function seasonSurfaces(season) {
+  const h = MUD_HARDNESS[season.id], m = season.surfaces.mud;
+  if (!h || !m) return season.surfaces;
+  return { ...season.surfaces, mud: { ...m, mu: m.mu * (h.grip ?? 1), sink: m.sink * (h.sink ?? 1), heavySink: (m.heavySink ?? 0) * (h.sink ?? 1),
+    bog: m.bog * (h.hold ?? 1), suction: m.suction * (h.hold ?? 1), heavyDrag: (m.heavyDrag ?? 0) * (h.hold ?? 1), bogHalfM: h.bogHalfM ?? m.bogHalfM } };
+}
 
 // One height profile shared by physics and rendering. The macro shape comes from the trail keys
 // (monotone cubic, so slopes run continuously), plus value noise scaled by surface, plus authored
@@ -24,6 +32,7 @@ export function createTerrain(trail, surfaces) {
   const HV = new Float32Array(N), HC = new Float32Array(N), heavy = new Float32Array(N);
   const features = [];
   const holes = trail.holes ?? [], gardens = trail.rockGardens ?? [];
+  const BOG = surfaces.mud?.bogHalfM ?? 10;   // half a deep bog's length
   const nearHole = (x, pad = 0) => holes.some(h => Math.abs(x - h.x) < h.width / 2 + pad);
   // upright roadside scenery (a shack, a tower, a sign) stands on level road: its footprint is kept clear of rollers and steps
   const flatScenery = (trail.scenery ?? []).filter(it => SCENERY_FLAT_M[it.art]).map(it => [it.x - SCENERY_FLAT_M[it.art] / 2, it.x + SCENERY_FLAT_M[it.art] / 2]);
@@ -95,7 +104,7 @@ export function createTerrain(trail, surfaces) {
       } else if (s === 'mud') {
         for (let x = z0 + 10; x < z1 - 10; x += 24 + rnd() * 14) features.push({ type: 'bump', c: x + 8, w: 14 + rnd() * 10, h: -(0.35 + rnd() * 0.25) });   // bowls
         for (let x = z0 + 4; x < z1 - 4; x += 3 + rnd() * 4) features.push({ type: 'bump', c: x, w: 1.4 + rnd() * 1.2, h: (rnd() < 0.7 ? -1 : 1) * (0.07 + rnd() * 0.09) });   // ruts
-        for (const hx of HEAVY_MUD) if (hx > z0 && hx < z1) features.push({ type: 'bump', c: hx, w: 18, h: -0.6 });   // heavy mud pit
+        for (const hx of HEAVY_MUD) if (hx > z0 && hx < z1) features.push({ type: 'bump', c: hx, w: 2 * BOG - 2, h: -0.6 });   // heavy mud pit
       } else if (s === 'creek') {
         for (let x = z0 + 4; x < z1 - 4; x += 3 + rnd() * 4) features.push({ type: 'bump', c: x, w: 0.8 + rnd() * 1.2, h: (rnd() < 0.5 ? -1 : 1) * (0.08 + rnd() * 0.12) });
       }
@@ -125,7 +134,7 @@ export function createTerrain(trail, surfaces) {
     const BUMP_INTENSITY = R.intensity ?? 1.0;
 
     const S = trail.obstacleScale ?? 1, keep = [...CALM];
-    for (const c of HEAVY_MUD) keep.push([c - 12, c + 12]);
+    for (const c of HEAVY_MUD) keep.push([c - BOG - 2, c + BOG + 2]);
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
     for (const r of trail.ramps ?? []) keep.push([r.x, r.x + r.face + r.plateau + r.back]);
@@ -177,7 +186,7 @@ export function createTerrain(trail, surfaces) {
       for (let k = 0; k < 3; k++) amps[k][i] = a[k];
       if (s === 'mud') {
         const z = ZONES.find(z => x >= z[0] && x < z[1]);
-        const heavy = HEAVY_MUD.reduce((v, centre) => Math.max(v, sm(1 - Math.abs(x - centre) / 10)), 0);
+        const heavy = HEAVY_MUD.reduce((v, centre) => Math.max(v, sm(1 - Math.abs(x - centre) / BOG)), 0);
         sink[i] = (surfaces.mud.sink + (surfaces.mud.heavySink ?? 0) * heavy) * sm(Math.min(x - z[0], z[1] - x) / 8);
       }
     }
@@ -210,7 +219,7 @@ export function createTerrain(trail, surfaces) {
   const mudHeavyAt = x => {
     if (surfAt(x) !== 'mud') return 0;
     let value = 0;
-    for (const centre of HEAVY_MUD) value = Math.max(value, sm(1 - Math.abs(x - centre) / 10));
+    for (const centre of HEAVY_MUD) value = Math.max(value, sm(1 - Math.abs(x - centre) / BOG));
     return value;
   };
   buildHeights();
@@ -223,5 +232,5 @@ export function createTerrain(trail, surfaces) {
     return out;
   };
   const stationAt = x => stations.find(s => Math.abs(x - s.x) <= STATION_BAY_M / 2);
-  return { stations, stationAt, X0, X1, step: DX, zones: ZONES, features, holes, nearHole, surfAt, visH, colH, mudAt, mudHeavyAt, nearCalm, nearStep };
+  return { bogHalfM: BOG, stations, stationAt, X0, X1, step: DX, zones: ZONES, features, holes, nearHole, surfAt, visH, colH, mudAt, mudHeavyAt, nearCalm, nearStep };
 }
