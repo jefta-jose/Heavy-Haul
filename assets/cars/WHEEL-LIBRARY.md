@@ -13,7 +13,7 @@ The runtime file is `assets/cars/<donor>/art/wheel.webp`.
 | AT-alloy | `sandpiper-9` | all-terrain | black tyre, black six-spoke alloy | modern or electric 4×4s, sports trucks |
 | AT-truck | `fuel-runner-11` | all-terrain | black tyre, silver truck disc with hand holes | road tractors, semi-trailers, vans |
 | AT-tan | `crane-carrier-11` | all-terrain | brown tyre, beige heavy truck disc | work trucks, cranes, utility trucks |
-| AT-olive | `steppe-liner-11` | all-terrain | brown tyre, olive steel rim | expedition and military-style trucks |
+| AT-olive | `wadi-hunter-8` | all-terrain | brown tyre, olive steel rim | expedition and military-style trucks |
 | MT-steel | `mudskipper-11` | mud-terrain | chunky lugs, black 8-hole steel rim | mud 4×4s, log trucks, farm trucks |
 | MT-spoke | `hill-jackal-7` | mud-terrain | chunky lugs, dark ten-spoke rim | army trucks, armoured vehicles |
 | MT-olive | `ural-bear-7` | mud-terrain | chunky lugs, olive military disc | army cargo and supply trucks |

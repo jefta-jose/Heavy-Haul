@@ -127,8 +127,8 @@
       3.8
     ],
     "wheelMass": 300,
-    "tireGrip": 1.477,
-    "mudPull": 2.608,
+    "tireGrip": 1.445,
+    "mudPull": 2.512,
     "bodyBoxes": [
       [
         -6.639,
@@ -236,7 +236,7 @@
         0
       ]
     ],
-    "torqueScale": 5.7908,
+    "torqueScale": 5.4597,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

@@ -12,7 +12,7 @@ import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH, SWITCH_BUSY_S } from './game-config.js';
+import { COINS_PER_CRUSH, SWITCH_BUSY_S, STARTING_RANK, STARTING_COINS } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -305,8 +305,21 @@ E.pauseBtn.addEventListener('click', pause);
 E.breakdownCallBtn.addEventListener('click', () => summon('breakdown'));
 E.switchBtn.addEventListener('click', switchVehicle);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
-document.addEventListener('visibilitychange', () => { if (!document.hidden) return; if (session.state === 'play') pause(); session.persist(); });
-window.addEventListener('pagehide', () => session.persist());   // the app or tab closing: the last coins and XP are kept
+// Reset saved game, shown only while the testing start values are in (a production build has rank 1 and 20000 coins, so it never
+// appears there). Wipes every saved key, then blocks writes so pagehide cannot save the old coins and XP back before the reload.
+let resetting = false;
+const resetBtn = document.getElementById('garageResetBtn');
+resetBtn.hidden = STARTING_RANK === 1 && STARTING_COINS === 20000;
+resetBtn.addEventListener('click', () => {
+  if (!confirm('Reset the saved game? Coins, rank, trucks, upgrades, missions and settings are all cleared.')) return;
+  // Assigning localStorage.setItem only stores an item called "setItem" (Storage's named setter), so writes are blocked on the
+  // prototype instead, and the pagehide / visibilitychange saves below are skipped.
+  resetting = true;
+  try { Storage.prototype.setItem = function () {}; localStorage.clear(); sessionStorage.clear(); } catch (e) {}
+  location.reload();
+});
+document.addEventListener('visibilitychange', () => { if (!document.hidden || resetting) return; if (session.state === 'play') pause(); session.persist(); });
+window.addEventListener('pagehide', () => { if (!resetting) session.persist(); });   // the app or tab closing: the last coins and XP are kept
 window.addEventListener('resize', resize);
 
 // ---------- loop ----------

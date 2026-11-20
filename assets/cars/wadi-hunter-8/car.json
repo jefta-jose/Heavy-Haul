@@ -34,7 +34,7 @@
       "source": "source/body-v1.png"
     },
     "wheel": {
-      "file": "../steppe-liner-11/art/wheel.webp",
+      "file": "art/wheel.webp",
       "sourceSize": [
         1254,
         1254
@@ -96,8 +96,8 @@
     ]
   },
   "physics": {
-    "mudPull": 1.805,
-    "tireGrip": 1.238,
+    "mudPull": 1.708,
+    "tireGrip": 1.208,
     "mass": 9000,
     "centreOfMass": [
       0,
@@ -194,7 +194,7 @@
         0
       ]
     ],
-    "torqueScale": 0.6439,
+    "torqueScale": 0.6159,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
