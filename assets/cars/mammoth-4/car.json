@@ -3,7 +3,7 @@
   "name": "Mammoth",
   "number": 4,
   "class": "heavy",
-  "drive": "10×10",
+  "drive": "10\u00d710",
   "wheelType": "chained",
   "status": "playable",
   "tagline": "Boulder heavy hauler",
@@ -38,8 +38,7 @@
           -2.740405814
         ]
       },
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
@@ -57,11 +56,7 @@
           1.009651905,
           -3.67171049
         ]
-      },
-      "sourceSize": [
-        2172,
-        724
-      ]
+      }
     },
     "wheel": {
       "file": "art/wheel.webp",

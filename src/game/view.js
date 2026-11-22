@@ -18,7 +18,7 @@ const FRAMING = {
   spring: { x: 2.2, y: 1.35 },
   keepIn: 0.45,                    // the car body's centre stays within this share of the half-height (clear of the HUD)
   maxDpr: 1.5,
-  phoneMaxDpr: 1.5,                 // touch screens under 520 px tall (1.75 until 2026-11-21: too heavy on phones); main.js steps down further if the phone can't hold it
+  phoneMaxDpr: 1.75,                // touch screens under 520 px tall: their trucks are small, so they need the pixels; main.js steps down if the phone can't hold it
 };
 
 export function createView(canvas, sim) {

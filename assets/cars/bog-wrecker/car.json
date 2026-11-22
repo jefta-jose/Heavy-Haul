@@ -3,11 +3,11 @@
   "name": "Bog Wrecker",
   "number": null,
   "class": "offroad",
-  "drive": "8×8",
+  "drive": "8\u00d78",
   "wheelType": "flotation",
   "status": "playable",
-  "tagline": "Off-road 8×8 recovery truck that never gets stuck",
-  "description": "An olive 8×8 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "tagline": "Off-road 8\u00d78 recovery truck that never gets stuck",
+  "description": "An olive 8\u00d78 military recovery truck for the off-road class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
     "power": 95,
     "grip": 95,
@@ -22,16 +22,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v4.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v3.png",
-      "sourceSize": [
-        2075,
-        1068
-      ]
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",

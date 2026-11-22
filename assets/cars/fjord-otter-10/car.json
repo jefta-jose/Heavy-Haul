@@ -3,11 +3,11 @@
   "name": "Fjord Otter",
   "number": 10,
   "class": "scout",
-  "drive": "4×4",
+  "drive": "4\u00d74",
   "wheelType": "mud-terrain",
   "status": "playable",
-  "tagline": "Burnt orange 4×4 pickup scout with an open bed",
-  "description": "Burnt orange 4×4 pickup scout with an open bed, carrying a white 1000 L water tank in a galvanized cage.",
+  "tagline": "Burnt orange 4\u00d74 pickup scout with an open bed",
+  "description": "Burnt orange 4\u00d74 pickup scout with an open bed, carrying a white 1000 L water tank in a galvanized cage.",
   "stats": {
     "power": 57,
     "speed": 67,
@@ -24,16 +24,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v2.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v5.png",
-      "sourceSize": [
-        1984,
-        793
-      ]
+      "source": "source/body-v5.png"
     },
     "wheel": {
       "file": "art/wheel.webp",

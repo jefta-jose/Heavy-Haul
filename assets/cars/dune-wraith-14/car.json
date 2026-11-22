@@ -23,16 +23,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v1.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png",
-      "sourceSize": [
-        1824,
-        957
-      ]
+      "source": "source/body-v1.png"
     },
     "wheel": {
       "file": "../overland-owl-12/art/wheel.webp",

@@ -3,11 +3,11 @@
   "name": "Moor Kestrel",
   "number": 17,
   "class": "scout",
-  "drive": "4×4",
+  "drive": "4\u00d74",
   "wheelType": "spiked",
   "status": "playable",
-  "tagline": "Mustard yellow 4×4 pickup scout with an open bed",
-  "description": "Mustard yellow 4×4 pickup scout with an open bed, carrying white crates with red crosses under a tarp.",
+  "tagline": "Mustard yellow 4\u00d74 pickup scout with an open bed",
+  "description": "Mustard yellow 4\u00d74 pickup scout with an open bed, carrying white crates with red crosses under a tarp.",
   "stats": {
     "power": 86,
     "speed": 88,
@@ -24,16 +24,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v1.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png",
-      "sourceSize": [
-        1774,
-        887
-      ]
+      "source": "source/body-v1.png"
     },
     "wheel": {
       "file": "art/wheel.webp",

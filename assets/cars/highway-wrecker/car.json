@@ -3,11 +3,11 @@
   "name": "Highway Wrecker",
   "number": null,
   "class": "highway",
-  "drive": "6×6",
+  "drive": "6\u00d76",
   "wheelType": "all-terrain",
   "status": "playable",
   "tagline": "Highway-class rotator wrecker that never gets stuck",
-  "description": "A pearl-white 6×6 rotator wrecker for the highway class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
+  "description": "A pearl-white 6\u00d76 rotator wrecker for the highway class. Call it from the start of the trail, back it up to a stuck truck, hook the winch and tow. It never gets stuck and never runs dry.",
   "stats": {
     "power": 95,
     "grip": 80,
@@ -21,16 +21,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v6.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v3.png",
-      "sourceSize": [
-        1950,
-        992
-      ]
+      "source": "source/body-v3.png"
     },
     "wheel": {
       "file": "art/wheel.webp",

@@ -99,12 +99,9 @@ export function createSceneryCache(scene) {
 export function createRigCache(view, rig, sources, art = {}) {
   const loader = loadImages(sources);
   const C = { key: '', outline: {}, halos: {}, images: loader.images, ready: loader.ready, loaded: loader.allLoaded };
-  // the body's size in the pixels its rig was measured in: art.body.sourceSize when the runtime file was saved smaller
-  // (tools/content/shrink-art.js), else the file's own size
-  Object.defineProperty(C, 'bodySize', { get: () => { const [width, height] = art.body?.sourceSize ?? [loader.images.body.width, loader.images.body.height]; return { width, height }; } });
   C.prepare = () => {
     const key = zoomKey(view); if (C.key === key || !loader.allLoaded()) return; C.key = key;
-    const px = view.ppm * view.DPR, A = loader.images, kb = Math.min(1, px / rig.pixelsPerMetre * 1.1 * C.bodySize.width / A.body.width);
+    const px = view.ppm * view.DPR, A = loader.images, kb = Math.min(1, px / rig.pixelsPerMetre * 1.1);
     C.body = scaled(A.body, kb);
     const [wheelWidth, wheelHeight] = art.wheel?.sourceSize ?? [A.wheel.width, A.wheel.height];
     C.wheelSize = { width: wheelWidth, height: wheelHeight };

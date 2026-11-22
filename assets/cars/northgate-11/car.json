@@ -3,7 +3,7 @@
   "name": "Northgate",
   "number": 11,
   "class": "heavy-duty",
-  "drive": "6×6",
+  "drive": "6\u00d76",
   "wheelType": "mud-terrain",
   "status": "playable",
   "tagline": "Sand beige heavy-duty work truck",
@@ -24,16 +24,11 @@
     "master": {
       "file": "art/master.webp",
       "source": "source/vehicle-master-v1.png",
-      "width": 1000,
-      "quality": 85
+      "width": 1000
     },
     "body": {
       "file": "art/body.webp",
-      "source": "source/body-v1.png",
-      "sourceSize": [
-        1774,
-        887
-      ]
+      "source": "source/body-v1.png"
     },
     "wheel": {
       "file": "art/wheel.webp",
