@@ -4,10 +4,13 @@ import { formatCoins } from './format.js';
 // left, a row of cards with the middle one large, the numbers under it. All of it is laid out in game.css.
 //   Trucks: the page the garage opens on, always (user, 2026-11-19), and the one any other page closes back to. The class tabs at
 //           the top; the class's trucks as cards, swiped left and right. An owned truck in the middle is the one PLAY drives; for
-//           an open one PLAY becomes BUY with its price, a locked one shows the rank it needs. SELL beside the numbers gives back
-//           what an owned truck cost.
-//   Seasons: every map as a card; swiping (or tapping a side card) moves to the next, and the middle one is the map at once
-//            (planned maps show locked and are skipped over for PLAY). The room behind changes with it.
+//           an open one PLAY becomes BUY with its price, a locked one shows the rank it needs. A truck once bought is
+//           kept: there is no selling (user, 2026-11-22); only upgrades can be reset for their coins back.
+//   Seasons: every map as a card, the owned ones first; swiping (or tapping a side card) moves to the next, and an owned one in
+//            the middle is the map at once. Two maps are free; on any other PLAY becomes BUY with its price in coins (season-pass.js).
+//            Planned maps show locked and are skipped over for PLAY. The room behind changes with it.
+//   Shop: a sheet too (SHOP, or a tap on the coins): bundles, single trucks, coins and ranks (shop.js), bought through the
+//         store (store.js; free while testing). A truck bought there is owned whatever its rank.
 //   Upgrade and Missions: sheets over the stage (sheet()), four tall cards in a row: one per tuning knob with its level and the
 //            price of the next step and the powers under them, or the missions on offer.
 // Every car carries its own load (part of its art and weight). Each car can be tuned (tuning.js): the run uses the tuned copy,
@@ -16,6 +19,8 @@ import { formatCoins } from './format.js';
 
 import { deriveSpecs } from '../../tools/lib/specs.js';
 import { wallet } from './wallet.js';
+import { createShop } from './shop.js';
+import { seasonPass } from './season-pass.js';
 import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, clampLevel, loadTuning, saveTuning, validLevels, loadPowers, savePowers } from './tuning.js';
 
 const $ = id => document.getElementById(id);
@@ -23,7 +28,7 @@ const $ = id => document.getElementById(id);
 const grossTonnes = c => (c.physics.mass + c.physics.wheelMass * c.rig.axles.length) / 1000 + (c.physics.load?.massT ?? 0);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
-export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSell, onSeason }) {
+export function createGarage({ content, progress, missions, onSelect, onStart, onBuy, onSeason }) {
   const classes = content.roster.classes, rank = Object.fromEntries(classes.map((c, i) => [c.id, i]));
   const rosterOf = id => content.roster.cars.find(c => c.id === id);
   const playable = new Map(content.cars.map(c => [c.id, c]));
@@ -45,7 +50,12 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const gIcon = id => $('garageIcons').content.querySelector(`[data-icon="garage-${id}"] svg`)?.cloneNode(true) ?? '';
 
   // ---------- seasons: every map, its card picture (its own card art if it has one, else its panorama) ----------
-  const seasonList = (content.seasons ?? [{ id: content.season.id, name: content.season.name, status: 'playable' }]);
+  const ownsSeason = s => s.status === 'playable' && seasonPass.owns(s.id);
+  // owned maps first, then the ones to buy, then the planned ones, each group in the season order the build gives
+  const seasonRank = s => ownsSeason(s) ? 0 : s.status === 'playable' ? 1 : 2;
+  const allSeasons = (content.seasons ?? [{ id: content.season.id, name: content.season.name, status: 'playable' }]);
+  let seasonList = [...allSeasons].sort((a, b) => seasonRank(a) - seasonRank(b));
+  const sortSeasons = () => { seasonList = [...allSeasons].sort((a, b) => seasonRank(a) - seasonRank(b)); };
   const seasonPic = id => {
     const s = content.playableSeasons?.find(x => x.season.id === id);
     const path = s && (s.art.card ?? s.art.backdrop);
@@ -56,7 +66,9 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
 
   // ---------- pages ----------
   let page = 'vehicle', browse = car, cls = car.class, seasonAt = 0;
-  const classCars = c => order.filter(x => x.class === c);
+  // a class's trucks, the owned ones first (a rank 17 truck bought in the shop comes before a rank 2 one not yet bought), each
+  // group weakest to strongest
+  const classCars = c => order.filter(x => x.class === c).sort((a, b) => owns(b.id) - owns(a.id));
   const garageEl = $('garage');
   // the stage's title, also written huge behind the truck (the stage's data-name, drawn by game.css)
   const setTitle = t => { $('hcTitle').textContent = t; $('hcStage').dataset.name = t; };
@@ -66,7 +78,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // UPGRADE and MISSIONS open a sheet over the stage (laid out like a page by game.css); its rail button lights while it is open,
   // tapping it again closes it, and opening any other page closes it too
   function sheet(name) {
-    for (const [id, ov, btn] of [['upgrade', 'tuneOv', 'gMenuTune'], ['missions', 'missionsOv', 'gMenuMissions']]) {
+    for (const [id, ov, btn] of [['upgrade', 'tuneOv', 'gMenuTune'], ['missions', 'missionsOv', 'gMenuMissions'], ['shop', 'shopOv', 'gMenuShop']]) {
       $(ov).hidden = name !== id; $(btn).classList.toggle('on', name === id);
     }
     if (name) garageEl.dataset.sheet = name; else delete garageEl.dataset.sheet;
@@ -106,7 +118,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const n = seasonList.length;
       deck.set({
         key: 'seasons', items: seasonList, at: seasonAt, rebuild,
-        make: x => card('slide', { label: x.name, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status === 'playable' ? null : 'Coming later' }),
+        make: x => card('slide', { label: x.name, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status !== 'playable' ? 'Coming later' : ownsSeason(x) ? null : `${formatCoins(seasonPass.price(x.id))} coins` }),
         near: i => { setTitle(seasonList[i].name); if (seasonList[i].status === 'playable') setScene(seasonList[i].id); },
         land: landSeason,
       });
@@ -141,7 +153,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // the map that lands in the middle is the map at once; a planned one is only shown
   function landSeason(i) {
     seasonAt = i; const s = seasonList[i];
-    if (s.status === 'playable' && s.id !== seasonId) { seasonId = s.id; onSeason?.(s.id); }
+    if (ownsSeason(s) && s.id !== seasonId) { seasonId = s.id; onSeason?.(s.id); }
     renderSpec(); renderPlay();
   }
   // an owned truck that lands in the middle is the one PLAY drives
@@ -298,20 +310,26 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     }
   }
   // PLAY drives the truck in the middle; on the Vehicle page an open truck not owned turns it into BUY with the price, and a
-  // locked one into the rank it needs. SELL under the numbers, for an owned truck that is not a free starter.
+  // locked one into the rank it needs.
+  // the map in the middle of the Seasons page when it is one to buy
+  const seasonToBuy = () => { const s = page === 'seasons' ? seasonList[seasonAt] : null; return s && s.status === 'playable' && !ownsSeason(s) ? s : null; };
   function renderPlay() {
     const btn = $('startBtn'), c = page === 'vehicle' ? browse : car; btn.replaceChildren(); btn.className = 'hc-btn go';
+    const map = seasonToBuy();
+    if (map) { const price = seasonPass.price(map.id); btn.disabled = false; btn.classList.add('buy'); btn.classList.toggle('poor', wallet.coins < price); btn.append(el('span', null, 'Buy'), el('i', 'coinic'), el('b', null, formatCoins(price))); return; }
     const mine = owns(c.id), open = isOpen(c.id);
     btn.disabled = !mine && !open;
     if (mine) btn.append(el('span', null, 'Play'));
     else if (open) { const price = progress.price(c.id); btn.classList.add('buy'); btn.classList.toggle('poor', wallet.coins < price); btn.append(el('span', null, 'Buy'), el('i', 'coinic'), el('b', null, formatCoins(price))); }
     else { btn.classList.add('locked'); btn.append(gIcon('lock'), el('span', null, `Rank ${unlockOf(c.id)}`)); }
-    const canSell = page === 'vehicle' && mine && unlockOf(c.id) > 1;
-    $('gMenuSell').hidden = !canSell;
-    $('gSellFor').textContent = canSell ? formatCoins(sellValue(c)) : '';
   }
   $('startBtn').addEventListener('click', () => {
     deck.settle();
+    const map = seasonToBuy();
+    if (map) {
+      if (!seasonPass.buy(map.id, wallet)) { shake($('gCoinsBox')); return; }   // not enough coins
+      onBuy?.(); seasonId = map.id; onSeason?.(map.id); sortSeasons(); seasonAt = seasonList.indexOf(map); render(); return;
+    }
     const c = page === 'vehicle' ? browse : car;
     if (owns(c.id)) { onStart({ car: tunedOf(c) }); return; }
     if (!isOpen(c.id)) return;
@@ -412,28 +430,58 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   $('gMenuMissions').addEventListener('click', () => { if (garageEl.dataset.sheet === 'missions') { sheet(null); render(); } else openMissions(); });
   $('missionsDone').addEventListener('click', () => { sheet(null); render(); });
 
-  // ---------- selling: everything spent on the truck comes back; the free starter of each class cannot be sold ----------
-  const upgradesSpent = c => KNOBS.reduce((s, k) => s + upgradeCost(c, 0, clampLevel(tuneOf(c.id)[k.id])), 0);
-  const sellValue = c => progress.price(c.id) + upgradesSpent(c);
-  const sellOv = $('sellOv');
-  $('gMenuSell').addEventListener('click', () => {
-    const c = browse, v = sellValue(c), up = upgradesSpent(c);
-    $('sellFor').textContent = nameOf(c);
-    $('sellText').textContent = 'You get back everything you spent on this truck. You can buy it again later.';
-    const spec = $('sellSpec'); spec.replaceChildren();
-    for (const [k, val] of [['Price paid', formatCoins(progress.price(c.id))], ['Upgrades', formatCoins(up)], ['You get', formatCoins(v)]]) { const cell = el('div', 'g-cell'); cell.append(el('dt', null, k), el('dd', null, val)); spec.append(cell); }
-    $('sellConfirm').textContent = `Sell for ${formatCoins(v)}`;
-    sellOv.hidden = false;
-  });
-  $('sellCancel').addEventListener('click', () => { sellOv.hidden = true; });
-  $('sellConfirm').addEventListener('click', () => {
-    const c = browse, v = sellValue(c);
-    if (progress.sell(c.id, wallet, v)) {
-      delete tuning[c.id]; saveTuning(tuning); delete powers[c.id]; savePowers(powers); onSell?.();
-      if (c.id === car.id) choose(classCars(c.class).find(x => owns(x.id)) ?? order.find(x => owns(x.id)));
+  // ---------- the shop: tabs, then a card per offer with its picture, what it gives and its price ----------
+  const shop = createShop({ content, progress, wallet });
+  let shopTab = 'featured', shopClass = classes[0]?.id;
+  function renderShop() {
+    $('shopCoins').textContent = formatCoins(wallet.coins);
+    $('shopTest').hidden = !shop.test;
+    const tabs = $('shopTabs'); tabs.replaceChildren();
+    for (const [id, label] of shop.tabs) {
+      const b = el('button', 'shop-tab' + (id === shopTab ? ' on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(id === shopTab));
+      b.addEventListener('click', () => { shopTab = id; renderShop(); $('shopGrid').scrollTop = 0; }); tabs.append(b);
     }
-    sellOv.hidden = true; render();
-  });
+    const chips = $('shopClasses'); chips.hidden = shopTab !== 'trucks'; chips.replaceChildren();
+    if (shopTab === 'trucks') for (const k of classes) {
+      const b = el('button', 'shop-class' + (k.id === shopClass ? ' on' : '')); const ic = icon(k.id); if (ic) b.append(ic); b.append(el('span', null, k.name));
+      b.addEventListener('click', () => { shopClass = k.id; renderShop(); $('shopGrid').scrollTop = 0; }); chips.append(b);
+    }
+    const grid = $('shopGrid'); grid.replaceChildren(); grid.dataset.tab = shopTab;
+    for (const o of shop.offers(shopTab, shopClass)) grid.append(offerCard(o));
+  }
+  function offerCard(o) {
+    const finished = shop.done(o), card = el('div', `sitem ${o.kind}${finished ? ' owned' : ''}`);
+    if (o.tag) card.append(el('span', 'stag', o.tag));
+    const art = el('span', `sart pics${Math.min(3, o.pics.length)}`);
+    if (o.pics.length) for (const p of o.pics.slice(0, 3)) { const img = el('img'); img.src = p; img.alt = ''; img.draggable = false; img.loading = 'lazy'; art.append(img); }
+    else if (o.kind === 'coins') { art.classList.add('coins', `size${o.size}`); for (let i = 0; i <= o.size; i++) art.append(el('i', 'coinic')); }
+    else { const g = gIcon(o.kind === 'rank' ? 'rank' : o.kind === 'bundle' ? 'bundle' : 'cash'); art.append(g); if (o.kind === 'rank') art.append(el('b', 'srank', o.ranks ? `+${o.ranks}` : 'MAX')); }
+    const left = o.kind === 'bundle' && !finished ? shop.newTrucks(o) : 0, total = o.gives.trucks.length;
+    const sub = left && left < total ? `${o.sub} · ${left} new for you` : o.sub;
+    const text = el('span', 'stext'); text.append(el('b', null, o.title), el('small', null, sub));
+    const buy = el('button', 'sbuy');
+    if (finished) { buy.append(el('span', null, o.kind === 'rank' ? 'Top rank' : 'Owned')); buy.disabled = true; }
+    else {
+      buy.append(el('span', null, shop.priceText(o)));
+      buy.addEventListener('click', async () => {
+        if (buy.disabled) return; buy.disabled = true; buy.replaceChildren(el('span', null, '…'));
+        const res = await shop.buy(o);
+        if (!res.ok) { buy.disabled = false; buy.replaceChildren(el('span', null, res.cancelled ? shop.priceText(o) : 'Try again')); if (res.error) $('shopNote').textContent = res.error; return; }
+        onBuy?.();
+        const got = res.got ?? { coins: 0, ups: [], trucks: [] };
+        $('shopNote').textContent = [got.coins ? `+${formatCoins(got.coins)} coins` : '', got.ups.length ? `Rank ${got.ups.at(-1).rank}` : '', got.trucks.length ? `${got.trucks.length} truck${got.trucks.length === 1 ? '' : 's'} added` : ''].filter(Boolean).join('  ·  ') || 'Bought';
+        buy.classList.add('done'); buy.replaceChildren(el('span', null, 'Added ✓'));
+        if (got.trucks.length === 1 && playable.has(got.trucks[0])) { const c = playable.get(got.trucks[0]); choose(c); browse = c; cls = c.class; }
+        renderTop(); setTimeout(() => { if (garageEl.dataset.sheet === 'shop') renderShop(); }, 900);
+      });
+    }
+    card.append(art, text, buy);
+    return card;
+  }
+  function openShop(tab) { go('vehicle'); if (tab) shopTab = tab; $('shopNote').textContent = 'Coins, ranks and trucks'; shopClass = browse?.class ?? shopClass; renderShop(); sheet('shop'); }
+  $('gMenuShop').addEventListener('click', () => { if (garageEl.dataset.sheet === 'shop') { sheet(null); render(); } else openShop(); });
+  $('gCoinsBox').addEventListener('click', () => openShop('coins'));
+  $('shopDone').addEventListener('click', () => { sheet(null); render(); });
 
   // ---------- PLAY, and the player's rank and coins ----------
   function renderTop() {
@@ -443,7 +491,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const pr = progress.progress;
       $('gRankNum').textContent = `Rank ${pr.rank}`;
       $('gRankFill').style.width = `${(pr.share * 100).toFixed(1)}%`;
-      $('gRankXp').textContent = pr.rank >= 20 ? `${pr.xp.toLocaleString('en-US')} XP · top rank` : `${pr.xp.toLocaleString('en-US')} / ${pr.to.toLocaleString('en-US')} XP`;
+      $('gRankXp').textContent = pr.top ? `${pr.xp.toLocaleString('en-US')} XP · top rank` : `${pr.xp.toLocaleString('en-US')} / ${pr.to.toLocaleString('en-US')} XP`;
     }
   }
   function render() {
@@ -462,6 +510,9 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     select(carId) { const c = playable.get(carId); if (c) { car = c; browse = c; cls = c.class; onSelect(car); } render(); return { car: tunedOf(car) }; },
     tune(carId, knob, k) { tuneOf(carId)[knob] = clampLevel(k); saveTuning(tuning); render(); },
     get selection() { return { car: tunedOf(car) }; },
+    openShop, shop,
+    // a class's trucks in the order the Trucks page shows them
+    trucksOf: c => classCars(c).map(x => x.id),
     get seasonId() { return seasonId; },
   };
 }

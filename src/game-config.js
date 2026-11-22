@@ -20,14 +20,13 @@ export const SPEED_SIGN_HEIGHT_M = 5;         // how tall the sign is drawn, pos
 export const ROADSIDE_SINK_M = 0.04;          // how far a roadside piece's foot sits below the road's drawn far edge, metres, so no hairline of sky shows under it
 export const SCENERY_FLAT_M = { stiltShack: 10, waterTower: 7, warningSign: 2.5, gatorSign: 2.5 };   // level road kept under each upright roadside piece, metres; leaning pieces (fences, wrecks) follow the ground
 export const DAMAGE_SLOWEST_POWER = 0.4;      // power and top speed just before the truck is wrecked (1 = no slowdown)
-// At 100% damage the run no longer ends: the truck is wrecked where it stands (engine dead, brakes locked) and the breakdown
-// button glows until it is towed into a station's bay, which repairs it. Only a class with no breakdown truck still ends the run.
+// At 100% damage the truck is wrecked (engine dead, brakes locked) and the run ends.
 
 // ---------- rolling back on slopes ----------
 // The parking brake only holds the truck you drive on gentle ground. On a slope steeper than this, uphill or downhill, with neither pedal
 // pressed it rolls downhill like a car in neutral: off slowly, gathering speed, held back only by rolling resistance and a share of its
 // engine braking. The brake pedal or the handbrake still hold it.
-// A truck you have stepped out of (driving another) keeps its brakes on, and a wrecked one is locked.
+// A wrecked truck is locked.
 export const ROLLBACK_SLOPE_DEG = 9;
 export const ROLLBACK_ENGINE_BRAKE = 0.12;
 export const ROLLBACK_EASE_S = 2;             // the brakes let go gradually over this long, so it creeps off before it gathers speed
@@ -41,6 +40,7 @@ export const CRASH_SECONDS = 1.2;             // this long on its roof or side a
 // ---------- automatic gears ----------
 export const AUTO_UP_AT = 0.9;                // shift up to the long gear at this share of the short gear's top speed
 export const AUTO_DOWN_AT = 0.45;             // shift back down to the short gear below this share of it
+export const GEAR_BLEND_S = 1.2;             // after a shift between the short and long gear, the pull eases from the old gear to the new one over this long
 export const AUTO_HOLD_S = 1.2;               // the least time between shifts, so it never hunts between gears
 export const REVERSE_AFTER_S = 0.35;          // hold the brake this long at a standstill and the truck starts reversing
 export const START_BARRIER_BEHIND_M = 10;     // a wall this far behind the trail start (the truck's middle) stops reversing off the trail; a longer rig starts moved forward until its tail clears it
@@ -65,11 +65,11 @@ export const MIN_PULL_BY_CLASS = { scout: 0.9, highway: 0.7, 'heavy-duty': 0.65,
 
 // ---------- class ladders (npm run rebalance writes these into every car.json and cars.json) ----------
 // Each class's cars, in roster order (cars.json `order`), climb from the first car's values by one step per car:
-//   kwPerT   engine power per loaded tonne (empty mass + load); the engine's torqueScale is set to give it,
-//            capped just under the class's breakdown truck so that truck stays the strongest
+//   kwPerT   engine power per loaded tonne (empty mass + load); the engine's torqueScale is set to give it
 //   grip     physics.tireGrip, all surfaces       mudPull  physics.mudPull, deep mud in L (higher = less bog drag)
 //   price    the first car you buy (rank 2); every later car costs priceStep more. Rank 1 cars are free.
-// Car i (0 = first) gets value + i x step. Ranks are spread evenly: rank = floor(i x 20 / cars in class) + 1.
+// Car i (0 = first) gets value + i x step. The first FREE_STARTER_SHARE of a class are rank 1 (free); the rest spread evenly over
+// ranks 2 to the top rank (RANK_XP.length).
 export const CLASS_LADDER = {
   scout:        { kwPerT: 30, kwPerTStep: 0.5238,  grip: 1.0,  gripStep: 0.0079, mudPull: 1.0, mudPullStep: 0.0262,  price: 6000,  priceStep: 943 },
   highway:      { kwPerT: 20, kwPerTStep: 0.1885, grip: 1.0,  gripStep: 0.0075, mudPull: 1.0, mudPullStep: 0.0242, price: 10800, priceStep: 1615 },
@@ -78,16 +78,13 @@ export const CLASS_LADDER = {
   heavy:        { kwPerT: 8,  kwPerTStep: 0.2727,  grip: 1.1,  gripStep: 0.0065, mudPull: 1.5, mudPullStep: 0.0191, price: 25200, priceStep: 3655 },
 };
 
-// ---------- recovery trucks ----------
-export const SERVICE_TORQUE_MULTIPLIER = 1.6; // more pulling power without changing gearing or top speed
-export const SERVICE_GRIP_MULTIPLIER = 1.8;   // traction to move both the recovery truck and its load
-export const SERVICE_WINCH_MULTIPLIER = 1.5;  // stronger cable on the class the truck serves
-
 // ---------- rank ----------
-// XP needed in total to reach each rank, rank 1 to 20. Reaching a rank opens one more truck in every class, to buy for its
-// price (cars.json: unlockRank and price). The weakest truck of each class is free from the start.
-export const RANK_XP = [0, 300, 1050, 2175, 3600, 5400, 7500, 9975, 12675, 15600, 18900, 22425, 26250, 30300, 34650, 39225, 44025, 49125, 54450, 60000];
-export const STARTING_RANK = 20;              // local testing value; manually reset to 1 for Google Play
+// XP needed in total to reach each rank, rank 1 to 40 (user, 2026-11-22: 40 ranks up to 75,000 XP; it was 20 up to 60,000). Each step
+// is about 85 XP bigger than the one before: 300 XP to rank 2, 3,550 for the last. Reaching a rank opens the trucks with that
+// unlockRank (cars.json), to buy for their price. Each class's first FREE_STARTER_SHARE of trucks (rounded up) are free from the start.
+export const RANK_XP = [0, 300, 675, 1150, 1725, 2350, 3075, 3900, 4800, 5775, 6850, 8000, 9250, 10575, 11975, 13475, 15050, 16725, 18475, 20300, 22225, 24250, 26325, 28525, 30775, 33125, 35575, 38075, 40700, 43375, 46150, 49025, 51975, 55000, 58125, 61325, 64625, 68000, 71450, 75000];
+export const FREE_STARTER_SHARE = 1 / 20;    // 3 free trucks in a class of 41 to 60
+export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 10;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 100;           // for reaching the depot
@@ -95,7 +92,7 @@ export const MISSION_BASE_XP = 100;          // a mission's XP before its diffic
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
-export const STARTING_COINS = 20000000;              // local testing value; manually reset to 20000 for Google Play
+export const STARTING_COINS = 20000;              // local testing value; manually reset to 20000 for Google Play
 export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
 export const COINS_PER_CRUSH = 5;             // for each thing crushed
 export const COINS_PER_BOG = 50;              // for getting through a deep bog
@@ -119,12 +116,7 @@ export const NITRO_TOP_SHARE = 1.6;           // nitro stops pushing at this sha
 export const INVINCIBLE_WARN_SECONDS = 3;     // the shield's glow flickers for the last few seconds
 export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that can't be damaged
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
-export const GUIDE_SPACING_M = 1.6;           // the winch guide: metres between chevrons on the road
-export const GUIDE_SIZE_M = 1.1;              // and how long each chevron is
-export const TOW_RELEASE_M = 10;             // a towed truck this far from where it was hooked, all wheels on firm ground, is out: the arrow says release
-export const STUCK_GLOW_S = 4;               // seconds of gas without moving before the breakdown button glows
 export const BRAKE_HISS_GAP_S = 1.5;          // a brake hiss or handbrake sound plays at most once in this many seconds, so pumping the pedal does not repeat it
-export const SWITCH_BUSY_S = 0.9;             // the full-screen wait after switching trucks or calling the breakdown truck lasts at least this long
 export const INSTANT_BRAKE_RATE = 12;         // how hard nitro's instant brake stops the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 
 // ---------- interface feedback ----------
@@ -162,13 +154,24 @@ export const WHEEL_RISE_MAX_SHARE = 0.25;     // how far a wheel can look to ris
 export const WHEEL_DROP_MAX_SHARE = 0.3;      // the same below its ride height; past that the body is drawn lowered to it, so a bouncing truck keeps its wheels
 export const BODY_LIFT_RESPONSE = 10;         // how fast the drawn body follows those limits, radians per second: higher keeps wheels closer to their limits, lower moves more smoothly
 
-// Fuel, recovery reach and service grip.
+// Fuel.
 export const GLOBAL_FUEL_BURN_MULTIPLIER = 1.0; // scales every truck's fuel burn
-export const WINCH_BAY_SLACK_M = 4.5;        // recovery bay = the service truck's own length plus this (about 11 m for the Mechanic Scout, 20 m for the Colossus); the whole truck must fit inside
-export const WINCH_BAY_OFFSET_M = 2;          // clear gap ahead of the stranded truck before the recovery bay
-export const CROSS_CLASS_PULL = 0.4;         // winch force share on a truck of another class
-export const NEVER_STUCK_MU = 0.85;          // minimum grip in soft ground for service tires
-export const SPAWN_REACH = 14;           // a called service truck parks within this of the main truck
+
+// ---------- a fully upgraded car never gets stuck (user decision, 2026-11-22) ----------
+// With all four garage knobs at 100 (tuning.js sets physics.neverStuck) mud and creek beds stop holding the truck: its tyres keep
+// at least NEVER_STUCK_MU grip there (less than dirt's 0.95, so mud still feels slippery), and instead of the bog drag that holds a
+// slow tyre, mud only slows it with a drag that grows with speed and is nothing at a standstill, so it is slower than firm ground
+// but can never pin the truck. At a deep bog's centre the drag is 1 + NEVER_STUCK_BOG_DRAG times as strong.
+export const NEVER_STUCK_MU = 0.6;
+export const NEVER_STUCK_MUD_DRAG = 0.3;      // m/s² of slowing for each m/s of speed in mud
+export const NEVER_STUCK_BOG_DRAG = 2;
+export const NEVER_STUCK_CLIMB_MU = 3;          // and at least this grip on logs, pipes and rocks, so a tyre climbs even a steep face
+// It never flips either: once its body tips past STABLE_PITCH_DEG from the ground under it (nose up while driving, or any way
+// at all), drive eases off over the next STABLE_SPAN_DEG, and a righting push turns it back toward the ground's slope.
+export const STABLE_PITCH_DEG = 22;
+export const STABLE_SPAN_DEG = 12;
+export const STABLE_RIGHTING = 60;            // righting push, rad/s² for each radian past STABLE_PITCH_DEG
+export const STABLE_DAMPING = 8;              // and how hard it brakes any further tipping, per second
 
 // ---------- heavy-mud maps (user request, 2026-11-20) ----------
 // A map listed here has its mud made harder than its season.json says, so its difficulty is tuned in one place (1 = as written).
@@ -197,3 +200,37 @@ export const STUNT_AIR_S = 0.45;              // airborne this long (every tyre 
 export const STUNT_CLIMB_DEG = 27;            // nose up this steep for STUNT_CLIMB_S calls HILL CLIMBER
 export const STUNT_CLIMB_S = 0.9;
 export const STUNT_COMBO_S = 2.5;             // rocks crushed within this of each other count as one ROCK CRUSHER combo
+
+// ---------- the shop (user, 2026-11-22): coins, ranks, single trucks and bundles, for real money once payments are added ----------
+// Until then every purchase goes through the test store (src/game/store.js) and is granted at once; prices are shown anyway.
+// Prices are US dollars as placeholders: the real store will show Google Play's localized prices. A truck bought here is owned
+// whatever its rank. See docs/payments-plan.md for the payment side.
+export const SHOP_TEST_PURCHASES = true;      // true: BUY grants at once, nothing is charged. Set false only when a real store is wired in
+export const SHOP_COIN_PACKS = [               // [coins, price, tag]
+  [25000, 0.99, ''],
+  [75000, 2.49, ''],
+  [200000, 4.99, 'Popular'],
+  [500000, 9.99, ''],
+  [1500000, 24.99, 'Best value'],
+];
+export const SHOP_RANK_PACKS = [               // [ranks gained (0 = straight to the top rank), price, tag]
+  [1, 0.99, ''],
+  [5, 3.99, 'Popular'],
+  [10, 6.99, ''],
+  [0, 14.99, 'Best value'],
+];
+export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a single truck costs by the rank it would open at
+  [10, 0.99],
+  [20, 1.99],
+  [30, 2.99],
+  [40, 3.99],
+];
+export const SHOP_CLASS_PACK_PRICE = 12.99;    // every truck of one class
+export const SHOP_NEXT_FIVE_PRICE = 4.99;      // the next truck you do not own in every class (five trucks)
+export const SHOP_TOP_FIVE_PRICE = 9.99;       // the strongest truck of every class
+export const SHOP_STARTER_BUNDLE = [60000, 3, 2.99];      // [coins, ranks, price]: a boost for a new player
+export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck, the top rank and the coins
+
+// ---------- maps (user, 2026-11-22): two are free, the rest are bought once with coins in the garage's Seasons page ----------
+export const FREE_SEASONS = ['swamp-summer', 'spring-thaw'];   // Blackwater Swamp (the default map) and Meltwater Pass (the first card)
+export const SEASON_PRICE = 100000;           // coins for each other map

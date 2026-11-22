@@ -21,7 +21,7 @@ test('four knobs, levels in steps of 25, and every car can take all four to 100'
 });
 
 test('each knob tunes every playable car and leaves the original alone', () => {
-  for (const car of [...content.cars, ...content.service]) {
+  for (const car of content.cars) {
     const before = JSON.stringify(car);
     const e = applyTuning(car, { engine: 100, speed: 100 }), c = applyTuning(car, { grip: 100 }), s = applyTuning(car, { suspension: 100 });
     const full = applyTuning(car, Object.fromEntries(KNOBS.map(k => [k.id, 100])));
@@ -57,14 +57,46 @@ test('tuning changes the drive: more power and grip, less fuel', () => {
   assert(perMetre(applyTuning(stock, { engine: 100 })) < perMetre(stock), 'a tuned engine burns less per metre');
 });
 
-// Ruts are not softened for anyone: tuning is how a light truck gets through, and the breakdown
-// truck is for when even that is not enough.
+// Ruts are not softened for anyone: tuning is how a light truck gets through.
 test('a fully tuned scout covers the mud a stock one bogs down in', () => {
   const scout = content.cars.find(c => c.id === 'ridge-pup-2'); if (!scout) return;
   const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
   const metres = car => [365, 2130, 2330].map(x => { const s = spawn(newSim(car), x); const x0 = s.truck.getPosition().x; s.ctl.gas = 1; advance(s, 20); return s.truck.getPosition().x - x0; });
   const stock = metres(scout), tuned = metres(applyTuning(scout, max));
   stock.forEach((m, i) => assert(tuned[i] > Math.max(40, m * 2), `spot ${i}: tuned ${tuned[i].toFixed(0)} m vs stock ${m.toFixed(0)} m in 20 s`));
+});
+
+test('only a fully upgraded car can never get stuck: mud stops holding it and its chassis rides over obstacles', () => {
+  const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
+  assert.equal(applyTuning(content.car, max).physics.neverStuck, true, 'all four knobs at 100');
+  assert.equal(applyTuning(content.car, { ...max, grip: 75 }).physics.neverStuck, undefined, 'three knobs at 100 is not enough');
+  assert.equal(content.car.physics.neverStuck, undefined, 'the stock car is untouched');
+  // the heaviest loaded car crosses a deep bog where its stock self is held
+  const gross = c => c.physics.mass + (c.physics.load?.massT ?? 0) * 1000, heavy = [...content.cars].sort((a, b) => gross(b) - gross(a))[0];
+  const pit = content.season.trail.heavyMud[0], cross = car => { const s = spawn(newSim(car), pit - 20); s.ctl.gas = 1; advance(s, 30); return s.truck.getPosition().x; };
+  assert(cross(applyTuning(heavy, max)) > pit + 25, `${heavy.id} fully upgraded crosses the bog at ${pit} m`);
+});
+
+test('a fully upgraded car is still slower in mud than on dirt', () => {
+  const max = Object.fromEntries(KNOBS.map(k => [k.id, 100])), sim = newSim(applyTuning(content.car, max)), t = content.season.trail;
+  sim.init(t.start); Object.assign(sim.ctl, { auto: true, gear: 'L', awd: true, diff: true });
+  const acc = { mud: [0, 0], dirt: [0, 0] };
+  for (let i = 0; i < 120 * 150 && sim.truck.getPosition().x < 1000; i++) {
+    sim.ctl.gas = 1; sim.step(1 / 120); sim.st.fuel = 100; sim.st.damage = 0;   // speed only: no wreck
+    const s = acc[sim.surfAt(sim.truck.getPosition().x)]; if (s) { s[0]++; s[1] += Math.abs(sim.st.speed); }
+  }
+  const kmh = ([n, v]) => v / n * 3.6, mud = kmh(acc.mud), dirt = kmh(acc.dirt);
+  assert(mud < dirt * 0.85, `mud ${mud.toFixed(0)} km/h against dirt ${dirt.toFixed(0)} km/h`);
+});
+
+test('a fully upgraded car rights itself instead of flipping, even on full throttle', () => {
+  const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
+  const s = spawn(newSim(applyTuning(content.car, max)), 60), t = s.truck;
+  t.setTransform(s.V(t.getPosition().x, t.getPosition().y + 1.5), 1.0); t.setAngularVelocity(2);   // thrown nose-up, still tipping
+  s.ctl.gas = 1; let worst = 0;
+  for (let i = 0; i < 120 * 4; i++) { s.step(1 / 120); worst = Math.max(worst, Math.abs(t.getAngle())); }
+  assert(worst < 1.4, `never past 80° (${(worst * 57.3).toFixed(0)}°)`);
+  assert(Math.abs(t.getAngle()) < 0.5, `back down on its wheels (${(t.getAngle() * 57.3).toFixed(0)}°)`);
 });
 
 test('upgrades cost more each step and more on bigger classes, and selling refunds exactly', () => {
@@ -148,20 +180,21 @@ test('mud pull only works in the short gear', () => {
   assert(metres('L') > metres('H'), 'low gear pulls harder through the mud');
 });
 
-test('ranks: 20 of them up to 60,000 XP, each opening one truck in every class to buy', async () => {
+test('ranks: 40 of them up to 75,000 XP, each opening a truck in every class to buy', async () => {
   const code = await releaseCode('src/game/progress.js');
   const { createProgress } = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
   const config = await releaseCode('src/game-config.js');
   const release = await import(`data:text/javascript;base64,${Buffer.from(config).toString('base64')}`);
   assert.equal(release.STARTING_COINS, 20000); assert.equal(release.STARTING_RANK, 1);
-  assert.equal(RANK_XP.length, 20); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[19], 60000);
+  assert.equal(RANK_XP.length, 40); assert.equal(RANK_XP[0], 0); assert.equal(RANK_XP[39], 75000);
   RANK_XP.forEach((x, i) => i && assert(x > RANK_XP[i - 1], 'XP rises every rank'));
-  assert.equal(rankFor(0), 1); assert.equal(rankFor(299), 1); assert.equal(rankFor(300), 2); assert.equal(rankFor(59999), 19); assert.equal(rankFor(1e9), 20);
+  assert.equal(rankFor(0), 1); assert.equal(rankFor(299), 1); assert.equal(rankFor(300), 2); assert.equal(rankFor(74999), 39); assert.equal(rankFor(1e9), 40);
+  assert(RANK_XP.slice(2).every((x, i) => x - RANK_XP[i + 1] >= RANK_XP[i + 1] - RANK_XP[i]), 'each step is at least as big as the one before');
   const roster = content.roster.cars;
   for (const cls of content.roster.classes.map(c => c.id)) {
     // the cars restored on 2026-11-13 keep their own ranks, so a rank may open more than one truck; every rank opens at least one
     const ranks = new Set(roster.filter(c => c.class === cls).map(c => c.unlockRank));
-    assert.deepEqual([...ranks].sort((a, b) => a - b), Array.from({ length: 20 }, (_, i) => i + 1), `${cls}: every rank opens a truck`);
+    assert.deepEqual([...ranks].sort((a, b) => a - b), Array.from({ length: 40 }, (_, i) => i + 1), `${cls}: every rank opens a truck`);
   }
   const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
   const p = createProgress(roster, store), coins = { n: 1e6, spend(x) { if (this.n < x) return false; this.n -= x; return true; } };
@@ -174,12 +207,7 @@ test('ranks: 20 of them up to 60,000 XP, each opening one truck in every class t
   assert.equal(p.buy(second.id, coins), false, 'not twice');
   const again = createProgress(roster, store);
   assert(again.owns(second.id) && again.rank === 2, 'saved');
-  // selling gives back what the garage works out (price plus upgrades); starters stay
-  const wallet2 = { n: 0, add(x) { this.n += x; } };
-  assert.equal(again.sell(starter.id, wallet2, 99), false, 'a free starter cannot be sold');
-  assert(again.sell(second.id, wallet2, second.price + 1234)); assert.equal(wallet2.n, second.price + 1234);
-  assert(!again.owns(second.id) && again.isOpen(second.id), 'sold, and can be bought again');
-  assert.equal(again.sell(second.id, wallet2, 5), false, 'not twice');
+  assert.equal(again.sell, undefined, 'trucks cannot be sold');
   assert.equal(classXp(100, 'heavy'), 160, 'harder classes earn more');
 });
 
@@ -215,7 +243,7 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   assert(goals.size >= 6, `goals vary: ${[...goals]}`); assert(texts.size > 60, 'targets vary');
 
   // judging hand-made contracts
-  const run = { cls: 'scout', car: 'x', time: 300, x: 0, helped: false, maxDamage: 10, cameras: [], camerasSeen: 0, crushes: 0, bogs: 0, bogsMissed: 0, refuelled: false, powered: false, stuckMax: 0, delivered: false };
+  const run = { cls: 'scout', car: 'x', time: 300, x: 0, maxDamage: 10, cameras: [], camerasSeen: 0, crushes: 0, bogs: 0, bogsMissed: 0, refuelled: false, powered: false, stuckMax: 0, delivered: false };
   // hand-made contracts are judged on a trail they fit: four cameras, ten bogs, a checkpoint at 1 km
   const fitCtx = { ...ctx, trail: { ...trail, highways: [1, 2, 3, 4], heavyMud: Array.from({ length: 10 }, (_, i) => 500 + i * 100), checkpoints: [1000, ...trail.checkpoints] } };
   const take = c => createMissions(data, fitCtx, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', xp: 700, twists: [], ...c }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
@@ -233,13 +261,12 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   assert.equal(take({ goal: 'deliver', car: 'y' }).deliver(run), null, 'wrong truck');
   // twists break contracts during the run
   const twisted = twist => take({ goal: 'crusher', count: 5, twists: [twist] });
-  assert(twisted({ type: 'noHelp' }).failed({ ...run, helped: true }));
   assert(twisted({ type: 'noRefuel' }).failed({ ...run, refuelled: true }));
   assert(twisted({ type: 'noPower' }).failed({ ...run, powered: true }));
   assert(twisted({ type: 'noStuck', seconds: 8 }).failed({ ...run, stuckMax: 9 }));
   assert(twisted({ type: 'clean', maxDamage: 20 }).failed({ ...run, maxDamage: 21 }));
-  assert.equal(twisted({ type: 'noHelp' }).track({ ...run, crushes: 5, helped: true }).done, undefined, 'a broken twist never completes');
-  assert(twisted({ type: 'noHelp' }).track({ ...run, crushes: 5 }).done);
+  assert.equal(twisted({ type: 'noRefuel' }).track({ ...run, crushes: 5, refuelled: true }).done, undefined, 'a broken twist never completes');
+  assert(twisted({ type: 'noRefuel' }).track({ ...run, crushes: 5 }).done);
 
   // choosing, finishing and fresh lists; unchosen offers change after a run, the chosen one stays
   const id = m.offers[1].id; m.choose(id); assert.equal(m.active.id, id); m.choose(id); assert.equal(m.active, null, 'tap again to put it down');
@@ -267,16 +294,4 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   // a saved contract that does not fit the trail it loads on is dropped
   const misfit = createMissions(data, { ...ctx, trail: trails.b }, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', goal: 'cameras', kmh: 60, count: 4, of: 4, xp: 100, twists: [] }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
   assert.equal(misfit.active, null);
-});
-
-
-test('service trucks cannot activate the main truck power, which works again after switching back', () => {
-  const sim = spawn(newSim(withPower(content.car, 'invincible')), 30);
-  const service = sim.spawnService(content.service[0], 50);
-  sim.setActive(service);
-  assert.equal(sim.usePower(), false);
-  assert.equal(sim.main.st.powerT, 0);
-  assert.equal(sim.main.st.powerCoolT, 0);
-  sim.setActive(sim.main);
-  assert.equal(sim.usePower(), true);
 });

@@ -918,16 +918,6 @@
       "density": 8,
       "highpass": 180
     },
-    "winch-motor": {
-      "kind": "loop",
-      "source": "fs-683806",
-      "regions": [
-        [
-          1.5,
-          12.5
-        ]
-      ]
-    },
     "cable-strain": {
       "kind": "loop",
       "source": "fs-100401",

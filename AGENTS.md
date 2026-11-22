@@ -120,7 +120,6 @@ check your own output against this list first and regenerate before reporting.
   and under the chassis, stays transparent.
 - **The wheel is a square canvas, the tire a perfect circle centred in it,** seen face-on, matching
   the master's tires.
-- **Breakdown trucks** show the rear winch drum, cable and hook.
 
 Put these words in every vehicle prompt: "strictly flat 2D side profile, camera perpendicular to the
 near side at hub height, no perspective, every tyre a perfect circle of the same size on one level line, no far-side tires".
@@ -136,12 +135,12 @@ real make or model name in a prompt.
 
 | Roster | Folder | What to make |
 | --- | --- | --- |
-| `assets/cars/cars.json` → `cars` (100) and `service` (5) | `assets/cars/<id>/source/` | vehicle (with its load, if it has one), body, wheel |
+| `assets/cars/cars.json` → `cars` | `assets/cars/<id>/source/` | vehicle (with its load, if it has one), body, wheel |
 | `assets/hud/hud.json` | `assets/hud/icons/`, `assets/hud/source/` | SVG icons; garage art |
 | a season's README | `assets/seasons/<id>/source/` | environment set |
 
 Each folder's `README.md` has the brief and a checklist of exact file names. If the user does not say
-what to make, do this first: each class's rank 1 starter and its breakdown truck, then the cars in rank order.
+what to make, do this first: each class's rank 1 starter, then the cars in rank order.
 
 ## Cars: every kind of vehicle, some with loads
 
@@ -154,14 +153,12 @@ gives its weight): there are no separate trailers or loads, so a tractor and its
 one picture, and only the road wheels are separate. The game moves the body, spins and bounces the wheels, and handles the physics.
 Draw a load securely on the vehicle (straps, chains, stakes, cradles or rails) in real proportions.
 
-## Cars and service trucks: `assets/cars/<id>/source/`
+## Cars: `assets/cars/<id>/source/`
 
 The brief is in `assets/cars/<id>/README.md`. Cars are ordered weakest to strongest (class, then
 rank). Draw the tires the brief names (see `assets/cars/wheel-types.json`): all-terrain, mud-terrain, steel
 spikes, flotation or giant mining tires, and road tyres only where the brief says so. **No snow chains** (dropped on 2026-11-12:
-they never came out right). Service trucks (a breakdown truck per class, from
-scout-sized pickups to 10×10 mining giants, each in its own colour and tires). Breakdown trucks carry a winch at
-the **rear**: show the drum and hook clearly.
+they never came out right).
 
 1. `vehicle-master-v1.png`: the complete vehicle (with its load, if it has one) and every wheel, facing right. For a
    tractor with a trailer, the trailer is part of this one image.

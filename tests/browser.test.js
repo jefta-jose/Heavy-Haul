@@ -93,9 +93,6 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await tap('#loader', 'ui-confirm');
     await page.waitForFunction(() => __haul.renderer.ready && __haul.session.state === 'play' && !__haul.loader.visible);
     await tap('#awdBtn');
-    await tap('#breakdownCallBtn');
-    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
-    await tap('#winch');
     const beforePedal = await played();
     await page.locator('#gas').tap();
     assert.equal(await played(), beforePedal, 'held driving pedals have no menu click');
@@ -115,20 +112,18 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     assert(await page.evaluate(() => !!__haul.session.run.missionDone), 'delivery also completes the selected mission with one cue');
     await page.evaluate(() => __haul.session.update(1));
     assert.equal(await played(), beforeComplete + 1, 'completed runs do not repeat the outcome cue');
-    await page.evaluate(() => { __haul.session.resume(); __haul.startRun(__haul.garage.selection); __haul.summon('breakdown'); });
-    assert(await page.evaluate(() => document.querySelector('#breakdownCallBtn').classList.contains('busy')), 'calling the truck shows a spinner');
-    assert.equal(await page.evaluate(() => { const a = __haul.sim.active; __haul.switchVehicle(); return __haul.sim.active === a; }), true, 'a second tap while it spins is ignored');
-    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
+    await page.evaluate(() => { __haul.session.resume(); __haul.startRun(__haul.garage.selection); });
+    await page.waitForFunction(() => __haul.renderer.ready);
     const beforeFail = await played();
     await page.evaluate(dt => {
-      const truck = __haul.sim.active.parts.truck; truck.setTransform(truck.getPosition(), Math.PI);
+      const truck = __haul.sim.main.parts.truck; truck.setTransform(truck.getPosition(), Math.PI);
       __haul.session.update(dt);
     }, CRASH_SECONDS + 0.01);
     await expectCue(beforeFail, 'mission-failed');
-    assert.equal(await page.evaluate(() => __haul.session.state), 'fail', 'overturned service truck ends the run');
+    assert.equal(await page.evaluate(() => __haul.session.state), 'fail', 'an overturned truck ends the run');
     await page.evaluate(() => __haul.session.update(1));
     assert.equal(await played(), beforeFail + 1, 'failure is announced once');
-    await page.screenshot({ path: path.join(CAPTURES, 'service-rollover-failure.png') });
+    await page.screenshot({ path: path.join(CAPTURES, 'rollover-failure.png') });
     assert.equal(await page.evaluate(() => __haul.uiAudio.status().error), null);
     assert.deepEqual(errors, []);
   } finally { await browser.close(); await new Promise(r => server.close(r)); }
@@ -163,14 +158,12 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     const garageAWD = await page.evaluate(() => __haul.sim.ctl.awd);
     await page.keyboard.press('KeyQ');
     assert.equal(await page.evaluate(() => __haul.sim.ctl.awd), garageAWD, 'Q in the garage leaves AWD unchanged');
-    // a run also brings in its class's service trucks, and draws a truck called from them
+    // a run draws only the chosen car
     await page.evaluate(() => __haul.startRun(__haul.garage.selection));
     await page.waitForFunction(() => __haul.renderer.ready);
-    await page.evaluate(() => __haul.summon('breakdown'));
-    await page.waitForFunction(() => __haul.sim.active.car.role === 'breakdown' && __haul.renderer.ready);
     const frames = await page.evaluate(() => __haul.renderer.frames);
     await page.waitForFunction(n => __haul.renderer.frames > n + 2, frames);
-    assert.equal(bodies.size, 2, 'the main car plus its class\'s breakdown truck');
+    assert.equal(bodies.size, 1, 'only the main car');
     await page.evaluate(() => __haul.audio.start());
     await page.waitForFunction(() => __haul.audio.status().voices.includes('scout'));
     const status = () => page.evaluate(() => __haul.audio.status());
@@ -180,7 +173,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
     // a bed decodes when it is first heard
     for (let i = 0; i < 100 && ![...sounds].some(s => /\/(forest|frogs|rattle-bed|dirt|gravel|rocks|mud)\.mp3$/.test(s)); i++) await page.waitForTimeout(100);
     assert([...sounds].some(s => /\/(forest|frogs|rattle-bed|dirt|gravel|rocks|mud)\.mp3$/.test(s)), 'the beds in earshot are fetched');
-    assert(![...sounds].some(s => /\/(winch-motor|fuel-pump|fuel-flow)\.mp3$/.test(s)), 'beds not yet heard are not');
+    assert(![...sounds].some(s => /\/(fuel-pump|fuel-flow)\.mp3$/.test(s)), 'beds not yet heard are not');
     // picking another class drops the old engine for the new one
     const scoutMB = (await status()).decodedMB, otherEngine = page.waitForResponse(/engine-heavy-duty/);
     await page.evaluate(() => { __haul.garage.show(); });
@@ -234,7 +227,8 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert(await page.evaluate(() => Object.values(__haul.renderer.assetStatus()).every(Boolean)), 'every artwork loads offline');
     assert.match(await page.locator('#hcTitle').innerText(), /\S/, 'garage card is filled from car.json');
     // the Basecamp garage (2026-11-19): it opens on the Trucks page, and SEASONS opens its page on the stage
-    assert.equal(await page.locator('.hc-bar .hc-btn').count(), 5, 'seasons, trucks, missions, upgrade and play');
+    assert.equal(await page.locator('.hc-bar .hc-btn').count(), 6, 'shop, seasons, trucks, missions, upgrade and play');
+    assert.equal(await page.locator('.hc-bar .hc-btn').first().getAttribute('id'), 'gMenuShop', 'SHOP comes first');
     assert.equal(await page.locator('#garage').getAttribute('data-page'), 'vehicle', 'the garage opens on the trucks');
     assert.equal(await page.locator('.g-class').count(), 5, 'one tab per class, at the top');
     await page.click('#hcSeasons');
@@ -399,45 +393,10 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     const paused = await page.evaluate(() => __haul.sim.truck.getPosition().x); await page.waitForTimeout(150);
     assert.equal(await page.evaluate(() => __haul.sim.truck.getPosition().x), paused, 'pause stops physics');
 
-    // stuck in a heavy-mud pit: call the scouts' breakdown truck, which starts at the beginning of the
-    // trail, drive it out, winch the truck back out of the pit and switch back
+    // a heavy-mud pit, for the capture
     await page.goto(url, { waitUntil: 'networkidle' }); await ready(); await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play');
     await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.heavyMud[0] - 6); __haul.setGear('L'); __haul.setMode('awd', true); __haul.setMode('diff', true); for (let i = 0; i < 240; i++) s.step(1 / 120); __haul.snap(); });
     await page.waitForTimeout(150); await capture('03-deep-mud');
-    const x0 = await page.evaluate(() => __haul.sim.main.parts.truck.getPosition().x);
-    await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.role === 'breakdown' && __haul.sim.active.car.class === __haul.sim.main.car.class && __haul.sim.vehicles.length === 2), 'the class\'s own breakdown truck arrives and takes control');
-    assert(await page.evaluate(() => __haul.sim.truck.getPosition().x < __haul.sim.trail.start + 30), 'it starts at the beginning of the trail');
-    await page.evaluate(() => { __haul.sim.main.car = { ...__haul.sim.main.car, power: 'invincible' }; });
-    await page.waitForFunction(() => document.getElementById('powerBtn').disabled);
-    await page.keyboard.press('KeyS');
-    assert.equal(await page.evaluate(() => __haul.sim.main.st.powerT), 0, 'service driving blocks the power shortcut');
-    assert(await page.locator('#powerBtn').isDisabled(), 'the service truck power button is disabled');
-    assert(await page.locator('#breakdownCallBtn').evaluate(e => e.classList.contains('called')), 'its button now switches to it');
-    await page.waitForTimeout(100); await capture('03a-called-at-start');
-    // drive it out to the stuck truck: it never runs dry and never gets stuck
-    await page.evaluate(() => { const s = __haul.sim; __haul.setGear('L'); const bay = () => s.nearestHook().bay, rear = () => s.nearestHook().bounds.rear;
-      const stop = () => { s.ctl.gas = 0; for (let i = 0; i < 120 * 6 && Math.abs(s.st.speed) > 0.2; i++) { s.ctl.brake = 1; s.step(1 / 120); } s.ctl.brake = 0; };
-      // drive up to the bay, stop, then creep in on low gear like a player lining up
-      for (let i = 0; i < 120 * 90 && rear() < bay().start - 20; i++) { s.ctl.gas = 1; s.step(1 / 120); } stop();
-      s.ctl.auto = false; s.ctl.gear = 'L';
-      for (let i = 0; i < 120 * 60 && rear() < bay().start + 1; i++) { s.ctl.gas = 0.5; s.step(1 / 120); } stop();
-      s.ctl.handbrake = true; __haul.snap(); });
-    assert(await page.evaluate(() => __haul.sim.nearestHook().inRange), 'driven out into the recovery bay');
-    assert.equal(await page.evaluate(() => __haul.sim.active.st.fuel), 100, 'service trucks never burn fuel');
-    await page.waitForTimeout(100); await capture('03b-unlimited-fuel');
-    assert(await page.locator('#winch').isVisible(), 'the winch button shows for the service truck');
-    // tap WINCH, then drive forward to tow the truck out ahead
-    await page.click('#winch');
-    assert(await page.evaluate(() => !!__haul.sim.cable() && __haul.sim.cable().target === __haul.sim.main), 'tapping WINCH hooks the stuck truck');
-    assert(await page.locator('#winch').getAttribute('aria-pressed') === 'true' || await page.evaluate(() => !!__haul.sim.cable()));
-    await page.evaluate(() => { const s = __haul.sim; s.ctl.handbrake = false; __haul.setGear('L'); for (let i = 0; i < 120 * 6; i++) { s.ctl.gas = 1; s.step(1 / 120); } s.ctl.gas = 0; __haul.snap(); });
-    await page.waitForTimeout(200); await capture('03b-winch');
-    assert(await page.evaluate(x => __haul.sim.main.parts.truck.getPosition().x > x + 1.5, x0), 'driving the breakdown truck away tows the stuck truck');
-    await page.keyboard.press('KeyW');
-    assert(await page.evaluate(() => !__haul.sim.cable()), 'W unhooks');
-    await page.click('#switchBtn');
-    assert(await page.evaluate(() => __haul.sim.active.role === 'main' && __haul.sim.vehicles.length === 2), 'the switch button returns to the main truck; the breakdown truck stays parked');
 
     // A station refuels and repairs a truck stopped in its bay, and only then
     await page.evaluate(() => { const s = __haul.sim; __haul.drive(s.main); const st = s.terrain.stations[0]; s.respawn(st.x); s.main.st.fuel = 25; s.main.st.damage = 50; s.ctl.gas = 0; __haul.snap(); });
@@ -491,14 +450,11 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert(await page.evaluate(x => __haul.renderer.rutAt(x) > 0.3, rutX), 'ruts persist through the run');
     await page.evaluate(() => { __haul.startRun(__haul.garage.selection); __haul.renderer.draw(1 / 60, true); });
     assert.equal(await page.evaluate(() => __haul.renderer.mudTracks), 0, 'a restarted run clears old mud impressions');
-    // an off-road truck gets its own class's service trucks
+    // an off-road truck
     await page.evaluate(() => { __haul.garage.select('mire-lark-1'); __haul.startRun(__haul.garage.selection); });
     await page.waitForFunction(() => __haul.sim.main.st.engine === 'on');
     await page.evaluate(() => { __haul.sim.respawn(30); for (let i = 0; i < 120; i++) __haul.sim.step(1 / 120); __haul.snap(); });
     await capture('10-mire-lark');
-    await page.click('#breakdownCallBtn');
-    assert(await page.evaluate(() => __haul.sim.active.car.id === 'bog-wrecker'), 'the Mire Lark gets the off-road Bog Wrecker');
-    await page.waitForTimeout(150); await capture('10c-bog-wrecker');
     await page.evaluate(() => { __haul.garage.select('ridge-pup-2'); });
 
     // phone landscape: pedals leave the tire contact visible; portrait: controls fit
@@ -510,17 +466,9 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(100);
     for (const id of ['#pauseBtn', '#gas', '#brake']) { const b = await page.locator(id).boundingBox(); assert(b.x >= 0 && b.x + b.width <= 391, `${id} fits portrait`); }
     await capture('07-portrait');
-    // a service truck is framed by its own size, and back in the main truck the zoom is the main truck's again
+    // the truck is framed by its own size
     await page.setViewportSize({ width: 844, height: 390 });
-    const scoutZoom = await page.evaluate(() => __haul.view.zoom);
-    await page.evaluate(() => __haul.summon('breakdown'));
-    assert.equal(await page.evaluate(() => __haul.view.zoom), zoomFor(await page.evaluate(() => ({ rig: __haul.sim.car.rig, physics: { size: __haul.sim.car.physics.size } }))), 'the breakdown truck is framed by its own size');
-    await page.waitForFunction(() => !document.querySelector('#switchBtn').classList.contains('busy'));   // taps wait for the spinner
-    // the winch guide leads the breakdown truck to its reach line, green once inside it
-    await page.waitForFunction(() => !document.querySelector('#winchGuide').hidden);
-    assert.equal(await page.evaluate(() => document.querySelector('#winchGuide').classList.contains('near')), await page.evaluate(() => __haul.sim.nearestHook().inRange));
-    await page.evaluate(() => __haul.switchVehicle());
-    assert.equal(await page.evaluate(() => __haul.view.zoom), scoutZoom, 'back in the scout, the zoom is unchanged');
+    assert.equal(await page.evaluate(() => __haul.view.zoom), zoomFor(await page.evaluate(() => ({ rig: __haul.sim.car.rig, physics: { size: __haul.sim.car.physics.size } }))), 'the truck is framed by its own size');
     // Every playable vehicle is selectable and runs on the current map.
     for (const id of await page.evaluate(() => __haul.content.cars.map(c => c.id))) {
       await page.evaluate(id => {
@@ -686,18 +634,44 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.click('#missionsDone');
     assert(await page.evaluate(() => !!__haul.missions.active), 'the chosen mission is kept');
     await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
-    // selling the truck just bought, with an upgrade on it, gives back the price and the upgrade
-    await page.evaluate(id => __haul.garage.tune(id, 'engine', 25), next.id);
-    const beforeSell = await page.evaluate(() => __haul.session.coins);
-    // SELL sits on the trucks page, beside the truck's numbers
-    await page.click('#gMenuSell');
-    await page.screenshot({ path: path.join(CAPTURES, '00g-sell.png') });
-    const refund = await page.evaluate(() => Number(document.querySelector('#sellConfirm').textContent.replace(/\D/g, '')));
-    await page.click('#sellConfirm');
-    assert(!(await page.evaluate(id => __haul.progress.owns(id), next.id)), 'sold');
-    assert(await page.evaluate(([b, id]) => __haul.session.coins > b + __haul.progress.price(id), [beforeSell, next.id]), 'price and upgrade come back');
-    assert(refund > 0);
-    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'it can be bought again');
+    // a bought truck is kept: there is no way to sell it
+    assert.equal(await page.locator('#gMenuSell, #sellOv').count(), 0, 'no sell button or sell card');
+    assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'the bought truck stays owned');
+    // the shop: a top-rank truck bought there is owned at once and listed before the trucks of its class not yet owned
+    await page.click('#gMenuShop');
+    assert(await page.locator('#shopOv').isVisible(), 'SHOP opens the shop');
+    await page.locator('.shop-tab', { hasText: 'Trucks' }).click();
+    await page.locator('.shop-class', { hasText: 'Heavy' }).last().click();
+    const topHeavy = await page.evaluate(() => __haul.garage.shop.offers('trucks', 'heavy').at(-1).truck);
+    assert(!(await page.evaluate(id => __haul.progress.isOpen(id), topHeavy)), 'its rank is not reached');
+    await page.locator('.sitem .sbuy').last().click();
+    await page.waitForFunction(id => __haul.progress.owns(id), topHeavy);
+    await page.screenshot({ path: path.join(CAPTURES, '00h-shop.png') });
+    await page.click('#shopDone');
+    // maps: two are free, the others are bought once for 100K coins on the Seasons page, where PLAY becomes BUY
+    await page.evaluate(() => { __haul.session.earn(250000, true); __haul.garage.show(); });
+    await page.click('#hcSeasons');
+    for (let i = 0; i < 10 && !/buy/i.test(await page.locator('#startBtn').innerText()); i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(700); }
+    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'a map not owned offers BUY');
+    const mapBefore = await page.evaluate(() => __haul.garage.seasonId), coinsBefore = await page.evaluate(() => __haul.session.coins);
+    await page.screenshot({ path: path.join(CAPTURES, '00i-buy-map.png') });
+    await page.click('#startBtn');
+    assert.equal(await page.evaluate(() => __haul.session.coins), coinsBefore - 100000, 'it costs 100K coins');
+    assert.notEqual(await page.evaluate(() => __haul.garage.seasonId), mapBefore, 'and becomes the map PLAY drives');
+    assert.match(await page.locator('#startBtn').innerText(), /play/i);
+    await page.click('#hcSeasons');
+    const heavyOrder = await page.evaluate(() => __haul.garage.trucksOf('heavy'));
+    const firstUnowned = await page.evaluate(ids => ids.findIndex(id => !__haul.progress.owns(id)), heavyOrder);
+    assert(heavyOrder.indexOf(topHeavy) < firstUnowned, 'the bought top truck comes before the unbought low-rank ones');
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy', 'the truck just bought is the one PLAY drives');
+    assert.match(await page.locator('#startBtn').innerText(), /play/i, 'and it can be driven at once');
+    // the coin box opens the coin packs; a pack adds its coins
+    await page.click('#shopDone').catch(() => {});
+    await page.click('#gCoinsBox');
+    const coins0 = await page.evaluate(() => __haul.session.coins);
+    await page.locator('.sitem .sbuy').first().click();
+    await page.waitForFunction(c => __haul.session.coins > c, coins0);
+    await page.click('#shopDone');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
 });

@@ -110,7 +110,9 @@ the mud instead of on top of it.
 Ten deep bogs (`trail.heavyMud`), each with one mud hole. In mud, tires lose grip in patches, and a
 bog drag holds a slow tire back. In a deep bog the drag grows with the weight on the tire, so every
 class gets stuck in proportion, but tires carrying under 2.5 t are held less (`bogRefT`), so a light
-scout can wiggle through. The fix is L, AWD, DIFF, and if that fails, the breakdown truck.
+scout can wiggle through. The fix is L, AWD and DIFF, and backing up for another run at it. A car with all four upgrades at 100 never gets stuck: mud
+stops holding it, its chassis rides over obstacles and it rights itself instead of flipping (`physics.neverStuck`, set by
+[tuning.js](game/tuning.js)).
 
 **How come the highway has no obstacles?**
 Highways are listed in `season.json` (`trail.highways`, four of them, 400 m each) and treated as calm
@@ -150,50 +152,32 @@ also thrown nose-up by hard hits.
 **How does the fuel work?**
 Fuel burns over time while the engine runs, so being stuck still drains it. A full tank lasts about
 340 seconds at full throttle, 30% of that rate at idle (`FUEL_TANK_SECONDS_BY_CLASS`,
-`FUEL_IDLE_SHARE`). A truck's fuel-efficiency stat and the engine upgrade make it burn less. Service
-trucks never run out.
+`FUEL_IDLE_SHARE`). A truck's fuel-efficiency stat and the engine upgrade make it burn less.
 
 **Where do I refuel?**
 At the four fuel stations, 812 m apart (`trail.stations`). Stop with the middle of the truck inside the
-bay and it refuels (empty to full in 6 s) and repairs (fully in 10 s) at the same time, whether you drove
-in or were towed in. A truck refuelled from empty starts itself.
+bay and it refuels (empty to full in 6 s) and repairs (fully in 10 s) at the same time. A truck refuelled
+from empty starts itself.
 
 **What happens if I run out?**
-The run ends unless you call the breakdown truck to tow you to a station.
-
-## Help: the breakdown truck and winch
-
-**How do I get unstuck?**
-Each class has a breakdown truck. Tap its button in the top bar once per run: it starts at the
-beginning of the trail and you drive it out to your truck. Back it within 5 m, tap WINCH to hook the
-nearest vehicle, and drive away to tow it. After that, the same button switches between the two trucks.
-
-**How does the winch work?**
-As a stiff cable that only pulls, never pushes, with damping and a maximum force
-(`pullCable` in [simulation.js](physics/simulation.js)). It keeps the length it had when hooked and
-never reels in: you tow by driving. It pulls full strength on trucks of its own class, much weaker on
-others. Breakdown trucks never get stuck in mud and never run out of fuel.
-
-**Why do towed trucks not earn coins?**
-So a rescue cannot be used to farm. Distance, bogs, crushes and missions only count while you drive
-your own truck under its own power.
+The run ends: start again from the beginning of the trail. There is no help to call (service trucks were removed on 2026-11-22).
 
 ## Garage, progress and money
 
 **How do rank and unlocks work?**
 XP comes from new ground, each bog cleared, deliveries and missions, and harder classes earn more
-(`XP_BY_CLASS`). Each of the 20 ranks opens one more truck in every class, which you then buy with
+(`XP_BY_CLASS`). Each of the 40 ranks (up to 75,000 XP) opens at least one more truck in every class, which you then buy with
 coins. Each class's weakest truck is free.
 
 **What are the classes?**
-Five, weakest to strongest: scout, highway, heavy-duty, offroad, heavy. Each has 20 trucks and one
-breakdown truck.
+Five, weakest to strongest: scout, highway, heavy-duty, offroad, heavy. Each has its own ladder of trucks.
 
 **How do upgrades work?**
 Four knobs in the garage ([tuning.js](game/tuning.js)): engine, suspension, speed and grip, each 0 to
 100 in steps of 25, and every truck can max all four. Each knob scales several car.json values at once
 (engine: torque, throttle response, fuel economy; speed: longer gears; grip: tire grip, brakes, mud
-pull). Weight and load are never tuned. Selling a step refunds it.
+pull). Weight and load are never tuned. Selling a step refunds it. Trucks cannot be sold: only their upgrades
+give coins back.
 
 **What are powers?**
 One per truck, chosen in the garage. Invincible: tap the shield and no hit hurts for 15 s (30 s
@@ -265,7 +249,7 @@ Loads are part of the truck's art and mass. Animated loads were tried and droppe
 
 **How is it tested?**
 - `npm test`: physics, vehicles, tuning, terrain, audio and the roster rules (including the 16.8 m cap).
-- `npm run test:route`: drives the whole trail headless, using L, AWD, DIFF and the breakdown truck in the bogs.
+- `npm run test:route`: drives the whole trail headless, using L, AWD and DIFF, backing up when it stalls.
 - `npm run test:browser`: plays the real build in a headless browser and saves screenshots to `output/captures/`.
 - `npm run check`: all three.
 

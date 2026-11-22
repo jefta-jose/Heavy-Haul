@@ -90,14 +90,12 @@ All obstacles are physical, and the art sits exactly on the physics shapes.
 - Fallen logs: static circles r 0.2-0.33 m. In mud they are smaller and half sunk, because a full log in
   bog stopped the scout dead from a standstill. Drawing: a bark band receding toward the far verge
   behind the vehicle, plus a sawn end cap with rings in front of the near tires.
-- No winch posts: the four heavy-mud pits (`heavyMud`, 18 m wide, 0.6 m deep bowls) are where the
-  player calls a breakdown or fuel truck and winches out. Service trucks are sized to the main
-  truck (`towMassT`), the cable reaches only 18 m so both trucks are on screen (farther, it says "Too far away"), the winch reels in at about 1 m/s with at most 1.5× the truck's weight
-  (a full-force winch yanked a scout 10 m in half a second), and the service truck stays parked.
+- No help on the trail: service trucks, winching and towing were removed on 2026-11-22 (user decision). Every truck
+  must cross the heavy-mud pits (`heavyMud`) on its own power with L, AWD and DIFF.
 - Steeper hills (2026-10-26): climbs and drops up to about 17% on rock and dirt, while mud stretches
   stay nearly flat. A 9% grade through deep mud stalled the scout completely.
 - Keep calm zones at the start, the fuel stop and the depot. After any terrain change, run
-  `npm run test:route` (it calls a breakdown truck when properly stuck). Too-tall mud ruts once made
+  `npm run test:route` (it backs up for another run when it stalls). Too-tall mud ruts once made
   a mud exit impassable.
 
 ## Effects
@@ -128,7 +126,7 @@ a handbrake with its sound, smoother water and mud, and birds and crows in certa
 Read [assets/audio/README.md](../../../assets/audio/README.md) for the recordings and the recipe.
 
 - One engine per class from `assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`
-  (MP3 + bank.json, about 15 MB). Service trucks play their class's engine. Layers: idle, part-throttle
+  (MP3 + bank.json, about 15 MB). Layers: idle, part-throttle
   `on` anchors, hard-working `pull` anchors, coast, an optional sub rumble, plus start and stop clips.
 - **The physics rpm cannot drive the sound.** In H it sits at idle + 600 (1350) at nearly any speed, so a
   voice following it holds one note. `stepRevs` in `src/audio/engine.js` is a sound-only rev model:
@@ -193,10 +191,10 @@ WebRender absorbs. Frames in headless Chromium went from 34-50 ms to 7-15 ms, wi
   blurry; 1.5 is the fallback if phones get choppy). Adaptive quality steps down after 2 s under 50 fps
   (desktop: 3 s under 40 fps), to 80% at the lowest on touch, and climbs back after 20 s over 55 fps,
   waiting twice as long whenever a climb has to be undone within 30 s.
-- Haptics (`src/game/haptics.js`, Android browsers only): gear and drive-mode ticks, hard hits, winch hook-on,
+- Haptics (`src/game/haptics.js`, Android browsers only): gear and drive-mode ticks, hard hits, a new rank,
   low fuel.
 - Phone HUD (the block at the end of `game.css`): fuel bar with the truck's name under it, depot distance,
-  service and pause buttons, corner pedals, both dials, gears above the gas. The pedals carry no text
+  fullscreen and pause buttons, corner pedals, both dials, gears above the gas. The pedals carry no text
   (tire-tread slabs: amber lugs for gas, red blocks for brake), and checkpoints are never shown (user, 2026-11-04).
   The progress map has no panel and only the truck and the flag on it, and the floor sits higher on phones
   (`FRAMING.groundPhone`) to leave a gap above the dials (user, 2026-11-04). Details and fullscreen live in the pause

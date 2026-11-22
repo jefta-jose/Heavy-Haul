@@ -1,5 +1,5 @@
 // Short vibrations on touch devices: a tick for each gear or drive-mode change, a thud on hard hits
-// and when a rock breaks, a double pulse when the winch hooks on, and a warning when the tank runs
+// and when a rock breaks, a double pulse on a new rank, and a warning when the tank runs
 // low. Android browsers support it; iOS ignores it.
 
 export function createHaptics() {
@@ -16,7 +16,7 @@ export function createHaptics() {
     tick: () => buzz(12, 0.05),
     toggle: () => buzz(22),
     hit: strength => buzz(Math.round(18 + 42 * Math.min(1, strength)), 0.25),
-    hooked: () => buzz([25, 60, 35], 0.4),
+    rankUp: () => buzz([25, 60, 35], 0.4),
     warn: () => buzz([60, 90, 60], 1),
   };
 }

@@ -1,13 +1,12 @@
 import { formatCoins } from './format.js';
-import { TOW_RELEASE_M } from '../game-config.js';
-// Everything drawn in HTML over the canvas: the depot sign, coins, surface chip, toasts, the gauges (revs, speed, fuel), drive and service buttons, and the message
+// Everything drawn in HTML over the canvas: the depot sign, coins, surface chip, toasts, the gauges (revs, speed, fuel), drive buttons, and the message
 // overlays. Kept lean on purpose (2026-11-06): no status panel, no trail map, no park or engine buttons.
 
 const $ = id => document.getElementById(id);
 
 export function createHud({ sim, season }) {
   const els = {};
-  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'damageFill', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'winch', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'breakdownCallBtn', 'switchBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
+  for (const id of ['powerBtn', 'distTxt', 'coinTxt', 'surfChip', 'surfTxt', 'damageFill', 'depotSign', 'distUnit', 'toast', 'gauges', 'gas', 'brake', 'awdBtn', 'diffBtn', 'fsBtn', 'pauseBtn', 'actionBtn', 'msgOv', 'msgEyebrow', 'msgTitle', 'msgText', 'msgSpec', 'msgBtns']) els[id] = $(id);
   const gx = els.gauges.getContext('2d');
   const trail = season.trail;
   let toastT = 0, hudT = 0, gaugeT = 0;
@@ -97,7 +96,7 @@ export function createHud({ sim, season }) {
   // the fuel dial: E to F, a red fifth at the bottom of the tank, and its label.
   // Its needle eases toward the real level so it slides (down as you burn, up as you fill) instead of jumping.
   // At a station a bold green border slowly fades in and out around the dial until the tank is full.
-  function fuelDial(cx, cy, r, t, unlimited, beating = false) {
+  function fuelDial(cx, cy, r, t, beating = false) {
     bezel(cx, cy, r, '#62d24b');
     const B0 = Math.PI * 0.8, B1 = Math.PI * 2.2, at = B0 + (B1 - B0) * t;
     gx.lineCap = 'butt'; gx.lineWidth = r * 0.1;
@@ -113,7 +112,7 @@ export function createHud({ sim, season }) {
     gx.textAlign = 'center'; gx.textBaseline = 'middle'; gx.font = `800 ${Math.round(r * 0.26)}px ${FONT}`;
     gx.fillStyle = '#ff8a7c'; gx.fillText('E', cx + Math.cos(B0) * r * 0.46, cy + Math.sin(B0) * r * 0.46);
     gx.fillStyle = '#dfe6ec'; gx.fillText('F', cx + Math.cos(B1) * r * 0.46, cy + Math.sin(B1) * r * 0.46);
-    gx.fillStyle = t < 0.2 ? '#ff8a7c' : '#8f9ba6'; gx.font = `700 ${Math.round(r * 0.19)}px ${FONT}`; gx.fillText(unlimited ? 'UNLIMITED' : 'FUEL', cx, cy + r * 0.56);
+    gx.fillStyle = t < 0.2 ? '#ff8a7c' : '#8f9ba6'; gx.font = `700 ${Math.round(r * 0.19)}px ${FONT}`; gx.fillText('FUEL', cx, cy + r * 0.56);
     const c = Math.cos(at), s = Math.sin(at), px = -s, py = c;
     gx.save(); gx.shadowColor = 'rgba(255,107,31,0.95)'; gx.shadowBlur = r * 0.16; gx.fillStyle = '#ffffff'; gx.beginPath();
     gx.moveTo(cx + c * r * 0.8, cy + s * r * 0.8);
@@ -143,11 +142,11 @@ export function createHud({ sim, season }) {
     const gear = sim.ctl.gear, look = GEAR_LOOK[gear] ?? GEAR_LOOK.H;
     if (gear !== shownGear) { shownGear = gear; gearPop = 1; }
     gearPop = Math.max(0, gearPop - 1 / 12);
-    const unlimited = sim.active.role === 'service', fuel = unlimited ? 1 : Math.max(0, Math.min(1, sim.st.fuel / 100));
+    const fuel = Math.max(0, Math.min(1, sim.st.fuel / 100));
     shownFuel = shownFuel == null ? fuel : shownFuel + (fuel - shownFuel) * Math.min(1, gaugeDt * 4);
     const m = sim.main.st;
-    fuelDial(x0 + rs, cys, rs, shownFuel, unlimited, sim.active === sim.main && m.filling && m.fuel < 100);
-    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 180, { label: 'km/h', majors: 6, minors: 3, redFrom: 150 / 180, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#ffb347', '#ff6b1f'] });
+    fuelDial(x0 + rs, cys, rs, shownFuel, m.filling && m.fuel < 100);
+    dial(x0 + 2 * rs + gap + r, cy, r, kmh, 360, { label: 'km/h', majors: 6, minors: 3, redFrom: 300 / 360, readout: String(Math.round(kmh)), unit: 'km/h', lit: ['#ffb347', '#ff6b1f'] });
     dial(x0 + 2 * rs + 2 * gap + 2 * r + rs, cys, rs, rpm, 3, { label: 'RPM ×1000', majors: 3, minors: 2, redFrom: gov / 3, readout: gear, unit: look.name, badge: look.color, pop: gearPop, lit: ['#ffd04a', '#ff3b2f'], small: true });
   }
 
@@ -199,9 +198,6 @@ export function createHud({ sim, season }) {
   // DOM properties retain their last value, so stationary HUD values need no writes.
   const setText = (el, value) => { if (el.textContent !== value) el.textContent = value; };
   function update(dt, { coins, run, playing = true }) {
-    // the arrow shows only over the drive itself: not under the pause menu, the garage or a loading screen
-    const want = playing && (stuckArrow || !!towStep) && els.msgOv.hidden;
-    if (want !== arrowOn) { arrowOn = want; showArrow(); }
     showPower();
     if (toastT > 0) { toastT -= dt; if (toastT <= 0) els.toast.classList.remove('on'); }
     gaugeT += dt; if (gaugeT > 1 / 30) { gaugeDt = gaugeT; gaugeT = 0; drawGauges(); }   // gauges at 30 Hz
@@ -223,34 +219,6 @@ export function createHud({ sim, season }) {
     if (els.surfChip.dataset.surf !== surface) els.surfChip.dataset.surf = surface;
     els.surfChip.classList.toggle('bog', bog);
     els.surfChip.classList.toggle('warn', s === 'mud');
-    // the winch belongs to service trucks: pulses when a vehicle is within hook reach, lit while hooked
-    els.winch.hidden = !sim.canWinch();
-    const cable = sim.cable(), hooked = !!cable, near = !hooked && !!sim.nearestHook()?.inRange;
-    els.winch.classList.toggle('ready', near); els.winch.classList.toggle('down', hooked);
-    els.winch.setAttribute('aria-pressed', String(hooked));
-    guideTow(cable, near);
-  }
-  // Walks a new player through a tow, one button at a time, with the help arrow: parked in the purple bay, tap WINCH;
-  // once the towed truck is out (on firm ground past the pit, or at a station when it cannot drive), tap WINCH to let
-  // go; then back to your own truck.
-  let hookX = null, towStep = null;
-  function towedOut(t) {
-    const x = t.parts.truck.getPosition().x;
-    if (t.st.fuel <= 0 || t.st.damage >= 100) return !!sim.terrain.stationAt(x);   // a dead truck goes to a station
-    return x - hookX >= TOW_RELEASE_M && t.parts.wheels.every(w => sim.surfAt(w.getPosition().x) !== 'mud');
-  }
-  function guideTow(cable, near) {
-    const service = sim.active?.role === 'service';
-    if (cable && hookX == null) hookX = cable.target.parts.truck.getPosition().x;
-    if (!cable) hookX = null;
-    let step = null;
-    if (service && cable && towedOut(cable.target)) step = 'release';
-    else if (service && near) step = 'hook';
-    else if (service && !cable && (towStep === 'release' || towStep === 'return')) step = 'return';   // let go once out: now drive on
-    if (step === 'release' && towStep !== 'release') hint('tow-release', 'Your truck is out. Tap WINCH to let it go.', 3);
-    if (step === 'return' && towStep !== 'return') hint('tow-return', 'Unhooked. Switch back to your truck and drive on.', 3);
-    els.winch.classList.toggle('release', step === 'release');
-    if (step !== towStep) { towStep = step; showArrow(); }
   }
   function showPedals({ gas, brake }) {
     els.gas.classList.toggle('down', gas); els.brake.classList.toggle('down', brake);
@@ -283,50 +251,12 @@ export function createHud({ sim, season }) {
   }
   const hideMessage = () => { els.msgOv.hidden = true; };
 
-  // after a service truck is called its button switches to it: a green dot and a new label. A class
-  // with no truck of that role yet gets a greyed-out button (still tappable, to say so).
-  const available = {};
-  function showCalled(role, on, ok = available[role], what = 'breakdown truck') {
-    const b = els.breakdownCallBtn;
-    available[role] = ok;
-    b.classList.toggle('called', on); b.classList.toggle('unavailable', !ok);
-    b.title = !ok ? `No ${what} yet` : on ? `Switch to the ${what}` : `Call the ${what}`; b.setAttribute('aria-label', b.title);
-  }
-
-  // the arrow under the breakdown button (or over it, where a layout puts the button low on the screen)
-  const switchOv = $('switchOv'), arrow = $('helpArrow');
-  let switchFade = 0, stuckArrow = false, arrowOn = false;
-  // the help arrow and its words point at WINCH during a tow. The top-bar buttons (call for help while the main truck is
-  // stuck, the way back to your truck after a tow) glow instead: an arrow under them pushed the chips below down (2026-11-17).
-  function arrowTarget() {
-    if (towStep === 'hook') return [els.winch, 'Tap WINCH to hook'];
-    if (towStep === 'release') return [els.winch, 'Tap WINCH to release'];
-    return [null, ''];
-  }
-  function showGlow() {
-    const back = arrowOn && towStep === 'return';
-    els.switchBtn.classList.toggle('stuck-help', back && !els.switchBtn.hidden);
-    els.breakdownCallBtn.classList.toggle('stuck-help', stuckArrow || (back && els.switchBtn.hidden));
-  }
-  function showArrow() {
-    showGlow();
-    const [b, text] = arrowTarget(), r = b?.getBoundingClientRect(), on = !!b && arrowOn && !b.hidden && r.width > 0 && switchOv.hidden;
-    arrow.hidden = !on;
-    // the power and mission chips sit under the button: they step down out of the arrow's way
-    $('hud').classList.toggle('arrow-on', on && r.top <= innerHeight / 2);
-    if (!on) return;
-    $('helpArrowTxt').textContent = text;
-    const low = r.top > innerHeight / 2;
-    arrow.classList.toggle('down', low);
-    arrow.style.left = `${Math.round(r.left + r.width / 2)}px`;
-    arrow.style.top = low ? '' : `${Math.round(r.bottom + 6)}px`;
-    arrow.style.bottom = low ? `${Math.round(innerHeight - r.top + 6)}px` : '';
-  }
-  addEventListener('resize', showArrow);
+  const switchOv = $('switchOv');
+  let switchFade = 0;
 
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
-    showCalled, coinBonus, showMission, failMission,
+    coinBonus, showMission, failMission,
     resetTrip() {},
     // what the lean HUD leaves out, for the pause menu: the truck, its cargo, fuel and the next station
     pauseSpec() {
@@ -349,29 +279,16 @@ export function createHud({ sim, season }) {
       if (!on) return;
       if (toastT > 0 && els.toast.textContent === FILLING) toastT = 0.4; else toast(FILLING, 0.4);
     },
-    showSwitch(on) { els.switchBtn.hidden = !on; },
-    // the breakdown button asks to be pressed while the main truck is stuck, with an arrow pointing at it
-    glowHelp(on) {
-      on = !!on && available.breakdown !== false;
-      if (on !== stuckArrow) { stuckArrow = on; showArrow(); }
-    },
-    // while a truck change settles: a full-screen wait over everything, so repeated taps land on nothing
-    busy(on, label = 'Switching trucks') {
-      for (const b of [els.breakdownCallBtn, els.switchBtn]) { b.classList.toggle('busy', on); b.setAttribute('aria-busy', String(on)); }
+    // while a map change settles: a full-screen wait over everything, so repeated taps land on nothing
+    busy(on, label = 'Loading') {
       clearTimeout(switchFade);
       if (on) {
         $('switchLabel').textContent = label;
         switchOv.hidden = false; void switchOv.offsetWidth; switchOv.classList.add('on');
-        showArrow();
       } else {
         switchOv.classList.remove('on');
-        switchFade = setTimeout(() => { switchOv.hidden = true; showArrow(); }, 180);
+        switchFade = setTimeout(() => { switchOv.hidden = true; }, 180);
       }
-    },
-    highlightSwitch(on) {
-      els.switchBtn.classList.toggle('service-ready', on);
-      els.switchBtn.setAttribute('aria-label', on ? 'Service complete. Switch back to your truck' : 'Switch vehicle');
-      els.switchBtn.title = on ? 'Service complete: return to your truck (V)' : 'Switch vehicle (V)';
     },
   };
 }

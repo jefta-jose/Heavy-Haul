@@ -6,6 +6,14 @@ scheduled. Nothing here is built yet. Read [bug-log.md](bug-log.md) ("Open: wort
 
 ## 1. What we sell
 
+**Update 2026-11-22:** the shop is built (`src/game/shop.js`, the SHOP sheet in the garage) and sells more than coins, by the user's
+decision: coin packs, rank packs, single trucks (owned whatever their rank) and bundles. Its catalogue and placeholder prices are
+`SHOP_*` in `src/game-config.js`, and product ids come from `shop.offers()` (Play-safe, unique, checked by `tests/shop.test.js`). Purchases
+go through `src/game/store.js`, a test store that grants at once while `SHOP_TEST_PURCHASES` is true; wiring real payments means
+replacing that store's `buy()` and `priceText()` and setting the flag false. Grants are already idempotent per transaction id
+(`hh_grants`). Single trucks are one product each (about 270), so consider grouping them into a few price-tier products if that is
+too many for Play Console. The table below is the original coins-only starting point.
+
 Starting point; the user decides the final list and prices.
 
 | Product | Type | Gives | Notes |
@@ -15,7 +23,7 @@ Starting point; the user decides the final list and prices.
 | `starter_pack` (optional) | Non-consumable, one per player | Coins plus one rank-2 truck of the player's choice | Shown only in the first days or until rank 3. |
 
 Rules:
-- Coins only: no buying ranks, XP or exclusive trucks. Every truck stays reachable by playing, so the free game is complete and balance by
+- (Superseded on 2026-11-22: ranks and trucks are sold too.) No exclusive trucks: Every truck stays reachable by playing, so the free game is complete and balance by
   formula (`CLASS_LADDER`) still holds.
 - The store shows the prices Google Play returns (localized, with tax). Never hard-code a price string.
 - Product IDs and coin amounts live in `src/game-config.js` (`STORE_PRODUCTS`), one per line, like every other tuning number.

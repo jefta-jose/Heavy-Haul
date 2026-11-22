@@ -1,4 +1,4 @@
-// Creates a folder for every car and service truck in assets/cars/cars.json that does not have one
+// Creates a folder for every car in assets/cars/cars.json that does not have one
 // yet, holding a README with its art brief (vehicle and load) and the files Codex must deliver
 // (see AGENTS.md).
 //   npm run scaffold                     add missing folders
@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../lib/content.js';
+import { RANK_XP } from '../../src/game-config.js';
 
 const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 const prune = process.argv.includes('--prune'), refresh = process.argv.includes('--refresh');
@@ -54,9 +55,9 @@ const wheelLayout = c => {
 // original designs, inspired by kinds of real vehicles (a commercial game)
 const original = () => `\n**Original design (hard rule, see AGENTS.md):** an original vehicle in the spirit of the kind described: no real make or model, no badges, logos, emblems, brand names or sponsor marks, and no copy of a real vehicle's exact shape, grille or lights.\n`;
 const size = c => `\nSize: about ${c.lengthM} m long${c.load ? ' with its load' : ''}. There is no length cap: draw it at its natural proportions (the game frames long vehicles with its zoom).\n`;
-scaffold('assets/cars', [...cars.cars, ...cars.service], c => `# ${c.name}${c.number ? ' ' + c.number : ''}
+scaffold('assets/cars', cars.cars, c => `# ${c.name}${c.number ? ' ' + c.number : ''}
 
-Status: **${c.status}** · ${c.role ? `${c.role} truck for class \`${c.class}\` (${c.size}${c.towMassT ? `; tows up to ${c.towMassT} t` : ''})` : `class \`${c.class}\`, rank ${c.unlockRank} of 20`} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
+Status: **${c.status}** · class \`${c.class}\`, rank ${c.unlockRank} of ${RANK_XP.length} · ${c.drive}, ${c.axles} axles · ${c.massT} t empty · ${c.powerKw} kW · ${c.wheelType} tires, ${c.tireDiameterM} m
 ${c.load ? `Load: **${c.load.name}**, ${c.load.massT} t\n` : 'Load: none\n'}${size(c)}${wheelLayout(c)}${original(c)}
 ## Art brief
 

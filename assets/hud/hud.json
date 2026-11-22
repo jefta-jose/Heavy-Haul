@@ -50,14 +50,6 @@
    "brief": "tire icon for giant tires"
   },
   {
-   "id": "summon-breakdown",
-   "brief": "breakdown truck call button"
-  },
-  {
-   "id": "switch-vehicle",
-   "brief": "swap between vehicles"
-  },
-  {
    "id": "refuel",
    "brief": "fuel nozzle"
   },

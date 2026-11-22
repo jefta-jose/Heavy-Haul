@@ -1,9 +1,8 @@
 // Game audio from real recordings (assets/audio/sounds.json → assets/audio/bank, credits in
-// sources.json). Engines are per truck class (src/audio/engine.js); service trucks play their class's.
+// sources.json). Engines are per truck class (src/audio/engine.js).
 // The driven vehicle adds tires on the ground under it, a chassis rattle that follows the road,
 // a smooth wade and churn in water, squelch and spinning wheels in mud, gear changes, air or hydraulic
-// brakes, the handbrake, its load shaking when it breaks rocks, and the back-up alarm. Winching
-// has the motor and the cable straining; refuelling has the pump and the fuel running. The season's
+// brakes, the handbrake, its load shaking when it breaks rocks, and the back-up alarm. Refuelling has the pump and the fuel running. The season's
 // ambience zones bring in forest birds, frogs and crows.
 // Long beds play through the seamless loop player, so nothing audibly repeats.
 //
@@ -22,7 +21,7 @@ const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7,
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 const BEDS = ['forest', 'frogs'];
 // long clips only ever played as beds, decoded when first heard
-const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'winch-motor', 'fuel-pump', 'fuel-flow']);
+const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'fuel-pump', 'fuel-flow']);
 // The load shaking when a tire hits a log, pipe or rock, by class. Scouts have none. gain is at full speed,
 // gap is the least seconds between hits, and seconds plays a burst of a clip much longer than the moment.
 export const HIT_SOUNDS = {
@@ -94,7 +93,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     for (const name of BEDS) beds[name] = loop(name, ambBus, { grain: [6, 12], fade: 2.5 });
     work = {
       rattle: loop('rattle-bed', fxBus, { grain: [2, 4], fade: 0.6 }), spin: loop('mud-spin', fxBus, { grain: [1.5, 3], fade: 0.5 }),
-      winch: loop('winch-motor', fxBus, { grain: [2, 4], fade: 0.6 }), cable: loop('cable-strain', fxBus, { grain: [1.5, 3], fade: 0.5 }),
       pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
     };
     const shots = Object.entries(bank.effects).filter(([effect]) => !effect.startsWith('ui-')).flatMap(([, names]) => names).filter(name => clips[name] && !BED_CLIPS.has(name));
@@ -164,8 +162,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     if (engineProfile(car, bank).airBrakes) play(on ? 'air-release' : 'air-burst', on ? 0.7 : 0.5);
     else play(on ? 'handbrake-on' : 'handbrake-off', 0.8);
   };
-  // the winch hook going on the tow point or coming off, with the chain settling
-  api.hook = on => { play('hook-clank', on ? 0.85 : 0.6); if (on) setTimeout(() => play('cargo-heavy-chains', 0.4), 90); };
   // one-shots from the world
   api.splash = power => power < 0.6 ? play('splash-small', 0.4 + power * 0.6) : play('splash', Math.min(1, 0.5 + power * 0.35), { rate: power > 1.2 ? 0.85 : 1 });
   // the load shaking, spaced out so a run of logs doesn't pile up
@@ -249,10 +245,6 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     // wheels spinning in mud, over the squelch
     if (work.spin) { work.spin.setGain(live && st.surf === 'mud' ? Math.min(0.85, Math.max(0, st.slip - 0.5) * 0.28) : 0, 0.2); work.spin.setRate(0.85 + Math.min(0.35, st.slip * 0.06), 0.25); work.spin.update(); }
 
-    // the winch: the motor runs and the cable strains while it holds a load
-    const hauling = live && s.vehicles.some(o => o.cable?.taut);
-    if (work.winch) { work.winch.setGain(hauling ? 0.32 : 0, 0.25); work.winch.update(); }
-    if (work.cable) { work.cable.setGain(hauling ? 0.55 : 0, 0.15); work.cable.update(); }
     // refuelling: the pump runs and the fuel flows, with a clank as the hose connects and comes off
     const fuelling = live && !!s.refueling;
     if (fuelling !== wasFuelling) { play('hook-clank', 0.5, { rate: 1.1 }); wasFuelling = fuelling; }

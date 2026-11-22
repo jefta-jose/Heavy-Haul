@@ -76,7 +76,7 @@ speeds and doesn't use the physics, so also check in the game with `npm run dev`
 
 ## The engine of each class
 
-A truck plays its class's engine, service trucks included. `tools/lib/content.js` (`resolveAudio`) picks it: the
+A truck plays its class's engine. `tools/lib/content.js` (`resolveAudio`) picks it: the
 `car.json` `audio.engine` if set, otherwise the truck's `class`.
 
 ### The layers
@@ -337,7 +337,6 @@ Only the driven truck makes these sounds, apart from the engine, which every tru
 | `mud-spin` | In mud with slip over 0.5 m/s | `min(0.85, (slip − 0.5) × 0.28)` | `0.85 + min(0.35, slip × 0.06)` |
 | `rattle-bed` | Out of water | `min(0.75, (min(1, m/s ÷ 7) × 0.32 + rough × 0.55) × surface)`; rock 1, gravel 0.75, wood 0.7, dirt 0.55, mud 0.35 | `0.85 + m/s × 0.03` |
 | `wade`, `water-churn` | In water | By depth and speed | Rises with speed |
-| `winch-motor`, `cable-strain` | Any truck's cable under load | 0.32 and 0.55 | Fixed |
 | `fuel-pump`, `fuel-flow` | While refuelling | 0.42 and 0.40 | Fixed |
 | `forest`, `frogs` | The season's zones | `zone weight × 0.6` | Fixed |
 
@@ -355,11 +354,11 @@ Only the driven truck makes these sounds, apart from the engine, which every tru
 | `cable-strain`, 2.5 s burst | Heavy, at most every 1.5 s | `gain` 0.8 |
 | `cargo-light`, `cargo-chains` | Load shake under 8 t | |
 | `rattle`, `cargo-heavy-chains` | Load shake, other trucks from 8 t | |
-| `rattle`, `cable-strain` | Load shake, heavy class including its service trucks | |
+| `rattle`, `cable-strain` | Load shake, heavy class | |
 | `hydraulic-brake` | Hard braking above 3 m/s, air-brake trucks | `min(0.7, 0.2 + m/s × 0.05)` |
 | `air-release`, `air-burst` | Stopped on the brakes, then released; also the handbrake on air-brake trucks | 0.55 and 0.30 (handbrake 0.70 and 0.50) |
 | `handbrake-on`, `handbrake-off` | Handbrake on scouts | 0.80 |
-| `hook-clank`, chain | Winch on or off; hose on or off | 0.85 on, 0.60 off; hose 0.50 |
+| `hook-clank` | Hose on or off | 0.50 |
 | `splash`, `splash-small` | Entering water | By impact |
 | `crow`, `crow-far` | Crow zones, every 2.5–9.5 s | Random, panned |
 

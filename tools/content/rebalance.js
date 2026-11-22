@@ -1,14 +1,16 @@
 // Applies CLASS_LADDER (src/game-config.js) to every playable car: in each class, in roster order, power per loaded
-// tonne, tire grip and mud pull climb by a fixed step per car, ranks spread evenly over 1..20 and prices climb by a
+// tonne, tire grip and mud pull climb by a fixed step per car, free starters at rank 1, the rest spread evenly over ranks 2..RANK_XP.length, and prices climb by a
 // fixed step. Edits only those numbers in each car.json (keeping its formatting) and rewrites cars.json.
-// Usage: npm run rebalance  (add -- --dry to print without writing)
+// Usage: npm run rebalance  (add -- --dry to print without writing; -- --ranks-only writes only unlockRank and tier in cars.json)
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../lib/content.js';
 import { deriveSpecs } from '../lib/specs.js';
-import { CLASS_LADDER, SERVICE_TORQUE_MULTIPLIER } from '../../src/game-config.js';
+import { CLASS_LADDER, RANK_XP, FREE_STARTER_SHARE } from '../../src/game-config.js';
 
-const DRY = process.argv.includes('--dry');
+const TOP_RANK = RANK_XP.length;
+
+const DRY = process.argv.includes('--dry'), RANKS_ONLY = process.argv.includes('--ranks-only');
 const CARS = path.join(ROOT, 'assets/cars');
 const read = id => fs.readFileSync(path.join(CARS, id, 'car.json'), 'utf8');
 const rosterFile = path.join(CARS, 'cars.json');
@@ -22,20 +24,18 @@ function setNumber(text, key, value) {
   return text.replace(/("physics":\s*\{\n)(\s*)/, (m, head, indent) => `${head}${indent}"${key}": ${value},\n${indent}`);
 }
 
-const serviceOf = cls => roster.service.find(s => s.class === cls && s.status === 'playable');
 for (const [cls, L] of Object.entries(CLASS_LADDER)) {
   const cars = roster.cars.filter(c => c.class === cls).sort((a, b) => a.order - b.order);
-  const svc = serviceOf(cls), svcSpecs = svc && deriveSpecs(JSON.parse(read(svc.id)));
-  const n = cars.length, firstPaid = cars.findIndex((c, i) => Math.floor(i * 20 / n) + 1 > 1);
+  const n = cars.length, firstPaid = Math.min(n, Math.ceil(n * FREE_STARTER_SHARE));
   cars.forEach((entry, i) => {
-    const rank = Math.floor(i * 20 / n) + 1;
+    const rank = i < firstPaid ? 1 : 2 + Math.floor((i - firstPaid) * (TOP_RANK - 1) / Math.max(1, n - firstPaid));
+    if (RANKS_ONLY) { Object.assign(entry, { unlockRank: rank, tier: rank }); console.log(`${cls.padEnd(10)} ${String(i + 1).padStart(2)} r${String(rank).padStart(2)} ${entry.id}`); return; }
     Object.assign(entry, { order: i + 1, unlockRank: rank, tier: rank, price: rank <= 1 ? 0 : L.price + (i - firstPaid) * L.priceStep });
     if (entry.status !== 'playable') return;
     let text = read(entry.id);
     const car = JSON.parse(text), now = deriveSpecs(car), tonnes = car.physics.mass / 1000 + (car.physics.load?.massT ?? 0);
-    // the power the ladder asks for, kept under the class's breakdown truck (power and torque)
-    let k = (L.kwPerT + i * L.kwPerTStep) * tonnes / now.powerKw;
-    if (svcSpecs) k = Math.min(k, 0.95 * svcSpecs.powerKw * SERVICE_TORQUE_MULTIPLIER / now.powerKw, 0.95 * svcSpecs.torqueNm * SERVICE_TORQUE_MULTIPLIER / now.torqueNm);
+    // the power the ladder asks for
+    const k = (L.kwPerT + i * L.kwPerTStep) * tonnes / now.powerKw;
     text = setNumber(text, 'torqueScale', round(car.drivetrain.torqueScale * k, 4));
     text = setNumber(text, 'tireGrip', round(L.grip + i * L.gripStep, 3));
     text = setNumber(text, 'mudPull', round(L.mudPull + i * L.mudPullStep, 3));

@@ -1,5 +1,5 @@
 // Builds the whole game into one self-contained HTML file: source modules bundled with esbuild,
-// every playable car, service vehicle, trailer and load plus the season (JSON + artwork) embedded,
+// every playable car plus the season (JSON + artwork) embedded,
 // HUD icons inlined. The content (tens of MB of data URIs) goes into its own JSON block on the page,
 // not through esbuild, so a rebuild only bundles the code and takes well under a second.
 // The app build keeps the art and audio as separate files beside the page, so a phone only reads and

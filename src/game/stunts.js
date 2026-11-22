@@ -6,13 +6,13 @@ import {
 // Forza-style moments, for show only (no coins or XP: the economy stays in session.js):
 //   BIG AIR        every tyre off the ground for STUNT_AIR_S, called on landing
 //   ROCK CRUSHER   two or more rocks broken within STUNT_COMBO_S of each other
-//   MUD BOGGER     through a heavy-mud pit on your own, with no service truck
+//   MUD BOGGER     through a heavy-mud pit
 //   HILL CLIMBER   nose up past STUNT_CLIMB_DEG for STUNT_CLIMB_S
 //   SPLASH DOWN    a big splash into water
 // (The map's title banner at the start of a run was removed on 2026-11-19, user request.)
 
 export function createStunts({ sim, box }) {
-  let air = 0, climbT = 0, climbCool = 0, crushN = 0, crushT = 0, pit = null, helped = false, splashCool = 0, vehicle = null, lastX = null, settle = 1;
+  let air = 0, climbT = 0, climbCool = 0, crushN = 0, crushT = 0, pit = null, splashCool = 0, vehicle = null, lastX = null, settle = 1;
 
   function call(title, sub = '') {
     while (box.children.length >= 3) box.firstChild.remove();
@@ -41,18 +41,17 @@ export function createStunts({ sim, box }) {
     if (climbT > STUNT_CLIMB_S && !climbCool) { call('Hill climber', `${Math.round(deg)}°`); climbCool = 12; }
     // rock crusher combos close once the rocks stop breaking
     if (crushN && (crushT -= dt) <= 0) { if (crushN >= 2) call('Rock crusher', `×${crushN}`); crushN = 0; }
-    // through a heavy-mud pit without help
-    const main = sim.main, x = main.parts.truck.getPosition().x, pits = sim.trail.heavyMud ?? [];
-    if (sim.active !== main || sim.vehicles.some(o => o.cable)) helped = true;
+    // through a heavy-mud pit
+    const x = sim.main.parts.truck.getPosition().x, pits = sim.trail.heavyMud ?? [];
     const half = sim.terrain?.bogHalfM ?? 10, inside = pits.find(c => x > c - half && x < c + half);
-    if (inside != null && pit == null) { pit = inside; helped = sim.active !== main; }
-    else if (pit != null && inside == null) { if (x > pit + half && !helped) call('Mud bogger', 'no help'); pit = null; }
+    if (inside != null && pit == null) pit = inside;
+    else if (pit != null && inside == null) { if (x > pit + half) call('Mud bogger'); pit = null; }
   }
 
   return {
     update(dt, playing) { if (playing && dt > 0) update(dt); },
     crushed() { crushN++; crushT = STUNT_COMBO_S; },
     splash(power) { if (power > 0.9 && !splashCool) { call('Splash down'); splashCool = 6; } },
-    reset() { air = climbT = crushN = 0; pit = null; helped = false; lastX = null; settle = 1; box.replaceChildren(); },
+    reset() { air = climbT = crushN = 0; pit = null; lastX = null; settle = 1; box.replaceChildren(); },
   };
 }

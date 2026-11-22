@@ -14,7 +14,7 @@ import { createLens } from './lens.js';
 // Layer order (back to front):
 //   backdrop with its haze, forest floor, midground -> bank with the road lane -> props, rocks, log bark -> exhaust ->
 //   AWD/DIFF outline, vehicles with their loads (far tires, body, near tires; no shadows),
-//   service winch cables -> front mud lip, log ends -> water,
+//   front mud lip, log ends -> water,
 //   ripples, dust/spray/debris -> foreground props -> shade -> near weather -> mud and drops on the lens.
 // The map's air (atmosphere.js) adds storm sky, sun shafts, birds, mist and far weather over the backdrop, and
 // tumbleweeds on the trail; mud and drops land on the lens (lens.js).
@@ -63,10 +63,10 @@ export function createRenderer({ view, sim, content, onEvent }) {
     // a thick road's deep mud would paint over its holes, so there they go on top of the mud and under the ruts
     if (!scene.season.render.road) props.drawHoles();   // under the ruts, so both wheel tracks show where they dip into a hole
     mud.surface(time, scene.season.render.road ? () => props.drawHoles() : null);
-    props.drawBehind(); air.drawWorld(); props.recoveryBay('far');
+    props.drawBehind(); air.drawWorld();
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
-    drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground(); props.recoveryBay('near');
+    drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground();
     drawRipples(scene, time); particles.draw('front');
     props.drawFront(); drawForegroundShade(scene);
     air.drawNear(); lens.draw();
@@ -76,7 +76,6 @@ export function createRenderer({ view, sim, content, onEvent }) {
     draw,
     flash: on => vehicles.flash(on),
     hitGlow: () => vehicles.hitGlow(),
-    warmVehicles: items => vehicles.warm(items),
     get ready() { return sceneryReady && vehicles.ready; },
     get frames() { return frames; },
     get water() { return particles.water; },

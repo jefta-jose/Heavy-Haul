@@ -55,53 +55,6 @@ canvas#view {
   display: block;
 }
 
-/* Recovery guidance: a recovery road bay with arrows ending at the entry boundary. */
-#winchGuide {
-  --guide: #e9b765;
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-#winchGuide.near {
-  --guide: #93d6ab;
-}
-
-.guide-arrows {
-  position: absolute;
-  inset: 0;
-}
-
-.guide-arrows > i {
-  position: absolute;
-  left: calc(var(--chev) * -.5);
-  top: calc(var(--chev) * -.22);
-  width: var(--chev);
-  height: calc(var(--chev) * .44);
-  background: linear-gradient(90deg, var(--guide), #fff1d7);
-  clip-path: polygon(8% 0, 30% 0, 66% 50%, 30% 100%, 8% 100%, 44% 50%, 8% 0,
-    42% 0, 64% 0, 100% 50%, 64% 100%, 42% 100%, 78% 50%, 42% 0);
-  opacity: .9;
-  transition: background-color .25s;
-  animation: guide-pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes guide-pulse {
-  0%, 100% { opacity: .3; }
-  35% { opacity: .95; }
-}
-
-#winchGuide.near .guide-arrows > i {
-  background: var(--guide);
-  animation: none;
-  opacity: .8;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .guide-arrows > i { animation: none; opacity: .9; }
-}
-
 .hud {
   position: absolute;
   inset: 0;
@@ -290,7 +243,6 @@ canvas#view {
   box-shadow: inset 0 -3px 0 #65512f;
 }
 
-
 .right {
   display: flex;
   gap: 8px;
@@ -324,51 +276,12 @@ canvas#view {
   height: 20px;
 }
 
-.ibtn.service-ready {
-  color: #b9ffb0;
-  border-color: #62d24b;
-  box-shadow: 0 0 12px rgba(98, 210, 75, .75);
-  animation: service-ready 1.3s ease-in-out infinite;
-}
-
-@keyframes service-ready {
-  50% {
-    box-shadow: 0 0 24px rgba(98, 210, 75, .95), 0 0 0 5px rgba(98, 210, 75, .18);
-  }
-}
-
 .btn.primary.action:disabled {
   opacity: 1;
   cursor: progress;
   background: #214f2a;
   border-color: #62d24b;
   color: #dbffda;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ibtn.service-ready {
-    animation: none;
-  }
-}
-
-.ibtn.unavailable {
-  opacity: 0.4;
-}
-
-.ibtn.called {
-  position: relative;
-}
-
-.ibtn.called::after {
-  content: '';
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #62d24b;
-  box-shadow: 0 0 0 2px var(--panel);
 }
 
 .ibtn:focus-visible,
@@ -710,24 +623,6 @@ canvas#view {
   margin-bottom: -10px;
 }
 
-.winch.ready {
-  border-color: var(--hazard);
-  color: var(--hazard);
-  animation: pulse 1.2s ease-in-out infinite;
-}
-
-.winch.down {
-  background: var(--hazard);
-  color: #2a1a00;
-  animation: none;
-}
-
-/* hooked, and the towed truck is out: the lit button glows to say let go now */
-.winch.down.release {
-  box-shadow: 0 0 14px rgba(245, 197, 24, .8);
-  animation: stuck-help 1.1s ease-in-out infinite;
-}
-
 @keyframes pulse {
   50% {
     box-shadow: 0 0 0 7px rgba(242, 183, 5, 0.25);
@@ -912,18 +807,9 @@ dl.spec dd {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .winch.ready {
-    animation: none;
-  }
-}
-
 .art::after {
   background: linear-gradient(0deg, rgba(16, 27, 41, .3), transparent 60%);
 }
-
-
-
 
 @media(max-height:520px) {
   .pedal {
@@ -977,7 +863,6 @@ dl.spec dd {
     gap: 7px;
   }
 }
-
 
 @media(max-width:600px) and (min-height:521px) {
   .top {
@@ -1167,21 +1052,6 @@ dl.spec dd {
   transition: left .1s linear;
 }
 
-/* called service trucks: smaller than the main truck's marker, which stays on top */
-.mk.breakdown {
-  width: 12px;
-  height: 12px;
-  box-sizing: border-box;
-  z-index: 1;
-  border-radius: 50%;
-  border: 2px solid #000;
-  transition: left .1s linear;
-}
-
-.mk.breakdown {
-  background: #35c44a;
-}
-
 @media (min-width: 601px) and (min-height: 521px) {
   #gauges {
     width: clamp(325px, 38.8vw, 440px);
@@ -1231,8 +1101,6 @@ dl.spec dd {
   background: linear-gradient(#64c8ff, #2fb3ff);
   box-shadow: 0 0 10px rgba(47, 179, 255, 0.6);
 }
-
-
 
 @media (max-height: 520px) {
   .status {
@@ -2092,7 +1960,7 @@ dl.spec dd {
 .garage>#tuneOv,
 .garage>#powersOv,
 .garage>#missionsOv,
-.garage>#sellOv {
+.garage>#shopOv {
   position: absolute;
   z-index: 5;
 }
@@ -2445,30 +2313,26 @@ dl.spec dd {
 
   #tuneOv .cbody,
   #powersOv .cbody,
-  #missionsOv,
-  #sellOv .cbody {
+  #missionsOv {
     padding: 8px 14px;
     gap: 6px;
   }
 
   #tuneOv h3,
   #powersOv h3,
-  #missionsOv,
-  #sellOv h3 {
+  #missionsOv {
     font-size: 22px;
   }
 
   #tuneOv .eyebrow,
   #powersOv .eyebrow,
-  #missionsOv,
-  #sellOv .eyebrow {
+  #missionsOv {
     font-size: 11px;
   }
 
   #tuneOv .btn,
   #powersOv .btn,
-  #missionsOv,
-  #sellOv .btn {
+  #missionsOv {
     min-height: 30px;
     font-size: 14px;
   }
@@ -3107,10 +2971,6 @@ dl.spec dd {
   }
 }
 
-
-
-
-
 .credits {
   margin: 0 0 12px;
   font-size: 12px;
@@ -3173,8 +3033,6 @@ dl.spec dd {
   }
 }
 
-
-
 /* portrait: the gears and drive modes sit above the gas pedal (PARK and ENGINE mirror them above
    the brake), so the bottom row is just brake, gauges and gas and fits a 320 px screen; the vehicle
    card keeps its name and tagline only */
@@ -3209,22 +3067,15 @@ dl.spec dd {
   }
 }
 
-
-
 @media (max-width: 600px) and (min-height: 521px) {
   .winch.engine {
     bottom: 104px;
   }
 }
 
-
-
-
-
-
 /* ---------- phones: a Hill Climb Racing-style HUD ----------
    Only what a thumb-driver needs on screen: a fuel bar with the truck's name under it, a thin progress
-   line with the distance to the depot, the service-truck and pause buttons, corner pedals, the two
+   line with the distance to the depot, the fullscreen and pause buttons, corner pedals, the two
    dials, PARK and ENGINE above the brake, and the gears and drive modes above the gas. Fuel litres, fuel
    use and cargo are in the pause menu, the spec card is in the garage, the surface chip appears
    only for a warning, and the teaching toasts show the first few times. */
@@ -3719,46 +3570,6 @@ dl.spec dd {
   color: #f5c518;
 }
 
-/* selling a truck: what comes back */
-.sellnote {
-  margin: 0;
-  color: #c9d1d8;
-}
-
-#sellOv dl.spec {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-/* the breakdown button glows amber while the main truck is stuck */
-/* the top-bar button to press next (call for help when stuck, back to your truck after a tow) glows hard: no arrow or words */
-.ibtn.stuck-help {
-  color: #fff3c4;
-  border-color: #ffd23a;
-  background-color: rgba(245, 197, 24, .28);
-  box-shadow: 0 0 18px 4px rgba(245, 197, 24, .85), 0 0 0 2px rgba(255, 226, 120, .9);
-  animation: stuck-help 1s ease-in-out infinite;
-  position: relative;
-  z-index: 2;
-}
-
-@keyframes stuck-help {
-  50% {
-    background-color: rgba(245, 197, 24, .5);
-    box-shadow: 0 0 40px 12px rgba(245, 197, 24, 1), 0 0 0 7px rgba(245, 197, 24, .35);
-  }
-}
-
-/* while a truck change settles the full-screen wait (.switchov) covers the game; the buttons also ignore taps */
-.ibtn.busy {
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ibtn.stuck-help {
-    animation: none;
-  }
-}
-
 /* Phones: no truck row (it crowded the menu). Seasons and classes stay on top; the arrows beside the truck step
    through the class, and a truck the rank has not opened shows greyed out (the Drive button says the rank it needs). */
 @media (max-height: 520px), (max-width: 600px) {
@@ -3965,65 +3776,10 @@ dl.spec dd {
   padding: 0 16px;
 }
 
-/* an arrow under the breakdown button, pointing up at it */
-.help-arrow {
-  position: fixed;
-  z-index: 40;
-  display: grid;
-  justify-items: center;
-  gap: 2px;
-  pointer-events: none;
-  transform: translateX(-50%);
-  animation: help-arrow 1.4s ease-in-out infinite;
-}
-
-.help-arrow[hidden] {
-  display: none;
-}
-
-.help-arrow i {
-  width: 0;
-  height: 0;
-  border-left: 13px solid transparent;
-  border-right: 13px solid transparent;
-  border-bottom: 18px solid var(--hazard);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .7));
-}
-
-.help-arrow span {
-  padding: 3px 8px;
-  background: rgba(9, 11, 14, .9);
-  border: 1px solid var(--hazard);
-  color: #ffe29a;
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.help-arrow.down {
-  grid-auto-flow: row;
-}
-
-.help-arrow.down i {
-  order: 2;
-  transform: rotate(180deg);
-}
-
-@keyframes help-arrow {
-  50% { translate: 0 7px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .switchov-gears .gear-big,
   .switchov-gears .gear-small {
     animation-duration: 6s;
-  }
-
-  .help-arrow {
-    animation: none;
   }
 }
 
@@ -4066,10 +3822,6 @@ dl.spec dd {
   .winch svg {
     width: 30px;
     height: 30px;
-  }
-
-  .help-arrow span {
-    font-size: 15px;
   }
 }
 
@@ -4146,10 +3898,6 @@ dl.spec dd {
   transition: transform .25s ease-out;
 }
 
-.hud.arrow-on .sidechips {
-  transform: translateY(46px);
-}
-
 /* ======================================================================================================================
    Garage (2026-11-18, after Hill Climb Racing's menu): a dark stage under three spotlights, a title over three framed cards
    (the middle one large), and a bar of big buttons. data-page picks home, seasons or vehicle. Motion stays slow.
@@ -4178,6 +3926,10 @@ dl.spec dd {
 .hc-icon svg { width: 22px; height: 22px; }
 .hc-reset { width: auto; padding: 0 10px; font-weight: 700; font-size: 12px; letter-spacing: .08em; color: #ff8a7a; }   /* testing only */
 .hc-reset[hidden] { display: none; }
+/* the reset button sizes to its label at every width, so all of it takes the tap (the phone rule below shrank icons to 32 px and the
+   label spilled over the rank); the second tap within 3 s resets (main.js) */
+.garage .hc-icon.hc-reset { width: auto; min-width: 44px; padding: 0 10px; white-space: nowrap; touch-action: manipulation; }
+.garage .hc-icon.hc-reset.armed { background: #8a1f14; color: #fff; border-color: #ff8a7a; }
 
 /* the stage */
 .hc-stage { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; touch-action: pan-y; user-select: none; }
@@ -4210,6 +3962,10 @@ dl.spec dd {
 .hc-card.locked .hc-frame { filter: saturate(.3) brightness(.6); }
 .hc-lock { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 6px; z-index: 1; color: #fff; font: 700 clamp(14px, 1.5vw, 22px) var(--display); text-transform: uppercase; }
 .hc-lock svg { width: 30px; height: 30px; }
+/* a map to buy: its picture stays bright so the player sees what they buy; the lock and price sit on a dark plate */
+.hc-card.locked .hc-frame.scene, .hc-card.slide.locked .hc-frame.scene { filter: none; }
+.hc-frame.scene .hc-lock { z-index: 2; }
+.hc-frame.scene .hc-lock { inset: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 12px 22px; background: rgba(8, 9, 11, .82); border: 1px solid rgba(242, 194, 26, .55); color: var(--yellow); text-shadow: none; white-space: nowrap; }
 .hc-spec { display: flex; gap: 0; margin: 0; }
 .hc-spec .g-cell { padding: 0 clamp(10px, 1.6vw, 22px); }
 .hc-spec dt { font-size: 12px; }
@@ -4342,14 +4098,10 @@ dl.spec dd {
 .hc .hc-stage > .g-classes .g-class { flex: 1 1 0; flex-direction: row; gap: 8px; height: 48px; }
 .hc .hc-stage > .g-classes .g-class b { display: block; font-size: clamp(13px, 1.4vw, 19px); }
 .hc-under { display: flex; align-items: center; gap: 18px; }
-.hc-sell { padding: 6px 14px; background: var(--steel); border: 1px solid var(--steel-line); font: 700 16px var(--display); text-transform: uppercase; color: #fff; }
-.hc-sell small { color: var(--yellow); font-size: .8em; margin-left: 4px; }
-.hc-sell[hidden] { display: none; }
 @media (max-height: 520px) {
   .hc .hc-stage > .g-classes .g-class { height: 30px; gap: 4px; }
   .hc .hc-stage > .g-classes .g-class svg { width: 16px; height: 16px; }
   .hc .hc-stage > .g-classes .g-class b { font-size: 11px; }
-  .hc-sell { font-size: 11px; padding: 3px 8px; }
 }
 @media (max-height: 360px) { .hc .hc-stage > .g-classes .g-class b { display: none; } }
 @media (orientation: portrait) and (max-width: 1100px) {
@@ -4568,3 +4320,85 @@ dl.spec dd {
   .garage.hc .hc-top .g-rank small, .garage.hc .hc-top .g-rankbar { display: none; }
   .garage.hc .hc-top .g-rank { grid-template-columns: auto; }
 }
+
+/* ---------- the shop (user, 2026-11-22): a sheet over the garage like UPGRADE, tabs over a scrolling grid of offer cards ---------- */
+.hc-btn.shop svg { color: #ffd84a; }
+.hc-btn.shop { background: linear-gradient(180deg, #3b3214, #211b08); border-color: rgba(242, 194, 26, .55); }
+.hc-btn.shop.on { background: linear-gradient(180deg, #5a4a14, #2c2508); }
+.hc-shopcard { display: block; width: min(1060px, 96vw); max-height: calc(100% - 24px); background: linear-gradient(180deg, #16191d, #0c0d10) !important; box-sizing: border-box; }
+.hc-shopcard .cbody { width: 100%; max-height: calc(100vh - 48px); max-height: calc(100dvh - 48px); box-sizing: border-box; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+.hc-shopcard .tunehead h3 { font-size: 32px; font-style: italic; }
+.hc-shopcard .tunehead .eyebrow { min-height: 1.2em; }
+.shop-tabs { display: flex; gap: 8px; flex: none; }
+.shop-tab {
+  flex: 1 1 0; min-height: 40px; padding: 0 14px; border: 1px solid var(--steel-line); background: var(--steel); color: #cfd5db;
+  font: italic 700 18px var(--display); letter-spacing: .04em; text-transform: uppercase; cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.shop-tab.on { background: linear-gradient(180deg, #4a4130, #2c2611); border-color: var(--yellow); color: #fff; box-shadow: inset 0 -3px 0 var(--yellow); }
+.shop-classes { display: flex; gap: 6px; flex: none; overflow-x: auto; scrollbar-width: none; }
+.shop-classes[hidden] { display: none; }
+.shop-class { display: flex; align-items: center; gap: 6px; flex: none; padding: 5px 12px; border: 1px solid var(--steel-line); background: #15181b; color: #aeb6be; font: 700 14px var(--display); text-transform: uppercase; cursor: pointer; }
+.shop-class svg { width: 18px; height: 18px; }
+.shop-class.on { color: #fff; border-color: var(--yellow); background: #2c2611; }
+.shop-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-content: start;
+  overflow-y: auto; min-height: 0; flex: 1 1 auto; padding: 4px 4px 4px 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+}
+.sitem {
+  position: relative; display: grid; grid-template-rows: auto auto auto; gap: 8px; padding: 10px; box-sizing: border-box; min-width: 0;
+  background: radial-gradient(ellipse 80% 55% at 50% 22%, rgba(255, 196, 92, .1), transparent 70%), linear-gradient(180deg, #2a2e34, #17191c);
+  border: 2px solid #07080a; outline: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 8px 18px rgba(0, 0, 0, .45);
+}
+.sitem.bundle { outline-color: rgba(242, 194, 26, .4); }
+.sitem.owned { opacity: .62; }
+.stag {
+  position: absolute; z-index: 2; top: 6px; left: -4px; padding: 2px 10px 2px 8px; background: var(--yellow); color: #17130a;
+  font: italic 800 12px var(--display); letter-spacing: .06em; text-transform: uppercase; clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.sart { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(180deg, #1d2126, #0e1013); border: 1px solid rgba(255, 255, 255, .06); }
+.sart img { width: 92%; max-height: 92%; object-fit: contain; filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .5)); }
+.sart.pics2 img, .sart.pics3 img { position: absolute; width: 62%; max-height: 70%; }
+.sart.pics2 img:nth-child(1) { left: 2%; bottom: 8%; } .sart.pics2 img:nth-child(2) { right: 2%; top: 8%; }
+.sart.pics3 img:nth-child(1) { left: 0; bottom: 6%; width: 52%; } .sart.pics3 img:nth-child(2) { left: 24%; top: 4%; width: 52%; z-index: 1; } .sart.pics3 img:nth-child(3) { right: 0; bottom: 6%; width: 52%; z-index: 2; }
+.sart svg { width: 46%; height: 70%; color: var(--yellow); filter: drop-shadow(0 0 10px rgba(242, 194, 26, .35)); }
+.sart .srank { position: absolute; right: 10px; bottom: 6px; font: italic 900 30px var(--display); color: #fff; text-shadow: 0 2px 0 rgba(0, 0, 0, .5); }
+.sart.coins { display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; padding: 10px 18%; }
+.sart.coins .coinic { width: 30px; height: 30px; margin: -4px -6px; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .6)); }
+.sart.coins.size3 .coinic, .sart.coins.size4 .coinic { width: 26px; height: 26px; }
+.stext { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stext b { font: italic 700 19px var(--display); color: #fff; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stext small { font: 500 12px/1.3 var(--body, sans-serif); color: #9aa3ac; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+.sbuy {
+  min-height: 42px; border: 0; cursor: pointer; color: #fff; font: italic 800 20px var(--display); letter-spacing: .03em;
+  background: linear-gradient(180deg, #6fd364, var(--go) 45%, var(--go-dark)); clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  touch-action: manipulation;
+}
+.sbuy:active { filter: brightness(.9); }
+.sbuy:disabled { background: transparent; color: var(--yellow); outline: 1px solid rgba(242, 194, 26, .5); outline-offset: -1px; cursor: default; }
+.sbuy.done { background: linear-gradient(180deg, #f8cf2d, #e0ac0f); color: #17130a; }
+.hc-shopcard .btns { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin: 0; flex: none; }
+.shop-test { margin-right: auto; font: italic 600 13px var(--display); letter-spacing: .06em; text-transform: uppercase; color: #ff9f6a; }
+.shop-test[hidden] { display: none; }
+@media (max-height: 520px) {
+  .hc-shopcard .cbody { padding: 8px 12px; gap: 6px; max-height: calc(100dvh - 16px); }
+  .hc-shopcard { max-height: calc(100% - 8px); }
+  .hc-shopcard .tunehead h3 { font-size: 20px; }
+  .hc-shopcard .tunehead .eyebrow { font-size: 11px; }
+  .shop-tab { min-height: 30px; font-size: 14px; }
+  .shop-class { padding: 3px 8px; font-size: 12px; }
+  .shop-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .sitem { padding: 6px; gap: 4px; }
+  .stag { font-size: 10px; top: 4px; }
+  .stext b { font-size: 14px; }
+  .stext small { font-size: 10px; min-height: 2.5em; }
+  .sart .srank { font-size: 20px; }
+  .sart.coins .coinic { width: 20px; height: 20px; }
+  .sbuy { min-height: 30px; font-size: 15px; }
+  .hc-shopcard .btns .btn { min-height: 30px; }
+}
+@media (orientation: portrait) and (max-width: 1100px) {
+  .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-tab { font-size: 14px; padding: 0 6px; }
+}
+@media (orientation: portrait) and (min-width: 700px) and (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

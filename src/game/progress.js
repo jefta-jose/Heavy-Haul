@@ -10,7 +10,7 @@ const MAX_RANK = RANK_XP.length;
 export function rankFor(xp) { let r = 1; while (r < MAX_RANK && xp >= RANK_XP[r]) r++; return r; }
 function rankProgress(xp) {
   const rank = rankFor(xp), from = RANK_XP[rank - 1], to = RANK_XP[rank] ?? from;
-  return { rank, xp: Math.floor(xp), from, to, share: rank >= MAX_RANK ? 1 : (xp - from) / (to - from) };
+  return { rank, xp: Math.floor(xp), from, to, top: rank >= MAX_RANK, share: rank >= MAX_RANK ? 1 : (xp - from) / (to - from) };
 }
 // XP for something done in a truck of this class
 export const classXp = (n, cls) => n * (XP_BY_CLASS[cls] ?? 1);
@@ -40,12 +40,11 @@ export function createProgress(roster, store = typeof localStorage === 'undefine
       return ups;
     },
     save,
-    // sell a bought truck: it goes back to the dealer and `refund` coins come back (price and upgrades,
-    // worked out by the garage). Free starters cannot be sold.
-    sell(id, wallet, refund) {
-      if (rankOf(id) <= 1 || !state.owned.includes(id)) return false;
-      state.owned = state.owned.filter(x => x !== id); wallet.add(refund); save(); return true;
-    },
+    // the shop: trucks given outright, owned whatever their rank (and listed first in their class by the garage)
+    grant(ids) { const add = ids.filter(id => byId.has(id) && !p.owns(id)); if (add.length) { state.owned.push(...add); save(); } return add; },
+    // the shop: XP up to a rank (never down); returns the ranks newly reached like addXp
+    reachRank(r) { const need = RANK_XP[Math.min(Math.max(1, r), MAX_RANK) - 1] ?? 0; return need > state.xp ? p.addXp(need - state.xp) : []; },
+    maxRank: MAX_RANK,
     // buy an open truck with the wallet; false when it is locked, owned already or too dear
     buy(id, wallet) {
       if (p.owns(id) || !p.isOpen(id) || !wallet.spend(p.price(id))) return false;

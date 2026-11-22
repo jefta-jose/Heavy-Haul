@@ -19,7 +19,7 @@ Recordings that were replaced are in `~/heavy-haul-archive/2026-11-03-replaced-r
 
 ## Engines by class
 
-A truck plays its class's engine, fuel and breakdown trucks included. `"audio": { "engine": "offroad" }`
+A truck plays its class's engine. `"audio": { "engine": "offroad" }`
 in `car.json` picks another, and `crankS`, `airBrakes` or `backupAlarm` there override the class's.
 
 | Class | Recordings |
@@ -60,8 +60,7 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 - Brakes on trucks with air brakes: `hydraulic-brake` hiss braking from speed, `air-release` when it
   stops, `air-burst` when the pedal lets go. Handbrake: `handbrake-on` / `-off` ratchet on scouts,
   `air-release` / `air-burst` on trucks.
-- Service work: `hook-clank` as the winch hooks on, `winch-motor` and `cable-strain` while the cable holds a
-  load; `fuel-pump` and `fuel-flow` while refuelling.
+- Refuelling: `hook-clank` as the hose connects, `fuel-pump` and `fuel-flow` while the tank fills.
 - Breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and `cargo-chains` on
   light scouts, `rattle` and `cargo-heavy-chains` on other trucks, and on the heavy class `rattle` with `cable-strain`.
 - Ambience: `forest`, `frogs` beds and `crow` / `crow-far` calls, faded in by the season's
@@ -79,7 +78,7 @@ vehicle bank. `tools/lib/content.js` includes them in app and standalone builds.
 | `norma_click.mp3` | Ordinary enabled buttons in menus, garage and HUD |
 | `buy-upgrade-car.mp3` | Successful car purchase or paid upgrade |
 | `mission_complete.mp3` | Optional mission completion and successful delivery/run completion |
-| `mission-failed.mp3` | Broken optional mission or failed run, including service-truck rollovers |
+| `mission-failed.mp3` | Broken optional mission or failed run |
 
 Purchases trigger audio after payment succeeds; failed purchases do not play the
 buy cue. Finishing a mission at the depot produces one completion cue. A new

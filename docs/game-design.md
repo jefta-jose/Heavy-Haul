@@ -1,4 +1,4 @@
-# Game design: cars with their loads, garage, fuel and service trucks
+# Game design: cars with their loads, garage and fuel
 
 How the game is meant to play. Data lives in `assets/` and the code in `src/`; the
 **Status** section says what is built.
@@ -54,46 +54,19 @@ they do not change the physics.
 
 Fuel burns over time, not distance: a full tank lasts about 340 seconds at full gas, less burn at idle, none with the engine off. Being stuck drains the tank. A better engine and the card's `stats.fuelEfficiency` make it last longer.
 
-**Fuel stations** are the only way to refill. There are four on the swamp trail, evenly spaced 812 m apart on firm ground, marked on the progress bar, with the distance to the next one always on screen. Stop in a station's marked bay and the truck refuels and repairs together, over a few seconds; leave early and you keep what you got. A towed truck counts too, and its engine restarts by itself. All the numbers are in `src/game-config.js`.
+**Fuel stations** are the only way to refill. There are four on the swamp trail, evenly spaced 812 m apart on firm ground, marked on the progress bar, with the distance to the next one always on screen. Stop in a station's marked bay and the truck refuels and repairs together, over a few seconds; leave early and you keep what you got. A stalled truck's engine restarts by itself once it has fuel. All the numbers are in `src/game-config.js`.
 
-## Service trucks
+## No help on the trail
 
-There are no winch posts. Trucks take damage from hard hits and from straining the long gear in a bog; see Damage below. Every class
-has a breakdown truck (`cars.json` → `service`), bigger, stronger and differently painted and shod
-class by class, from scout-sized pickups to 10×10 mining giants:
+There are no service trucks, winches or tows (removed on 2026-11-22, user decision): the player only drives. Trucks take damage
+from hard hits and from straining the long gear in a bog; see Damage below. A truck that rolls over, runs its tank dry or reaches
+100% damage ends the run, which restarts from the beginning of the trail.
 
-- **Breakdown truck** (top-bar breakdown button): only winches and tows.
-
-The button calls the main truck's own class's truck. It can be called **once per run**, and it
-starts at the **beginning of the trail**: the player drives it all the way out to the main truck.
-After that the button switches to it (a green dot marks it), and tapping it again while driving it
-returns to the main truck. Calling is free.
-
-Service trucks **never get stuck** (`physics.neverStuck`: full grip in mud and creek beds, no mud
-suction) and **never run out of fuel** (the gauge reads Unlimited). Each is the **most powerful truck
-of its class** but **not the fastest**. A breakdown truck's winch (`physics.winchForce`, sized from
-`towMassT`) is strong on its own class; on any other vehicle it pulls only 40% of what that
-vehicle's own breakdown truck would. A class whose truck has no art yet has none: its button is
-greyed out and says "Not available"; no other class's truck is sent instead.
-
-1. The service truck starts at the beginning of the trail, and control switches to it.
-2. **Winching is forward only, from a recovery bay.** A purple bay is painted on the road
-   `WINCH_BAY_OFFSET_M` ahead of the stuck vehicle, as long as the breakdown truck plus `WINCH_BAY_SLACK_M`
-   (about 11 m for the Mechanic Scout, 20 m for the Colossus). Vehicles pass through each other, so drive
-   the breakdown truck through the stuck one and park it wholly inside the bay; chevrons on the road lead
-   there, and the bay turns green and the WINCH button pulses once it is in. Tap **WINCH** (or W) to hook
-   the breakdown truck's rear winch to the vehicle's front. Outside the bay it says to drive ahead or how
-   far to reverse. The cable keeps the length it was hooked at and does not reel in: **drive forward** and
-   it tows the hooked vehicle. The cable is a stiff, tension-only spring capped at the winch's
-   force, and both vehicles feel it. A towed vehicle's parking brake and engine braking let go so it
-   rolls. Tap WINCH again to unhook.
-3. Tow the truck into a fuel station's bay to refuel and repair it. This is the way out when the tank is dry or the truck is wrecked.
-4. Control returns to the main truck. The service truck **stays parked** where it was left.
-   **V** or the swap button switches vehicles at any time.
-
-A truck that rolls over ends the run: it restarts from the beginning of the trail. A truck at 100% damage is wrecked, not finished
-(2026-11-20): its engine dies and its brakes lock where it stands, and the breakdown button glows until it is towed into a
-station's bay, which repairs it and starts it again. Only a class with no breakdown truck, or a map with no station, still ends the run.
+**A fully upgraded car can never get stuck** (2026-11-22): with all four garage knobs at 100, mud stops holding the truck: it keeps
+some grip (`NEVER_STUCK_MU`, less than dirt) and only a drag that grows with speed slows it, so mud is still clearly slower than firm
+ground (about two thirds of dirt speed, deep bogs a little over half) but cannot pin a stopped truck and its chassis rides over logs, rocks and props, so only its tyres meet them, with enough grip to climb any of them. It never flips either: once it tips more than 22° from the
+ground under it, drive eases off and a righting push turns it back (`STABLE_*` in `src/game-config.js`).
+Until then, getting stuck means backing up for another run at it, or starting again.
 
 ## Sound, engine and handbrake
 
@@ -116,11 +89,11 @@ engine stalls it; refuelling at a station starts it again. There are no ENGINE o
 ## Driving HUD
 
 Kept lean on the user's direction (2026-11-06): the distance to the depot at the top (no trail map),
-coins and the service, pause and fullscreen buttons at the top right, the surface plate with the damage bar under it, the power,
+coins and the pause and fullscreen buttons at the top right, the surface plate with the damage bar under it, the power,
 mission and top-speed chips, and three dials between the pedals: revs with the gear, speed, and a
 smaller fuel dial whose needle slides to the tank level. The truck's name, cargo, fuel, damage and the
-next station are also in the pause menu. A mission the run has broken (help called for On your own, too slow,
-too much damage, the wrong class) glows red and slides out; it stays chosen for the next run. The power button sits beside the brake pedal, WINCH, AWD and DIFF
+next station are also in the pause menu. A mission the run has broken (too slow,
+too much damage, the wrong class) glows red and slides out; it stays chosen for the next run. The power button sits beside the brake pedal, AWD and DIFF
 beside the gas.
 
 The sound panel (pause menu or garage) sets master, engines, effects and ambience volume, mutes
@@ -130,8 +103,7 @@ everything, and lists the sound credits.
 
 The trail has rolling hills: steep climbs and drops on rock and dirt (up to about 17%), and mostly
 flat mud basins. On top of that come washboard, potholes, deep potholes the tires drop into, stepped
-climbs, rock ledges, climbable boulders, crushable rocks, fallen logs and four heavy-mud pits where
-the service trucks earn their keep.
+climbs, rock ledges, climbable boulders, crushable rocks, fallen logs and four heavy-mud pits.
 
 ## Status
 
@@ -139,7 +111,6 @@ Built:
 - cars carrying their loads (mass on the chassis);
 - the garage;
 - fuel burn with load and grade;
-- a fuel and a breakdown truck per class, called once per run from the trail start, never stuck and never dry, with switch, hook-and-tow winch (breakdown, strong on its own class), refuel (fuel) and parked leftovers;
 - the steeper trail.
 
 Not built yet:
@@ -158,7 +129,7 @@ Their wheels must suit the truck and load (the hard rule in `AGENTS.md`).
 
 ## Damage
 
-Hitting a solid obstacle at speed damages the truck: a red glow, the damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the truck is wrecked: see the recovery steps above. A crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
+Hitting a solid obstacle at speed damages the truck: a red glow, the damage bar, cracks on the body at 25, 50 and 75%, and less power and top speed as it gets worse. Breakables never hurt. Bogs never damage a truck. Trucks up to 10 m also get thrown nose-up by a hard hit, and can go over. At 100% the truck is wrecked and the run ends. A crash means starting again from the beginning of the trail. All the numbers are in `src/game-config.js`.
 
 **Rolling on slopes (2026-11-20).** The parking brake holds the truck you drive only on gentle ground. On a slope steeper than `ROLLBACK_SLOPE_DEG`, uphill or downhill, with neither pedal pressed it rolls downhill like a car in neutral: the brakes let go over `ROLLBACK_EASE_S`, so it creeps off and then gathers speed. The brake pedal and handbrake still hold it. A truck you have stepped out of keeps its brakes on, and a wreck is locked.
 
@@ -174,7 +145,7 @@ A sign stands at the first of every group of things that can hurt a truck: logs,
 
 Right after each fuel station comes 400 m of highway (`trail.highways` in `season.json`), then normal road again. It is the place to use speed: long, smooth waves instead of bumps, so the truck rises and dips gradually, a sign at the start, and nothing on it at all, so it stays clean.
 
-An invisible speed camera sits 20 m before the end of each one, where trucks are at their fastest. As the truck passes, a small fiery red chip just under the power chip, the same size, shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved. It only counts when the truck drives itself, not when towed.
+An invisible speed camera sits 20 m before the end of each one, where trucks are at their fastest. As the truck passes, a small fiery red chip just under the power chip, the same size, shows how fast it is going at that moment, stays up for a few seconds and fades (`src/game/speed-trap.js`). Nothing is saved.
 
 ## Roadside scenery
 
@@ -182,17 +153,17 @@ Fences, a stilt shack, rusted pickups, water towers and alligator warning signs 
 
 ## Ranks and buying trucks
 
-The player has a rank from 1 to 20, reached with XP (`RANK_XP` in `src/game-config.js`: 300 XP for rank 2, up to 60,000 for rank 20). XP comes from driving, scaled by the main truck's class, so harder classes earn more (`XP_BY_CLASS`): new ground (0.05 per metre), every deep bog cleared (40) and every delivery (600). Being towed earns nothing.
+The player has a rank from 1 to 40, reached with XP (`RANK_XP` in `src/game-config.js`: 300 XP for rank 2, each step about 85 XP bigger than the last, up to 75,000 for rank 40; it was 20 ranks up to 60,000 until 2026-11-22). XP comes from driving, scaled by the main truck's class, so harder classes earn more (`XP_BY_CLASS`): new ground (0.05 per metre), every deep bog cleared (40) and every delivery (600).
 
-Every class has 20 trucks, ordered weakest to strongest by power, and each has an `unlockRank` from 1 to 20 in `assets/cars/cars.json`, one per rank. Each class's weakest truck (rank 1) is owned from the start. Reaching a rank opens one more truck in every class, five in all, but it still has to be bought for its `price` (the class's tier-1 price times its rank). In the garage a locked truck shows a padlock and "Rank N", greyed out; an open one shows its price; an owned one shows nothing. Drive becomes Buy with the price for an open truck, and "Requires rank N" for a locked one. Upgrades and powers only work on owned trucks. The rank and an XP bar sit left of the coins. A rank-up is announced on the road, and the delivery screen shows the XP earned. Rank, XP and owned trucks are saved in the browser (`src/game/progress.js`).
+Every class has its trucks ordered weakest to strongest by power, and each has an `unlockRank` from 1 to 40 in `assets/cars/cars.json`. Each class's first three trucks (rank 1) are owned from the start; the rest are spread evenly over ranks 2 to 40, so every rank opens at least one truck in every class, but it still has to be bought for its `price`. In the garage a locked truck shows a padlock and "Rank N", greyed out; an open one shows its price; an owned one shows nothing. Drive becomes Buy with the price for an open truck, and "Requires rank N" for a locked one. Upgrades and powers only work on owned trucks. The rank and an XP bar sit left of the coins. A rank-up is announced on the road, and the delivery screen shows the XP earned. Rank, XP and owned trucks are saved in the browser (`src/game/progress.js`).
 
 ## Missions
 
-Most XP comes from missions: random contracts picked in the garage's Missions card, one at a time (`assets/missions/missions.json`, `src/game/missions.js`). Each contract is one goal (deliver, beat the clock, sprint to a checkpoint, pass speed cameras fast, crush things, clear deep bogs without a tow, arrive under a damage cap) with targets drawn from ranges and sized to the trail and to the trucks owned (camera speeds stay under the owned trucks' top speed). It may be locked to a class or to one owned truck and may add up to two twists: no breakdown truck, a damage cap, a time limit, no refuelling, no powers, never stuck for a few seconds. XP follows the difficulty (shown as one to three stars), the twists and the lock, scaled by class. Four are on offer: always a depot contract for the class driven least so far, so players use every class, and three with other goals. Offers not chosen are redrawn after every run; the chosen one stays until done. It shows as a chip under the power chip with how it is going. Live ones finish the moment they are done; the rest at the depot. A finished mission pays its XP once, shows on the delivery screen, and a fresh list is drawn. Failing costs nothing.
+Most XP comes from missions: random contracts picked in the garage's Missions card, one at a time (`assets/missions/missions.json`, `src/game/missions.js`). Each contract is one goal (deliver, beat the clock, sprint to a checkpoint, pass speed cameras fast, crush things, clear deep bogs, arrive under a damage cap) with targets drawn from ranges and sized to the trail and to the trucks owned (camera speeds stay under the owned trucks' top speed). It may be locked to a class or to one owned truck and may add up to two twists: a damage cap, a time limit, no refuelling, no powers, never stuck for a few seconds. XP follows the difficulty (shown as one to three stars), the twists and the lock, scaled by class. Four are on offer: always a depot contract for the class driven least so far, so players use every class, and three with other goals. Offers not chosen are redrawn after every run; the chosen one stays until done. It shows as a chip under the power chip with how it is going. Live ones finish the moment they are done; the rest at the depot. A finished mission pays its XP once, shows on the delivery screen, and a fresh list is drawn. Failing costs nothing.
 
 ## Coins
 
-Coins add themselves: 0.5 per metre of new ground, 5 per thing crushed, 50 per deep bog cleared, plus the delivery pay at the depot. They are kept when a run ends early. They buy upgrades in the garage: four steps of 400, 800, 1,400 and 2,400, costing more on bigger classes, and selling a step refunds it. All the numbers are in `src/game-config.js`.
+Coins add themselves: 0.5 per metre of new ground, 5 per thing crushed, 50 per deep bog cleared, plus the delivery pay at the depot. They are kept when a run ends early. They buy upgrades in the garage: four steps of 400, 800, 1,400 and 2,400, costing more on bigger classes, and selling a step (or Reset to stock) refunds it. Trucks themselves cannot be sold: once bought, a truck is kept (2026-11-22). All the numbers are in `src/game-config.js`.
 
 ## Powers
 
@@ -205,6 +176,23 @@ Every power runs for a while and then recharges, and starts ready on every run.
   Each boost arms an **instant brake**: the next tap on the brake on the ground, at any speed, during the boost, the recharge or any time after, takes the truck's speed straight off over 1 second, whatever it weighs (a tap is enough: it finishes the stop itself), and is used up. The power chip says *Instant brake armed* until then.
 
 The numbers are in `src/game-config.js`. Nitro was removed on 2026-11-06 because its speed always ended in a wreck in the obstacles just past the highway; on 2026-11-11 it came back in place of the Instant brakes power, carrying the instant brake with it so the player can stop in time.
+
+## Maps
+
+Two maps are free (`FREE_SEASONS` in `src/game-config.js`: Blackwater Swamp and Meltwater Pass). Every other map is bought once for
+100,000 coins (`SEASON_PRICE`) on the Seasons page: its card shows a lock and the price, and PLAY becomes BUY while it is in the middle.
+Bought maps are kept on the device (`src/game/season-pass.js`) and listed first, after the free ones. A saved map that is not owned
+falls back to the default at launch (2026-11-22).
+
+## Shop
+
+The SHOP button (gold, the first in the bottom bar), or a tap on the coins, opens the shop over the garage (`src/game/shop.js`, 2026-11-22). Four tabs:
+Featured bundles (a starter boost of coins and ranks, the next truck in every class, the top truck of every class, every truck of a class,
+and the whole fleet with the top rank and a million coins), single Trucks by class, Coins packs and Ranks packs. A truck bought here is
+owned at once whatever its rank, and the Trucks page lists owned trucks first in each class, so a rank 17 truck bought in the shop comes
+before a rank 2 one not yet bought. Every number is in `src/game-config.js` (`SHOP_*`). Purchases go through `src/game/store.js`: for now
+they are free and granted at once (`SHOP_TEST_PURCHASES`), with placeholder dollar prices shown; real payments replace only the store
+(see `docs/payments-plan.md`). Each purchase is granted once per transaction id (`hh_grants`).
 
 ## Garage, screens and music
 

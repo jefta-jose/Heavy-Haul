@@ -7,7 +7,7 @@ and season into one HTML file.
 assets/
   cars/
     cars.json              100 cars in 5 classes ordered weakest to strongest, each with the load it
-                           carries (drawn into its art), plus 10 service trucks (fuel / breakdown per class)
+                           carries (drawn into its art)
     wheel-types.json       the 7 tire types and their grip per surface
     <car-id>/              one folder per car
       car.json             playable cars only: registration, physics, drivetrain, card text
@@ -87,8 +87,7 @@ provides 20% less wheel torque at the same engine torque. Changing `torqueScale`
 ### Card information and tire selection
 
 `id` identifies the car; keep it consistent with its folder and roster. `name`, `number`, `class`,
-`drive`, `tagline`, `description`, `stats` and `biomes` describe it in the garage. Class also
-affects service recovery rules. `status` records content availability.
+`drive`, `tagline`, `description`, `stats` and `biomes` describe it in the garage. `status` records content availability.
 
 `drive` is a label such as `4×4`. Every axle is powered; AWD off leaves out only axle `0`.
 `stats.power` and `stats.grip` are display bars, not engine or friction controls. However,
@@ -142,7 +141,6 @@ Local coordinates use positive X toward the front and positive Y upward.
 | `suspension.travelDown` | Downward extension travel before the travel limit acts. |
 | `suspension.damping` | Suppresses spring oscillations. |
 | `bodyBoxes` | Collision rectangles: `[leftX, rightX, bottomY, topY, density]`. |
-| `winchForce` | Recovery force limit. Current winch activation requires a service vehicle; this alone does not enable a normal car's winch. |
 | `load.massT` | Cargo mass added to the chassis, in tonnes. |
 | `load.centreOfMass` | Cargo balance point `[x, y]`; defaults to the chassis centre of mass when absent. |
 
@@ -178,7 +176,7 @@ to the hub line, including tandem gaps, with the separate tire dropped by a thir
 | `farWheelOffset` | Visual offset for the far-side wheels. Always `[0.2, 0.13]` on every car: never tune it per car. |
 | `archCircles` | Body-image circles `[x, y, radius]` in pixels controlling fender overlays above the tires. |
 | `exhaust` | Exhaust particle emission point in local metres. |
-| `winch` | Winch cable attachment point in local metres. |
+| `winch` | Old winch cable attachment point in local metres; unused since the service trucks were removed. |
 | `refuelPoint` | Optional fuel-hose connection point in local metres. |
 | `nose` | Front extent used by camera framing and some attachment defaults. |
 

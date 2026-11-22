@@ -1,7 +1,7 @@
 // Audition the real game sound: renders each engine class through the game's own Web Audio code
 // (src/audio/engine.js and the seamless loop player) offline in Chromium, for a full drive: start,
 // idle, pull away up through the gears, cruise, lift off, grind away in low, spin the wheels in mud,
-// idle, shut down. Also renders the beds (tires, water, mud, chassis, winch, pump, ambience) through
+// idle, shut down. Also renders the beds (tires, water, mud, chassis, pump, ambience) through
 // the loop player for 40 s each, so any audible repetition shows up.
 //   npm run audio:preview -> output/audio/engine-<class>.wav, bed-<name>.wav, index.html, report.json
 import fs from 'node:fs';
@@ -32,7 +32,7 @@ export const DRIVE = [
 ];
 const PHASES = 'start / idle / pull away, as fast as real trucks do / climb / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
 
-export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
+export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');
   const bank = readSoundBank();
   classes ??= Object.keys(bank.engines);

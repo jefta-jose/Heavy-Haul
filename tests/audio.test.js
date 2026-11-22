@@ -13,7 +13,7 @@ import { createInput } from '../src/game/input.js';
 
 const bank = readSoundBank(), recipe = JSON.parse(fs.readFileSync(new URL('../assets/audio/sounds.json', import.meta.url)));
 const sources = JSON.parse(fs.readFileSync(new URL('../assets/audio/sources.json', import.meta.url))).sources;
-const trucks = [...content.cars, ...content.service];
+const trucks = content.cars;
 const file = rel => new URL(`../assets/audio/${rel}`, import.meta.url);
 const CLASSES = ['scout', 'highway', 'heavy-duty', 'offroad', 'heavy'];
 
@@ -21,7 +21,7 @@ test('pedals retain analog gamepad, drag and pen pressure values', () => {
   const savedWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const savedNavigator = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
   const events = () => ({ handlers: {}, addEventListener(type, fn) { this.handlers[type] = fn; }, setPointerCapture() {} });
-  const win = events(), els = Object.fromEntries(['gas', 'brake', 'winch', 'powerBtn'].map(k => [k, events()]));
+  const win = events(), els = Object.fromEntries(['gas', 'brake', 'powerBtn'].map(k => [k, events()]));
   let pads = [];
   Object.defineProperty(globalThis, 'window', { configurable: true, value: win });
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => pads } });
@@ -220,7 +220,7 @@ test('the bank matches its recipe: every clip exists and comes from a listed rec
     for (const id of clip.sources) assert(sources.some(s => s.id === id), `${name}: source ${id}`);
   }
   for (const name of Object.keys(recipe.effects)) assert(bank.effects[name]?.length, `${name}: built`);
-  for (const name of ['air-release', 'air-burst', 'air-pop', 'hydraulic-brake', 'handbrake-on', 'handbrake-off', 'gear-clunk', 'hook-clank', 'splash', 'splash-small', 'cargo-light', 'cargo-chains', 'cargo-heavy-chains', 'rattle', 'rattle-bed', 'underbody', 'crow', 'crow-far', 'wade', 'water-churn', 'mud', 'mud-spin', 'gravel', 'dirt', 'rocks', 'winch-motor', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'])
+  for (const name of ['air-release', 'air-burst', 'air-pop', 'hydraulic-brake', 'handbrake-on', 'handbrake-off', 'gear-clunk', 'hook-clank', 'splash', 'splash-small', 'cargo-light', 'cargo-chains', 'cargo-heavy-chains', 'rattle', 'rattle-bed', 'underbody', 'crow', 'crow-far', 'wade', 'water-churn', 'mud', 'mud-spin', 'gravel', 'dirt', 'rocks', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'])
     assert(bank.effects[name], `the game plays ${name}`);
 });
 
@@ -258,15 +258,13 @@ test('each truck class has a full engine at its measured revs, the scouts a Dodg
   assert.equal(new Set(starts.map(s => [...s][0])).size, CLASSES.length, 'each class starts its own engine');
 });
 
-test('every truck plays its class\'s engine, service trucks too; others get a diesel sized to their power', () => {
+test('every truck plays its class\'s engine; others get a diesel sized to their power', () => {
   for (const car of trucks) assert.equal(car.audio.engine, car.class, `${car.id} plays its class`);
-  for (const cls of new Set(content.cars.map(c => c.class))) assert(content.service.some(c => c.class === cls && c.role === 'breakdown'), `${cls}: a breakdown truck`);
   const odd = [{ spec: { class: 'mystery', powerKw: 1500 } }, { spec: { class: 'mystery', powerKw: 200 } }, { spec: { class: 'highway' }, audio: { engine: 'offroad', crankS: 0.8 } }];
   resolveAudio(odd, bank);
   assert.deepEqual(odd.map(c => c.audio.engine), ['heavy', 'heavy-duty', 'offroad']);
   assert.equal(odd[2].audio.crankS, 0.8, 'a car can override its crank time');
   assert.equal(engineProfile(trucks.find(c => c.id === 'ridge-pup-2'), bank).airBrakes, false, 'scouts: no air brakes');
-  assert.equal(engineProfile(trucks.find(c => c.id === 'mechanic-scout'), bank).airBrakes, false, 'nor their service trucks');
   assert.equal(engineProfile(trucks.find(c => c.id === 'interstate-14'), bank).airBrakes, true);
 });
 

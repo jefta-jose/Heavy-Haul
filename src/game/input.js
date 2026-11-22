@@ -1,8 +1,8 @@
 // Keyboard and touch input. Hold controls (gas, brake) are polled each frame; discrete actions
-// (winch hook / unhook, gears, AWD, DIFF, pause) fire callbacks.
+// (gears, AWD, DIFF, power, pause) fire callbacks.
 //
-// Keys: → / ↑ / D gas, ← / ↓ / A brake, W / Space winch hook on / off, S shield, H / F high, L low, R reverse,
-// Q AWD, E DIFF, V switch vehicle, Esc / P pause.
+// Keys: → / ↑ / D gas, ← / ↓ / A brake, S shield, H / F high, L low, R reverse,
+// Q AWD, E DIFF, Esc / P pause.
 
 export function createInput(els, actions) {
   const keys = {}, held = { gas: 0, brake: 0 };
@@ -36,9 +36,6 @@ export function createInput(els, actions) {
     return () => { pointers.clear(); apply(); };
   }
   const releases = [bindHold(els.gas, 'gas'), bindHold(els.brake, 'brake')];
-  els.winch.addEventListener('pointerdown', e => { e.preventDefault(); actions.onAnyInput(); actions.winch(); });
-  els.winch.addEventListener('contextmenu', e => e.preventDefault());
-
   els.powerBtn.addEventListener('pointerdown', e => { e.preventDefault(); actions.onAnyInput(); actions.usePower(); });
   els.powerBtn.addEventListener('contextmenu', e => e.preventDefault());
 
@@ -47,8 +44,6 @@ export function createInput(els, actions) {
     if (e.code === 'KeyS' && !e.repeat) actions.usePower();
     if (e.code === 'KeyQ' && !e.repeat) actions.toggle('awd');
     if (e.code === 'KeyE' && !e.repeat) actions.toggle('diff');
-    if (e.code === 'KeyV' && !e.repeat) actions.switchVehicle();
-    if ((e.code === 'KeyW' || e.code === 'Space') && !e.repeat) actions.winch();
     if (e.code === 'Escape' || e.code === 'KeyP') actions.pause();
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].includes(e.code)) e.preventDefault();
     actions.onAnyInput();

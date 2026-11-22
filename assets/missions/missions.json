@@ -99,11 +99,6 @@
     }
   },
   "twists": {
-    "noHelp": {
-      "weight": 3,
-      "xp": 60,
-      "text": "without the breakdown truck"
-    },
     "clean": {
       "weight": 2,
       "xp": 50,

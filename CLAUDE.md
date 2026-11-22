@@ -4,8 +4,7 @@ Codex generates the images (see [AGENTS.md](AGENTS.md)). Claude reviews them, wi
 game and tunes until they play well. The user hands over a path such as "hook up
 `assets/cars/titan-1`".
 
-Read first: [docs/game-design.md](docs/game-design.md) (cars with their loads, garage, fuel,
-service trucks and winching), [README.md](README.md) (code layout and checks), [assets/README.md](assets/README.md)
+Read first: [docs/game-design.md](docs/game-design.md) (cars with their loads, garage and fuel), [README.md](README.md) (code layout and checks), [assets/README.md](assets/README.md)
 and the skill [.claude/swamp-scout/SKILL.md](.claude/swamp-scout/SKILL.md) with its references.
 [feel-audio-and-performance.md](.claude/swamp-scout/references/feel-audio-and-performance.md)
 records the user's feedback on wheels, driving feel, sound and smoothness: keep those rules.
@@ -31,11 +30,17 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 - **No snow chains and no length cap (2026-11-12):** Codex could not draw chains or keep within a cap. Each vehicle
   gets one fixed zoom from its own size (`zoomFor`, `CAMERA_*` in `src/game-config.js`); the zoom button was removed on 2026-11-19
   (user: close like Forza Horizon, but long rigs must fit on screen). **The one art rule the user insists on: every tyre a perfect circle that fits the vehicle.**
-- Winching belongs to the breakdown trucks: there are no winch posts. Each class has a breakdown truck; fuel trucks were removed on 2026-11-04, and refuelling and repairs happen at fuel stations (`trail.stations`).
-  The top-bar button calls the main truck's class's one, once per run, from the start of the
-  trail; afterwards they switch to them. Park the breakdown truck wholly inside the purple recovery bay ahead of the stuck truck (its own length plus `WINCH_BAY_SLACK_M`), tap WINCH to hook the
-  nearest vehicle, and drive away to tow it. The cable never reels in. Service trucks never get stuck
-  and never run out of fuel.
+- **No service trucks (user decision, 2026-11-22):** the breakdown trucks, winching, towing and vehicle switching were removed
+  with their code and art; players only drive. Refuelling and repairs happen at fuel stations (`trail.stations`). A rollover,
+  an empty tank or 100% damage ends the run. Do not add them back. The five old breakdown trucks are in git before their removal.
+  **A fully upgraded car can never get stuck (user decision, 2026-11-22):** with all four tuning knobs at 100, `applyTuning`
+  sets `physics.neverStuck`; mud then keeps at least `NEVER_STUCK_MU` grip and swaps its bog drag for a drag that grows with speed
+  (`NEVER_STUCK_MUD_DRAG`, stronger in deep bogs), so mud stays slower than firm ground (user, 2026-11-22: about two thirds of
+  dirt speed, bogs a little over half) but can never pin the truck; the chassis
+  passes over obstacles (only tyres touch them, `ghost` in the simulation), whose tyres keep at least `NEVER_STUCK_CLIMB_MU` grip on
+  them so they climb any log, pipe or rock. It never flips either: past `STABLE_PITCH_DEG` from the
+  ground's slope drive eases off and a righting push turns it back (`keepUpright`). A stock or partly tuned car can still get stuck or flip.
+  `npm run test:route` drives the fully upgraded default car; `node tools/stuck-sweep.mjs <season> trail|bogs` checks every car.
 - Cars have fixed tires and art. The garage **tuning** panel (`src/game/tuning.js`) scales any car's
   specs: 4 knobs (engine, suspension, speed, grip), each 0 to 100 in steps of 25 and each
   moving several car.json fields; every car can max all four. Weight and load are never tuned: each car
@@ -124,19 +129,15 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
      body outline including the load, suspension sized to the loaded weight;
    - `drivetrain`: torque from `powerKw` / `torqueNm` sized for the loaded weight, gears for a
      sensible top speed. Every axle is powered, trailer axles included.
-   - sound comes from the car's class, service trucks included: each class has one recorded engine in the sound bank
+   - sound comes from the car's class: each class has one recorded engine in the sound bank
      (`assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`). A car needs no audio
      block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
      `backupAlarm` override the class's. Never replace recordings with synthesis. See
      `assets/audio/README.md`.
-   - service trucks also get `class` (the class they serve), `role` (`breakdown`), `size`,
-     `rig.towRear` (the rear winch point) and `physics.neverStuck: true`; breakdown trucks also
-     `towMassT` and `physics.winchForce` (about `towMassT × 1000 × 9.81 × 0.7`). Tune them to out-pull every car
-     of their class in L but stay slower than its fastest (`npm test` checks the roster and the pits).
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
    the approved feel: brisk take-off, smooth drive, and AWD / DIFF clearly felt in mud. Heavier
-   classes are slower but must still clear the trail with L, AWD, DIFF and their own class's
-   breakdown-truck winch in the heavy-mud pits (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
+   classes are slower but must still clear the trail with L, AWD and DIFF alone, heavy-mud pits included
+   (`npm run test:route` with `HAUL_CAR=<id>` drives it that way).
    **For a car-only drop, scope the export:** `npm run art:encode -- --cars <id> <id> --method 2`.
    This retains quality 94 and source dimensions while reducing compression effort; it skips
    unrelated cars, seasons and HUD art. Reuse measured registrations and run checks once after
@@ -146,9 +147,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    `zoomFor` frames it well on desktop and phone. Then set `"status": "playable"` in `car.json` and in
    `cars.json`.
 
-Playable cars appear in the garage automatically. Service trucks (`cars.json` → `service`, a breakdown
-truck per class) are hooked up the same way; once playable, the top-bar buttons call
-them for their class (until then the class's button is greyed out and says "Not available").
+Playable cars appear in the garage automatically.
 
 `tools/art/measure-vehicle.py <folder> --preview out.png` finds the wheel circles (pixels in the
 master missing from the body), the wheel sprite's pivot and radius, and the body outline, and
@@ -170,14 +169,21 @@ so the drawn tires reach that size.
 **Garage layout (user decision, 2026-11-19):** after trying a Basecamp left-rail layout, a "showroom" and a Forza Horizon card
 menu, the user went back to the warehouse-bay garage of commit 1c8adbb and said to keep it: the bay with its lamps as the room, the
 page's title centred over a row of tilted cards (the middle one large, yellow-rimmed), the numbers under it, and one centred bar of
-big buttons along the bottom (SEASONS, TRUCKS, MISSIONS, UPGRADE, PLAY in green). It is the older `.hc` block in `game.css`; the
+big buttons along the bottom (SHOP in gold first, then SEASONS, TRUCKS, MISSIONS, UPGRADE, PLAY in green; SHOP added at the
+user's request on 2026-11-22 and moved to the front the same day). It is the older `.hc` block in `game.css`; the
 logo, sound, rank and coins sit together **in the centre of the top bar** (the small "garage top bar, centred" block at the end).
 Do not restyle it again without references from the user. The garage keeps the Hill Climb Racing flow and markup (one stage, few
 taps; Codex's fleet, comparison, coach, route-preview and control extras stay out: they were bad on phones). **The garage always
 opens on TRUCKS** (the page id stays `vehicle`) and every other page closes back to it. UPGRADE and MISSIONS open as cards over the
 garage (`sheet()` in garage.js). The driving HUD (hud.js) keeps the Basecamp look (dark glass slanted plates, hot orange `--bc-acc`),
 and the pedals keep their tread (amber lugs for gas, red blocks for brake). Swiping (or tapping a side card, or the arrow keys)
-moves through the cards and the middle one is picked at once; on the Trucks page PLAY becomes BUY for an open truck not owned.
+moves through the cards and the middle one is picked at once; on the Trucks page PLAY becomes BUY for an open truck not owned. **Maps cost coins (user, 2026-11-22):** `FREE_SEASONS` (Blackwater Swamp and Meltwater Pass) are free; every other map is bought
+once for `SEASON_PRICE` (100K) coins on the Seasons page, where PLAY becomes BUY (`src/game/season-pass.js`, saved in `hh_seasons`).
+Owned maps are listed first. **Shop (user, 2026-11-22):** SHOP (or a tap on the coins) opens a sheet of bundles, single trucks, coin packs and rank packs
+(`src/game/shop.js`, numbers in `SHOP_*` in `src/game-config.js`). It is built for real payments later: purchases go through
+`src/game/store.js`, which grants at once while `SHOP_TEST_PURCHASES` is on; prices are placeholder dollars. A truck bought there is
+owned whatever its rank, and owned trucks are listed first in their class. **No selling trucks (user, 2026-11-22):** a bought truck is kept;
+only upgrades give coins back (selling a step or Reset to stock in UPGRADE).
 There is no map-title banner at the start of a run (removed on request, 2026-11-19). Picking a map is instant: the world is swapped behind the drive loading
 screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop of its
 panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Test layouts at 1440×810, 844×390, 667×320 and 390×844. See
@@ -186,12 +192,12 @@ panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Test la
 ## Rosters
 
 `assets/cars/cars.json` (5 classes ordered weakest to strongest, tiers within, each car's `load`;
-`service` trucks by role and size; `wheel-types.json`) and `assets/hud/hud.json`. After editing a
+`wheel-types.json`) and `assets/hud/hud.json`. After editing a
 roster run `npm run scaffold` (`-- --refresh` rewrites README-only folders, `-- --prune` drops
 folders of removed entries). A playable car's spec numbers (`massT`, `powerKw`, `torqueNm`,
 `topSpeedKmh`, `fuelL`, `tireDiameterM`, load mass) are worked out from its `car.json` whenever content loads
 (`tools/lib/specs.js`); the roster's own numbers only count for planned cars. When something becomes playable, set `status` both in its own JSON and
-in the roster. Each roster car also has an `unlockRank` (1 to 20, rank = floor(i × 20 / n) + 1 where `order` is the position in the class; several cars share a rank and rank 1 cars are free starters) and a `price`. **Class ladders (user decision, 2026-11-17):** specs and prices are not measured but set by formula: `CLASS_LADDER` in `src/game-config.js` gives each class a base and a step per car for power per loaded tonne (`torqueScale`, capped under the class's breakdown truck), `tireGrip` and `mudPull`, plus the first paid car's price and a price step. `npm run rebalance` writes them into every car.json and cars.json (`-- --dry` prints only). After adding or reordering cars, run it; to change balance, edit the ladder numbers. The user tests the result themselves: do not run bog or route simulations to tune it. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
+in the roster. Each roster car also has an `unlockRank` (1 to 40, user 2026-11-22: the first `FREE_STARTER_SHARE` of a class, rounded up, are rank 1 free starters and the rest spread evenly over ranks 2 to 40 by `order`; `RANK_XP` reaches 75,000 at rank 40; several cars can share a rank; `npm run rebalance -- --ranks-only` rewrites only the ranks) and a `price`. **Class ladders (user decision, 2026-11-17):** specs and prices are not measured but set by formula: `CLASS_LADDER` in `src/game-config.js` gives each class a base and a step per car for power per loaded tonne (`torqueScale`), `tireGrip` and `mudPull`, plus the first paid car's price and a price step. `npm run rebalance` writes them into every car.json and cars.json (`-- --dry` prints only). After adding or reordering cars, run it; to change balance, edit the ladder numbers. The user tests the result themselves: do not run bog or route simulations to tune it. `status: "needs-art"` marks a car whose delivered art has to be regenerated.
 
 Trailers, separate loads and rigging sprites were dropped on 2026-10-26; Codex's drop for them is
 archived in `~/heavy-haul-archive/2026-10-26-trailers-loads-rigging/`.
@@ -205,8 +211,7 @@ the preview); size tyres to at least 1.3 m; vehicles under about 2 t bog in ordi
 light scouts got about 2.5 t and mud-terrain tyres; the drive label is every axle (`4×4`, `6×6`, `12×12`), since all are powered. The second batch (15, on 2026-11-13) added: keep the low chassis box
 between the outer tyres and raise overhang boxes beyond the wheels to about 1.2 tyre radii, or a nose or tail snags on branch piles
 and concrete slabs and even the breakdown truck cannot drag it free. The third batch (15, on 2026-11-13): a rig longer than the start wall's distance
-(`START_BARRIER_BEHIND_M`) is placed forward until its tail clears it (`clearOfWall` in the simulation); keep a heavy car's loaded
-weight within what its class's breakdown truck can drag out of a bog (about 170 t for the Colossus Wrecker).
+(`START_BARRIER_BEHIND_M`) is placed forward until its tail clears it (`clearOfWall` in the simulation).
 
 **Old cars restored (2026-11-13, user decision):** the 100 cars deleted in b484ae2 are back and playable alongside the new roster,
 with their own classes, ranks and prices (so a rank can open several cars and each class has two free rank-1 starters). Fifteen

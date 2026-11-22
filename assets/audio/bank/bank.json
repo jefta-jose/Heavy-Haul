@@ -841,14 +841,6 @@
         "fs-675266"
       ]
     },
-    "winch-motor": {
-      "file": "bank/winch-motor.mp3",
-      "seconds": 10.5,
-      "kind": "loop",
-      "sources": [
-        "fs-683806"
-      ]
-    },
     "cable-strain": {
       "file": "bank/cable-strain.mp3",
       "seconds": 15.5,
@@ -1242,9 +1234,6 @@
     ],
     "mud-spin": [
       "mud-spin"
-    ],
-    "winch-motor": [
-      "winch-motor"
     ],
     "cable-strain": [
       "cable-strain"

@@ -17,9 +17,9 @@ export function createSpeedTrap({ sim, trail, onCapture }) {
   }
   // once a frame while playing
   function update(dt) {
-    const main = sim.main, x = main.parts.truck.getPosition().x, driving = sim.active === main && !main.winched;
-    if (lastX != null && x - lastX < 5) {   // a jump along the trail is a recovery, not driving past
-      for (const at of cameras()) if (!passed.has(at) && lastX < at && x >= at) { passed.add(at); if (driving) show(Math.round(Math.abs(main.st.speed) * 3.6)); }
+    const main = sim.main, x = main.parts.truck.getPosition().x;
+    if (lastX != null && x - lastX < 5) {   // a jump along the trail is a respawn, not driving past
+      for (const at of cameras()) if (!passed.has(at) && lastX < at && x >= at) { passed.add(at); show(Math.round(Math.abs(main.st.speed) * 3.6)); }
     }
     lastX = x;
     if (t == null) return;

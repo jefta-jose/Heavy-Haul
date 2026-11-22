@@ -12,27 +12,27 @@ import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH, SWITCH_BUSY_S, STARTING_RANK, STARTING_COINS } from './game-config.js';
+import { COINS_PER_CRUSH } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
-import { createWinchGuide } from './game/winch-guide.js';
 import { createStunts } from './game/stunts.js';
+import { seasonPass } from './game/season-pass.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
-// car and drives the fixed-step game loop. During a run the player can call the class's breakdown truck
-// once: it starts at the beginning of the trail and is driven out to the main truck, to hook its winch and tow
-// it to a fuel station. After that its button switches to it; it stays parked where it was left.
+// car and drives the fixed-step game loop.
 // Content comes from tools/build.js: the JSON is on the page, the artwork and audio are data URIs in
 // the one-file build and relative file paths in the app build.
 
 // The season: the one picked in the garage (remembered on this device), else the build's default.
 // Every playable season is in the build; shared art is stored once in content.seasonAssets.
+// A map not owned (one bought on another save, or before maps cost coins) falls back to the default, or the first free one.
 {
   let pick = null; try { pick = localStorage.getItem('haul.season'); } catch (e) {}
-  const all = content.playableSeasons ?? [], s = all.find(x => x.season.id === pick) ?? all.find(x => x.season.id === content.season.id);
+  const all = (content.playableSeasons ?? []).filter(x => seasonPass.owns(x.season.id));
+  const s = all.find(x => x.season.id === pick) ?? all.find(x => x.season.id === content.season.id) ?? all[0];
   if (s) Object.assign(content, { season: s.season, rockHulls: s.rockHulls, seasonArt: Object.fromEntries(Object.entries(s.art).map(([k, f]) => [k, content.seasonAssets[f]])) });
 }
 const { rockHulls, wheelTypes } = content;
@@ -62,13 +62,12 @@ music.play('garage');
 { const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
 const stunts = createStunts({ sim, box: document.getElementById('stunts') });
-const guide = createWinchGuide({ box: document.getElementById('winchGuide'), sim, view });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
     if (e.type === 'splash') { audio.splash(e.power); stunts.splash(e.power); }
     else if (e.type === 'crush') { audio.crush(e.size); stunts.crushed(); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
-    else if (e.type === 'hit' && e.tires === sim.active.tireData) audio.hit();
+    else if (e.type === 'hit' && e.tires === sim.main.tireData) audio.hit();
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
@@ -81,22 +80,18 @@ const missionSeason = () => (pendingSeason && content.playableSeasons?.find(x =>
 const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
 const garage = createGarage({
   content, progress, missions,
-  onSelect: car => audio.prepare([car, ...content.service.filter(s => s.class === car.class)]),
+  onSelect: car => audio.prepare([car]),
   onStart: selection => driveOff(selection),
   onBuy: () => { haptics.tick(); uiAudio.play('ui-buy'); },
-  onSell: () => { haptics.tick(); uiAudio.play('ui-buy'); },
   onSeason: id => {
     pendingSeason = id; try { localStorage.setItem('haul.season', id); } catch (e) {}
     missions.mapChanged();
   },
 });
-const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.hooked?.(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
+const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
 session.onResume = () => audio.resume();
-session.onCall = role => summon(role);
-session.canCall = role => !!called[role] || !!serviceFor(role);
 
 let selection = garage.selection;
-let returnVehicle = null;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
 const sound = createSoundSettings({ audio, uiAudio, onClose: () => { if (session.state === 'pause') showPause(); } });
@@ -123,86 +118,36 @@ function pause() {
 }
 function resize() { view.resize(); hud.resizeGauges(view.DPR); }
 
-// ---------- vehicles: the main truck and summoned service trucks ----------
+// the truck on screen: camera zoom, card and drive buttons follow it
 function drive(v) {
-  returnVehicle = null; hud.highlightSwitch(false);
-  for (const o of sim.vehicles) Object.assign(o.ctl, { gas: 0, brake: 0 });
-  sim.setActive(v); view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
-  hud.showSwitch(sim.vehicles.length > 1); view.snap();
-}
-// After a switch or a call, both buttons spin until the new truck is drawn and a short beat has passed,
-// so a tap is clearly taken and a second tap cannot undo it.
-let switching = false;
-function settle(label) {
-  switching = true; hud.busy(true, label);
-  const t0 = performance.now();
-  const check = () => { if (session.state !== 'play' || (renderer.ready && performance.now() - t0 >= SWITCH_BUSY_S * 1000)) { switching = false; hud.busy(false); } else setTimeout(check, 50); };
-  setTimeout(check, 50);
-}
-function switchVehicle() {
-  if (session.state !== 'play' || sim.vehicles.length < 2 || switching) return;
-  const i = sim.vehicles.indexOf(sim.active), next = returnVehicle ?? sim.vehicles[(i + 1) % sim.vehicles.length];
-  settle(`Switching to the ${next.car.name}`);
-  drive(next); hud.toast(`Driving the ${next.car.name}`, 1.5);
-}
-// Each class has one breakdown truck. A run can call it once: it starts at the
-// beginning of the trail and has to be driven out to the main truck; after that its button switches
-// to it. A class whose truck has no art yet has none: its button is greyed out and says so.
-const className = id => content.roster.classes.find(c => c.id === id)?.name ?? id;
-const called = {};   // role -> the service vehicle called this run
-const serviceFor = role => content.service.find(c => c.role === role && c.class === sim.main.car.class);
-const roleName = () => 'breakdown truck';
-// the breakdown button: call the truck the first time, switch to it afterwards (and back)
-function summon(role) {
-  if (session.state !== 'play' || switching) return;
-  const have = called[role];
-  if (have) { const next = sim.active === have ? sim.main : have; settle(`Switching to the ${next.car.name}`); drive(next); hud.toast(`Driving the ${next.car.name}`, 1.5); return; }
-  const car = serviceFor(role);
-  if (!car) { hud.toast(`Not available: the ${className(sim.main.car.class)} class has no ${roleName()} yet`, 2.5); return; }
-  const v = sim.spawnService(car, sim.startSpot(car));
-  v.ctl.auto = true; v.ctl.gear = 'L'; v.ctl.awd = true; v.ctl.diff = true;
-  called[role] = v; hud.showCalled(role, true); session.helpCalled(); settle(`Calling the ${car.name}`);
-  drive(v);   // no toast here: the stuck hint says what to do once you are at the truck
-}
-// tap WINCH: hook the nearest vehicle within reach, or unhook
-function winch() {
-  if (session.state !== 'play') return;
-  const v = sim.active;
-  if (!sim.canWinch(v)) { hud.toast(v.role === 'service' ? 'This truck has no winch.' : 'Only the breakdown truck has a winch. Call it from the top bar.', 2); return; }
-  const r = sim.toggleWinch(v), name = o => o === sim.main ? 'your truck' : `the ${o.car.name}`;
-  if (r.ok && r.attached) haptics.hooked();
-  if (r.ok) audio.hook(r.attached);
-  if (r.ok) hud.hint(r.attached ? 'winch-on' : 'winch-off', r.attached ? `Winch hooked to ${name(r.target)}. Drive away to tow it.` : 'Winch unhooked.', 2);
-  else if (r.reason === 'behind') hud.toast(`Drive ahead of ${name(r.target)}. Park fully inside the purple ${sim.winchReach} m recovery section.`, 2.5);
-  else if (r.reason === 'far') hud.toast(`Reverse ${Math.ceil(r.bayDistance)} m to park fully inside the purple recovery section.`, 2.5);
-  else hud.toast('Nothing to hook the winch to.', 2);
+  Object.assign(v.ctl, { gas: 0, brake: 0 });
+  view.setZoom(zoomFor(v.car)); hud.setCar(v.car); hud.showGear(v.ctl.gear); hud.showHandbrake(v.ctl.handbrake); hud.showMode('awd', v.ctl.awd); hud.showMode('diff', v.ctl.diff);
+  view.snap();
 }
 // the engine switch: start it (the starter cranks first) or shut it down
 function engine() {
   if (session.state !== 'play') return;
-  const v = sim.active;
+  const v = sim.main;
   if (v.st.engine === 'off') {
-    if (v.st.fuel <= 0) { hud.toast('The tank is empty. Call the breakdown truck to tow you to a station.', 2.5); return; }
+    if (v.st.fuel <= 0) { hud.toast('The tank is empty.', 2.5); return; }
     audio.key(); sim.startEngine(v); hud.hint('engine-on', `Starting the ${v.car.name}…`, 1.2);
   } else { audio.key(); sim.stopEngine(v); hud.hint('engine-off', 'Engine off', 1.2); }
 }
 // the handbrake: holds every wheel; a ratchet on scouts, an air hiss on trucks
 function handbrake() {
   if (session.state !== 'play') return;
-  const v = sim.active, on = !v.ctl.handbrake;
+  const v = sim.main, on = !v.ctl.handbrake;
   v.ctl.handbrake = on; audio.handbrake(on, v.car); hud.showHandbrake(on);
   hud.hint(`handbrake-${on}`, on ? 'Handbrake on' : 'Handbrake off', 1.2);
 }
 const trap = createSpeedTrap({ sim, trail: liveTrail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
-  toggle: k => setMode(k, !sim.ctl[k]), pause, switchVehicle, winch, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
 });
 
 function newRun() {
   stunts.reset();
   sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
-  renderer.warmVehicles(['breakdown'].map(serviceFor));   // so a called truck appears at once
-  for (const role of ['breakdown']) { delete called[role]; hud.showCalled(role, false, !!serviceFor(role), `${className(sim.main.car.class)} ${roleName()}`); }
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);
@@ -212,7 +157,7 @@ function newRun() {
 function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
 function goRun() { music.play('drive'); session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
-function openGarage() { trap.reset(); renderer.clearTracks(); returnVehicle = null; hud.highlightSwitch(false); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
+function openGarage() { trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -302,16 +247,20 @@ E.fsBtn.addEventListener('click', goFullscreen);
 E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 E.pauseBtn.addEventListener('click', pause);
-E.breakdownCallBtn.addEventListener('click', () => summon('breakdown'));
-E.switchBtn.addEventListener('click', switchVehicle);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
-// Reset saved game, shown only while the testing start values are in (a production build has rank 1 and 20000 coins, so it never
-// appears there). Wipes every saved key, then blocks writes so pagehide cannot save the old coins and XP back before the reload.
+// Reset saved game, always shown (user, 2026-11-22). Wipes every saved key, then blocks writes so pagehide cannot save the old coins and XP back before the reload.
 let resetting = false;
 const resetBtn = document.getElementById('garageResetBtn');
-resetBtn.hidden = STARTING_RANK === 1 && STARTING_COINS === 20000;
+resetBtn.hidden = false;
+// Confirmed by a second tap within 3 s rather than confirm(): native dialogs are unreliable in phone WebViews.
+let resetArmed = 0;
 resetBtn.addEventListener('click', () => {
-  if (!confirm('Reset the saved game? Coins, rank, trucks, upgrades, missions and settings are all cleared.')) return;
+  if (!resetArmed) {
+    resetBtn.textContent = 'SURE?'; resetBtn.classList.add('armed'); resetBtn.title = 'Tap again to clear coins, rank, trucks, upgrades, missions and settings';
+    resetArmed = setTimeout(() => { resetArmed = 0; resetBtn.textContent = 'RESET'; resetBtn.classList.remove('armed'); resetBtn.title = 'Reset saved game (testing)'; }, 3000);
+    return;
+  }
+  clearTimeout(resetArmed);
   // Assigning localStorage.setItem only stores an item called "setItem" (Storage's named setter), so writes are blocked on the
   // prototype instead, and the pagehide / visibilitychange saves below are skipped.
   resetting = true;
@@ -360,7 +309,7 @@ function frame(now) {
   if (playing) {
     const held = covered ? { gas: 0, brake: 0 } : input.read();
     sim.ctl.gas = Number(held.gas);   // retain analog pedal position
-    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is wrecked. Call the breakdown truck to tow you to a station.' : 'The tank is empty. Call the breakdown truck to tow you to a station.', 2);
+    if (held.gas && sim.st.engine === 'off' && !hud.toastActive) hud.toast(sim.st.fuel > 0 ? 'The engine is wrecked.' : 'The tank is empty.', 2);
     sim.ctl.brake = Number(held.brake);
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
@@ -375,15 +324,15 @@ function frame(now) {
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
-  try { view.follow(dt); renderer.draw(dt, playing); guide.update(playing); } finally { interp.restore(); }
+  try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run, playing: playing && !covered });
-  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.active, water: renderer.water, camX: view.cam.x, refueling: sim.main.st.filling }, dt);
+  audio.update({ playing: session.state === 'play', vehicles: sim.vehicles, active: sim.main, water: renderer.water, camX: view.cam.x, refueling: sim.main.st.filling }, dt);
   adapt(dt);
   requestAnimationFrame(frame);
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, stunts, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, summon, switchVehicle, winch, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, stunts, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

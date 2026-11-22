@@ -2,7 +2,8 @@ import { UPGRADE_STEP_COSTS, UPGRADE_COST_BY_CLASS, POWER_TIMES } from '../game-
 // Garage tuning: four knobs, each a level from 0 (stock) to 100 in steps of 25 (four taps to full), and every car can
 // take all four to 100. A car's weight and load are never tuned: they stay as its car.json has them. A knob moves several car.json values together (the twelve old single-purpose
 // knobs, grouped), each from 1 at stock to its own `max` multiplier at 100, so every car, present or
-// future, tunes with no per-car code. `stat` names the garage stat bar a knob lifts.
+// future, tunes with no per-car code. `stat` names the garage stat bar a knob lifts. With all four at 100 the car can never get
+// stuck (physics.neverStuck: see simulation.js).
 
 export const STEP = 25, MAX_LEVEL = 100;
 const scale = (obj, key, k) => { if (obj && typeof obj[key] === 'number') obj[key] *= k; };
@@ -48,6 +49,8 @@ export function applyTuning(car, levels = {}) {
   const c = structuredClone(car), valid = validLevels(car, levels);
   for (const knob of KNOBS) { const level = valid[knob.id] ?? 0; if (level > 0) knob.apply(c, level / MAX_LEVEL); }
   c.tuned = Object.keys(valid).length > 0;
+  // every knob at 100: mud can no longer hold the truck (simulation.js, NEVER_STUCK_MU)
+  if (KNOBS.every(k => valid[k.id] === MAX_LEVEL)) c.physics.neverStuck = true;
   c.levels = valid;
   Object.defineProperty(c, 'stock', { value: car.stock ?? car });   // hidden, so copies of the car stay small
   return c;

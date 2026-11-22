@@ -5,6 +5,8 @@
 // commanded drive speed ramps quickly from rest then gently, so take-off is brisk and cruising
 // is smooth. Open diffs are capped by the weakest tire's grip; locked diffs share spare torque.
 
+import { GEAR_BLEND_S } from '../game-config.js';
+
 export function createDrivetrain(cfg) {
   const curve = cfg.torqueCurve.map(([rpm, t]) => [rpm, t * cfg.torqueScale]);
   const ramp = cfg.driveRamp;
@@ -17,6 +19,15 @@ export function createDrivetrain(cfg) {
   // Returns everything the wheel loop needs for this step.
   function update({ ctl, st, wheels, joints, dt, gripOf }) {
     const ratio = cfg.gears[ctl.gear] || cfg.gears.H, dir = ctl.gear === 'R' ? 1 : -1;   // -1: clockwise = forward
+    // L <-> H: the commanded drive speed carries over the shift, and how fast it may climb eases from the old gear's
+    // rate to the new one's over GEAR_BLEND_S, so the truck doesn't lurch forward (or bog) the moment the gear changes
+    if (st.ratio && st.ratio !== ratio && ctl.gear !== 'R' && st.ratioGear !== 'R') {
+      st.rpmCmd = (st.rpmCmd || 0) * ratio / st.ratio; st.shiftFrom = st.ratio / ratio; st.shiftT = 0;
+    }
+    st.ratio = ratio; st.ratioGear = ctl.gear;
+    st.shiftT = (st.shiftT ?? GEAR_BLEND_S) + dt;
+    const ease = st.shiftFrom ? Math.min(1, st.shiftT / GEAR_BLEND_S) : 1, smooth = ease * ease * (3 - 2 * ease);
+    const rate = smooth < 1 ? 1 / (st.shiftFrom + (1 - st.shiftFrom) * smooth) : 1;   // 1 / old-to-new ratio at the shift, 1 once eased
     let omAvg = 0; for (const w of wheels) omAvg += w.getAngularVelocity(); omAvg /= wheels.length;
     const wheelRpm = Math.abs(omAvg) * ratio * 60 / (2 * Math.PI);
     // engine speed follows the wheels once moving; at a stall-speed launch the converter slips
@@ -24,7 +35,7 @@ export function createDrivetrain(cfg) {
     const engTarget = st.engine === 'off' ? 0 : st.engine === 'cranking' ? 180 : Math.max(cfg.idleRpm + st.throttle * 600, wheelRpm);
     st.rpm += (engTarget - st.rpm) * Math.min(1, dt / cfg.inertia);
     const govOmega = cfg.governedRpm * 2 * Math.PI / 60 / ratio;
-    st.rpmCmd = st.throttle > 0.01 ? Math.max(wheelRpm, Math.min(cfg.governedRpm, wheelRpm + ramp.maxSlipRpm, (st.rpmCmd || 0) + (ramp.base + ramp.launch * Math.max(0, 1 - wheelRpm / ramp.launchUntilRpm)) * dt * st.throttle)) : wheelRpm;
+    st.rpmCmd = st.throttle > 0.01 ? Math.max(wheelRpm, Math.min(cfg.governedRpm, wheelRpm + ramp.maxSlipRpm * rate, (st.rpmCmd || 0) + (ramp.base + ramp.launch * Math.max(0, 1 - wheelRpm / ramp.launchUntilRpm) * smooth) * dt * st.throttle * rate)) : wheelRpm;
     const driveOmega = Math.min(govOmega, st.rpmCmd * 2 * Math.PI / 60 / ratio);
     const tEng = engineTorque(Math.max(st.rpm, 900)) * st.throttle * (1 + cfg.converterBoost * Math.max(0, 1 - wheelRpm / cfg.converterCoupleRpm));
     // Every axle is powered, trailer axles included. AWD off: all but the front axle. AWD on: all of them.

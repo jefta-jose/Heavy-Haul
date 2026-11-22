@@ -101,7 +101,7 @@ export function createVehicleLayer(scene) {
   }
 
   // AWD / DIFF feedback, and the red glow of a hit: a pulsing colored border traced around the vehicle silhouette. AWD / DIFF
-  // light up the truck being driven; a hit always lights up the main truck, as only it takes damage, even while a service truck tows it.
+  // light up the truck.
   function border(v, dt) {
     if (!flash) return;
     flash.t -= Math.min(0.05, dt || 1 / 60);
@@ -116,17 +116,6 @@ export function createVehicleLayer(scene) {
     ctx.globalAlpha = 1;
   }
 
-  // a hooked winch cable: straight when taut, sagging when slack
-  function winchCable(v) {
-    const c = v.cable; if (!c) return;
-    const { ctx } = view, p = v.parts.truck.getWorldPoint(c.la), t = c.target.parts.truck.getWorldPoint(c.lb);
-    const slack = Math.max(0, c.length - Math.hypot(t.x - p.x, t.y - p.y)), sag = Math.min(1.2, 0.02 + slack * 0.6);
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#3b3a35'; ctx.lineWidth = 0.05; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.quadraticCurveTo((p.x + t.x) / 2, (p.y + t.y) / 2 - sag, t.x, t.y); ctx.stroke();
-    ctx.strokeStyle = 'rgba(220,214,190,0.55)'; ctx.lineWidth = 0.018; ctx.stroke();
-    ctx.fillStyle = '#e0a020'; ctx.beginPath(); ctx.arc(t.x, t.y, 0.08, 0, 7); ctx.fill();
-  }
-
   const layer = {
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
     hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; },
@@ -135,7 +124,6 @@ export function createVehicleLayer(scene) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
       const lit = flash?.main ? sim.main : sim.active;
       for (const v of list) { easeLift(v, dt); if (v === lit) border(v, dt); drawVehicle(v); }
-      for (const v of sim.vehicles) winchCable(v);
       // a star of impact on the nose
       const img = scene.hud['g2-burst'];
       if (hitBurst > 0 && sim.main && img?.complete && img.naturalWidth) {
@@ -145,7 +133,6 @@ export function createVehicleLayer(scene) {
       }
     },
     // art loads per vehicle when first needed: load it ahead for vehicles a run may bring in later
-    warm(items) { for (const item of items) if (item) rigCache(item); },
     get ready() { return scene.sim.vehicles.every(v => rigCache(v.car).loaded()); },
   };
   return layer;

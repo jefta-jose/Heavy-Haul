@@ -149,7 +149,7 @@ Accept it only when:
 - The road's edges follow every hump, with no cracks, wedges or obvious repeats, and the earth reaches the screen bottom.
 - Rolling bumps are felt on open stretches, and obstacles sit on the road and match their collision.
 - Deep bogs read before they slow you, and each has its mud hole. No mud hole appears anywhere else.
-- Breakables break, a scout and the longest truck clear the trail, and service trucks cross every pit.
+- Breakables break, a scout and the longest truck clear the trail, every pit included.
 - It scrolls smoothly on a real phone, since headless tests can't measure that.
 
 Report what you checked and anything that still looks off. A screenshot cannot prove motion or collision.

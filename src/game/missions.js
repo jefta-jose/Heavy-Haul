@@ -1,7 +1,7 @@
 // Missions are contracts generated at random in the garage (assets/missions/missions.json). A contract is one goal (deliver,
 // beat the clock, sprint to a checkpoint, flash speed cameras, crush things, clear bogs, arrive clean) with targets drawn
 // from ranges and sized to the trail and the trucks owned, maybe locked to a class or one owned truck, plus 0 to 2 twists
-// (no breakdown truck, a damage cap, a time limit, no refuelling, no powers, never stuck). Harder contracts pay more XP.
+// (a damage cap, a time limit, no refuelling, no powers, never stuck). Harder contracts pay more XP.
 // One offer is always a depot contract for the class driven least. The chosen one is checked as the run goes (`track`) and
 // at the depot (`deliver`); when done it pays once and a fresh list is drawn. Offers not chosen are redrawn after every
 // run (`endRun`). Failing costs nothing: it stays chosen. Saved on this device.
@@ -13,7 +13,7 @@ const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(
 const hits = (m, r) => (r.cameras ?? []).filter(k => k >= m.kmh).length;
 
 // How each goal is judged from the run so far:
-// { cls, car, time, x, helped, maxDamage, cameras, camerasSeen, crushes, bogs, bogsMissed, refuelled, powered, stuckMax, delivered }.
+// { cls, car, time, x, maxDamage, cameras, camerasSeen, crushes, bogs, bogsMissed, refuelled, powered, stuckMax, delivered }.
 // `done` says it is achieved; `failed` that this run can no longer do it; `shown` is progress for the road chip ('' for none).
 // Goals without `depot` finish during the run, the others at the depot.
 const GOALS = {
@@ -27,7 +27,6 @@ const GOALS = {
 };
 // extra rules on top of a goal; each can only fail. `fits` lists the goals it may join.
 const TWISTS = {
-  noHelp: { failed: (t, r) => r.helped, shown: () => '' },
   clean: { fits: g => g !== 'clean', failed: (t, r) => r.maxDamage > t.maxDamage, shown: (t, r) => `dmg ${Math.round(r.maxDamage)}/${t.maxDamage}%` },
   timed: { fits: g => g === 'deliver' || g === 'clean', failed: (t, r) => r.time >= t.minutes * 60, shown: (t, r) => `${clock(r.time)} / ${clock(t.minutes * 60)}` },
   noRefuel: { failed: (t, r) => r.refuelled, shown: () => '' },
@@ -147,6 +146,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   // A contract drawn for another map does not fit this one (four cameras where there are three, a checkpoint
   // that is not here, a time sized to another trail's length): it is dropped, the chosen one too.
   const fits = m => {
+    if ((m.twists ?? []).some(t => !TWISTS[t.type])) return false;   // a saved contract with a twist that no longer exists (noHelp, removed with the breakdown trucks)
     if (m.map && mapId() && m.map !== mapId()) return false;
     if (m.goal === 'cameras' && m.of !== (trail.highways ?? []).length) return false;
     if (m.goal === 'bogs' && m.of !== (trail.heavyMud ?? []).length) return false;
@@ -191,7 +191,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       if (!run.delivered && !GOALS[m.goal].depot && doneBy(m, run)) return { done: finish(m) };
       return { mission: m, shown: shownFor(m, run), failed: failedBy(m, run) };
     },
-    // whether this run has already broken the chosen mission (checked even while you drive a service truck)
+    // whether this run has already broken the chosen mission
     failed(run) { const m = this.active; return !!(m && failedBy(m, run)); },
     // at the depot: counts the class as driven, finishes the mission if this run did it, and redraws the other offers
     deliver(run) {

@@ -137,10 +137,9 @@ cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstac
 ## 6. Deep bogs and mud holes
 
 - `trail.heavyMud` (10 pit centres): each pit is about 20 m long, sunk by `surfaces.mud.sink` plus `heavySink`, and held
-  by `bog`, `suction` and `heavyDrag`. Light tires are held less (`bogRefT`). L, AWD and DIFF matter here, and a bad
-  run needs the breakdown truck, but service trucks must always cross. There are about 980 m of mud zones in all.
-- `trail.holes` (10): **one mud hole per pit, and none anywhere else.** They are 0.3 m deep, and deeper ones stopped
-  service trucks. The drawn size does not depend on that depth: on a thick road the art keeps its true proportions and
+  by `bog`, `suction` and `heavyDrag`. Light tires are held less (`bogRefT`). L, AWD and DIFF matter here: every truck
+  must cross on its own power (there is no help to call). There are about 980 m of mud zones in all.
+- `trail.holes` (10): **one mud hole per pit, and none anywhere else.** They are 0.3 m deep. The drawn size does not depend on that depth: on a thick road the art keeps its true proportions and
   is sized to the road, drawn on top of the mud with its near half over the tires.
 - **Both tires sink:** near tires are buried by the front lip, and far tires by a lip of their own, drawn before the truck's body (`drawFarLip` in `ground.js`).
 - The dark `art.deepMud` material spreads across the road where the pit is, so a bog reads before it slows you.
@@ -151,8 +150,7 @@ cannot climb the pipes. Trucks are capped at 16.8 m (see `CLAUDE.md`), so obstac
 `trail.stations` (4, 812 m apart, at 520, 1332, 2144 and 2956 m): the only place to refuel and repair. The first is
 490 m from the start and the last 574 m from the depot. Keep them evenly spaced on clear, firm ground, out of the mud,
 and leave room after each one for its highway. The bumps smooth out around each one, but the trail's slope stays, and
-the building leans with it (`STATION_WIDTH_M` in `src/game-config.js`). A truck stopped in the marked bay fills up; a dry
-or badly damaged one gets towed there by the breakdown truck. The bay is a soft tinted patch with no painted edges. The
+the building leans with it (`STATION_WIDTH_M` in `src/game-config.js`). A truck stopped in the marked bay fills up. The bay is a soft tinted patch with no painted edges. The
 building is `art.fuelStation`, and a plain drawn stand-in shows until a season has one. Timing is in
 `src/game-config.js`.
 

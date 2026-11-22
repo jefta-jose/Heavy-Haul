@@ -1,7 +1,7 @@
 # Heavy Haul
 
-A 2D side-view off-road driving game for the web and phones: SnowRunner-style weight, suspension,
-mud and winching, with Hill Climb Racing-style touch controls. The current build drives the
+A 2D side-view off-road driving game for the web and phones: SnowRunner-style weight, suspension
+and mud, with Hill Climb Racing-style touch controls. The current build drives the
 **Swamp Scout 4** through the **Blackwater Swamp** trail (1.77 km of mud, water, rocks, logs and
 stepped climbs).
 
@@ -44,10 +44,10 @@ src/
     layers/               background, ground (thick road), props, vehicle, water
   audio/                  recorded sound: engine.js (class engine voices and the sound-only rev model),
                           loop-player.js (seamless beds), vehicle-audio.js (tires, chassis, water, mud,
-                          brakes, load, winch, pump, ambience, volumes)
+                          brakes, load, pump, ambience, volumes)
   game/                   view (canvas + camera), input, hud, session (rules and flow)
 assets/                   cars (each drawn with its load), seasons, HUD (see assets/README.md)
-docs/game-design.md       cars with loads, garage, fuel, service trucks and winching
+docs/game-design.md       cars with loads, garage and fuel
 tests/                    vehicle behaviour, full-trail drive, browser regression
 tools/
   build.js, dev.js        esbuild bundle into one HTML file; dev server

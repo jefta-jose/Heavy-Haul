@@ -8,7 +8,7 @@ source and configuration take precedence over historical constants in this docum
 | File | Responsibility |
 | --- | --- |
 | [src/render/](../../../src/render) | Painted renderer: `renderer.js` (layer order), `sprite-cache.js`, `particles.js`, `layers/` |
-| [src/physics/](../../../src/physics) | Planck terrain, obstacles, vehicle (with its load's mass), drivetrain, water and the service winch (`simulation.js` composes them) |
+| [src/physics/](../../../src/physics) | Planck terrain, obstacles, vehicle (with its load's mass), drivetrain and water (`simulation.js` composes them) |
 | [src/game/](../../../src/game) | Camera framing (`view.js`), input, HUD, session rules; [src/main.js](../../../src/main.js) wires it all |
 | [car.json](../../../assets/cars/swamp-scout-4/car.json) | Art map, image-to-world registration (`rig`), physics and drivetrain |
 | [season.json](../../../assets/seasons/swamp-summer/season.json) | Trail, surfaces, art map and render settings |
@@ -56,8 +56,8 @@ Current scout baseline:
   weakest tire, so AWD and DIFF each change progress clearly in deep mud.
 - Crushable rocks (`rock.crush`) break after about 900 N·s of tire impulse and emit `S.events`.
 - Obstacles: climbable boulders on every firm section, fallen logs (`S.logs`, static circles; half
-  sunk in mud), deep potholes (2.8-4 m wide, 0.42-0.64 m deep) and washboard. Service trucks winch
-  out of the four heavy-mud pits; there are no winch posts.
+  sunk in mud), deep potholes (2.8-4 m wide, 0.42-0.64 m deep) and washboard. There is no winching or towing:
+  every truck crosses the heavy-mud pits on its own power (service trucks removed on 2026-11-22).
 - Suspension sag `0.16 m`, upward travel `0.32 m`, downward travel `0.38 m`, damping ratio `0.48`.
 - Mud collision sink `0.26 m`; visible mud surface remains on `sim.visH(x)`.
 - Governor 2300 rpm. The scout starts with AWD and DIFF off; the deep-mud start selects low range,
@@ -79,7 +79,7 @@ The active sequence is:
 4. Exhaust smoke and haze (behind the vehicle). No vehicle shadows: the user removed the ground,
    chassis and tire contact shadows (2026-10-31); do not add them back.
 5. The AWD/DIFF outline (only while flashing), far tires, body, then near tires in front of the body.
-6. Service winch cables, the foreground bank lip (only near the vehicle), then the log end caps.
+6. The foreground bank lip (only near the vehicle), then the log end caps.
 7. Water surface, ripples, dust, spray, drops and chunks, front props.
 8. Mild bottom-screen shading, then the HUD.
 

@@ -1,5 +1,5 @@
 // Reads the playable content and its artwork from assets/: cars (each with its load drawn in),
-// service trucks, HUD art and the season.
+// HUD art and the season.
 import fs from 'node:fs';
 import path from 'node:path';
 import { deriveSpecs } from './specs.js';
@@ -23,7 +23,7 @@ function playable(dir, entries, file) {
     if (d.status !== 'playable') continue;
     const { loadMassT, fuelL, ...specs } = deriveSpecs(d);
     Object.assign(e, specs);
-    if (!e.role) e.fuelL = fuelL;   // a service truck's fuelL is what a fuel truck carries for others
+    e.fuelL = fuelL;
     if (loadMassT != null && e.load) e.load.massT = loadMassT;
     out.push({ ...d, spec: { class: e.class, powerKw: e.powerKw, torqueNm: e.torqueNm, massT: e.massT }, dir: `${dir}/${e.id}` });
   }
@@ -31,7 +31,7 @@ function playable(dir, entries, file) {
 }
 
 // Sound: the bank (assets/audio/bank/bank.json, built by tools/prepare-audio.py from sounds.json) has
-// one engine per truck class. A car plays its class's engine (service trucks too), or the one its car.json
+// one engine per truck class. A car plays its class's engine, or the one its car.json
 // names in `audio.engine`; unknown classes get a heavy-duty diesel, or the heavy engine from 700 kW up.
 // `audio.crankS`, `airBrakes` and `backupAlarm` in car.json override the class's.
 export const readSoundBank = () => readJson('assets/audio/bank/bank.json');
@@ -48,9 +48,8 @@ export function resolveAudio(all, bank = readSoundBank()) {
 export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.env.HAUL_SEASON } = {}) {
   const roster = readJson('assets/cars/cars.json');
   const cars = playable('assets/cars', roster.cars, 'car.json');
-  const service = playable('assets/cars', roster.service, 'car.json');
   if (!cars.length) throw new Error('No playable car');
-  resolveAudio([...cars, ...service]);
+  resolveAudio(cars);
   // the default: the roster's defaultCar (the reference car the tests and feel are tuned on), else the first
   const car = carId ? cars.find(c => c.id === carId) : cars.find(c => c.id === roster.defaultCar) ?? cars[0];
   if (!car) throw new Error(`Car ${carId} is not playable`);
@@ -59,7 +58,7 @@ export function loadContent({ carId = process.env.HAUL_CAR, seasonId = process.e
   seasonId ||= playableSeason(DEFAULT_SEASON) ? DEFAULT_SEASON : fs.readdirSync(path.join(ROOT, 'assets/seasons')).sort().find(playableSeason);
   const seasonDir = `assets/seasons/${seasonId}`, season = readJson(`${seasonDir}/season.json`);
   return {
-    roster, cars, service, car, season, seasonDir,
+    roster, cars, car, season, seasonDir,
     rockHulls: readJson(`${seasonDir}/${season.rockHulls}`),
     wheelTypes: readJson('assets/cars/wheel-types.json').types,
   };
@@ -116,7 +115,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   const content = {
     roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, missions: readJson('assets/missions/missions.json'), loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
-    cars: c.cars.map(i => withArt(i, asset)), service: c.service.map(i => withArt(i, asset)),
+    cars: c.cars.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, uiSounds, music: { garage: asset('assets/audio/music/garage-menu.mp3'), drive: asset('assets/audio/music/road.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };
   // the default season's art, for Node-side tools and tests; not serialized (seasonAssets has it)
