@@ -12,7 +12,7 @@ import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH } from './game-config.js';
+import { COINS_PER_CRUSH, FREE_SEASONS } from './game-config.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -76,7 +76,10 @@ const progress = createProgress(content.roster.cars);   // rank, XP and the truc
 // next fits the map it will be driven on (pendingSeason).
 let switchingSeason = false, pendingSeason = null;
 const missionSeason = () => (pendingSeason && content.playableSeasons?.find(x => x.season.id === pendingSeason)?.season) || content.season;
-const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)) });
+// every truck (with its biomes, for its signature haul's home map) and every playable map
+const missionCars = content.roster.cars.filter(r => content.cars.some(c => c.id === r.id)).map(r => ({ ...r, biomes: content.cars.find(c => c.id === r.id)?.biomes ?? [] }));
+const missionMaps = (content.playableSeasons ?? []).map(x => ({ id: x.season.id, name: x.season.name, free: FREE_SEASONS.includes(x.season.id) }));
+const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)), cars: () => missionCars, maps: () => missionMaps });
 const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car]),

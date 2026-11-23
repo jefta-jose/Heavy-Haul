@@ -28,7 +28,8 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   const missionRun = (delivered = false) => ({ cls: sim.main.car.class, car: sim.main.car.id, time: run.time, x: run.farthest ?? trail.start, maxDamage: run.maxDamage, cameras: run.cameras, camerasSeen: run.camerasSeen, crushes: run.crushes, bogs: run.bogsClean, bogsMissed: run.bogsDone - run.bogsClean, refuelled: run.refuelled, powered: run.powered, stuckMax: run.stuckMax, delivered });
   function missionDone(done) {
     run.missionDone = done; addXp(done.xp, true);
-    hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP`, 4);
+    if (done.coins) api.earn(done.coins, true);   // featured contracts and a truck's first signature haul pay coins too
+    hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP${done.coins ? `  ·  +${formatCoins(done.coins)} coins` : ''}`, 4);
     hud.showMission(null);
     onSuccess?.();
   }
@@ -79,7 +80,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
       ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
       ['Coins on the road', formatCoins(run.earned)],
-      ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP`]] : []),
+      ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP${run.missionDone.coins ? ` and ${formatCoins(run.missionDone.coins)} coins` : ''}`]] : []),
       ...(rank ? [['XP this run', `${Math.round(run.xp).toLocaleString('en-US')}`], ['Rank', rank.top ? `Rank ${rank.rank} (top)` : `Rank ${rank.rank} · ${rank.xp.toLocaleString('en-US')} / ${rank.to.toLocaleString('en-US')} XP`]] : []),
       ...(load ? [['Load pay', `${formatCoins(loadPay)} coins`]] : []), ['Trail pay', `${formatCoins(trail.finishBonus)} coins`],
     ], [['Drive again', () => { hud.hideMessage(); api.state = 'play'; onRestart(); }, true], garageButton], 'win');

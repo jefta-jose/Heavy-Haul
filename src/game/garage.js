@@ -414,17 +414,28 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     if (!missions) return;
     const box = $('missionList'); box.replaceChildren();
     const active = missions.active;
-    for (const m of missions.offers) {
-      const on = active?.id === m.id, b = el('button', 'power' + (on ? ' on' : ''));
+    const row = (m, tag) => {
+      const on = active?.id === m.id, b = el('button', 'power mission' + (on ? ' on' : '') + (tag ? ` ${tag}` : ''));
       const pic = el('i', 'tpic'); pic.append(gIcon('mission'));
       const stars = missions.starsFor?.(m) ?? 1, title = el('b', null, m.title);
       title.append(el('em', 'mstars', '★'.repeat(stars) + '☆'.repeat(3 - stars)));
-      const text = el('span', 'ptext'); text.append(title, el('small', null, `${m.text}  ·  +${missions.xpFor(m).toLocaleString('en-US')} XP`));
+      const pay = `+${missions.xpFor(m).toLocaleString('en-US')} XP${m.coins ? ` · +${formatCoins(m.coins)} coins` : ''}`;
+      const text = el('span', 'ptext');
+      if (m.client) text.append(el('span', 'mclient', (tag === 'sig' ? 'Signature haul · ' : tag === 'feat' ? 'Featured · ' : '') + m.client));
+      text.append(title);
+      if (m.story) text.append(el('i', 'mstory', m.story));
+      text.append(el('small', null, `${m.text}  ·  ${pay}`));
       b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
       b.setAttribute('aria-pressed', String(on));
-      b.addEventListener('click', () => { missions.choose(m.id); renderMissions(); });
-      box.append(b);
-    }
+      b.addEventListener('click', () => { missions.choose(m.id, car); renderMissions(); });
+      return b;
+    };
+    // the chosen truck's signature haul: here when this is its home map, else where to find it
+    const sig = car && missions.signatureFor?.(car), home = car && missions.homeOf?.(car), count = missions.signatureCount;
+    if (sig) box.append(row(sig, 'sig'));
+    else if (home) box.append(el('p', 'mhome', `${car.name}'s signature haul is on ${home.name}${missions.signatureDone(car) ? ' (done)' : ''}. Pick that map to take it.`));
+    for (const m of missions.offers) if (m.id !== sig?.id) box.append(row(m, m.featured ? 'feat' : ''));
+    if (count?.of) box.append(el('p', 'mcount', `Signature hauls done: ${count.done} of ${count.of} trucks`));
   }
   function openMissions() { go('vehicle'); renderMissions(); sheet('missions'); }
   $('gMenuMissions').addEventListener('click', () => { if (garageEl.dataset.sheet === 'missions') { sheet(null); render(); } else openMissions(); });

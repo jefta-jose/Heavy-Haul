@@ -157,5 +157,370 @@
       2,
       0.2
     ]
-  ]
+  ],
+  "featured": {
+    "about": "One hand-written contract per map is always on offer while that map is chosen (src/game/missions.js). `goal` and `twists` use the same kinds as above; targets are still sized to the trail. Each pays `xp` times a normal contract of its difficulty and `coins` on top.",
+    "xp": 1.5,
+    "coins": [
+      6000,
+      14000
+    ],
+    "maps": {
+      "swamp-summer": [
+        {
+          "title": "Bayou Doctor",
+          "client": "St. Landry Clinic",
+          "story": "Insulin for the stilt houses past the gator crossing. Keep it cool and keep it moving.",
+          "goal": "timed",
+          "twists": [
+            "clean"
+          ]
+        },
+        {
+          "title": "Gator Alley",
+          "client": "Parish road crew",
+          "story": "The crew needs to know the bogs are passable before the levee closes. Prove it.",
+          "goal": "bogs",
+          "twists": [
+            "noStuck"
+          ]
+        }
+      ],
+      "spring-thaw": [
+        {
+          "title": "Snowmelt Express",
+          "client": "Meltwater Pass ranger station",
+          "story": "The pass opens for one afternoon before the next storm. Beat the melt.",
+          "goal": "timed",
+          "twists": [
+            "noRefuel"
+          ]
+        },
+        {
+          "title": "Washout Watch",
+          "client": "County highways",
+          "story": "Flash the radar so they know the highway is open again.",
+          "goal": "cameras"
+        }
+      ],
+      "autumn-forest": [
+        {
+          "title": "Last Load Before Frost",
+          "client": "Copper Ridge sawmill",
+          "story": "The mill shuts for winter at sundown. Every log that makes it gets paid.",
+          "goal": "timed",
+          "twists": [
+            "clean"
+          ]
+        },
+        {
+          "title": "Ridge Runner",
+          "client": "Fire lookout",
+          "story": "Clear the deadfall and rock off the logging road before the leaf-peepers arrive.",
+          "goal": "crusher"
+        }
+      ],
+      "desert-wash": [
+        {
+          "title": "Canyon Water Run",
+          "client": "Coyote Wash trading post",
+          "story": "The well pump died. Get there before the heat of the day, and don't stop for fuel.",
+          "goal": "deliver",
+          "twists": [
+            "timed",
+            "noRefuel"
+          ]
+        },
+        {
+          "title": "Mirage Speedway",
+          "client": "Desert racing club",
+          "story": "The canyon cameras are the only timing gear out here. Make them blink.",
+          "goal": "cameras",
+          "twists": [
+            "noPower"
+          ]
+        }
+      ],
+      "gumbo-bottoms": [
+        {
+          "title": "River Rising",
+          "client": "Corps of Engineers",
+          "story": "Sandbags and pumps for the levee. The water is coming up a foot an hour.",
+          "goal": "timed",
+          "twists": [
+            "noStuck"
+          ]
+        },
+        {
+          "title": "Gumbo King",
+          "client": "Bottoms Mud Club",
+          "story": "Nobody has run the whole bottoms without a tow this season. Be the first.",
+          "goal": "bogs"
+        }
+      ],
+      "highland-quarry": [
+        {
+          "title": "Slate for the Chapel",
+          "client": "Slatecut Quarry",
+          "story": "Hand-split roof slate for a 300-year-old chapel. Not one cracked tile.",
+          "goal": "clean",
+          "twists": [
+            "noPower"
+          ]
+        },
+        {
+          "title": "Blast Clearance",
+          "client": "Quarry foreman",
+          "story": "Shot rock all over the haul road. Clear it before the next shift.",
+          "goal": "crusher",
+          "twists": [
+            "timed"
+          ]
+        }
+      ],
+      "jungle-monsoon": [
+        {
+          "title": "Before the Flood",
+          "client": "Canopy Research Station",
+          "story": "Generators and medicine for the station. The monsoon breaks the road in hours.",
+          "goal": "timed",
+          "twists": [
+            "clean"
+          ]
+        },
+        {
+          "title": "Thunder Run",
+          "client": "Highland tea estate",
+          "story": "Lightning has the cameras flickering. Get clocked before they go down.",
+          "goal": "cameras",
+          "twists": [
+            "noRefuel"
+          ]
+        }
+      ],
+      "volcanic-ash": [
+        {
+          "title": "Ash Fall Evacuation",
+          "client": "Caldera Civil Protection",
+          "story": "The crater is rumbling. Get the last supplies out to the shelter, fast and in one piece.",
+          "goal": "timed",
+          "twists": [
+            "clean"
+          ]
+        },
+        {
+          "title": "Lava Field Sprint",
+          "client": "Volcano observatory",
+          "story": "Fresh sensors for the rim station. Reach the checkpoint before the next eruption window.",
+          "goal": "sprint",
+          "twists": [
+            "noPower"
+          ]
+        }
+      ]
+    }
+  },
+  "signature": {
+    "about": "Every truck has a signature haul on its home map: its own load (or, empty, a run of the whole trail) for a named client. Homes are worked out in src/game/missions.js from each map's `likes` (words in the load's name and the truck's biomes), spread so every map gets its share, and free starters stay on free maps. Shown when that truck is chosen on its home map; the first completion pays `coins` times the truck's price share and `xp` times a normal contract; later ones pay like any contract.",
+    "xp": 1.3,
+    "firstCoins": [
+      5000,
+      60000
+    ],
+    "likes": {
+      "swamp-summer": {
+        "loads": [
+          "supplies",
+          "crates",
+          "medical",
+          "cargo",
+          "fuel",
+          "water"
+        ],
+        "biomes": [
+          "Swamp",
+          "Mud",
+          "Water"
+        ]
+      },
+      "spring-thaw": {
+        "loads": [
+          "water",
+          "jerry",
+          "spare",
+          "tyre",
+          "wheel",
+          "tool",
+          "camp",
+          "gear"
+        ],
+        "biomes": [
+          "Mud",
+          "Forest",
+          "Water"
+        ]
+      },
+      "autumn-forest": {
+        "loads": [
+          "log",
+          "lumber",
+          "timber",
+          "pole",
+          "fence",
+          "wood",
+          "hay"
+        ],
+        "biomes": [
+          "Forest"
+        ]
+      },
+      "desert-wash": {
+        "loads": [
+          "fuel",
+          "water",
+          "race",
+          "buggy",
+          "car",
+          "container",
+          "freight"
+        ],
+        "biomes": [
+          "Sand",
+          "Rock",
+          "Dirt"
+        ]
+      },
+      "gumbo-bottoms": {
+        "loads": [
+          "silt",
+          "slurry",
+          "pipe",
+          "sandbag",
+          "cattle",
+          "calves",
+          "chicken",
+          "elephant",
+          "giraffe"
+        ],
+        "biomes": [
+          "Swamp",
+          "Mud",
+          "Water"
+        ]
+      },
+      "highland-quarry": {
+        "loads": [
+          "ore",
+          "rock",
+          "stone",
+          "slate",
+          "gravel",
+          "boulder",
+          "ballast",
+          "coal",
+          "brick",
+          "block",
+          "concrete",
+          "cement"
+        ],
+        "biomes": [
+          "Rock",
+          "Gravel"
+        ]
+      },
+      "jungle-monsoon": {
+        "loads": [
+          "generator",
+          "aid",
+          "rescue",
+          "drill",
+          "excavator",
+          "machinery",
+          "survey",
+          "expedition",
+          "habitat"
+        ],
+        "biomes": [
+          "Forest",
+          "Mud",
+          "Swamp"
+        ]
+      },
+      "volcanic-ash": {
+        "loads": [
+          "reactor",
+          "transformer",
+          "turbine",
+          "rocket",
+          "capsule",
+          "satellite",
+          "cask",
+          "warhead",
+          "submarine",
+          "locomotive",
+          "steel",
+          "beam",
+          "rebar"
+        ],
+        "biomes": [
+          "Rock",
+          "Gravel",
+          "Dirt"
+        ]
+      }
+    },
+    "clients": {
+      "swamp-summer": [
+        "Bayou Co-op",
+        "St. Landry Clinic",
+        "Cypress Bend Store"
+      ],
+      "spring-thaw": [
+        "Ranger Station 7",
+        "Meltwater Lodge",
+        "Pass Road Crew"
+      ],
+      "autumn-forest": [
+        "Copper Ridge Sawmill",
+        "Fall Fair Committee",
+        "Ridge Firewood Co."
+      ],
+      "desert-wash": [
+        "Coyote Trading Post",
+        "Red Rock Film Crew",
+        "Canyon Motor Club"
+      ],
+      "gumbo-bottoms": [
+        "Levee District 4",
+        "Bottoms Stockyard",
+        "River Pumping Station"
+      ],
+      "highland-quarry": [
+        "Slatecut Quarry",
+        "Valley Builders",
+        "North Wales Rail"
+      ],
+      "jungle-monsoon": [
+        "Canopy Research Station",
+        "Tea Estate Office",
+        "Highland Mission Clinic"
+      ],
+      "volcanic-ash": [
+        "Caldera Observatory",
+        "Island Power Plant",
+        "Harbour Authority"
+      ]
+    },
+    "stories": {
+      "load": [
+        "{client} needs the {load} today, and nobody else will drive the {map} trail for it.",
+        "Word is the {load} can't go by any other road. {client} is counting on your {truck}.",
+        "{client} pays double if the {load} gets there with nothing broken."
+      ],
+      "empty": [
+        "{client} wants to know the {map} trail is open. Run the whole thing in your {truck}.",
+        "Scout the {map} trail end to end for {client}. Your {truck} is the only one fit for it."
+      ]
+    }
+  }
 }

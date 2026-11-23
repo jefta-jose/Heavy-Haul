@@ -5,10 +5,17 @@
 // One offer is always a depot contract for the class driven least. The chosen one is checked as the run goes (`track`) and
 // at the depot (`deliver`); when done it pays once and a fresh list is drawn. Offers not chosen are redrawn after every
 // run (`endRun`). Failing costs nothing: it stays chosen. Saved on this device.
+//
+// Two kinds have a story and pay coins on top (missions.json `featured` and `signature`):
+// - Featured: every map has hand-written contracts with a client and a story; one is always on offer for the map chosen.
+// - Signature haul: every truck has a job of its own on a home map (its load for a named client). Homes are spread over all
+//   maps from each map's `likes` (words in the load, the truck's biomes), so every map and every truck has work; free
+//   starters stay on free maps. The first time a truck does its signature haul pays a coin bonus; `signatureDone` counts them.
 import { classXp } from './progress.js';
 import { MISSION_BASE_XP } from '../game-config.js';
 
 const KEY = 'hh_missions', VERSION = 2;
+const hash = text => { let h = 2166136261; for (const ch of String(text)) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return (h >>> 0) / 2 ** 32; };
 const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const hits = (m, r) => (r.cameras ?? []).filter(k => k >= m.kmh).length;
 
@@ -35,12 +42,39 @@ const TWISTS = {
 };
 
 export function createMissions(data = {}, ctx = {}, store = typeof localStorage === 'undefined' ? null : localStorage, random = Math.random) {
-  const { offerCount = 4, baseXp = MISSION_BASE_XP, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]] } = data;
+  const { offerCount = 4, baseXp = MISSION_BASE_XP, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]], featured = {}, signature = {} } = data;
   if (Array.isArray(ctx)) ctx = { classes: ctx.map(id => ({ id, name: id })) };
   const classes = ctx.classes ?? [], trail = ctx.trail ?? { start: 0, depot: 3500, checkpoints: [], heavyMud: [], highways: [] };
   const mapId = () => ctx.mapId?.() ?? null;   // the map contracts are drawn for: each one is sized to that trail
   const owned = () => (ctx.owned?.() ?? []).filter(c => c?.id);
   const className = id => classes.find(c => c.id === id)?.name ?? id;
+  const allCars = () => (ctx.cars?.() ?? []).filter(c => c?.id);            // every truck in the game, owned or not
+  const maps = () => (ctx.maps?.() ?? []).filter(m => m?.id);                 // every playable map: { id, name, free }
+  const mapName = id => maps().find(m => m.id === id)?.name ?? id;
+
+  // Each truck's home map, worked out once: a map scores 2 for each of its `likes.loads` words in the load's name and 1 for
+  // each shared biome, less how full it already is, so the trucks spread over every map. Free starters only get free maps.
+  let homes = null;
+  function homeMaps() {
+    if (homes) return homes;
+    homes = {};
+    const list = maps(), likes = signature.likes ?? {}, count = Object.fromEntries(list.map(m => [m.id, 0]));
+    if (!list.length) return homes;
+    const fair = allCars().length / list.length;
+    for (const car of [...allCars()].sort((a, b) => hash(a.id) - hash(b.id))) {
+      const load = (car.load?.name ?? '').toLowerCase(), free = (car.unlockRank ?? 1) <= 1 && (car.price ?? 0) === 0;
+      const pool = list.filter(m => !free || m.free);
+      let best = null, bestScore = -Infinity;
+      for (const m of pool.length ? pool : list) {
+        const l = likes[m.id] ?? {};
+        const score = 2 * (l.loads ?? []).filter(w => load.includes(w)).length + (l.biomes ?? []).filter(b => (car.biomes ?? []).includes(b)).length
+          - 3 * count[m.id] / Math.max(1, fair) + hash(car.id + m.id) * 0.5;
+        if (score > bestScore) { bestScore = score; best = m.id; }
+      }
+      homes[car.id] = best; count[best]++;
+    }
+    return homes;
+  }
 
   const rnd = (a, b) => a + (b - a) * random();
   const int = (a, b) => Math.floor(rnd(a, b + 1));
@@ -103,7 +137,8 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       bogs: `Clear ${m.count} deep bogs without being towed`,
     }[m.goal];
     const rules = m.twists.map(t => fill(twists[t.type]?.text ?? t.type, t));
-    return goalText + lockText + (rules.length ? `, ${rules.join(', ')}` : '');
+    const head = m.signature ? (m.load ? `Deliver the ${m.load.toLowerCase()}` : 'Run the whole trail') + (m.goal === 'deliver' ? '' : `, ${goalText[0].toLowerCase()}${goalText.slice(1)}`) : goalText;
+    return head + lockText + (rules.length ? `, ${rules.join(', ')}` : '');
   }
 
   // XP is worked out from the game's numbers every time it is shown or paid, never saved, so lowering MISSION_BASE_XP
@@ -111,7 +146,8 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   // shares of the base, so the base scales the whole mission.
   function xpOf(m) {
     const d = m.d ?? 0.5, lockShare = m.car ? locks.car?.xp ?? 0 : m.class ? locks.class?.xp ?? 0 : 0;
-    const raw = baseXp * (0.6 + 1.2 * d + (m.twists ?? []).reduce((s, t) => s + (twists[t.type]?.xp ?? 0), 0) + lockShare);
+    const story = m.featured ? featured.xp ?? 1 : m.signature ? signature.xp ?? 1 : 1;
+    const raw = story * baseXp * (0.6 + 1.2 * d + (m.twists ?? []).reduce((s, t) => s + (twists[t.type]?.xp ?? 0), 0) + lockShare);
     return Math.max(10, Math.round(classXp(raw, m.class) / 10) * 10);
   }
   // stars, wording and map for a contract whose targets are set
@@ -126,6 +162,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   // the chosen contract on another map: the same goal, lock and twists, with targets sized to this trail; null when this
   // trail cannot host the goal (no speed cameras, too few bogs, no checkpoints)
   function resize(m) {
+    if (m.featured || m.signature) return null;   // written for its own map
     const lock = { class: m.class, car: m.car ? owned().find(c => c.id === m.car) ?? { id: m.car, name: m.carName, class: m.class } : undefined };
     const g = makeGoal(m.goal, lock); if (!g) return null;
     const out = { ...g, twists: m.twists.map(t => makeTwist(t.type, g, lock)), title: m.title, id: m.id };
@@ -158,10 +195,42 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     return null;
   }
 
-  let state = { v: VERSION, offers: [], active: null, driven: {}, maps: {} };   // maps: other maps' offers, kept for when you go back
+  // a contract with a story: `spec` = { title, client, story, goal, twists }, sized to this trail like any other
+  function storied(spec, lock, extra) {
+    for (let tries = 0; tries < 10; tries++) {
+      const m = makeGoal(spec.goal, lock); if (!m) return null;
+      m.twists = (spec.twists ?? []).filter(k => TWISTS[k] && !(k === m.goal)).map(k => makeTwist(k, m, lock));
+      if (lock.class) m.class = lock.class;
+      if (lock.car) { m.car = lock.car.id; m.carName = lock.car.name; }
+      Object.assign(m, { title: spec.title, client: spec.client, story: spec.story }, extra);
+      return finalize(m);
+    }
+    return null;
+  }
+  // this map's featured contract: the next one of its list that has not been done here lately
+  function featuredOffer() {
+    const list = featured.maps?.[mapId()] ?? []; if (!list.length) return null;
+    const i = (state.featuredDone?.[mapId()] ?? 0) % list.length, [lo, hi] = featured.coins ?? [0, 0];
+    return storied(list[i], {}, { featured: true, coins: Math.round((lo + (hi - lo) * random()) / 500) * 500, id: `feat-${mapId()}-${i}-${Math.floor(random() * 2 ** 32).toString(36)}` });
+  }
+  // a truck's signature haul, offered on its home map: its own load for one of that map's clients
+  function signatureOffer(chosen) {
+    const car = allCars().find(c => c.id === chosen?.id) ?? chosen;   // the roster's entry: its load, price and rank
+    if (!car?.id || homeMaps()[car.id] !== mapId()) return null;
+    const pickBy = (list, salt) => list[Math.floor(hash(car.id + salt) * list.length)];
+    const client = pickBy(signature.clients?.[mapId()] ?? ['the depot'], 'client'), load = car.load?.name ?? null;
+    const story = pickBy(signature.stories?.[load ? 'load' : 'empty'] ?? ['{client} needs you.'], 'story')
+      .replace('{client}', client).replace('{load}', (load ?? '').toLowerCase()).replace('{map}', mapName(mapId())).replace('{truck}', car.name);
+    const goal = pickBy(['deliver', 'timed', 'clean'], 'goal'), first = !state.signatures?.[car.id];
+    const [lo, hi] = signature.firstCoins ?? [0, 0], share = Math.min(1, (car.price ?? 0) / 200000);
+    return storied({ title: `${car.name}: signature haul`, client, story, goal, twists: goal === 'deliver' ? [pickBy(['clean', 'timed', 'noRefuel'], 'twist')] : [] },
+      { car, class: car.class }, { signature: true, load, coins: first ? Math.round((lo + (hi - lo) * share) / 500) * 500 : 0, id: `sig-${car.id}` });
+  }
+
+  let state = { v: VERSION, offers: [], active: null, driven: {}, maps: {}, signatures: {}, featuredDone: {} };   // maps: other maps' offers, kept for when you go back
   try {
     const s = JSON.parse(store?.getItem(KEY));
-    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {}, maps: s.maps ?? {} };
+    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {}, maps: s.maps ?? {}, signatures: s.signatures ?? {}, featuredDone: s.featuredDone ?? {} };
     else if (s?.driven) state.driven = s.driven;   // older saves: keep which classes were driven
   } catch (e) {}
   // A contract drawn for another map does not fit this one (four cameras where there are three, a checkpoint
@@ -182,9 +251,11 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const save = () => { try { store?.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
   const activeMission = () => state.offers.find(m => m.id === state.active) ?? null;
 
-  // a fresh list: the chosen contract stays, then the least-driven class's depot contract, then others with varied goals
+  // a fresh list: the chosen contract stays, then this map's featured contract, the least-driven class's depot contract, then
+  // others with varied goals
   function draw() {
     const keep = activeMission(), offers = keep ? [keep] : [], used = new Set(offers.map(m => m.goal));
+    if (!offers.some(m => m.featured)) { const f = featuredOffer(); if (f) { offers.push(f); used.add(f.goal); } }
     const least = [...classes].map(c => c.id).sort((a, b) => (state.driven[a] ?? 0) - (state.driven[b] ?? 0))[0];
     if (least && !offers.some(m => m.class === least && GOALS[m.goal].depot)) { const m = contract(least); if (m) { offers.push(m); used.add(m.goal); } }
     while (offers.length < offerCount) {
@@ -195,7 +266,12 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   }
   if (state.offers.length < offerCount) draw();
 
-  function finish(m) { const xp = xpOf(m); state.active = null; draw(); return { mission: m, xp }; }
+  function finish(m) {
+    const xp = xpOf(m), coins = m.coins ?? 0;
+    if (m.signature && m.car) state.signatures[m.car] = true;
+    if (m.featured && m.map) state.featuredDone[m.map] = (state.featuredDone[m.map] ?? 0) + 1;
+    state.active = null; draw(); return { mission: m, xp, coins };
+  }
   const lockFailed = (m, r) => (m.class && r.cls !== m.class) || (m.car && r.car && r.car !== m.car);
   const failedBy = (m, r) => lockFailed(m, r) || !!GOALS[m.goal].failed?.(m, r) || m.twists.some(t => TWISTS[t.type]?.failed(t, r));
   const doneBy = (m, r) => !failedBy(m, r) && GOALS[m.goal].done(m, r);
@@ -206,8 +282,16 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     get active() { return activeMission(); },
     xpFor: m => xpOf(m),
     starsFor: m => m.stars ?? 1,
-    // choose an offered mission, or the chosen one again to put it down
-    choose(id) { state.active = state.active === id || !state.offers.some(m => m.id === id) ? null : id; save(); return this.active; },
+    // choose an offered mission, or the chosen one again to put it down; a signature haul joins the offers when chosen
+    choose(id, car = null) {
+      if (id?.startsWith('sig-') && !state.offers.some(m => m.id === id)) { const m = signatureOffer(car); if (m?.id === id) state.offers = [m, ...state.offers.filter(o => !o.signature)].slice(0, offerCount + 1); }
+      state.active = state.active === id || !state.offers.some(m => m.id === id) ? null : id; save(); return this.active;
+    },
+    // the chosen truck's signature haul here (null when its home is another map), its home map, and how many are done
+    signatureFor: car => state.offers.find(m => m.id === `sig-${car?.id}`) ?? signatureOffer(car),
+    homeOf: car => { const id = homeMaps()[car?.id]; return id ? { id, name: mapName(id) } : null; },
+    signatureDone: car => !!state.signatures[car?.id],
+    get signatureCount() { return { done: Object.keys(state.signatures).length, of: allCars().length }; },
     // during a run: progress for the chip, and the mission itself once a live one is done
     track(run) {
       const m = this.active; if (!m) return null;

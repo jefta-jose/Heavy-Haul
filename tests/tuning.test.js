@@ -288,3 +288,35 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   const misfit = createMissions(data, { ...ctx, trail: trails.b }, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', goal: 'cameras', kmh: 60, count: 4, of: 4, xp: 100, twists: [] }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
   assert.equal(misfit.active, null);
 });
+
+test('missions: every map has featured contracts, and every truck a signature haul on a home map that covers all maps', () => {
+  const data = JSON.parse(fs.readFileSync(new URL('../assets/missions/missions.json', import.meta.url)));
+  const seasons = fs.readdirSync(new URL('../assets/seasons/', import.meta.url)).map(d => new URL(`../assets/seasons/${d}/season.json`, import.meta.url)).filter(u => fs.existsSync(u)).map(u => JSON.parse(fs.readFileSync(u))).filter(s => s.status === 'playable');
+  const free = ['swamp-summer', 'spring-thaw'], maps = seasons.map(s => ({ id: s.id, name: s.name, free: free.includes(s.id) }));
+  const cars = content.roster.cars.map(r => ({ ...r, biomes: content.cars.find(c => c.id === r.id)?.biomes ?? [] }));
+  let cur = seasons[0], seed = 11; const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const store = { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } };
+  const m = createMissions(data, { classes: content.roster.classes, trail: new Proxy({}, { get: (_, k) => cur.trail[k] }), mapId: () => cur.id, owned: () => cars, cars: () => cars, maps: () => maps }, store, random);
+  for (const s of seasons) {
+    cur = s; m.mapChanged();
+    const f = m.offers.find(o => o.featured);
+    assert(f && f.client && f.story && f.coins > 0, `${s.name} offers a featured contract with a story and coins`);
+  }
+  const homes = new Map(cars.map(c => [c.id, m.homeOf(c).id]));
+  assert.equal(homes.size, cars.length, 'every truck has a home map');
+  for (const s of seasons) assert([...homes.values()].filter(h => h === s.id).length >= 10, `${s.name} is home to its share of trucks`);
+  for (const c of cars.filter(c => c.unlockRank <= 1 && !c.price)) assert(free.includes(homes.get(c.id)), `${c.name}, a free starter, has a free home map`);
+  // a signature haul is offered only on its home map, pays coins the first time, and is counted once done
+  const car = cars.find(c => c.load) ?? cars[0];
+  cur = seasons.find(s => s.id !== homes.get(car.id)); m.mapChanged();
+  assert.equal(m.signatureFor(car), null, 'not on another map');
+  cur = seasons.find(s => s.id === homes.get(car.id)); m.mapChanged();
+  const sig = m.signatureFor(car);
+  assert(sig && sig.car === car.id && sig.coins > 0 && sig.story.includes(car.name) || sig.story.includes(sig.client), 'its own job, with a story');
+  m.choose(sig.id, car);
+  assert.equal(m.active?.id, sig.id);
+  const done = m.deliver({ cls: car.class, car: car.id, time: 1, x: cur.trail.depot, maxDamage: 0, cameras: [], camerasSeen: 0, crushes: 0, bogs: 0, bogsMissed: 0, refuelled: false, powered: false, stuckMax: 0 });
+  assert(done && done.coins === sig.coins, 'pays its coins');
+  assert(m.signatureDone(car) && m.signatureCount.done === 1 && m.signatureCount.of === cars.length);
+  assert.equal(m.signatureFor(car).coins, 0, 'the coin bonus is paid once');
+});
