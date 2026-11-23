@@ -4386,3 +4386,28 @@ dl.spec dd {
   .shop-tab { font-size: 14px; padding: 0 6px; }
 }
 @media (orientation: portrait) and (min-width: 700px) and (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---------- phone garage HUD, compact (2026-11-24, user: the bars looked over-stretched) ----------
+   Phones on their side: the bottom bar is a centred row of small tiles (icon over a short label) instead of six wide slabs,
+   PLAY stays the one wide green button, and the top bar's items sit closer together. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc { --hc-bar: 50px; --hc-top: 36px; }
+  .garage.hc .hc-bar { justify-content: center; gap: 6px; padding-top: 6px; }
+  .garage.hc .hc-bar .hc-btn { flex: 0 0 78px; flex-direction: column; gap: 2px; padding: 4px 4px 3px; font-size: 11px; letter-spacing: .06em; border-width: 1px; }
+  .garage.hc .hc-bar .hc-btn svg { width: 18px; height: 18px; }
+  .garage.hc .hc-bar .hc-btn.go { flex: 0 0 150px; flex-direction: row; font-size: 20px; }
+  .garage.hc .hc-bar .hc-btn.buy { flex: 0 0 170px; flex-direction: row; font-size: 15px; }
+  .garage.hc .hc-top .hc-right { gap: 8px; }
+  .garage.hc .hc-icon { width: 30px; height: 30px; }
+  .garage.hc .hc-icon.hc-reset, .garage.hc .hc-icon.hc-player { height: 30px; font-size: 11px; padding: 0 8px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc .g-classes { width: min(560px, 100%); margin-inline: auto; justify-content: center; }
+  .garage.hc .g-classes .g-class { flex: 1 1 0; min-width: 0; padding-block: 3px; }
+}
+
+/* the game's logo (user, 2026-11-24): the HEAVY HAUL sign (assets/brand) in the garage top bar; the words stay for screen readers */
+.garage.hc .hc-top .g-logo { display: block; width: 118px; height: 54px; flex: none; background: var(--hud-logo) center / contain no-repeat; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .6)); }
+.garage.hc .hc-top .g-logo > * { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-height: 520px) { .garage.hc .hc-top .g-logo { width: 80px; height: 36px; } }
+@media (orientation: portrait) and (max-width: 1100px) { .garage.hc .hc-top .g-logo { display: block; width: 84px; height: 38px; } }

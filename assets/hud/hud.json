@@ -1,5 +1,5 @@
 {
- "about": "HUD icons are 24\u00d724 SVG files in icons/ (currentColor, simple strokes). Garage and menu art are painted PNG masters in source/, encoded to art/. Only what is listed here goes in the build.",
+ "about": "HUD icons are 24×24 SVG files in icons/ (currentColor, simple strokes). Garage and menu art are painted PNG masters in source/, encoded to art/. Only what is listed here goes in the build.",
  "icons": [
   {
    "id": "class-scout",
@@ -100,6 +100,12 @@
    "file": "source/garage-bay-v1.png",
    "width": 1672,
    "quality": 88
+  },
+  {
+   "id": "logo",
+   "file": "../brand/heavy-haul-sign.png",
+   "width": 640,
+   "quality": 90
   }
  ]
 }
