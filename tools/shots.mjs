@@ -82,8 +82,11 @@ try {
     for (const [tag, vp] of [['phone', { width: 844, height: 390 }], ['small', { width: 667, height: 320 }], ['portrait', { width: 390, height: 844 }], ['desktop', { width: 1440, height: 810 }]]) {
       const page = await open(vp, tag !== 'desktop');
       await page.waitForTimeout(600); await shot(page, `${tag}-garage`);
+      // a fresh player's shop too: the Rookie pack with its truck, and the Trucks tab mid-row
+      if (tag !== 'portrait') { await page.evaluate(() => { localStorage.removeItem('hh_once'); }); }
       for (const btn of ['gMenuShop', 'hcSeasons', 'hcVehicle', 'gMenuMissions', 'gMenuTune']) {
         await page.click(`#${btn}`).catch(e => errors.push(`${tag} ${btn}: ${e.message.split('\n')[0]}`)); await page.waitForTimeout(500); await shot(page, `${tag}-garage-${btn}`);
+        if (btn === 'gMenuShop') { await page.locator('.shop-tab', { hasText: 'Trucks' }).click(); await page.waitForTimeout(300); await page.locator('#shopGrid').evaluate(g => g.scrollBy({ left: g.clientWidth * 0.8 })); await page.waitForTimeout(500); await shot(page, `${tag}-garage-shop-trucks`); }
         for (const done of ['shopDone', 'missionsDone', 'tuneDone']) if (await page.locator(`#${done}`).isVisible().catch(() => false)) await page.click(`#${done}`);
         await page.waitForTimeout(250);
       }

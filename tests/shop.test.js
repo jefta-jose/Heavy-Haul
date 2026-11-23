@@ -48,7 +48,29 @@ test('coins, ranks and bundles give what they say, and a transaction is granted 
   await shop.buy(next); assert(ids.every(id => progress.owns(id)));
   const fleet = shop.offers('featured').find(o => o.id === 'bundle_everything');
   await shop.buy(fleet); assert(content.cars.every(c => progress.owns(c.id)), 'the whole fleet');
-  assert(shop.offers('featured').filter(o => o.id !== 'bundle_starter' && o.id !== 'bundle_everything').every(o => shop.done(o)), 'every truck bundle is owned');
+  assert(shop.offers('featured').filter(o => !o.gives.coins && !o.gives.maps.length && o.id !== 'bundle_everything').every(o => shop.done(o)), 'every truck bundle is owned');
+});
+
+test('one-time packs sell once, the map pack opens every paid map, and coin packs give more per dollar as they grow', async () => {
+  const owned = new Set(), pass = { ids: ['map-a', 'map-b'], owns: id => owned.has(id), grant: id => owned.add(id) };
+  const storage = { s: {}, getItem(k) { return this.s[k] ?? null; }, setItem(k, v) { this.s[k] = v; } };
+  let n = 0; const fakeStore = { test: true, priceText: o => `$${o.price}`, buy: async () => ({ ok: true, transactionId: `x${n++}` }) };
+  const coins = { n: 0, add(c) { this.n += c; }, spend() { return false; }, get coins() { return this.n; } };
+  const progress = createProgress(content.roster.cars, { v: null, getItem() { return this.v; }, setItem(k, v) { this.v = v; } });
+  const shop = createShop({ content, progress, wallet: coins, store: fakeStore, storage, maps: pass });
+  const find = id => shop.offers('featured').find(o => o.id === id);
+  const rookie = find('bundle_rookie');
+  assert(rookie.price < 1 && rookie.gives.coins > 0 && rookie.gives.trucks.length === 1, 'a cheap rookie pack: coins and a Scout');
+  assert((await shop.buy(rookie)).ok); assert(progress.owns(rookie.gives.trucks[0]));
+  assert(shop.done(find('bundle_rookie')), 'and only once');
+  const starter = find('bundle_starter');
+  await shop.buy(starter); assert(shop.done(find('bundle_starter')), 'the starter boost is once only too');
+  await shop.buy(find('bundle_all_maps'));
+  assert(owned.has('map-a') && owned.has('map-b') && shop.done(find('bundle_all_maps')), 'every map, then nothing left to sell');
+  const packs = shop.offers('coins'), perDollar = packs.map(o => o.gives.coins / o.price);
+  assert(perDollar.every((v, i) => i === 0 || v > perDollar[i - 1]), 'each bigger coin pack is better value');
+  assert(starter.gives.coins / starter.price > perDollar.at(-1), 'the one-time starter boost beats every coin pack');
+  for (const o of [...packs, ...shop.offers('featured')]) assert([0.99, 1.99, 2.99, 4.99, 9.99, 12.99, 14.99, 19.99, 49.99].includes(o.price), `${o.id} uses a standard price point: ${o.price}`);
 });
 
 test('every product id is one Google Play accepts, and none repeats', () => {

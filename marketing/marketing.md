@@ -157,7 +157,7 @@ Attach: `sheets/maps.jpg`, `sheets/fleet-overview.jpg`.
 > the 80-character short description; (2) a full description under 4000 characters: hook paragraph, then sections with
 > short bulleted lists (trucks, maps, missions, upgrades, controls), friendly and punchy, no false claims, no mention of
 > real truck brands; (3) 10 keywords players would search for. It's free to play with optional in-app purchases (coins,
-> rank packs, trucks), and there are no ads.
+> rank packs, trucks, maps, a $0.99 rookie pack), and there are no ads.
 
 ### 9. Social media calendar (one month)
 > Make a 4-week social media plan for Heavy Haul (Instagram, TikTok, YouTube Shorts): 3 posts a week. Mix truck of the week,

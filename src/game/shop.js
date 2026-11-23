@@ -6,15 +6,16 @@
 // transaction id (kept in hh_grants), so a purchase reported twice by a real store later can never pay twice.
 import {
   SHOP_COIN_PACKS, SHOP_RANK_PACKS, SHOP_TRUCK_PRICES, SHOP_CLASS_PACK_PRICE, SHOP_NEXT_FIVE_PRICE, SHOP_TOP_FIVE_PRICE,
-  SHOP_STARTER_BUNDLE, SHOP_EVERYTHING,
+  SHOP_STARTER_BUNDLE, SHOP_EVERYTHING, SHOP_ROOKIE_PACK, SHOP_MAPS_PACK_PRICE,
 } from '../game-config.js';
 import { createStore } from './store.js';
 import { formatCoins } from './format.js';
 
-const GRANTS = 'hh_grants';
+const GRANTS = 'hh_grants', ONCE = 'hh_once';   // ONCE: the one-time offers already bought
 const productId = s => s.toLowerCase().replace(/[^a-z0-9_.]/g, '_');   // Google Play product ids: lowercase, digits, _ and .
 
-export function createShop({ content, progress, wallet, store = createStore(), storage = typeof localStorage === 'undefined' ? null : localStorage, onLateGrant = null }) {
+export function createShop({ content, progress, wallet, store = createStore(), storage = typeof localStorage === 'undefined' ? null : localStorage, onLateGrant = null, maps = null }) {
+  // maps: { ids: every paid map, owns(id), grant(id) } (season-pass.js); without it no map offers are made
   const classes = content.roster.classes;
   const art = new Map(content.cars.map(c => [c.id, c]));
   const classAt = id => classes.findIndex(x => x.id === id);
@@ -31,22 +32,28 @@ export function createShop({ content, progress, wallet, store = createStore(), s
   const s = n => (n === 1 ? '' : 's');
 
   // an offer: { id, kind, title, sub, price, tag, gives: { coins, ranks, trucks }, pics }; `done` says it has nothing left to give
-  const offer = o => ({ tag: '', pics: [], ...o, gives: { coins: 0, ranks: null, trucks: [], ...o.gives } });
-  const done = o => (o.gives.ranks != null && !fitsRanks(o.gives.ranks)) || (!o.gives.coins && o.gives.ranks == null && !missing(o.gives.trucks).length);
+  const offer = o => ({ tag: '', pics: [], ...o, gives: { coins: 0, ranks: null, trucks: [], maps: [], ...o.gives } });
+  const onceBought = () => { try { return JSON.parse(storage?.getItem(ONCE)) ?? []; } catch (e) { return []; } };
+  const mapsMissing = ids => ids.filter(id => !maps?.owns(id));
+  const done = o => (o.once && onceBought().includes(o.id)) || (o.gives.ranks != null && !fitsRanks(o.gives.ranks))
+    || (!o.gives.coins && o.gives.ranks == null && !missing(o.gives.trucks).length && !mapsMissing(o.gives.maps).length);
 
   function featured() {
     const next = classes.map(k => ofClass(k.id).find(c => !progress.owns(c.id))).filter(Boolean);
     const top = classes.map(k => ofClass(k.id).at(-1)).filter(Boolean);
-    const [coins, price] = SHOP_STARTER_BUNDLE, [allCoins, allPrice] = SHOP_EVERYTHING;
+    const [coins, price] = SHOP_STARTER_BUNDLE, [allCoins, allPrice] = SHOP_EVERYTHING, [rookieCoins, rookiePrice] = SHOP_ROOKIE_PACK;
+    const scout = ofClass(classes[0].id).find(c => !progress.owns(c.id)), paidMaps = maps?.ids ?? [];
     return [
-      offer({ id: 'bundle_starter', kind: 'bundle', title: 'Starter boost', sub: `${formatCoins(coins)} coins to get going`, price, tag: 'New driver', gives: { coins } }),
+      offer({ id: 'bundle_rookie', kind: 'bundle', once: true, title: 'Rookie pack', sub: `${formatCoins(rookieCoins)} coins${scout ? ` and the ${nameOf(scout)}` : ''} · once only`, price: rookiePrice, tag: 'Best deal', gives: { coins: rookieCoins, trucks: scout ? [scout.id] : [] }, pics: scout ? [pic(scout.id)] : [] }),
+      offer({ id: 'bundle_starter', kind: 'bundle', once: true, title: 'Starter boost', sub: `${formatCoins(coins)} coins to get going · once only`, price, tag: 'New driver', gives: { coins } }),
+      ...(paidMaps.length ? [offer({ id: 'bundle_all_maps', kind: 'bundle', title: 'Every map', sub: `All ${paidMaps.length} maps you don't have yet, open at once`, price: SHOP_MAPS_PACK_PRICE, gives: { maps: paidMaps } })] : []),
       offer({ id: 'bundle_next_five', kind: 'bundle', title: 'Next in every class', sub: next.length ? `${next.length} truck${s(next.length)}: ${next.map(nameOf).join(', ')}` : 'You own every class', price: SHOP_NEXT_FIVE_PRICE, gives: { trucks: next.map(c => c.id) }, pics: next.map(c => pic(c.id)) }),
       offer({ id: 'bundle_top_five', kind: 'bundle', title: 'Top of every class', sub: `The strongest truck of each class: ${top.map(nameOf).join(', ')}`, price: SHOP_TOP_FIVE_PRICE, tag: 'Popular', gives: { trucks: top.map(c => c.id) }, pics: top.map(c => pic(c.id)) }),
       ...classes.map(k => {
         const list = ofClass(k.id);
         return offer({ id: productId(`bundle_class_${k.id}`), kind: 'bundle', title: `Every ${k.name} truck`, sub: `All ${list.length} trucks of the class`, price: SHOP_CLASS_PACK_PRICE, gives: { trucks: list.map(c => c.id) }, pics: [list.at(-1), list[Math.floor(list.length / 2)], list[0]].filter(Boolean).map(c => pic(c.id)) });
       }),
-      offer({ id: 'bundle_everything', kind: 'bundle', title: 'The whole fleet', sub: `All ${trucks.length} trucks and ${formatCoins(allCoins)} coins`, price: allPrice, tag: 'Best value', gives: { coins: allCoins, trucks: trucks.map(c => c.id) }, pics: top.slice(0, 3).map(c => pic(c.id)) }),
+      offer({ id: 'bundle_everything', kind: 'bundle', title: 'The whole fleet', sub: `All ${trucks.length} trucks, every map and ${formatCoins(allCoins)} coins`, price: allPrice, tag: 'Best value', gives: { coins: allCoins, trucks: trucks.map(c => c.id), maps: paidMaps }, pics: top.slice(0, 3).map(c => pic(c.id)) }),
     ];
   }
   const truckOffers = cls => ofClass(cls).map(c => offer({ id: productId(`truck_${c.id}`), kind: 'truck', truck: c.id, title: nameOf(c), sub: `Rank ${c.unlockRank} · yours at once`, price: truckPrice(c), gives: { trucks: [c.id] }, pics: [pic(c.id)] }));
@@ -58,8 +65,10 @@ export function createShop({ content, progress, wallet, store = createStore(), s
   function grant(o, transactionId) {
     const grants = loadGrants();
     if (grants.includes(transactionId)) return null;
-    const got = { coins: o.gives.coins, ups: [], trucks: [] };
+    const got = { coins: o.gives.coins, ups: [], trucks: [], maps: [] };
     if (got.coins) wallet.add(got.coins);
+    got.maps = mapsMissing(o.gives.maps); for (const id of got.maps) maps.grant(id);
+    if (o.once) { try { storage?.setItem(ONCE, JSON.stringify([...new Set([...onceBought(), o.id])])); } catch (e) {} }
     if (o.gives.ranks != null) got.ups = progress.reachRank(rankAfter(o.gives.ranks));
     if (o.gives.trucks.length) got.trucks = progress.grant(o.gives.trucks);
     try { storage?.setItem(GRANTS, JSON.stringify([...grants, transactionId].slice(-500))); } catch (e) {}

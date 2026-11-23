@@ -201,12 +201,17 @@ export const NOTIFY_HOURS = [17, 20];          // between these hours of the eve
 export const NOTIFY_ASK_AGAIN_DAYS = 3;        // after 'Not now', ask once more this many days later, then never
 export const PLAY_VERIFY_URL = '';              // the purchase verifier (functions/verify-purchase); '' grants on the device (testing only, see report.md)
 export const SHOP_TEST_PURCHASES = true;      // true: BUY grants at once, nothing is charged. Set false only when a real store is wired in
-export const SHOP_COIN_PACKS = [               // [coins, price, tag]
+// Prices follow what successful mobile games sell (Hill Climb Racing 1 and 2, CSR 2, Asphalt Legends, Clash Royale, read from
+// their App Store listings on 2026-11-24): the standard price points $0.99 / 1.99 / 2.99 / 4.99 / 9.99 / 19.99 / 49.99, coin
+// value per dollar that clearly grows with the pack (Hill Climb Racing goes from 75k to 200k coins a dollar), and cheap
+// one-time starter packs that are the best value in the shop.
+export const SHOP_COIN_PACKS = [               // [coins, price, tag]: 25k coins a dollar at the bottom, 60k at the top
   [25000, 0.99, ''],
-  [75000, 2.49, ''],
-  [200000, 4.99, 'Popular'],
-  [500000, 9.99, ''],
-  [1500000, 24.99, 'Best value'],
+  [60000, 1.99, ''],
+  [175000, 4.99, 'Popular'],
+  [400000, 9.99, ''],
+  [1000000, 19.99, ''],
+  [3000000, 49.99, 'Best value'],
 ];
 export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: $10 / $20 / $30 / $40 (user, 2026-11-23),
   [2, 10, ''],                              // and only these packs give them; a pack that would pass the top rank cannot be bought
@@ -223,8 +228,10 @@ export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a 
 export const SHOP_CLASS_PACK_PRICE = 12.99;    // every truck of one class
 export const SHOP_NEXT_FIVE_PRICE = 4.99;      // the next truck you do not own in every class (five trucks)
 export const SHOP_TOP_FIVE_PRICE = 9.99;       // the strongest truck of every class
-export const SHOP_STARTER_BUNDLE = [100000, 2.99];        // [coins, price]: a boost for a new player (no ranks: only rank packs give those)
-export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck and the coins (no ranks)
+export const SHOP_ROOKIE_PACK = [50000, 0.99];            // [coins, price]: once only, the coins and the next Scout truck not owned
+export const SHOP_STARTER_BUNDLE = [300000, 2.99];        // [coins, price]: once only, about 100k coins a dollar (no ranks: only rank packs give those)
+export const SHOP_MAPS_PACK_PRICE = 4.99;                 // every map not owned yet (each is 100K coins otherwise)
+export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck, every map and the coins (no ranks)
 
 // ---------- maps (user, 2026-11-22): two are free, the rest are bought once with coins in the garage's Seasons page ----------
 export const FREE_SEASONS = ['swamp-summer', 'spring-thaw'];   // Blackwater Swamp (the default map) and Meltwater Pass (the first card)

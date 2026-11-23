@@ -21,6 +21,7 @@ import { deriveSpecs } from '../../tools/lib/specs.js';
 import { wallet } from './wallet.js';
 import { createShop } from './shop.js';
 import { seasonPass } from './season-pass.js';
+import { FREE_SEASONS } from '../game-config.js';
 import { KNOBS, POWERS, upgradeCost, STEP, MAX_LEVEL, applyTuning, withPower, clampLevel, loadTuning, saveTuning, validLevels, loadPowers, savePowers } from './tuning.js';
 
 const $ = id => document.getElementById(id);
@@ -446,7 +447,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
 
   // ---------- the shop: tabs, then a card per offer with its picture, what it gives and its price ----------
   // a Google Play purchase that finished later (pending payment, app closed mid-purchase) shows up at once
-  const shop = createShop({ content, progress, wallet, onLateGrant: () => { onBuy?.(); render(); } });
+  const shop = createShop({ content, progress, wallet, onLateGrant: () => { onBuy?.(); render(); },
+    maps: { ids: seasonList.filter(s => s.status === 'playable' && !FREE_SEASONS.includes(s.id)).map(s => s.id), owns: id => seasonPass.owns(id), grant: id => seasonPass.grant(id) } });
   let shopTab = 'featured', shopClass = classes[0]?.id;
   function renderShop() {
     $('shopCoins').textContent = formatCoins(wallet.coins);
@@ -454,15 +456,54 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const tabs = $('shopTabs'); tabs.replaceChildren();
     for (const [id, label] of shop.tabs) {
       const b = el('button', 'shop-tab' + (id === shopTab ? ' on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(id === shopTab));
-      b.addEventListener('click', () => { shopTab = id; renderShop(); $('shopGrid').scrollTop = 0; }); tabs.append(b);
+      b.addEventListener('click', () => { shopTab = id; renderShop(); }); tabs.append(b);
     }
     const chips = $('shopClasses'); chips.hidden = shopTab !== 'trucks'; chips.replaceChildren();
     if (shopTab === 'trucks') for (const k of classes) {
       const b = el('button', 'shop-class' + (k.id === shopClass ? ' on' : '')); const ic = icon(k.id); if (ic) b.append(ic); b.append(el('span', null, k.name));
-      b.addEventListener('click', () => { shopClass = k.id; renderShop(); $('shopGrid').scrollTop = 0; }); chips.append(b);
+      b.addEventListener('click', () => { shopClass = k.id; renderShop(); }); chips.append(b);
     }
     const grid = $('shopGrid'); grid.replaceChildren(); grid.dataset.tab = shopTab;
-    for (const o of shop.offers(shopTab, shopClass)) grid.append(offerCard(o));
+    const list = shop.offers(shopTab, shopClass);
+    for (const o of list) grid.append(offerCard(o));
+    // the first offer still for sale starts in the middle
+    const first = Math.max(0, list.findIndex(o => !shop.done(o)));
+    requestAnimationFrame(() => { shopTo(first, false); shopDeckStyle(); });
+  }
+  // The shop slides like the Trucks and Seasons decks (user, 2026-11-24): one row of offers, the one in the middle large and
+  // lit, the others smaller, tilted and dimmed to its left and right. The row scrolls natively (swipe, mouse wheel, arrow
+  // keys) and snaps an offer to the middle; tapping a side offer brings it to the middle.
+  function shopTo(i, smooth = true) {
+    const grid = $('shopGrid'), item = grid.children[i]; if (!item) return;
+    grid.scrollTo({ left: item.offsetLeft + item.offsetWidth / 2 - grid.clientWidth / 2, behavior: smooth ? 'smooth' : 'auto' });
+  }
+  function shopDeckStyle() {
+    const grid = $('shopGrid');
+    // an offer is as tall as the row allows and a little narrower than tall, never wider than a third of the row
+    const card = Math.round(Math.max(120, Math.min(grid.clientWidth * (grid.clientWidth < grid.clientHeight ? 0.62 : 0.32), grid.clientHeight * 0.92)));
+    if (grid.style.getPropertyValue('--card') !== `${card}px`) grid.style.setProperty('--card', `${card}px`);
+    const mid = grid.scrollLeft + grid.clientWidth / 2;
+    for (const item of grid.children) {
+      const d = (item.offsetLeft + item.offsetWidth / 2 - mid) / Math.max(1, item.offsetWidth), a = Math.min(1, Math.abs(d));
+      item.style.setProperty('--a', a.toFixed(3));
+      item.style.setProperty('--tilt', `${(Math.max(-1, Math.min(1, d)) * -14).toFixed(1)}deg`);
+      item.classList.toggle('mid', a < 0.5);
+    }
+  }
+  {
+    const grid = $('shopGrid'); let raf = 0;
+    grid.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; shopDeckStyle(); }); }, { passive: true });
+    grid.addEventListener('click', e => {
+      const item = e.target.closest('.sitem'); if (!item || item.classList.contains('mid') || e.target.closest('.sbuy')) return;
+      shopTo([...grid.children].indexOf(item));
+    });
+    grid.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      const items = [...grid.children], at = items.findIndex(x => x.classList.contains('mid'));
+      shopTo(Math.max(0, Math.min(items.length - 1, at + (e.key === 'ArrowRight' ? 1 : -1)))); e.preventDefault();
+    });
+    grid.tabIndex = 0;
+    window.addEventListener('resize', () => { if (garageEl.dataset.sheet === 'shop') shopDeckStyle(); });
   }
   function offerCard(o) {
     const finished = shop.done(o), card = el('div', `sitem ${o.kind}${finished ? ' owned' : ''}`);

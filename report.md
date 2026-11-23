@@ -75,6 +75,28 @@ Not changed:
   - It stays off until the Play Games project id is set, so builds without it still run and players are simply guests.
 - **Tests:** they drive both against fakes of Google's interfaces: sign-in, declined sign-in, purchase, cancel, and a late purchase.
 
+## Shop prices (researched 2026-11-24)
+Read from the App Store listings of Hill Climb Racing 1 and 2, CSR 2, Asphalt Legends and Clash Royale:
+- **Price points:** they all use the standard points: $0.99, 1.99, 2.99, 4.99, 9.99, 14.99, then $19.99 to $22.99 at the top.
+- **Starter packs:** cheap ($0.99 to $3.99), one-time, and the best value in the shop.
+- **Coin value:** bigger packs give a lot more per dollar. Hill Climb Racing goes from 75k to 200k coins per dollar.
+- **Passes:** almost all of them sell a pass or subscription at $4.99 to $14.99.
+
+What changed in ours (numbers in `SHOP_*`, `src/game-config.js`):
+- **Coin packs:** $0.99 / 1.99 / 4.99 / 9.99 / 19.99 / 49.99 for 25K / 60K / 175K / 400K / 1M / 3M coins. That's 25K to 60K
+  coins per dollar; the old ladder had an off-pattern $2.49.
+- **New Rookie pack, $0.99, once only:** 50K coins plus your next Scout truck.
+- **Starter boost, $2.99, now once only:** 300K coins instead of 100K, about 100K per dollar, the best deal in the shop.
+- **New Every map, $4.99:** every paid map at once (each is 100K coins otherwise).
+- **The whole fleet:** now also includes every map.
+- **Unchanged:** single trucks ($0.99 to $3.99 by rank) and class packs were already in line.
+
+Not changed, worth deciding:
+- **Rank packs** stay at your $10 / $20 / $30 / $40. $30 and $40 are above anything these games sell (their top packs are
+  about $20); $4.99 to $19.99 would fit the market better.
+- **A pass:** a monthly "Haul Pass" at $4.99 to $9.99 (daily coins, a pass-only truck) is what every one of these games
+  sells. It needs subscription billing, which isn't built.
+
 ## Money: how double charges and abuse are prevented
 - **Charged twice:** Google charges once per order. The game won't start a second order for an item while one is open: the
   buy button locks, and the store refuses a second order for the same product.

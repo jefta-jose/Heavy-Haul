@@ -4452,3 +4452,42 @@ dl.spec dd {
 .notifycard { width: min(440px, 92vw); }
 .notifytext { margin: 6px 0 12px; font-size: 14px; line-height: 1.4; color: #c6cdd4; }
 .notifycard .btns { justify-content: flex-end; gap: 10px; }
+
+/* ---------- the shop slides like the Trucks and Seasons decks (user, 2026-11-24) ----------
+   One row that scrolls sideways and snaps an offer to the middle; garage.js sets each offer's --a (0 in the middle, 1 a
+   card away or more) and --tilt from its distance, so the middle one is full size and lit and the others shrink, turn and
+   dim to the left and right. */
+.garage.hc .shop-grid {
+  --card: clamp(170px, 26vw, 300px);
+  display: flex; flex-direction: row; align-items: center; gap: 0; overflow-x: auto; overflow-y: hidden; grid-template-columns: none;
+  scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; perspective: 1200px; outline: none;
+  padding: 10px calc(50% - var(--card) / 2); flex: 1 1 auto; min-height: 0;
+}
+.garage.hc .shop-grid::-webkit-scrollbar { display: none; }
+.garage.hc .shop-grid > .sitem {
+  flex: 0 0 var(--card); width: var(--card); max-height: 100%; scroll-snap-align: center; cursor: pointer;
+  transform: rotateY(var(--tilt, 0deg)) scale(calc(1 - var(--a, 1) * .22)); opacity: calc(1 - var(--a, 1) * .45);
+  filter: brightness(calc(1 - var(--a, 1) * .35)); transition: transform .12s ease-out, opacity .12s, filter .12s; will-change: transform;
+}
+.garage.hc .shop-grid > .sitem.mid { z-index: 2; outline: 2px solid var(--yellow); box-shadow: 0 12px 26px rgba(0, 0, 0, .6), 0 0 18px rgba(242, 194, 26, .25); cursor: default; }
+.garage.hc .shop-grid > .sitem .stext small { -webkit-line-clamp: 2; display: -webkit-box; }
+.garage.hc .shop-grid > .sitem .stext b { font-size: clamp(13px, 1.5vw, 18px); }
+.garage.hc .shop-grid > .sitem .sbuy { min-height: clamp(28px, 4.5vh, 40px); font-size: clamp(13px, 1.4vw, 17px); }
+@media (max-height: 520px) { .garage.hc .shop-grid { --card: clamp(150px, 30vw, 220px); padding-block: 4px; } .garage.hc .shop-grid > .sitem .stext small { display: none; } }
+@media (orientation: portrait) and (max-width: 1100px) { .garage.hc .shop-grid { --card: 62vw; } }
+/* the offer fills the row's height: the picture takes what is left after the name and the price */
+.garage.hc .shop-grid > .sitem { display: flex; flex-direction: column; height: calc(100% - 6px); max-height: none; }
+.garage.hc .shop-grid > .sitem .sart { flex: 1 1 auto; min-height: 0; aspect-ratio: auto; }
+.garage.hc .shop-grid > .sitem .stext, .garage.hc .shop-grid > .sitem .sbuy { flex: none; }
+@media (max-height: 520px) { .garage.hc .shop-grid > .sitem { padding: 5px; gap: 3px; } .garage.hc .shop-grid > .sitem .stext b { font-size: 12px; } .garage.hc .shop-grid > .sitem .sbuy { min-height: 24px; font-size: 12px; } }
+/* phones: the shop gives its height to the sliding row (the coins are already in the top bar) */
+@media (max-height: 520px) {
+  .garage.hc #shopOv .tunehead { display: none; }
+  .garage.hc #shopOv .cbody { padding: 6px 10px; gap: 5px; }
+  .garage.hc #shopOv .shop-tab { min-height: 24px; font-size: 12px; padding-block: 2px; }
+  .garage.hc #shopOv .shop-class { padding: 2px 8px; font-size: 11px; }
+  .garage.hc #shopOv .shop-class svg { display: none; }
+  .garage.hc #shopOv .btns { position: absolute; left: 12px; bottom: 3px; pointer-events: none; }
+  .garage.hc #shopOv .shop-test { font-size: 9px; }
+  .garage.hc #shopOv .card { position: relative; }
+}
