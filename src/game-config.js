@@ -196,6 +196,7 @@ export const LENS_DROP_S = 2.6;               // how long a water drop stays
 // Until then every purchase goes through the test store (src/game/store.js) and is granted at once; prices are shown anyway.
 // Prices are US dollars as placeholders: the real store will show Google Play's localized prices. A truck bought here is owned
 // whatever its rank. See docs/payments-plan.md for the payment side.
+export const PLAY_VERIFY_URL = '';              // the purchase verifier (functions/verify-purchase); '' grants on the device (testing only, see report.md)
 export const SHOP_TEST_PURCHASES = true;      // true: BUY grants at once, nothing is charged. Set false only when a real store is wired in
 export const SHOP_COIN_PACKS = [               // [coins, price, tag]
   [25000, 0.99, ''],

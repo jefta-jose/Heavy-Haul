@@ -442,7 +442,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   $('missionsDone').addEventListener('click', () => { sheet(null); render(); });
 
   // ---------- the shop: tabs, then a card per offer with its picture, what it gives and its price ----------
-  const shop = createShop({ content, progress, wallet });
+  // a Google Play purchase that finished later (pending payment, app closed mid-purchase) shows up at once
+  const shop = createShop({ content, progress, wallet, onLateGrant: () => { onBuy?.(); render(); } });
   let shopTab = 'featured', shopClass = classes[0]?.id;
   function renderShop() {
     $('shopCoins').textContent = formatCoins(wallet.coins);

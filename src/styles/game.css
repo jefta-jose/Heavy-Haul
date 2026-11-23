@@ -3944,6 +3944,7 @@ dl.spec dd {
 .hc-reset[hidden] { display: none; }
 /* the reset button sizes to its label at every width, so all of it takes the tap (the phone rule below shrank icons to 32 px and the
    label spilled over the rank); the second tap within 3 s resets (main.js) */
+.garage .hc-icon.hc-player { width: auto; min-width: 44px; max-width: 160px; padding: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--display); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #39e66a; }
 .garage .hc-icon.hc-reset { width: auto; min-width: 44px; padding: 0 10px; white-space: nowrap; touch-action: manipulation; }
 .garage .hc-icon.hc-reset.armed { background: #8a1f14; color: #fff; border-color: #ff8a7a; }
 

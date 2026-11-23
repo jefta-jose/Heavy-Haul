@@ -10,6 +10,7 @@ import { createSession } from './game/session.js';
 import { createGarage } from './game/garage.js';
 import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
+import { createAccount } from './game/account.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
 import { COINS_PER_CRUSH, FREE_SEASONS } from './game-config.js';
@@ -70,6 +71,15 @@ const renderer = createRenderer({
   },
 });
 renderer.onLightning = () => audio.thunder();   // the rumble follows the flash
+// the player's Google account (Play Games): signed in at start-up in the Android app; the garage chip shows who, or offers to sign in
+const account = createAccount();
+{
+  const chip = document.getElementById('garageAccountBtn');
+  const show = player => { chip.hidden = !account.available; chip.textContent = player ? player.name : 'Sign in'; chip.title = player ? `Signed in with Google Play Games as ${player.name}` : 'Sign in with Google Play Games'; };
+  account.onChange(show);
+  chip.addEventListener('click', () => { if (!account.player) account.signIn(); });
+  account.init();
+}
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
 // contracts are sized to the trail being played and the trucks owned
 // A map picked in the garage is only swapped in when PLAY is pressed, but contracts are drawn for it at once, so the one chosen
@@ -332,7 +342,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { account, missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

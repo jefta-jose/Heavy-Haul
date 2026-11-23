@@ -14,7 +14,7 @@ import { formatCoins } from './format.js';
 const GRANTS = 'hh_grants';
 const productId = s => s.toLowerCase().replace(/[^a-z0-9_.]/g, '_');   // Google Play product ids: lowercase, digits, _ and .
 
-export function createShop({ content, progress, wallet, store = createStore(), storage = typeof localStorage === 'undefined' ? null : localStorage }) {
+export function createShop({ content, progress, wallet, store = createStore(), storage = typeof localStorage === 'undefined' ? null : localStorage, onLateGrant = null }) {
   const classes = content.roster.classes;
   const art = new Map(content.cars.map(c => [c.id, c]));
   const classAt = id => classes.findIndex(x => x.id === id);
@@ -66,7 +66,16 @@ export function createShop({ content, progress, wallet, store = createStore(), s
     return got;
   }
 
+  // every product the shop sells, for Google Play to register (trucks are kept for good, everything else can be bought again)
+  const catalogue = () => [...featured(), ...classes.flatMap(k => truckOffers(k.id)), ...coinOffers(), ...rankOffers()];
+  const byId = id => catalogue().find(o => o.id === id);
+  // a purchase Google finished later (pending payment, app closed mid-purchase): granted once, like any other
+  store.onGrant?.((productId, transactionId) => { const o = byId(productId); if (o) { const got = grant(o, transactionId); if (got) onLateGrant?.(o, got); } });
+  const ready = store.init?.(catalogue()) ?? Promise.resolve();
+
   return {
+    ready,
+    catalogue,
     tabs: [['featured', 'Featured'], ['trucks', 'Trucks'], ['coins', 'Coins'], ['ranks', 'Ranks']],
     offers(tab, cls = classes[0].id) { return tab === 'trucks' ? truckOffers(cls) : tab === 'coins' ? coinOffers() : tab === 'ranks' ? rankOffers() : featured(); },
     done,

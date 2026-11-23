@@ -28,6 +28,7 @@
   "type": "module",
   "dependencies": {
     "@capacitor/android": "^8.6.0",
-    "@capacitor/core": "^8.6.0"
+    "@capacitor/core": "^8.6.0",
+    "cordova-plugin-purchase": "13.20.0"
   }
 }

@@ -13,6 +13,7 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(PlayGamesPlugin.class);   // Google Play Games sign-in, before the bridge starts
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         // draw under the status bar, the navigation bar and the camera cutout

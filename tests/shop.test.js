@@ -69,3 +69,47 @@ test('two maps are free and every other one is bought once for 100K coins', () =
   assert.equal(pass.buy(paid[0], wallet), false, 'not twice'); assert.equal(pass.buy(paid[1], wallet), false, 'not without the coins');
   assert(createSeasonPass(store).owns(paid[0]), 'saved');
 });
+
+test('Google Play Games: signs in at start-up, a decline leaves a guest who can sign in later, and no plugin means a guest', async () => {
+  const { createAccount } = await import('../src/game/account.js');
+  globalThis.localStorage ??= { s: {}, getItem(k) { return this.s[k] ?? null; }, setItem(k, v) { this.s[k] = v; }, removeItem(k) { delete this.s[k]; } };
+  let accept = false;
+  const plugin = { status: async () => ({ available: true, signedIn: false }), signIn: async () => accept ? { available: true, signedIn: true, playerId: 'p1', displayName: 'Driver' } : { available: true, signedIn: false } };
+  const a = createAccount(plugin), seen = [];
+  a.onChange(p => seen.push(p?.name ?? null));
+  assert.equal(await a.init(), null, 'declined at start-up');
+  assert(a.available && !a.player);
+  accept = true;
+  assert.deepEqual(await a.signIn(), { id: 'p1', name: 'Driver' }, 'signs in from the chip');
+  assert.equal(seen.at(-1), 'Driver');
+  const guest = createAccount(null);
+  assert.equal(await guest.init(), null); assert.equal(guest.available, false, 'a browser has no account');
+});
+
+test('Google Play Billing: a purchase is granted once Google approves it, a cancel grants nothing, and one finished later still arrives', async () => {
+  const listeners = {}, products = new Map(), finished = [];
+  let next = null;
+  const when = { approved(f) { listeners.approved = f; return when; }, verified(f) { listeners.verified = f; return when; }, unverified(f) { return when; }, pending(f) { return when; } };
+  globalThis.window = { Capacitor: { isNativePlatform: () => true }, CdvPurchase: {
+    ProductType: { CONSUMABLE: 'consumable', NON_CONSUMABLE: 'non consumable' }, Platform: { GOOGLE_PLAY: 'android-playstore' }, ErrorCode: { PAYMENT_CANCELLED: 6777006 }, LogLevel: { WARNING: 1 },
+    store: {
+      register(list) { for (const p of list) products.set(p.id, { ...p, pricing: { price: 'KES 390' }, getOffer: () => ({ order: async () => next(p.id) }) }); },
+      when: () => when, initialize: async () => [], get: id => products.get(id),
+    } } };
+  const { createPlayStore, playBillingAvailable } = await import('../src/game/store-play.js');
+  assert(playBillingAvailable());
+  const store = createPlayStore(), late = [];
+  store.onGrant((id, tx) => late.push([id, tx]));
+  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_x', kind: 'truck', price: 2.99 }]);
+  assert.equal(products.get('truck_x').type, 'non consumable', 'a truck is kept for good');
+  assert.equal(store.priceText({ id: 'coins_50000', price: 0.99 }), 'KES 390', "Google Play's local price");
+  const approve = (id, txId) => listeners.approved({ products: [{ id }], transactionId: txId, finish: () => finished.push(txId) });
+  next = id => { setTimeout(() => approve(id, 'GPA.1')); return undefined; };
+  assert.deepEqual(await store.buy({ id: 'coins_50000' }), { ok: true, transactionId: 'GPA.1' });
+  assert.deepEqual(finished, ['GPA.1'], 'consumed or acknowledged with Google');
+  next = async () => ({ code: 6777006 });
+  assert.deepEqual(await store.buy({ id: 'coins_50000' }), { ok: false, cancelled: true });
+  approve('truck_x', 'GPA.2');
+  assert.deepEqual(late, [['truck_x', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
+  delete globalThis.window;
+});

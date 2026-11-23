@@ -13,6 +13,9 @@ android {
         // CI sets these per build (the run number), so each new APK installs over the last one
         versionCode((System.getenv("VERSION_CODE") ?: "1").toInteger())
         versionName(System.getenv("VERSION_NAME") ?: "dev")
+        // Google Play Games sign-in: the game's project id from Play Console (Grow > Play Games Services > Configuration).
+        // Empty leaves sign-in off (PlayGamesPlugin.java), so a build without it still runs.
+        resValue "string", "game_services_project_id", (System.getenv("PLAY_GAMES_APP_ID") ?: "")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -77,6 +80,8 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
+    // Google Play Games Services v2: sign-in with the player's Google account (PlayGamesPlugin.java)
+    implementation "com.google.android.gms:play-services-games-v2:21.0.0"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
