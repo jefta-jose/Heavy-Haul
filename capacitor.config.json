@@ -7,6 +7,10 @@
     "SystemBars": {
       "hidden": true,
       "insetsHandling": "disable"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_notify",
+      "iconColor": "#F2C21A"
     }
   }
 }

@@ -196,6 +196,9 @@ export const LENS_DROP_S = 2.6;               // how long a water drop stays
 // Until then every purchase goes through the test store (src/game/store.js) and is granted at once; prices are shown anyway.
 // Prices are US dollars as placeholders: the real store will show Google Play's localized prices. A truck bought here is owned
 // whatever its rank. See docs/payments-plan.md for the payment side.
+export const NOTIFY_DAYS = [1, 3, 7];           // reminders: days after the player last left the game (src/game/notifications.js)
+export const NOTIFY_HOURS = [17, 20];          // between these hours of the evening, local time
+export const NOTIFY_ASK_AGAIN_DAYS = 3;        // after 'Not now', ask once more this many days later, then never
 export const PLAY_VERIFY_URL = '';              // the purchase verifier (functions/verify-purchase); '' grants on the device (testing only, see report.md)
 export const SHOP_TEST_PURCHASES = true;      // true: BUY grants at once, nothing is charged. Set false only when a real store is wired in
 export const SHOP_COIN_PACKS = [               // [coins, price, tag]

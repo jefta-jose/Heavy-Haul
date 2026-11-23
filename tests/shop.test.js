@@ -124,3 +124,33 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   void first;
   delete globalThis.window;
 });
+
+test('reminders: asked in the game first, Not now respected with one more ask later, then fresh random messages each time the game is left', async () => {
+  const { createNotifications } = await import('../src/game/notifications.js');
+  globalThis.localStorage ??= { s: {}, getItem(k) { return this.s[k] ?? null; }, setItem(k, v) { this.s[k] = v; }, removeItem(k) { delete this.s[k]; } };
+  localStorage.removeItem('hh_notify');
+  const data = JSON.parse(fs.readFileSync(new URL('../assets/notifications/messages.json', import.meta.url)));
+  let granted = 'prompt', pending = [], prompts = 0, t = Date.parse('2026-12-01T10:00:00');
+  const plugin = {
+    requestPermissions: async () => { prompts++; granted = 'granted'; return { display: granted }; },
+    checkPermissions: async () => ({ display: granted }),
+    getPending: async () => ({ notifications: pending }), cancel: async ({ notifications }) => { pending = pending.filter(p => !notifications.some(n => n.id === p.id)); },
+    createChannel: async () => {}, schedule: async ({ notifications }) => { pending.push(...notifications); return { notifications }; },
+  };
+  const n = createNotifications({ data, plugin, context: () => ({ truck: 'Ridge Pup', map: 'Blackwater Swamp' }), now: () => t });
+  assert(n.shouldAsk(), 'asks the first time');
+  assert.equal(await n.answered(false), false); assert.equal(prompts, 0, 'Not now never shows Android\'s prompt');
+  assert(!n.shouldAsk(), 'and does not ask again straight away');
+  t += 4 * 864e5; assert(n.shouldAsk(), 'one more ask a few days later');
+  assert.equal(await n.answered(true), true); assert.equal(prompts, 1);
+  assert.equal(pending.length, 3, 'three reminders scheduled');
+  for (const p of pending) {
+    const h = p.schedule.at.getHours();
+    assert(h >= 17 && h < 20 && p.schedule.isExactNotification === false, 'early evening, inexact');
+    assert(!/\{/.test(p.title + p.body), `filled in: ${p.body}`);
+  }
+  assert.equal(new Set(pending.map(p => p.body)).size, 3, 'three different messages');
+  await n.schedule(); assert.equal(pending.length, 3, 'leaving again replaces them, never piles up');
+  assert(!n.shouldAsk(), 'never asked again once allowed');
+  const off = createNotifications({ data, plugin: null }); assert.equal(off.shouldAsk(), false, 'no asking in a browser'); assert.equal(await off.schedule(), 0);
+});

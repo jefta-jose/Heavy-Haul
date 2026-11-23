@@ -11,6 +11,7 @@ import { createGarage } from './game/garage.js';
 import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createAccount } from './game/account.js';
+import { createNotifications } from './game/notifications.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
 import { COINS_PER_CRUSH, FREE_SEASONS } from './game-config.js';
@@ -100,7 +101,7 @@ const garage = createGarage({
     missions.mapChanged();
   },
 });
-const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => uiAudio.play('mission-complete'), onFailure: () => uiAudio.play('mission-failed') });
+const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => { finishedRuns++; uiAudio.play('mission-complete'); }, onFailure: () => { finishedRuns++; uiAudio.play('mission-failed'); } });
 session.onResume = () => audio.resume();
 
 let selection = garage.selection;
@@ -168,7 +169,18 @@ function newRun() {
 function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
 function goRun() { music.play('drive'); session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
-function openGarage() { trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
+// reminders on the phone: the game asks in its own words after a finished run, and schedules fresh ones whenever it is left
+const notify = createNotifications({ data: content.notifications, context: () => ({ truck: garage.selection?.car?.name, map: content.season.name }) });
+let finishedRuns = 0;
+function askToNotify() {
+  if (!notify.shouldAsk() || finishedRuns < 1) return;
+  const ov = document.getElementById('notifyOv'); ov.hidden = false;
+  const done = allow => { ov.hidden = true; notify.answered(allow); };
+  document.getElementById('notifyAllow').onclick = () => done(true);
+  document.getElementById('notifyLater').onclick = () => done(false);
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) notify.schedule(); });
+function openGarage() { setTimeout(askToNotify, 700); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -342,7 +354,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { account, missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { account, notify, missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

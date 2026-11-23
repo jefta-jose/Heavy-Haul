@@ -71,7 +71,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     assert(await page.evaluate(id => __haul.progress.owns(id), purchased), 'the buy cue follows a successful car purchase');
     await tap('#gMenuTune');
     await tap('.tbuy:not([aria-disabled]):not(:disabled) >> nth=0', 'ui-buy');
-    await tap('#tuneDone', 'ui-confirm');
+    await tap('#hcVehicle');   // pages are left from the bottom bar (no Done button)
     await tap('#garageSoundBtn');
     assert(await page.locator('#vol-effects').isVisible(), 'effects volume is adjustable');
     fs.mkdirSync(CAPTURES, { recursive: true });
@@ -276,7 +276,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
       assert(await plus(row).isDisabled(), `${name} stops at 100`);
     }
     await capture('00b-tuning');
-    await page.click('#tuneDone');
+    await page.click('#hcVehicle');
     // powers, on the Upgrade card: one at a time, kept until another is chosen, and tapping the one that is on turns it off
     assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
     await page.click('#gMenuTune');
@@ -290,7 +290,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await capture('00c-powers');
     await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
-    await page.click('#tuneDone');
+    await page.click('#hcVehicle');
     assert(await page.evaluate(() => __haul.session.coins < 999999), 'upgrades cost coins');
     await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
     assert(Math.abs(await page.evaluate(() => __haul.sim.car.drivetrain.torqueScale) - stockPower * 1.75) < 1e-9, 'the run uses the tuned engine (level 50 = x1.75)');
@@ -623,7 +623,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(refundTrace.level, 75);
     await page.click('#tuneReset');
     assert.equal(await page.evaluate(() => __haul.session.coins), purchaseCoins, 'reset refunds the remaining paid levels');
-    await page.click('#tuneDone');
+    await page.click('#hcVehicle');
     await page.setViewportSize({ width: 1280, height: 720 });
     // missions: the card offers some, one can be chosen, and the menu says which
     await page.click('#gMenuMissions');
@@ -631,7 +631,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.locator('#missionList .power').nth(1).click();
     assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
     await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
-    await page.click('#missionsDone');
+    await page.click('#hcVehicle');
     assert(await page.evaluate(() => !!__haul.missions.active), 'the chosen mission is kept');
     await page.screenshot({ path: path.join(CAPTURES, '00e-ranks.png') });
     // a bought truck is kept: there is no way to sell it
@@ -647,7 +647,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.locator('.sitem .sbuy').last().click();
     await page.waitForFunction(id => __haul.progress.owns(id), topHeavy);
     await page.screenshot({ path: path.join(CAPTURES, '00h-shop.png') });
-    await page.click('#shopDone');
+    await page.click('#hcVehicle');
     // maps: two are free, the others are bought once for 100K coins on the Seasons page, where PLAY becomes BUY
     await page.evaluate(() => { __haul.session.earn(250000, true); __haul.garage.show(); });
     await page.click('#hcSeasons');
@@ -666,12 +666,12 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy', 'the truck just bought is the one PLAY drives');
     assert.match(await page.locator('#startBtn').innerText(), /play/i, 'and it can be driven at once');
     // the coin box opens the coin packs; a pack adds its coins
-    await page.click('#shopDone').catch(() => {});
+    await page.click('#hcVehicle').catch(() => {});
     await page.click('#gCoinsBox');
     const coins0 = await page.evaluate(() => __haul.session.coins);
     await page.locator('.sitem .sbuy').first().click();
     await page.waitForFunction(c => __haul.session.coins > c, coins0);
-    await page.click('#shopDone');
+    await page.click('#hcVehicle');
     assert.deepEqual(errors, []);
   } finally { await browser.close(); server.close(); }
 });

@@ -70,6 +70,9 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // group weakest to strongest
   const classCars = c => order.filter(x => x.class === c).sort((a, b) => owns(b.id) - owns(a.id));
   const garageEl = $('garage');
+  // Shop, Missions and Upgrade are pages (user, 2026-11-24): their cards live in the stage, in the same space as the Trucks
+  // and Seasons cards, so the bottom bar is never covered and always moves between pages
+  for (const id of ['tuneOv', 'missionsOv', 'shopOv']) $('hcStage').append($(id));
   // the stage's title, also written huge behind the truck (the stage's data-name, drawn by game.css)
   const setTitle = t => { $('hcTitle').textContent = t; $('hcStage').dataset.name = t; };
   // the room: the map PLAY drives on (or the one in the middle while browsing maps), blurred behind everything
@@ -169,7 +172,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const n = () => cfg?.items.length ?? 0, wrap = k => ((k % n()) + n()) % n();
     function measure() {
       const W = box.clientWidth || 1, H = box.clientHeight || 1, tall = W < H * 1.3;
-      const w = tall ? W * 0.8 : Math.min(W * 0.44, H * 1.6), h = Math.min(H - 10, w * (tall ? 0.78 : 0.76));
+      const w = tall ? W * 0.8 : Math.min(W * 0.44, H * 1.6), h = Math.min(H - 30, w * (tall ? 0.78 : 0.76));   // room for the label above and the specs below
       const side = tall ? 0.62 : 0.56, gap = Math.max(10, W * 0.02), sw = w * side;
       m = { step1: w / 2 + gap + sw / 2, step2: sw + gap, side };
       box.style.setProperty('--w', `${w}px`); box.style.setProperty('--h', `${h}px`);

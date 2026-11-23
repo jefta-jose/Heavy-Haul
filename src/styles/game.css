@@ -4411,3 +4411,44 @@ dl.spec dd {
 .garage.hc .hc-top .g-logo > * { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-height: 520px) { .garage.hc .hc-top .g-logo { width: 34px; height: 34px; border-radius: 6px; } }
 @media (orientation: portrait) and (max-width: 1100px) { .garage.hc .hc-top .g-logo { display: block; width: 38px; height: 38px; border-radius: 6px; } }
+
+/* ---------- garage pages (user, 2026-11-24): Shop, Missions and Upgrade open in the stage like Trucks and Seasons ----------
+   garage.js moves their cards into .hc-stage; the bar below stays visible and live, and its buttons switch pages (the
+   Done buttons are gone: the bar is the way out). The bar sits higher, within thumb reach like Hill Climb Racing, so the
+   stage and its pictures get smaller. Class tabs are words, which scale better than icons. */
+.garage.hc { --hc-lift: 4vh; padding-bottom: calc(var(--hc-lift) + env(safe-area-inset-bottom, 0px)); }
+@media (max-height: 520px) and (orientation: landscape) { .garage.hc { --hc-lift: 13vh; } }
+.hc-stage { position: relative; }
+.garage.hc[data-sheet] .hc-stage > :not(.overlay) { visibility: hidden; }
+.garage.hc .hc-stage > .overlay { position: absolute; inset: 0; z-index: 4; display: flex; align-items: stretch; justify-content: center; padding: 0; background: none; backdrop-filter: none; }
+.garage.hc .hc-stage > .overlay[hidden] { display: none; }
+.garage.hc .hc-stage > .overlay > .card { width: min(1180px, 100%); max-width: none; height: 100%; max-height: none; margin: 0; display: flex; flex-direction: column; box-sizing: border-box; animation: none; }
+.garage.hc .hc-stage > .overlay > .card > .cbody { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; overscroll-behavior: contain; }
+.garage.hc .hc-stage > .overlay #tuneDone, .garage.hc .hc-stage > .overlay #missionsDone, .garage.hc .hc-stage > .overlay #shopDone { display: none; }
+.garage.hc .hc-stage > #shopOv > .card > .cbody { overflow: hidden; display: flex; flex-direction: column; }
+/* class tabs: text only */
+.garage.hc .g-classes .g-class svg { display: none; }
+.garage.hc .g-classes .g-class b { display: inline; font-size: clamp(11px, 1.4vw, 16px); letter-spacing: .04em; white-space: nowrap; }
+/* no logo in the top bar (user, 2026-11-24): sound, rank and coins only */
+.garage.hc .hc-top .g-logo { display: none !important; }
+.garage.hc .hc-top .hc-right { padding-left: 0; }
+
+/* shop: small tiles, so a whole class of trucks shows at once */
+.garage.hc .shop-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.garage.hc .sitem { padding: 6px; gap: 4px; }
+.garage.hc .sart { aspect-ratio: 16 / 9; }
+.garage.hc .stext b { font-size: 14px; }
+.garage.hc .stext small { font-size: 10.5px; min-height: 0; -webkit-line-clamp: 1; }
+.garage.hc .sbuy { min-height: 30px; font-size: 14px; }
+.garage.hc .stag { font-size: 9px; top: 3px; padding: 1px 7px 1px 6px; }
+.garage.hc .sart .srank { font-size: 18px; }
+.garage.hc .sart svg { width: 38%; height: 60%; }
+.garage.hc .sart.coins .coinic { width: 18px; height: 18px; }
+@media (max-height: 520px) { .garage.hc .shop-grid { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; } .garage.hc .stext b { font-size: 12px; } .garage.hc .sbuy { min-height: 24px; font-size: 12px; } .garage.hc .stext small { display: none; } }
+@media (orientation: portrait) and (max-width: 1100px) { .garage.hc .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* the notification question (main.js askToNotify) */
+#notifyOv { z-index: 40; }
+.notifycard { width: min(440px, 92vw); }
+.notifytext { margin: 6px 0 12px; font-size: 14px; line-height: 1.4; color: #c6cdd4; }
+.notifycard .btns { justify-content: flex-end; gap: 10px; }

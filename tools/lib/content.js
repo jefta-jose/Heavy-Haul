@@ -114,7 +114,7 @@ export function loadContentWithArt({ asset = dataUri, ...opts } = {}) {
     return { id, name: m?.[1] ?? id, season: m?.[2], status: 'planned' };
   }).sort((a, b) => SEASON_ORDER.indexOf(a.season) - SEASON_ORDER.indexOf(b.season));
   const content = {
-    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, missions: readJson('assets/missions/missions.json'), loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
+    roster, wheelTypes: c.wheelTypes, season: c.season, seasons, playableSeasons, seasonAssets, rockHulls: c.rockHulls, hud, loaders, missions: readJson('assets/missions/missions.json'), notifications: readJson('assets/notifications/messages.json'), loaderText: { photos: readJson('assets/loaders/loaders.json').photos ?? [], facts: readJson('assets/loaders/truck-facts.json').facts ?? [] }, fonts: { 600: asset('assets/hud/fonts/barlow-condensed-600.woff2'), 700: asset('assets/hud/fonts/barlow-condensed-700.woff2'), '700i': asset('assets/hud/fonts/barlow-condensed-700i.woff2') },
     cars: c.cars.map(i => withArt(i, asset)),
     defaultCar: c.car.id, audio, uiSounds, music: { garage: asset('assets/audio/music/garage-menu.mp3'), drive: asset('assets/audio/music/road.mp3') }, soundBank: { engines: bank.engines, effects: bank.effects }, soundCredits,
   };

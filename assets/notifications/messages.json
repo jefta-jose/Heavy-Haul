@@ -1,0 +1,29 @@
+{
+  "about": "Reminders the game schedules on the phone (src/game/notifications.js), picked at random. {truck} is the player's current truck, {map} the map last driven, {client} a mission client. Keep them short, friendly and never pushy.",
+  "messages": [
+    { "title": "The mud is calling", "body": "Your {truck} hasn't been dirty in days. {map} misses you." },
+    { "title": "Deep bog ahead", "body": "Lock the DIFF, drop to low range, and show {map} who's boss." },
+    { "title": "New contracts in", "body": "Fresh missions are waiting in the garage. Somebody has to haul it." },
+    { "title": "{client} called", "body": "They need a driver who doesn't get stuck. Is that you?" },
+    { "title": "Engine's warm", "body": "Your {truck} is idling in the bay. One quick run before dinner?" },
+    { "title": "Signature haul", "body": "Every truck has a job of its own. Have you done your {truck}'s yet?" },
+    { "title": "Storm rolling in", "body": "Thunder over Monsoon Canopy. Perfect weather for a rescue run." },
+    { "title": "Leaves are falling", "body": "Copper Ridge's logging roads are slick with autumn leaves. Mind the logs." },
+    { "title": "The volcano is grumbling", "body": "Cinder Caldera needs supplies before the next eruption window." },
+    { "title": "Dust devils spotted", "body": "Coyote Wash is wide open. The tumbleweeds are faster than you." },
+    { "title": "Your rank is waiting", "body": "A few more runs and the next truck in every class is yours." },
+    { "title": "Upgrade time", "body": "Max out your {truck} and it'll never get stuck. With AWD and DIFF on." },
+    { "title": "Pothole report", "body": "The trail at {map} has been quiet. Too quiet." },
+    { "title": "The depot is open", "body": "Loads are stacked and nobody's driving. Grab your keys." },
+    { "title": "Coins on the trail", "body": "Rocks to crush, bogs to clear, coins to collect. Easy money. Ish." },
+    { "title": "Who's the heaviest?", "body": "Have you tried a mining giant through Gumbo Bottoms yet? Bold move." },
+    { "title": "Bayou Doctor", "body": "The stilt houses past the gator crossing need their medicine. Keep it cool." },
+    { "title": "Balance check", "body": "Easy on the gas, tap the brake, keep it on four wheels. Ready?" },
+    { "title": "Meltwater Pass is open", "body": "One afternoon before the next storm. Beat the melt." },
+    { "title": "Trucker's break is over", "body": "Your {truck} is fuelled, tuned and bored." },
+    { "title": "The quarry needs you", "body": "Slatecut Quarry has blast rock all over the haul road." },
+    { "title": "Elephant on board?", "body": "Some trucks carry logs. Some carry elephants. Find out which you've got." },
+    { "title": "Mud season", "body": "There's never been a better day to get stuck and unstuck." }
+  ],
+  "clients": ["St. Landry Clinic", "Copper Ridge Sawmill", "Canopy Research Station", "Caldera Observatory", "Slatecut Quarry", "Coyote Trading Post", "Levee District 4", "Ranger Station 7"]
+}
