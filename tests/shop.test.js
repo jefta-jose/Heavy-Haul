@@ -87,20 +87,25 @@ test('Google Play Games: signs in at start-up, a decline leaves a guest who can 
 });
 
 test('Google Play Billing: a purchase is granted once Google approves it, a cancel grants nothing, and one finished later still arrives', async () => {
-  const listeners = {}, products = new Map(), finished = [];
+  const listeners = {}, products = new Map(), finished = [], owned = new Set(['truck_old']);
+  globalThis.localStorage ??= { s: {}, getItem(k) { return this.s[k] ?? null; }, setItem(k, v) { this.s[k] = v; }, removeItem(k) { delete this.s[k]; } };
   let next = null;
   const when = { approved(f) { listeners.approved = f; return when; }, verified(f) { listeners.verified = f; return when; }, unverified(f) { return when; }, pending(f) { return when; } };
   globalThis.window = { Capacitor: { isNativePlatform: () => true }, CdvPurchase: {
     ProductType: { CONSUMABLE: 'consumable', NON_CONSUMABLE: 'non consumable' }, Platform: { GOOGLE_PLAY: 'android-playstore' }, ErrorCode: { PAYMENT_CANCELLED: 6777006 }, LogLevel: { WARNING: 1 },
     store: {
       register(list) { for (const p of list) products.set(p.id, { ...p, pricing: { price: 'KES 390' }, getOffer: () => ({ order: async () => next(p.id) }) }); },
-      when: () => when, initialize: async () => [], get: id => products.get(id),
+      when: () => when, initialize: async () => [], get: id => products.get(id), owned: id => owned.has(id),
     } } };
   const { createPlayStore, playBillingAvailable } = await import('../src/game/store-play.js');
   assert(playBillingAvailable());
   const store = createPlayStore(), late = [];
   store.onGrant((id, tx) => late.push([id, tx]));
-  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_x', kind: 'truck', price: 2.99 }]);
+  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_x', kind: 'truck', price: 2.99 }, { id: 'truck_old', kind: 'truck', price: 2.99 }]);
+  assert.deepEqual(late, [['truck_old', 'owned:truck_old']], 'a truck this Google account already owns comes back at start-up (reinstall, new phone)');
+  late.length = 0;
+  const install = window.CdvPurchase.store.applicationUsername();
+  assert(/^[0-9a-f]{32}$/.test(install) && install === window.CdvPurchase.store.applicationUsername(), 'every order carries this install\'s own random id');
   assert.equal(products.get('truck_x').type, 'non consumable', 'a truck is kept for good');
   assert.equal(store.priceText({ id: 'coins_50000', price: 0.99 }), 'KES 390', "Google Play's local price");
   const approve = (id, txId) => listeners.approved({ products: [{ id }], transactionId: txId, finish: () => finished.push(txId) });
@@ -111,5 +116,11 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   assert.deepEqual(await store.buy({ id: 'coins_50000' }), { ok: false, cancelled: true });
   approve('truck_x', 'GPA.2');
   assert.deepEqual(late, [['truck_x', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
+  owned.add('truck_x'); next = async () => ({ code: 6777003 });
+  assert.deepEqual(await store.buy({ id: 'truck_x', kind: 'truck' }), { ok: true, transactionId: 'owned:truck_x' }, 'buying a truck Google already counts as owned gives it, nothing charged');
+  next = id => new Promise(() => {});
+  const first = store.buy({ id: 'coins_50000' });
+  assert.equal((await store.buy({ id: 'coins_50000' })).ok, false, 'a second tap while the first purchase is open starts nothing');
+  void first;
   delete globalThis.window;
 });

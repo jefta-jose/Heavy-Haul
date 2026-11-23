@@ -75,6 +75,26 @@ Not changed:
   - It stays off until the Play Games project id is set, so builds without it still run and players are simply guests.
 - **Tests:** they drive both against fakes of Google's interfaces: sign-in, declined sign-in, purchase, cancel, and a late purchase.
 
+## Money: how double charges and abuse are prevented
+- **Charged twice:** Google charges once per order. The game won't start a second order for an item while one is open: the
+  buy button locks, and the store refuses a second order for the same product.
+- **Paid twice:** each Google transaction id is granted once (`hh_grants`), so a purchase Google reports again (after a
+  restart, or a retry) pays nothing extra.
+- **Paid, never given:** the purchase is granted first and finished (consumed or acknowledged) with Google after. If the app
+  dies in between, Google reports it again at the next start and the grant is deduplicated. A purchase that is never
+  finished is refunded by Google after 3 days.
+- **Slow payments:** pending payments, and purchases waiting for verification, arrive on their own once Google confirms them.
+- **Restore:** trucks bought with money come back at every start if Google says this account owns them (a reinstall, a new
+  phone). Buying a truck Google already counts as owned gives it, with nothing charged.
+- **Copied purchase tokens:** every order carries this install's random id, which Google stores in obfuscated form. The
+  verifier refuses a token presented by a different install, and a coin, rank or bundle token once it has been consumed.
+- **Fake purchases:** in production every purchase is checked with Google's Play Developer API (`functions/verify-purchase`),
+  and the release workflow won't ship to production without it.
+- **Coins inside the game:** spending checks the balance first. Selling an upgrade refunds exactly its cost (checked for every
+  class, knob and level), so there's no coin farm. Maps and trucks can't be bought twice.
+- **Still open:** refunds. If a player gets a refund from Google after spending the coins, the coins stay. Catching that needs
+  Google's Voided Purchases API plus a server-side economy. Worth doing if fraud ever shows up in Play Console's order reports.
+
 ## Security and design notes
 - **Secrets:** signing keys and the Play service account live only in GitHub secrets. The workflow decodes the keystore to
   the runner's temp folder and deletes it afterwards. Nothing secret is in the repo.

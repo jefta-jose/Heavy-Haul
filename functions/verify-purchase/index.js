@@ -19,8 +19,16 @@ functions.http('verify', async (req, res) => {
   if (!/^[a-z0-9_.]{1,140}$/.test(productId) || !token || token.length > 4096) return res.status(400).json({ ok: false, data: { code: 6778003 }, error: { message: 'Bad request' } });
   try {
     const { data } = await publisher.purchases.products.get({ packageName: PACKAGE, productId, token });
+    const refuse = message => res.json({ ok: false, data: { code: 6778003 }, error: { message } });
     // purchaseState 0 = purchased; 1 = cancelled; 2 = pending. A refunded purchase is cancelled.
-    if (data.purchaseState !== 0) return res.json({ ok: false, data: { code: 6778003 }, error: { message: `Purchase state ${data.purchaseState}` } });
+    if (data.purchaseState !== 0) return refuse(`Purchase state ${data.purchaseState}`);
+    // the install that ordered it (the game sends its id with every order; Google keeps it obfuscated): a token copied to
+    // another phone is refused
+    const asker = req.body?.additionalData?.obfuscatedUsername;
+    if (data.obfuscatedExternalAccountId && asker && data.obfuscatedExternalAccountId !== asker) return refuse('Purchase belongs to another install');
+    // a coin pack, rank pack or bundle pays once: once the game has consumed it, the same token is refused (trucks are
+    // kept for good, so they may be confirmed again, for a reinstall)
+    if (!productId.startsWith('truck_') && data.consumptionState === 1) return refuse('Already used');
     res.json({ ok: true, data: { id: productId, latest_receipt: true, transaction: tx, collection: [{ id: productId, transactionId: data.orderId, purchaseDate: data.purchaseTimeMillis }] } });
   } catch (e) {
     // a token Google does not know (forged, or for another app) is a 4xx from Google: refuse it
