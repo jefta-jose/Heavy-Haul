@@ -1,4 +1,7 @@
 include ':app'
+// the truck and map art for store bundles (Play Asset Delivery, install-time): see gamedata/build.gradle. Only when
+// HAUL_ASSET_PACK is set (the Google Play workflow); debug APKs keep every asset in the base.
+if (System.getenv('HAUL_ASSET_PACK')) include ':gamedata'
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 

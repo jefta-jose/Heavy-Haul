@@ -47,7 +47,7 @@ try {
     await dismissLoader(page);
     await page.evaluate(() => { const s = __haul.sim; s.respawn(30); for (let i = 0; i < 360; i++) s.step(1 / 120); Object.assign(s.ctl, { gear: 'L', awd: true, diff: true, gas: 1 }); });
     for (let t = 0; t < +secs; t += +every) {
-      await page.evaluate(n => { const s = __haul.sim; s.ctl.gas = 1; for (let i = 0; i < n; i++) { s.step(1 / 120); if (i % 2) __haul.renderer.draw(1 / 60, true); } }, Math.round(+every * 120));
+      await page.evaluate(n => { const s = __haul.sim; s.ctl.gas = 1; for (let i = 0; i < n; i++) { s.step(1 / 120); if (i % 2) { __haul.view.update?.(1 / 60); __haul.renderer.draw(1 / 60, true); } } __haul.snap(); __haul.renderer.draw(1 / 60, true); }, Math.round(+every * 120));
       await shot(page, `drive-${id}-${String(t).padStart(3, '0')}`);
     }
   } else if (mode === 'cars') {
@@ -63,12 +63,13 @@ try {
     for (const [tag, vp] of [['phone', { width: 844, height: 390 }], ['small', { width: 667, height: 320 }], ['portrait', { width: 390, height: 844 }], ['desktop', { width: 1440, height: 810 }]]) {
       const page = await open(vp, tag !== 'desktop');
       await page.waitForTimeout(600); await shot(page, `${tag}-garage`);
-      for (const btn of await page.$$eval('.hc-bar button, .hc-bar [role=button]', els => els.map(e => e.id).filter(Boolean))) {
-        await page.click(`#${btn}`).catch(() => {}); await page.waitForTimeout(500); await shot(page, `${tag}-garage-${btn}`);
-        await page.keyboard.press('Escape').catch(() => {}); await page.evaluate(() => document.querySelectorAll('.sheet .close, [data-close], .x-close').forEach(b => b.click())); await page.waitForTimeout(250);
+      for (const btn of ['gMenuShop', 'hcSeasons', 'hcVehicle', 'gMenuMissions', 'gMenuTune']) {
+        await page.click(`#${btn}`).catch(e => errors.push(`${tag} ${btn}: ${e.message.split('\n')[0]}`)); await page.waitForTimeout(500); await shot(page, `${tag}-garage-${btn}`);
+        for (const done of ['shopDone', 'missionsDone', 'tuneDone']) if (await page.locator(`#${done}`).isVisible().catch(() => false)) await page.click(`#${done}`);
+        await page.waitForTimeout(250);
       }
       await page.goto(url); await page.waitForFunction(() => document.querySelector('#loader.done')); await dismissLoader(page);
-      await page.click('#startBtn').catch(() => {}); await page.waitForFunction(() => __haul.session.state === 'play', null, { timeout: 60000 }).catch(() => {});
+      await page.click('#startBtn').catch(() => {}); await page.waitForFunction(() => document.querySelector('#loader.done') || __haul.session.state === 'play', null, { timeout: 60000 }).catch(() => {}); await dismissLoader(page); await page.waitForFunction(() => __haul.session.state === 'play', null, { timeout: 60000 }).catch(() => {});
       await page.waitForTimeout(2500); await shot(page, `${tag}-drive`);
       await page.close();
     }

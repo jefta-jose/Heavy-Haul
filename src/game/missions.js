@@ -134,7 +134,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       sprint: `Reach the ${((m.x - trail.start) / 1000).toFixed(1)} km mark within ${clock(m.minutes * 60)}`,
       cameras: m.count === m.of ? `Pass every speed camera at ${m.kmh} km/h or more` : `Pass ${m.count} speed camera${m.count > 1 ? 's' : ''} at ${m.kmh} km/h or more`,
       crusher: `Crush ${m.count} things`,
-      bogs: `Clear ${m.count} deep bogs without being towed`,
+      bogs: `Clear ${m.count} deep bogs`,
     }[m.goal];
     const rules = m.twists.map(t => fill(twists[t.type]?.text ?? t.type, t));
     const head = m.signature ? (m.load ? `Deliver the ${m.load.toLowerCase()}` : 'Run the whole trail') + (m.goal === 'deliver' ? '' : `, ${goalText[0].toLowerCase()}${goalText.slice(1)}`) : goalText;

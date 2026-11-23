@@ -1,0 +1,14 @@
+// The game's truck and map art (about 240 MB), delivered by Google Play with the app as an install-time asset pack:
+// a Play bundle's base module may not exceed 200 MB. Play installs it together with the app, and its files join the
+// app's own assets, so the WebView reads them at the same paths as before. tools/android-asset-pack.mjs fills it for
+// store builds only; debug APKs keep everything in the base (an APK cannot carry asset packs).
+plugins {
+    id 'com.android.asset-pack'
+}
+
+assetPack {
+    packName = "gamedata"
+    dynamicDelivery {
+        deliveryType = "install-time"
+    }
+}

@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     namespace = "com.heavyhaul.game"
+    // store bundles carry the heavy art in an install-time asset pack (android/gamedata), filled by tools/android-asset-pack.mjs;
+    // only with HAUL_ASSET_PACK set (the Google Play workflow), so debug APKs are unchanged
+    if (System.getenv('HAUL_ASSET_PACK')) assetPacks = [":gamedata"]
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.heavyhaul.game"

@@ -3573,10 +3573,17 @@ dl.spec dd {
 
 /* storied contracts: the client above the title, the story in italics, a coloured edge for featured and signature hauls */
 .power.mission .mclient { display: block; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-acc, #ff8a2a); opacity: 0.9; }
-.power.mission .mstory { display: block; font-size: 12.5px; line-height: 1.3; opacity: 0.85; margin: 2px 0 3px; }
+.power.mission .mstory { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; overflow-wrap: anywhere; font-size: 12.5px; line-height: 1.3; opacity: 0.85; margin: 2px 0 3px; }
+@media (max-height: 520px) { .power.mission .mstory { -webkit-line-clamp: 2; font-size: 10.5px; line-height: 1.2; } .power.mission .mclient { font-size: 9px; } }
 .power.mission.feat { box-shadow: inset 4px 0 0 #f5c518; }
 .power.mission.sig { box-shadow: inset 4px 0 0 #39e66a; }
-.mhome, .mcount { margin: 6px 2px 0; font-size: 12.5px; opacity: 0.8; }
+.power.mission .ptext small { white-space: normal; overflow-wrap: anywhere; }
+#missionsOv .card.slim { width: min(820px, 94vw); max-width: none; }
+#missionsOv .card.slim .cbody { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+#missionsOv .powerlist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (orientation: portrait) and (max-width: 600px) { #missionsOv .powerlist { grid-template-columns: 1fr; } }
+.mhome, .mcount { grid-column: 1 / -1; margin: 2px 2px 0; font-size: 12.5px; opacity: 0.8; }
+@media (max-height: 520px) { .mhome, .mcount { font-size: 10.5px; } }
 .mcount { opacity: 0.6; }
 
 /* Phones: no truck row (it crowded the menu). Seasons and classes stay on top; the arrows beside the truck step
