@@ -10,7 +10,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ROOT, readSoundBank } from './lib/content.js';
 import { BEDS, CALLS } from '../src/audio/vehicle-audio.js';
-import { LOAD_SOUNDS } from '../src/audio/load-sounds.js';
 const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 
 export function measure(x) {
@@ -36,7 +35,7 @@ export const DRIVE = [
 ];
 const PHASES = 'start / idle / pull away, as fast as real trucks do / climb / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
 
-export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'cable-strain', 'fuel-pump', 'fuel-flow', ...BEDS], maps = true, loads = true, seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
+export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'cable-strain', 'fuel-pump', 'fuel-flow', ...BEDS], maps = true, seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');
   const bank = readSoundBank();
   classes ??= Object.keys(bank.engines);
@@ -115,36 +114,6 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
       const m = measure(r.samples.subarray(r.sr));
       report.push({ kind: 'map', name: `${season.name} (${[...beds, ...calls.map(([n]) => n), ...(w.thunder ? ['thunder'] : [])].join(', ')})`, file: `map-${id}.wav`, rms: m.rms, peak: m.peak });
       console.log(`map ${id.padEnd(16)} rms ${m.rms.toFixed(3)} peak ${m.peak.toFixed(2)} ${beds.join(' ')}`);
-    }
-    // each load group over 24 s: rough ground (ride bed), a log hit, a strain in a bog, a landing, an animal's voice
-    const LOAD_SCRIPT = { rough: [[0, 6, 0.35], [6, 11, 0.1], [11, 18, 0.15], [18, 24, 0.5]], strain: [11, 17], hits: [3, 4.6, 20.5], landings: [[8, 'landing', 0.8], [22, 'landing-heavy', 1]] };
-    for (const [group, g] of loads ? Object.entries(LOAD_SOUNDS) : []) {
-      const pickOne = effect => { const list = bank.effects[effect]; return list[Math.floor(Math.random() * list.length)]; };
-      const events = [];
-      for (const at of LOAD_SCRIPT.hits) if (g.hit) events.push([at, pickOne(g.hit), g.gain * 0.85, g.hit === 'cable-strain' ? 2.5 : 0]);
-      for (const [at, kind, k] of LOAD_SCRIPT.landings) { events.push([at, pickOne(kind), 0.45 + k * 0.5, 0]); if (g.hit) events.push([at + 0.02, pickOne(g.hit), g.gain * k, g.hit === 'cable-strain' ? 2.5 : 0]); }
-      if (g.call) for (const at of [8.4, 14.5]) events.push([at, pickOne(g.call), 0.6, 0]);
-      const seconds = 24, clips = [...new Set([...(g.ride ? [g.ride] : []), ...events.map(e => e[1])])];
-      const r = await render(async ({ ride, gain, script, events, clips, seconds }) => {
-        const sr = 44100, ac = new OfflineAudioContext(1, seconds * sr, sr), buf = {};
-        for (const [k, raw] of Object.entries(clips)) buf[k] = await ac.decodeAudioData(Uint8Array.from(atob(raw), c => c.charCodeAt(0)).buffer);
-        const bus = ac.createGain(); bus.gain.value = 0.7; bus.connect(ac.destination);
-        const p = ride ? HaulAudio.createLoopPlayer(ac, buf[ride], bus, { grain: [1.5, 3.5], fade: 0.5 }) : null;
-        for (const [at, name, g, secs] of events) {
-          const s = ac.createBufferSource(), v = ac.createGain(); s.buffer = buf[name]; v.gain.value = g; s.connect(v); v.connect(bus);
-          if (secs) { v.gain.setValueAtTime(g, at); v.gain.setTargetAtTime(0, at + secs * 0.5, secs * 0.15); s.start(at, Math.random() * Math.max(0, s.buffer.duration - secs)); s.stop(at + secs); } else s.start(at);
-        }
-        const done = []; for (let i = 0; i * 0.05 < seconds - 0.05; i++) {
-          const t = i * 0.05, rough = script.rough.find(([a, b]) => t >= a && t < b)?.[2] ?? 0, strain = t >= script.strain[0] && t < script.strain[1] ? 0.9 : 0;
-          done.push(ac.suspend(Math.round(t * sr / 128) * 128 / sr).then(() => { if (p) { p.setGain(gain * Math.min(0.75, 0.1 + rough * 0.6 + strain * 0.45), 0.2); p.update(); } ac.resume(); }));
-        }
-        const out = await ac.startRendering(); await Promise.all(done);
-        return { samples: Array.from(out.getChannelData(0)), sr };
-      }, { ride: g.ride, gain: g.gain ?? 0.7, script: LOAD_SCRIPT, events, clips: clipData(clips), seconds });
-      wav(path.join(outDir, `load-${group}.wav`), r.samples, r.sr);
-      const m = measure(r.samples);
-      report.push({ kind: 'load', name: `${group}: ride on rough ground, a log at 3 s, landing at 8 s, strain in a bog 11-17 s, landing at 22 s`, file: `load-${group}.wav`, rms: m.rms, peak: m.peak });
-      console.log(`load ${group.padEnd(9)} rms ${m.rms.toFixed(3)} peak ${m.peak.toFixed(2)} ${[g.hit, g.ride, g.call].filter(Boolean).join(' ')}`);
     }
     fs.writeFileSync(path.join(outDir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
     fs.writeFileSync(path.join(outDir, 'index.html'), `<!doctype html><meta name="viewport" content="width=device-width"><title>Heavy Haul sound previews</title><style>body{background:#17211e;color:#eee;font:17px system-ui;max-width:820px;margin:40px auto;padding:20px}audio{width:100%}section{margin:22px 0}</style><h1>Heavy Haul sound previews</h1><p>${PHASES}.</p>` + report.map(r => `<section><h2>${r.kind} · ${r.name}</h2><audio controls preload="none" src="${r.file}"></audio></section>`).join(''));

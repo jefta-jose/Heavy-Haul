@@ -232,9 +232,7 @@ def oneshots(x, spec):
         if all(abs(i - j) > length * 100 for j in picks):
             picks.append(i)
     outs = []
-    # `drop`: 1-based picks left out after listening (a ringing one, say)
-    picks = [p for k, p in enumerate(sorted(picks), 1) if k not in spec.get('drop', [])]
-    for i in picks:
+    for i in sorted(picks):
         lo = max(0, i / 100 - 0.06)
         outs.append(fades(cut(x, lo, lo + length), 0.004, min(0.3, length * 0.35)))
     return outs

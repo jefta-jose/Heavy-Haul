@@ -20,8 +20,6 @@ export function engineProfile(car, bank) {
   return {
     engine: a.engine ?? null, pack,
     crankS: clamp(a.crankS ?? pack?.crankS ?? 1.2, 0.5, 3),
-    // this truck's own voice within its class (tools/lib/content.js sets it from its weight)
-    pitch: clamp(a.pitch ?? 1, 0.85, 1.15),
     airBrakes: a.airBrakes ?? pack?.airBrakes ?? false,
     backupAlarm: a.backupAlarm ?? (a.engine !== 'scout'),
   };
@@ -137,7 +135,7 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
     if (!buffers[name]) return;
     if (oneShot) { const o = oneShot; o.g.gain.setTargetAtTime(0, ac.currentTime, 0.05); o.s.stop(ac.currentTime + 0.3); }
     const s = ac.createBufferSource(), g = ac.createGain();
-    s.buffer = buffers[name]; s.playbackRate.value = profile.pitch; s.connect(g); g.connect(out);
+    s.buffer = buffers[name]; s.connect(g); g.connect(out);
     s.onended = () => { s.disconnect(); g.disconnect(); if (oneShot?.s === s) oneShot = null; };
     s.start(); oneShot = { s, g };
   }
@@ -164,12 +162,11 @@ export function createEngineVoice(ac, buffers, car, bank, destination) {
       const m = engineMix(pack, revs.revs, load);
       // just started: the recorded catch is still ringing out, so the idle comes in gently
       const tau = oneShot ? 0.35 : 0.07;
-      const p = profile.pitch;
-      idle.setGain(m.idle, tau); idle.setRate(m.rates.idle * p);
-      coast.setGain(m.coast, tau); coast.setRate(m.rates.coast * p);
-      on.forEach((l, i) => { l.setGain(m.on[i], tau); l.setRate(m.rates.on[i] * p); });
-      pull.forEach((l, i) => { l.setGain(m.pull[i], tau); l.setRate(m.rates.pull[i] * p); });
-      sub?.setGain(m.sub, 0.25); sub?.setRate(m.rates.sub * p);
+      idle.setGain(m.idle, tau); idle.setRate(m.rates.idle);
+      coast.setGain(m.coast, tau); coast.setRate(m.rates.coast);
+      on.forEach((l, i) => { l.setGain(m.on[i], tau); l.setRate(m.rates.on[i]); });
+      pull.forEach((l, i) => { l.setGain(m.pull[i], tau); l.setRate(m.rates.pull[i]); });
+      sub?.setGain(m.sub, 0.25); sub?.setRate(m.rates.sub);
       filter.frequency.setTargetAtTime(m.cutoff * muffle, now, 0.1);
       out.gain.setTargetAtTime(m.level * level, now, 0.08);
     },

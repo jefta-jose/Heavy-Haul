@@ -54,20 +54,14 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 
 - Tires: `gravel`, `dirt`, `rocks`, `mud`; `mud-spin` grows with wheel slip in mud. Water: `wade` and
   `water-churn`; `splash` and `splash-small` on entry.
-- Chassis: `rattle-bed` follows speed, surface and how rough the ride is. Hitting a log, pipe or rock, landing and straining play **what the truck carries**, not its class
-  ([load-sounds.js](../../src/audio/load-sounds.js)): each load's name sorts it into a group (`empty`, `gear`, `timber`, `steel`,
-  `bulk`, `liquid`, `freight`, `machine`, `cattle`, `chickens`, `elephant`, `bees`; a car.json without a load name uses the roster's; under 1.25 t freight, steel and machines count as
-  `gear`; `"audio": { "load": "<group>" }` in car.json picks one by hand). A group has a `hit` one-shot, a `ride` bed that grows
-  with a rough ride and with strain (crawling while the engine works hard), and for animals a `call` (moo, cluck, trumpet) on hard
-  knocks. Every truck thumps on landing (`landing`, `landing-heavy` from 12 t) after 0.15 s in the air (`st.airT`) or a hard slam.
-  Clips were checked against the approved ones for ringing; `drop` in `sounds.json` leaves out a ringing one-shot.
+- Chassis: `rattle-bed` follows speed, surface and how rough the ride is. Hitting a log, pipe or rock plays the load's sound by class (`HIT_SOUNDS` in `vehicle-audio.js`): `cargo-heavy-chains` on highway, `rattle` on heavy duty, `cargo-chains` on off-road and a 2.5 s burst of `cable-strain` on heavy. Scouts have none.
 - Gears and cab: `gear-clunk` for shifts and the AWD / DIFF / H-L levers, `air-pop` for the shift's air on air
   brakes.
 - Brakes on trucks with air brakes: `hydraulic-brake` hiss braking from speed, `air-release` when it
   stops, `air-burst` when the pedal lets go. Handbrake: `handbrake-on` / `-off` ratchet on scouts,
   `air-release` / `air-burst` on trucks.
 - Refuelling: `hook-clank` as the hose connects, `fuel-pump` and `fuel-flow` while the tank fills.
-- Breaking rocks (unchanged, the user likes it): `underbody`, plus the load shaking, chosen by weight: `cargo-light` and `cargo-chains` on
+- Breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and `cargo-chains` on
   light scouts, `rattle` and `cargo-heavy-chains` on other trucks, and on the heavy class `rattle` with `cable-strain`.
 - Ambience, faded in by the season's `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`):
   beds `forest`, `frogs`, `rain-heavy`, `rain-light` (the same rain, filtered soft), `wind-desert`, `wind-trees`, `leaves`,
@@ -97,15 +91,11 @@ control the sounds; `UI_SOUND_GAINS` sets their relative levels.
 
 ## Change or add a sound
 
-**No human voices, ever, not even far in the background (user rule, 2026-11-23).** Read the recording's page
-(description, tags, comments) for people, and check the stretches you cut for speech before using it.
-
 1. Find a CC0 (or CC BY, which must be credited) recording. Ask before downloading.
 2. Put it in the masters folder and add its entry to `sources.json`, with its SHA-256.
 3. Add or change its regions in `sounds.json`. Pick steady stretches on a spectrogram; for an engine layer,
    measure `hz`, and avoid cab-interior recordings and track clanks.
 4. Build: `uv run --with numpy --with scipy --with imageio-ffmpeg python tools/prepare-audio.py`
-5. Listen: `npm run audio:preview` renders every engine's drive (start, gears, lift off, low-range grind, wheelspin, shutdown),
-   40 s of every bed, each map's mix and each load group's drive (`load-<group>.wav`) through the game's own
+5. Listen: `npm run audio:preview` renders every engine's drive and 40 s of every bed and each map's mix through the game's own
    code into `output/audio/` (open `index.html`). Then `npm test` and listen in the game. The tests fail if the
    bank holds a clip the game does not play, or a recording nothing uses.

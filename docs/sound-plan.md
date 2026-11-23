@@ -48,12 +48,7 @@ They come to about 26 MB of masters, kept outside the repo. Each bed is cut to 3
 grows by 5.8 MB, and a bed is decoded only when its map plays it. Light rain is the heavy rain recording
 played quieter and filtered softer, not a second file.
 
-## Phase 2: each truck its own voice (last)
-
-Each truck's engine pitched a little by its loaded weight within its class: heavier deeper, lighter higher, by at
-most 6%. No new recordings.
-
-## Phase 3: later, if you want it (ask first)
+## Phase 2: later, if you want it (ask first)
 
 - A petrol engine for the buggies, rally cars and supercars, so they stop sounding like a diesel pickup.
 - Music for each map instead of one road track (needs tracks you choose).
