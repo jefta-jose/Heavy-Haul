@@ -220,6 +220,10 @@ test('hits, landings and strain sound like what each truck carries, and every lo
   assert.equal(group('Excavator'), 'machine');
   assert.equal(group('Reefer freight'), 'freight');
   assert.equal(group('Cattle'), 'cattle');
+  assert.equal(group('Beehives', 0.4), 'bees');
+  const byId = Object.fromEntries(all.map(car => [car.id, car]));
+  assert.equal(loadGroup(byId['mire-king-6']), 'elephant', 'a load named only in the roster still counts');
+  assert.equal(loadGroup(byId['turnpike-7']), 'liquid');
   assert.equal(group('Tool chests', 0.4), 'gear');
   assert.equal(group('Supply crates', 0.3), 'gear', 'a light load of crates rattles like loose kit');
   assert.equal(loadGroup({ load: { name: 'Ore', massT: 30 }, audio: { load: 'machine' } }), 'machine', 'car.json can pick one');

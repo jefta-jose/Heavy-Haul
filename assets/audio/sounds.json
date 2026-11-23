@@ -1131,24 +1131,23 @@
     },
     "timber-knock": {
       "kind": "oneshots",
-      "source": "fs-675229",
+      "source": "fs-554128",
       "regions": [
         [
           0,
-          74
+          14.6
         ]
       ],
-      "count": 6,
-      "len": 1.0,
-      "highpass": 80
+      "count": 5,
+      "len": 1.1
     },
     "timber-ride": {
       "kind": "texture",
-      "source": "fs-675229",
+      "source": "fs-489885",
       "regions": [
         [
           0,
-          74
+          47
         ]
       ],
       "seconds": 30,
@@ -1156,8 +1155,7 @@
         0.3,
         0.7
       ],
-      "density": 9,
-      "highpass": 80
+      "density": 9
     },
     "freight-bang": {
       "kind": "oneshots",
@@ -1236,26 +1234,31 @@
     },
     "bulk-shift": {
       "kind": "oneshots",
-      "source": "fs-336023",
+      "source": "fs-787858",
       "regions": [
         [
           0,
-          6.6
+          9
         ]
       ],
-      "count": 4,
-      "len": 0.9,
-      "highpass": 100
+      "count": 5,
+      "len": 1.0
     },
     "bulk-ride": {
-      "kind": "loop",
-      "source": "fs-271130",
+      "kind": "texture",
+      "source": "fs-787858",
       "regions": [
         [
-          6.0,
-          23.0
+          0,
+          9
         ]
-      ]
+      ],
+      "seconds": 25,
+      "grain": [
+        0.3,
+        0.7
+      ],
+      "density": 9
     },
     "slosh": {
       "kind": "oneshots",
@@ -1347,15 +1350,16 @@
     },
     "cluck": {
       "kind": "oneshots",
-      "source": "fs-456803",
+      "source": "fs-583401",
       "regions": [
         [
           0,
-          15
+          160
         ]
       ],
-      "count": 5,
-      "len": 1.0
+      "count": 6,
+      "len": 4.0,
+      "highpass": 250
     },
     "trumpet": {
       "kind": "clip",
@@ -1386,6 +1390,33 @@
         1.6
       ],
       "fadeOut": 0.3
+    },
+    "bees": {
+      "kind": "loop",
+      "source": "fs-243011",
+      "regions": [
+        [
+          0.5,
+          13.0
+        ]
+      ]
+    },
+    "chickens-ride": {
+      "kind": "texture",
+      "source": "fs-583401",
+      "regions": [
+        [
+          0,
+          160
+        ]
+      ],
+      "seconds": 30,
+      "grain": [
+        0.6,
+        1.4
+      ],
+      "density": 5,
+      "highpass": 250
     }
   }
 }

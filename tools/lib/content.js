@@ -26,7 +26,7 @@ function playable(dir, entries, file) {
     Object.assign(e, specs);
     e.fuelL = fuelL;
     if (loadMassT != null && e.load) e.load.massT = loadMassT;
-    out.push({ ...d, spec: { class: e.class, powerKw: e.powerKw, torqueNm: e.torqueNm, massT: e.massT }, dir: `${dir}/${e.id}` });
+    out.push({ ...d, spec: { class: e.class, powerKw: e.powerKw, torqueNm: e.torqueNm, massT: e.massT, loadName: e.load?.name }, dir: `${dir}/${e.id}` });
   }
   return out;
 }

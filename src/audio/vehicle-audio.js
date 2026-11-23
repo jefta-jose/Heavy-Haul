@@ -16,7 +16,7 @@
 import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
 import { BRAKE_HISS_GAP_S } from '../game-config.js';
-import { LOAD_SOUNDS, loadGroup } from './load-sounds.js';
+import { LOAD_SOUNDS, loadGroup, loadMassT } from './load-sounds.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
 // a landing: back down after this many seconds with every wheel off the ground, or a jolt this hard (m/s²) coming down
@@ -183,7 +183,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   // one-shots from the world
   api.splash = power => power < 0.6 ? play('splash-small', 0.4 + power * 0.6) : play('splash', Math.min(1, 0.5 + power * 0.35), { rate: power > 1.2 ? 0.85 : 1 });
   // a load's sounds are pitched a little by its weight: a tonne of kit rattles higher than forty tonnes of ore
-  const loadRate = car => Math.max(0.8, Math.min(1.1, 1.08 - Math.log10(1 + (car.load?.massT ?? 0)) * 0.12));
+  const loadRate = car => Math.max(0.8, Math.min(1.1, 1.08 - Math.log10(1 + loadMassT(car)) * 0.12));
   // the crush's class sound, spaced out so a run of rocks doesn't pile up
   let hitAt = -9;
   function crushLoad(car, gain) {
@@ -215,7 +215,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     const massT = heaviness(v), strength = Math.min(1, 0.3 + Math.max(0, fall - 1) * 0.18 + air * 0.6);
     play(massT > 12 ? 'landing-heavy' : 'landing', 0.45 + strength * 0.55, { rate: Math.max(0.75, Math.min(1.1, 1.12 - Math.log10(massT) * 0.18)) });
     if (strength > 0.55) play('underbody', strength * 0.5, { rate: 0.85 });
-    if (v.car.load) { loadHitAt = -9; loadHit(v.car, 0.5 + strength * 0.6); }
+    if (loadGroup(v.car) !== 'empty') { loadHitAt = -9; loadHit(v.car, 0.5 + strength * 0.6); }
   }
   // breaking a crushable sounds the same on every truck: the scout's crunch and light rattle. A truck carrying a
   // load still shakes it with its own class's load sound (CRUSH_LOAD_SOUNDS), as on a log or rock.
@@ -346,7 +346,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     // engine works hard: a climb, a bog, a log), quieter for a light load
     const group = LOAD_SOUNDS[loadGroup(v.car)], working = live && st.throttle > 0.5 && speed < 3.5 ? engineTelemetry(v).load * (1 - speed / 3.5) : 0;
     strain += (working - strain) * Math.min(1, dt / 0.4);
-    const weight = Math.min(1, 0.45 + Math.log10(1 + (v.car.load?.massT ?? 0)) * 0.35);
+    const weight = Math.min(1, 0.45 + Math.log10(1 + loadMassT(v.car)) * 0.35);
     for (const [name, p] of Object.entries(rides)) {
       if (!p) continue;
       const on = live && !inWater && group.ride === name;

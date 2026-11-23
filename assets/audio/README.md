@@ -56,7 +56,7 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
   `water-churn`; `splash` and `splash-small` on entry.
 - Chassis: `rattle-bed` follows speed, surface and how rough the ride is. Hitting a log, pipe or rock, landing and straining play **what the truck carries**, not its class
   ([load-sounds.js](../../src/audio/load-sounds.js)): each load's name sorts it into a group (`empty`, `gear`, `timber`, `steel`,
-  `bulk`, `liquid`, `freight`, `machine`, `cattle`, `chickens`, `elephant`; under 1.25 t freight, steel and machines count as
+  `bulk`, `liquid`, `freight`, `machine`, `cattle`, `chickens`, `elephant`, `bees`; a car.json without a load name uses the roster's; under 1.25 t freight, steel and machines count as
   `gear`; `"audio": { "load": "<group>" }` in car.json picks one by hand). A group has a `hit` one-shot, a `ride` bed that grows
   with a rough ride and with strain (crawling while the engine works hard), and for animals a `call` (moo, cluck, trumpet) on hard
   knocks. Every truck thumps on landing (`landing`, `landing-heavy` from 12 t) after 0.15 s in the air (`st.airT`) or a hard slam.
@@ -96,6 +96,9 @@ Button vibrations remain active on supported phones. Master, Effects and Mute
 control the sounds; `UI_SOUND_GAINS` sets their relative levels.
 
 ## Change or add a sound
+
+**No human voices, ever, not even far in the background (user rule, 2026-11-23).** Read the recording's page
+(description, tags, comments) for people, and check the stretches you cut for speech before using it.
 
 1. Find a CC0 (or CC BY, which must be credited) recording. Ask before downloading.
 2. Put it in the masters folder and add its entry to `sources.json`, with its SHA-256.
