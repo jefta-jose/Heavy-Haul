@@ -1,5 +1,5 @@
 {
-  "about": "Contracts, generated at random in the garage (src/game/missions.js). Each has one goal from `goals` with targets drawn from its ranges and sized to the trail being played and to the trucks owned, may be locked to a class or to one owned truck (`locks`), and may carry 0 to 2 `twists` (extra rules). XP is MISSION_BASE_XP (src/game-config.js) times the goal's difficulty plus each twist's `xp` and the lock's, rounded to 10; class-locked contracts also scale by the class (XP_BY_CLASS). One offer is always a depot contract for the class driven least. Offers not chosen are redrawn after every run; the chosen one stays until done. Failing costs nothing.",
+  "about": "Contracts, generated at random in the garage (src/game/missions.js). Each has one goal from `goals` with targets drawn from its ranges and sized to the trail being played and to the trucks owned, may be locked to a class or to one owned truck (`locks`), and may carry 0 to 2 `twists` (extra rules). XP is MISSION_BASE_XP (src/game-config.js) times (the goal's difficulty, 0.6 to 1.8, plus each twist's `xp` share and the lock's), rounded to 10 and worked out live, so changing the base changes every contract on offer; class-locked contracts also scale by the class (XP_BY_CLASS). One offer is always a depot contract for the class driven least. Offers not chosen are redrawn after every run; the chosen one stays until done. Failing costs nothing.",
   "offerCount": 4,
   "goals": {
     "deliver": {
@@ -101,7 +101,7 @@
   "twists": {
     "clean": {
       "weight": 2,
-      "xp": 50,
+      "xp": 0.5,
       "text": "under {maxDamage}% damage",
       "maxDamage": [
         15,
@@ -110,23 +110,23 @@
     },
     "timed": {
       "weight": 2,
-      "xp": 50,
+      "xp": 0.5,
       "text": "within {minutes}",
       "slack": 1.35
     },
     "noRefuel": {
       "weight": 2,
-      "xp": 40,
+      "xp": 0.4,
       "text": "without refuelling"
     },
     "noPower": {
       "weight": 1,
-      "xp": 25,
+      "xp": 0.25,
       "text": "without using a power"
     },
     "noStuck": {
       "weight": 1,
-      "xp": 70,
+      "xp": 0.7,
       "text": "never stuck for {seconds} s",
       "seconds": [
         6,
@@ -137,11 +137,11 @@
   "locks": {
     "class": {
       "chance": 0.3,
-      "xp": 25
+      "xp": 0.25
     },
     "car": {
       "chance": 0.15,
-      "xp": 40
+      "xp": 0.4
     }
   },
   "twistCount": [

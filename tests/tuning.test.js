@@ -248,7 +248,7 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   const fitCtx = { ...ctx, trail: { ...trail, highways: [1, 2, 3, 4], heavyMud: Array.from({ length: 10 }, (_, i) => 500 + i * 100), checkpoints: [1000, ...trail.checkpoints] } };
   const take = c => createMissions(data, fitCtx, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', xp: 700, twists: [], ...c }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
   assert.equal(take({ goal: 'crusher', count: 40 }).track({ ...run, crushes: 39 }).done, undefined);
-  assert.equal(take({ goal: 'crusher', count: 40 }).track({ ...run, crushes: 40 }).done.xp, 700);
+  { const done = take({ goal: 'crusher', count: 40 }).track({ ...run, crushes: 40 }).done; assert(done.xp < 700 && done.xp === done.mission.xp, 'paid at today\'s MISSION_BASE_XP, not the XP saved with it'); }
   assert(take({ goal: 'cameras', kmh: 60, count: 2, of: 4 }).track({ ...run, cameras: [62, 70], camerasSeen: 2 }).done);
   assert(take({ goal: 'cameras', kmh: 60, count: 2, of: 4 }).failed({ ...run, cameras: [62], camerasSeen: 4 }), 'not enough cameras left');
   assert(take({ goal: 'bogs', count: 8, of: 10 }).failed({ ...run, bogsMissed: 3 }), 'too many bogs towed through');
@@ -279,18 +279,21 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   // old saves with fixed mission ids are replaced by contracts
   const old = createMissions(data, ctx, { v: JSON.stringify({ offers: ['crusher'], active: 'crusher', driven: { scout: 2 } }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
   assert.equal(old.offers.length, data.offerCount); assert.equal(old.active, null); assert.notEqual(old.offers[0].class, 'scout');
-  // another map: a contract that cannot be done there (four cameras on a three-camera trail) is never left active,
-  // and going back brings the first map's chosen contract back
-  let map = 'a'; const trails = { a: fitCtx.trail, b: { ...trail, highways: [1, 2, 3] } };
+  // another map (user, 2026-11-23): the chosen contract goes with you, its targets sized to the new trail
+  let map = 'a'; const trails = { a: fitCtx.trail, b: { ...trail, highways: [1, 2, 3] }, c: { ...trail, highways: [] } };
   const live = new Proxy({}, { get: (_, k) => trails[map][k] });
   const maps = createMissions(data, { ...ctx, trail: live, mapId: () => map }, memory(), random);
   const four = maps.offers.find(o => o.goal === 'cameras') ?? maps.offers[0];
   maps.choose(four.id); assert.equal(maps.active.id, four.id);
   map = 'b'; maps.mapChanged();
-  assert.equal(maps.active, null, 'a contract from another map is not active here');
+  assert.equal(maps.active?.id, four.id, 'the chosen contract is still chosen on the new map');
+  assert.equal(maps.active.goal, four.goal); assert.equal(maps.active.map, 'b');
   assert(maps.offers.every(o => o.map === 'b' && (o.goal !== 'cameras' || o.of === 3)), 'offers fit the new map');
-  map = 'a'; maps.mapChanged();
-  assert.equal(maps.active?.id, four.id, 'back on the first map, its chosen contract is back');
+  // a map that cannot host the goal (no speed cameras) leaves it chosen on the map it came from
+  if (four.goal === 'cameras') {
+    map = 'c'; maps.mapChanged(); assert.equal(maps.active, null, 'no cameras here');
+    map = 'b'; maps.mapChanged(); assert.equal(maps.active?.id, four.id, 'back where it can be done, it is chosen again');
+  }
   // a saved contract that does not fit the trail it loads on is dropped
   const misfit = createMissions(data, { ...ctx, trail: trails.b }, { v: JSON.stringify({ v: 2, offers: [{ id: 'c', goal: 'cameras', kmh: 60, count: 4, of: 4, xp: 100, twists: [] }], active: 'c', driven: {} }), getItem() { return this.v; }, setItem(k, v) { this.v = v; } }, random);
   assert.equal(misfit.active, null);

@@ -321,7 +321,8 @@ test('music streams, crossfades, follows volume and pauses its media in the back
   t.mock.method(globalThis, 'setTimeout', (fn, ms) => { timers.push({ fn, ms }); });
   try {
     const volumes = { master: 0.8, music: 0.5 }, music = createMusic({ garage: '/garage.mp3', drive: '/drive.mp3' }, volumes);
-    music.play('garage'); assert.equal(tracks.length, 0, 'waits for user input');
+    music.play('garage'); assert.equal(tracks.length, 0, 'nothing before the context exists');
+    assert.equal(timers.shift().ms, 0, 'tries to start at once, as the game loads');
     music.unlock(); assert.equal(tracks.length, 1); assert(tracks[0].loop && !tracks[0].paused);
     const ac = contexts[0]; assert.equal(ac.gains[0].gain.value, 0.4); assert.equal(ac.gains[1].gain.value, MUSIC_TRACKS.garage.gain);
     music.play('garage'); assert.equal(tracks.length, 1, 'same track is not restarted');

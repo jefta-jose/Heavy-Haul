@@ -35,8 +35,13 @@ test('coins, ranks and bundles give what they say, and a transaction is granted 
   assert.equal(wallet.coins, coins.gives.coins);
   const plus5 = shop.offers('ranks').find(o => o.ranks === 5);
   await shop.buy(plus5); assert.equal(progress.rank, 6); assert.equal(progress.xp, RANK_XP[5]);
-  const max = shop.offers('ranks').find(o => o.ranks === 0);
-  await shop.buy(max); assert.equal(progress.rank, progress.maxRank);
+  assert.deepEqual(shop.offers('ranks').map(o => o.ranks), [2, 4, 5, 8], 'only +2, +4, +5 and +8');
+  assert.deepEqual(shop.offers('ranks').map(o => o.price), [10, 20, 30, 40], '$10, $20, $30 and $40');
+  progress.reachRank(34);
+  assert(shop.done(shop.offers('ranks').find(o => o.ranks === 8)), 'at rank 34, +8 cannot be bought');
+  assert(!shop.done(shop.offers('ranks').find(o => o.ranks === 5)), 'but +5 still can');
+  await shop.buy(shop.offers('ranks').find(o => o.ranks === 4)); await shop.buy(shop.offers('ranks').find(o => o.ranks === 2));
+  assert.equal(progress.rank, progress.maxRank);
   assert(shop.offers('ranks').every(o => shop.done(o)), 'at the top rank no rank pack is for sale');
   const next = shop.offers('featured').find(o => o.id === 'bundle_next_five');
   const ids = next.gives.trucks; assert.equal(ids.length, content.roster.classes.length, 'one truck from every class');

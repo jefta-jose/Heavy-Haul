@@ -113,7 +113,7 @@ gradients, drops, and rotating chunks.
   particles and one mist band, and a storm's dark sky is baked into the cached backdrop (a per-frame gradient cost ~1 ms in
   software raster). Monsoon, the heaviest, measured about +2.5 ms a frame in headless Chromium before those two trims.
 - The camera (`src/render/lens.js`): mud from a spinning tyre, splashes and rain land on the lens away from the truck and slide
-  off. There is no camera shake: the user had it removed (2026-11-18). Stunt callouts and the run's title banner are DOM (`src/game/stunts.js`), show only.
+  off. There is no camera shake: the user had it removed (2026-11-18). Stunt callouts (BIG AIR and the rest) were removed on request (2026-11-23); do not add them back.
 - A per-surface road lane makes the drivable line clear: wet mud, ground soil and granite textures
   (squashed for the elevated view), cross-faded at zone edges, with tire ruts and a crisp far edge.
 

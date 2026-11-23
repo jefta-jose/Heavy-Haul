@@ -88,7 +88,7 @@ export const STARTING_RANK = 1;              // local testing value; manually re
 export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
 export const XP_PER_BOG = 10;                 // for getting through a deep bog
 export const XP_PER_DELIVERY = 100;           // for reaching the depot
-export const MISSION_BASE_XP = 100;          // a mission's XP before its difficulty (x0.6 to x1.8), twists and truck lock; a full scout run earns about 700
+export const MISSION_BASE_XP = 50;           // a mission pays this x (difficulty 0.6 to 1.8 + twist shares + lock share) x class: about 40 to 150 XP
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
@@ -184,7 +184,7 @@ export const MUD_HARDNESS = {
   'gumbo-bottoms': { sink: 1.15, hold: 1.2, grip: 0.92, bogHalfM: 14 },
 };
 
-// ---------- atmosphere, lens and stunts (src/render/layers/atmosphere.js, src/render/lens.js, src/game/stunts.js) ----------
+// ---------- atmosphere and lens (src/render/layers/atmosphere.js, src/render/lens.js) ----------
 // Each map picks its weather in season.json render.atmosphere; these are the shared numbers.
 export const WEATHER_COUNTS = { rain: 240, drizzle: 110, ash: 150, embers: 40, leaves: 55, dust: 12, grit: 80, pollen: 60, butterflies: 7, snow: 120 };  // at density 1 on a 1440 × 810 screen
 export const WEATHER_PHONE_SHARE = 0.6;       // touch screens draw this share of them
@@ -196,10 +196,6 @@ export const TUMBLEWEED_EVERY_S = [3, 9];     // on a map with tumbleweeds, one 
 export const LENS_MAX_SPLATS = 8;            // mud and water drops on the camera at once
 export const LENS_MUD_S = 2.5;                // how long mud thrown at the camera stays
 export const LENS_DROP_S = 2.6;               // how long a water drop stays
-export const STUNT_AIR_S = 0.45;              // airborne this long (every tyre off the ground) calls BIG AIR
-export const STUNT_CLIMB_DEG = 27;            // nose up this steep for STUNT_CLIMB_S calls HILL CLIMBER
-export const STUNT_CLIMB_S = 0.9;
-export const STUNT_COMBO_S = 2.5;             // rocks crushed within this of each other count as one ROCK CRUSHER combo
 
 // ---------- the shop (user, 2026-11-22): coins, ranks, single trucks and bundles, for real money once payments are added ----------
 // Until then every purchase goes through the test store (src/game/store.js) and is granted at once; prices are shown anyway.
@@ -213,11 +209,11 @@ export const SHOP_COIN_PACKS = [               // [coins, price, tag]
   [500000, 9.99, ''],
   [1500000, 24.99, 'Best value'],
 ];
-export const SHOP_RANK_PACKS = [               // [ranks gained (0 = straight to the top rank), price, tag]
-  [1, 0.99, ''],
-  [5, 3.99, 'Popular'],
-  [10, 6.99, ''],
-  [0, 14.99, 'Best value'],
+export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: $10 / $20 / $30 / $40 (user, 2026-11-23),
+  [2, 10, ''],                              // and only these packs give them; a pack that would pass the top rank cannot be bought
+  [4, 20, ''],                              // (at rank 34, +8 is greyed out)
+  [5, 30, 'Popular'],
+  [8, 40, ''],
 ];
 export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a single truck costs by the rank it would open at
   [10, 0.99],
@@ -228,8 +224,8 @@ export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a 
 export const SHOP_CLASS_PACK_PRICE = 12.99;    // every truck of one class
 export const SHOP_NEXT_FIVE_PRICE = 4.99;      // the next truck you do not own in every class (five trucks)
 export const SHOP_TOP_FIVE_PRICE = 9.99;       // the strongest truck of every class
-export const SHOP_STARTER_BUNDLE = [60000, 3, 2.99];      // [coins, ranks, price]: a boost for a new player
-export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck, the top rank and the coins
+export const SHOP_STARTER_BUNDLE = [100000, 2.99];        // [coins, price]: a boost for a new player (no ranks: only rank packs give those)
+export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck and the coins (no ranks)
 
 // ---------- maps (user, 2026-11-22): two are free, the rest are bought once with coins in the garage's Seasons page ----------
 export const FREE_SEASONS = ['swamp-summer', 'spring-thaw'];   // Blackwater Swamp (the default map) and Meltwater Pass (the first card)

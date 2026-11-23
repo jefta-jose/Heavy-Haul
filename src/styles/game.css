@@ -4185,40 +4185,6 @@ dl.spec dd {
 .hc-tunecard, .hc-tunecard .cbody, .hc-tunecard .tune, .hc-tunecard .power { box-sizing: border-box; }
 .hc-tunecard .cbody { max-width: 100%; }
 
-/* ---------- Forza-style moments: stunt callouts (src/game/stunts.js) ---------- */
-.stunts {
-  position: absolute; left: 14px; top: 120px;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
-  pointer-events: none;
-}
-.stunt {
-  display: flex; align-items: baseline; gap: 9px;
-  padding: 4px 30px 5px 14px;
-  background: linear-gradient(90deg, rgba(10, 14, 20, .86) 65%, rgba(10, 14, 20, 0));
-  border-left: 4px solid var(--hazard);
-  font-family: var(--display); font-style: italic; text-transform: uppercase;
-  transform: skewX(-12deg);
-  animation: stunt-pop 2s cubic-bezier(.2, .8, .2, 1) forwards;
-}
-.stunt b { font-size: 27px; font-weight: 800; letter-spacing: .03em; color: #fff; text-shadow: 0 2px 0 rgba(0, 0, 0, .4); }
-.stunt span { font-size: 18px; font-weight: 700; color: var(--hazard); }
-@keyframes stunt-pop {
-  0% { opacity: 0; transform: translateX(-40px) skewX(-12deg) scale(1.18); }
-  12% { opacity: 1; transform: translateX(0) skewX(-12deg) scale(1); }
-  78% { opacity: 1; transform: translateX(0) skewX(-12deg); }
-  100% { opacity: 0; transform: translateX(-24px) skewX(-12deg); }
-}
-
-@media (max-height: 520px) {
-  .stunts { top: 84px; left: 12px; gap: 4px; }
-  .stunt { padding: 3px 22px 3px 10px; gap: 7px; }
-  .stunt b { font-size: 19px; }
-  .stunt span { font-size: 13px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .stunt { animation-name: stunt-fade; }
-  @keyframes stunt-fade { 0%, 100% { opacity: 0; } 10%, 85% { opacity: 1; } }
-}
 
 /* ======================================================================================================================
    BASECAMP theme (2026-11-18): colour tokens shared by the garage and the driving HUD (hot orange, dark glass). The garage itself
@@ -4325,8 +4291,8 @@ dl.spec dd {
 .hc-btn.shop svg { color: #ffd84a; }
 .hc-btn.shop { background: linear-gradient(180deg, #3b3214, #211b08); border-color: rgba(242, 194, 26, .55); }
 .hc-btn.shop.on { background: linear-gradient(180deg, #5a4a14, #2c2508); }
-.hc-shopcard { display: block; width: min(1060px, 96vw); max-height: calc(100% - 24px); background: linear-gradient(180deg, #16191d, #0c0d10) !important; box-sizing: border-box; }
-.hc-shopcard .cbody { width: 100%; max-height: calc(100vh - 48px); max-height: calc(100dvh - 48px); box-sizing: border-box; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+.hc-shopcard { display: block; width: min(1180px, 97vw); max-height: calc(100% - 24px); background: linear-gradient(180deg, #16191d, #0c0d10) !important; box-sizing: border-box; }
+.hc-shopcard .cbody { width: 100%; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); box-sizing: border-box; padding: 22px 28px; display: flex; flex-direction: column; gap: 14px; }
 .hc-shopcard .tunehead h3 { font-size: 32px; font-style: italic; }
 .hc-shopcard .tunehead .eyebrow { min-height: 1.2em; }
 .shop-tabs { display: flex; gap: 8px; flex: none; }
@@ -4342,11 +4308,11 @@ dl.spec dd {
 .shop-class svg { width: 18px; height: 18px; }
 .shop-class.on { color: #fff; border-color: var(--yellow); background: #2c2611; }
 .shop-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-content: start;
-  overflow-y: auto; min-height: 0; flex: 1 1 auto; padding: 4px 4px 4px 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; align-content: start;
+  overflow-y: auto; min-height: 0; flex: 1 1 auto; padding: 6px 10px 10px 4px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
 }
 .sitem {
-  position: relative; display: grid; grid-template-rows: auto auto auto; gap: 8px; padding: 10px; box-sizing: border-box; min-width: 0;
+  position: relative; display: grid; grid-template-rows: auto auto auto; gap: 10px; padding: 12px; box-sizing: border-box; min-width: 0;
   background: radial-gradient(ellipse 80% 55% at 50% 22%, rgba(255, 196, 92, .1), transparent 70%), linear-gradient(180deg, #2a2e34, #17191c);
   border: 2px solid #07080a; outline: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 8px 18px rgba(0, 0, 0, .45);
 }
@@ -4381,24 +4347,25 @@ dl.spec dd {
 .shop-test { margin-right: auto; font: italic 600 13px var(--display); letter-spacing: .06em; text-transform: uppercase; color: #ff9f6a; }
 .shop-test[hidden] { display: none; }
 @media (max-height: 520px) {
-  .hc-shopcard .cbody { padding: 8px 12px; gap: 6px; max-height: calc(100dvh - 16px); }
+  .hc-shopcard .cbody { padding: 10px 16px; gap: 8px; max-height: calc(100dvh - 12px); }
   .hc-shopcard { max-height: calc(100% - 8px); }
   .hc-shopcard .tunehead h3 { font-size: 20px; }
   .hc-shopcard .tunehead .eyebrow { font-size: 11px; }
   .shop-tab { min-height: 30px; font-size: 14px; }
   .shop-class { padding: 3px 8px; font-size: 12px; }
-  .shop-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .sitem { padding: 6px; gap: 4px; }
+  .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 4px 8px 8px 4px; }
+  .sitem { padding: 8px; gap: 6px; }
+  .sart { aspect-ratio: 2 / 1; }
   .stag { font-size: 10px; top: 4px; }
-  .stext b { font-size: 14px; }
-  .stext small { font-size: 10px; min-height: 2.5em; }
+  .stext b { font-size: 16px; }
+  .stext small { font-size: 11px; min-height: 2.6em; }
   .sart .srank { font-size: 20px; }
   .sart.coins .coinic { width: 20px; height: 20px; }
-  .sbuy { min-height: 30px; font-size: 15px; }
+  .sbuy { min-height: 34px; font-size: 16px; }
   .hc-shopcard .btns .btn { min-height: 30px; }
 }
 @media (orientation: portrait) and (max-width: 1100px) {
-  .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .shop-tab { font-size: 14px; padding: 0 6px; }
 }
 @media (orientation: portrait) and (min-width: 700px) and (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

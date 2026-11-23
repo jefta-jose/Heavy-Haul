@@ -79,7 +79,7 @@ export function createMusic(uris = {}, volumes) {
   const front = track => track.voices[track.front];
   const api = {
     apply() { if (ac) out.gain.setTargetAtTime(volumes.muted ? 0 : volumes.master * (volumes.music ?? 0.5), ac.currentTime, 0.05); },
-    // the track to play; waits for the first tap, because browsers keep sound off until then
+    // the track to play; starts at once if sound is allowed, else on the first touch
     play(name) { if (name === wanted) return; wanted = name; if (ac) start(name); },
     unlock() {
       if (!ac) {
@@ -97,6 +97,10 @@ export function createMusic(uris = {}, volumes) {
     if (document.hidden) { for (const track of tracks) for (const v of track.voices) v.audio.pause(); ac.suspend(); }
     else { ac.resume(); if (now) playMedia(front(now).audio, now.name); }
   });
-  for (const type of ['pointerdown', 'keydown']) document.addEventListener(type, api.unlock, { capture: true });
+  // Music starts as the game loads (user, 2026-11-23). Where the browser allows sound before a tap (the Android app, whose
+  // WebView no longer asks for a gesture, and desktop browsers that allow autoplay) it plays at once; elsewhere the very first
+  // touch anywhere, the loading screen included, starts it.
+  for (const type of ['pointerdown', 'touchstart', 'touchend', 'mousedown', 'keydown', 'click']) document.addEventListener(type, api.unlock, { capture: true, passive: true });
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') setTimeout(() => api.unlock(), 0);
   return api;
 }

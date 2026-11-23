@@ -1,7 +1,7 @@
 // The garage shop's catalogue and what a purchase gives (the cards are drawn by garage.js). Four tabs:
 //   featured  bundles: a starter boost, the next truck in every class, the top truck of every class, a whole class, everything
 //   trucks    any single truck, owned at once whatever its rank
-//   coins     coin packs          ranks  rank boosts (XP up to the rank)
+//   coins     coin packs          ranks  rank packs, +2 / +4 / +5 / +8 (XP up to the rank), the dearest things here and the only source of ranks
 // Every number is in src/game-config.js (SHOP_*). A purchase goes through the store (store.js) and is granted once per
 // transaction id (kept in hh_grants), so a purchase reported twice by a real store later can never pay twice.
 import {
@@ -25,31 +25,33 @@ export function createShop({ content, progress, wallet, store = createStore(), s
   const pic = id => art.get(id)?.artUri?.master;
   const truckPrice = c => (SHOP_TRUCK_PRICES.find(([r]) => c.unlockRank <= r) ?? SHOP_TRUCK_PRICES.at(-1))[1];
   const missing = ids => ids.filter(id => !progress.owns(id));
-  const rankAfter = ranks => ranks === 0 ? progress.maxRank : Math.min(progress.maxRank, progress.rank + ranks);
+  const rankAfter = ranks => Math.min(progress.maxRank, progress.rank + ranks);
+  // a rank pack is only sold whole: +8 at rank 34 would pass the top rank, so it cannot be bought
+  const fitsRanks = ranks => ranks == null || progress.rank + ranks <= progress.maxRank;
   const s = n => (n === 1 ? '' : 's');
 
   // an offer: { id, kind, title, sub, price, tag, gives: { coins, ranks, trucks }, pics }; `done` says it has nothing left to give
   const offer = o => ({ tag: '', pics: [], ...o, gives: { coins: 0, ranks: null, trucks: [], ...o.gives } });
-  const done = o => !o.gives.coins && (o.gives.ranks == null || rankAfter(o.gives.ranks) <= progress.rank) && !missing(o.gives.trucks).length;
+  const done = o => (o.gives.ranks != null && !fitsRanks(o.gives.ranks)) || (!o.gives.coins && o.gives.ranks == null && !missing(o.gives.trucks).length);
 
   function featured() {
     const next = classes.map(k => ofClass(k.id).find(c => !progress.owns(c.id))).filter(Boolean);
     const top = classes.map(k => ofClass(k.id).at(-1)).filter(Boolean);
-    const [coins, ranks, price] = SHOP_STARTER_BUNDLE, [allCoins, allPrice] = SHOP_EVERYTHING;
+    const [coins, price] = SHOP_STARTER_BUNDLE, [allCoins, allPrice] = SHOP_EVERYTHING;
     return [
-      offer({ id: 'bundle_starter', kind: 'bundle', title: 'Starter boost', sub: `${formatCoins(coins)} coins and ${ranks} ranks`, price, tag: 'New driver', gives: { coins, ranks } }),
+      offer({ id: 'bundle_starter', kind: 'bundle', title: 'Starter boost', sub: `${formatCoins(coins)} coins to get going`, price, tag: 'New driver', gives: { coins } }),
       offer({ id: 'bundle_next_five', kind: 'bundle', title: 'Next in every class', sub: next.length ? `${next.length} truck${s(next.length)}: ${next.map(nameOf).join(', ')}` : 'You own every class', price: SHOP_NEXT_FIVE_PRICE, gives: { trucks: next.map(c => c.id) }, pics: next.map(c => pic(c.id)) }),
       offer({ id: 'bundle_top_five', kind: 'bundle', title: 'Top of every class', sub: `The strongest truck of each class: ${top.map(nameOf).join(', ')}`, price: SHOP_TOP_FIVE_PRICE, tag: 'Popular', gives: { trucks: top.map(c => c.id) }, pics: top.map(c => pic(c.id)) }),
       ...classes.map(k => {
         const list = ofClass(k.id);
         return offer({ id: productId(`bundle_class_${k.id}`), kind: 'bundle', title: `Every ${k.name} truck`, sub: `All ${list.length} trucks of the class`, price: SHOP_CLASS_PACK_PRICE, gives: { trucks: list.map(c => c.id) }, pics: [list.at(-1), list[Math.floor(list.length / 2)], list[0]].filter(Boolean).map(c => pic(c.id)) });
       }),
-      offer({ id: 'bundle_everything', kind: 'bundle', title: 'The whole fleet', sub: `All ${trucks.length} trucks, rank ${progress.maxRank} and ${formatCoins(allCoins)} coins`, price: allPrice, tag: 'Best value', gives: { coins: allCoins, ranks: 0, trucks: trucks.map(c => c.id) }, pics: top.slice(0, 3).map(c => pic(c.id)) }),
+      offer({ id: 'bundle_everything', kind: 'bundle', title: 'The whole fleet', sub: `All ${trucks.length} trucks and ${formatCoins(allCoins)} coins`, price: allPrice, tag: 'Best value', gives: { coins: allCoins, trucks: trucks.map(c => c.id) }, pics: top.slice(0, 3).map(c => pic(c.id)) }),
     ];
   }
   const truckOffers = cls => ofClass(cls).map(c => offer({ id: productId(`truck_${c.id}`), kind: 'truck', truck: c.id, title: nameOf(c), sub: `Rank ${c.unlockRank} · yours at once`, price: truckPrice(c), gives: { trucks: [c.id] }, pics: [pic(c.id)] }));
   const coinOffers = () => SHOP_COIN_PACKS.map(([coins, price, tag], i) => offer({ id: productId(`coins_${coins}`), kind: 'coins', size: i, title: `${formatCoins(coins)} coins`, sub: 'For trucks and upgrades', price, tag, gives: { coins } }));
-  const rankOffers = () => SHOP_RANK_PACKS.map(([ranks, price, tag]) => offer({ id: ranks ? `rank_up_${ranks}` : 'rank_max', kind: 'rank', ranks, title: ranks ? `+${ranks} rank${s(ranks)}` : `Rank ${progress.maxRank}`, sub: ranks ? `Straight to rank ${rankAfter(ranks)}` : 'The top rank: every truck opens', price, tag, gives: { ranks } }));
+  const rankOffers = () => SHOP_RANK_PACKS.map(([ranks, price, tag]) => offer({ id: `rank_up_${ranks}`, kind: 'rank', ranks, title: `+${ranks} rank${s(ranks)}`, sub: fitsRanks(ranks) ? `Straight to rank ${rankAfter(ranks)}` : `Only ${progress.maxRank - progress.rank} rank${s(progress.maxRank - progress.rank)} left to the top`, price, tag, gives: { ranks } }));
 
   function loadGrants() { try { return JSON.parse(storage?.getItem(GRANTS)) ?? []; } catch (e) { return []; } }
   // gives what the offer holds, once per transaction; returns what changed, or null for a transaction already granted

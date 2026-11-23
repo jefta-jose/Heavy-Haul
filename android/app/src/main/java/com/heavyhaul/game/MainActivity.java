@@ -23,6 +23,8 @@ public class MainActivity extends BridgeActivity {
             window.setAttributes(attrs);
         }
         hideSystemBars();
+        // music plays as soon as the game loads, before the first tap
+        if (getBridge() != null) getBridge().getWebView().getSettings().setMediaPlaybackRequiresUserGesture(false);
     }
 
     // Android brings the bars back after the notification shade, a dialog or another app

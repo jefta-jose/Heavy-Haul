@@ -106,6 +106,34 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     return goalText + lockText + (rules.length ? `, ${rules.join(', ')}` : '');
   }
 
+  // XP is worked out from the game's numbers every time it is shown or paid, never saved, so lowering MISSION_BASE_XP
+  // (or a twist's or lock's share of it) changes contracts already on offer too. Twist and lock `xp` in missions.json are
+  // shares of the base, so the base scales the whole mission.
+  function xpOf(m) {
+    const d = m.d ?? 0.5, lockShare = m.car ? locks.car?.xp ?? 0 : m.class ? locks.class?.xp ?? 0 : 0;
+    const raw = baseXp * (0.6 + 1.2 * d + (m.twists ?? []).reduce((s, t) => s + (twists[t.type]?.xp ?? 0), 0) + lockShare);
+    return Math.max(10, Math.round(classXp(raw, m.class) / 10) * 10);
+  }
+  // stars, wording and map for a contract whose targets are set
+  function finalize(m) {
+    const hard = m.d + 0.35 * m.twists.length + (m.car ? 0.3 : m.class ? 0.2 : 0);
+    m.stars = hard > 1.15 ? 3 : hard > 0.6 ? 2 : 1;
+    m.text = describe(m);
+    m.xp = xpOf(m);
+    if (mapId()) m.map = mapId();
+    return m;
+  }
+  // the chosen contract on another map: the same goal, lock and twists, with targets sized to this trail; null when this
+  // trail cannot host the goal (no speed cameras, too few bogs, no checkpoints)
+  function resize(m) {
+    const lock = { class: m.class, car: m.car ? owned().find(c => c.id === m.car) ?? { id: m.car, name: m.carName, class: m.class } : undefined };
+    const g = makeGoal(m.goal, lock); if (!g) return null;
+    const out = { ...g, twists: m.twists.map(t => makeTwist(t.type, g, lock)), title: m.title, id: m.id };
+    if (m.class) out.class = m.class;
+    if (m.car) { out.car = m.car; out.carName = m.carName; }
+    return finalize(out);
+  }
+
   // one contract. `force` pins a class and depot goals (the least-driven class's offer).
   function contract(force = null, avoid = new Set()) {
     for (let tries = 0; tries < 30; tries++) {
@@ -123,16 +151,9 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       if (goals[m.goal]?.needsRule && !m.twists.length && !lock.class) continue;   // a bare delivery is no contract
       if (lock.class) m.class = lock.class;
       if (lock.car) { m.car = lock.car.id; m.carName = lock.car.name; }
-      const raw = baseXp * (0.6 + 1.2 * m.d) + m.twists.reduce((s, t) => s + (twists[t.type]?.xp ?? 0), 0) + (lock.car ? locks.car?.xp ?? 0 : lock.class ? locks.class?.xp ?? 0 : 0);
-      m.xp = Math.max(10, Math.round(classXp(raw, m.class) / 10) * 10);
-      const hard = m.d + 0.35 * m.twists.length + (lock.car ? 0.3 : lock.class ? 0.2 : 0);
-      m.stars = hard > 1.15 ? 3 : hard > 0.6 ? 2 : 1;
       m.title = pick(goals[m.goal]?.titles ?? [m.goal]);
-      m.text = describe(m);
       m.id = `${m.goal}-${Math.floor(random() * 2 ** 32).toString(36)}`;
-      if (mapId()) m.map = mapId();
-      delete m.d;
-      return m;
+      return finalize(m);
     }
     return null;
   }
@@ -156,6 +177,8 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const prune = () => { state.offers = state.offers.filter(fits); if (!state.offers.some(m => m.id === state.active)) state.active = null; };
   let current = mapId();
   prune();
+  // saved contracts keep the XP they were drawn with: work it out again from today's numbers
+  for (const m of [...state.offers, ...Object.values(state.maps).flatMap(x => x.offers ?? [])]) m.xp = xpOf(m);
   const save = () => { try { store?.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
   const activeMission = () => state.offers.find(m => m.id === state.active) ?? null;
 
@@ -172,7 +195,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   }
   if (state.offers.length < offerCount) draw();
 
-  function finish(m) { state.active = null; draw(); return { mission: m, xp: m.xp }; }
+  function finish(m) { const xp = xpOf(m); state.active = null; draw(); return { mission: m, xp }; }
   const lockFailed = (m, r) => (m.class && r.cls !== m.class) || (m.car && r.car && r.car !== m.car);
   const failedBy = (m, r) => lockFailed(m, r) || !!GOALS[m.goal].failed?.(m, r) || m.twists.some(t => TWISTS[t.type]?.failed(t, r));
   const doneBy = (m, r) => !failedBy(m, r) && GOALS[m.goal].done(m, r);
@@ -181,7 +204,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   return {
     get offers() { return state.offers; },
     get active() { return activeMission(); },
-    xpFor: m => m.xp,
+    xpFor: m => xpOf(m),
     starsFor: m => m.stars ?? 1,
     // choose an offered mission, or the chosen one again to put it down
     choose(id) { state.active = state.active === id || !state.offers.some(m => m.id === id) ? null : id; save(); return this.active; },
@@ -207,9 +230,13 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     mapChanged() {
       const next = mapId();
       if (next && current && next !== current) {
-        state.maps[current] = { offers: state.offers, active: state.active };
+        // the chosen contract goes with you (user, 2026-11-23: pick a mission, then a map, and it is there), sized to the new
+        // trail; one this trail cannot host stays behind, chosen, on its own map
+        const chosen = activeMission(), moved = chosen ? resize(chosen) : null;
+        state.maps[current] = { offers: moved ? state.offers.filter(m => m.id !== chosen.id) : state.offers, active: moved ? null : state.active };
         const back = state.maps[next]; delete state.maps[next];
         state.offers = back?.offers ?? []; state.active = back?.active ?? null;
+        if (moved) { state.offers = [moved, ...state.offers.filter(m => m.id !== moved.id)].slice(0, offerCount); state.active = moved.id; }
       }
       current = next; prune();
       if (state.offers.length < offerCount) draw(); else save();

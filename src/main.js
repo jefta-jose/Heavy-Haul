@@ -18,7 +18,6 @@ import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
 import { createUiAudio, bindUiFeedback } from './audio/ui-audio.js';
 import { createSpeedTrap } from './game/speed-trap.js';
-import { createStunts } from './game/stunts.js';
 import { seasonPass } from './game/season-pass.js';
 
 // Entry point: the garage picks a car (its load is part of it); a run builds the world with that
@@ -61,12 +60,11 @@ const music = createMusic(content.music, audio.volumes);
 music.play('garage');
 { const set = audio.setVolume; audio.setVolume = (kind, value) => { set(kind, value); music.apply(); uiAudio.apply(); }; }
 const hud = createHud({ sim, season });
-const stunts = createStunts({ sim, box: document.getElementById('stunts') });
 const renderer = createRenderer({
   view, sim, content,
   onEvent: e => {
-    if (e.type === 'splash') { audio.splash(e.power); stunts.splash(e.power); }
-    else if (e.type === 'crush') { audio.crush(e.size); stunts.crushed(); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
+    if (e.type === 'splash') audio.splash(e.power);
+    else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.main.tireData) audio.hit();
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
@@ -146,7 +144,6 @@ const input = createInput(hud.els, {
 });
 
 function newRun() {
-  stunts.reset();
   sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
@@ -320,7 +317,6 @@ function frame(now) {
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
     if (!covered) session.update(dt);
     hud.showFilling(sim.main.st.filling);
-    stunts.update(dt, !covered);
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
@@ -332,7 +328,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { missions, progress, trap, stunts, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

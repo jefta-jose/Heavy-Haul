@@ -455,12 +455,12 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const art = el('span', `sart pics${Math.min(3, o.pics.length)}`);
     if (o.pics.length) for (const p of o.pics.slice(0, 3)) { const img = el('img'); img.src = p; img.alt = ''; img.draggable = false; img.loading = 'lazy'; art.append(img); }
     else if (o.kind === 'coins') { art.classList.add('coins', `size${o.size}`); for (let i = 0; i <= o.size; i++) art.append(el('i', 'coinic')); }
-    else { const g = gIcon(o.kind === 'rank' ? 'rank' : o.kind === 'bundle' ? 'bundle' : 'cash'); art.append(g); if (o.kind === 'rank') art.append(el('b', 'srank', o.ranks ? `+${o.ranks}` : 'MAX')); }
+    else { const g = gIcon(o.kind === 'rank' ? 'rank' : o.kind === 'bundle' ? 'bundle' : 'cash'); art.append(g); if (o.kind === 'rank') art.append(el('b', 'srank', `+${o.ranks}`)); }
     const left = o.kind === 'bundle' && !finished ? shop.newTrucks(o) : 0, total = o.gives.trucks.length;
     const sub = left && left < total ? `${o.sub} · ${left} new for you` : o.sub;
     const text = el('span', 'stext'); text.append(el('b', null, o.title), el('small', null, sub));
     const buy = el('button', 'sbuy');
-    if (finished) { buy.append(el('span', null, o.kind === 'rank' ? 'Top rank' : 'Owned')); buy.disabled = true; }
+    if (finished) { buy.append(el('span', null, o.kind === 'rank' ? (progress.rank >= progress.maxRank ? 'Top rank' : `Max +${progress.maxRank - progress.rank}`) : 'Owned')); buy.disabled = true; }
     else {
       buy.append(el('span', null, shop.priceText(o)));
       buy.addEventListener('click', async () => {
