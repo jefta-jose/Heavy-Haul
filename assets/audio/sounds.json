@@ -1072,8 +1072,7 @@
           4.0,
           46.0
         ]
-      ],
-      "lowpass": 900
+      ]
     },
     "hawk": {
       "kind": "oneshots",
@@ -1098,6 +1097,37 @@
       ],
       "count": 6,
       "len": 1.8
+    },
+    "lava": {
+      "kind": "loop",
+      "source": "fs-415608",
+      "regions": [
+        [
+          181.0,
+          226.0
+        ]
+      ],
+      "highpass": 120
+    },
+    "embers": {
+      "kind": "loop",
+      "source": "fs-181563",
+      "regions": [
+        [
+          0.5,
+          28.0
+        ]
+      ],
+      "highpass": 400
+    },
+    "eruption": {
+      "kind": "clip",
+      "source": "fs-176589",
+      "region": [
+        29.0,
+        64.0
+      ],
+      "fadeOut": 6.0
     }
   }
 }

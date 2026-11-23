@@ -1024,6 +1024,30 @@
       "sources": [
         "fs-102972"
       ]
+    },
+    "lava": {
+      "file": "bank/lava.mp3",
+      "seconds": 44.5,
+      "kind": "loop",
+      "sources": [
+        "fs-415608"
+      ]
+    },
+    "embers": {
+      "file": "bank/embers.mp3",
+      "seconds": 27.0,
+      "kind": "loop",
+      "sources": [
+        "fs-181563"
+      ]
+    },
+    "eruption": {
+      "file": "bank/eruption.mp3",
+      "seconds": 35.0,
+      "kind": "clip",
+      "sources": [
+        "fs-176589"
+      ]
     }
   },
   "engines": {
@@ -1451,6 +1475,15 @@
       "woodpecker-4",
       "woodpecker-5",
       "woodpecker-6"
+    ],
+    "lava": [
+      "lava"
+    ],
+    "embers": [
+      "embers"
+    ],
+    "eruption": [
+      "eruption"
     ]
   }
 }

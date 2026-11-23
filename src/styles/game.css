@@ -63,8 +63,9 @@ canvas#view {
   /* its map markers stay under the overlays */
   padding-top: max(10px, env(safe-area-inset-top, 0px));
   padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  /* the same margin both sides: a phone's camera cutout reserves one side only, which left the HUD off centre */
+  padding-left: max(16px, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  padding-right: max(16px, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
 }
 
 .top {

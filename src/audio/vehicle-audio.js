@@ -21,12 +21,13 @@ const VOLUME_KEY = 'hh_audio_volumes';
 const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7, music: 0.5, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 // a map's long beds, each faded in by its season's ambience zones
-export const BEDS = ['forest', 'frogs', 'rain-heavy', 'rain-light', 'wind-desert', 'wind-trees', 'leaves', 'cicadas', 'insects', 'stream', 'meadow', 'rumble'];
+export const BEDS = ['forest', 'frogs', 'rain-heavy', 'rain-light', 'wind-desert', 'wind-trees', 'leaves', 'cicadas', 'insects', 'stream', 'meadow', 'rumble', 'lava', 'embers'];
 // a map's calls: now and then, from a random side, `near` or `far` clips; every = seconds between calls
 export const CALLS = {
   crows: { near: 'crow', far: 'crow-far', nearShare: 0.45, gain: [0.45, 0.6], every: [2.5, 9.5] },
   hawk: { near: 'hawk', far: 'hawk', nearShare: 0.3, gain: [0.5, 0.35], every: [9, 22] },
   woodpecker: { near: 'woodpecker', far: 'woodpecker', nearShare: 0.4, gain: [0.4, 0.25], every: [7, 18] },
+  eruption: { near: 'eruption', far: 'eruption', nearShare: 0.35, gain: [0.9, 0.55], every: [28, 55] },
 };
 // long clips only ever played as beds, decoded when first heard
 const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'fuel-pump', 'fuel-flow']);

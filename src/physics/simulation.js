@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, STABLE_PITCH_DEG, STABLE_SPAN_DEG, STABLE_RIGHTING, STABLE_DAMPING, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
 import { createTerrain, seasonSurfaces } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -97,7 +97,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // A fully upgraded truck (tuning.js: physics.neverStuck) only meets obstacles with its tyres: its chassis passes over logs,
   // rocks and props, so a nose, tail or belly can never hang on one. `f` is a fixture, `o` the other fixture's user data.
-  const ghost = (f, o) => !!o?.obstacle && !f.getUserData() && vehicles.some(v => v.tireData.neverStuck && v.parts.truck === f.getBody());
+  const ghost = (f, o) => !!o?.obstacle && !f.getUserData() && vehicles.some(v => v.tireData.fullyTuned && v.parts.truck === f.getBody());
 
   // Damage from a solid obstacle: it grows with the square of the speed over DAMAGE_START_KMH. Things that break
   // under this truck do no harm. A short truck is also thrown nose-up.
@@ -183,7 +183,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const tireData = { tire: true, massT: (car.physics.mass + (car.physics.load?.massT ?? 0) * 1000) / 1000 }, grip = gripTable(car.wheelType);
     if (car.physics.tireGrip && car.physics.tireGrip !== 1) tireData.gripScale = car.physics.tireGrip;   // garage tuning
     if (grip) tireData.grip = grip;
-    if (car.physics.neverStuck) tireData.neverStuck = true;   // fully upgraded (tuning.js)
+    // fully upgraded (tuning.js); its mud and climbing grip (neverStuck) works only while AWD and DIFF are both on (stepVehicle)
+    if (car.physics.neverStuck) tireData.fullyTuned = true;
     const v = { car, role, ctl, st, drivetrain: createDrivetrain(withMinPull(car)), tireData, hitT: 0 };
     spawnParts(v, x);
     return v;
@@ -204,17 +205,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     return (soft && v.tireData.neverStuck ? Math.max(NEVER_STUCK_MU, k) : k) * N * wheelRadius(v.car.rig, i);
   }
 
-  // A fully upgraded truck never flips (game-config.js STABLE_*): past STABLE_PITCH_DEG from the ground's slope a righting
-  // push turns it back and brakes further tipping; returns how much drive it keeps (wheelie control, 1 = all of it).
-  const STABLE_PITCH = STABLE_PITCH_DEG * Math.PI / 180, STABLE_SPAN = STABLE_SPAN_DEG * Math.PI / 180;
-  function keepUpright(truck, ang, dir) {
-    const x = truck.getPosition().x, slope = Math.atan2(colH(x + 2) - colH(x - 2), 4);
-    const pitch = Math.atan2(Math.sin(ang - slope), Math.cos(ang - slope)), over = Math.abs(pitch) - STABLE_PITCH;
-    if (over <= 0) return 1;
-    const s = Math.sign(pitch), w = truck.getAngularVelocity(), I = truck.getInertia();
-    truck.applyTorque(-s * I * (STABLE_RIGHTING * over + (Math.sign(w) === s ? STABLE_DAMPING * Math.abs(w) : 0)), true);
-    return s === dir ? Math.max(0, 1 - over / STABLE_SPAN) : 1;   // nose climbing while driving forward (tail, in reverse)
-  }
+  // No truck is held upright: players balance on the gas and brake, and any truck can flip (user decision, 2026-11-23).
 
   // A truck that can't pull MIN_PULL_BY_CLASS of its own weight in its short gear gets more torque until it can.
   function withMinPull(car) {
@@ -248,6 +239,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   function stepVehicle(v, dt) {
     const { ctl, st, car } = v, { truck, wheels, joints } = v.parts, dc = car.drivetrain;
+    // a fully upgraded truck can't get stuck only with AWD and DIFF on: without them mud holds it and logs stop it like any other
+    v.tireData.neverStuck = !!(v.tireData.fullyTuned && ctl.awd && ctl.diff);
     const vel = truck.getLinearVelocity();
     const ang = truck.getAngle();
     const fwd = vel.x * Math.cos(ang) + vel.y * Math.sin(ang);
@@ -291,13 +284,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     }
 
     const { ratio, dir, omAvg, govOmega, driveOmega, driven, caps } = v.drivetrain.update({ ctl, st, wheels, joints, dt, gripOf: i => gripOf(v, i) });
-    const tame = v.tireData.neverStuck ? keepUpright(truck, ang, dir) : 1;
 
     // the Nitro power: a push along the truck, past what the engine and gears allow, up to a share of its own top speed.
     // It only pushes while a drive pedal is held (forward, or back in reverse): let go and the truck slows and stops as usual.
     const nitro = nitroRunning && want > 0.05 && !ctl.handbrake && brake <= 0.01;
     const nitroDir = ctl.gear === 'R' ? -1 : 1;
-    if (nitro && grounded && tame > 0.99 && fwd * nitroDir < dc.governedRpm / dc.gears.H * 2 * Math.PI / 60 * car.rig.radius * NITRO_TOP_SHARE) {
+    if (nitro && grounded && fwd * nitroDir < dc.governedRpm / dc.gears.H * 2 * Math.PI / 60 * car.rig.radius * NITRO_TOP_SHARE) {
       const m = [truck, ...wheels].reduce((sum, b) => sum + b.getMass(), 0) * NITRO_ACCEL * want * nitroDir;
       truck.applyForceToCenter(V(m * Math.cos(ang), m * Math.sin(ang)), true);
     }
@@ -317,7 +309,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
         // over the governor (rolling downhill): the engine and exhaust brake hold the gear's speed
         j.setMotorSpeed(dir * govOmega); j.setMaxMotorTorque((dc.engineBrake + dc.exhaustBrake) * ratio / wheels.length);
       } else if (st.throttle > 0.01 && driven.includes(i)) {
-        j.setMotorSpeed(dir * driveOmega * health); j.setMaxMotorTorque(caps[i] * health * tame);
+        j.setMotorSpeed(dir * driveOmega * health); j.setMaxMotorTorque(caps[i] * health);
       } else if (st.throttle > 0.01) {
         j.setMotorSpeed(0); j.setMaxMotorTorque(40);          // front axle free-wheeling with AWD off
       } else {

@@ -34,12 +34,12 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   with their code and art; players only drive. Refuelling and repairs happen at fuel stations (`trail.stations`). A rollover,
   an empty tank or 100% damage ends the run. Do not add them back. The five old breakdown trucks are in git before their removal.
   **A fully upgraded car can never get stuck (user decision, 2026-11-22):** with all four tuning knobs at 100, `applyTuning`
-  sets `physics.neverStuck`; mud then keeps at least `NEVER_STUCK_MU` grip and swaps its bog drag for a drag that grows with speed
+  sets `physics.neverStuck`. **Only while AWD and DIFF are both on (user decision, 2026-11-23)**: otherwise it can get stuck like any truck, or the two buttons would mean nothing. Then mud keeps at least `NEVER_STUCK_MU` grip and swaps its bog drag for a drag that grows with speed
   (`NEVER_STUCK_MUD_DRAG`, stronger in deep bogs), so mud stays slower than firm ground (user, 2026-11-22: about two thirds of
   dirt speed, bogs a little over half) but can never pin the truck; the chassis
   passes over obstacles (only tyres touch them, `ghost` in the simulation), whose tyres keep at least `NEVER_STUCK_CLIMB_MU` grip on
-  them so they climb any log, pipe or rock. It never flips either: past `STABLE_PITCH_DEG` from the
-  ground's slope drive eases off and a righting push turns it back (`keepUpright`). A stock or partly tuned car can still get stuck or flip.
+  them so they climb any log, pipe or rock. It can still flip: the righting push (`keepUpright`)
+  was removed on 2026-11-23 (user: let players balance with the gas and brake). A stock or partly tuned car can still get stuck.
   `npm run test:route` drives the fully upgraded default car; `node tools/stuck-sweep.mjs <season> trail|bogs` checks every car.
 - Cars have fixed tires and art. The garage **tuning** panel (`src/game/tuning.js`) scales any car's
   specs: 4 knobs (engine, suspension, speed, grip), each 0 to 100 in steps of 25 and each

@@ -825,6 +825,48 @@
       "file": "source/fs-102972.mp3",
       "format": "Freesound public high-quality MP3 rendition",
       "sha256": "3ddfc181d3851895e58743545156a8d53c966d73cc8ce5dc701d70c70c8e137a"
+    },
+    {
+      "id": "fs-176589",
+      "group": "ambience",
+      "purpose": "Volcano eruptions in Cinder Caldera",
+      "author": "Hendrik",
+      "title": "YasurVolcanoe-Vanuatu-TannaIsland-SmallEruption.wav",
+      "page": "https://freesound.org/people/Hendrik/sounds/176589/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/176/176589_173983-hq.mp3",
+      "file": "source/fs-176589.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "5755b3bc072b19053b73572cb0e58b748369b2109fc8c508b9aada5053caa93c"
+    },
+    {
+      "id": "fs-415608",
+      "group": "ambience",
+      "purpose": "Bubbling lava in Cinder Caldera",
+      "author": "RTB45",
+      "title": "Mud Volcano Field - Salton Sea",
+      "page": "https://freesound.org/people/RTB45/sounds/415608/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/415/415608_2409224-hq.mp3",
+      "file": "source/fs-415608.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "7166f2afc61591258a97fa7d602355f34c3d4bcf2371a52f8a71008487a72309"
+    },
+    {
+      "id": "fs-181563",
+      "group": "ambience",
+      "purpose": "Embers crackling in Cinder Caldera",
+      "author": "kingsrow",
+      "title": "Fire Crackling 01.wav",
+      "page": "https://freesound.org/people/kingsrow/sounds/181563/",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://cdn.freesound.org/previews/181/181563_1857065-hq.mp3",
+      "file": "source/fs-181563.mp3",
+      "format": "Freesound public high-quality MP3 rendition",
+      "sha256": "f06ff554e43415d6fe1d83d00d964c93f8a3b1c1ec7c5b59e4e6c4383dd4c591"
     }
   ]
 }

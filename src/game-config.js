@@ -168,12 +168,7 @@ export const NEVER_STUCK_MU = 0.6;
 export const NEVER_STUCK_MUD_DRAG = 0.3;      // m/s² of slowing for each m/s of speed in mud
 export const NEVER_STUCK_BOG_DRAG = 2;
 export const NEVER_STUCK_CLIMB_MU = 3;          // and at least this grip on logs, pipes and rocks, so a tyre climbs even a steep face
-// It never flips either: once its body tips past STABLE_PITCH_DEG from the ground under it (nose up while driving, or any way
-// at all), drive eases off over the next STABLE_SPAN_DEG, and a righting push turns it back toward the ground's slope.
-export const STABLE_PITCH_DEG = 22;
-export const STABLE_SPAN_DEG = 12;
-export const STABLE_RIGHTING = 60;            // righting push, rad/s² for each radian past STABLE_PITCH_DEG
-export const STABLE_DAMPING = 8;              // and how hard it brakes any further tipping, per second
+// It can still flip: no truck is held upright, players balance it on the gas and brake (user decision, 2026-11-23).
 
 // ---------- heavy-mud maps (user request, 2026-11-20) ----------
 // A map listed here has its mud made harder than its season.json says, so its difficulty is tuned in one place (1 = as written).

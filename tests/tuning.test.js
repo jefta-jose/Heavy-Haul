@@ -89,16 +89,6 @@ test('a fully upgraded car is still slower in mud than on dirt', () => {
   assert(mud < dirt * 0.85, `mud ${mud.toFixed(0)} km/h against dirt ${dirt.toFixed(0)} km/h`);
 });
 
-test('a fully upgraded car rights itself instead of flipping, even on full throttle', () => {
-  const max = Object.fromEntries(KNOBS.map(k => [k.id, 100]));
-  const s = spawn(newSim(applyTuning(content.car, max)), 60), t = s.truck;
-  t.setTransform(s.V(t.getPosition().x, t.getPosition().y + 1.5), 1.0); t.setAngularVelocity(2);   // thrown nose-up, still tipping
-  s.ctl.gas = 1; let worst = 0;
-  for (let i = 0; i < 120 * 4; i++) { s.step(1 / 120); worst = Math.max(worst, Math.abs(t.getAngle())); }
-  assert(worst < 1.4, `never past 80° (${(worst * 57.3).toFixed(0)}°)`);
-  assert(Math.abs(t.getAngle()) < 0.5, `back down on its wheels (${(t.getAngle() * 57.3).toFixed(0)}°)`);
-});
-
 test('upgrades cost more each step and more on bigger classes, and selling refunds exactly', () => {
   const scout = { class: 'scout' }, heavy = { class: 'heavy' };
   assert.equal(upgradeCost(scout, 0, 25), 400);

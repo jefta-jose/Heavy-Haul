@@ -110,8 +110,8 @@ the mud instead of on top of it.
 Ten deep bogs (`trail.heavyMud`), each with one mud hole. In mud, tires lose grip in patches, and a
 bog drag holds a slow tire back. In a deep bog the drag grows with the weight on the tire, so every
 class gets stuck in proportion, but tires carrying under 2.5 t are held less (`bogRefT`), so a light
-scout can wiggle through. The fix is L, AWD and DIFF, and backing up for another run at it. A car with all four upgrades at 100 never gets stuck: mud
-stops holding it, its chassis rides over obstacles and it rights itself instead of flipping (`physics.neverStuck`, set by
+scout can wiggle through. The fix is L, AWD and DIFF, and backing up for another run at it. A car with all four upgrades at 100 never gets stuck **while AWD and DIFF are both on**: mud
+stops holding it and its tyres climb any obstacle. With either off it can get stuck like any truck. Its chassis always rides over obstacles. Any truck can flip: balance it on the gas and brake (`physics.neverStuck`, set by
 [tuning.js](game/tuning.js)).
 
 **How come the highway has no obstacles?**
