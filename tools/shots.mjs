@@ -39,7 +39,26 @@ async function open(viewport, touch = true) {
 async function dismissLoader(page) { await page.locator('#loader').click({ timeout: 5000 }).catch(() => {}); await page.waitForFunction(() => !__haul.loader.visible, null, { timeout: 30000 }).catch(() => {}); await page.waitForTimeout(300); }
 const shot = (page, name) => page.screenshot({ path: path.join(OUT, `${name}.png`) });
 try {
-  if (mode === 'drive') {
+  if (mode === 'maps') {
+    // marketing: a hero truck on every map, driven a little way in, at Play Store screenshot sizes
+    const heroes = { 'swamp-summer': 'mire-king-6', 'spring-thaw': 'fjord-otter-10', 'autumn-forest': 'log-giant-8', 'desert-wash': 'baja-hammer-20', 'gumbo-bottoms': 'amphibian-10', 'highland-quarry': 'quarry-colossus-19', 'jungle-monsoon': 'rescue-hawk-13', 'volcanic-ash': 'magma-16' };
+    const dir = ids[0] ?? OUT; fs.mkdirSync(dir, { recursive: true });
+    for (const [tag, vp, scale] of [['landscape', { width: 1920, height: 1080 }, 1], ['phone', { width: 844, height: 390 }, 2.56]]) {
+      const page = await browser.newPage({ viewport: vp, deviceScaleFactor: scale, hasTouch: tag === 'phone', isMobile: tag === 'phone' });
+      page.on('pageerror', e => errors.push(e.message));
+      await page.addInitScript(owned => { localStorage.setItem('hh_progress', JSON.stringify({ xp: 75000, owned })); localStorage.setItem('hh_wallet', '250000'); localStorage.setItem('hh_seasons', JSON.stringify(['swamp-summer','spring-thaw','autumn-forest','desert-wash','gumbo-bottoms','highland-quarry','jungle-monsoon','volcanic-ash'])); }, roster);
+      await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+      await page.goto(url); await page.waitForFunction(() => window.__haul && document.querySelector('#loader.done'), null, { timeout: 120000 }); await dismissLoader(page);
+      for (const [map, car] of Object.entries(heroes)) {
+        await page.evaluate(async ({ map, car }) => { await __haul.switchSeason(map, { quiet: true }); __haul.garage.select(car); __haul.startRun(__haul.garage.selection); }, { map, car });
+        await page.waitForFunction(() => __haul.renderer.ready && Object.values(__haul.renderer.assetStatus()).every(Boolean), null, { timeout: 90000 });
+        await dismissLoader(page);
+        await page.evaluate(() => { const s = __haul.sim; s.respawn(s.trail.start + 260); Object.assign(s.ctl, { gear: 'L', awd: true, diff: true, gas: 1 }); for (let i = 0; i < 600; i++) s.step(1 / 120); __haul.snap(); for (let f = 0; f < 30; f++) __haul.renderer.draw(1 / 60, true); });
+        await page.waitForTimeout(400); await page.screenshot({ path: path.join(dir, `${tag}-${map}.png`) });
+      }
+      await page.close();
+    }
+  } else if (mode === 'drive') {
     // one truck driven along the trail: a frame every `every` seconds
     const [id, secs = '40', every = '2'] = ids, page = await open({ width: 844, height: 390 });
     await page.evaluate(id => { __haul.garage.select(id); __haul.startRun(__haul.garage.selection); }, id);
