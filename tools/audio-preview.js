@@ -3,11 +3,14 @@
 // idle, pull away up through the gears, cruise, lift off, grind away in low, spin the wheels in mud,
 // idle, shut down. Also renders the beds (tires, water, mud, chassis, pump, ambience) through
 // the loop player for 40 s each, so any audible repetition shows up.
-//   npm run audio:preview -> output/audio/engine-<class>.wav, bed-<name>.wav, index.html, report.json
+// Each map's soundscape is mixed too, its beds at their strongest and its calls and thunder now and then.
+//   npm run audio:preview -> output/audio/engine-<class>.wav, bed-<name>.wav, map-<season>.wav, index.html, report.json
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ROOT, readSoundBank } from './lib/content.js';
+import { BEDS, CALLS } from '../src/audio/vehicle-audio.js';
+const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
 
 export function measure(x) {
   let ss = 0, peak = 0, nan = false;
@@ -32,7 +35,7 @@ export const DRIVE = [
 ];
 const PHASES = 'start / idle / pull away, as fast as real trucks do / climb / cruise / lift off / slow down / idle / grind in low / wheelspin / idle / shutdown';
 
-export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'cable-strain', 'fuel-pump', 'fuel-flow', 'forest', 'frogs'], seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
+export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks', 'mud', 'mud-spin', 'rattle-bed', 'wade', 'water-churn', 'cable-strain', 'fuel-pump', 'fuel-flow', ...BEDS], maps = true, seconds = 40, drive = DRIVE, tag = 'engine' } = {}) {
   const { chromium } = await import('playwright'), esbuild = await import('esbuild');
   const bank = readSoundBank();
   classes ??= Object.keys(bank.engines);
@@ -83,6 +86,34 @@ export async function renderPreviews({ classes, beds = ['gravel', 'dirt', 'rocks
       const m = measure(r.samples.subarray(r.sr)), spread = Math.min(...secs) / Math.max(...secs);
       report.push({ kind: 'bed', name, file: `bed-${name}.wav`, rms: m.rms, peak: m.peak, minOverMax: spread });
       console.log(`bed ${name.padEnd(12)} rms ${m.rms.toFixed(3)} peak ${m.peak.toFixed(2)} quietest/loudest second ${spread.toFixed(2)}`);
+    }
+    // each map: its beds at the strongest any zone plays them, its calls at random, thunder twice where it has it
+    const seasons = maps ? fs.readdirSync(path.join(ROOT, 'assets/seasons')).filter(d => fs.existsSync(path.join(ROOT, 'assets/seasons', d, 'season.json'))) : [];
+    for (const id of seasons) {
+      const season = readJson(`assets/seasons/${id}/season.json`), w = {};
+      for (const z of season.ambience ?? []) w[z.sound] = Math.max(w[z.sound] ?? 0, z.gain ?? 1);
+      const beds = BEDS.filter(n => w[n] > 0 && bank.clips[n]), calls = Object.entries(CALLS).filter(([n]) => w[n] > 0);
+      const shots = [...calls.flatMap(([, c]) => [...bank.effects[c.near], ...bank.effects[c.far]]), ...(w.thunder ? [...bank.effects.thunder, ...bank.effects['thunder-far']] : [])];
+      const events = [];
+      for (const [n, c] of calls) for (let t = 2 + Math.random() * 3; t < seconds - 3; t += c.every[0] + Math.random() * (c.every[1] - c.every[0])) {
+        const near = Math.random() < c.nearShare, list = bank.effects[near ? c.near : c.far];
+        events.push([t, list[Math.floor(Math.random() * list.length)], w[n] * c.gain[near ? 0 : 1] * (0.6 + Math.random() * 0.4)]);
+      }
+      if (w.thunder) events.push([5, bank.effects.thunder[0], 0.9 * w.thunder], [24, bank.effects['thunder-far'][0], 0.6 * w.thunder]);
+      const r = await render(async ({ beds, w, events, clips, seconds }) => {
+        const sr = 44100, ac = new OfflineAudioContext(1, seconds * sr, sr), buf = {};
+        for (const [k, raw] of Object.entries(clips)) buf[k] = await ac.decodeAudioData(Uint8Array.from(atob(raw), c => c.charCodeAt(0)).buffer);
+        const bus = ac.createGain(); bus.gain.value = 0.7; bus.connect(ac.destination);
+        const players = beds.map(n => { const p = HaulAudio.createLoopPlayer(ac, buf[n], bus, { grain: [6, 12], fade: 2.5 }); p.setGain(w[n] * 0.6, 0.01); return p; });
+        for (const [at, name, gain] of events) { const s = ac.createBufferSource(), g = ac.createGain(); s.buffer = buf[name]; g.gain.value = gain; s.connect(g); g.connect(bus); s.start(at); }
+        const done = []; for (let i = 0; i * 0.05 < seconds - 0.05; i++) done.push(ac.suspend(Math.round(i * 0.05 * sr / 128) * 128 / sr).then(() => { players.forEach(p => p.update()); ac.resume(); }));
+        const out = await ac.startRendering(); await Promise.all(done);
+        return { samples: Array.from(out.getChannelData(0)), sr };
+      }, { beds, w, events, clips: clipData([...beds, ...new Set(shots)]), seconds });
+      wav(path.join(outDir, `map-${id}.wav`), r.samples, r.sr);
+      const m = measure(r.samples.subarray(r.sr));
+      report.push({ kind: 'map', name: `${season.name} (${[...beds, ...calls.map(([n]) => n), ...(w.thunder ? ['thunder'] : [])].join(', ')})`, file: `map-${id}.wav`, rms: m.rms, peak: m.peak });
+      console.log(`map ${id.padEnd(16)} rms ${m.rms.toFixed(3)} peak ${m.peak.toFixed(2)} ${beds.join(' ')}`);
     }
     fs.writeFileSync(path.join(outDir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
     fs.writeFileSync(path.join(outDir, 'index.html'), `<!doctype html><meta name="viewport" content="width=device-width"><title>Heavy Haul sound previews</title><style>body{background:#17211e;color:#eee;font:17px system-ui;max-width:820px;margin:40px auto;padding:20px}audio{width:100%}section{margin:22px 0}</style><h1>Heavy Haul sound previews</h1><p>${PHASES}.</p>` + report.map(r => `<section><h2>${r.kind} · ${r.name}</h2><audio controls preload="none" src="${r.file}"></audio></section>`).join(''));

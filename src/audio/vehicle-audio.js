@@ -3,7 +3,8 @@
 // The driven vehicle adds tires on the ground under it, a chassis rattle that follows the road,
 // a smooth wade and churn in water, squelch and spinning wheels in mud, gear changes, air or hydraulic
 // brakes, the handbrake, its load shaking when it breaks rocks, and the back-up alarm. Refuelling has the pump and the fuel running. The season's
-// ambience zones bring in forest birds, frogs and crows.
+// ambience zones bring in its own beds (forest, frogs, rain, wind, cicadas, a stream, the volcano's rumble) and
+// calls (crows, a hawk, woodpeckers), and thunder follows the lightning on screen.
 // Long beds play through the seamless loop player, so nothing audibly repeats.
 //
 // Decoded sound takes far more memory than the files, so clips are decoded as they are needed: the
@@ -19,7 +20,14 @@ import { BRAKE_HISS_GAP_S } from '../game-config.js';
 const VOLUME_KEY = 'hh_audio_volumes';
 const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7, music: 0.5, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
-const BEDS = ['forest', 'frogs'];
+// a map's long beds, each faded in by its season's ambience zones
+export const BEDS = ['forest', 'frogs', 'rain-heavy', 'rain-light', 'wind-desert', 'wind-trees', 'leaves', 'cicadas', 'insects', 'stream', 'meadow', 'rumble'];
+// a map's calls: now and then, from a random side, `near` or `far` clips; every = seconds between calls
+export const CALLS = {
+  crows: { near: 'crow', far: 'crow-far', nearShare: 0.45, gain: [0.45, 0.6], every: [2.5, 9.5] },
+  hawk: { near: 'hawk', far: 'hawk', nearShare: 0.3, gain: [0.5, 0.35], every: [9, 22] },
+  woodpecker: { near: 'woodpecker', far: 'woodpecker', nearShare: 0.4, gain: [0.4, 0.25], every: [7, 18] },
+};
 // long clips only ever played as beds, decoded when first heard
 const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'fuel-pump', 'fuel-flow']);
 // The load shaking when a tire hits a log, pipe or rock, by class. Scouts have none. gain is at full speed,
@@ -41,7 +49,8 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, loading = {}, beds = {}, ground = {}, water = {}, work = {}, alarm = null;
   const engineClips = new Set(Object.values(bank.engines).flatMap(packClips));
   const voices = new Map();      // vehicle -> engine voice
-  let alarmT = 0, bumpCool = 0, rough = 0, jolt = { v: null, vy: 0 }, brakeState = { v: null }, crowT = 3, wasFuelling = false;
+  let alarmT = 0, bumpCool = 0, rough = 0, jolt = { v: null, vy: 0 }, brakeState = { v: null }, wasFuelling = false, live = false;
+  const callT = Object.fromEntries(Object.keys(CALLS).map(name => [name, 3 + Math.random() * 4]));
 
   function applyVolumes() {
     if (!ac) return;
@@ -185,6 +194,15 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     const v = api.active, speed = Math.abs(v?.st.speed ?? 0);
     if (speed > 0.2) loadHit(v.car, Math.min(1, 0.55 + speed * 0.12));
   };
+  // Thunder after a lightning flash, as far away as the gap: the rumble comes 0.6 to 2.5 s after the flash,
+  // quieter, lower and longer the further off it is. Only on a map whose ambience has a thunder zone.
+  api.thunder = () => {
+    if (!api.ok || !live) return;
+    const zone = Math.max(0, ...ambience.filter(z => z.sound === 'thunder').map(z => zoneWeight(z, api.camX ?? 0) * (z.gain ?? 1)));
+    if (zone < 0.05) return;
+    const far = Math.random(), delay = 0.6 + far * 1.9;
+    setTimeout(() => play(far > 0.55 ? 'thunder-far' : 'thunder', zone * (0.95 - far * 0.45), { bus: ambBus, rate: 1 - far * 0.12, pan: Math.random() * 0.8 - 0.4 }), delay * 1000);
+  };
   // src/main.js adds the haptics for hard hits here; they make no sound of their own
   api.bump = () => {};
 
@@ -197,8 +215,8 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   // Every frame: s = { playing, vehicles, active, water, camX, refueling }.
   api.update = (s, dt) => {
     if (!api.ok) return;
-    const t = ac.currentTime, live = s.playing;
-    api.active = s.active;
+    const t = ac.currentTime;
+    live = s.playing; api.active = s.active; api.camX = s.camX;
     // engine voices: one per vehicle, created and removed with the vehicles
     const seen = new Set();
     for (const v of s.vehicles) {
@@ -282,15 +300,16 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     bumpCool -= dt;
     if (live && dv > 9 && bumpCool <= 0) { api.bump(Math.min(1, (dv - 9) / 25), massT); bumpCool = 0.25; }
 
-    // ambience beds and crows, from the zone the camera is in
-    const x = s.camX, w = { forest: 0, frogs: 0, crows: 0 };
+    // ambience beds and calls, from the zone the camera is in
+    const x = s.camX, w = {};
     for (const z of ambience) w[z.sound] = Math.max(w[z.sound] ?? 0, zoneWeight(z, x) * (z.gain ?? 1));
-    for (const name of BEDS) if (beds[name]) { beds[name].setGain(live ? w[name] * 0.6 : 0, 1.2); beds[name].update(); }
-    crowT -= dt;
-    if (live && w.crows > 0.05 && crowT <= 0) {
-      const near = Math.random() < 0.45;
-      play(near ? 'crow' : 'crow-far', w.crows * (near ? 0.45 : 0.6) * (0.6 + Math.random() * 0.4), { bus: ambBus, pan: Math.random() * 1.4 - 0.7, rate: 0.95 + Math.random() * 0.1 });
-      crowT = 2.5 + Math.random() * 7;
+    for (const name of BEDS) if (beds[name]) { beds[name].setGain(live ? (w[name] ?? 0) * 0.6 : 0, 1.2); beds[name].update(); }
+    for (const [name, c] of Object.entries(CALLS)) {
+      callT[name] -= dt;
+      if (!live || !(w[name] > 0.05) || callT[name] > 0) continue;
+      const near = Math.random() < c.nearShare;
+      play(near ? c.near : c.far, w[name] * c.gain[near ? 0 : 1] * (0.6 + Math.random() * 0.4), { bus: ambBus, pan: Math.random() * 1.4 - 0.7, rate: (near ? 1 : 0.92) + Math.random() * 0.1 });
+      callT[name] = c.every[0] + Math.random() * (c.every[1] - c.every[0]);
     }
   };
   function stopAlarm() {

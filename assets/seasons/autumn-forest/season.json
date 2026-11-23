@@ -2462,6 +2462,78 @@
         3520
       ],
       "gain": 0.6
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        -100,
+        4400
+      ],
+      "gain": 0.6
+    },
+    {
+      "sound": "leaves",
+      "x": [
+        -100,
+        4400
+      ],
+      "gain": 0.45
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        -60,
+        70
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        505,
+        628
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        1028,
+        1180
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        1232,
+        1330
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        1580,
+        1708
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        2612,
+        2808
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        3208,
+        3330
+      ]
+    },
+    {
+      "sound": "woodpecker",
+      "x": [
+        3650,
+        4100
+      ]
     }
   ]
 }

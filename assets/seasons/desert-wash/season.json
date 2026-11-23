@@ -2287,28 +2287,50 @@
   },
   "ambience": [
     {
-      "sound": "crows",
+      "sound": "wind-desert",
+      "x": [
+        -100,
+        4570
+      ],
+      "gain": 0.8
+    },
+    {
+      "sound": "hawk",
+      "x": [
+        110,
+        210
+      ]
+    },
+    {
+      "sound": "hawk",
       "x": [
         365,
         480
       ]
     },
     {
-      "sound": "crows",
+      "sound": "hawk",
+      "x": [
+        1110,
+        1220
+      ]
+    },
+    {
+      "sound": "hawk",
       "x": [
         1400,
         1500
       ]
     },
     {
-      "sound": "crows",
+      "sound": "hawk",
       "x": [
         2060,
         2170
       ]
     },
     {
-      "sound": "crows",
+      "sound": "hawk",
       "x": [
         2460,
         2560

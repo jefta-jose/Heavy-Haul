@@ -949,6 +949,155 @@
         ]
       ],
       "highpass": 200
+    },
+    "rain-heavy": {
+      "kind": "loop",
+      "source": "fs-200272",
+      "regions": [
+        [
+          5.0,
+          42.0
+        ]
+      ]
+    },
+    "rain-light": {
+      "kind": "loop",
+      "source": "fs-200272",
+      "regions": [
+        [
+          5.0,
+          42.0
+        ]
+      ],
+      "lowpass": 2200
+    },
+    "thunder": {
+      "kind": "clip",
+      "source": "fs-194364",
+      "region": [
+        13.5,
+        32.0
+      ],
+      "fadeOut": 3.0
+    },
+    "thunder-far": {
+      "kind": "clip",
+      "source": "fs-244053",
+      "region": [
+        5.0,
+        15.8
+      ],
+      "fadeOut": 2.0,
+      "lowpass": 1800
+    },
+    "wind-desert": {
+      "kind": "loop",
+      "source": "fs-165526",
+      "regions": [
+        [
+          136.0,
+          181.0
+        ]
+      ]
+    },
+    "wind-trees": {
+      "kind": "loop",
+      "source": "fs-403764",
+      "regions": [
+        [
+          160.0,
+          205.0
+        ]
+      ]
+    },
+    "leaves": {
+      "kind": "loop",
+      "source": "fs-253535",
+      "regions": [
+        [
+          56.0,
+          80.0
+        ],
+        [
+          120.0,
+          146.0
+        ]
+      ]
+    },
+    "cicadas": {
+      "kind": "loop",
+      "source": "fs-272169",
+      "regions": [
+        [
+          0.5,
+          45.0
+        ]
+      ]
+    },
+    "insects": {
+      "kind": "loop",
+      "source": "fs-516927",
+      "regions": [
+        [
+          0.5,
+          32.5
+        ]
+      ]
+    },
+    "stream": {
+      "kind": "loop",
+      "source": "fs-262647",
+      "regions": [
+        [
+          9.0,
+          51.0
+        ]
+      ]
+    },
+    "meadow": {
+      "kind": "loop",
+      "source": "fs-454841",
+      "regions": [
+        [
+          8.0,
+          50.0
+        ]
+      ]
+    },
+    "rumble": {
+      "kind": "loop",
+      "source": "fs-17785",
+      "regions": [
+        [
+          4.0,
+          46.0
+        ]
+      ],
+      "lowpass": 900
+    },
+    "hawk": {
+      "kind": "oneshots",
+      "source": "fs-377759",
+      "regions": [
+        [
+          0,
+          13.5
+        ]
+      ],
+      "count": 2,
+      "len": 2.2
+    },
+    "woodpecker": {
+      "kind": "oneshots",
+      "source": "fs-102972",
+      "regions": [
+        [
+          0,
+          96
+        ]
+      ],
+      "count": 6,
+      "len": 1.8
     }
   }
 }

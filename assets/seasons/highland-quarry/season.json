@@ -2215,6 +2215,126 @@
         3520
       ],
       "gain": 0.6
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        -60,
+        140
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        262,
+        385
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        505,
+        1180
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        1232,
+        1480
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        1580,
+        2185
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        2222,
+        2305
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        2365,
+        2500
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        2612,
+        3580
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "meadow",
+      "x": [
+        3650,
+        4100
+      ],
+      "gain": 0.7
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        140,
+        205
+      ],
+      "gain": 0.35
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        440,
+        505
+      ],
+      "gain": 0.35
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        1180,
+        1232
+      ],
+      "gain": 0.35
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        1500,
+        1580
+      ],
+      "gain": 0.35
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        2550,
+        2612
+      ],
+      "gain": 0.35
+    },
+    {
+      "sound": "wind-trees",
+      "x": [
+        3580,
+        3650
+      ],
+      "gain": 0.35
     }
   ]
 }

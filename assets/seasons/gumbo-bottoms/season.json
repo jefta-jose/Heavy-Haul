@@ -2274,6 +2274,22 @@
         2480,
         2600
       ]
+    },
+    {
+      "sound": "rain-light",
+      "x": [
+        -100,
+        3230
+      ],
+      "gain": 0.6
+    },
+    {
+      "sound": "insects",
+      "x": [
+        -100,
+        3230
+      ],
+      "gain": 0.4
     }
   ],
   "rockHulls": "rock-hulls.json"

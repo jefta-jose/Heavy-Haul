@@ -2289,32 +2289,20 @@
   },
   "ambience": [
     {
-      "sound": "crows",
+      "sound": "rumble",
       "x": [
-        365,
-        480
-      ]
+        -100,
+        4570
+      ],
+      "gain": 0.8
     },
     {
-      "sound": "crows",
+      "sound": "wind-desert",
       "x": [
-        1400,
-        1500
-      ]
-    },
-    {
-      "sound": "crows",
-      "x": [
-        2060,
-        2170
-      ]
-    },
-    {
-      "sound": "crows",
-      "x": [
-        2460,
-        2560
-      ]
+        -100,
+        4570
+      ],
+      "gain": 0.35
     }
   ]
 }

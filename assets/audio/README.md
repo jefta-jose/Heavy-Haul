@@ -63,8 +63,11 @@ Rhythmic recordings (wading, footsteps in mud, rocks under a truck) become even 
 - Refuelling: `hook-clank` as the hose connects, `fuel-pump` and `fuel-flow` while the tank fills.
 - Breaking rocks: `underbody`, plus the load shaking, chosen by weight: `cargo-light` and `cargo-chains` on
   light scouts, `rattle` and `cargo-heavy-chains` on other trucks, and on the heavy class `rattle` with `cable-strain`.
-- Ambience: `forest`, `frogs` beds and `crow` / `crow-far` calls, faded in by the season's
-  `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`).
+- Ambience, faded in by the season's `ambience` zones (`season.json`: `{ "sound": "crows", "x": [260, 340], "gain": 1 }`):
+  beds `forest`, `frogs`, `rain-heavy`, `rain-light` (the same rain, filtered soft), `wind-desert`, `wind-trees`, `leaves`,
+  `cicadas`, `insects`, `stream`, `meadow` and `rumble` (`BEDS` in `vehicle-audio.js`), and calls `crows`, `hawk` and
+  `woodpecker` (`CALLS`). A `thunder` zone makes each lightning flash on screen followed by `thunder`, or `thunder-far`
+  when it is further off, 0.6 to 2.5 s later. Each map's set is in [docs/sound-plan.md](../../docs/sound-plan.md).
 - The back-up alarm and the ignition key tick are the only synthesized sounds.
 
 ## Interface feedback
@@ -93,6 +96,6 @@ control the sounds; `UI_SOUND_GAINS` sets their relative levels.
 3. Add or change its regions in `sounds.json`. Pick steady stretches on a spectrogram; for an engine layer,
    measure `hz`, and avoid cab-interior recordings and track clanks.
 4. Build: `uv run --with numpy --with scipy --with imageio-ffmpeg python tools/prepare-audio.py`
-5. Listen: `npm run audio:preview` renders every engine's drive and 40 s of every bed through the game's own
+5. Listen: `npm run audio:preview` renders every engine's drive and 40 s of every bed and each map's mix through the game's own
    code into `output/audio/` (open `index.html`). Then `npm test` and listen in the game. The tests fail if the
    bank holds a clip the game does not play, or a recording nothing uses.

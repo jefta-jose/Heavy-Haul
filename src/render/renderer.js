@@ -76,6 +76,8 @@ export function createRenderer({ view, sim, content, onEvent }) {
     draw,
     flash: on => vehicles.flash(on),
     hitGlow: () => vehicles.hitGlow(),
+    // called on each lightning bolt (the audio's thunder)
+    set onLightning(fn) { air.onBolt = fn; },
     get ready() { return sceneryReady && vehicles.ready; },
     get frames() { return frames; },
     get water() { return particles.water; },

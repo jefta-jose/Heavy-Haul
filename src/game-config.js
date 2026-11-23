@@ -116,6 +116,8 @@ export const NITRO_TOP_SHARE = 1.6;           // nitro stops pushing at this sha
 export const INVINCIBLE_WARN_SECONDS = 3;     // the shield's glow flickers for the last few seconds
 export const SHIELD_COLOR = '#b45cff';        // the glow around a truck that can't be damaged
 export const SHIELD_WIDTH_M = 0.26;           // how far a power's glow reaches off the truck
+export const ENGINE_PITCH_SPREAD = 0.06;       // each truck's engine is pitched by its loaded weight within its class, at most this much deeper or higher
+export const ENGINE_PITCH_POWER = 0.08;        // how strongly weight moves the pitch: (typical tonnes / this truck's tonnes) ** this
 export const BRAKE_HISS_GAP_S = 1.5;          // a brake hiss or handbrake sound plays at most once in this many seconds, so pumping the pedal does not repeat it
 export const INSTANT_BRAKE_RATE = 12;         // how hard nitro's instant brake stops the truck: higher is sharper (12 takes 85 km/h down to a crawl in about a third of a second)
 

@@ -864,6 +864,166 @@
       "sources": [
         "fs-787479"
       ]
+    },
+    "rain-heavy": {
+      "file": "bank/rain-heavy.mp3",
+      "seconds": 36.5,
+      "kind": "loop",
+      "sources": [
+        "fs-200272"
+      ]
+    },
+    "rain-light": {
+      "file": "bank/rain-light.mp3",
+      "seconds": 36.5,
+      "kind": "loop",
+      "sources": [
+        "fs-200272"
+      ]
+    },
+    "thunder": {
+      "file": "bank/thunder.mp3",
+      "seconds": 18.5,
+      "kind": "clip",
+      "sources": [
+        "fs-194364"
+      ]
+    },
+    "thunder-far": {
+      "file": "bank/thunder-far.mp3",
+      "seconds": 10.8,
+      "kind": "clip",
+      "sources": [
+        "fs-244053"
+      ]
+    },
+    "wind-desert": {
+      "file": "bank/wind-desert.mp3",
+      "seconds": 44.5,
+      "kind": "loop",
+      "sources": [
+        "fs-165526"
+      ]
+    },
+    "wind-trees": {
+      "file": "bank/wind-trees.mp3",
+      "seconds": 44.5,
+      "kind": "loop",
+      "sources": [
+        "fs-403764"
+      ]
+    },
+    "leaves": {
+      "file": "bank/leaves.mp3",
+      "seconds": 49.0,
+      "kind": "loop",
+      "sources": [
+        "fs-253535"
+      ]
+    },
+    "cicadas": {
+      "file": "bank/cicadas.mp3",
+      "seconds": 44.0,
+      "kind": "loop",
+      "sources": [
+        "fs-272169"
+      ]
+    },
+    "insects": {
+      "file": "bank/insects.mp3",
+      "seconds": 31.5,
+      "kind": "loop",
+      "sources": [
+        "fs-516927"
+      ]
+    },
+    "stream": {
+      "file": "bank/stream.mp3",
+      "seconds": 41.5,
+      "kind": "loop",
+      "sources": [
+        "fs-262647"
+      ]
+    },
+    "meadow": {
+      "file": "bank/meadow.mp3",
+      "seconds": 41.5,
+      "kind": "loop",
+      "sources": [
+        "fs-454841"
+      ]
+    },
+    "rumble": {
+      "file": "bank/rumble.mp3",
+      "seconds": 41.5,
+      "kind": "loop",
+      "sources": [
+        "fs-17785"
+      ]
+    },
+    "hawk-1": {
+      "file": "bank/hawk-1.mp3",
+      "seconds": 2.2,
+      "kind": "clip",
+      "sources": [
+        "fs-377759"
+      ]
+    },
+    "hawk-2": {
+      "file": "bank/hawk-2.mp3",
+      "seconds": 2.2,
+      "kind": "clip",
+      "sources": [
+        "fs-377759"
+      ]
+    },
+    "woodpecker-1": {
+      "file": "bank/woodpecker-1.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
+    },
+    "woodpecker-2": {
+      "file": "bank/woodpecker-2.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
+    },
+    "woodpecker-3": {
+      "file": "bank/woodpecker-3.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
+    },
+    "woodpecker-4": {
+      "file": "bank/woodpecker-4.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
+    },
+    "woodpecker-5": {
+      "file": "bank/woodpecker-5.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
+    },
+    "woodpecker-6": {
+      "file": "bank/woodpecker-6.mp3",
+      "seconds": 1.8,
+      "kind": "clip",
+      "sources": [
+        "fs-102972"
+      ]
     }
   },
   "engines": {
@@ -1243,6 +1403,54 @@
     ],
     "fuel-flow": [
       "fuel-flow"
+    ],
+    "rain-heavy": [
+      "rain-heavy"
+    ],
+    "rain-light": [
+      "rain-light"
+    ],
+    "thunder": [
+      "thunder"
+    ],
+    "thunder-far": [
+      "thunder-far"
+    ],
+    "wind-desert": [
+      "wind-desert"
+    ],
+    "wind-trees": [
+      "wind-trees"
+    ],
+    "leaves": [
+      "leaves"
+    ],
+    "cicadas": [
+      "cicadas"
+    ],
+    "insects": [
+      "insects"
+    ],
+    "stream": [
+      "stream"
+    ],
+    "meadow": [
+      "meadow"
+    ],
+    "rumble": [
+      "rumble"
+    ],
+    "hawk": [
+      "hawk-1",
+      "hawk-2"
+    ],
+    "woodpecker": [
+      "woodpecker-1",
+      "woodpecker-2",
+      "woodpecker-3",
+      "woodpecker-4",
+      "woodpecker-5",
+      "woodpecker-6"
     ]
   }
 }

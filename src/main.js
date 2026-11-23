@@ -69,6 +69,7 @@ const renderer = createRenderer({
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
+renderer.onLightning = () => audio.thunder();   // the rumble follows the flash
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
 // contracts are sized to the trail being played and the trucks owned
 // A map picked in the garage is only swapped in when PLAY is pressed, but contracts are drawn for it at once, so the one chosen

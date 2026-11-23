@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { deriveSpecs } from './specs.js';
+import { ENGINE_PITCH_SPREAD, ENGINE_PITCH_POWER } from '../../src/game-config.js';
 
 export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
 const readJson = f => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
@@ -41,6 +42,17 @@ export function resolveAudio(all, bank = readSoundBank()) {
     a.engine = bank.engines[a.engine] ? a.engine : bank.engines[cls] ? cls : (car.spec?.powerKw ?? 0) >= 700 ? 'heavy' : 'heavy-duty';
     a.crankS ??= bank.engines[a.engine].crankS;
     car.audio = a;
+  }
+  // Each truck its own voice within the engine it shares: heavier than the engine's typical truck sounds deeper,
+  // lighter sounds higher, by at most ENGINE_PITCH_SPREAD. `audio.pitch` in car.json sets it by hand.
+  const loaded = car => (car.spec?.massT ?? (car.physics?.mass ?? 5000) / 1000) + (car.load?.massT ?? car.physics?.load?.massT ?? 0);
+  const byEngine = Object.groupBy(all, car => car.audio.engine);
+  for (const cars of Object.values(byEngine)) {
+    const typical = Math.exp(cars.reduce((sum, car) => sum + Math.log(Math.max(0.5, loaded(car))), 0) / cars.length);
+    for (const car of cars) {
+      const p = (typical / Math.max(0.5, loaded(car))) ** ENGINE_PITCH_POWER;
+      car.audio.pitch ??= +Math.min(1 + ENGINE_PITCH_SPREAD, Math.max(1 - ENGINE_PITCH_SPREAD, p)).toFixed(3);
+    }
   }
 }
 

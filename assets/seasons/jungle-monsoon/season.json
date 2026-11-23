@@ -2483,6 +2483,22 @@
         3862,
         4042
       ]
+    },
+    {
+      "sound": "rain-heavy",
+      "x": [
+        -100,
+        4330
+      ],
+      "gain": 0.9
+    },
+    {
+      "sound": "thunder",
+      "x": [
+        -100,
+        4330
+      ],
+      "gain": 1
     }
   ],
   "rockHulls": "rock-hulls.json"

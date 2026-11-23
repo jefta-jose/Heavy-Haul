@@ -160,6 +160,7 @@ export function createAtmosphere(scene) {
       const bx = rand(W * 0.1, W * 0.9), pts = [[bx, -10]];
       let x = bx, y = -10; while (y < H * 0.45) { y += rand(18, 42) * s; x += rand(-26, 26) * s; pts.push([x, y]); }
       bolt = { pts, life: 0.42 };
+      api.onBolt?.();   // the audio's thunder
     }
     flashQ = flashQ.map(t => t - dt).filter(t => { if (t <= 0) { flash = Math.max(flash, rand(0.6, 1)); return false; } return true; });
     flash = Math.max(0, flash - dt * 4.5);
@@ -310,11 +311,13 @@ export function createAtmosphere(scene) {
     if (flash > 0.01) { const { W, H } = scene.view, ctx = screen(); ctx.fillStyle = `rgba(230,236,255,${(flash * 0.32).toFixed(3)})`; ctx.fillRect(0, 0, W, H); }
   }
 
-  return {
+  const api = {
+    onBolt: null,
     update(dt) { if (!cfg) setup(); update(dt); },
     drawSky, drawWorld, drawNear,
     get lensDrops() { return cfg?.lensDrops ?? 0; },
     get wind() { return cfg?.wind ?? 0; },
     reset: setup,
   };
+  return api;
 }
