@@ -175,7 +175,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
-  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
+  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false, airT: 0 }; }
 
   // a rig longer than the start wall's distance is placed far enough forward that its tail clears it
   const clearOfWall = (car, x) => Math.max(x, BARRIER_X + 1 - Math.min(...car.physics.bodyBoxes.map(b => b[0])));
@@ -269,6 +269,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const easing = st.rollback ? ROLLBACK_EASE_BRAKE * Math.max(0, 1 - v.rollT / ROLLBACK_EASE_S) ** 2 : 0;
     const brake = wrecked ? 1 : Math.max(st.brake, st.hold ? 0.7 : 0, easing);
     const grounded = wheels.some(w => load.get(w)?.imp > 0);
+    st.airT = grounded ? 0 : (st.airT ?? 0) + dt;   // seconds with every wheel off the ground (read by the audio's landing thump)
     // nitro's instant brake: armed by the boost, it waits through the recharge and after for any tap on the brake, at any
     // speed; then it takes the truck's speed straight off, whatever it weighs, finishing the stop even if the pedal is let
     // go, and it is used up. Braking during the boost ends the boost.

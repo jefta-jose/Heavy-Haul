@@ -138,7 +138,7 @@ Read [assets/audio/README.md](../../../assets/audio/README.md) for the recording
   so grains match. Rhythmic sources (wading, mud footsteps) become `texture` beds offline. A layer that
   sweeps in pitch must be `flatten`ed, or its grains rev by themselves.
 - Breaking a rock plays the underbody thump and the load shaking (chains, rattle and wood by weight; the cable straining on the heavy class), not a tone.
-  **Hitting a log, pipe or rock has no thump:** it plays the load's sound by class (`HIT_SOUNDS`), a burst of `cable-strain` on heavy, and nothing on scouts. Check a hit sound isn't tonal before using it (`underbody` is). The user rejected the ringing "dong" (a tonal creak and ringing metal
+  **Hitting a log, pipe or rock has no thump:** it plays the load's own sound by what the truck carries (`src/audio/load-sounds.js`, user request 2026-11-23: one sound per class made no sense once pickups and mining trucks shared classes), and nothing on an empty truck. Landing after time in the air thumps every truck. Crushables keep their class sound (`CRUSH_LOAD_SOUNDS`): the user likes them. Check a hit sound isn't tonal before using it (`underbody` is). The user rejected the ringing "dong" (a tonal creak and ringing metal
   clips, removed 2026-11-03). There is no turbo sound either: the user rejected its hiss as a snake sound. Water is low-passed and smooth. The only synthesized sounds are the back-up beeper and
   the ignition key tick.
 - No synthesis of engines, and no piercing tonal layers over the recordings. Avoid cab-interior recordings

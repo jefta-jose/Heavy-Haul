@@ -6,9 +6,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { content, newSim, advance, DT } from './helpers.js';
-import { readSoundBank, resolveAudio } from '../tools/lib/content.js';
+import { readSoundBank, resolveAudio, loadContent } from '../tools/lib/content.js';
 import { engineProfile, engineMix, engineLoad, engineTelemetry, newRevs, stepRevs, packClips } from '../src/audio/engine.js';
-import { HIT_SOUNDS } from '../src/audio/vehicle-audio.js';
+import { CRUSH_LOAD_SOUNDS } from '../src/audio/vehicle-audio.js';
+import { LOAD_SOUNDS, loadGroup } from '../src/audio/load-sounds.js';
 import { createInput } from '../src/game/input.js';
 
 const bank = readSoundBank(), recipe = JSON.parse(fs.readFileSync(new URL('../assets/audio/sounds.json', import.meta.url)));
@@ -199,10 +200,29 @@ test('a tire touching a log, a pipe or a rock is reported, and nothing else is',
   }
 });
 
-test('hitting an obstacle shakes the load of every class except scouts', () => {
-  assert.equal(HIT_SOUNDS.scout, undefined);
-  for (const cls of CLASSES.filter(c => c !== 'scout')) assert(bank.effects[HIT_SOUNDS[cls].effect], `${cls}: ${HIT_SOUNDS[cls].effect}`);
-  assert.equal(HIT_SOUNDS.heavy.effect, 'cable-strain');
+test('breaking a crushable still shakes a load with its class sound, as before', () => {
+  assert.equal(CRUSH_LOAD_SOUNDS.scout, undefined);
+  for (const cls of CLASSES.filter(c => c !== 'scout')) assert(bank.effects[CRUSH_LOAD_SOUNDS[cls].effect], `${cls}: ${CRUSH_LOAD_SOUNDS[cls].effect}`);
+  assert.equal(CRUSH_LOAD_SOUNDS.heavy.effect, 'cable-strain');
+});
+
+test('hits, landings and strain sound like what each truck carries, and every load has a group with real clips', () => {
+  for (const [name, g] of Object.entries(LOAD_SOUNDS)) for (const effect of [g.hit, g.ride, g.call].filter(Boolean)) assert(bank.effects[effect], `${name}: ${effect} in the bank`);
+  for (const effect of ['landing', 'landing-heavy']) assert(bank.effects[effect], effect);
+  const all = loadContent().cars;
+  for (const car of all) assert(LOAD_SOUNDS[loadGroup(car)], `${car.id}: ${car.load?.name} has a group`);
+  const group = (name, massT = 10) => loadGroup({ load: { name, massT } });
+  assert.equal(loadGroup({}), 'empty');
+  assert.equal(group('Huge logs'), 'timber');
+  assert.equal(group('Ore'), 'bulk');
+  assert.equal(group('Fuel tanker'), 'liquid');
+  assert.equal(group('Steel pipes'), 'steel');
+  assert.equal(group('Excavator'), 'machine');
+  assert.equal(group('Reefer freight'), 'freight');
+  assert.equal(group('Cattle'), 'cattle');
+  assert.equal(group('Tool chests', 0.4), 'gear');
+  assert.equal(group('Supply crates', 0.3), 'gear', 'a light load of crates rattles like loose kit');
+  assert.equal(loadGroup({ load: { name: 'Ore', massT: 30 }, audio: { load: 'machine' } }), 'machine', 'car.json can pick one');
 });
 
 test('every recording is licensed and credited, with where to fetch it and its hash', () => {

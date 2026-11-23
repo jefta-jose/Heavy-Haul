@@ -16,8 +16,11 @@
 import { createEngineVoice, engineProfile, engineTelemetry, packClips } from './engine.js';
 import { createLoopPlayer } from './loop-player.js';
 import { BRAKE_HISS_GAP_S } from '../game-config.js';
+import { LOAD_SOUNDS, loadGroup } from './load-sounds.js';
 
 const VOLUME_KEY = 'hh_audio_volumes';
+// a landing: back down after this many seconds with every wheel off the ground, or a jolt this hard (m/s²) coming down
+const LANDING_AIR_S = 0.15, LANDING_SLAM = 30;
 const DEFAULT_VOLUMES = { master: 0.8, engine: 0.4, effects: 0.6, ambience: 0.7, music: 0.5, muted: false };
 const GROUNDS = { gravel: 'gravel', dirt: 'dirt', rock: 'rocks', mud: 'mud', wood: 'dirt' };
 // a map's long beds, each faded in by its season's ambience zones
@@ -29,11 +32,14 @@ export const CALLS = {
   woodpecker: { near: 'woodpecker', far: 'woodpecker', nearShare: 0.4, gain: [0.4, 0.25], every: [7, 18] },
   eruption: { near: 'eruption', far: 'eruption', nearShare: 0.35, gain: [0.9, 0.55], every: [28, 55] },
 };
+// each load group's ride bed (load-sounds.js)
+const RIDES = [...new Set(Object.values(LOAD_SOUNDS).map(g => g.ride).filter(Boolean))];
 // long clips only ever played as beds, decoded when first heard
-const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'fuel-pump', 'fuel-flow']);
-// The load shaking when a tire hits a log, pipe or rock, by class. Scouts have none. gain is at full speed,
-// gap is the least seconds between hits, and seconds plays a burst of a clip much longer than the moment.
-export const HIT_SOUNDS = {
+const BED_CLIPS = new Set([...Object.values(GROUNDS), ...BEDS, ...RIDES, 'wade', 'water-churn', 'rattle-bed', 'mud-spin', 'fuel-pump', 'fuel-flow']);
+// Breaking a crushable shakes a truck's load with its class's sound, as it always has (the user likes it as it is).
+// gain is at full speed, gap is the least seconds between hits, and seconds plays a burst of a clip much longer than the moment.
+// Hitting a log, pipe or rock and landing play the load's own group instead (load-sounds.js).
+export const CRUSH_LOAD_SOUNDS = {
   highway: { effect: 'cargo-heavy-chains', gain: 0.65, rate: 0.95, gap: 0.7 },
   'heavy-duty': { effect: 'rattle', gain: 0.7, rate: 0.9, gap: 0.6 },
   offroad: { effect: 'cargo-chains', gain: 0.7, rate: 0.85, gap: 0.6 },
@@ -50,6 +56,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   let ac = null, master, engineBus, fxBus, ambBus, buffers = {}, loading = {}, beds = {}, ground = {}, water = {}, work = {}, alarm = null;
   const engineClips = new Set(Object.values(bank.engines).flatMap(packClips));
   const voices = new Map();      // vehicle -> engine voice
+  let rides = {}, strain = 0, wasAir = 0, landAt = -9, callAt = -9, callWait = 0;
   let alarmT = 0, bumpCool = 0, rough = 0, jolt = { v: null, vy: 0 }, brakeState = { v: null }, wasFuelling = false, live = false;
   const callT = Object.fromEntries(Object.keys(CALLS).map(name => [name, 3 + Math.random() * 4]));
 
@@ -105,6 +112,7 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
       rattle: loop('rattle-bed', fxBus, { grain: [2, 4], fade: 0.6 }), spin: loop('mud-spin', fxBus, { grain: [1.5, 3], fade: 0.5 }),
       pump: loop('fuel-pump', fxBus, { grain: [3, 6], fade: 0.8 }), flow: loop('fuel-flow', fxBus, { grain: [3, 6], fade: 0.8 }),
     };
+    for (const name of RIDES) rides[name] = loop(name, fxBus, { grain: [1.5, 3.5], fade: 0.5 });
     const shots = Object.entries(bank.effects).filter(([effect]) => !effect.startsWith('ui-')).flatMap(([, names]) => names).filter(name => clips[name] && !BED_CLIPS.has(name));
     api.ready = Promise.all(shots.map(load)).then(() => {
       if (!shots.length) throw new Error('No sound bank embedded');
@@ -174,21 +182,48 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
   };
   // one-shots from the world
   api.splash = power => power < 0.6 ? play('splash-small', 0.4 + power * 0.6) : play('splash', Math.min(1, 0.5 + power * 0.35), { rate: power > 1.2 ? 0.85 : 1 });
-  // the load shaking, spaced out so a run of logs doesn't pile up
+  // a load's sounds are pitched a little by its weight: a tonne of kit rattles higher than forty tonnes of ore
+  const loadRate = car => Math.max(0.8, Math.min(1.1, 1.08 - Math.log10(1 + (car.load?.massT ?? 0)) * 0.12));
+  // the crush's class sound, spaced out so a run of rocks doesn't pile up
   let hitAt = -9;
-  function loadHit(car, gain) {
-    const h = HIT_SOUNDS[car.class];
+  function crushLoad(car, gain) {
+    const h = CRUSH_LOAD_SOUNDS[car.class];
     if (!h || !api.ok || ac.currentTime - hitAt < h.gap) return;
     hitAt = ac.currentTime;
     play(h.effect, h.gain * gain, { rate: h.rate, seconds: h.seconds });
   }
+  // the load shaking with its own group's sound (load-sounds.js), on a log, pipe or rock and on landing
+  let loadHitAt = -9;
+  function loadHit(car, gain) {
+    const g = LOAD_SOUNDS[loadGroup(car)];
+    if (!g.hit || !api.ok || ac.currentTime - loadHitAt < g.gap) return;
+    loadHitAt = ac.currentTime;
+    play(g.hit, Math.min(1, g.gain * gain), { rate: loadRate(car), seconds: g.hit === 'cable-strain' ? 2.5 : 0 });
+    animalCall(car, gain);
+  }
+  // live animals answer a hard knock now and then (cattle, chickens, the elephant)
+  function animalCall(car, gain) {
+    const g = LOAD_SOUNDS[loadGroup(car)];
+    if (!g.call || gain < 0.5 || ac.currentTime - callAt < callWait) return;
+    callAt = ac.currentTime; callWait = g.every[0] + Math.random() * (g.every[1] - g.every[0]);
+    setTimeout(() => play(g.call, 0.5 + Math.random() * 0.3, { pan: Math.random() * 0.4 - 0.2 }), 150 + Math.random() * 350);
+  }
+  // landing: the truck's own thump, harder and lower the heavier it is and the faster it came down, and the load with it
+  function landing(v, fall, air) {
+    if (!api.ok || ac.currentTime - landAt < 0.35) return;
+    landAt = ac.currentTime;
+    const massT = heaviness(v), strength = Math.min(1, 0.3 + Math.max(0, fall - 1) * 0.18 + air * 0.6);
+    play(massT > 12 ? 'landing-heavy' : 'landing', 0.45 + strength * 0.55, { rate: Math.max(0.75, Math.min(1.1, 1.12 - Math.log10(massT) * 0.18)) });
+    if (strength > 0.55) play('underbody', strength * 0.5, { rate: 0.85 });
+    if (v.car.load) { loadHitAt = -9; loadHit(v.car, 0.5 + strength * 0.6); }
+  }
   // breaking a crushable sounds the same on every truck: the scout's crunch and light rattle. A truck carrying a
-  // load still shakes it with its own class's load sound (HIT_SOUNDS), as on a log or rock.
+  // load still shakes it with its own class's load sound (CRUSH_LOAD_SOUNDS), as on a log or rock.
   api.crush = size => {
     const strength = Math.min(1, size), g = Math.min(1, 0.25 + strength * 0.8);
     play('underbody', Math.min(1, 0.5 + size * 0.4));
     play('cargo-light', g * 0.8); if (strength > 0.4) play('cargo-chains', g * 0.5);
-    if (api.active?.car.load) loadHit(api.active.car, g * 0.9);
+    if (api.active?.car.load) crushLoad(api.active.car, g * 0.9);
   };
   // a tire touching a log, pipe or rock: the load shakes, harder with speed, and not while it just sits there
   api.hit = () => {
@@ -255,7 +290,8 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     }
     // the chassis: a rattle that follows speed and how rough the ride is
     const vy = v.parts.truck.getLinearVelocity().y;
-    if (jolt.v !== v) jolt = { v, vy };
+    if (jolt.v !== v) { jolt = { v, vy }; wasAir = 0; }
+    const prevVy = jolt.vy;
     const dv = Math.abs(vy - jolt.vy) / Math.max(dt, 1 / 240);
     jolt.vy = vy;
     rough += (Math.min(1, dv / 14) - rough) * Math.min(1, dt / 0.25);
@@ -300,6 +336,24 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     // suspension: a sharp change in the body's vertical speed is a hit
     bumpCool -= dt;
     if (live && dv > 9 && bumpCool <= 0) { api.bump(Math.min(1, (dv - 9) / 25), massT); bumpCool = 0.25; }
+    // landing: back on the ground after LANDING_AIR_S in the air, or a hard slam coming down without leaving it
+    const airT = st.airT ?? 0;
+    if (live && airT === 0 && wasAir > LANDING_AIR_S) landing(v, -prevVy, wasAir);
+    else if (live && dv > LANDING_SLAM && prevVy < -1) landing(v, -prevVy, 0);
+    wasAir = airT;
+
+    // the load working: its ride bed follows how rough the ride is and how hard the truck strains (crawling while the
+    // engine works hard: a climb, a bog, a log), quieter for a light load
+    const group = LOAD_SOUNDS[loadGroup(v.car)], working = live && st.throttle > 0.5 && speed < 3.5 ? engineTelemetry(v).load * (1 - speed / 3.5) : 0;
+    strain += (working - strain) * Math.min(1, dt / 0.4);
+    const weight = Math.min(1, 0.45 + Math.log10(1 + (v.car.load?.massT ?? 0)) * 0.35);
+    for (const [name, p] of Object.entries(rides)) {
+      if (!p) continue;
+      const on = live && !inWater && group.ride === name;
+      p.setGain(on ? (group.gain ?? 0.7) * weight * Math.min(0.75, Math.min(1, speed / 6) * 0.18 + rough * 0.6 + strain * 0.45) : 0, 0.2);
+      p.setRate(loadRate(v.car) * (0.95 + Math.min(0.1, speed * 0.01)), 0.3); p.update();
+    }
+    if (strain > 0.6 && group.call) animalCall(v.car, strain);
 
     // ambience beds and calls, from the zone the camera is in
     const x = s.camX, w = {};
