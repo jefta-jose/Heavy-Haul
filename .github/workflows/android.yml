@@ -49,6 +49,7 @@ jobs:
         env:
           VERSION_CODE: ${{ github.run_number }}
           VERSION_NAME: build-${{ github.run_number }}
+          PLAY_GAMES_APP_ID: ${{ vars.PLAY_GAMES_APP_ID }}
         run: ./gradlew assembleDebug
 
       - name: Publish the latest-build release

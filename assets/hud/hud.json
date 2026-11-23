@@ -103,9 +103,9 @@
   },
   {
    "id": "logo",
-   "file": "../brand/heavy-haul-sign.png",
-   "width": 640,
-   "quality": 90
+   "file": "../brand/heavy-haul-logo.png",
+   "width": 256,
+   "quality": 92
   }
  ]
 }
