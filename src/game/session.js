@@ -1,7 +1,7 @@
 import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
-import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, AIR_MIN_KMH, AIR_MIN_HEIGHT_M, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
+import { CRASH_SECONDS, CRASH_TURNING, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, AIR_MIN_KMH, AIR_MIN_HEIGHT_M, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
 import { wheelRadius } from '../physics/vehicle.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
@@ -100,7 +100,10 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     const main = sim.main, mainTruck = main.parts.truck, p = mainTruck.getPosition(), st = sim.st, ctl = sim.ctl;
     if (!(main.st.powerKind === 'timefreeze' && main.st.powerT > 0)) run.time += dt;   // Time Freeze stops the run's clock
     // Check crashes before rewards and delivery so reaching the depot cannot overwrite a rollover failure.
-    if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);
+    // A run ends only when the truck is lying on its roof or side: over on its back and no longer turning. A forward or back
+    // flip (turning fast through upside down) is allowed, and landing on the wheels carries on (user, 2026-11-24).
+    const resting = Math.abs(mainTruck.getAngularVelocity?.() ?? 0) < CRASH_TURNING;
+    if (angleOf(mainTruck) > 1.45 && resting) run.rollT += dt; else if (angleOf(mainTruck) <= 1.45) run.rollT = Math.min(0, run.rollT + dt);
     if (run.rollT > CRASH_SECONDS) { fail('roll'); return; }
     // wrecked: too much damage ends the run
     if (main.st.damage >= 100) { fail('wreck'); return; }

@@ -6,7 +6,8 @@ import { CRASH_SECONDS } from '../src/game-config.js';
 function setup() {
   let x = 0, xp = 0, tracked = 0, delivered = 0, mainAngle = 0;
   const outcomes = [];
-  const main = { car: { class: 'scout', name: 'Scout' }, st: { damage: 0, fuel: 100, speed: 0 }, parts: { truck: { getPosition: () => ({ x }), getAngle: () => mainAngle } } };
+  let spin = 0;
+  const main = { car: { class: 'scout', name: 'Scout' }, st: { damage: 0, fuel: 100, speed: 0 }, parts: { truck: { getPosition: () => ({ x }), getAngle: () => mainAngle, getAngularVelocity: () => spin } } };
   const sim = { main, active: main, vehicles: [main], st: { speed: 0 }, ctl: {}, surfAt: () => 'dirt' };
   const hud = { toastActive: true, coinBonus() {}, toast() {}, showMission() {}, failMission() {}, showMessage() {}, nudge() {}, setCardVisible() {} };
   const season = { name: 'Test', trail: { start: 0, depot: 100, finishBonus: 100, heavyMud: [20], checkpoints: [] } };
@@ -14,7 +15,7 @@ function setup() {
   const missions = { track() { tracked++; }, deliver() { delivered++; } };
   const session = createSession({ sim, hud, season, progress, missions, onSuccess: () => outcomes.push('complete'), onFailure: () => outcomes.push('failed') });
   session.state = 'play'; session.update(0.01);
-  return { sim, session, missions, outcomes, setMainAngle(a) { mainAngle = a; }, move(n) { x = n; session.update(0.01); }, get xp() { return xp; }, get tracked() { return tracked; }, get delivered() { return delivered; } };
+  return { sim, session, missions, outcomes, setMainAngle(a) { mainAngle = a; }, setSpin(w) { spin = w; }, move(n) { x = n; session.update(0.01); }, get xp() { return xp; }, get tracked() { return tracked; }, get delivered() { return delivered; } };
 }
 
 test('an overturned truck ends the run after the crash grace and announces failure once', () => {
@@ -23,6 +24,12 @@ test('an overturned truck ends the run after the crash grace and announces failu
   t.session.update(0.01); assert.equal(t.session.state, 'fail');
   t.session.update(1);
   assert.deepEqual(t.outcomes, ['failed']);
+});
+
+test('a flip is not a crash: upside down while turning fast keeps the run going, lying still on the roof ends it', () => {
+  const t = setup(); t.setMainAngle(Math.PI); t.setSpin(4);
+  t.session.update(CRASH_SECONDS * 3); assert.equal(t.session.state, 'play', 'mid-flip');
+  t.setSpin(0); t.session.update(CRASH_SECONDS + 0.05); assert.equal(t.session.state, 'fail', 'on its roof');
 });
 
 test('uprighting the truck and restarting a run each clear its rollover timer', () => {

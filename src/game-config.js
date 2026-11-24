@@ -38,6 +38,7 @@ export const ROLLBACK_EASE_BRAKE = 0.5;       // how much brake is left the mome
 // ---------- tipping and crashing ----------
 export const TIP_MAX_LENGTH_M = 10;           // only trucks this short or shorter tip backwards from a hit
 export const TIP_KICK = 0.8;                  // how hard a hit throws the nose up (radians per second, for a hit 10 km/h over the start speed)
+export const CRASH_TURNING = 1.2;             // (rad/s) a truck turning faster than this is mid-flip, not crashed (user, 2026-11-24: flips are allowed)
 export const CRASH_SECONDS = 1.2;             // this long on its roof or side and the run is over
 
 // ---------- automatic gears ----------

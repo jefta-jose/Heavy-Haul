@@ -63,16 +63,24 @@ export function createView(canvas, sim) {
   view.snap = () => { const t = target(); cam.x = t.x; cam.y = t.y; cam.vx = cam.vy = 0; };
   view.follow = dt => {
     const t = target(), v = sim.truck.getLinearVelocity();
-    // vertical feed-forward: how fast the ground under the camera rises or falls at this speed
-    const slope = (sim.visH(t.x + 1) - sim.visH(t.x - 1)) / 2;
+    // vertical feed-forward: how fast the ground the camera aims at (target(): just behind the nose) rises or falls at this
+    // speed. It is measured there, not under the camera's centre: at speed on a crest the two differed and the camera overshot.
+    const nose = sim.truck.getWorldPoint(sim.V(sim.car.rig.nose, 0)).x, at = nose - 4.85;
+    const slope = (sim.visH(at + 1) - sim.visH(at - 1)) / 2;
     for (const [k, vk, w, tv] of [['x', 'vx', FRAMING.spring.x, v.x], ['y', 'vy', FRAMING.spring.y, v.x * slope]]) {
       const a = w * w * (t[k] - cam[k]) + 2 * w * (tv - cam[vk]);
       cam[vk] += a * dt; cam[k] += cam[vk] * dt;
     }
-    // never let the driven car leave the screen vertically: drag the camera along if it would
-    const hh = view.H / 2 / view.ppm, keep = FRAMING.keepIn * hh, y = sim.truck.getPosition().y;
-    if (y > cam.y + keep) { cam.y = y - keep; cam.vy = Math.max(cam.vy, 0); }
-    if (y < cam.y - keep) { cam.y = y + keep; cam.vy = Math.min(cam.vy, 0); }
+    // Keep the driven car on screen vertically. Past `soft` the camera eases after it, matching its vertical speed, so a
+    // jump or a fast crest never snaps the view (2026-11-24: the old hard clamp jerked the camera at speed on slopes); the
+    // hard limit is only a last resort.
+    const hh = view.H / 2 / view.ppm, keep = FRAMING.keepIn * hh, soft = keep * 0.7, y = sim.truck.getPosition().y, off = y - cam.y;
+    if (Math.abs(off) > soft) {
+      const over = off - Math.sign(off) * soft, k = Math.min(1, dt * 6);
+      cam.y += over * k; cam.vy += (v.y - cam.vy) * k;
+    }
+    if (y > cam.y + keep) { cam.y = y - keep; cam.vy = Math.max(cam.vy, v.y); }
+    if (y < cam.y - keep) { cam.y = y + keep; cam.vy = Math.min(cam.vy, v.y); }
   };
   return view;
 }
