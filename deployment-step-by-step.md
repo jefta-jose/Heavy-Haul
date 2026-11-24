@@ -112,10 +112,11 @@ Test it: play a little, leave the game, uninstall, reinstall from Play: the prog
 ## 6. Real payments
 
 1. Play Console > **Monetize > Payments profile**: set it up (bank details, tax).
-2. **Products:** run `node tools/play-products.mjs`; it writes `output/play-products.csv` (24 products: id, title, price).
-   Create them under **Monetize > Products > In-app products**, all as **consumable**, with exactly those ids. Trucks are
-   four price tiers (`truck_tier_1` to `truck_tier_4`, $0.99 to $3.99 by rank): the player picks the truck in the game and
-   pays its tier. Rank packs are $4.99 / $9.99 / $11.99 / $19.99 (`SHOP_RANK_PACKS`).
+2. **Products:** run `node tools/play-products.mjs`; it writes `output/play-products.csv` (21 products: id, title, price).
+   Create them under **Monetize > Products > In-app products**, all as **consumable**, with exactly those ids. The shop has
+   three tabs: Featured (bundles: Rookie, Starter, Every map, Next / Top of every class, the five class packs, the whole
+   fleet), Coins and Ranks. No single trucks are sold for money: players buy those with coins in the garage. Rank packs are
+   $4.99 / $9.99 / $11.99 / $19.99 (`SHOP_RANK_PACKS`).
 3. **License testers:** Play Console > Settings > License testing: add testers so their purchases cost nothing.
 4. **Purchase verifier** (stops fake purchases on rooted phones): give a service account "View financial data" in Play
    Console, deploy `functions/verify-purchase` with the first `gcloud` command in its header, and put the function's URL in

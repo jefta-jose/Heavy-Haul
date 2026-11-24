@@ -16,13 +16,15 @@ function setup() {
   return { progress, wallet, shop: createShop({ content, progress, wallet, store, storage }) };
 }
 
-test('a truck bought in the shop is owned at once, whatever its rank', async () => {
+test('a truck bought in a shop bundle is owned at once, whatever its rank, and the shop sells no single trucks', async () => {
   const { progress, shop } = setup();
-  const top = shop.offers('trucks', 'heavy').at(-1);
-  assert(progress.rank < progress.unlockRank(top.truck), 'it is far above the player\'s rank');
-  assert(!progress.owns(top.truck));
+  assert.deepEqual(shop.tabs.map(([id]) => id), ['featured', 'coins', 'ranks'], 'Featured, Coins and Ranks only (user, 2026-11-24)');
+  assert(!shop.products().some(o => o.kind === 'truck'), 'no single-truck products');
+  const top = shop.offers('featured').find(o => o.id === 'bundle_top_five'), heavy = top.gives.trucks.at(-1);
+  assert(progress.rank < progress.unlockRank(heavy), 'it is far above the player\'s rank');
+  assert(!progress.owns(heavy));
   const res = await shop.buy(top);
-  assert(res.ok && progress.owns(top.truck), 'owned and drivable');
+  assert(res.ok && progress.owns(heavy), 'owned and drivable');
   assert(shop.done(top), 'its card now says owned');
   assert.equal((await shop.buy(top)).ok, false, 'not sold twice');
 });
@@ -76,6 +78,7 @@ test('one-time packs sell once, the map pack opens every paid map, and coin pack
 test('every product id is one Google Play accepts, and none repeats', () => {
   const { shop } = setup();
   const ids = shop.products().map(o => o.id);
+  assert(ids.length < 30, `a handful of products for Play Console, not ${ids.length}`);
   for (const id of ids) assert.match(id, /^[a-z0-9][a-z0-9_.]*$/, id);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -123,11 +126,11 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   assert(playBillingAvailable());
   const store = createPlayStore(), late = [];
   store.onGrant((id, tx) => late.push([id, tx]));
-  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_tier_3', kind: 'truck', price: 2.99 }]);
+  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'bundle_top_five', kind: 'bundle', price: 9.99 }]);
   assert.deepEqual(late, [], 'nothing is restored from Google: progress comes back through the cloud save');
   const install = window.CdvPurchase.store.applicationUsername();
   assert(/^[0-9a-f]{32}$/.test(install) && install === window.CdvPurchase.store.applicationUsername(), 'every order carries this install\'s own random id');
-  assert.equal(products.get('truck_tier_3').type, 'consumable', 'a truck tier is bought again for every truck');
+  assert.equal(products.get('bundle_top_five').type, 'consumable', 'every product is consumable: what it gave comes back through the cloud save');
   assert.equal(store.priceText({ id: 'coins_50000', price: 0.99 }), 'KES 390', "Google Play's local price");
   const approve = (id, txId) => listeners.approved({ products: [{ id }], transactionId: txId, finish: () => finished.push(txId) });
   next = id => { setTimeout(() => approve(id, 'GPA.1')); return undefined; };
@@ -135,8 +138,8 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   assert.deepEqual(finished, ['GPA.1'], 'consumed or acknowledged with Google');
   next = async () => ({ code: 6777006 });
   assert.deepEqual(await store.buy({ id: 'coins_50000' }), { ok: false, cancelled: true });
-  approve('truck_tier_3', 'GPA.2');
-  assert.deepEqual(late, [['truck_tier_3', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
+  approve('bundle_top_five', 'GPA.2');
+  assert.deepEqual(late, [['bundle_top_five', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
   next = id => new Promise(() => {});
   const first = store.buy({ id: 'coins_50000' });
   assert.equal((await store.buy({ id: 'coins_50000' })).ok, false, 'a second tap while the first purchase is open starts nothing');
@@ -212,20 +215,6 @@ test('cloud save: RESET empties the cloud copy, so the next start stays fresh', 
   assert.equal(reloads, 0);
 });
 
-test('trucks are sold as a few Google Play price tiers, and a tier purchase finishing later gives the truck that was ordered', async () => {
-  const { SHOP_TRUCK_PRICES } = await import('../src/game-config.js');
-  const storage = memory(), progress = createProgress(content.roster.cars, memory()), wallet = { coins: 0, add(n) { this.coins += n; } };
-  let late = null;
-  const store = { test: false, priceText: o => `$${o.price}`, buy: async () => ({ ok: false, pending: true }), onGrant(fn) { late = fn; } };
-  const shop = createShop({ content, progress, wallet, store, storage });
-  const ids = shop.products().filter(o => o.kind === 'truck').map(o => o.id).sort();
-  assert.deepEqual(ids, SHOP_TRUCK_PRICES.map((_, i) => `truck_tier_${i + 1}`), 'one product per price tier');
-  assert(shop.products().length < 40, `a handful of products for Play Console, not ${shop.catalogue().length}`);
-  const want = shop.offers('trucks', content.roster.classes[2].id).filter(o => !shop.done(o)).at(-1);
-  assert.equal((await shop.buy(want)).ok, false, 'payment still pending');
-  late(want.id, 'GPA.late');
-  assert(progress.owns(want.truck), 'the late purchase gives the very truck that was ordered');
-});
 
 test('refunds: a purchase Google voided is taken back once, coins never below zero', async () => {
   const { checkRefunds } = await import('../src/game/refunds.js');
@@ -233,8 +222,8 @@ test('refunds: a purchase Google voided is taken back once, coins never below ze
   const wallet = { coins: 0, add(n) { this.coins += n; }, take(n) { this.coins = Math.max(0, this.coins - n); } };
   let tx = 0; const store = { test: false, priceText: () => '', buy: async () => ({ ok: true, transactionId: `GPA.${tx++}` }) };
   const shop = createShop({ content, progress, wallet, store, storage });
-  const coins = shop.offers('coins')[0], rank = shop.offers('ranks')[0], truck = shop.offers('trucks', content.roster.classes[0].id).find(o => !shop.done(o));
-  await shop.buy(coins); await shop.buy(rank); await shop.buy(truck);
+  const coins = shop.offers('coins')[0], rank = shop.offers('ranks')[0], bundle = shop.offers('featured').find(o => o.id === 'bundle_top_five'), truck = { truck: bundle.gives.trucks[0] };
+  await shop.buy(coins); await shop.buy(rank); await shop.buy(bundle);
   assert(progress.xp > 0 && progress.owns(truck.truck));
   wallet.coins -= coins.gives.coins - 100;   // most of the coins already spent
   let asked = null;
@@ -261,4 +250,14 @@ test('settings switch: reminders turned off stay off and cancel what was schedul
   await n.setEnabled(false); assert.equal(pending.length, 0); assert.equal(n.enabled, false);
   await n.sync(); assert.equal(n.enabled, false, 'Android still allows it, but the player said off');
   assert.equal(n.shouldAsk(), false); assert.equal(await n.schedule(), 0);
+});
+
+test('the Play Console product list has every product, the Every map bundle included', async () => {
+  const { execFileSync } = await import('node:child_process');
+  execFileSync(process.execPath, ['tools/play-products.mjs'], { cwd: new URL('..', import.meta.url) });
+  const ids = fs.readFileSync(new URL('../output/play-products.csv', import.meta.url), 'utf8').trim().split('\n').slice(1).map(l => JSON.parse(l.split(',')[0]));
+  assert(ids.includes('bundle_all_maps'), 'Every map is listed');
+  const { shop } = setup();
+  for (const id of shop.products().map(o => o.id).filter(id => id !== 'bundle_all_maps')) assert(ids.includes(id), id);
+  assert(!ids.some(id => id.startsWith('truck_')), 'no single trucks');
 });

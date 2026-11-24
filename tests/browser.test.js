@@ -637,14 +637,13 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     // a bought truck is kept: there is no way to sell it
     assert.equal(await page.locator('#gMenuSell, #sellOv').count(), 0, 'no sell button or sell card');
     assert(await page.evaluate(id => __haul.progress.owns(id), next.id), 'the bought truck stays owned');
-    // the shop: a top-rank truck bought there is owned at once and listed before the trucks of its class not yet owned
+    // the shop: Featured, Coins and Ranks; a top-rank truck bought in a bundle is owned at once
     await page.click('#gMenuShop');
     assert(await page.locator('#shopOv').isVisible(), 'SHOP opens the shop');
-    await page.locator('.shop-tab', { hasText: 'Trucks' }).click();
-    await page.locator('.shop-class', { hasText: 'Heavy' }).last().click();
-    const topHeavy = await page.evaluate(() => __haul.garage.shop.offers('trucks', 'heavy').at(-1).truck);
+    assert.deepEqual(await page.locator('.shop-tab').allTextContents(), ['Featured', 'Coins', 'Ranks'], 'no single-truck tab');
+    const topHeavy = await page.evaluate(() => __haul.garage.shop.offers('featured').find(o => o.id === 'bundle_top_five').gives.trucks.at(-1));
     assert(!(await page.evaluate(id => __haul.progress.isOpen(id), topHeavy)), 'its rank is not reached');
-    await page.locator('.sitem .sbuy').last().click();
+    await page.locator('.sitem', { hasText: 'Top of every class' }).locator('.sbuy').click();
     await page.waitForFunction(id => __haul.progress.owns(id), topHeavy);
     await page.screenshot({ path: path.join(CAPTURES, '00h-shop.png') });
     await page.click('#hcVehicle');
@@ -663,8 +662,10 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     const heavyOrder = await page.evaluate(() => __haul.garage.trucksOf('heavy'));
     const firstUnowned = await page.evaluate(ids => ids.findIndex(id => !__haul.progress.owns(id)), heavyOrder);
     assert(heavyOrder.indexOf(topHeavy) < firstUnowned, 'the bought top truck comes before the unbought low-rank ones');
-    assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy', 'the truck just bought is the one PLAY drives');
-    assert.match(await page.locator('#startBtn').innerText(), /play/i, 'and it can be driven at once');
+    // a bundle gives several trucks, so the selection stays; the bought truck can be picked and driven at once
+    await page.evaluate(id => __haul.garage.select(id), topHeavy);
+    assert.equal(await page.evaluate(() => __haul.garage.selection.car.class), 'heavy');
+    assert.match(await page.locator('#startBtn').innerText(), /play/i, 'the bundle\'s truck can be driven at once');
     // the coin box opens the coin packs; a pack adds its coins
     await page.click('#hcVehicle').catch(() => {});
     await page.click('#gCoinsBox');

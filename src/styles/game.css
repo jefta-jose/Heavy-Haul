@@ -4319,11 +4319,6 @@ dl.spec dd {
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
 .shop-tab.on { background: linear-gradient(180deg, #4a4130, #2c2611); border-color: var(--yellow); color: #fff; box-shadow: inset 0 -3px 0 var(--yellow); }
-.shop-classes { display: flex; gap: 6px; flex: none; overflow-x: auto; scrollbar-width: none; }
-.shop-classes[hidden] { display: none; }
-.shop-class { display: flex; align-items: center; gap: 6px; flex: none; padding: 5px 12px; border: 1px solid var(--steel-line); background: #15181b; color: #aeb6be; font: 700 14px var(--display); text-transform: uppercase; cursor: pointer; }
-.shop-class svg { width: 18px; height: 18px; }
-.shop-class.on { color: #fff; border-color: var(--yellow); background: #2c2611; }
 .shop-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; align-content: start;
   overflow-y: auto; min-height: 0; flex: 1 1 auto; padding: 6px 10px 10px 4px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
@@ -4369,7 +4364,6 @@ dl.spec dd {
   .hc-shopcard .tunehead h3 { font-size: 20px; }
   .hc-shopcard .tunehead .eyebrow { font-size: 11px; }
   .shop-tab { min-height: 30px; font-size: 14px; }
-  .shop-class { padding: 3px 8px; font-size: 12px; }
   .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 4px 8px 8px 4px; }
   .sitem { padding: 8px; gap: 6px; }
   .sart { aspect-ratio: 2 / 1; }
@@ -4485,8 +4479,6 @@ dl.spec dd {
   .garage.hc #shopOv .tunehead { display: none; }
   .garage.hc #shopOv .cbody { padding: 6px 10px; gap: 5px; }
   .garage.hc #shopOv .shop-tab { min-height: 24px; font-size: 12px; padding-block: 2px; }
-  .garage.hc #shopOv .shop-class { padding: 2px 8px; font-size: 11px; }
-  .garage.hc #shopOv .shop-class svg { display: none; }
   .garage.hc #shopOv .btns { position: absolute; left: 12px; bottom: 3px; pointer-events: none; }
   .garage.hc #shopOv .shop-test { font-size: 9px; }
   .garage.hc #shopOv .card { position: relative; }

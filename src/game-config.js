@@ -223,13 +223,6 @@ export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: mo
   [5, 11.99, 'Popular'],                    // (at rank 34, +8 is greyed out)
   [8, 19.99, 'Best value'],
 ];
-export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a single truck costs by the rank it would open at; each row is
-                                               // one Google Play product, truck_tier_1..4 (shop.js)
-  [10, 0.99],
-  [20, 1.99],
-  [30, 2.99],
-  [40, 3.99],
-];
 export const SHOP_CLASS_PACK_PRICE = 12.99;    // every truck of one class
 export const SHOP_NEXT_FIVE_PRICE = 4.99;      // the next truck you do not own in every class (five trucks)
 export const SHOP_TOP_FIVE_PRICE = 9.99;       // the strongest truck of every class

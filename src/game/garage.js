@@ -462,7 +462,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // a Google Play purchase that finished later (pending payment, app closed mid-purchase) shows up at once
   const shop = createShop({ content, progress, wallet, onLateGrant: () => { onBuy?.(); render(); },
     maps: { ids: seasonList.filter(s => s.status === 'playable' && !FREE_SEASONS.includes(s.id)).map(s => s.id), owns: id => seasonPass.owns(id), grant: id => seasonPass.grant(id), revoke: id => seasonPass.revoke(id) } });
-  let shopTab = 'featured', shopClass = classes[0]?.id;
+  let shopTab = 'featured';
   function renderShop() {
     $('shopCoins').textContent = formatCoins(wallet.coins);
     $('shopTest').hidden = !shop.test;
@@ -471,13 +471,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const b = el('button', 'shop-tab' + (id === shopTab ? ' on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(id === shopTab));
       b.addEventListener('click', () => { shopTab = id; renderShop(); }); tabs.append(b);
     }
-    const chips = $('shopClasses'); chips.hidden = shopTab !== 'trucks'; chips.replaceChildren();
-    if (shopTab === 'trucks') for (const k of classes) {
-      const b = el('button', 'shop-class' + (k.id === shopClass ? ' on' : '')); const ic = icon(k.id); if (ic) b.append(ic); b.append(el('span', null, k.name));
-      b.addEventListener('click', () => { shopClass = k.id; renderShop(); }); chips.append(b);
-    }
     const grid = $('shopGrid'); grid.replaceChildren(); grid.dataset.tab = shopTab;
-    const list = shop.offers(shopTab, shopClass);
+    const list = shop.offers(shopTab);
     for (const o of list) grid.append(offerCard(o));
     // the first offer still for sale starts in the middle
     const first = Math.max(0, list.findIndex(o => !shop.done(o)));
@@ -538,7 +533,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         if (!res.ok) { buy.disabled = false; buy.replaceChildren(el('span', null, res.cancelled ? shop.priceText(o) : 'Try again')); if (res.error) $('shopNote').textContent = res.error; return; }
         onBuy?.();
         const got = res.got ?? { coins: 0, ups: [], trucks: [] };
-        $('shopNote').textContent = [got.coins ? `+${formatCoins(got.coins)} coins` : '', got.ups.length ? `Rank ${got.ups.at(-1).rank}` : '', got.trucks.length ? `${got.trucks.length} truck${got.trucks.length === 1 ? '' : 's'} added` : ''].filter(Boolean).join('  ·  ') || 'Bought';
+        $('shopNote').textContent = [got.coins ? `+${formatCoins(got.coins)} coins` : '', got.ups.length ? `Rank ${got.ups.at(-1).rank}` : '', got.trucks.length ? `${got.trucks.length} truck${got.trucks.length === 1 ? '' : 's'} added` : '', got.maps?.length ? `${got.maps.length} map${got.maps.length === 1 ? '' : 's'} opened` : ''].filter(Boolean).join('  ·  ') || 'Bought';
         buy.classList.add('done'); buy.replaceChildren(el('span', null, 'Added ✓'));
         if (got.trucks.length === 1 && playable.has(got.trucks[0])) { const c = playable.get(got.trucks[0]); choose(c); browse = c; cls = c.class; }
         renderTop(); setTimeout(() => { if (garageEl.dataset.sheet === 'shop') renderShop(); }, 900);
@@ -547,7 +542,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     card.append(art, text, buy);
     return card;
   }
-  function openShop(tab) { go('vehicle'); if (tab) shopTab = tab; $('shopNote').textContent = 'Coins, ranks and trucks'; shopClass = browse?.class ?? shopClass; renderShop(); sheet('shop'); }
+  function openShop(tab) { go('vehicle'); if (tab) shopTab = tab; $('shopNote').textContent = 'Bundles, coins and ranks'; renderShop(); sheet('shop'); }
   $('gMenuShop').addEventListener('click', () => { if (garageEl.dataset.sheet === 'shop') { sheet(null); render(); } else openShop(); });
   $('gCoinsBox').addEventListener('click', () => openShop('coins'));
   $('shopDone').addEventListener('click', () => { sheet(null); render(); });

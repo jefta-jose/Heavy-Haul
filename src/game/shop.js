@@ -1,20 +1,18 @@
-// The garage shop's catalogue and what a purchase gives (the cards are drawn by garage.js). Four tabs:
+// The garage shop's catalogue and what a purchase gives (the cards are drawn by garage.js). Three tabs (user, 2026-11-24: no
+// single trucks for money; trucks are bought one by one with coins in the garage, or in the bundles here):
 //   featured  bundles: a starter boost, the next truck in every class, the top truck of every class, a whole class, everything
-//   trucks    any single truck, owned at once whatever its rank. Google Play sells it as one of a few price tiers
-//             (`truck_tier_<n>`, SHOP_TRUCK_PRICES; user, 2026-11-24: one product per truck was ~270 to manage): the truck
-//             being bought is remembered (hh_truck_orders) so a purchase that finishes later still gives the right one
 //   coins     coin packs          ranks  rank packs, +2 / +4 / +5 / +8 (XP up to the rank), the dearest things here and the only source of ranks
 // Every number is in src/game-config.js (SHOP_*). A purchase goes through the store (store.js) and is granted once per
 // transaction id (kept in hh_grants), so a purchase reported twice by a real store later can never pay twice. What each
 // purchase gave is logged (hh_grant_log), so a purchase Google later refunds can be taken back (`revoke`, refunds.js).
 import {
-  SHOP_COIN_PACKS, SHOP_RANK_PACKS, SHOP_TRUCK_PRICES, SHOP_CLASS_PACK_PRICE, SHOP_NEXT_FIVE_PRICE, SHOP_TOP_FIVE_PRICE,
+  SHOP_COIN_PACKS, SHOP_RANK_PACKS, SHOP_CLASS_PACK_PRICE, SHOP_NEXT_FIVE_PRICE, SHOP_TOP_FIVE_PRICE,
   SHOP_STARTER_BUNDLE, SHOP_EVERYTHING, SHOP_ROOKIE_PACK, SHOP_MAPS_PACK_PRICE,
 } from '../game-config.js';
 import { createStore } from './store.js';
 import { formatCoins } from './format.js';
 
-const GRANTS = 'hh_grants', ONCE = 'hh_once', LOG = 'hh_grant_log', ORDERS = 'hh_truck_orders';   // ONCE: the one-time offers already bought
+const GRANTS = 'hh_grants', ONCE = 'hh_once', LOG = 'hh_grant_log';   // ONCE: the one-time offers already bought
 const productId = s => s.toLowerCase().replace(/[^a-z0-9_.]/g, '_');   // Google Play product ids: lowercase, digits, _ and .
 
 export function createShop({ content, progress, wallet, store = createStore(), storage = typeof localStorage === 'undefined' ? null : localStorage, onLateGrant = null, maps = null }) {
@@ -29,9 +27,6 @@ export function createShop({ content, progress, wallet, store = createStore(), s
   const ofClass = cls => trucks.filter(c => c.class === cls);
   const nameOf = c => `${c.name}${c.number ? ' ' + c.number : ''}`;
   const pic = id => art.get(id)?.artUri?.master;
-  const tierOf = c => { const i = SHOP_TRUCK_PRICES.findIndex(([r]) => c.unlockRank <= r); return i < 0 ? SHOP_TRUCK_PRICES.length - 1 : i; };
-  const truckPrice = c => SHOP_TRUCK_PRICES[tierOf(c)][1];
-  const tierId = c => `truck_tier_${tierOf(c) + 1}`;
   const missing = ids => ids.filter(id => !progress.owns(id));
   const rankAfter = ranks => Math.min(progress.maxRank, progress.rank + ranks);
   // a rank pack is only sold whole: +8 at rank 34 would pass the top rank, so it cannot be bought
@@ -63,7 +58,6 @@ export function createShop({ content, progress, wallet, store = createStore(), s
       offer({ id: 'bundle_everything', kind: 'bundle', title: 'The whole fleet', sub: `All ${trucks.length} trucks, every map and ${formatCoins(allCoins)} coins`, price: allPrice, tag: 'Best value', gives: { coins: allCoins, trucks: trucks.map(c => c.id), maps: paidMaps }, pics: top.slice(0, 3).map(c => pic(c.id)) }),
     ];
   }
-  const truckOffers = cls => ofClass(cls).map(c => offer({ id: tierId(c), kind: 'truck', truck: c.id, title: nameOf(c), sub: `Rank ${c.unlockRank} · yours at once`, price: truckPrice(c), gives: { trucks: [c.id] }, pics: [pic(c.id)] }));
   const coinOffers = () => SHOP_COIN_PACKS.map(([coins, price, tag], i) => offer({ id: productId(`coins_${coins}`), kind: 'coins', size: i, title: `${formatCoins(coins)} coins`, sub: 'For trucks and upgrades', price, tag, gives: { coins } }));
   const rankOffers = () => SHOP_RANK_PACKS.map(([ranks, price, tag]) => offer({ id: `rank_up_${ranks}`, kind: 'rank', ranks, title: `+${ranks} rank${s(ranks)}`, sub: fitsRanks(ranks) ? `Straight to rank ${rankAfter(ranks)}` : `Only ${progress.maxRank - progress.rank} rank${s(progress.maxRank - progress.rank)} left to the top`, price, tag, gives: { ranks } }));
 
@@ -100,28 +94,20 @@ export function createShop({ content, progress, wallet, store = createStore(), s
   // the orders a refund check asks Google about: purchases from the last 60 days (Google keeps refunds for 30)
   const refundable = () => Object.entries(read(LOG, {})).filter(([, g]) => Date.now() - (g.at ?? 0) < 60 * 864e5).map(([tx]) => tx);
 
-  // every product the shop sells, for Google Play to register (trucks are kept for good, everything else can be bought again)
-  const catalogue = () => [...featured(), ...classes.flatMap(k => truckOffers(k.id)), ...coinOffers(), ...rankOffers()];
-  // a tier product stands for the truck that was being bought (remembered at order time), else the first not owned at that tier
-  const truckFor = id => {
-    const pick = read(ORDERS, {})[id], list = trucks.filter(c => tierId(c) === id);
-    return list.find(c => c.id === pick) ?? list.find(c => !progress.owns(c.id)) ?? null;
-  };
-  const byId = id => {
-    if (id.startsWith('truck_tier_')) { const c = truckFor(id); return c && truckOffers(c.class).find(o => o.truck === c.id); }
-    return catalogue().find(o => o.id === id);
-  };
+  // every product the shop sells, for Google Play to register (all consumable: what each gave comes back through the cloud save)
+  const catalogue = () => [...featured(), ...coinOffers(), ...rankOffers()];
+  const byId = id => catalogue().find(o => o.id === id);
   // a purchase Google finished later (pending payment, app closed mid-purchase): granted once, like any other
   store.onGrant?.((productId, transactionId) => { const o = byId(productId); if (o) { const got = grant(o, transactionId); if (got) onLateGrant?.(o, got); } });
-  // Google Play registers each product once: the truck tiers stand in for every truck
+  // Google Play registers each product once
   const products = () => [...new Map(catalogue().map(o => [o.id, o])).values()];
   const ready = store.init?.(products()) ?? Promise.resolve();
 
   return {
     ready,
     catalogue, products, revoke, refundable,
-    tabs: [['featured', 'Featured'], ['trucks', 'Trucks'], ['coins', 'Coins'], ['ranks', 'Ranks']],
-    offers(tab, cls = classes[0].id) { return tab === 'trucks' ? truckOffers(cls) : tab === 'coins' ? coinOffers() : tab === 'ranks' ? rankOffers() : featured(); },
+    tabs: [['featured', 'Featured'], ['coins', 'Coins'], ['ranks', 'Ranks']],
+    offers(tab) { return tab === 'coins' ? coinOffers() : tab === 'ranks' ? rankOffers() : featured(); },
     done,
     priceText: o => store.priceText(o),
     test: store.test,
@@ -129,7 +115,6 @@ export function createShop({ content, progress, wallet, store = createStore(), s
     newTrucks: o => missing(o.gives.trucks).length,
     async buy(o) {
       if (done(o)) return { ok: false, error: 'Nothing left to give' };
-      if (o.kind === 'truck') write(ORDERS, { ...read(ORDERS, {}), [o.id]: o.truck });   // which truck this tier purchase is for
       const res = await store.buy(o);
       if (!res.ok) return res;
       return { ok: true, got: grant(o, res.transactionId) };

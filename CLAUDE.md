@@ -15,8 +15,9 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
 
 - **Release basics (user, 2026-11-24):** RESET lives in the Settings panel (garage gear, pause menu) behind a spelled-out
   confirmation, never on the top bar. Settings also holds the reminders switch and the privacy link (`PRIVACY_URL`,
-  `site/privacy-policy.html`, published by `.github/workflows/pages.yml`). Google Play sells trucks as four consumable
-  price tiers (`truck_tier_<n>`, `SHOP_TRUCK_PRICES`); rank packs are $4.99-19.99. Refunds are taken back through
+  `site/privacy-policy.html`, published by `.github/workflows/pages.yml`). The shop has three tabs, Featured, Coins and
+  Ranks (user, 2026-11-24): no single trucks for money (bundles only; single trucks are bought with coins). Every product
+  is consumable (21 in Play Console, `node tools/play-products.mjs`); rank packs are $4.99-19.99. Refunds are taken back through
   `src/game/refunds.js` and the `voided` function. Every run and prop gets a level run-up (`OBSTACLE_APPROACH_M`).
 - **Saves (2026-11-24):** progress lives in localStorage on the device and, once signed in to Google Play Games, in one
   Saved Games snapshot (`src/game/cloud-save.js`, `PlayGamesPlugin.java`): the save with more XP wins, RESET empties both.
@@ -190,7 +191,7 @@ garage (`sheet()` in garage.js). The driving HUD (hud.js) keeps the Basecamp loo
 and the pedals keep their tread (amber lugs for gas, red blocks for brake). Swiping (or tapping a side card, or the arrow keys)
 moves through the cards and the middle one is picked at once; on the Trucks page PLAY becomes BUY for an open truck not owned. **Maps cost coins (user, 2026-11-22):** `FREE_SEASONS` (Blackwater Swamp and Meltwater Pass) are free; every other map is bought
 once for `SEASON_PRICE` (100K) coins on the Seasons page, where PLAY becomes BUY (`src/game/season-pass.js`, saved in `hh_seasons`).
-Owned maps are listed first. **Shop (user, 2026-11-22):** SHOP (or a tap on the coins) opens a sheet of bundles, single trucks, coin packs and rank packs
+Owned maps are listed first. **Shop (user, 2026-11-22):** SHOP (or a tap on the coins) opens a sheet of bundles, coin packs and rank packs (single trucks dropped 2026-11-24)
 (`src/game/shop.js`, numbers in `SHOP_*` in `src/game-config.js`). It is built for real payments later: purchases go through
 `src/game/store.js`, which grants at once while `SHOP_TEST_PURCHASES` is on; prices are placeholder dollars. A truck bought there is
 owned whatever its rank, and owned trucks are listed first in their class. **No selling trucks (user, 2026-11-22):** a bought truck is kept;
