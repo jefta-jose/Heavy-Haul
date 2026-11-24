@@ -228,7 +228,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const stage = $('hcStage');
     stage.addEventListener('pointerdown', e => {
       // a swipe on the Shop, Missions or Upgrade page moves that page, never the hidden truck or map row behind it
-      if (!cfg || n() < 2 || e.button > 0 || garageEl.dataset.sheet || e.target.closest('.g-classes, .hc-under, .overlay')) return;
+      if (!cfg || n() < 2 || e.button > 0 || garageEl.dataset.sheet || e.target.closest('.g-classes, .hc-under, .hc-stage > .overlay')) return;   // not '.overlay': the garage itself is one
       drag = { id: e.pointerId, x0: e.clientX, pos0: pos, moving: false, pts: [[e.timeStamp, e.clientX]] };
     });
     stage.addEventListener('pointermove', e => {
@@ -410,7 +410,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const on = power.id === powers[car.id], b = el('button', 'power powercard' + (on ? ' on' : ''));
       const pic = el('i', 'tpic'); pic.append(gIcon(power.id));
       // the full sentence on wide screens, a few words on phones (game.css)
-      const text = el('span', 'ptext'); text.append(el('em', 'pbadge', 'Power'), el('b', null, power.label), el('small', 'plong', power.what), el('small', 'pshort', power.short ?? power.what));
+      const text = el('span', 'ptext'); text.append(el('em', 'pbadge', 'Power'), el('b', 'plabel', power.label), el('b', 'pmini', power.mini ?? power.label), el('small', 'plong', power.what), el('small', 'pshort', power.short ?? power.what));
       b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
       b.setAttribute('aria-pressed', String(on));
       b.addEventListener('click', () => { if (on) delete powers[car.id]; else powers[car.id] = power.id; savePowers(powers); renderPowers(); });

@@ -4648,3 +4648,12 @@ dl.spec dd {
   .garage.hc #tuneOv .tunes { display: flex; align-self: stretch; height: 100%; align-items: center; justify-content: center; gap: 8px; }
   .garage.hc #tuneOv .tunes > .tune { flex: 1 1 0; min-width: 0; max-width: 260px; height: auto; align-self: center; }
 }
+/* the smallest phones (user, 2026-11-24): the power column just says Invincible, Boost and Reset */
+.ptext b.pmini { display: none; }
+@media (max-height: 340px) and (orientation: landscape) {
+  .garage.hc #tuneOv .hc-powers .powercard .pbadge, .garage.hc #tuneOv .hc-powers .power .ptext small.pshort, .garage.hc #tuneOv .hc-powers .powercard .ptext b.plabel { display: none; }
+  .garage.hc #tuneOv .hc-powers .powercard .ptext b.pmini { display: block; font-size: 14px; }
+  .garage.hc #tuneOv .hc-powers .powercard { grid-template-rows: minmax(0, 1fr) auto; padding: 4px 6px; }
+  .garage.hc #tuneOv #tuneReset { font-size: 0; }
+  .garage.hc #tuneOv #tuneReset::after { content: 'Reset'; font-size: 12px; }
+}
