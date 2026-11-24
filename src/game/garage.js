@@ -481,14 +481,16 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // The shop slides like the Trucks and Seasons decks (user, 2026-11-24): one row of offers, the one in the middle large and
   // lit, the others smaller, tilted and dimmed to its left and right. The row scrolls natively (swipe, mouse wheel, arrow
   // keys) and snaps an offer to the middle; tapping a side offer brings it to the middle.
+  const SHOP_CARD_MAX = 250;
   function shopTo(i, smooth = true) {
     const grid = $('shopGrid'), item = grid.children[i]; if (!item) return;
     grid.scrollTo({ left: item.offsetLeft + item.offsetWidth / 2 - grid.clientWidth / 2, behavior: smooth ? 'smooth' : 'auto' });
   }
   function shopDeckStyle() {
     const grid = $('shopGrid');
-    // an offer is as tall as the row allows and a little narrower than tall, never wider than a third of the row
-    const card = Math.round(Math.max(120, Math.min(grid.clientWidth * (grid.clientWidth < grid.clientHeight ? 0.62 : 0.32), grid.clientHeight * 0.92)));
+    // an offer is as tall as the row allows and a little narrower than tall, never wider than a third of the row, and a
+    // small card on laptops and bigger screens (user, 2026-11-24): never wider than SHOP_CARD_MAX
+    const card = Math.round(Math.max(120, Math.min(grid.clientWidth * (grid.clientWidth < grid.clientHeight ? 0.62 : 0.32), grid.clientHeight * 0.92, SHOP_CARD_MAX)));
     if (grid.style.getPropertyValue('--card') !== `${card}px`) grid.style.setProperty('--card', `${card}px`);
     const mid = grid.scrollLeft + grid.clientWidth / 2;
     for (const item of grid.children) {

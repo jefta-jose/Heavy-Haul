@@ -4668,3 +4668,19 @@ dl.spec dd {
 .setconfirm .btns { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .overlay:not(.garage) .setconfirm .btn { min-height: 32px; font-size: 13px; }
 @media (max-width: 620px) { .setgrid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- small cards on laptops and bigger screens (user, 2026-11-24: "just do small cards"; Upgrade stays as it is) ----------
+   Above phone height the Shop and Missions cards are only as tall as what is on them, centred in the stage,
+   instead of stretching to its full height. Phones keep the layouts above. */
+@media (orientation: landscape) and (min-height: 521px) {
+  /* shop: a fixed-shape card (picture 4:3, name, price) in the middle of the sliding row */
+  .garage.hc .shop-grid { align-items: center; }
+  .garage.hc .shop-grid > .sitem { height: auto; max-height: 100%; }
+  .garage.hc .shop-grid > .sitem .sart { flex: none; aspect-ratio: 4 / 3; }
+  /* missions: the row is as tall as its tallest card (all cards share that height, Choose at the bottom) and sits centred */
+  .garage.hc #missionsOv .powerlist { flex: 0 1 auto; margin-block: auto; align-items: stretch; max-height: 100%; }
+  .garage.hc #missionsOv .power.mission { height: auto; flex-basis: clamp(210px, 22%, 270px); }
+  .garage.hc #missionsOv .power.mission .ptext { flex: 1 1 auto; }
+  .garage.hc #missionsOv .power.mission .pstate { margin-top: 8px; }
+  .garage.hc #missionsOv .powerlist > .mhome { height: auto; }
+}
