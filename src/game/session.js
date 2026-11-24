@@ -120,7 +120,9 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     for (const c of trail.checkpoints) if (p.x > c + 8 && c > run.checkpoint) run.checkpoint = c;
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
-    if (run.stuckT > 3.5 && !hud.toastActive) hud.toast(!ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : !ctl.diff ? 'Lock the DIFF to get through' : 'Upgrade your car to never get stuck', 3);
+    // stuck hints, most useful first; a fully upgraded truck only ever needs AWD and DIFF, so it is never told to upgrade
+    const stuckHint = !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : !ctl.diff ? 'Lock the DIFF to get through' : sim.main.car.physics.neverStuck ? null : 'Upgrade your car to never get stuck';
+    if (run.stuckT > 3.5 && !hud.toastActive && stuckHint) hud.toast(stuckHint, 3);
     const ahead = sim.surfAt(p.x + 10);
     if (!hud.toastActive && ahead === 'mud' && sim.surfAt(p.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
