@@ -109,7 +109,21 @@ export const UPGRADE_COST_BY_CLASS = { scout: 1, highway: 1.5, 'heavy-duty': 1.5
 export const POWER_TIMES = {
   invincible: { seconds: 15, cooldown: 30 },  // no hit does damage; started with the power button
   nitro: { seconds: 15, cooldown: 30 },       // a surge of speed; started with the power button
+  destroyer: { seconds: 12, cooldown: 40 },   // ploughs through deep mud and smashes every log, pipe, rock and prop it touches
+  shockwave: { seconds: 0.9, cooldown: 35 },  // one blast that breaks everything just ahead; `seconds` is how long the ring is drawn
+  repair: { seconds: 3, cooldown: 60 },       // fuel and repairs on the spot, poured in over `seconds`
+  timefreeze: { seconds: 10, cooldown: 45 },  // the run's clock stops: timed missions and best times do not count these seconds
+  lucky: { seconds: 0, cooldown: 40 },        // a random one of the others each tap, for that power's own time
 };
+export const TIMEFREEZE_COLOR = '#bfe8ff';
+export const LUCKY_COLOR = '#f2c21a';
+export const DESTROYER_COLOR = '#ff6a1a';     // the fiery glow of a truck on Destroyer
+export const SHOCKWAVE_RANGE_M = 32;          // how far ahead of the nose the blast reaches (and SHOCKWAVE_BEHIND_M behind it)
+export const SHOCKWAVE_BEHIND_M = 4;
+export const SHOCKWAVE_COLOR = '#9fdcff';
+export const REPAIR_FUEL = 50;                // % of a tank the Repair power adds
+export const REPAIR_DAMAGE = 60;              // % of damage it takes away
+export const REPAIR_COLOR = '#39e66a';
 // Nitro arms an instant brake: the next tap on the brake, at any speed, during the boost, the recharge or long after, stops
 // the truck dead over this long (a tap is enough; it finishes the stop itself) and is used up. Without it nitro ended in
 // the obstacles past the highway.
@@ -229,7 +243,8 @@ export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: mo
 export const SHOP_CLASS_PACK_PRICE = 12.99;    // every truck of one class
 export const SHOP_NEXT_FIVE_PRICE = 4.99;      // the next truck you do not own in every class (five trucks)
 export const SHOP_TOP_FIVE_PRICE = 9.99;       // the strongest truck of every class
-export const SHOP_ROOKIE_PACK = [50000, 0.99];            // [coins, price]: once only, the coins and the next Scout truck not owned
+export const SHOP_ROOKIE_PACK = [50000, 0.99];            // [coins, price]: once only, the coins and a Scout from the middle ranks
+export const SHOP_ROOKIE_TRUCK_RANK = 20;      // the Rookie pack's Scout opens at about this rank (user, 2026-11-24: not one unlocked almost at once)
 export const SHOP_STARTER_BUNDLE = [300000, 2.99];        // [coins, price]: once only, about 100k coins a dollar (no ranks: only rank packs give those)
 export const SHOP_MAPS_PACK_PRICE = 4.99;                 // every map not owned yet (each is 100K coins otherwise)
 export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: every truck, every map and the coins (no ranks)
@@ -239,9 +254,6 @@ export const FREE_SEASONS = ['swamp-summer', 'spring-thaw'];   // Blackwater Swa
 export const SEASON_PRICE = 100000;           // coins for each other map
 
 // ---------- the feel of the run ----------
-export const SHAKE_MIN_BUMP = 0.45;           // a suspension hit at least this hard (0 to 1, the audio's measure) shakes the camera
-export const SHAKE_PX = 9;                    // how far the hardest hit shakes it, in screen pixels
-export const SHAKE_DECAY = 9;                 // how fast the shake dies away (per second)
 export const SLOWMO_BUMP = 0.92;              // a landing this hard plays briefly in slow motion
 export const SLOWMO_SCALE = 0.45, SLOWMO_SECONDS = 0.35;
 export const AIR_MIN_S = 0.55;                // every wheel off the ground at least this long is a jump worth a call-out

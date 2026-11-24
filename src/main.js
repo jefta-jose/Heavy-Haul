@@ -17,10 +17,11 @@ import { checkRefunds } from './game/refunds.js';
 import { wallet } from './game/wallet.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH, FREE_SEASONS, SHAKE_MIN_BUMP, SLOWMO_BUMP, SLOWMO_SCALE, SLOWMO_SECONDS, STORM_MAPS, STORM_CHANCE, STORM_STARTS_AT, STORM_RAMP_S, STORM_RAIN } from './game-config.js';
+import { COINS_PER_CRUSH, FREE_SEASONS, SLOWMO_BUMP, SLOWMO_SCALE, SLOWMO_SECONDS, STORM_MAPS, STORM_CHANCE, STORM_STARTS_AT, STORM_RAMP_S, STORM_RAIN } from './game-config.js';
 import { createGhost } from './game/ghost.js';
 import { createAchievements } from './game/achievements.js';
 import { createStreak } from './game/streak.js';
+import { POWERS } from './game/tuning.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -74,6 +75,7 @@ const renderer = createRenderer({
     if (e.type === 'splash') audio.splash(e.power);
     else if (e.type === 'crush') { audio.crush(e.size); haptics.hit(Math.min(1, e.size)); if (session.state === 'play') { session.earn(COINS_PER_CRUSH, true); session.crushed(); } }
     else if (e.type === 'hit' && e.tires === sim.main.tireData) audio.hit();
+    else if (e.type === 'shockwave') haptics.hit(1);
     else if (e.type === 'damage') { renderer.hitGlow(); if (e.amount > 0) audio.bump(Math.min(1, 0.4 + e.amount / 20), sim.main.car.physics.mass / 1000); }
   },
 });
@@ -123,9 +125,9 @@ const garage = createGarage({
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => { finishedRuns++; uiAudio.play('mission-complete'); }, onFailure: () => { finishedRuns++; uiAudio.play('mission-failed'); } });
 session.onResume = () => audio.resume();
-// ---------- the feel of a run: a hard landing shakes the camera, the hardest plays in slow motion for a moment ----------
+// ---------- the feel of a run: the hardest landings play in slow motion for a moment ----------
 let slowMoT = 0;
-{ const bump = audio.bump; audio.bump = (strength, massT) => { bump(strength, massT); if (session.state !== 'play') return; if (strength >= SHAKE_MIN_BUMP) view.shake(strength); if (strength >= SLOWMO_BUMP) slowMoT = SLOWMO_SECONDS; }; }
+{ const bump = audio.bump; audio.bump = (strength, massT) => { bump(strength, massT); if (session.state !== 'play') return; if (strength >= SLOWMO_BUMP) slowMoT = SLOWMO_SECONDS; }; }
 // ---------- the ghost of the best run, and the storm that sometimes rolls in ----------
 const ghost = createGhost();
 // fx: this run's ghost ({ data, car }), where its storm starts (null: none) and how heavy it is now (0 to 1)
@@ -141,7 +143,7 @@ function startFx() {
 function updateFx(dt, live) {
   const inRun = session.state !== 'garage', x = sim.main.parts.truck.getPosition().x;
   if (inRun && live && fx.stormAt != null && x > fx.stormAt && fx.storm < 1) {
-    if (!fx.storm) hud.toast('A storm is rolling in: the mud is getting slick', 3.5);
+    if (!fx.storm) hud.toast('Storm: slick mud', 2.5);
     fx.storm = Math.min(1, fx.storm + dt / STORM_RAMP_S);
   }
   sim.wet = inRun ? fx.storm : 0;
@@ -155,9 +157,9 @@ const fmtTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStar
 // the delivery screen's extra lines, and the counters behind the achievements
 session.onDelivered = run => {
   const r = ghost.finish(run.time), rows = [];
-  if (r?.best) { rows.push(['Best time here', r.previous ? `New record! ${fmtTime(r.previous - run.time)} faster` : 'First delivery here: your ghost will race you next time']); }
+  if (r?.best) { rows.push(['Best time here', r.previous ? `New record! ${fmtTime(r.previous - run.time)} faster` : 'First run here']); }
   else if (r) rows.push(['Best time here', fmtTime(r.previous)]);
-  if (fx.storm > 0.5) { rows.push(['Weather', 'Delivered through the storm']); achievements.count('storms'); }
+  if (fx.storm > 0.5) achievements.count('storms');
   achievements.count('deliveries'); achievements.addClass(sim.main.car.class); achievements.set('rank', progress.rank);
   achievements.submitTime(content.season.id, run.time); achievements.sync();
   return rows;
@@ -180,7 +182,7 @@ function setMode(key, on) {
   if (session.state !== 'play') return;
   sim.ctl[key] = on; hud.showMode(key, on);
   renderer.flash(on); audio.clunk(on); haptics.toggle();
-  hud.hint(`${key}-${on}`, key === 'awd' ? (on ? 'AWD on: every axle driven' : 'AWD off: front axle free-wheels') : (on ? 'Diff lock on: all wheels turn together' : 'Diff lock off'), 1.6);
+  hud.hint(`${key}-${on}`, key === 'awd' ? (on ? 'AWD on' : 'AWD off') : (on ? 'Diff lock on' : 'Diff lock off'), 1.6);
 }
 // the pause menu also carries what the phone HUD leaves out: the truck's details and fullscreen
 // the Android app is always fullscreen (MainActivity), and its WebView refuses the browser's fullscreen
@@ -222,12 +224,18 @@ function handbrake() {
 }
 const trap = createSpeedTrap({ sim, trail: liveTrail, onCapture: kmh => { haptics.hit(0.6); session.cameraSpeed(kmh); } });
 const input = createInput(hud.els, {
-  toggle: k => setMode(k, !sim.ctl[k]), pause, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) haptics.toggle(); }, onAnyInput: startAudio,
+  toggle: k => setMode(k, !sim.ctl[k]), pause, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) {
+    haptics.toggle();
+    const own = sim.main.car.power, drew = sim.main.st.powerKind;
+    // a Lucky Crate: its own sound, the draw called out, then that power's sound
+    if (own === 'lucky') { audio.power?.('lucky'); hud.callout('Lucky crate', POWERS.find(p => p.id === drew)?.label ?? drew, true); setTimeout(() => audio.power?.(drew), 350); }
+    else audio.power?.(drew);
+  } }, onAnyInput: startAudio,
 });
 
 function newRun() {
   ghost.stop();
-  sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip(); startFx();
+  sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip(); startFx(); audio.preparePower?.(selection.car.power);
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);

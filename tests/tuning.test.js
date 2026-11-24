@@ -103,8 +103,40 @@ test('a power is a label on the car, and changes none of its numbers', () => {
   assert.deepEqual(rest, { ...tuned }, 'the same truck otherwise');
   assert.equal(withPower(tuned, null), tuned, 'no power, no change');
   assert.equal(withPower(tuned, 'grip'), tuned, 'an old saved power is ignored');
-  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'nitro']);
-  for (const p of POWERS) assert(POWER_TIMES[p.id].seconds > 0 && POWER_TIMES[p.id].cooldown > 0, `${p.id} has a cooldown`);
+  assert.deepEqual(POWERS.map(p => p.id), ['invincible', 'nitro', 'destroyer', 'shockwave', 'repair', 'timefreeze', 'lucky']);
+  for (const p of POWERS) assert(POWER_TIMES[p.id].cooldown > 0 && (p.id === 'lucky' || POWER_TIMES[p.id].seconds > 0), `${p.id} has a cooldown`);
+});
+
+test('destroyer, shockwave and repair: smash what is touched, blast the road ahead, fix the truck on the spot', () => {
+  const sim0 = newSim(); sim0.init(40);
+  const log = sim0.logs.find(l => l.x > 45 && l.alive !== false);
+  // Destroyer: driven into a log run at speed, the logs it touches are smashed and nothing hurts it
+  const d = spawn(newSim(withPower(content.car, 'destroyer')), log.x - content.car.rig.nose - 4);
+  assert(d.usePower(), 'Destroyer starts');
+  d.main.parts.truck.setLinearVelocity({ x: 12, y: 0 }); advance(d, 2);
+  assert(d.logs.some(l => l.alive === false), 'a log is smashed'); assert.equal(d.main.st.damage, 0, 'no damage');
+  // Shockwave: everything just ahead is gone at once, nothing far behind or far ahead
+  const s = spawn(newSim(withPower(content.car, 'shockwave')), log.x - 10), x = s.main.parts.truck.getPosition().x;
+  assert(s.usePower(), 'Shockwave fires');
+  const all = [...s.logs, ...s.rocks];
+  assert(all.some(o => o.alive === false), 'the blast breaks something');
+  assert(all.filter(o => o.x > x + 80).every(o => o.alive !== false), 'nothing far ahead');
+  assert(!s.usePower(), 'then it recharges');
+  // Repair: fuel and damage over its time; not wasted on a truck with nothing to fix
+  const r = spawn(newSim(withPower(content.car, 'repair')), 40);
+  assert(!r.usePower(), 'nothing to fix');
+  r.main.st.fuel = 10; r.main.st.damage = 80; assert(r.usePower()); advance(r, POWER_TIMES.repair.seconds + 0.5);
+  assert(r.main.st.fuel > 55 && r.main.st.damage < 25, `fixed: fuel ${r.main.st.fuel}, damage ${r.main.st.damage}`);
+});
+
+test('time freeze and lucky crate', () => {
+  // Lucky Crate: it draws another power, runs it for that power's time, then recharges for its own
+  const l = spawn(newSim(withPower(content.car, 'lucky')), 60);
+  assert(l.usePower(() => 0.5)); const drew = l.main.st.powerKind;
+  assert(drew && drew !== 'lucky', `drew ${drew}`); assert.equal(l.main.st.powerT, POWER_TIMES[drew].seconds);
+  advance(l, POWER_TIMES[drew].seconds + 0.2); assert(Math.abs(l.main.st.powerCoolT - POWER_TIMES.lucky.cooldown) < 0.5, 'its own cooldown');
+  // Time Freeze is a label the session reads: the power runs for its time on the truck
+  const t = spawn(newSim(withPower(content.car, 'timefreeze')), 60); assert(t.usePower()); assert.equal(t.main.st.powerKind, 'timefreeze');
 });
 
 test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {

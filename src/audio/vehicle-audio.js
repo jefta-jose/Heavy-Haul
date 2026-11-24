@@ -190,6 +190,21 @@ export function createVehicleAudio({ clips = {}, bank = { clips: {}, engines: {}
     play('cargo-light', g * 0.8); if (strength > 0.4) play('cargo-chains', g * 0.5);
     if (api.active?.car.load) loadHit(api.active.car, g * 0.9);
   };
+  // The powers you tap, from the recordings in the bank: [effect, gain, { rate, seconds }, delay in s]. Destroyer revs up with
+  // a deep rumble and an air blast, Shockwave is a close thunderclap with rocks breaking, Repair is a clank, an air hiss and
+  // fuel pouring. Decoded at the start of a run (preparePower), so the first tap is heard.
+  const POWER_SOUNDS = {
+    destroyer: [['rumble', 0.95, { rate: 0.85 }], ['air-burst', 0.55, { rate: 0.75 }], ['rocks', 0.5, { rate: 0.8 }, 0.15]],
+    shockwave: [['thunder', 1, { rate: 1.2 }], ['underbody', 1, { rate: 0.8 }], ['rocks', 0.9, {}, 0.08]],
+    repair: [['hook-clank', 0.6], ['air-release', 0.45, { rate: 1.1 }, 0.2], ['fuel-flow', 0.5, { seconds: 2.6 }, 0.35]],
+    // Time Freeze: a sharp hiss and a heavy clunk, like a mechanism locking; Lucky Crate: a crate's lid and its rattle, then
+    // the power it drew
+    timefreeze: [['air-release', 0.6, { rate: 1.35 }], ['gear-clunk', 0.7, { rate: 0.7 }, 0.12], ['gear-clunk', 0.5, { rate: 0.6 }, 0.5]],
+    lucky: [['hook-clank', 0.55, { rate: 1.2 }], ['cargo-light', 0.5, { rate: 1.1 }, 0.1]],
+  };
+  // a Lucky Crate can draw any of them, so it gets every power's sounds ready
+  api.preparePower = kind => { if (!ac) return; for (const k of kind === 'lucky' ? Object.keys(POWER_SOUNDS) : [kind]) for (const [e] of POWER_SOUNDS[k] ?? []) for (const n of bank.effects[e] ?? [e]) if (clips[n]) load(n); };
+  api.power = kind => { for (const [e, gain, opts = {}, delay = 0] of POWER_SOUNDS[kind] ?? []) setTimeout(() => play(e, gain, opts), delay * 1000); };
   // a tire touching a log, pipe or rock: the load shakes, harder with speed, and not while it just sits there
   api.hit = () => {
     const v = api.active, speed = Math.abs(v?.st.speed ?? 0);

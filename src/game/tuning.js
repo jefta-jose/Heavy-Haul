@@ -57,10 +57,15 @@ export function applyTuning(car, levels = {}) {
 }
 
 // Powers do what upgrades can't, and a truck has one at a time. The simulation reads `car.power`.
-const { invincible, nitro } = POWER_TIMES;
+const { invincible, nitro, destroyer, shockwave, repair, timefreeze, lucky } = POWER_TIMES;
 export const POWERS = [
   { id: 'invincible', label: 'Invincible', short: `${invincible.seconds} s with no damage`, what: `Tap the button: no hit hurts for ${invincible.seconds} s, then it recharges for ${invincible.cooldown} s` },
   { id: 'nitro', label: 'Nitro', mini: 'Boost', short: `${nitro.seconds} s boost, then instant brakes`, what: `Tap the button: for ${nitro.seconds} s the gas pedal gives nitro speed (let go and the truck slows as usual), then instant brakes on your next brake tap to save the truck. Recharges for ${nitro.cooldown} s` },
+  { id: 'destroyer', label: 'Destroyer', mini: 'Smash', short: `Smash everything for ${destroyer.seconds} s`, what: `Tap the button: for ${destroyer.seconds} s every log, pipe, rock and prop the truck touches is smashed (with coins for each), deep mud cannot hold it and nothing does damage. Recharges for ${destroyer.cooldown} s` },
+  { id: 'shockwave', label: 'Shockwave', mini: 'Blast', short: 'Blast clears the road ahead', what: `Tap the button: one blast breaks every log, pipe, rock and prop on the next 30 m of road, with coins for each. Recharges for ${shockwave.cooldown} s` },
+  { id: 'repair', label: 'Repair', mini: 'Fix', short: 'Fuel and repairs on the spot', what: `Tap the button: half a tank of fuel and most of the damage fixed in ${repair.seconds} s, wherever you are; it even restarts a dry engine. Recharges for ${repair.cooldown} s` },
+  { id: 'timefreeze', label: 'Time Freeze', mini: 'Freeze', short: `The clock stops for ${timefreeze.seconds} s`, what: `Tap the button: the run's clock stops for ${timefreeze.seconds} s, so timed missions and best times leave those seconds out. Recharges for ${timefreeze.cooldown} s` },
+  { id: 'lucky', label: 'Lucky Crate', mini: 'Lucky', short: 'A random power every tap', what: `Tap the button: a random power from all the others, one that helps right now. Recharges for ${lucky.cooldown} s` },
 ];
 export const withPower = (car, id) => POWERS.some(p => p.id === id) ? { ...car, power: id } : car;
 

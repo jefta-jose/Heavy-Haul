@@ -427,14 +427,31 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     }
     return tile;
   }
+  // The Upgrade page has two tabs, like the classes on the Trucks page (user, 2026-11-24): Upgrades (the four knobs, bought
+  // with coins) and Powers (one at a time, free to pick). It opens on Upgrades; a purchase or a pick keeps the tab and card.
+  let tuneTab = 'upgrades';
+  const TUNE_TABS = [['upgrades', 'Upgrades', 'speed'], ['powers', 'Powers', 'power']];
+  function renderTuneTabs() {
+    const box = $('tuneTabs'); box.replaceChildren();
+    for (const [id, label, ic] of TUNE_TABS) {
+      const b = el('button', 'g-class' + (id === tuneTab ? ' on' : ''));
+      const svg = gIcon(ic); if (svg) b.append(svg);
+      b.append(el('b', null, label));
+      b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(id === tuneTab));
+      b.addEventListener('click', () => { if (id !== tuneTab) { tuneTab = id; renderTuning(); } });
+      box.append(b);
+    }
+  }
   function renderTuning() {
-    const t = tuneOf(car.id), key = `upgrade:${car.id}`;
-    // Engine starts in the middle; after a purchase the same card stays there
+    const t = tuneOf(car.id), key = `upgrade:${car.id}:${tuneTab}`;
+    renderTuneTabs();
+    // Engine (or the first power) starts in the middle; after a purchase the same card stays there
     decks.upgrade.set({ key, rebuild: true, at: decks.upgrade.key === key ? decks.upgrade.at : 0,
-      items: [...KNOBS.map(knob => ({ knob })), ...POWERS.map(power => ({ power }))],
+      items: tuneTab === 'powers' ? POWERS.map(power => ({ power })) : KNOBS.map(knob => ({ knob })),
       make: x => x.knob ? tuneTile(x.knob) : powerCard(x.power) });
     decks.upgrade.key = key;
-    $('tuneReset').disabled = !Object.keys(t).length;   // always in its place under the powers, greyed out while the truck is stock
+    $('tuneReset').disabled = !Object.keys(t).length;   // greyed out while the truck is stock
+    $('tuneReset').style.visibility = tuneTab === 'powers' ? 'hidden' : '';   // it resets upgrades only
     $('tuneCoins').textContent = formatCoins(wallet.coins);
     $('tuneFor').textContent = nameOf(car);
   }
@@ -447,7 +464,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   $('gMenuTune').addEventListener('click', () => {
     if (!owns(inView().id)) { shake($('gMenuTune')); return; }
     if (garageEl.dataset.sheet === 'upgrade') { sheet(null); render(); return; }
-    go('vehicle'); if (!owns(car.id)) return; renderTuning(); sheet('upgrade');
+    go('vehicle'); if (!owns(car.id)) return; tuneTab = 'upgrades'; renderTuning(); sheet('upgrade');
   });
   $('tuneDone').addEventListener('click', () => { sheet(null); render(); });
 
@@ -491,10 +508,10 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       });
       return b;
     };
-    // the chosen truck's signature haul: here when this is its home map, else where to find it
-    const sig = car && missions.signatureFor?.(car), home = car && missions.homeOf?.(car), count = missions.signatureCount;
+    // the chosen truck's signature haul, when this is its home map; only missions are shown, no hints about other maps
+    // (user, 2026-11-24)
+    const sig = car && missions.signatureFor?.(car);
     if (sig) cards.push(() => row(sig, 'sig'));
-    else if (home) cards.push(() => el('p', 'mhome', `${car.name}'s signature haul is on ${home.name}${missions.signatureDone(car) ? ' (done)' : ''}. Pick that map to take it.`));
     const offers = missions.offers.filter(m => m.id !== sig?.id);
     for (const m of offers) cards.push(() => row(m, m.daily || m.weekly ? 'feat challenge' : m.featured ? 'feat' : ''));
     // the chosen mission (else the first) starts in the middle; after a choice the same card stays there
@@ -533,16 +550,38 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     const d = !garageEl.hidden && decks[garageEl.dataset.sheet]; if (!d) return;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { d.go(e.key === 'ArrowRight' ? 1 : -1); e.preventDefault(); }
   });
+  // A coin pack's picture: a heap of coins that fills the frame, more rows and a wider heap for a bigger pack (2 rows for
+  // the smallest, 7 for the biggest). Drawn as an SVG so it scales with the card; a soft gold glow under it.
+  function coinPile(size) {
+    const NS = 'http://www.w3.org/2000/svg', W = 160, H = 100, rows = 2 + size, fill = 0.6 + 0.065 * size;
+    const r = Math.min(W * fill / (2 + 1.64 * (rows - 1)), H * 0.9 / (2 + 1.1 * (rows - 1)));
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('class', 'coinpile');
+    const base = (H + 2 * r + (rows - 1) * r * 1.1) / 2 + 2;   // the heap's foot, so it sits centred in the picture
+    const glow = document.createElementNS(NS, 'ellipse');
+    Object.entries({ cx: W / 2, cy: base - r * 0.55, rx: r * (rows + 0.8), ry: r * 0.7, fill: 'rgba(242,194,26,0.22)' }).forEach(([k, v]) => glow.setAttribute(k, v));
+    svg.append(glow);
+    let n = 17 + size * 31; const rnd = () => { n = (n * 1664525 + 1013904223) >>> 0; return n / 4294967296; };
+    for (let row = rows - 1; row >= 0; row--) {   // the top row first, so the lower, nearer coins overlap it
+      const count = rows - row, y = base - r - row * r * 1.1 - 2;
+      for (let i = 0; i < count; i++) {
+        const x = W / 2 + (i - (count - 1) / 2) * r * 1.64 + (rnd() - 0.5) * r * 0.25, c = document.createElementNS(NS, 'image');
+        c.setAttribute('href', content.hud['g2-coin']);
+        const k = r * (0.94 + rnd() * 0.12);
+        Object.entries({ x: x - k, y: y - k + (rnd() - 0.5) * r * 0.15, width: 2 * k, height: 2 * k }).forEach(([a, v]) => c.setAttribute(a, v.toFixed(2)));
+        svg.append(c);
+      }
+    }
+    return svg;
+  }
   function offerCard(o) {
     const finished = shop.done(o), card = el('div', `sitem ${o.kind}${finished ? ' owned' : ''}`);
     if (o.tag) card.append(el('span', 'stag', o.tag));
     const art = el('span', `sart pics${Math.min(3, o.pics.length)}`);
     if (o.pics.length) for (const p of o.pics.slice(0, 3)) { const img = el('img'); img.src = p; img.alt = ''; img.draggable = false; img.loading = 'lazy'; art.append(img); }
-    else if (o.kind === 'coins') { art.classList.add('coins', `size${o.size}`); for (let i = 0; i <= o.size; i++) art.append(el('i', 'coinic')); }
+    else if (o.kind === 'coins') { art.classList.add('coins', `size${o.size}`); art.append(coinPile(o.size)); }
     else { const g = gIcon(o.kind === 'rank' ? 'rank' : o.kind === 'bundle' ? 'bundle' : 'cash'); art.append(g); if (o.kind === 'rank') art.append(el('b', 'srank', `+${o.ranks}`)); }
-    const left = o.kind === 'bundle' && !finished ? shop.newTrucks(o) : 0, total = o.gives.trucks.length;
-    const sub = left && left < total ? `${o.sub} · ${left} new for you` : o.sub;
-    const text = el('span', 'stext'); text.append(el('b', null, o.title), el('small', null, sub));
+    // just what it gives (shop.js), and no second line when the title says it all (coins, ranks)
+    const text = el('span', 'stext'); text.append(el('b', null, o.title)); if (o.sub) text.append(el('small', null, o.sub));
     const buy = el('button', 'sbuy');
     if (finished) { buy.append(el('span', null, o.kind === 'rank' ? (progress.rank >= progress.maxRank ? 'Top rank' : `Max +${progress.maxRank - progress.rank}`) : 'Owned')); buy.disabled = true; }
     else {

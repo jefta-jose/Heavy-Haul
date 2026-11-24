@@ -261,7 +261,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
         const pool = Object.keys(twists).filter(k => TWISTS[k] && (TWISTS[k].fits?.(m.goal) ?? true) && !(m.goal === k) && !m.twists.some(t => t.type === k));
         while (m.twists.length < 2 && pool.length) m.twists.push(makeTwist(pool.splice(Math.floor(random() * pool.length), 1)[0], m, { class: m.class }));
       }
-      Object.assign(m, { id, [kind]: true, title: kind === 'daily' ? 'Daily challenge' : 'Weekly challenge', client: kind === 'daily' ? 'Daily challenge · a new one every day' : 'Weekly challenge · a new one every Monday', coins: kind === 'daily' ? DAILY_COINS : WEEKLY_COINS });
+      Object.assign(m, { id, [kind]: true, title: kind === 'daily' ? 'Daily challenge' : 'Weekly challenge', coins: kind === 'daily' ? DAILY_COINS : WEEKLY_COINS });
       return finalize(m);
     } finally { seeded = null; }
   }

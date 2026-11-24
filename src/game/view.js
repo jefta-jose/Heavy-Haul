@@ -1,4 +1,4 @@
-import { CAMERA_HEIGHT_SHARE, CAMERA_LENGTH_SHARE, CAMERA_MIN_ZOOM, SHAKE_PX, SHAKE_DECAY } from '../game-config.js';
+import { CAMERA_HEIGHT_SHARE, CAMERA_LENGTH_SHARE, CAMERA_MIN_ZOOM } from '../game-config.js';
 
 // Canvas sizing and the camera. World units are metres with y up; `ppm` is pixels per metre.
 //
@@ -26,10 +26,7 @@ export function createView(canvas, sim) {
   const cam = { x: 0, y: 5, vx: 0, vy: 0 };
   const view = { canvas, ctx, cam, W: 0, H: 0, DPR: 1, ppm: 20, quality: 1, zoom: FRAMING.zoom, groundFrac: FRAMING.ground };
 
-  // a hard landing shakes the world a little (shake()); the backdrop stays still, so it reads as the camera jolting
-  const jolt = { amp: 0, x: 0, y: 0, t: 0 };
-  view.shake = strength => { jolt.amp = Math.max(jolt.amp, Math.min(1, strength) * SHAKE_PX); };
-  view.worldTransform = () => ctx.setTransform(view.ppm * view.DPR, 0, 0, -view.ppm * view.DPR, (view.W / 2 - cam.x * view.ppm + jolt.x) * view.DPR, (view.H / 2 + cam.y * view.ppm + jolt.y) * view.DPR);
+  view.worldTransform = () => ctx.setTransform(view.ppm * view.DPR, 0, 0, -view.ppm * view.DPR, (view.W / 2 - cam.x * view.ppm) * view.DPR, (view.H / 2 + cam.y * view.ppm) * view.DPR);
   view.viewX = () => { const hw = view.W / 2 / view.ppm + 3; return [cam.x - hw, cam.x + hw]; };
 
   view.resize = () => {
@@ -65,8 +62,6 @@ export function createView(canvas, sim) {
   }
   view.snap = () => { const t = target(); cam.x = t.x; cam.y = t.y; cam.vx = cam.vy = 0; };
   view.follow = dt => {
-    if (jolt.amp > 0.2) { jolt.t += dt; jolt.amp *= Math.exp(-SHAKE_DECAY * dt); jolt.x = Math.sin(jolt.t * 61) * jolt.amp * 0.5; jolt.y = Math.sin(jolt.t * 47 + 1) * jolt.amp; }
-    else { jolt.amp = jolt.x = jolt.y = 0; }
     const t = target(), v = sim.truck.getLinearVelocity();
     // vertical feed-forward: how fast the ground under the camera rises or falls at this speed
     const slope = (sim.visH(t.x + 1) - sim.visH(t.x - 1)) / 2;

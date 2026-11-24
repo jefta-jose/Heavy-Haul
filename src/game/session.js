@@ -22,7 +22,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   const addXp = (x, now) => {
     if (!progress) return; run.xp += x;
     const ups = progress.addXp(x, now);
-    if (ups.length) { const top = ups.at(-1); hud.toast(`Rank ${top.rank}! New trucks to buy in the garage`, 4); onRankUp?.(ups); }
+    if (ups.length) { const top = ups.at(-1); hud.toast(`Rank ${top.rank}: new trucks in the garage`, 3); onRankUp?.(ups); }
   };
   const gainXp = (n, now = false) => addXp(classXp(n, sim.main.car.class), now);
   // the run as missions see it
@@ -30,9 +30,8 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   function missionDone(done) {
     run.missionDone = done; addXp(done.xp, true);
     if (done.coins) api.earn(done.coins, true);   // featured contracts and a truck's first signature haul pay coins too
-    hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP${done.coins ? `  ·  +${formatCoins(done.coins)} coins` : ''}`, 4);
     hud.showMission(null);
-    hud.callout?.('Mission complete', done.mission.title, true);
+    hud.callout?.('Mission complete', `+${done.xp.toLocaleString('en-US')} XP${done.coins ? ` · +${formatCoins(done.coins)} coins` : ''}`, true);
     api.onMission?.(done);
     onSuccess?.();
   }
@@ -54,7 +53,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   // and the controls the phone HUD leaves out)
   api.pause = (openSound, extra = {}) => {
     api.state = 'pause'; api.persist();
-    hud.showMessage('Paused', 'Expedition on hold', `${trail.name}. Your vehicle will wait right where you left it.`, extra.spec ?? [], [
+    hud.showMessage('Paused', trail.name, '', extra.spec ?? [], [
       ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Settings', openSound], ...(extra.buttons ?? []),
     ]);
   };
@@ -68,11 +67,11 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     const coins = ['Coins this run', formatCoins(run.earned)];
     // a crash or a wreck ends the run: back to the very start of the trail
     if (kind === 'roll') {
-      hud.showMessage('Crashed', 'The truck went over', 'Start the run again from the beginning of the trail.', [coins], [[...restartButton('Start again'), true], garageButton], 'wreck');
+      hud.showMessage('Crashed', 'The truck went over', '', [coins], [[...restartButton('Start again'), true], garageButton], 'wreck');
     } else if (kind === 'wreck') {
-      hud.showMessage('Wrecked', 'The engine has died', 'Too much damage. Start the run again from the beginning of the trail.', [coins], [[...restartButton('Start again'), true], garageButton], 'wreck');
+      hud.showMessage('Wrecked', 'Too much damage', '', [coins], [[...restartButton('Start again'), true], garageButton], 'wreck');
     } else if (kind === 'fuel') {
-      hud.showMessage('Out of fuel', 'The tank is dry', 'Start the run again from the beginning of the trail.', [coins], [[...restartButton('Start again'), true], garageButton]);
+      hud.showMessage('Out of fuel', 'The tank is dry', '', [coins], [[...restartButton('Start again'), true], garageButton]);
     }
   }
   function deliver() {
@@ -86,7 +85,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     const extra = api.onDelivered?.(run) ?? [];   // main.js: the ghost's best time, the storm
     const rank = progress?.progress;
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
-    hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
+    hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, '', [
       ['Time', `${m}:${String(s).padStart(2, '0')}`], ...extra, ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
       ['Coins on the road', formatCoins(run.earned)],
       ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP${run.missionDone.coins ? ` and ${formatCoins(run.missionDone.coins)} coins` : ''}`]] : []),
@@ -99,7 +98,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   api.update = dt => {
     if (api.state !== 'play') return;
     const main = sim.main, mainTruck = main.parts.truck, p = mainTruck.getPosition(), st = sim.st, ctl = sim.ctl;
-    run.time += dt;
+    if (!(main.st.powerKind === 'timefreeze' && main.st.powerT > 0)) run.time += dt;   // Time Freeze stops the run's clock
     // Check crashes before rewards and delivery so reaching the depot cannot overwrite a rollover failure.
     if (angleOf(mainTruck) > 1.45) run.rollT += dt; else run.rollT = Math.min(0, run.rollT + dt);
     if (run.rollT > CRASH_SECONDS) { fail('roll'); return; }
@@ -137,10 +136,10 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     // stuck hints, most useful first
     if (ctl.gas > 0.5 && Math.abs(st.speed) < 0.6) run.stuckT += dt; else run.stuckT = Math.max(0, run.stuckT - dt);
     // stuck hints, most useful first; a fully upgraded truck only ever needs AWD and DIFF, so it is never told to upgrade
-    const stuckHint = !ctl.diff && st.diffLimited ? 'A wheel is spinning: lock the DIFF' : !ctl.awd ? 'Engage AWD to drive every axle' : !ctl.diff ? 'Lock the DIFF to get through' : sim.main.car.physics.neverStuck ? null : 'Upgrade your car to never get stuck';
+    const stuckHint = !ctl.diff && st.diffLimited ? 'Wheel spinning: lock the DIFF' : !ctl.awd ? 'Turn on AWD' : !ctl.diff ? 'Lock the DIFF' : sim.main.car.physics.neverStuck ? null : 'Upgrade to never get stuck';
     if (run.stuckT > 3.5 && !hud.toastActive && stuckHint) hud.toast(stuckHint, 3);
     const ahead = sim.surfAt(p.x + 10);
-    if (!hud.toastActive && ahead === 'mud' && sim.surfAt(p.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud ahead: engage AWD and DIFF', 2.8);
+    if (!hud.toastActive && ahead === 'mud' && sim.surfAt(p.x) !== 'mud' && !(ctl.awd && ctl.diff)) hud.toast('Deep mud: AWD + DIFF', 2.5);
     hud.nudge('awd', !ctl.awd && (run.stuckT > 2 || ahead === 'mud'));
     hud.nudge('diff', !ctl.diff && (st.diffLimited || run.stuckT > 2));
     // empty tank and delivery
@@ -150,7 +149,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     // a refuelled truck starts up by itself, and stations are worth a mention when you need one
     if (main.st.filling && main.st.engine === 'off' && main.st.fuel > 5) sim.startEngine(main);
     const near = (trail.stations ?? []).find(s => s.x > p.x && s.x - p.x < 45);
-    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay to refuel and repair', 3.5); }
+    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay', 3); }
   };
   return api;
 }

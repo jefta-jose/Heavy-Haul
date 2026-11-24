@@ -4,7 +4,8 @@ import { STATION_WIDTH_M, SPEED_SIGN_AREA_GAP_M, OBSTACLE_SIT } from '../game-co
 // Static obstacles on the trail. Every shape the tires hit is also what the renderer draws:
 // boulders use hulls traced from rock art, crushable shale breaks under the vehicle's weight,
 // and fallen logs are round bodies lying across the track. Which round and traced kinds exist, and
-// how each one breaks, is data: trail.obstacleKinds and trail.propKinds in season.json.
+// how each one breaks, is data: trail.obstacleKinds and trail.propKinds in season.json. Every obstacle's fixture carries its
+// record (`rec`), so the Destroyer and Shockwave powers can smash even the ones that never break (simulation.js smash).
 
 export const CRUSH_IMPULSE = 900;   // N·s of accumulated tire impulse that breaks a crushable rock
 
@@ -47,13 +48,13 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
   const boulder = (x, above, wM, loose = true) => {
     if (loose && steep(x)) return;
     const { body, verts, rec } = rockBody(x, Math.min(above, MAX_BOULDER_M / S), wM);
-    body.createFixture(new pl.Polygon(verts), { friction: 0.72, userData: { surf: 'rock', obstacle: true } });
+    body.createFixture(new pl.Polygon(verts), { friction: 0.72, userData: { surf: 'rock', obstacle: true, rec } });
     rocks.push(rec);
   };
   const crushable = (x, above, wM) => {
     const { body, verts, rec } = rockBody(x, above, wM);
     Object.assign(rec, { crush: true, alive: true, hit: 0, body });
-    body.createFixture(new pl.Polygon(verts), { friction: 0.8, userData: { surf: 'rock', crush: rec, obstacle: true } });
+    body.createFixture(new pl.Polygon(verts), { friction: 0.8, userData: { surf: 'rock', crush: rec, obstacle: true, rec } });
     rocks.push(rec);
   };
 
@@ -62,7 +63,7 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
     const { body, verts, slices, rec } = rockBody(x, kind.above, kind.width, kind.hull, kind.flip !== false);
     Object.assign(rec, { art: kind.art, prop: name, surf: kind.surf });
     if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, body, ...kind.crush });
-    const fixture = { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } };
+    const fixture = { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined, rec } };
     if (slices?.length) for (const q of slices) body.createFixture(new pl.Polygon(q), fixture);
     else body.createFixture(new pl.Polygon(verts), fixture);
     rocks.push(rec);
@@ -104,7 +105,7 @@ export function buildObstacles({ pl, world, terrain, trail, hulls }) {
       const body = world.createBody({ position: V(x, y) });
       const kind = trail.obstacleKinds[spec.kind], rec = { x, y, r, seed: rr(), kind: spec.kind, run: index, order, body };
       if (kind.crush) Object.assign(rec, { crush: true, alive: true, hit: 0, above: r, w: 2 * r, surf: kind.surf, ...kind.crush });
-      body.createFixture(new pl.Circle(r), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined } });
+      body.createFixture(new pl.Circle(r), { friction: kind.friction, userData: { surf: kind.surf, obstacle: true, crush: kind.crush ? rec : undefined, rec } });
       logs.push(rec);
     }
   }

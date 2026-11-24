@@ -1,6 +1,6 @@
 import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius, drawnBodyLift, easeBodyLift } from '../../physics/vehicle.js';
-import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE, GHOST_ALPHA } from '../../game-config.js';
+import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE, GHOST_ALPHA, DESTROYER_COLOR, SHOCKWAVE_COLOR, REPAIR_COLOR, TIMEFREEZE_COLOR, POWER_TIMES } from '../../game-config.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires. Near tires stay in front of the body throughout suspension travel. The
@@ -36,10 +36,15 @@ export function createVehicleLayer(scene) {
   }
   // A running power's glow: violet while nothing can hurt the truck, flickering for its last seconds, and blue on nitro. Null when there is none.
   function powerGlow(v) {
-    const left = v.st.powerT, kind = v.car.power; if (v.role !== 'main' || !(left > 0)) return null;
+    const left = v.st.powerT, kind = v.st.powerKind ?? v.car.power; if (v.role !== 'main' || !(left > 0)) return null;   // a Lucky Crate glows as what it drew
     const now = performance.now() / 1000, breathe = 0.82 + 0.18 * Math.sin(now * 5);
     if (kind === 'nitro') return { kind, color: NITRO_COLOR, pale: '#d6ecff', strength: 0.8 + 0.2 * Math.sin(now * 30) };
     if (kind === 'invincible') return { kind, color: SHIELD_COLOR, pale: '#f3e4ff', strength: left > INVINCIBLE_WARN_SECONDS ? breathe : Math.sin(now * 20) > 0 ? breathe : 0.25 };
+    // Destroyer burns like a forge, flickering faster in its last seconds; Shockwave flashes once; Repair breathes green
+    if (kind === 'destroyer') return { kind, color: DESTROYER_COLOR, pale: '#ffd9a8', strength: (0.78 + 0.22 * Math.sin(now * 23) * Math.sin(now * 7.3)) * (left > 2 || Math.sin(now * 24) > 0 ? 1 : 0.35) };
+    if (kind === 'shockwave') return { kind, color: SHOCKWAVE_COLOR, pale: '#ffffff', strength: left / POWER_TIMES.shockwave.seconds };
+    if (kind === 'repair') return { kind, color: REPAIR_COLOR, pale: '#dcffe6', strength: breathe };
+    if (kind === 'timefreeze') return { kind, color: TIMEFREEZE_COLOR, pale: '#ffffff', strength: 0.7 + 0.3 * Math.sin(now * 2) };
     return null;
   }
   function drawGlow(v, { color, pale, strength }) {
@@ -82,6 +87,33 @@ export function createVehicleLayer(scene) {
     }
     ctx.restore();
   }
+  // Destroyer: sparks and embers streaming back off the nose and the tyres, as if the truck were grinding through everything
+  function drawEmbers(v, strength) {
+    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000;
+    const sources = [[rig.nose - 0.1, (rig.wheelY[0] ?? 0) + rig.radius * 0.6], ...rig.axles.map((x, i) => [x, (rig.wheelY[i] ?? 0) - rig.radius * 0.7])];
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 26; i++) {
+      const [sx, sy] = sources[i % sources.length], t = (now * 1.6 + i * 0.137) % 1, rise = ((i * 0.53) % 1) * 0.9;
+      const at = body.getWorldPoint({ x: sx - t * 2.6, y: sy + t * rise + Math.sin(now * 9 + i) * 0.05 });
+      ctx.globalAlpha = strength * (1 - t) * 0.9; ctx.fillStyle = i % 3 ? '#ffb347' : '#fff3c4';
+      const r = (0.035 + ((i * 0.31) % 1) * 0.05) * (1 - t * 0.5);
+      ctx.beginPath(); ctx.arc(at.x, at.y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+  // Repair: green plus signs rising off the truck while it is fixed
+  function drawRepair(v, strength) {
+    const { ctx } = view, rig = v.car.rig, body = v.parts.truck, now = performance.now() / 1000, A = rigCache(v.car).images.body, k = 1 / rig.pixelsPerMetre;
+    const w = A.width * k, x0 = -rig.bodyOrigin[0] * k, top = rig.bodyOrigin[1] * k;
+    ctx.save(); ctx.strokeStyle = REPAIR_COLOR; ctx.lineCap = 'round';
+    for (let i = 0; i < 9; i++) {
+      const t = (now * 0.8 + i * 0.29) % 1, s = 0.12 + ((i * 0.37) % 1) * 0.1;
+      const at = body.getWorldPoint({ x: x0 + w * ((i * 0.618) % 1), y: top * (0.2 + t * 1.1) });
+      ctx.globalAlpha = strength * Math.sin(t * Math.PI); ctx.lineWidth = s * 0.35;
+      ctx.beginPath(); ctx.moveTo(at.x - s, at.y); ctx.lineTo(at.x + s, at.y); ctx.moveTo(at.x, at.y - s); ctx.lineTo(at.x, at.y + s); ctx.stroke();
+    }
+    ctx.restore();
+  }
   function drawVehicle(v) {
     const C = rigCache(v.car); C.prepare(); if (!C.body) return;
     const rig = v.car.rig, { truck, wheels } = v.parts, glow = powerGlow(v);
@@ -97,7 +129,9 @@ export function createVehicleLayer(scene) {
     });
     drawBody(rig, C, truck, C.bodyAtDamage(v.st.damage ?? 0, v.car.id));
     wheels.forEach((w, i) => drawWheel(rig, C, w, C.wheel, false, 0, 0, i));
-    if (glow?.kind === 'invincible') drawSparkles(v, glow.strength);
+    if (glow?.kind === 'invincible' || glow?.kind === 'timefreeze') drawSparkles(v, glow.strength);
+    if (glow?.kind === 'destroyer') drawEmbers(v, glow.strength);
+    if (glow?.kind === 'repair') drawRepair(v, glow.strength);
   }
 
   // AWD / DIFF feedback, and the red glow of a hit: a pulsing colored border traced around the vehicle silhouette. AWD / DIFF

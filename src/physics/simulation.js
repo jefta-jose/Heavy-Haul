@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE, WET_MUD_GRIP_LOSS } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, SHOCKWAVE_RANGE_M, SHOCKWAVE_BEHIND_M, REPAIR_FUEL, REPAIR_DAMAGE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE, WET_MUD_GRIP_LOSS } from '../game-config.js';
 import { createTerrain, seasonSurfaces } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -24,7 +24,10 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   }
   useSeason(season, rockHulls);
   const BRAKE = { rise: 2.5, fall: 5 };
-  const events = [], crushQueue = [];
+  const events = [], crushQueue = [], smashQueue = new Set();
+  // the power running on a vehicle (st.powerKind: the truck's own, or the one its Lucky Crate drew), while it runs
+  const running = (v, kind) => v.role === 'main' && v.st.powerKind === kind && v.st.powerT > 0;
+  const destroying = v => running(v, 'destroyer');
   const load = new Map();   // tire normal loads, measured from the solver's contact impulses every step
   let world, obstacles, vehicles = [], active = null, main = null, stepDt = 1 / 120;
   // the main vehicle's controls and readings persist across runs (the HUD holds them)
@@ -86,6 +89,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     world.on('pre-solve', c => {
       const fa = c.getFixtureA(), fb = c.getFixtureB(), ua = fa.getUserData(), ub = fb.getUserData();
       if (ghost(fa, ub) || ghost(fb, ua)) { c.setEnabled(false); return; }
+      // Destroyer: whatever the truck touches is smashed (after this step) and never stops it
+      for (const [f, o] of [[fa, ub], [fb, ua]]) {
+        if (!o?.rec || o.rec.alive === false) continue;
+        const v = vehicles.find(q => q.parts.truck === f.getBody() || q.parts.wheels.includes(f.getBody()));
+        if (v && destroying(v)) { smashQueue.add(o.rec); c.setEnabled(false); return; }
+      }
       const tire = ua && ua.tire ? fa : ub && ub.tire ? fb : null, other = tire === fa ? ub : ua;
       if (!tire || !other || !other.surf) return;
       const td = tire.getUserData(), m = (td.grip?.[other.surf] ?? 1) * (td.gripScale ?? 1);
@@ -105,7 +114,8 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     const body = fixture.getBody(), v = vehicles.find(o => o.parts.truck === body || o.parts.wheels.includes(body));
     if (!v || v.role !== 'main' || v.hitT > 0) return;
     if (obstacle.crush?.alive && v.tireData.massT >= (obstacle.crush.minMassT ?? 0)) return;
-    if (v.car.power === 'invincible' && v.st.powerT > 0) return;   // the Invincible power: no damage, and no throw
+    if (running(v, 'invincible')) return;   // the Invincible power: no damage, and no throw
+    if (destroying(v)) return;   // Destroyer smashes it instead
     const truck = v.parts.truck, vel = truck.getLinearVelocity(), kmh = Math.hypot(vel.x, vel.y) * 3.6;
     if (kmh < DAMAGE_START_KMH) return;
     const severity = (kmh - DAMAGE_START_KMH) / 10, amount = severity * severity * DAMAGE_PER_HIT;
@@ -120,11 +130,25 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // Every power runs, then recharges, then waits to be used again
   function stepPower(dt) {
-    const st = main.st;
+    const st = main.st, kind = st.powerKind;
+    // Repair pours fuel in and takes damage away while it runs, and starts an engine that had run dry
+    if (kind === 'repair' && st.powerT > 0) {
+      const share = Math.min(dt, st.powerT) / POWER_TIMES.repair.seconds;
+      st.fuel = Math.min(100, st.fuel + REPAIR_FUEL * share); st.damage = Math.max(0, st.damage - REPAIR_DAMAGE * share);
+      if (st.engine === 'off' && st.fuel > 5 && st.damage < 100) { st.engine = 'cranking'; st.crankT = main.car.audio?.crankS ?? 1.2; }
+    }
+    // when it ends, the truck's own power recharges (a Lucky Crate for its own cooldown, whatever it drew)
     if (st.powerT > 0) { st.powerT -= dt; if (st.powerT <= 0) { st.powerT = 0; st.powerCoolT = POWER_TIMES[main.car.power].cooldown; } }
     else if (st.powerCoolT > 0) st.powerCoolT = Math.max(0, st.powerCoolT - dt);
   }
 
+  // Destroyer and Shockwave: obstacles smashed whatever they are, with the same burst of pieces and coins as a crushed one
+  function smash(rec) {
+    if (rec.alive === false || !rec.body) return;
+    rec.alive = false; world.destroyBody(rec.body); rec.body = null;
+    const round = rec.r != null && rec.w == null;
+    events.push({ type: 'crush', x: rec.x, y: round ? rec.y : rec.y + (rec.above ?? 0.4) * 0.5, w: round ? 2 * rec.r : rec.w, surf: rec.surf ?? (round ? 'wood' : 'rock'), smashed: true });
+  }
   function crushRocks() {
     for (const r of crushQueue) {
       if (!r.alive) continue;
@@ -177,7 +201,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
-  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
+  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, powerKind: null, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
 
   // a rig longer than the start wall's distance is placed far enough forward that its tail clears it
   const clearOfWall = (car, x) => Math.max(x, BARRIER_X + 1 - Math.min(...car.physics.bodyBoxes.map(b => b[0])));
@@ -242,7 +266,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function stepVehicle(v, dt) {
     const { ctl, st, car } = v, { truck, wheels, joints } = v.parts, dc = car.drivetrain;
     // a fully upgraded truck can't get stuck only with AWD and DIFF on: without them mud holds it and logs stop it like any other
-    v.tireData.neverStuck = !!(v.tireData.fullyTuned && ctl.awd && ctl.diff);
+    v.tireData.neverStuck = !!(v.tireData.fullyTuned && ctl.awd && ctl.diff) || destroying(v);   // Destroyer ploughs through mud like a maxed truck
     const vel = truck.getLinearVelocity();
     const ang = truck.getAngle();
     const fwd = vel.x * Math.cos(ang) + vel.y * Math.sin(ang);
@@ -260,7 +284,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     st.throttle += Math.max(-dt * 3, Math.min(dt * dc.throttleRise, want - st.throttle));
     st.brake += Math.max(-dt * BRAKE.fall, Math.min(dt * BRAKE.rise, pedals.brake - st.brake));
     // parking hold: stopped, no throttle, no pedal -> brakes on so the vehicle doesn't roll back
-    let nitroRunning = car.power === 'nitro' && st.powerT > 0;
+    let nitroRunning = st.powerKind === 'nitro' && st.powerT > 0;
     // on a steep slope, up or down, the truck being driven rolls downhill with no pedal pressed; a wrecked truck keeps its brakes on
     const wrecked = st.damage >= 100;
     const steep = Math.abs(Math.atan2(Math.sin(ang), Math.cos(ang))) > ROLLBACK_SLOPE_DEG * Math.PI / 180;   // up or down: it rolls downhill, like in neutral
@@ -276,7 +300,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     // go, and it is used up. Braking during the boost ends the boost.
     if (st.brakeArmed && pedals.brake > 0.1 && grounded) {
       st.brakeArmed = false; st.brakeT = NITRO_BRAKE_SECONDS;
-      if (nitroRunning) { st.powerT = 0; st.powerCoolT = POWER_TIMES.nitro.cooldown; nitroRunning = false; }
+      if (nitroRunning) { st.powerT = 0; st.powerCoolT = POWER_TIMES[car.power].cooldown; nitroRunning = false; }
     }
     if (st.brakeT > 0) st.brakeT = Math.max(0, st.brakeT - dt);
     if (st.brakeT > 0 && grounded) {
@@ -351,6 +375,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     stepStation(dt);
     stepPower(dt);
     if (crushQueue.length) crushRocks();
+    if (smashQueue.size) { for (const r of smashQueue) smash(r); smashQueue.clear(); }
   }
 
   const sim = {
@@ -373,15 +398,28 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       x = clearOfWall(setup.car, x);
       main = makeVehicle(setup.car, 'main', x, { ctl: mainCtl, st: mainSt });
       vehicles = [main]; active = main;
-      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
+      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.powerKind = null; mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
     respawn(x, v = main) { removeParts(v); spawnParts(v, clearOfWall(v.car, x)); },
-    // the power button: starts the truck's Invincible or Nitro if it has one and it has recharged. Nitro arms its instant brake.
-    usePower() {
-      const st = main.st, kind = main.car.power;
-      if ((kind !== 'invincible' && kind !== 'nitro') || st.powerT > 0 || st.powerCoolT > 0 || (kind === 'nitro' && st.engine !== 'on')) return false;
-      st.powerT = POWER_TIMES[kind].seconds; if (kind === 'nitro') st.brakeArmed = true; return true;
+    // the power button: starts the truck's power if it has one and it has recharged. Nitro arms its instant brake; Shockwave
+    // breaks everything from just behind the truck to SHOCKWAVE_RANGE_M past its nose at once; Repair only when there is
+    // something to fix or fill.
+    // Lucky Crate draws one of the others at random, from the ones that would do something right now.
+    usePower(random = Math.random) {
+      const st = main.st, own = main.car.power;
+      if (!POWER_TIMES[own] || st.powerT > 0 || st.powerCoolT > 0) return false;
+      const usable = k => !(k === 'nitro' && st.engine !== 'on') && !(k === 'repair' && st.fuel > 99 && st.damage < 1);
+      let kind = own;
+      if (own === 'lucky') { const pool = Object.keys(POWER_TIMES).filter(k => k !== 'lucky' && usable(k)); if (!pool.length) return false; kind = pool[Math.floor(random() * pool.length)]; }
+      if (!usable(kind)) return false;
+      st.powerKind = kind; st.powerT = POWER_TIMES[kind].seconds; if (kind === 'nitro') st.brakeArmed = true;
+      if (kind === 'shockwave') {
+        const body = main.parts.truck, at = body.getPosition(), nose = body.getWorldPoint(V(main.car.rig.nose, 0)).x, tail = Math.min(at.x, nose) - SHOCKWAVE_BEHIND_M;
+        events.push({ type: 'shockwave', x: nose, y: at.y, range: SHOCKWAVE_RANGE_M });
+        for (const r of [...obstacles.rocks, ...obstacles.logs]) if (r.alive !== false && r.x > tail && r.x < nose + SHOCKWAVE_RANGE_M) smash(r);
+      }
+      return true;
     },
     // engine switch: starting cranks for the car's crank time (car.json audio.crankS) first
     startEngine(v = active) { if (v.st.engine === 'off' && v.st.fuel > 0) { v.st.engine = 'cranking'; v.st.crankT = v.car.audio?.crankS ?? 1.2; } return v.st.engine; },

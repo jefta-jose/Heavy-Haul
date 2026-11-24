@@ -151,7 +151,9 @@ export function createHud({ sim, season }) {
   }
 
   // the truck's power, top right, with its state: ready, running or recharging. The ones you start yourself get a button too
-  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, nitro: { name: 'Nitro', color: '#2f9dff', button: 'NITRO' } };
+  const POWER_HUD = { invincible: { name: 'Invincible', color: '#b45cff', button: 'SHIELD' }, nitro: { name: 'Nitro', color: '#2f9dff', button: 'NITRO' },
+    destroyer: { name: 'Destroyer', color: '#ff6a1a', button: 'SMASH' }, shockwave: { name: 'Shockwave', color: '#9fdcff', button: 'BLAST' }, repair: { name: 'Repair', color: '#39e66a', button: 'REPAIR' },
+    timefreeze: { name: 'Time Freeze', color: '#bfe8ff', button: 'FREEZE' }, lucky: { name: 'Lucky Crate', color: '#f2c21a', button: 'LUCKY' } };
   const powerIcon = kind => document.getElementById('garageIcons').content.querySelector(`[data-icon="garage-${kind}"] svg`)?.cloneNode(true);
   let shownPower = null, powerText = null;
   function showPower() {
@@ -163,17 +165,22 @@ export function createHud({ sim, season }) {
         const icon = powerIcon(kind); if (icon) chip.append(icon);
         chip.append(document.createElement('span')); box.append(chip);
         const holder = document.getElementById('powerBtnIcon'); holder.innerHTML = ''; if (look.button && icon) holder.append(powerIcon(kind));
+        btn.style.setProperty('--pc', look.color);   // the button glows in its power's colour while it runs
       }
     }
     btn.disabled = sim.active !== sim.main;
     if (!look) return;
     const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
+    // while running, the power that is on (a Lucky Crate's draw shows as "Lucky · Destroyer" in that power's colour)
+    const on = running ? POWER_HUD[st.powerKind] ?? look : look, onName = kind === 'lucky' && running && on !== look ? `Lucky · ${on.name}` : look.name;
+    document.body.classList.toggle('timefrozen', running && st.powerKind === 'timefreeze');
     // nitro's instant brake: armed by a boost until a hard brake uses it, and lit while it is stopping the truck
     const brakeNote = st.brakeT > 0 ? ' · <b>Instant brake!</b>' : st.brakeArmed ? ' · <i>Instant brake armed</i>' : '';
-    const text = (running ? `<i>${look.name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`) + brakeNote;
+    const text = (running ? `<i>${onName}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`) + brakeNote;
     if (text !== powerText) {
       powerText = text; box.querySelector('span').innerHTML = text;
-      box.firstChild.style.setProperty('--c', running ? look.color : cooling ? '#8f98a2' : '#3bdc6e');
+      box.firstChild.style.setProperty('--c', running ? on.color : cooling ? '#8f98a2' : '#3bdc6e');
+      btn.style.setProperty('--pc', running ? on.color : look.color);
       document.getElementById('powerBtnTxt').textContent = running || cooling ? `${secs} s` : look.button ?? '';
       btn.classList.toggle('active', running); btn.classList.toggle('cooling', cooling);
     }
@@ -242,7 +249,7 @@ export function createHud({ sim, season }) {
   }
   function showMessage(eyebrow, title, text, spec, buttons, art) {
     showMessageArt(art);
-    els.msgEyebrow.textContent = eyebrow; els.msgTitle.textContent = title; els.msgText.textContent = text;
+    els.msgEyebrow.textContent = eyebrow; els.msgTitle.textContent = title; els.msgText.textContent = text; els.msgText.hidden = !text;
     els.msgSpec.innerHTML = '';
     for (const [k, v] of spec) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; els.msgSpec.append(dt, dd); }
     els.msgBtns.innerHTML = '';

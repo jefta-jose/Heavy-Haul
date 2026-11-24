@@ -4801,3 +4801,67 @@ dl.spec dd {
 #garage.hc .hc-stage > .overlay .deck > .sitem { display: flex !important; flex-direction: column !important; }
 #garage.hc .hc-stage > .overlay .deck > .sitem .sart { flex: 1 1 auto !important; min-height: 0 !important; aspect-ratio: auto !important; }
 #garage.hc .hc-stage > .overlay .deck > .sitem .stext, #garage.hc .hc-stage > .overlay .deck > .sitem .sbuy { flex: none !important; }
+
+/* the power button glows in its own power's colour while it runs (hud.js sets --pc) */
+.winch.shieldbtn.active { color: #fff; box-shadow: 0 0 12px 2px var(--pc, #b45cff); }
+.winch.shieldbtn.active svg { color: var(--pc, #b45cff); }
+
+/* Upgrade page tabs: Upgrades and Powers, in the class tabs' style, between the header and the cards (user, 2026-11-24) */
+#garage.hc #tuneOv .cbody { grid-template-rows: auto auto minmax(0, 1fr) auto !important; }
+#garage.hc #tuneOv .tune-tabs { grid-column: 1 / -1 !important; grid-row: 2 !important; width: min(380px, 100%) !important; margin-inline: auto; justify-self: center; }
+#garage.hc #tuneOv .tunes { grid-row: 3 !important; }
+#garage.hc #tuneOv .btns { grid-row: 4 !important; }
+@media (orientation: portrait) {
+  #garage.hc #tuneOv .cbody { grid-template-rows: auto auto minmax(0, 1fr) auto auto !important; }
+  #garage.hc #tuneOv .btns { grid-row: 5 !important; }
+}
+
+/* Time Freeze: the depot sign and the mission chip glow frosty while the clock is stopped (the frost itself is drawn by
+   renderer.js) */
+body.timefrozen .hud .depot, body.timefrozen #missionChip { filter: drop-shadow(0 0 6px rgba(190, 232, 255, .9)); }
+
+/* a coin pack's heap of coins (garage.js coinPile) fills its picture */
+.sart.coins { padding: 6% 4% 4% !important; display: grid !important; place-items: stretch !important; }
+.sart.coins .coinpile { width: 100% !important; height: 100% !important; color: inherit; filter: drop-shadow(0 4px 5px rgba(0, 0, 0, .55)) !important; }
+
+/* shop cards in the sliding row (user, 2026-11-24: the text felt squeezed to the bottom): the picture leaves room for a
+   centred title, line and price with space around them; type grows with the card */
+#garage.hc .hc-stage > .overlay .deck > .sitem { padding: 10px !important; gap: 0 !important; }
+#garage.hc .hc-stage > .overlay .deck > .sitem .sart { flex: 1 1 0 !important; border-radius: 3px; }
+#garage.hc .hc-stage > .overlay .deck > .sitem .stext { display: grid !important; justify-items: center; gap: 4px; padding: 12px 6px 12px !important; text-align: center; }
+#garage.hc .hc-stage > .overlay .deck > .sitem .stext b { font-size: clamp(15px, 1.7vw, 22px) !important; line-height: 1.1; }
+#garage.hc .hc-stage > .overlay .deck > .sitem .stext small { display: -webkit-box !important; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 0 !important; font-size: clamp(11px, 1vw, 13.5px) !important; line-height: 1.3; color: var(--ink-dim); }
+#garage.hc .hc-stage > .overlay .deck > .sitem .sbuy { min-height: clamp(34px, 5.2vh, 46px) !important; font-size: clamp(14px, 1.5vw, 19px) !important; }
+/* a rank pack: its "+N" big and gold under the chevrons, not tucked in a corner */
+#garage.hc .sitem.rank .sart { display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+#garage.hc .sitem.rank .sart svg { height: 46% !important; width: auto !important; }
+#garage.hc .sitem.rank .sart .srank { position: static !important; font: italic 900 clamp(26px, 3.4vw, 44px) var(--display) !important; color: var(--yellow); text-shadow: 0 2px 0 rgba(0, 0, 0, .55); }
+/* phones on their side: tighter, one line under the title */
+@media (max-height: 520px) and (orientation: landscape) {
+  #garage.hc .hc-stage > .overlay .deck > .sitem { padding: 6px !important; }
+  #garage.hc .hc-stage > .overlay .deck > .sitem .stext { padding: 6px 2px 7px !important; gap: 2px; }
+  #garage.hc .hc-stage > .overlay .deck > .sitem .stext b { font-size: 13px !important; }
+  #garage.hc .hc-stage > .overlay .deck > .sitem .stext small { -webkit-line-clamp: 1; font-size: 10.5px !important; }
+  #garage.hc .hc-stage > .overlay .deck > .sitem .sbuy { min-height: 28px !important; font-size: 13px !important; }
+  #garage.hc .sitem.rank .sart .srank { font-size: 22px !important; }
+}
+
+/* power cards: everything centred as one group, like the upgrade cards (user, 2026-11-24), the Choose button just under the text */
+#garage.hc #tuneList > .powercard { justify-content: center !important; gap: 10px !important; }
+#garage.hc #tuneList > .powercard .pstate { margin-top: 6px !important; }
+/* phones on their side: the line under the title wraps to two short lines rather than being cut off */
+@media (max-height: 520px) and (orientation: landscape) {
+  #garage.hc .hc-stage > .overlay .deck > .sitem .stext small { -webkit-line-clamp: 2 !important; font-size: 9.5px !important; line-height: 1.2; }
+}
+/* a bundle's three trucks: a tidy cascade filling the picture, not one small truck floating over two */
+#garage.hc .sitem .sart.pics3 img { position: absolute !important; width: 58% !important; max-height: 44% !important; object-fit: contain; }
+#garage.hc .sitem .sart.pics3 img:nth-child(1) { left: 3% !important; top: 6% !important; bottom: auto !important; right: auto !important; z-index: 0; }
+#garage.hc .sitem .sart.pics3 img:nth-child(2) { right: 3% !important; top: 28% !important; left: auto !important; bottom: auto !important; z-index: 1; }
+#garage.hc .sitem .sart.pics3 img:nth-child(3) { left: 18% !important; bottom: 5% !important; top: auto !important; right: auto !important; z-index: 2; }
+/* power cards on bigger screens: icon and words sized to the card, like the upgrade cards */
+@media (min-height: 521px) {
+  #garage.hc #tuneList > .powercard .tpic svg { width: 58px !important; height: 58px !important; }
+  #garage.hc #tuneList > .powercard .ptext b.plabel { font-size: clamp(20px, 2vw, 28px) !important; }
+  #garage.hc #tuneList > .powercard .ptext small.pshort { font-size: clamp(13px, 1.1vw, 16px) !important; padding-inline: 6px; }
+  #garage.hc #tuneList > .powercard .pstate { padding: 9px 0 !important; font-size: 15px !important; }
+}

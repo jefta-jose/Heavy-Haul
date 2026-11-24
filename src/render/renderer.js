@@ -9,6 +9,7 @@ import { createParticles } from './particles.js';
 import { createMudLayer } from './layers/mud.js';
 import { createAtmosphere } from './layers/atmosphere.js';
 import { createLens } from './lens.js';
+import { SHOCKWAVE_COLOR, POWER_TIMES } from '../game-config.js';
 
 // Painted 2.5D scene: screen-space backdrop, then world-space layers in metres (y up).
 // Layer order (back to front):
@@ -27,7 +28,9 @@ export function createRenderer({ view, sim, content, onEvent }) {
   let props = createProps(scene);
   const vehicles = createVehicleLayer(scene);
   scene.vehicleLayer = vehicles;
-  const particles = createParticles(scene, onEvent);
+  // the Shockwave power's rings, from the blast event (particles.js passes it on)
+  const rings = [];
+  const particles = createParticles(scene, e => { if (e.type === 'shockwave') rings.push({ ...e, t: 0 }); onEvent?.(e); });
   const mud = createMudLayer(scene);
   const air = createAtmosphere(scene), lens = createLens(scene);
   scene.lens = lens;
@@ -68,11 +71,42 @@ export function createRenderer({ view, sim, content, onEvent }) {
     props.drawBehind(); air.drawWorld();
     particles.update(playing ? dt : 0, playing); particles.draw('back');
     vehicles.draw(playing ? dt : 0);
+    drawRings(playing ? dt : 0);
     drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground();
     drawRipples(scene, time); particles.draw('front');
     props.drawFront(); drawForegroundShade(scene);
     drawStorm();
+    drawFrost();
     air.drawNear(); lens.draw();
+  }
+  // Shockwave: two bright rings racing forward from the nose over the road it clears, and a flash where it started
+  function drawRings(dt) {
+    if (!rings.length) return;
+    const { ctx } = view;
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const r = rings[i]; r.t += dt; const p = r.t / 0.9;
+      if (p >= 1) { rings.splice(i, 1); continue; }
+      for (const [lag, width, alpha] of [[0, 0.55, 0.75], [0.18, 0.3, 0.5]]) {
+        const q = Math.max(0, p - lag) / (1 - lag), radius = 0.5 + q * r.range; if (q <= 0) continue;
+        ctx.globalAlpha = alpha * (1 - q); ctx.strokeStyle = SHOCKWAVE_COLOR; ctx.lineWidth = width * (1 - q * 0.6);
+        ctx.beginPath(); ctx.arc(r.x, r.y, radius, -0.18 * Math.PI, 0.55 * Math.PI); ctx.stroke();
+      }
+      if (p < 0.35) {
+        const g = ctx.createRadialGradient(r.x, r.y, 0, r.x, r.y, 4); g.addColorStop(0, `rgba(230,246,255,${(0.8 * (1 - p / 0.35)).toFixed(3)})`); g.addColorStop(1, 'rgba(160,220,255,0)');
+        ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(r.x, r.y, 4, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+  // Time Freeze: frost creeping in from the screen's edges while the clock is stopped, fading in and out
+  function drawFrost() {
+    const st = sim.main?.st; if (!st || st.powerKind !== 'timefreeze' || !(st.powerT > 0)) return;
+    const k = Math.min(1, (POWER_TIMES.timefreeze.seconds - st.powerT) * 3, st.powerT * 2), { ctx, W, H, DPR } = view;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.42, W / 2, H / 2, Math.hypot(W, H) / 2);
+    g.addColorStop(0, 'rgba(200,236,255,0)'); g.addColorStop(0.7, `rgba(200,236,255,${(0.28 * k).toFixed(3)})`); g.addColorStop(1, `rgba(240,250,255,${(0.7 * k).toFixed(3)})`);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
   }
   // a storm dims the scene a little
   function drawStorm() {

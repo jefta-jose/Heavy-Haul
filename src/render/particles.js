@@ -99,6 +99,11 @@ export function createParticles(scene, onEvent) {
     while (sim.events.length) {
       const e = sim.events.shift();
       if (e.type === 'hit' || e.type === 'damage') onEvent(e);
+      // the Shockwave power: dust thrown up all along the road it sweeps
+      if (e.type === 'shockwave') {
+        for (let k = 0; k < 26; k++) { const x = e.x + Math.random() * e.range, gy = sim.visH(x); emitPuff('dust', x, gy + 0.1, 1.5 + Math.random() * 2.5, 0.6 + Math.random() * 1.4, 0.35, 1.6, 1.6, 0.5); }
+        onEvent(e); continue;
+      }
       if (e.type !== 'crush') continue;
       for (let k = 0; k < 12; k++) emitChunk(e.x + (Math.random() - 0.5) * e.w * 0.6, e.y + Math.random() * 0.15, (Math.random() - 0.5) * 3 + v.x * 0.3, 1 + Math.random() * 2.6, 0.035 + Math.random() * e.w * 0.09, Math.random() < 0.5 ? (e.surf === 'wood' ? '#5e4630' : '#6e6a60') : (e.surf === 'wood' ? '#8a6c48' : '#8b867a'));
       for (let k = 0; k < 5; k++) emitPuff('dust', e.x + (Math.random() - 0.5) * e.w, e.y, (Math.random() - 0.5) * 0.8, 0.3 + Math.random() * 0.5, 0.2, 0.9, 1.4, 0.4);
