@@ -4865,3 +4865,21 @@ body.timefrozen .hud .depot, body.timefrozen #missionChip { filter: drop-shadow(
   #garage.hc #tuneList > .powercard .ptext small.pshort { font-size: clamp(13px, 1.1vw, 16px) !important; padding-inline: 6px; }
   #garage.hc #tuneList > .powercard .pstate { padding: 9px 0 !important; font-size: 15px !important; }
 }
+/* power cards on phones on their side: compact, so the icon and Choose sit inside the card with room to spare (user,
+   2026-11-24: the icon was against the top and Choose against the bottom). The POWER badge goes: the tab says it */
+@media (max-height: 520px) and (orientation: landscape) {
+  #garage.hc #tuneList > .powercard { gap: 3px !important; padding: 10px 8px !important; justify-content: center !important; }
+  #garage.hc #tuneList > .powercard .tpic svg { width: 24px !important; height: 24px !important; }
+  #garage.hc #tuneList > .powercard .pbadge { display: none !important; }
+  #garage.hc #tuneList > .powercard .ptext { gap: 1px !important; }
+  #garage.hc #tuneList > .powercard .ptext b.plabel { font-size: 15px !important; line-height: 1.1; }
+  #garage.hc #tuneList > .powercard .ptext small.pshort { font-size: 10.5px !important; line-height: 1.25; display: -webkit-box !important; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  #garage.hc #tuneList > .powercard .pstate { margin-top: 5px !important; padding: 4px 0 !important; font-size: 11.5px !important; }
+}
+@media (max-height: 340px) and (orientation: landscape) {
+  #garage.hc #tuneList > .powercard { padding: 8px 5px !important; gap: 2px !important; }
+  #garage.hc #tuneList > .powercard .tpic svg { width: 20px !important; height: 20px !important; }
+  #garage.hc #tuneList > .powercard .ptext b.plabel { font-size: 12.5px !important; }
+  #garage.hc #tuneList > .powercard .ptext small.pshort { font-size: 9.5px !important; }
+  #garage.hc #tuneList > .powercard .pstate { margin-top: 3px !important; padding: 3px 0 !important; font-size: 10.5px !important; }
+}
