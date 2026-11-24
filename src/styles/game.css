@@ -4643,3 +4643,8 @@ dl.spec dd {
 @media (max-height: 520px) and (orientation: landscape) {
   .garage.hc #tuneOv .tune { gap: 5px; padding-block: 8px; }
 }
+/* the upgrade cards sit in the middle of the space beside the power column, whatever the screen's height */
+@media (orientation: landscape) {
+  .garage.hc #tuneOv .tunes { display: flex; align-self: stretch; height: 100%; align-items: center; justify-content: center; gap: 8px; }
+  .garage.hc #tuneOv .tunes > .tune { flex: 1 1 0; min-width: 0; max-width: 260px; height: auto; align-self: center; }
+}

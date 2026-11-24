@@ -79,7 +79,7 @@ try {
       await page.waitForTimeout(150); await shot(page, `car-${id}`);
     }
   } else {
-    for (const [tag, vp] of [['phone', { width: 844, height: 390 }], ['small', { width: 667, height: 320 }], ['portrait', { width: 390, height: 844 }], ['desktop', { width: 1440, height: 810 }]]) {
+    for (const [tag, vp] of [['phone', { width: 844, height: 390 }], ['phone2', { width: 800, height: 360 }], ['small', { width: 667, height: 320 }], ['portrait', { width: 390, height: 844 }], ['desktop', { width: 1440, height: 810 }]]) {
       const page = await open(vp, tag !== 'desktop');
       await page.waitForTimeout(600); await shot(page, `${tag}-garage`);
       // a fresh player's shop too: the Rookie pack with its truck, and the Trucks tab mid-row
