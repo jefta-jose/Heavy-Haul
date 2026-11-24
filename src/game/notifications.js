@@ -86,7 +86,7 @@ export function createNotifications({ data = {}, context = () => ({}), plugin = 
         if (pending.length) await plugin.cancel({ notifications: pending.map(n => ({ id: n.id })) });
         await plugin.createChannel?.({ id: CHANNEL, name: 'Reminders', description: 'Now and then, a nudge back to the trail', importance: 3 }).catch(() => {});
         const used = new Set(), list = [];
-        NOTIFY_DAYS.forEach((days, i) => { const m = compose(used); if (m) list.push({ id: BASE_ID + i, ...m, channelId: CHANNEL, smallIcon: 'ic_stat_notify', iconColor: '#F2C21A', schedule: { at: at(days), allowWhileIdle: false, isExactNotification: false } }); });
+        NOTIFY_DAYS.forEach((days, i) => { const m = compose(used); if (m) list.push({ id: BASE_ID + i, ...m, channelId: CHANNEL, smallIcon: 'ic_stat_notify', iconColor: '#F2C21A', isExactNotification: false, schedule: { at: at(days), allowWhileIdle: false } }); });   // the plugin reads isExactNotification on the notification itself; inside `schedule` it was ignored, every reminder counted as exact and Android opened Alarms & Reminders
         if (list.length) await plugin.schedule({ notifications: list });
         return list.length;
       } catch (e) { console.warn('Reminders could not be scheduled:', e); return 0; }

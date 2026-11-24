@@ -158,30 +158,33 @@ export function createHud({ sim, season }) {
   let shownPower = null, powerText = null;
   function showPower() {
     const kind = sim.main.car.power ?? null, st = sim.main.st, box = document.getElementById('powers'), btn = els.powerBtn, look = POWER_HUD[kind];
-    if (kind !== shownPower) {
-      shownPower = kind; powerText = null; box.innerHTML = ''; btn.hidden = !look?.button;
+    const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
+    // A Lucky Crate shows the power it holds: once ready, its next draw (user, 2026-11-24: know a Nitro is coming and save it
+    // for the highway); while running, the one it drew. While recharging it is a crate again.
+    const held = kind === 'lucky' ? (running ? st.powerKind : cooling ? null : st.luckyNext) : null;
+    const face = held && POWER_HUD[held] ? held : kind, show = POWER_HUD[face] ?? look;
+    if (`${kind}|${face}` !== shownPower) {
+      shownPower = `${kind}|${face}`; powerText = null; box.innerHTML = ''; btn.hidden = !look?.button;
       if (look) {
         const chip = document.createElement('div'); chip.className = 'powerchip'; chip.id = 'powerChip';
-        const icon = powerIcon(kind); if (icon) chip.append(icon);
+        const icon = powerIcon(face); if (icon) chip.append(icon);
         chip.append(document.createElement('span')); box.append(chip);
-        const holder = document.getElementById('powerBtnIcon'); holder.innerHTML = ''; if (look.button && icon) holder.append(powerIcon(kind));
-        btn.style.setProperty('--pc', look.color);   // the button glows in its power's colour while it runs
+        const holder = document.getElementById('powerBtnIcon'); holder.innerHTML = ''; if (look.button && icon) holder.append(powerIcon(face));
       }
     }
     btn.disabled = sim.active !== sim.main;
     if (!look) return;
-    const running = st.powerT > 0, cooling = st.powerCoolT > 0, secs = Math.ceil(running ? st.powerT : st.powerCoolT);
-    // while running, the power that is on (a Lucky Crate's draw shows as "Lucky · Destroyer" in that power's colour)
-    const on = running ? POWER_HUD[st.powerKind] ?? look : look, onName = kind === 'lucky' && running && on !== look ? `Lucky · ${on.name}` : look.name;
+    const name = held ? `Lucky · ${show.name}` : look.name;
     document.body.classList.toggle('timefrozen', running && st.powerKind === 'timefreeze');
     // nitro's instant brake: armed by a boost until a hard brake uses it, and lit while it is stopping the truck
     const brakeNote = st.brakeT > 0 ? ' · <b>Instant brake!</b>' : st.brakeArmed ? ' · <i>Instant brake armed</i>' : '';
-    const text = (running ? `<i>${onName}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${look.name}:</i> ready`) + brakeNote;
+    const text = (running ? `<i>${name}:</i> ${secs} s` : cooling ? `<i>Recharging:</i> ${secs} s` : `<i>${name}:</i> ready`) + brakeNote;
     if (text !== powerText) {
       powerText = text; box.querySelector('span').innerHTML = text;
-      box.firstChild.style.setProperty('--c', running ? on.color : cooling ? '#8f98a2' : '#3bdc6e');
-      btn.style.setProperty('--pc', running ? on.color : look.color);
-      document.getElementById('powerBtnTxt').textContent = running || cooling ? `${secs} s` : look.button ?? '';
+      box.firstChild.style.setProperty('--c', running || !cooling && held ? show.color : cooling ? '#8f98a2' : '#3bdc6e');
+      btn.style.setProperty('--pc', show.color);   // the button glows in the colour of the power it holds
+      btn.classList.toggle('held', !!held && !running);
+      document.getElementById('powerBtnTxt').textContent = running || cooling ? `${secs} s` : show.button ?? '';
       btn.classList.toggle('active', running); btn.classList.toggle('cooling', cooling);
     }
   }

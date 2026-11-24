@@ -130,13 +130,26 @@ test('destroyer, shockwave and repair: smash what is touched, blast the road ahe
 });
 
 test('time freeze and lucky crate', () => {
-  // Lucky Crate: it draws another power, runs it for that power's time, then recharges for its own
+  // Lucky Crate: it shows its next power before the tap, uses exactly that one for its own time, recharges for its own
+  // cooldown, then shows a fresh one
   const l = spawn(newSim(withPower(content.car, 'lucky')), 60);
-  assert(l.usePower(() => 0.5)); const drew = l.main.st.powerKind;
-  assert(drew && drew !== 'lucky', `drew ${drew}`); assert.equal(l.main.st.powerT, POWER_TIMES[drew].seconds);
-  advance(l, POWER_TIMES[drew].seconds + 0.2); assert(Math.abs(l.main.st.powerCoolT - POWER_TIMES.lucky.cooldown) < 0.5, 'its own cooldown');
+  assert(l.main.st.luckyNext && l.main.st.luckyNext !== 'lucky', 'a power is on show from the start');
+  l.main.st.luckyNext = 'destroyer';
+  assert(l.usePower()); assert.equal(l.main.st.powerKind, 'destroyer', 'the one it showed'); assert.equal(l.main.st.luckyNext, null);
+  assert.equal(l.main.st.powerT, POWER_TIMES.destroyer.seconds);
+  advance(l, POWER_TIMES.destroyer.seconds + 0.2); assert(Math.abs(l.main.st.powerCoolT - POWER_TIMES.lucky.cooldown) < 0.5, 'its own cooldown');
+  advance(l, POWER_TIMES.lucky.cooldown + 0.2); assert(l.main.st.luckyNext, 'ready again with a new power on show');
   // Time Freeze is a label the session reads: the power runs for its time on the truck
   const t = spawn(newSim(withPower(content.car, 'timefreeze')), 60); assert(t.usePower()); assert.equal(t.main.st.powerKind, 'timefreeze');
+});
+
+test('stopping in a station bay finishes the power recharge', () => {
+  const sim0 = newSim(); sim0.init(40); const station = sim0.terrain.stations?.[0];
+  if (!station) return;
+  const s = spawn(newSim(withPower(content.car, 'nitro')), station.x);
+  advance(s, 1.5); s.main.st.powerCoolT = 25;
+  advance(s, 0.5);
+  assert(s.main.st.inBay, 'stopped in the bay'); assert.equal(s.main.st.powerCoolT, 0, 'recharged');
 });
 
 test('invincible: a tap stops hit damage for its time, then it recharges before it can be used again', () => {

@@ -256,7 +256,11 @@ export const SEASON_PRICE = 100000;           // coins for each other map
 // ---------- the feel of the run ----------
 export const SLOWMO_BUMP = 0.92;              // a landing this hard plays briefly in slow motion
 export const SLOWMO_SCALE = 0.45, SLOWMO_SECONDS = 0.35;
-export const AIR_MIN_S = 0.55;                // every wheel off the ground at least this long is a jump worth a call-out
+// Big air is a real jump (user, 2026-11-24: not a crawl over a log): every wheel off the ground for AIR_MIN_S, leaving the
+// ground at AIR_MIN_KMH or more (a highway crest, a fast roller) and at least AIR_MIN_HEIGHT_M up at its highest
+export const AIR_MIN_S = 0.8;
+export const AIR_MIN_KMH = 45;
+export const AIR_MIN_HEIGHT_M = 0.8;
 export const COINS_PER_AIR_S = 40;            // and pays this a second in the air
 export const CRUSH_STREAK_S = 2.5;            // things crushed this close together make a streak; 3 or more get a call-out
 

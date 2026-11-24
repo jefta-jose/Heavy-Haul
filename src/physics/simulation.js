@@ -128,6 +128,12 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     events.push({ type: 'damage', amount, damage: v.st.damage });
   }
 
+  // A Lucky Crate draws its next power as soon as it is ready, so the player sees what is coming (user, 2026-11-24: a Nitro
+  // is for the highway, not a log run). `luckyRandom` is Math.random in the game; tests set their own.
+  const kindOwn = () => main?.car.power;
+  let luckyRandom = Math.random;
+  const LUCKY_POOL = () => Object.keys(POWER_TIMES).filter(k => k !== 'lucky');
+  function drawLucky() { const pool = LUCKY_POOL(); main.st.luckyNext = pool[Math.floor(luckyRandom() * pool.length)]; }
   // Every power runs, then recharges, then waits to be used again
   function stepPower(dt) {
     const st = main.st, kind = st.powerKind;
@@ -139,7 +145,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     }
     // when it ends, the truck's own power recharges (a Lucky Crate for its own cooldown, whatever it drew)
     if (st.powerT > 0) { st.powerT -= dt; if (st.powerT <= 0) { st.powerT = 0; st.powerCoolT = POWER_TIMES[main.car.power].cooldown; } }
-    else if (st.powerCoolT > 0) st.powerCoolT = Math.max(0, st.powerCoolT - dt);
+    else if (st.powerCoolT > 0) { st.powerCoolT = Math.max(0, st.powerCoolT - dt); if (!st.powerCoolT && kindOwn() === 'lucky') drawLucky(); }
   }
 
   // Destroyer and Shockwave: obstacles smashed whatever they are, with the same burst of pieces and coins as a crushed one
@@ -201,7 +207,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
-  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, powerKind: null, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
+  function newSt() { return { rpm: 750, powerT: 0, powerCoolT: 0, powerKind: null, luckyNext: null, brakeArmed: false, brakeT: 0, speed: 0, fuel: 100, engine: 'on', crankT: 0, inMud: 0, slip: 0, surf: 'gravel', throttle: 0, brake: 0, power: 0, hold: false, damage: 0, atStation: null, inBay: false, filling: false }; }
 
   // a rig longer than the start wall's distance is placed far enough forward that its tail clears it
   const clearOfWall = (car, x) => Math.max(x, BARRIER_X + 1 - Math.min(...car.physics.bodyBoxes.map(b => b[0])));
@@ -362,6 +368,9 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     st.atStation = terrain.stationAt(x) ?? null;
     st.inBay = !!st.atStation && Math.abs(st.speed) * 3.6 < STATION_STOP_KMH && main.ctl.gas < 0.1;
     st.filling = st.inBay && (st.fuel < 100 || st.damage > 0);
+    // stopping in the bay also finishes the power's recharge (user, 2026-11-24: a reason to stop), tank full or not; it ends
+    // in stepPower, right after this, so a Lucky Crate draws its next power as usual
+    if (st.inBay && st.powerCoolT > 0) st.powerCoolT = Math.min(st.powerCoolT, dt / 2);
     if (!st.filling) return;
     st.fuel = Math.min(100, st.fuel + dt * 100 / STATION_FILL_SECONDS);
     st.damage = Math.max(0, st.damage - dt * 100 / STATION_REPAIR_SECONDS);
@@ -398,22 +407,24 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
       x = clearOfWall(setup.car, x);
       main = makeVehicle(setup.car, 'main', x, { ctl: mainCtl, st: mainSt });
       vehicles = [main]; active = main;
-      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.powerKind = null; mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
+      mainSt.powerT = 0; mainSt.powerCoolT = 0; mainSt.powerKind = null; mainSt.luckyNext = null; if (setup.car.power === 'lucky') drawLucky(); mainSt.brakeArmed = false; mainSt.brakeT = 0; mainSt.fuel = 100; mainSt.damage = 0; mainSt.filling = false; mainSt.inBay = false; mainSt.atStation = null; mainSt.throttle = 0; mainSt.brake = 0; mainSt.engine = 'on'; mainSt.crankT = 0; mainCtl.handbrake = false;
     },
     // put a vehicle (default: the main one) back on the trail at x, upright
+    // tests: what a Lucky Crate draws next comes from this
+    set luckyRandom(fn) { luckyRandom = fn; },
     respawn(x, v = main) { removeParts(v); spawnParts(v, clearOfWall(v.car, x)); },
     // the power button: starts the truck's power if it has one and it has recharged. Nitro arms its instant brake; Shockwave
     // breaks everything from just behind the truck to SHOCKWAVE_RANGE_M past its nose at once; Repair only when there is
     // something to fix or fill.
-    // Lucky Crate draws one of the others at random, from the ones that would do something right now.
-    usePower(random = Math.random) {
+    // Lucky Crate uses the power it has been showing since it was ready (drawLucky); a Repair with nothing to fix waits.
+    usePower() {
       const st = main.st, own = main.car.power;
       if (!POWER_TIMES[own] || st.powerT > 0 || st.powerCoolT > 0) return false;
       const usable = k => !(k === 'nitro' && st.engine !== 'on') && !(k === 'repair' && st.fuel > 99 && st.damage < 1);
       let kind = own;
-      if (own === 'lucky') { const pool = Object.keys(POWER_TIMES).filter(k => k !== 'lucky' && usable(k)); if (!pool.length) return false; kind = pool[Math.floor(random() * pool.length)]; }
+      if (own === 'lucky') { if (!st.luckyNext) drawLucky(); kind = st.luckyNext; }   // the power it showed
       if (!usable(kind)) return false;
-      st.powerKind = kind; st.powerT = POWER_TIMES[kind].seconds; if (kind === 'nitro') st.brakeArmed = true;
+      st.powerKind = kind; st.luckyNext = null; st.powerT = POWER_TIMES[kind].seconds; if (kind === 'nitro') st.brakeArmed = true;
       if (kind === 'shockwave') {
         const body = main.parts.truck, at = body.getPosition(), nose = body.getWorldPoint(V(main.car.rig.nose, 0)).x, tail = Math.min(at.x, nose) - SHOCKWAVE_BEHIND_M;
         events.push({ type: 'shockwave', x: nose, y: at.y, range: SHOCKWAVE_RANGE_M });

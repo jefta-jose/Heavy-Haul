@@ -168,7 +168,7 @@ test('reminders: asked in the game first, Not now respected with one more ask la
   assert.equal(pending.length, 3, 'three reminders scheduled');
   for (const p of pending) {
     const h = p.schedule.at.getHours();
-    assert(h >= 17 && h < 20 && p.schedule.isExactNotification === false, 'early evening, inexact');
+    assert(h >= 17 && h < 20 && p.isExactNotification === false && p.schedule.isExactNotification === undefined, 'early evening, inexact (the flag on the notification, where the plugin reads it)');
     assert(!/\{/.test(p.title + p.body), `filled in: ${p.body}`);
   }
   assert.equal(new Set(pending.map(p => p.body)).size, 3, 'three different messages');

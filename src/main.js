@@ -21,7 +21,6 @@ import { COINS_PER_CRUSH, FREE_SEASONS, SLOWMO_BUMP, SLOWMO_SCALE, SLOWMO_SECOND
 import { createGhost } from './game/ghost.js';
 import { createAchievements } from './game/achievements.js';
 import { createStreak } from './game/streak.js';
-import { POWERS } from './game/tuning.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -227,8 +226,8 @@ const input = createInput(hud.els, {
   toggle: k => setMode(k, !sim.ctl[k]), pause, engine, handbrake, usePower: () => { if (session.state === 'play' && sim.usePower()) {
     haptics.toggle();
     const own = sim.main.car.power, drew = sim.main.st.powerKind;
-    // a Lucky Crate: its own sound, the draw called out, then that power's sound
-    if (own === 'lucky') { audio.power?.('lucky'); hud.callout('Lucky crate', POWERS.find(p => p.id === drew)?.label ?? drew, true); setTimeout(() => audio.power?.(drew), 350); }
+    // a Lucky Crate: its own sound, then the power it was showing (no call-out: the button already said which)
+    if (own === 'lucky') { audio.power?.('lucky'); setTimeout(() => audio.power?.(drew), 350); }
     else audio.power?.(drew);
   } }, onAnyInput: startAudio,
 });

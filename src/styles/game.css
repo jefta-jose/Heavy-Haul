@@ -4883,3 +4883,63 @@ body.timefrozen .hud .depot, body.timefrozen #missionChip { filter: drop-shadow(
   #garage.hc #tuneList > .powercard .ptext small.pshort { font-size: 9.5px !important; }
   #garage.hc #tuneList > .powercard .pstate { margin-top: 3px !important; padding: 3px 0 !important; font-size: 10.5px !important; }
 }
+
+/* a ready Lucky Crate's button wears the colour of the power it holds */
+.winch.shieldbtn.held { box-shadow: 0 0 10px 1px var(--pc); }
+.winch.shieldbtn.held svg { color: var(--pc); }
+
+/* ---------- Upgrade, Powers, Missions and Shop cards: the Trucks and Seasons card (user, 2026-11-24) ----------
+   The same rectangle, its name above it, a framed picture and a line along its foot; the PLAY button does what the card
+   offers. These undo the pages' older card rules. */
+#garage.hc .hc-stage > .overlay .deck > .hc-card.pagecard {
+  overflow: visible !important; filter: none !important; outline: 0 !important; box-shadow: none !important; background: none !important;
+  padding: 0 !important; border: 0 !important; display: block !important; cursor: grab;
+}
+#garage.hc .hc-stage > .overlay .deck > .hc-card.pagecard.mid { outline: 0 !important; box-shadow: none !important; cursor: default; }
+/* the pages have no big title for the middle card, so every card keeps its name over it */
+#garage.hc .hc-card.pagecard .hc-label { opacity: 1 !important; color: #fff; text-shadow: 0 2px 6px rgba(0, 0, 0, .8); }
+#garage.hc .hc-card.pagecard:not(.mid) .hc-label { opacity: .75 !important; }
+.hc-frame.page {
+  background: radial-gradient(ellipse 65% 55% at 50% 42%, rgba(255, 196, 92, .2), transparent 72%), linear-gradient(180deg, #2a2e34, #17191c 62%, #0e0f11);
+  color: #fff; text-align: center;
+}
+.hc-frame.page::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: repeating-linear-gradient(-45deg, rgba(242, 194, 26, .7) 0 9px, rgba(16, 17, 19, .9) 9px 18px); }
+.hc-frame.page .pc-body {
+  position: absolute; inset: 8% 8% calc(14% + 14px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 0;
+}
+.hc-frame.page .hc-sub { bottom: 6px; background: none; padding: 0 10px 6px; color: #c9d0d6; }
+.hc-frame.page .tpic svg { width: clamp(44px, 7vw, 92px); height: clamp(44px, 7vw, 92px); color: var(--yellow, #f2c21a); filter: drop-shadow(0 0 10px rgba(242, 194, 26, .35)); }
+.hc-frame.page .tbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: min(70%, 260px); }
+.hc-frame.page .tbar .pip { display: block; height: 9px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(0, 0, 0, .5); }
+.hc-frame.page .tbar .pip.on { background: var(--yellow, #f2c21a); box-shadow: 0 0 8px rgba(242, 194, 26, .5); }
+.hc-frame.page .pc-text { font: 500 clamp(12px, 1.25vw, 17px)/1.3 var(--display); color: #dfe4e9; max-width: 92%; }
+.hc-frame.page .pc-badge { position: absolute; top: 8px; right: 8px; z-index: 2; padding: 3px 10px; font: 700 12px/1.2 var(--display); text-transform: uppercase; letter-spacing: .06em; background: var(--yellow, #f2c21a); color: #17130a; }
+.hc-frame.page .stag { position: absolute; top: 8px; left: 8px; z-index: 2; }
+.hc-frame.page .pc-minus { position: absolute; top: 8px; left: 8px; z-index: 2; width: 30px; height: 30px; display: grid; place-items: center; font: 700 20px/1 var(--display); background: rgba(0, 0, 0, .55); border: 1px solid rgba(255, 255, 255, .2); color: #fff; cursor: pointer; }
+.hc-card.pagecard.on .hc-frame { outline-color: rgba(57, 230, 106, calc(.85 - var(--a, 0) * .85)) !important; }
+/* missions: stars, the goal, the story */
+.hc-frame.pc-mission .pc-body { gap: 6px; justify-content: center; }
+.hc-frame.pc-mission .mstars { font-style: normal; color: var(--yellow, #f2c21a); font-size: clamp(14px, 1.4vw, 20px); letter-spacing: .15em; }
+.hc-frame.pc-mission .pc-goal { font: 600 clamp(13px, 1.35vw, 19px)/1.25 var(--display); color: #fff; }
+.hc-frame.pc-mission .pc-story { font: italic 500 clamp(11px, 1.05vw, 15px)/1.3 var(--display); color: #b9c2cb; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.hc-frame.pc-mission .mneed { font: 600 12px/1.2 var(--display); color: #ff9a6a; text-transform: uppercase; }
+/* shop: the picture fills the frame above the line along its foot */
+.hc-frame.pc-offer .pc-body { inset: 6% 6% calc(12% + 14px); }
+.hc-frame.pc-offer .sart { position: absolute !important; inset: 0 !important; aspect-ratio: auto !important; border: 0 !important; background: none !important; width: auto !important; }
+.hc-frame.pc-offer.pc-rank .sart { display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.hc-frame.pc-offer.pc-rank .sart svg { height: 50% !important; width: auto !important; }
+.hc-frame.pc-offer.pc-rank .sart .srank { position: static !important; font: italic 900 clamp(26px, 3.6vw, 52px) var(--display) !important; color: var(--yellow, #f2c21a); }
+.hc-frame.pc-offer .sart > svg:not(.coinpile) { width: 34% !important; height: 50% !important; color: var(--yellow, #f2c21a); }
+.hc-card.pagecard.owned .hc-frame .pc-body { filter: grayscale(.8) brightness(.5); }
+/* phones on their side */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hc-frame.page .pc-body { gap: 5px; inset: 6% 6% calc(12% + 12px); }
+  .hc-frame.page .tpic svg { width: 34px; height: 34px; }
+  .hc-frame.page .tbar .pip { height: 6px; }
+  .hc-frame.page .pc-text { font-size: 11px; }
+  .hc-frame.page .pc-badge, .hc-frame.page .stag { top: 4px; font-size: 9px; padding: 2px 6px; }
+  .hc-frame.page .pc-minus { top: 4px; left: 4px; width: 24px; height: 24px; font-size: 16px; }
+  .hc-frame.pc-mission .pc-goal { font-size: 11.5px; }
+  .hc-frame.pc-mission .pc-story { display: none; }
+  .hc-frame.pc-mission .mstars { font-size: 12px; }
+}

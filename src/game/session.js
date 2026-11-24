@@ -1,7 +1,7 @@
 import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
-import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
+import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, AIR_MIN_KMH, AIR_MIN_HEIGHT_M, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
 import { wheelRadius } from '../physics/vehicle.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
@@ -11,7 +11,7 @@ const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 
 export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp, onSuccess, onFailure }) {
   const trail = season.trail;
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0, airT: 0, bestAir: 0, crushTimes: [] });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0, airT: 0, airKmh: 0, airHigh: 0, bestAir: 0, crushTimes: [] });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -113,11 +113,14 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     const bogs = trail.heavyMud ?? [];
     while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + (sim.terrain?.bogHalfM ?? 10) + 2) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; run.bogsDone++; hud.callout?.('Bog cleared', `+${COINS_PER_BOG} coins`); api.onBog?.(); }
     // a jump: every wheel off the ground; a long one is called out on landing and pays for its time in the air
-    const rig = main.car.rig, flying = !!(main.parts.wheels?.length && sim.colH) && main.parts.wheels.every((w, i) => { const q = w.getPosition(); return q.y - wheelRadius(rig, i) - sim.colH(q.x) > 0.2; });
-    if (flying) run.airT += dt;
-    else if (run.airT) {
-      if (run.airT >= AIR_MIN_S) { const pay = Math.round(COINS_PER_AIR_S * run.airT); api.earn(pay, true); hud.callout?.('Big air', `${run.airT.toFixed(1)} s · +${pay} coins`, run.airT >= 1.2); run.bestAir = Math.max(run.bestAir, run.airT); api.onAir?.(run.airT); }
-      run.airT = 0;
+    const rig = main.car.rig, wheels = main.parts.wheels ?? [], gaps = sim.colH ? wheels.map((w, i) => { const q = w.getPosition(); return q.y - wheelRadius(rig, i) - sim.colH(q.x); }) : [];
+    const flying = gaps.length > 0 && gaps.every(g => g > 0.2);
+    if (flying) {
+      if (!run.airT) run.airKmh = Math.abs(mainTruck.getLinearVelocity().x) * 3.6;   // how fast it left the ground
+      run.airT += dt; run.airHigh = Math.max(run.airHigh, Math.min(...gaps));
+    } else if (run.airT) {
+      if (run.airT >= AIR_MIN_S && run.airKmh >= AIR_MIN_KMH && run.airHigh >= AIR_MIN_HEIGHT_M) { const pay = Math.round(COINS_PER_AIR_S * run.airT); api.earn(pay, true); hud.callout?.('Big air', `${run.airT.toFixed(1)} s · +${pay} coins`, run.airT >= 1.2); run.bestAir = Math.max(run.bestAir, run.airT); api.onAir?.(run.airT); }
+      run.airT = 0; run.airHigh = 0;
     }
     if ((run.saveT += dt) > 2) { run.saveT = 0; api.persist(); }
     if (run.time > 6) hud.setCardVisible(false);
@@ -149,7 +152,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     // a refuelled truck starts up by itself, and stations are worth a mention when you need one
     if (main.st.filling && main.st.engine === 'off' && main.st.fuel > 5) sim.startEngine(main);
     const near = (trail.stations ?? []).find(s => s.x > p.x && s.x - p.x < 45);
-    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10) && !hud.toastActive) { run.announced = near; hud.toast('Fuel station ahead: stop in the bay', 3); }
+    if (near && near !== run.announced && (main.st.fuel < 70 || main.st.damage > 10 || main.st.powerCoolT > 0) && !hud.toastActive) { run.announced = near; hud.toast(main.st.powerCoolT > 0 && main.st.fuel >= 70 && main.st.damage <= 10 ? 'Station ahead: stop to recharge your power' : 'Fuel station ahead: stop in the bay', 3); }
   };
   return api;
 }
