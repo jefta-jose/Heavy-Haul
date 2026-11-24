@@ -227,7 +227,8 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     let drag = null;
     const stage = $('hcStage');
     stage.addEventListener('pointerdown', e => {
-      if (!cfg || n() < 2 || e.button > 0 || e.target.closest('.g-classes, .hc-under')) return;
+      // a swipe on the Shop, Missions or Upgrade page moves that page, never the hidden truck or map row behind it
+      if (!cfg || n() < 2 || e.button > 0 || garageEl.dataset.sheet || e.target.closest('.g-classes, .hc-under, .overlay')) return;
       drag = { id: e.pointerId, x0: e.clientX, pos0: pos, moving: false, pts: [[e.timeStamp, e.clientX]] };
     });
     stage.addEventListener('pointermove', e => {

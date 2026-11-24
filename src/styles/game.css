@@ -4635,3 +4635,11 @@ dl.spec dd {
 /* a stretch mission says what it still needs (a rank, or a truck to buy) */
 .power.mission .mneed { display: block; margin-top: 3px; font: italic 700 11px var(--display); letter-spacing: .04em; text-transform: uppercase; color: #ff9f6a; }
 @media (min-height: 521px) { .power.mission .mneed { font-size: 13px; } }
+/* upgrade cards only as tall as what is on them, centred in the space beside the power column */
+@media (orientation: landscape) {
+  .garage.hc #tuneOv .tunes { align-items: center; align-content: center; }
+  .garage.hc #tuneOv .tune { height: auto; align-self: center; justify-content: flex-start; gap: 8px; padding-block: 12px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc #tuneOv .tune { gap: 5px; padding-block: 8px; }
+}
