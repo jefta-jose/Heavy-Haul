@@ -11,10 +11,16 @@
 // - Signature haul: every truck has a job of its own on a home map (its load for a named client). Homes are spread over all
 //   maps from each map's `likes` (words in the load, the truck's biomes), so every map and every truck has work; free
 //   starters stay on free maps. The first time a truck does its signature haul pays a coin bonus; `signatureDone` counts them.
+//
+// Reach (user, 2026-11-24): every list keeps most offers doable now (trucks owned, on the map in play), and STRETCH_OFFERS of
+// them ask for one next step: a truck not owned yet that is open to buy or opens within STRETCH_RANKS ranks. Never a truck
+// far above the player's rank. `needsFor(m)` says what an offer still needs ({ rank } or { buy }), live.
 import { classXp } from './progress.js';
 import { MISSION_BASE_XP } from '../game-config.js';
 
 const KEY = 'hh_missions', VERSION = 2;
+const STRETCH_RANKS = 2;            // a stretch contract's truck opens at most this many ranks above the player's
+const STRETCH_OFFERS = [1, 2];      // how many stretch contracts a list holds (picked at random between the two)
 const hash = text => { let h = 2166136261; for (const ch of String(text)) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return (h >>> 0) / 2 ** 32; };
 const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const hits = (m, r) => (r.cameras ?? []).filter(k => k >= m.kmh).length;
@@ -49,6 +55,10 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const owned = () => (ctx.owned?.() ?? []).filter(c => c?.id);
   const className = id => classes.find(c => c.id === id)?.name ?? id;
   const allCars = () => (ctx.cars?.() ?? []).filter(c => c?.id);            // every truck in the game, owned or not
+  const rank = () => ctx.rank?.() ?? 1;
+  const ownsCar = id => ctx.owns ? ctx.owns(id) : owned().some(c => c.id === id);
+  // trucks one step away: not owned, opening at the player's rank or up to STRETCH_RANKS above it
+  const stretchPool = () => allCars().filter(c => !ownsCar(c.id) && (c.unlockRank ?? 1) <= rank() + STRETCH_RANKS);
   const maps = () => (ctx.maps?.() ?? []).filter(m => m?.id);                 // every playable map: { id, name, free }
   const mapName = id => maps().find(m => m.id === id)?.name ?? id;
 
@@ -172,12 +182,14 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   }
 
   // one contract. `force` pins a class and depot goals (the least-driven class's offer).
-  function contract(force = null, avoid = new Set()) {
+  function contract(force = null, avoid = new Set(), stretch = null) {
     for (let tries = 0; tries < 30; tries++) {
       const lock = {};
-      if (force) lock.class = force;
+      const ownedClasses = classes.filter(k => owned().some(c => c.class === k.id));
+      if (stretch) { lock.car = stretch; lock.class = stretch.class; }
+      else if (force) lock.class = force;
       else if (random() < (locks.car?.chance ?? 0) && owned().length) { lock.car = pick(owned()); lock.class = lock.car.class; }
-      else if (random() < (locks.class?.chance ?? 0) && classes.length) lock.class = pick(classes).id;
+      else if (random() < (locks.class?.chance ?? 0) && ownedClasses.length) lock.class = pick(ownedClasses).id;
       const choices = Object.entries(goals).filter(([k]) => GOALS[k] && !avoid.has(k) && (!force || GOALS[k].depot)).map(([k, g]) => [k, g.weight ?? 1]);
       if (!choices.length) return null;
       const m = makeGoal(weighted(choices), lock); if (!m) continue;
@@ -186,6 +198,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       m.twists = [];
       for (let i = 0; i < n && pool.length; i++) { const k = weighted(pool.map(k => [k, twists[k].weight ?? 1])); pool.splice(pool.indexOf(k), 1); m.twists.push(makeTwist(k, m, lock)); }
       if (goals[m.goal]?.needsRule && !m.twists.length && !lock.class) continue;   // a bare delivery is no contract
+      if (stretch) m.stretch = true;
       if (lock.class) m.class = lock.class;
       if (lock.car) { m.car = lock.car.id; m.carName = lock.car.name; }
       m.title = pick(goals[m.goal]?.titles ?? [m.goal]);
@@ -243,7 +256,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     if (m.goal === 'sprint' && !(trail.checkpoints ?? []).includes(m.x)) return false;
     return true;
   };
-  const prune = () => { state.offers = state.offers.filter(fits); if (!state.offers.some(m => m.id === state.active)) state.active = null; };
+  const prune = () => { state.offers = state.offers.filter(m => fits(m) && (m.id === state.active || !outOfReach(m))); if (!state.offers.some(m => m.id === state.active)) state.active = null; };
   let current = mapId();
   prune();
   // saved contracts keep the XP they were drawn with: work it out again from today's numbers
@@ -258,12 +271,29 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     if (!offers.some(m => m.featured)) { const f = featuredOffer(); if (f) { offers.push(f); used.add(f.goal); } }
     const least = [...classes].map(c => c.id).sort((a, b) => (state.driven[a] ?? 0) - (state.driven[b] ?? 0))[0];
     if (least && !offers.some(m => m.class === least && GOALS[m.goal].depot)) { const m = contract(least); if (m) { offers.push(m); used.add(m.goal); } }
-    while (offers.length < offerCount) {
+    const pool = stretchPool(), want = Math.min(pool.length, STRETCH_OFFERS[0] + Math.floor(random() * (STRETCH_OFFERS[1] - STRETCH_OFFERS[0] + 1)));
+    const stretches = offers.filter(m => needsFor(m)).length;
+    while (offers.length < offerCount - Math.max(0, want - stretches)) {
       const m = contract(null, used.size < Object.keys(goals).length - 1 ? used : new Set()); if (!m) break;
       offers.push(m); used.add(m.goal);
     }
+    const taken = new Set();
+    while (offers.length < offerCount && pool.length) {
+      const free = pool.filter(c => !taken.has(c.id)); if (!free.length) break;
+      const car = pick(free); taken.add(car.id);
+      const m = contract(null, new Set(), car); if (m) offers.push(m);
+    }
+    while (offers.length < offerCount) { const m = contract(); if (!m) break; offers.push(m); }
     state.offers = offers; save();
   }
+  // what an offer still needs from the player, worked out now: a rank, a truck to buy, or nothing (null = doable)
+  function needsFor(m) {
+    if (!m?.car || ownsCar(m.car)) return null;
+    const c = allCars().find(x => x.id === m.car), at = c?.unlockRank ?? 1;
+    return at > rank() ? { rank: at, car: c } : { buy: c };
+  }
+  // an offer whose truck is now far out of reach (an old save) is redrawn
+  function outOfReach(m) { const n = needsFor(m); return !!(n?.rank && n.rank > rank() + STRETCH_RANKS); }
   if (state.offers.length < offerCount) draw();
 
   function finish(m) {
@@ -289,6 +319,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     },
     // the chosen truck's signature haul here (null when its home is another map), its home map, and how many are done
     signatureFor: car => state.offers.find(m => m.id === `sig-${car?.id}`) ?? signatureOffer(car),
+    needsFor: m => needsFor(m),
     homeOf: car => { const id = homeMaps()[car?.id]; return id ? { id, name: mapName(id) } : null; },
     signatureDone: car => !!state.signatures[car?.id],
     get signatureCount() { return { done: Object.keys(state.signatures).length, of: allCars().length }; },

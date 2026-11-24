@@ -123,7 +123,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       deck.set({
         key: 'seasons', items: seasonList, at: seasonAt, rebuild,
         make: x => card('slide', { label: x.name, pic: seasonPic(x.id), kind: 'scene', cardArt: hasCardArt(x.id), locked: x.status !== 'playable' ? 'Coming later' : ownsSeason(x) ? null : `${formatCoins(seasonPass.price(x.id))} coins` }),
-        near: i => { setTitle(seasonList[i].name); if (seasonList[i].status === 'playable') setScene(seasonList[i].id); },
+        near: i => { setTitle(seasonList[i].name); if (seasonList[i].status === 'playable') setScene(seasonList[i].id); nearItem = seasonList[i]; renderPlay(); },
         land: landSeason,
       });
       setTitle(seasonList[seasonAt]?.name ?? '');
@@ -135,7 +135,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       if (browse) deck.set({
         key: `vehicle:${cls}`, items: list, at: list.indexOf(browse), rebuild,
         make: c => card('slide', { label: nameOf(c), sub: carSub(c), pic: c.artUri.master, kind: 'car', locked: carTag(c) }),
-        near: i => { setTitle(nameOf(list[i])); },
+        near: i => { setTitle(nameOf(list[i])); nearItem = list[i]; renderPlay(); },
         land: i => landCar(list[i]),
       });
       else deck.clear();
@@ -156,12 +156,12 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // ---------- moving through the cards: drag (the row follows the finger and a flick carries on), tap a side card, or the arrows ----------
   // the map that lands in the middle is the map at once; a planned one is only shown
   function landSeason(i) {
-    seasonAt = i; const s = seasonList[i];
+    nearItem = null; seasonAt = i; const s = seasonList[i];
     if (ownsSeason(s) && s.id !== seasonId) { seasonId = s.id; onSeason?.(s.id); }
     renderSpec(); renderPlay();
   }
   // an owned truck that lands in the middle is the one PLAY drives
-  function landCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); setTitle(nameOf(c)); renderTop(); renderSpec(); renderPlay(); }
+  function landCar(c) { nearItem = null; browse = c; if (owns(c.id) && c.id !== car.id) choose(c); setTitle(nameOf(c)); renderTop(); renderSpec(); renderPlay(); }
   function showCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); render(); }
   const stepPage = d => deck.go(d);
 
@@ -315,10 +315,13 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   }
   // PLAY drives the truck in the middle; on the Vehicle page an open truck not owned turns it into BUY with the price, and a
   // locked one into the rank it needs.
-  // the map in the middle of the Seasons page when it is one to buy
-  const seasonToBuy = () => { const s = page === 'seasons' ? seasonList[seasonAt] : null; return s && s.status === 'playable' && !ownsSeason(s) ? s : null; };
+  // PLAY says what the card in the middle needs the moment it gets there (user, 2026-11-24: it used to wait for the slide to
+  // come to rest, about 3 s). `nearItem` is that card while a slide is under way; landing clears it.
+  let nearItem = null;
+  const seasonToBuy = () => { const s = page === 'seasons' ? (seasonList.includes(nearItem) ? nearItem : seasonList[seasonAt]) : null; return s && s.status === 'playable' && !ownsSeason(s) ? s : null; };
   function renderPlay() {
-    const btn = $('startBtn'), c = page === 'vehicle' ? browse : car; btn.replaceChildren(); btn.className = 'hc-btn go';
+    const near = page === 'vehicle' && nearItem && !seasonList.includes(nearItem) ? nearItem : null;
+    const btn = $('startBtn'), c = page === 'vehicle' ? (near ?? browse) : car; btn.replaceChildren(); btn.className = 'hc-btn go';
     const map = seasonToBuy();
     if (map) { const price = seasonPass.price(map.id); btn.disabled = false; btn.classList.add('buy'); btn.classList.toggle('poor', wallet.coins < price); btn.append(el('span', null, 'Buy'), el('i', 'coinic'), el('b', null, formatCoins(price))); return; }
     const mine = owns(c.id), open = isOpen(c.id);
@@ -429,10 +432,18 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       if (m.client) text.append(el('span', 'mclient', (tag === 'sig' ? 'Signature haul · ' : tag === 'feat' ? 'Featured · ' : '') + m.client));
       text.append(title);
       if (m.story) text.append(el('i', 'mstory', m.story));
+      const need = missions.needsFor?.(m);
+      if (need) text.append(el('span', 'mneed', need.rank ? `Needs rank ${need.rank} · ${nameOf(need.car)}` : `Buy the ${nameOf(need.buy)} first`));
       text.append(el('small', null, `${m.text}  ·  ${pay}`));
       b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
       b.setAttribute('aria-pressed', String(on));
-      b.addEventListener('click', () => { missions.choose(m.id, car); renderMissions(); });
+      b.addEventListener('click', () => {
+        missions.choose(m.id, car);
+        const on = missions.active?.id === m.id, want = on && m.car ? playable.get(m.car) : null;
+        if (want && want.id !== car.id) { cls = want.class; browse = want; if (owns(want.id)) choose(want); }
+        else if (on && m.class && car.class !== m.class) { const mine = classCars(m.class).filter(c => owns(c.id)).at(-1); if (mine) { cls = m.class; browse = mine; choose(mine); } }
+        nearItem = null; renderMissions(); renderTop(); renderPlay();
+      });
       return b;
     };
     // the chosen truck's signature haul: here when this is its home map, else where to find it

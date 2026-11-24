@@ -90,7 +90,7 @@ const missionSeason = () => (pendingSeason && content.playableSeasons?.find(x =>
 // every truck (with its biomes, for its signature haul's home map) and every playable map
 const missionCars = content.roster.cars.filter(r => content.cars.some(c => c.id === r.id)).map(r => ({ ...r, biomes: content.cars.find(c => c.id === r.id)?.biomes ?? [] }));
 const missionMaps = (content.playableSeasons ?? []).map(x => ({ id: x.season.id, name: x.season.name, free: FREE_SEASONS.includes(x.season.id) }));
-const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)), cars: () => missionCars, maps: () => missionMaps });
+const missions = createMissions(content.missions, { classes: content.roster.classes, trail: forward(() => missionSeason().trail), mapId: () => missionSeason().id, owned: () => content.roster.cars.filter(c => progress.owns(c.id)), cars: () => missionCars, maps: () => missionMaps, rank: () => progress.rank, owns: id => progress.owns(id) });
 const garage = createGarage({
   content, progress, missions,
   onSelect: car => audio.prepare([car]),

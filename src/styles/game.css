@@ -4631,3 +4631,7 @@ dl.spec dd {
   .garage.hc #missionsOv .powerlist > .mhome { font-size: 15px; }
 }
 .garage.hc .hc-stage > #missionsOv > .card.slim { width: min(1180px, 100%); }
+
+/* a stretch mission says what it still needs (a rank, or a truck to buy) */
+.power.mission .mneed { display: block; margin-top: 3px; font: italic 700 11px var(--display); letter-spacing: .04em; text-transform: uppercase; color: #ff9f6a; }
+@media (min-height: 521px) { .power.mission .mneed { font-size: 13px; } }
