@@ -12,6 +12,7 @@ import com.google.android.gms.games.Player;
 import com.google.android.gms.games.SnapshotsClient;
 import com.google.android.gms.games.snapshot.Snapshot;
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange;
+import android.content.Intent;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -22,6 +23,9 @@ import java.nio.charset.StandardCharsets;
  *
  * Cloud save (src/game/cloud-save.js): the player's progress is one Saved Games snapshot on their Google account, so a
  * reinstall or a new phone picks up where they left off. Needs "Saved Games" switched on in Play Console.
+ *
+ * Leaderboards and achievements (src/game/achievements.js): the fastest delivery on each map, and achievements from the
+ * game's own counters. Their ids are made in Play Console and listed in src/game-config.js.
  */
 @CapacitorPlugin(name = "PlayGames")
 public class PlayGamesPlugin extends Plugin {
@@ -101,6 +105,61 @@ public class PlayGamesPlugin extends Plugin {
                 call.resolve(out);
             });
         });
+    }
+
+    private static final int RC_PLAY_UI = 9004;
+
+    /** { id, score }: a score on a leaderboard (Play keeps the player's best). */
+    @PluginMethod
+    public void submitScore(PluginCall call) {
+        if (!ready) { unavailable(call); return; }
+        String id = call.getString("id", "");
+        Long score = call.getLong("score", 0L);
+        if (!id.isEmpty()) PlayGames.getLeaderboardsClient(getActivity()).submitScore(id, score == null ? 0L : score);
+        done(call);
+    }
+
+    /** { id }: unlocks a one-step achievement. */
+    @PluginMethod
+    public void unlockAchievement(PluginCall call) {
+        if (!ready) { unavailable(call); return; }
+        String id = call.getString("id", "");
+        if (!id.isEmpty()) PlayGames.getAchievementsClient(getActivity()).unlock(id);
+        done(call);
+    }
+
+    /** { id, steps }: an incremental achievement's progress (never goes down). */
+    @PluginMethod
+    public void setAchievementSteps(PluginCall call) {
+        if (!ready) { unavailable(call); return; }
+        String id = call.getString("id", "");
+        Integer steps = call.getInt("steps", 0);
+        if (!id.isEmpty() && steps != null && steps > 0) PlayGames.getAchievementsClient(getActivity()).setSteps(id, steps);
+        done(call);
+    }
+
+    /** Google's screen of every leaderboard. */
+    @PluginMethod
+    public void showLeaderboards(PluginCall call) {
+        if (!ready) { unavailable(call); return; }
+        PlayGames.getLeaderboardsClient(getActivity()).getAllLeaderboardsIntent().addOnSuccessListener(this::showPlayUi);
+        done(call);
+    }
+
+    /** Google's achievements screen. */
+    @PluginMethod
+    public void showAchievements(PluginCall call) {
+        if (!ready) { unavailable(call); return; }
+        PlayGames.getAchievementsClient(getActivity()).getAchievementsIntent().addOnSuccessListener(this::showPlayUi);
+        done(call);
+    }
+
+    private void showPlayUi(Intent intent) { getActivity().startActivityForResult(intent, RC_PLAY_UI); }
+
+    private void done(PluginCall call) {
+        JSObject out = new JSObject();
+        out.put("available", true);
+        call.resolve(out);
     }
 
     // a signed-out player, Saved Games off in Play Console, or no network: the game keeps its save on the phone

@@ -17,7 +17,10 @@ import { checkRefunds } from './game/refunds.js';
 import { wallet } from './game/wallet.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
-import { COINS_PER_CRUSH, FREE_SEASONS } from './game-config.js';
+import { COINS_PER_CRUSH, FREE_SEASONS, SHAKE_MIN_BUMP, SLOWMO_BUMP, SLOWMO_SCALE, SLOWMO_SECONDS, STORM_MAPS, STORM_CHANCE, STORM_STARTS_AT, STORM_RAMP_S, STORM_RAIN } from './game-config.js';
+import { createGhost } from './game/ghost.js';
+import { createAchievements } from './game/achievements.js';
+import { createStreak } from './game/streak.js';
 import { createSoundSettings } from './game/sound-settings.js';
 import { createInterpolation } from './game/interpolate.js';
 import { createHaptics } from './game/haptics.js';
@@ -83,6 +86,9 @@ const account = createAccount();
   account.onChange(show);
   chip.addEventListener('click', () => { if (!account.player) account.signIn(); });
 }
+// leaderboards and achievements: the game's own counters, sent to Play whenever a player is signed in
+const achievements = createAchievements({ signedIn: () => !!account.player });
+account.onChange(() => achievements.sync());
 // progress follows the Google account (Saved Games): a reinstall or a new phone takes the cloud copy if it is further on,
 // never in the middle of a run; the phone's copy goes up whenever the game is left and after each run
 // taking the cloud copy reloads the game; like RESET, writes are blocked first so the page closing cannot save the old progress back
@@ -117,6 +123,49 @@ const garage = createGarage({
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => { finishedRuns++; uiAudio.play('mission-complete'); }, onFailure: () => { finishedRuns++; uiAudio.play('mission-failed'); } });
 session.onResume = () => audio.resume();
+// ---------- the feel of a run: a hard landing shakes the camera, the hardest plays in slow motion for a moment ----------
+let slowMoT = 0;
+{ const bump = audio.bump; audio.bump = (strength, massT) => { bump(strength, massT); if (session.state !== 'play') return; if (strength >= SHAKE_MIN_BUMP) view.shake(strength); if (strength >= SLOWMO_BUMP) slowMoT = SLOWMO_SECONDS; }; }
+// ---------- the ghost of the best run, and the storm that sometimes rolls in ----------
+const ghost = createGhost();
+// fx: this run's ghost ({ data, car }), where its storm starts (null: none) and how heavy it is now (0 to 1)
+const fx = { ghost: null, stormAt: null, storm: 0 };
+function startFx() {
+  const g = ghost.start(content.season.id, selection.car.id), car = g && content.cars.find(c => c.id === g.car);
+  fx.ghost = car ? { data: g, car } : null;
+  const t = season.trail, [a, b] = STORM_STARTS_AT;
+  fx.stormAt = STORM_MAPS.includes(content.season.id) && Math.random() < STORM_CHANCE ? t.start + (t.depot - t.start) * (a + Math.random() * (b - a)) : null;
+  fx.storm = 0; sim.wet = 0; slowMoT = 0; renderer.ghost = null; hud.showGhost(null);
+}
+// every frame: the storm and the ghost follow where the truck is and the run's clock
+function updateFx(dt, live) {
+  const inRun = session.state !== 'garage', x = sim.main.parts.truck.getPosition().x;
+  if (inRun && live && fx.stormAt != null && x > fx.stormAt && fx.storm < 1) {
+    if (!fx.storm) hud.toast('A storm is rolling in: the mud is getting slick', 3.5);
+    fx.storm = Math.min(1, fx.storm + dt / STORM_RAMP_S);
+  }
+  sim.wet = inRun ? fx.storm : 0;
+  renderer.setStorm(inRun ? fx.storm * STORM_RAIN : 0);
+  const pose = inRun && fx.ghost ? ghost.poseAt(fx.ghost.data, session.run.time) : null;
+  renderer.ghost = pose ? { car: fx.ghost.car, ...pose } : null;
+  hud.showGhost(pose && session.state === 'play' ? pose.x - x : null);
+  if (live) { const w = sim.main.parts.wheels[0]; ghost.sample(session.run.time, x, sim.main.parts.truck.getPosition().y, sim.main.parts.truck.getAngle(), w.getAngle()); }
+}
+const fmtTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}.${Math.floor((t % 1) * 10)}`;
+// the delivery screen's extra lines, and the counters behind the achievements
+session.onDelivered = run => {
+  const r = ghost.finish(run.time), rows = [];
+  if (r?.best) { rows.push(['Best time here', r.previous ? `New record! ${fmtTime(r.previous - run.time)} faster` : 'First delivery here: your ghost will race you next time']); }
+  else if (r) rows.push(['Best time here', fmtTime(r.previous)]);
+  if (fx.storm > 0.5) { rows.push(['Weather', 'Delivered through the storm']); achievements.count('storms'); }
+  achievements.count('deliveries'); achievements.addClass(sim.main.car.class); achievements.set('rank', progress.rank);
+  achievements.submitTime(content.season.id, run.time); achievements.sync();
+  return rows;
+};
+session.onBog = () => achievements.count('bogs');
+session.onCrush = () => achievements.count('crushes');
+session.onAir = t => { if (t >= 2) achievements.set('bigAir', 1); };
+session.onMission = done => { if (done.mission.daily) achievements.count('dailies'); };
 // purchases Google refunded are taken back (refunds.js; off until PLAY_REFUNDS_URL is set)
 garage.shop.ready.then(() => checkRefunds(garage.shop)).then(taken => { if (taken.length) garage.seasonChanged(); });
 account.init();   // signs in with Google; checkCloud() then takes the cloud save if it is further on
@@ -177,7 +226,8 @@ const input = createInput(hud.els, {
 });
 
 function newRun() {
-  sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip();
+  ghost.stop();
+  sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip(); startFx();
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
   view.snap(); hud.setCardVisible(true); hud.showAction(null);
@@ -198,7 +248,7 @@ function askToNotify() {
   document.getElementById('notifyLater').onclick = () => done(false);
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden && !resetting) { notify.schedule(); if (cloudChecked) cloud.save(true); } });
-function openGarage() { setTimeout(askToNotify, 700); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); if (cloudLater) checkCloud(); else if (cloudChecked) cloud.save(); }
+function openGarage() { ghost.stop(); achievements.sync(); setTimeout(askToNotify, 700); setTimeout(showStreak, 500); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); if (cloudLater) checkCloud(); else if (cloudChecked) cloud.save(); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -246,7 +296,7 @@ function launchProgress() {
   // a failed image must not hold the game behind the screen for ever
   if (!(renderer.ready && renderer.frames > 2) && performance.now() - launchStarted < 20000) return;
   launching = false;
-  decoded([selection.car.artUri?.master, content.hud['garage-bay']]).then(() => loader.hide());
+  decoded([selection.car.artUri?.master, content.hud['garage-bay']]).then(() => loader.hide()).then(() => setTimeout(showStreak, 600));
 }
 // Another map: swapped in place, no reload, so the music never stops. From the garage it happens behind the drive loading
 // screen (driveOff, `quiet`); called on its own (tests) it shows the turning gears until the new art is ready.
@@ -292,6 +342,7 @@ document.getElementById('garageSoundBtn').addEventListener('click', () => sound.
 // Android's back button (MainActivity calls this): closes what is open, pauses a run and resumes it again; true when it
 // was used, false lets Android put the game in the background (it never quits mid-run)
 window.__haulBack = () => {
+  if (!document.getElementById('streakOv').hidden) { document.getElementById('streakClaim').click(); return true; }
   if (!document.getElementById('notifyOv').hidden) { document.getElementById('notifyLater').click(); return true; }
   if (sound.isOpen) { document.getElementById('soundDone').click(); return true; }
   if (session.state === 'play') { pause(); return true; }
@@ -312,6 +363,31 @@ function resetGame() {
 document.addEventListener('visibilitychange', () => { if (!document.hidden || resetting) return; if (session.state === 'play') pause(); session.persist(); });
 window.addEventListener('pagehide', () => { if (!resetting) session.persist(); });   // the app or tab closing: the last coins and XP are kept
 window.addEventListener('resize', resize);
+
+// ---------- coming back every day: the daily reward, shown once a day over the garage ----------
+const streak = createStreak();
+function showStreak() {
+  const d = streak.due(), ov = document.getElementById('streakOv');
+  if (!d || session.state !== 'garage' || loading || !ov.hidden) return;
+  document.getElementById('streakTitle').textContent = `Day ${d.day}: ${d.coins.toLocaleString('en-US')} coins`;
+  const box = document.getElementById('streakDays'); box.replaceChildren();
+  d.days.forEach((coins, i) => {
+    const e = document.createElement('div'); e.className = 'sd' + (i + 1 < d.day ? ' done' : i + 1 === d.day ? ' today' : '');
+    const b = document.createElement('b'); b.textContent = `Day ${i + 1}`; const c = document.createElement('small'); c.textContent = coins >= 1000 ? `${coins / 1000}K` : String(coins);
+    e.append(b, c); box.append(e);
+  });
+  ov.hidden = false;
+  document.getElementById('streakClaim').onclick = () => { ov.hidden = true; wallet.add(streak.claim()); uiAudio.play('ui-buy'); haptics.tick(); garage.seasonChanged(); };
+}
+// settings: the ghost switch, and Google's leaderboards and achievements once signed in
+{
+  const open = sound.open, btn = document.getElementById('ghostBtn');
+  const show = () => { const on = ghost.enabled; btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on)); document.getElementById('playRow').hidden = !achievements.available; };
+  sound.open = () => { open(); show(); };
+  btn.addEventListener('click', () => { ghost.enabled = !ghost.enabled; show(); if (!ghost.enabled) { fx.ghost = null; renderer.ghost = null; hud.showGhost(null); } });
+  document.getElementById('boardsBtn').addEventListener('click', () => achievements.showLeaderboards());
+  document.getElementById('achievesBtn').addEventListener('click', () => achievements.showAchievements());
+}
 
 // ---------- loop ----------
 // Physics runs at a fixed 120 Hz; rendering follows the display, drawn between steps (interpolate.js). If frames run long for a few
@@ -348,6 +424,9 @@ function frame(now) {
   // Behind the drive loading screen ("Tap to continue") the truck settles and the starter cranks, but the run itself waits:
   // no clock, rewards, speed cameras or pedals until the screen is gone, or timed contracts lost seconds the player never saw.
   const covered = loader.visible;
+  // slow motion after the hardest landings: the physics and the run's clock run slower for a moment
+  const scale = slowMoT > 0 ? SLOWMO_SCALE : 1; slowMoT -= dt;
+  const simDt = dt * scale;
   if (playing) {
     const held = covered ? { gas: 0, brake: 0 } : input.read();
     sim.ctl.gas = Number(held.gas);   // retain analog pedal position
@@ -356,14 +435,15 @@ function frame(now) {
     hud.showPedals(held);
     const fuel0 = sim.main.st.fuel;
     if (!covered) trap.update(dt);
-    acc += dt; let n = 0;
+    acc += simDt; let n = 0;
     while (acc >= DT && n < 8) { sim.step(DT); acc -= DT; n++; }
     session.run.fuelUsed += Math.max(0, fuel0 - sim.main.st.fuel);
     if (fuel0 >= 15 && sim.main.st.fuel < 15) haptics.warn();   // the tank is getting low
-    if (!covered) session.update(dt);
+    if (!covered) session.update(simDt);
     hud.showFilling(sim.main.st.filling);
     if (sim.ctl.gear !== lastGear) { audio.shift(sim.ctl.gear); haptics.tick(); lastGear = sim.ctl.gear; hud.showGear(lastGear); }
   } else acc = 0;
+  updateFx(simDt, playing && !covered);
   interp.apply(playing ? acc / DT : 1);   // drawn between the last two steps; see interpolate.js
   try { view.follow(dt); renderer.draw(dt, playing); } finally { interp.restore(); }
   hud.update(dt, { coins: session.coins, run: session.run, playing: playing && !covered });
@@ -373,7 +453,7 @@ function frame(now) {
 }
 
 // test hook: the browser tests read the live game through this handle
-window.__haul = { account, notify, missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
+window.__haul = { ghost, achievements, streak, fx, account, notify, missions, progress, trap, music, sim, view, renderer, session, audio, uiAudio, sound, garage, content, loader, drive, setGear, setMode, engine, handbrake, startRun, switchSeason, snap: () => view.snap() };
 
 // the garage scene behind the menu: the default car parked at the start
 sim.init(sim.trail.start, selection);

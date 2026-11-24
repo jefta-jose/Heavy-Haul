@@ -16,7 +16,8 @@
 // them ask for one next step: a truck not owned yet that is open to buy or opens within STRETCH_RANKS ranks. Never a truck
 // far above the player's rank. `needsFor(m)` says what an offer still needs ({ rank } or { buy }), live.
 import { classXp } from './progress.js';
-import { MISSION_BASE_XP } from '../game-config.js';
+import { MISSION_BASE_XP, DAILY_COINS, WEEKLY_COINS } from '../game-config.js';
+import { dayKey } from './streak.js';
 
 const KEY = 'hh_missions', VERSION = 2;
 const STRETCH_RANKS = 2;            // a stretch contract's truck opens at most this many ranks above the player's
@@ -47,7 +48,16 @@ const TWISTS = {
   noStuck: { failed: (t, r) => r.stuckMax > t.seconds, shown: () => '' },
 };
 
-export function createMissions(data = {}, ctx = {}, store = typeof localStorage === 'undefined' ? null : localStorage, random = Math.random) {
+// Daily and weekly challenges (2026-11-24): one contract a day and a harder one a week (two twists), drawn from the date so they
+// stay the same all day, sized to the map in play, and paying DAILY_COINS / WEEKLY_COINS once each period. They sit at the top
+// of the list.
+const weekKey = (d = new Date()) => dayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate() - (d.getDay() + 6) % 7));   // that week's Monday
+const seededFrom = text => { let n = Math.floor(hash(text) * 2 ** 32); return () => { n = (n + 0x6D2B79F5) >>> 0; let t = Math.imul(n ^ (n >>> 15), 1 | n); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 2 ** 32; }; };
+
+export function createMissions(data = {}, ctx = {}, store = typeof localStorage === 'undefined' ? null : localStorage, randomSource = Math.random) {
+  let seeded = null;   // a challenge is drawn from its date, everything else at random
+  const random = () => (seeded ? seeded() : randomSource());
+  const period = { daily: () => ctx.today?.() ?? dayKey(), weekly: () => ctx.week?.() ?? weekKey() };
   const { offerCount = 4, baseXp = MISSION_BASE_XP, goals = {}, twists = {}, locks = {}, twistCount = [[0, 1]], featured = {}, signature = {} } = data;
   if (Array.isArray(ctx)) ctx = { classes: ctx.map(id => ({ id, name: id })) };
   const classes = ctx.classes ?? [], trail = ctx.trail ?? { start: 0, depot: 3500, checkpoints: [], heavyMud: [], highways: [] };
@@ -240,10 +250,41 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
       { car, class: car.class }, { signature: true, load, coins: first ? Math.round((lo + (hi - lo) * share) / 500) * 500 : 0, id: `sig-${car.id}` });
   }
 
-  let state = { v: VERSION, offers: [], active: null, driven: {}, maps: {}, signatures: {}, featuredDone: {} };   // maps: other maps' offers, kept for when you go back
+  // today's daily or this week's weekly challenge on this map, or null when it is done (or this trail cannot host one)
+  function challengeOffer(kind) {
+    const when = period[kind](), id = `${kind}-${when}`;
+    if (state.challenges?.[kind] === when) return null;
+    seeded = seededFrom(id + (mapId() ?? ''));
+    try {
+      const m = contract(); if (!m) return null;
+      if (kind === 'weekly' && m.twists.length < 2) {
+        const pool = Object.keys(twists).filter(k => TWISTS[k] && (TWISTS[k].fits?.(m.goal) ?? true) && !(m.goal === k) && !m.twists.some(t => t.type === k));
+        while (m.twists.length < 2 && pool.length) m.twists.push(makeTwist(pool.splice(Math.floor(random() * pool.length), 1)[0], m, { class: m.class }));
+      }
+      Object.assign(m, { id, [kind]: true, title: kind === 'daily' ? 'Daily challenge' : 'Weekly challenge', client: kind === 'daily' ? 'Daily challenge · a new one every day' : 'Weekly challenge · a new one every Monday', coins: kind === 'daily' ? DAILY_COINS : WEEKLY_COINS });
+      return finalize(m);
+    } finally { seeded = null; }
+  }
+  const staleChallenge = m => (m.daily && m.id !== `daily-${period.daily()}`) || (m.weekly && m.id !== `weekly-${period.weekly()}`)
+    || (m.daily && state.challenges?.daily === period.daily()) || (m.weekly && state.challenges?.weekly === period.weekly());
+  // the challenges at the top of the list: yesterday's go, today's come (checked whenever the list is read)
+  let freshFor = null;
+  function freshen() {
+    const now = `${period.daily()}|${period.weekly()}|${mapId()}`; if (freshFor === now) return; freshFor = now;
+    const before = state.offers.map(m => m.id).join();
+    state.offers = state.offers.filter(m => !staleChallenge(m) || m.id === state.active);
+    for (const kind of ['daily', 'weekly']) if (!state.offers.some(m => m[kind])) { const c = challengeOffer(kind); if (c) state.offers.splice(Math.min(2, state.offers.length), 0, c); }
+    // they take the place of the last plain offers, so the list keeps its length
+    for (let i = state.offers.length - 1; state.offers.length > offerCount && i >= 0; i--) {
+      const m = state.offers[i]; if (m.id !== state.active && !m.daily && !m.weekly && !m.featured) state.offers.splice(i, 1);
+    }
+    if (state.offers.map(m => m.id).join() !== before) save();
+  }
+
+  let state = { v: VERSION, offers: [], active: null, driven: {}, maps: {}, signatures: {}, featuredDone: {}, challenges: {} };   // maps: other maps' offers, kept for when you go back
   try {
     const s = JSON.parse(store?.getItem(KEY));
-    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {}, maps: s.maps ?? {}, signatures: s.signatures ?? {}, featuredDone: s.featuredDone ?? {} };
+    if (s?.v === VERSION) state = { v: VERSION, offers: (s.offers ?? []).filter(m => GOALS[m?.goal]), active: s.active ?? null, driven: s.driven ?? {}, maps: s.maps ?? {}, signatures: s.signatures ?? {}, featuredDone: s.featuredDone ?? {}, challenges: s.challenges ?? {} };
     else if (s?.driven) state.driven = s.driven;   // older saves: keep which classes were driven
   } catch (e) {}
   // A contract drawn for another map does not fit this one (four cameras where there are three, a checkpoint
@@ -251,6 +292,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const fits = m => {
     if ((m.twists ?? []).some(t => !TWISTS[t.type])) return false;   // a saved contract with a twist that no longer exists (noHelp, removed with the breakdown trucks)
     if (m.map && mapId() && m.map !== mapId()) return false;
+    if (staleChallenge(m)) return false;
     if (m.goal === 'cameras' && m.of !== (trail.highways ?? []).length) return false;
     if (m.goal === 'bogs' && m.of !== (trail.heavyMud ?? []).length) return false;
     if (m.goal === 'sprint' && !(trail.checkpoints ?? []).includes(m.x)) return false;
@@ -271,20 +313,23 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     if (!offers.some(m => m.featured)) { const f = featuredOffer(); if (f) { offers.push(f); used.add(f.goal); } }
     const least = [...classes].map(c => c.id).sort((a, b) => (state.driven[a] ?? 0) - (state.driven[b] ?? 0))[0];
     if (least && !offers.some(m => m.class === least && GOALS[m.goal].depot)) { const m = contract(least); if (m) { offers.push(m); used.add(m.goal); } }
+    // today's and this week's challenges come next, in two of the list's places
+    const lead = offers.length, extra = ['daily', 'weekly'].filter(k => !keep?.[k]).map(challengeOffer).filter(Boolean), room = offerCount - extra.length;
     const pool = stretchPool(), want = Math.min(pool.length, STRETCH_OFFERS[0] + Math.floor(random() * (STRETCH_OFFERS[1] - STRETCH_OFFERS[0] + 1)));
     const stretches = offers.filter(m => needsFor(m)).length;
-    while (offers.length < offerCount - Math.max(0, want - stretches)) {
+    while (offers.length < room - Math.max(0, want - stretches)) {
       const m = contract(null, used.size < Object.keys(goals).length - 1 ? used : new Set()); if (!m) break;
       offers.push(m); used.add(m.goal);
     }
     const taken = new Set();
-    while (offers.length < offerCount && pool.length) {
+    while (offers.length < room && pool.length) {
       const free = pool.filter(c => !taken.has(c.id)); if (!free.length) break;
       const car = pick(free); taken.add(car.id);
       const m = contract(null, new Set(), car); if (m) offers.push(m);
     }
-    while (offers.length < offerCount) { const m = contract(); if (!m) break; offers.push(m); }
-    state.offers = offers; save();
+    while (offers.length < room) { const m = contract(); if (!m) break; offers.push(m); }
+    offers.splice(lead, 0, ...extra);
+    state.offers = offers; freshFor = `${period.daily()}|${period.weekly()}|${mapId()}`; save();
   }
   // what an offer still needs from the player, worked out now: a rank, a truck to buy, or nothing (null = doable)
   function needsFor(m) {
@@ -300,6 +345,8 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
     const xp = xpOf(m), coins = m.coins ?? 0;
     if (m.signature && m.car) state.signatures[m.car] = true;
     if (m.featured && m.map) state.featuredDone[m.map] = (state.featuredDone[m.map] ?? 0) + 1;
+    if (m.daily) state.challenges.daily = period.daily();
+    if (m.weekly) state.challenges.weekly = period.weekly();
     state.active = null; draw(); return { mission: m, xp, coins };
   }
   const lockFailed = (m, r) => (m.class && r.cls !== m.class) || (m.car && r.car && r.car !== m.car);
@@ -308,7 +355,7 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   const shownFor = (m, r) => [GOALS[m.goal].shown(m, r), ...m.twists.map(t => TWISTS[t.type]?.shown(t, r) ?? '')].filter(Boolean).join(' · ');
 
   return {
-    get offers() { return state.offers; },
+    get offers() { freshen(); return state.offers; },
     get active() { return activeMission(); },
     xpFor: m => xpOf(m),
     starsFor: m => m.stars ?? 1,

@@ -9,7 +9,7 @@
 //
 // Which copy wins: XP only ever grows, so the save with more XP is the one played further. A tie goes to the later write.
 // Android's own backup is off (AndroidManifest.xml): it restored days-old snapshots on reinstall, which is what this replaces.
-const KEYS = ['hh_progress', 'hh_wallet', 'hh_seasons', 'hh_tuning_levels', 'hh_powers', 'hh_missions', 'hh_once', 'hh_grants', 'hh_grant_log', 'haul.car', 'haul.season'];
+const KEYS = ['hh_progress', 'hh_wallet', 'hh_seasons', 'hh_tuning_levels', 'hh_powers', 'hh_missions', 'hh_once', 'hh_grants', 'hh_grant_log', 'hh_streak', 'hh_stats', 'haul.car', 'haul.season'];
 const AT = 'hh_cloud_at';          // savedAt of the cloud copy this phone last wrote or took
 const THROTTLE_MS = 30000;
 

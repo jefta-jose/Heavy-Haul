@@ -1,6 +1,6 @@
 import { createRigCache } from '../sprite-cache.js';
 import { wheelRadius, drawnBodyLift, easeBodyLift } from '../../physics/vehicle.js';
-import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE } from '../../game-config.js';
+import { HIT_GLOW_SECONDS, HIT_GLOW_COLOR, INVINCIBLE_WARN_SECONDS, SHIELD_COLOR, NITRO_COLOR, BODY_LIFT_RESPONSE, GHOST_ALPHA } from '../../game-config.js';
 
 // Vehicles, each with its load drawn into its body art. A vehicle is drawn as far tires, body, near
 // tires. Near tires stay in front of the body throughout suspension travel. The
@@ -116,13 +116,31 @@ export function createVehicleLayer(scene) {
     ctx.globalAlpha = 1;
   }
 
+  // The ghost of the best run on this map (ghost.js): the truck that drove it, see-through, posed from the recording. Its wheels
+  // sit at their rest height and turn together.
+  function drawGhost({ car, x, y, a, spin }) {
+    const C = rigCache(car); C.prepare(); if (!C.body) return;
+    const rig = car.rig, { ctx } = view, k = 1 / rig.pixelsPerMetre, A = C.images.body, cos = Math.cos(a), sin = Math.sin(a), r0 = wheelRadius(rig, 0);
+    ctx.save(); ctx.globalAlpha = GHOST_ALPHA;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.scale(1, -1);
+    ctx.drawImage(C.body, -rig.bodyOrigin[0] * k, -rig.bodyOrigin[1] * k, A.width * k, A.height * k); ctx.restore();
+    rig.axles.forEach((ax, i) => {
+      const ly = rig.wheelY[i] ?? 0, s = wheelRadius(rig, i) / rig.wheelArtRadius, img = C.wheelSize;
+      ctx.save(); ctx.translate(x + cos * ax - sin * ly, y + sin * ax + cos * ly); ctx.rotate(spin * r0 / wheelRadius(rig, i)); ctx.scale(1, -1);
+      ctx.drawImage(C.wheel, -rig.wheelPivot[0] * s, -rig.wheelPivot[1] * s, img.width * s, img.height * s); ctx.restore();
+    });
+    ctx.restore();
+  }
+
   const layer = {
+    ghost: null,   // { car, x, y, a, spin } while a ghost is out, set by main.js each frame
     flash(on) { flash = { color: on ? '#39e66a' : '#ff3b30', t: 1.5, max: 1.5 }; },
     hitGlow() { flash = { color: HIT_GLOW_COLOR, t: HIT_GLOW_SECONDS, max: HIT_GLOW_SECONDS, main: true }; hitBurst = HIT_BURST_S; },
     // parked vehicles first, the one being driven on top
     draw(dt) {
       const sim = scene.sim, list = [...sim.vehicles.filter(v => v !== sim.active), sim.active];
       const lit = flash?.main ? sim.main : sim.active;
+      if (layer.ghost) drawGhost(layer.ghost);
       for (const v of list) { easeLift(v, dt); if (v === lit) border(v, dt); drawVehicle(v); }
       // a star of impact on the nose
       const img = scene.hud['g2-burst'];

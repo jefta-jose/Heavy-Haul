@@ -22,6 +22,9 @@ export const SCENERY_FLAT_M = { stiltShack: 10, waterTower: 7, warningSign: 2.5,
 export const DAMAGE_SLOWEST_POWER = 0.4;      // power and top speed just before the truck is wrecked (1 = no slowdown)
 // At 100% damage the truck is wrecked (engine dead, brakes locked) and the run ends.
 
+// ---------- brakes ----------
+export const AIR_BRAKE_MIN_T = 7;             // empty mass, tonnes, from which a vehicle has air brakes (hiss, release, burst); lighter ones (cars, vans, pickups, scouts) have hydraulic brakes and a ratchet handbrake
+
 // ---------- rolling back on slopes ----------
 // The parking brake only holds the truck you drive on gentle ground. On a slope steeper than this, uphill or downhill, with neither pedal
 // pressed it rolls downhill like a car in neutral: off slowly, gathering speed, held back only by rolling resistance and a share of its
@@ -234,3 +237,52 @@ export const SHOP_EVERYTHING = [1000000, 49.99];          // [coins, price]: eve
 // ---------- maps (user, 2026-11-22): two are free, the rest are bought once with coins in the garage's Seasons page ----------
 export const FREE_SEASONS = ['swamp-summer', 'spring-thaw'];   // Blackwater Swamp (the default map) and Meltwater Pass (the first card)
 export const SEASON_PRICE = 100000;           // coins for each other map
+
+// ---------- the feel of the run ----------
+export const SHAKE_MIN_BUMP = 0.45;           // a suspension hit at least this hard (0 to 1, the audio's measure) shakes the camera
+export const SHAKE_PX = 9;                    // how far the hardest hit shakes it, in screen pixels
+export const SHAKE_DECAY = 9;                 // how fast the shake dies away (per second)
+export const SLOWMO_BUMP = 0.92;              // a landing this hard plays briefly in slow motion
+export const SLOWMO_SCALE = 0.45, SLOWMO_SECONDS = 0.35;
+export const AIR_MIN_S = 0.55;                // every wheel off the ground at least this long is a jump worth a call-out
+export const COINS_PER_AIR_S = 40;            // and pays this a second in the air
+export const CRUSH_STREAK_S = 2.5;            // things crushed this close together make a streak; 3 or more get a call-out
+
+// ---------- ghost of the best run ----------
+export const GHOST_SAMPLE_S = 0.1;            // the best delivery on each map is recorded this often and replayed beside you
+export const GHOST_ALPHA = 0.38;
+
+// ---------- a storm rolls in (2026-11-24) ----------
+// Some runs on these maps turn wet partway along: rain fades in and the mud loses grip.
+export const STORM_MAPS = ['swamp-summer', 'autumn-forest', 'gumbo-bottoms', 'spring-thaw', 'jungle-monsoon', 'highland-quarry'];
+export const STORM_CHANCE = 0.35;             // the share of runs that get one
+export const STORM_STARTS_AT = [0.2, 0.55];   // where along the trail it starts (share of its length)
+export const STORM_RAMP_S = 18;               // how long the rain takes to set in
+export const STORM_RAIN = 0.9;                // rain density at its heaviest
+export const WET_MUD_GRIP_LOSS = 0.15;        // mud grip lost in full rain (a fully upgraded truck keeps its never-stuck grip)
+
+// ---------- coming back every day ----------
+export const DAILY_COINS = 15000;             // the daily challenge (one contract a day, among the missions)
+export const WEEKLY_COINS = 60000;            // the weekly challenge (harder: two twists)
+export const STREAK_COINS = [2000, 3000, 4000, 6000, 8000, 10000, 25000];   // day 1 to 7 of coming back in a row; then it starts over
+
+// ---------- Google Play Games: leaderboards and achievements ----------
+// Ids come from Play Console (Grow > Play Games Services > Leaderboards / Achievements). An empty id is skipped, so nothing is
+// sent until they are filled in. Leaderboards: the fastest delivery on each map, in milliseconds, lower is better.
+export const PLAY_LEADERBOARDS = {
+  'swamp-summer': '', 'spring-thaw': '', 'autumn-forest': '', 'desert-wash': '', 'gumbo-bottoms': '',
+  'highland-quarry': '', 'jungle-monsoon': '', 'volcanic-ash': '',
+};
+// Achievements: `stat` is a counter the game keeps (achievements.js); `of` is the goal. Make one with of > 1 incremental in
+// Play Console with exactly that many steps.
+export const PLAY_ACHIEVEMENTS = [
+  { id: '', stat: 'deliveries', of: 1, name: 'First delivery' },
+  { id: '', stat: 'deliveries', of: 50, name: 'Fifty deliveries' },
+  { id: '', stat: 'bogs', of: 100, name: 'Bog walker: 100 deep bogs' },
+  { id: '', stat: 'crushes', of: 500, name: 'Crusher: 500 things crushed' },
+  { id: '', stat: 'classes', of: 5, name: 'Every class delivered' },
+  { id: '', stat: 'storms', of: 10, name: 'Storm chaser: 10 deliveries in the rain' },
+  { id: '', stat: 'dailies', of: 7, name: 'Seven daily challenges' },
+  { id: '', stat: 'bigAir', of: 1, name: 'Airborne: 2 s in the air' },
+  { id: '', stat: 'rank', of: 40, name: 'Top rank' },
+];

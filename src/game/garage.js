@@ -86,6 +86,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       $(ov).hidden = name !== id; $(btn).classList.toggle('on', name === id);
     }
     if (name) garageEl.dataset.sheet = name; else delete garageEl.dataset.sheet;
+    if (name) requestAnimationFrame(() => decks[name]?.refresh());
     $('hcVehicle').classList.toggle('on', !name && page === 'vehicle');   // only the open sheet's button is lit
   }
   function go(next) {
@@ -165,16 +166,19 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   function showCar(c) { browse = c; if (owns(c.id) && c.id !== car.id) choose(c); render(); }
   const stepPage = d => deck.go(d);
 
-  // the sliding row: every card sits at a float position, the middle one at 0; side cards shrink, tilt and dim
-  const deck = (() => {
-    const box = $('hcCards'), slots = new Map();   // virtual index (unbounded, so the row wraps) -> card element
+  // the sliding row: every card sits at a float position, the middle one at 0; side cards shrink, tilt and dim.
+  // Trucks and Seasons use it, and so do Shop, Missions and Upgrade (user, 2026-11-24: "just like the cars and the seasons
+  // have slidable cards implement that for the other sections"). `wrap` rows go round (Trucks, Seasons); the pages' rows
+  // stop at their ends and keep every card in the page. `size` gives the middle card's size and how small the side ones are.
+  // `circle` rows (the pages) go round too, but draw each of their cards once, at its nearest place to the middle, so there
+  // are always cards to the left and right of the middle one and never the same card twice.
+  function makeDeck(box, { stage = box, track = null, wrap: wraps = true, circle = false, guard = () => true, size }) {
+    const slots = new Map();   // index (unbounded when the row wraps) -> card element
     let cfg = null, key = null, pos = 0, vel = 0, target = null, raf = 0, last = 0, near = null;
     let m = { step1: 1, step2: 1, side: .55 };
-    const n = () => cfg?.items.length ?? 0, wrap = k => ((k % n()) + n()) % n();
+    const n = () => cfg?.items.length ?? 0, wrap = k => wraps ? ((k % n()) + n()) % n() : Math.max(0, Math.min(n() - 1, k));
     function measure() {
-      const W = box.clientWidth || 1, H = box.clientHeight || 1, tall = W < H * 1.3;
-      const w = tall ? W * 0.8 : Math.min(W * 0.44, H * 1.6), h = Math.min(H - 30, w * (tall ? 0.78 : 0.76));   // room for the label above and the specs below
-      const side = tall ? 0.62 : 0.56, gap = Math.max(10, W * 0.02), sw = w * side;
+      const W = box.clientWidth || 1, H = box.clientHeight || 1, { w, h, side, gap } = size(W, H), sw = w * side;
       m = { step1: w / 2 + gap + sw / 2, step2: sw + gap, side };
       box.style.setProperty('--w', `${w}px`); box.style.setProperty('--h', `${h}px`);
     }
@@ -187,24 +191,42 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       e.style.zIndex = String(100 - Math.round(ad * 10));
       e.style.setProperty('--a', a.toFixed(3)); e.style.setProperty('--s', sc.toFixed(4));
       e.classList.toggle('mid', ad < 0.5);
+      e.style.visibility = ad > 2.6 ? 'hidden' : '';
     }
+    // how far card i is from the middle, the short way round
+    const offset = i => { const c = n(); let d = (((i - pos) % c) + c) % c; if (d > c / 2) d -= c; return d; };
     function draw() {
       if (!cfg) return;
       const count = n(), reach = count > 1 ? 3 : 0, base = Math.round(pos), keep = new Set();
-      for (let k = base - reach; k <= base + reach; k++) {
+      if (circle) {
+        for (let i = 0; i < count; i++) {
+          const d = offset(i); keep.add(i);
+          let e = slots.get(i);
+          if (!e) {
+            e = cfg.make(cfg.items[i]); e.dataset.k = i; e.tabIndex = -1;
+            // a side card only comes to the middle: its buttons do nothing until it is there
+            e.addEventListener('click', ev => { const dd = offset(i); if (Math.abs(dd) >= 0.5) { ev.stopPropagation(); ev.preventDefault(); to(Math.round(target ?? pos) + Math.round(dd)); } }, true);
+            slots.set(i, e); box.append(e);
+          }
+          pose(e, d);
+        }
+      } else
+      // a row that wraps draws the cards near the middle; a page's row draws all of its cards
+      for (let k = wraps ? base - reach : 0; k <= (wraps ? base + reach : count - 1); k++) {
         const d = k - pos, ad = Math.abs(d);
-        if (ad > 2.6) continue;
+        if (wraps && ad > 2.6) continue;
         keep.add(k);
         let e = slots.get(k);
         if (!e) {
           e = cfg.make(cfg.items[wrap(k)]); e.dataset.k = k; e.tabIndex = -1;
-          e.addEventListener('click', () => { if (k !== Math.round(target ?? pos)) to(k); });
+          // a side card only comes to the middle: its buttons do nothing until it is there
+          e.addEventListener('click', ev => { if (k !== Math.round(target ?? pos)) { ev.stopPropagation(); ev.preventDefault(); to(k); } }, true);
           slots.set(k, e); box.append(e);
         }
         pose(e, d);
       }
       for (const [k, e] of slots) if (!keep.has(k)) { e.remove(); slots.delete(k); }
-      const thumb = $('hcTrack')?.firstElementChild;
+      const thumb = track?.firstElementChild;
       if (thumb && count > 1) { thumb.style.width = `${100 / count}%`; thumb.style.transform = `translateX(${(((pos % count) + count) % count * 100).toFixed(1)}%)`; }
       const at = count ? wrap(base) : null;
       if (at !== near) { near = at; if (at != null) cfg.near?.(at); }
@@ -216,19 +238,17 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         const w = 0.018, acc = w * w * (target - pos) - 2 * w * vel;
         vel += acc * dt; pos += vel * dt;
         if (Math.abs(target - pos) < 0.0015 && Math.abs(vel) < 0.0002) {
-          pos = target; vel = 0; const k = target; target = null; raf = 0; last = 0; draw(); cfg?.land(wrap(k)); return;
+          pos = target; vel = 0; const k = target; target = null; raf = 0; last = 0; draw(); cfg?.land?.(wrap(k)); return;
         }
       }
       draw(); raf = requestAnimationFrame(tick);
     }
     const run = () => { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } };
-    function to(k) { if (n() < 2) return; target = k; run(); }
+    function to(k) { if (n() < 2) return; target = wraps ? k : Math.max(0, Math.min(n() - 1, k)); run(); }
     // dragging
     let drag = null;
-    const stage = $('hcStage');
     stage.addEventListener('pointerdown', e => {
-      // a swipe on the Shop, Missions or Upgrade page moves that page, never the hidden truck or map row behind it
-      if (!cfg || n() < 2 || e.button > 0 || garageEl.dataset.sheet || e.target.closest('.g-classes, .hc-under, .hc-stage > .overlay')) return;   // not '.overlay': the garage itself is one
+      if (!cfg || n() < 2 || e.button > 0 || !guard(e)) return;
       drag = { id: e.pointerId, x0: e.clientX, pos0: pos, moving: false, pts: [[e.timeStamp, e.clientX]] };
     });
     stage.addEventListener('pointermove', e => {
@@ -241,6 +261,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
         try { stage.setPointerCapture(e.pointerId); } catch (err) {}
       }
       pos = drag.pos0 - (e.clientX - drag.x0) / m.step1;
+      if (!wraps) pos = Math.max(-0.35, Math.min(n() - 0.65, pos));
       drag.pts.push([e.timeStamp, e.clientX]); if (drag.pts.length > 8) drag.pts.shift();
       draw();
     });
@@ -262,20 +283,20 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     stage.addEventListener('pointercancel', release);
     // a drag must not also count as a tap on the card under the finger
     const swallowClick = () => { const stop = ev => { ev.stopPropagation(); ev.preventDefault(); }; window.addEventListener('click', stop, { capture: true, once: true }); setTimeout(() => window.removeEventListener('click', stop, { capture: true }), 400); };
-    window.addEventListener('resize', () => { if (cfg) { measure(); draw(); } });
+    window.addEventListener('resize', () => { if (cfg && box.clientWidth) { measure(); draw(); } });
     // a card still sliding to the middle counts as picked: leaving the page or pressing PLAY mid-slide used to drop the pick
     // (the title and scene had already changed, but `land` never ran, so the map did not switch)
     function settle() {
       if (target == null || !cfg) return;
       if (raf) cancelAnimationFrame(raf); raf = 0; last = 0;
-      const k = target, c = cfg; pos = k; vel = 0; target = null; draw(); c.land(wrap(k));
+      const k = target, c = cfg; pos = k; vel = 0; target = null; draw(); c.land?.(wrap(k));
     }
     return {
       settle,
       set(next) {
         if (next.key !== key) settle();
         const same = next.key === key && cfg;
-        cfg = next; box.classList.add('deck'); $('hcTrack').hidden = n() < 2;
+        cfg = next; box.classList.add('deck'); if (track) track.hidden = n() < 2;
         if (same && !next.rebuild) return;
         if (!same || target == null) { if (raf) cancelAnimationFrame(raf); raf = 0; target = null; vel = 0; pos = Math.max(0, next.at); }
         key = next.key; near = null;
@@ -285,11 +306,33 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       clear() {
         settle();
         if (raf) cancelAnimationFrame(raf); raf = 0; cfg = null; key = null; target = null; vel = 0; drag = null;
-        slots.clear(); box.classList.remove('deck'); $('hcTrack').hidden = true;
+        slots.clear(); box.classList.remove('deck'); if (track) track.hidden = true;
       },
       go(d) { if (n() > 1) to(Math.round(target ?? pos) + d); },
+      // the card in the middle (or on its way there), to keep it there when the row is redrawn
+      get at() { return cfg ? wrap(Math.round(target ?? pos)) : 0; },
+      // after the page opens: its real size is known only once it is shown
+      refresh() { if (cfg && box.clientWidth) { measure(); draw(); } },
     };
-  })();
+  }
+  function deckSize(W, H) {
+    const tall = W < H * 1.3, w = tall ? W * 0.8 : Math.min(W * 0.44, H * 1.6), h = Math.min(H - 30, w * (tall ? 0.78 : 0.76));   // room for the label above and the specs below
+    return { w, h, side: tall ? 0.62 : 0.56, gap: Math.max(10, W * 0.02) };
+  }
+  const deck = makeDeck($('hcCards'), {
+    stage: $('hcStage'), track: $('hcTrack'),
+    // a swipe on the Shop, Missions or Upgrade page moves that page, never the hidden truck or map row behind it
+    guard: e => !garageEl.dataset.sheet && !e.target.closest('.g-classes, .hc-under, .hc-stage > .overlay'),   // not '.overlay': the garage itself is one
+    size: deckSize,
+  });
+  // the pages' rows slide like Trucks and Seasons, one card in the middle and cards either side, but their cards are sized
+  // for what is on them (user, 2026-11-24: the truck size was too big for an upgrade, a tiny one made no sense): an upright
+  // card (width:height = 1:ratio) most of the row's height, never taller than `maxH`, never wider than most of a phone
+  const pageDeck = (id, ratio, maxH) => makeDeck($(id), { circle: true, size(W, H) {
+    const h0 = Math.min(H * 0.88, maxH), w = Math.min(h0 / ratio, W * (W < H ? 0.7 : 0.4)), h = w * ratio;
+    return { w, h, side: 0.8, gap: Math.max(12, W * 0.018) };
+  } });
+  const decks = { upgrade: pageDeck('tuneList', 1.3, 360), missions: pageDeck('missionList', 1, 320), shop: pageDeck('shopGrid', 1.3, 380) };
   {
     window.addEventListener('keydown', e => {
       if (garageEl.hidden || document.querySelector('.garage .overlay:not([hidden])')) return;
@@ -348,47 +391,52 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const shake = box => { box.classList.remove('short'); void box.offsetWidth; box.classList.add('short'); };
 
   // ---------- upgrades: a tile per knob with its icon, its level and the price of the next step; the powers below ----------
-  function renderTuning() {
-    const box = $('tuneList'), carId = car.id, t = tuneOf(carId), n = MAX_LEVEL / STEP; box.replaceChildren();
-    for (const knob of KNOBS) {
-      const level = clampLevel(t[knob.id]), tile = el('div', 'tune' + (level ? ' changed' : ''));
-      const set = v => {
-        // read the current state at purchase time; never charge through a retired button
-        if (car.id !== carId || !owns(carId) || !tile.isConnected) return;
-        const current = tuneOf(carId), from = clampLevel(current[knob.id]);
-        if (from !== level) return;
-        const c = clampLevel(v), cost = upgradeCost(car, from, c);
-        if (cost > 0 && !wallet.spend(cost)) return;
-        if (cost < 0) wallet.add(-cost);
-        if (c) current[knob.id] = c; else delete current[knob.id];
-        saveTuning(tuning); if (cost > 0) onBuy?.(); renderTuning(); renderStage();
-      };
-      const pic = el('i', 'tpic'); pic.append(gIcon(knob.id));
-      const name = el('b', 'tname', knob.label); name.title = knob.hint;
-      const bar = el('div', 'tbar');
-      for (let i = 0; i < n; i++) bar.append(el('i', 'pip' + ((i + 1) * STEP <= level ? ' on' : '')));
-      bar.setAttribute('role', 'meter'); bar.setAttribute('aria-valuemin', '0'); bar.setAttribute('aria-valuemax', String(MAX_LEVEL)); bar.setAttribute('aria-valuenow', String(level)); bar.setAttribute('aria-label', knob.label);
-      const full = level >= MAX_LEVEL, price = full ? 0 : upgradeCost(car, level, level + STEP), canBuy = wallet.coins >= price;
-      const buy = el('button', 'tstep tbuy' + (full ? ' max' : canBuy ? '' : ' poor'));
-      buy.setAttribute('aria-label', `Raise ${knob.label}`);
-      if (full) { buy.append(el('span', null, 'Max')); buy.disabled = true; }
-      else {
-        buy.append(el('i', 'coinic'), el('span', null, formatCoins(price)));
-        if (canBuy) buy.addEventListener('click', () => set(level + STEP));
-        else { buy.setAttribute('aria-disabled', 'true'); buy.addEventListener('click', () => shake($('tuneCoins').parentElement)); }
-      }
-      tile.append(pic, name, el('span', 'tlevel', `Level ${level / STEP} / ${n}`), bar, buy);
-      tile.classList.toggle('full', full);
-      if (level > 0) {
-        const minus = el('button', 'tstep tminus', '−'); minus.setAttribute('aria-label', `Lower ${knob.label}`);
-        minus.addEventListener('click', () => set(level - STEP)); tile.append(minus);
-      }
-      box.append(tile);
+  function tuneTile(knob) {
+    const carId = car.id, t = tuneOf(carId), n = MAX_LEVEL / STEP;
+    const level = clampLevel(t[knob.id]), tile = el('div', 'tune' + (level ? ' changed' : ''));
+    const set = v => {
+      // read the current state at purchase time; never charge through a retired button
+      if (car.id !== carId || !owns(carId) || !tile.isConnected) return;
+      const current = tuneOf(carId), from = clampLevel(current[knob.id]);
+      if (from !== level) return;
+      const c = clampLevel(v), cost = upgradeCost(car, from, c);
+      if (cost > 0 && !wallet.spend(cost)) return;
+      if (cost < 0) wallet.add(-cost);
+      if (c) current[knob.id] = c; else delete current[knob.id];
+      saveTuning(tuning); if (cost > 0) onBuy?.(); renderTuning(); renderStage();
+    };
+    const pic = el('i', 'tpic'); pic.append(gIcon(knob.id));
+    const name = el('b', 'tname', knob.label); name.title = knob.hint;
+    const bar = el('div', 'tbar');
+    for (let i = 0; i < n; i++) bar.append(el('i', 'pip' + ((i + 1) * STEP <= level ? ' on' : '')));
+    bar.setAttribute('role', 'meter'); bar.setAttribute('aria-valuemin', '0'); bar.setAttribute('aria-valuemax', String(MAX_LEVEL)); bar.setAttribute('aria-valuenow', String(level)); bar.setAttribute('aria-label', knob.label);
+    const full = level >= MAX_LEVEL, price = full ? 0 : upgradeCost(car, level, level + STEP), canBuy = wallet.coins >= price;
+    const buy = el('button', 'tstep tbuy' + (full ? ' max' : canBuy ? '' : ' poor'));
+    buy.setAttribute('aria-label', `Raise ${knob.label}`);
+    if (full) { buy.append(el('span', null, 'Max')); buy.disabled = true; }
+    else {
+      buy.append(el('i', 'coinic'), el('span', null, formatCoins(price)));
+      if (canBuy) buy.addEventListener('click', () => set(level + STEP));
+      else { buy.setAttribute('aria-disabled', 'true'); buy.addEventListener('click', () => shake($('tuneCoins').parentElement)); }
     }
+    tile.append(pic, name, el('span', 'tlevel', `Level ${level / STEP} / ${n}`), bar, buy);
+    tile.classList.toggle('full', full);
+    if (level > 0) {
+      const minus = el('button', 'tstep tminus', '−'); minus.setAttribute('aria-label', `Lower ${knob.label}`);
+      minus.addEventListener('click', () => set(level - STEP)); tile.append(minus);
+    }
+    return tile;
+  }
+  function renderTuning() {
+    const t = tuneOf(car.id), key = `upgrade:${car.id}`;
+    // Engine starts in the middle; after a purchase the same card stays there
+    decks.upgrade.set({ key, rebuild: true, at: decks.upgrade.key === key ? decks.upgrade.at : 0,
+      items: [...KNOBS.map(knob => ({ knob })), ...POWERS.map(power => ({ power }))],
+      make: x => x.knob ? tuneTile(x.knob) : powerCard(x.power) });
+    decks.upgrade.key = key;
     $('tuneReset').disabled = !Object.keys(t).length;   // always in its place under the powers, greyed out while the truck is stock
     $('tuneCoins').textContent = formatCoins(wallet.coins);
     $('tuneFor').textContent = nameOf(car);
-    renderPowers();
   }
   $('tuneReset').addEventListener('click', () => {
     const t = tuneOf(car.id); for (const knob of KNOBS) wallet.add(-upgradeCost(car, clampLevel(t[knob.id]), 0));
@@ -404,25 +452,21 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   $('tuneDone').addEventListener('click', () => { sheet(null); render(); });
 
   // powers: one at a time for this truck, kept until another is picked; tapping the one that is on turns it off
-  function renderPowers() {
-    const box = $('powerList'); box.replaceChildren();
-    for (const power of POWERS) {
-      const on = power.id === powers[car.id], b = el('button', 'power powercard' + (on ? ' on' : ''));
-      const pic = el('i', 'tpic'); pic.append(gIcon(power.id));
-      // the full sentence on wide screens, a few words on phones (game.css)
-      const text = el('span', 'ptext'); text.append(el('em', 'pbadge', 'Power'), el('b', 'plabel', power.label), el('b', 'pmini', power.mini ?? power.label), el('small', 'plong', power.what), el('small', 'pshort', power.short ?? power.what));
-      b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
-      b.setAttribute('aria-pressed', String(on));
-      b.addEventListener('click', () => { if (on) delete powers[car.id]; else powers[car.id] = power.id; savePowers(powers); renderPowers(); });
-      box.append(b);
-    }
+  function powerCard(power) {
+    const on = power.id === powers[car.id], b = el('button', 'power powercard' + (on ? ' on' : ''));
+    const pic = el('i', 'tpic'); pic.append(gIcon(power.id));
+    // the full sentence on wide screens, a few words on phones (game.css)
+    const text = el('span', 'ptext'); text.append(el('em', 'pbadge', 'Power'), el('b', 'plabel', power.label), el('b', 'pmini', power.mini ?? power.label), el('small', 'plong', power.what), el('small', 'pshort', power.short ?? power.what));
+    b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
+    b.setAttribute('aria-pressed', String(on));
+    b.addEventListener('click', () => { if (on) delete powers[car.id]; else powers[car.id] = power.id; savePowers(powers); renderTuning(); });
+    return b;
   }
 
   // ---------- missions: a row per offer with its XP; one can be chosen, and tapping it again puts it down ----------
   function renderMissions() {
     if (!missions) return;
-    const box = $('missionList'); box.replaceChildren();
-    const active = missions.active;
+    const active = missions.active, cards = [];
     const row = (m, tag) => {
       const on = active?.id === m.id, b = el('button', 'power mission' + (on ? ' on' : '') + (tag ? ` ${tag}` : ''));
       const pic = el('i', 'tpic'); pic.append(gIcon('mission'));
@@ -449,10 +493,16 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     };
     // the chosen truck's signature haul: here when this is its home map, else where to find it
     const sig = car && missions.signatureFor?.(car), home = car && missions.homeOf?.(car), count = missions.signatureCount;
-    if (sig) box.append(row(sig, 'sig'));
-    else if (home) box.append(el('p', 'mhome', `${car.name}'s signature haul is on ${home.name}${missions.signatureDone(car) ? ' (done)' : ''}. Pick that map to take it.`));
-    for (const m of missions.offers) if (m.id !== sig?.id) box.append(row(m, m.featured ? 'feat' : ''));
-    if (count?.of) box.append(el('p', 'mcount', `Signature hauls done: ${count.done} of ${count.of} trucks`));
+    if (sig) cards.push(() => row(sig, 'sig'));
+    else if (home) cards.push(() => el('p', 'mhome', `${car.name}'s signature haul is on ${home.name}${missions.signatureDone(car) ? ' (done)' : ''}. Pick that map to take it.`));
+    const offers = missions.offers.filter(m => m.id !== sig?.id);
+    for (const m of offers) cards.push(() => row(m, m.daily || m.weekly ? 'feat challenge' : m.featured ? 'feat' : ''));
+    // the chosen mission (else the first) starts in the middle; after a choice the same card stays there
+    const key = `missions:${car.id}:${offers.map(m => m.id).join(',')}`, first = cards.length - offers.length;
+    const chosen = offers.findIndex(m => m.id === active?.id);
+    decks.missions.set({ key, rebuild: true, items: cards, make: f => f(),
+      at: decks.missions.key === key ? decks.missions.at : chosen >= 0 ? first + chosen : Math.min(first, cards.length - 1) });
+    decks.missions.key = key;
   }
   function openMissions() { go('vehicle'); renderMissions(); sheet('missions'); }
   $('gMenuMissions').addEventListener('click', () => { if (garageEl.dataset.sheet === 'missions') { sheet(null); render(); } else openMissions(); });
@@ -471,50 +521,18 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       const b = el('button', 'shop-tab' + (id === shopTab ? ' on' : ''), label); b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(id === shopTab));
       b.addEventListener('click', () => { shopTab = id; renderShop(); }); tabs.append(b);
     }
-    const grid = $('shopGrid'); grid.replaceChildren(); grid.dataset.tab = shopTab;
-    const list = shop.offers(shopTab);
-    for (const o of list) grid.append(offerCard(o));
-    // the first offer still for sale starts in the middle
-    const first = Math.max(0, list.findIndex(o => !shop.done(o)));
-    requestAnimationFrame(() => { shopTo(first, false); shopDeckStyle(); });
+    const list = shop.offers(shopTab), key = `shop:${shopTab}`;
+    $('shopGrid').dataset.tab = shopTab;
+    // the first offer still for sale starts in the middle; after a purchase the same card stays there
+    decks.shop.set({ key, rebuild: true, items: list, make: offerCard,
+      at: decks.shop.key === key ? decks.shop.at : Math.max(0, list.findIndex(o => !shop.done(o))) });
+    decks.shop.key = key;
   }
-  // The shop slides like the Trucks and Seasons decks (user, 2026-11-24): one row of offers, the one in the middle large and
-  // lit, the others smaller, tilted and dimmed to its left and right. The row scrolls natively (swipe, mouse wheel, arrow
-  // keys) and snaps an offer to the middle; tapping a side offer brings it to the middle.
-  const SHOP_CARD_MAX = 250;
-  function shopTo(i, smooth = true) {
-    const grid = $('shopGrid'), item = grid.children[i]; if (!item) return;
-    grid.scrollTo({ left: item.offsetLeft + item.offsetWidth / 2 - grid.clientWidth / 2, behavior: smooth ? 'smooth' : 'auto' });
-  }
-  function shopDeckStyle() {
-    const grid = $('shopGrid');
-    // an offer is as tall as the row allows and a little narrower than tall, never wider than a third of the row, and a
-    // small card on laptops and bigger screens (user, 2026-11-24): never wider than SHOP_CARD_MAX
-    const card = Math.round(Math.max(120, Math.min(grid.clientWidth * (grid.clientWidth < grid.clientHeight ? 0.62 : 0.32), grid.clientHeight * 0.92, SHOP_CARD_MAX)));
-    if (grid.style.getPropertyValue('--card') !== `${card}px`) grid.style.setProperty('--card', `${card}px`);
-    const mid = grid.scrollLeft + grid.clientWidth / 2;
-    for (const item of grid.children) {
-      const d = (item.offsetLeft + item.offsetWidth / 2 - mid) / Math.max(1, item.offsetWidth), a = Math.min(1, Math.abs(d));
-      item.style.setProperty('--a', a.toFixed(3));
-      item.style.setProperty('--tilt', `${(Math.max(-1, Math.min(1, d)) * -14).toFixed(1)}deg`);
-      item.classList.toggle('mid', a < 0.5);
-    }
-  }
-  {
-    const grid = $('shopGrid'); let raf = 0;
-    grid.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; shopDeckStyle(); }); }, { passive: true });
-    grid.addEventListener('click', e => {
-      const item = e.target.closest('.sitem'); if (!item || item.classList.contains('mid') || e.target.closest('.sbuy')) return;
-      shopTo([...grid.children].indexOf(item));
-    });
-    grid.addEventListener('keydown', e => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      const items = [...grid.children], at = items.findIndex(x => x.classList.contains('mid'));
-      shopTo(Math.max(0, Math.min(items.length - 1, at + (e.key === 'ArrowRight' ? 1 : -1)))); e.preventDefault();
-    });
-    grid.tabIndex = 0;
-    window.addEventListener('resize', () => { if (garageEl.dataset.sheet === 'shop') shopDeckStyle(); });
-  }
+  // the arrow keys move the open page's cards
+  window.addEventListener('keydown', e => {
+    const d = !garageEl.hidden && decks[garageEl.dataset.sheet]; if (!d) return;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { d.go(e.key === 'ArrowRight' ? 1 : -1); e.preventDefault(); }
+  });
   function offerCard(o) {
     const finished = shop.done(o), card = el('div', `sitem ${o.kind}${finished ? ' owned' : ''}`);
     if (o.tag) card.append(el('span', 'stag', o.tag));

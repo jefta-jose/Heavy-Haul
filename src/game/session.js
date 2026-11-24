@@ -1,7 +1,8 @@
 import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
-import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY } from '../game-config.js';
+import { CRASH_SECONDS, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
+import { wheelRadius } from '../physics/vehicle.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
 
@@ -10,7 +11,7 @@ const angleOf = body => Math.abs(((body.getAngle() + Math.PI) % (2 * Math.PI) + 
 export function createSession({ sim, hud, season, progress, missions, onRestart, onGarage, onRankUp, onSuccess, onFailure }) {
   const trail = season.trail;
 
-  const fresh = () => ({ time: 0, checkpoint: trail.start, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0 });
+  const fresh = () => ({ time: 0, checkpoint: trail.start, fuelUsed: 0, odometer: 0, announced: null, farthest: null, earned: 0, xp: 0, bogsDone: 0, bogsClean: 0, crushes: 0, maxDamage: 0, cameraKmh: 0, cameras: [], camerasSeen: 0, refuelled: false, powered: false, stuckNow: 0, stuckMax: 0, missionDone: null, missionFailed: false, saveT: 0, lastX: null, stuckT: 0, rollT: 0, emptyT: 0, airT: 0, bestAir: 0, crushTimes: [] });
   const run = fresh();
   const api = { state: 'garage', run, get coins() { return wallet.coins; } };
 
@@ -31,10 +32,17 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (done.coins) api.earn(done.coins, true);   // featured contracts and a truck's first signature haul pay coins too
     hud.toast(`Mission complete: ${done.mission.title}  ·  +${done.xp.toLocaleString('en-US')} XP${done.coins ? `  ·  +${formatCoins(done.coins)} coins` : ''}`, 4);
     hud.showMission(null);
+    hud.callout?.('Mission complete', done.mission.title, true);
+    api.onMission?.(done);
     onSuccess?.();
   }
   // what main.js reports: things crushed, a speed camera passed
-  api.crushed = () => { run.crushes++; };
+  // things crushed close together make a streak, called out from the third
+  api.crushed = () => {
+    run.crushes++; api.onCrush?.();
+    run.crushTimes = run.crushTimes.filter(t => run.time - t < CRUSH_STREAK_S); run.crushTimes.push(run.time);
+    if (run.crushTimes.length >= 3 && api.state === 'play') hud.callout?.(`Crusher ×${run.crushTimes.length}`);
+  };
   api.cameraSpeed = kmh => { run.camerasSeen++; run.cameraKmh = Math.max(run.cameraKmh, kmh); run.cameras.push(kmh); };
   // coins and XP are written every 2 s while driving; anything that leaves or freezes the run writes them at once,
   // so the last few seconds of rewards are never lost (closing the app from the pause menu, going to the garage)
@@ -75,10 +83,11 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     api.persist();
     const done = missions?.deliver(missionRun(true)); if (done) missionDone(done);
     if (!done) onSuccess?.();
+    const extra = api.onDelivered?.(run) ?? [];   // main.js: the ghost's best time, the storm
     const rank = progress?.progress;
     const m = Math.floor(run.time / 60), s = Math.floor(run.time % 60);
     hud.showMessage(load ? 'Delivered' : 'Trail complete', load ? `${load.name} delivered` : `${trail.name} crossed`, `Your ${sim.main.car.name} made it through ${season.name}.`, [
-      ['Time', `${m}:${String(s).padStart(2, '0')}`], ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
+      ['Time', `${m}:${String(s).padStart(2, '0')}`], ...extra, ['Distance driven', `${(run.odometer / 1000).toFixed(2)} km`],
       ['Coins on the road', formatCoins(run.earned)],
       ...(run.missionDone ? [['Mission', `${run.missionDone.mission.title} done: +${run.missionDone.xp.toLocaleString('en-US')} XP${run.missionDone.coins ? ` and ${formatCoins(run.missionDone.coins)} coins` : ''}`]] : []),
       ...(rank ? [['XP this run', `${Math.round(run.xp).toLocaleString('en-US')}`], ['Rank', rank.top ? `Rank ${rank.rank} (top)` : `Rank ${rank.rank} · ${rank.xp.toLocaleString('en-US')} / ${rank.to.toLocaleString('en-US')} XP`]] : []),
@@ -103,7 +112,14 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
     if (run.farthest == null) run.farthest = p.x;
     if (p.x > run.farthest) { api.earn((p.x - run.farthest) * COINS_PER_METRE); gainXp((p.x - run.farthest) * XP_PER_METRE); run.farthest = p.x; }
     const bogs = trail.heavyMud ?? [];
-    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + (sim.terrain?.bogHalfM ?? 10) + 2) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; run.bogsDone++; }
+    while (run.bogsDone < bogs.length && p.x > bogs[run.bogsDone] + (sim.terrain?.bogHalfM ?? 10) + 2) { api.earn(COINS_PER_BOG, true); gainXp(XP_PER_BOG, true); run.bogsClean++; run.bogsDone++; hud.callout?.('Bog cleared', `+${COINS_PER_BOG} coins`); api.onBog?.(); }
+    // a jump: every wheel off the ground; a long one is called out on landing and pays for its time in the air
+    const rig = main.car.rig, flying = !!(main.parts.wheels?.length && sim.colH) && main.parts.wheels.every((w, i) => { const q = w.getPosition(); return q.y - wheelRadius(rig, i) - sim.colH(q.x) > 0.2; });
+    if (flying) run.airT += dt;
+    else if (run.airT) {
+      if (run.airT >= AIR_MIN_S) { const pay = Math.round(COINS_PER_AIR_S * run.airT); api.earn(pay, true); hud.callout?.('Big air', `${run.airT.toFixed(1)} s · +${pay} coins`, run.airT >= 1.2); run.bestAir = Math.max(run.bestAir, run.airT); api.onAir?.(run.airT); }
+      run.airT = 0;
+    }
     if ((run.saveT += dt) > 2) { run.saveT = 0; api.persist(); }
     if (run.time > 6) hud.setCardVisible(false);
     run.maxDamage = Math.max(run.maxDamage, main.st.damage);

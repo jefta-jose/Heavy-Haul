@@ -83,6 +83,16 @@ function fogCanvas(color) {
 
 export function createAtmosphere(scene) {
   let cfg = null, parts = [], flocks = [], weeds = [], time = 0, size = '', last = null;
+  // a storm rolling in during a run (setRain): extra rain on top of the map's own weather, added and taken away in steps
+  let rain = 0, rainStep = 0;
+  function fitRain(W, H, fresh) {
+    const area = Math.min(1.3, Math.max(0.55, W * H / (1440 * 810))) * (TOUCH ? WEATHER_PHONE_SHARE : 1);
+    const want = Math.round(WEATHER_COUNTS.rain * rainStep * area), have = parts.filter(p => p.extra).length;
+    if (want === have) return;
+    if (want < have) { let drop = have - want; parts = parts.filter(p => !(p.extra && drop-- > 0)); }
+    else for (let i = have; i < want; i++) { const p = spawn('rain', W, H, fresh); p.extra = true; parts.push(p); }
+    parts.sort((a, b) => (a.near - b.near) || a.kind.localeCompare(b.kind));
+  }
   let birdT = 0, boltT = 0, weedT = 0, flash = 0, flashQ = [], bolt = null, fog = null;
 
   function setup() {
@@ -102,6 +112,7 @@ export function createAtmosphere(scene) {
     }
     // far first, then by kind, so each pass draws in as few batches as possible
     parts.sort((a, b) => (a.near - b.near) || a.kind.localeCompare(b.kind));
+    fitRain(W, H, true);
   }
   function spawn(kind, W, H, anywhere) {
     const [z0, z1] = DEPTH[kind] ?? [0.4, 1.2], z = rand(z0, z1);
@@ -117,6 +128,7 @@ export function createAtmosphere(scene) {
   function update(dt) {
     const { W, H, ppm, cam } = scene.view, s = Math.min(1.35, Math.max(0.75, H / 810)), wind = cfg.wind ?? 0;
     if (`${W}x${H}` !== size) { size = `${W}x${H}`; populate(W, H); }
+    const step = Math.round(rain * 10) / 10; if (step !== rainStep) { rainStep = step; fitRain(W, H, false); }
     time += dt;
     // how far the world moved on screen since last frame (a respawn or a map switch jumps: no streak)
     let dx = 0, dy = 0;
@@ -315,7 +327,8 @@ export function createAtmosphere(scene) {
     onBolt: null,
     update(dt) { if (!cfg) setup(); update(dt); },
     drawSky, drawWorld, drawNear,
-    get lensDrops() { return cfg?.lensDrops ?? 0; },
+    get lensDrops() { return (cfg?.lensDrops ?? 0) + rain * 1.5; },
+    setRain(level) { rain = Math.max(0, Math.min(1, level || 0)); },
     get wind() { return cfg?.wind ?? 0; },
     reset: setup,
   };

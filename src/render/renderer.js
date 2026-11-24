@@ -32,6 +32,8 @@ export function createRenderer({ view, sim, content, onEvent }) {
   const air = createAtmosphere(scene), lens = createLens(scene);
   scene.lens = lens;
   let sceneryReady = false, frames = 0, time = 0;
+  // the weather this frame (main.js sets it from the run): storm 0 to 1
+  const sky = { storm: 0 };
   scenery.ready.then(() => { sceneryReady = scenery.allLoaded(); });
 
   // ground, mud and holes repainted over a far tire's sunk bottom
@@ -69,12 +71,23 @@ export function createRenderer({ view, sim, content, onEvent }) {
     drawFrontLip(scene, props.roadMarks); props.drawLogEnds(); mud.foreground();
     drawRipples(scene, time); particles.draw('front');
     props.drawFront(); drawForegroundShade(scene);
+    drawStorm();
     air.drawNear(); lens.draw();
+  }
+  // a storm dims the scene a little
+  function drawStorm() {
+    if (sky.storm < 0.01) return;
+    const { ctx, W, H, DPR } = view; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.fillStyle = `rgba(14,20,30,${(sky.storm * 0.22).toFixed(3)})`; ctx.fillRect(0, 0, W, H);
   }
 
   return {
     draw,
     flash: on => vehicles.flash(on),
+    // the storm (main.js, each frame); the rain itself is the atmosphere's
+    setStorm(storm) { sky.storm = storm; air.setRain(storm); },
+    // the ghost of the best run: { car, x, y, a, spin } or null
+    set ghost(g) { vehicles.ghost = g; },
     hitGlow: () => vehicles.hitGlow(),
     // called on each lightning bolt (the audio's thunder)
     set onLightning(fn) { air.onBolt = fn; },

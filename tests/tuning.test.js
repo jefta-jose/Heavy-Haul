@@ -262,7 +262,9 @@ test('missions: random contracts sized to the trail, always one for the least-dr
   const id = m.offers[1].id; m.choose(id); assert.equal(m.active.id, id); m.choose(id); assert.equal(m.active, null, 'tap again to put it down');
   m.choose(m.offers[2].id); const kept = m.active.id, before = m.offers.map(o => o.id);
   m.endRun(); assert.equal(m.active.id, kept, 'the chosen contract stays');
-  assert(m.offers.filter(o => o.id !== kept).every(o => !before.includes(o.id)), 'the rest are new');
+  // the daily and weekly challenges stay all day (and all week); the rest are new
+  assert(m.offers.filter(o => o.id !== kept && !o.daily && !o.weekly).every(o => !before.includes(o.id)), 'the rest are new');
+  assert(m.offers.some(o => o.daily) && m.offers.some(o => o.weekly), 'a daily and a weekly challenge are on offer');
   const x = take({ goal: 'deliver', class: 'scout' }); x.deliver(run);
   assert.equal(x.active, null); assert(!x.offers.some(o => o.id === 'c'), 'a fresh list without the one just done');
   assert(x.offers[0].class !== 'scout', 'the class just driven is no longer the least driven');

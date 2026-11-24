@@ -1,4 +1,4 @@
-import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE } from '../game-config.js';
+import { GLOBAL_FUEL_BURN_MULTIPLIER, NEVER_STUCK_MU, NEVER_STUCK_MUD_DRAG, NEVER_STUCK_BOG_DRAG, NEVER_STUCK_CLIMB_MU, POWER_TIMES, NITRO_ACCEL, NITRO_TOP_SHARE, NITRO_BRAKE_SECONDS, INSTANT_BRAKE_RATE, DAMAGE_START_KMH, DAMAGE_PER_HIT, DAMAGE_HIT_COOLDOWN_S, DAMAGE_SLOWEST_POWER, TIP_MAX_LENGTH_M, TIP_KICK, AUTO_UP_AT, AUTO_DOWN_AT, AUTO_HOLD_S, REVERSE_AFTER_S, MIN_PULL_BY_CLASS, FUEL_TANK_SECONDS_BY_CLASS, FUEL_IDLE_SHARE, STATION_STOP_KMH, STATION_FILL_SECONDS, STATION_REPAIR_SECONDS, START_BARRIER_BEHIND_M, ROLLBACK_SLOPE_DEG, ROLLBACK_ENGINE_BRAKE, ROLLBACK_EASE_S, ROLLBACK_EASE_BRAKE, WET_MUD_GRIP_LOSS } from '../game-config.js';
 import { createTerrain, seasonSurfaces } from './terrain.js';
 import { buildObstacles, CRUSH_IMPULSE } from './obstacles.js';
 import { buildVehicle, wheelRadius } from './vehicle.js';
@@ -171,7 +171,9 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     w.applyForceToCenter(V(-k * kg * vx, 0), true);
   }
   // grip left in a heavy-mud pit: heavyGrip at its centre, easing back to 1 at its edges
-  const pitGrip = x => 1 - (1 - (surfaces.mud.heavyGrip ?? 1)) * terrain.mudHeavyAt(x);
+  // and rain (sim.wet, 0 to 1, set by main.js when a storm rolls in) makes all mud slicker; at 0 nothing changes
+  let wet = 0;
+  const pitGrip = x => (1 - (1 - (surfaces.mud.heavyGrip ?? 1)) * terrain.mudHeavyAt(x)) * (wet ? 1 - WET_MUD_GRIP_LOSS * wet : 1);
 
   // ---------- vehicles ----------
   function newCtl() { return { gas: 0, brake: 0, gear: 'H', awd: false, diff: false, handbrake: false }; }
@@ -355,6 +357,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
     V, events,
     get season() { return season; }, get terrain() { return terrain; }, get surfaces() { return surfaces; }, get trail() { return trail; }, get barrierX() { return BARRIER_X; },
     surfAt: x => terrain.surfAt(x), visH: x => visH(x), colH: x => colH(x),
+    get wet() { return wet; }, set wet(k) { wet = Math.max(0, Math.min(1, Number(k) || 0)); },
     // another map: its terrain now, its world at the next init()
     setSeason(s, hulls) { useSeason(s, hulls); },
     get world() { return world; },

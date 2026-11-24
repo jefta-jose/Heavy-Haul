@@ -109,6 +109,16 @@ cloud copy too. Until this part is done, players are guests and progress stays o
 
 Test it: play a little, leave the game, uninstall, reinstall from Play: the progress comes back.
 
+**Leaderboards and achievements** (`src/game/achievements.js`; Settings shows both buttons once a player is signed in):
+
+7. Play Games Services > **Leaderboards**: make one per map, "Fastest delivery: <map name>", score format **Time**
+   (milliseconds), ordering **smaller is better**. Paste each id into `PLAY_LEADERBOARDS` in `src/game-config.js`.
+8. Play Games Services > **Achievements**: make one for each entry of `PLAY_ACHIEVEMENTS` in `src/game-config.js` (name and
+   goal are there). One whose `of` is above 1 is **incremental** with exactly `of` steps. Paste each id into its `id`. Each
+   needs a 512 × 512 icon. Empty ids are skipped, so the game works before this is done; counters made before then are
+   sent at the next sign-in.
+9. Publish the Play Games configuration again.
+
 ## 6. Real payments
 
 1. Play Console > **Monetize > Payments profile**: set it up (bank details, tax).

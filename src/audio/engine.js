@@ -10,6 +10,7 @@
 // and race when the wheels spin. It never feeds back into the physics.
 
 import { createLoopPlayer } from './loop-player.js';
+import { AIR_BRAKE_MIN_T } from '../game-config.js';
 
 const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, Number.isFinite(x) ? x : lo));
 const ease = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -20,7 +21,8 @@ export function engineProfile(car, bank) {
   return {
     engine: a.engine ?? null, pack,
     crankS: clamp(a.crankS ?? pack?.crankS ?? 1.2, 0.5, 3),
-    airBrakes: a.airBrakes ?? pack?.airBrakes ?? false,
+    // air brakes only on real trucks: the class pack says the class can have them, the empty mass says this one does
+    airBrakes: a.airBrakes ?? ((pack?.airBrakes ?? false) && (car.physics?.mass ?? Infinity) >= AIR_BRAKE_MIN_T * 1000),
     backupAlarm: a.backupAlarm ?? (a.engine !== 'scout'),
   };
 }

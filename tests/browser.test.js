@@ -266,11 +266,18 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     assert(await page.locator('.tune').first().isVisible(), 'the knobs are on the Upgrades card');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
     assert.deepEqual(await page.locator('.tune .tname').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
+    // Shop, Missions and Upgrade are decks (user, 2026-11-24): a tap on a side card only brings it to the middle
+    const toMiddle = async card => {
+      if (await card.evaluate(e => e.classList.contains('mid'))) return;
+      await card.click({ position: { x: 6, y: 6 } });
+      await page.waitForFunction(e => e.classList.contains('mid'), await card.elementHandle()); await page.waitForTimeout(400);
+    };
     const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tbuy');
     for (let i = 0; i < 2; i++) await plus(engine).click();
         assert.equal(await engine.locator('.tbar').getAttribute('aria-valuenow'), '50');
     for (const name of ['Suspension', 'Speed', 'Grip']) {
       const row = page.locator('.tune', { hasText: name });
+      await toMiddle(row);
       for (let i = 0; i < 4; i++) await plus(row).click();
       assert.equal(await row.locator('.tbar').getAttribute('aria-valuenow'), '100', `${name}: four taps to 100`);
       assert(await plus(row).isDisabled(), `${name} stops at 100`);
@@ -280,8 +287,8 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     // powers, on the Upgrade card: one at a time, kept until another is chosen, and tapping the one that is on turns it off
     assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
     await page.click('#gMenuTune');
-    await page.locator('.power', { hasText: 'Invincible' }).click();
-    await page.locator('.power', { hasText: 'Nitro' }).click();
+    await toMiddle(page.locator('.power', { hasText: 'Invincible' })); await page.locator('.power', { hasText: 'Invincible' }).click();
+    await toMiddle(page.locator('.power', { hasText: 'Nitro' })); await page.locator('.power', { hasText: 'Nitro' }).click();
     assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'the run uses the chosen power');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'nitro', 'and it is kept');
@@ -560,6 +567,12 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
   try {
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, hasTouch: true }), errors = [];
     page.on('pageerror', e => errors.push(e.stack || e.message));
+    // Shop, Missions and Upgrade are decks (user, 2026-11-24): a tap on a side card only brings it to the middle
+    const toMiddle = async card => {
+      if (await card.evaluate(e => e.classList.contains('mid'))) return;
+      await card.click({ position: { x: 6, y: 6 } });
+      await page.waitForFunction(e => e.classList.contains('mid'), await card.elementHandle()); await page.waitForTimeout(400);
+    };
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.__haul?.renderer.ready);
@@ -628,7 +641,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     // missions: the card offers some, one can be chosen, and the menu says which
     await page.click('#gMenuMissions');
     assert.equal(await page.locator('#missionList .power').count(), 4, 'four missions on offer');
-    await page.locator('#missionList .power').nth(1).click();
+    await toMiddle(page.locator('#missionList .power').nth(1)); await page.locator('#missionList .power').nth(1).click();
     assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
     await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
     await page.click('#hcVehicle');
@@ -643,7 +656,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.deepEqual(await page.locator('.shop-tab').allTextContents(), ['Featured', 'Coins', 'Ranks'], 'no single-truck tab');
     const topHeavy = await page.evaluate(() => __haul.garage.shop.offers('featured').find(o => o.id === 'bundle_top_five').gives.trucks.at(-1));
     assert(!(await page.evaluate(id => __haul.progress.isOpen(id), topHeavy)), 'its rank is not reached');
-    await page.locator('.sitem', { hasText: 'Top of every class' }).locator('.sbuy').click();
+    await toMiddle(page.locator('.sitem', { hasText: 'Top of every class' })); await page.locator('.sitem', { hasText: 'Top of every class' }).locator('.sbuy').click();
     await page.waitForFunction(id => __haul.progress.owns(id), topHeavy);
     await page.screenshot({ path: path.join(CAPTURES, '00h-shop.png') });
     await page.click('#hcVehicle');
