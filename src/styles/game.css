@@ -4559,3 +4559,75 @@ dl.spec dd {
   .garage.hc #tuneOv .tune { flex-basis: clamp(96px, 13.5vw, 170px); }
   .garage.hc #tuneOv .hc-powers .powercard { flex-basis: clamp(108px, 15.5vw, 190px); }
 }
+
+/* ---------- Upgrade and Missions, landscape (user, 2026-11-24) ----------
+   Upgrade: a first column of three stacked buttons (the two powers, Reset to stock at the bottom) and the four upgrades
+   beside it. Missions: one row of cards that moves left and right only. Neither page scrolls up or down. Both wear the
+   shop's dark card with the warm glow. */
+.garage.hc #tuneOv > .card, .garage.hc #missionsOv > .card {
+  background: radial-gradient(ellipse 70% 45% at 50% 35%, rgba(255, 196, 92, .08), transparent 70%), linear-gradient(180deg, #16191d, #0c0d10) !important;
+}
+@media (orientation: landscape) {
+  .garage.hc #tuneOv .cbody {
+    display: grid; grid-template-columns: clamp(130px, 19%, 240px) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 8px 10px; overflow: hidden; scroll-snap-type: none;
+  }
+  .garage.hc #tuneOv .tunehead { grid-column: 1 / -1; grid-row: 1; }
+  .garage.hc #tuneOv .hc-powers { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; min-height: 0; height: auto; margin: 0; }
+  .garage.hc #tuneOv .hc-powers > .eyebrow { display: none; }
+  .garage.hc #tuneOv .hc-powers .powerlist { display: flex; flex-direction: column; gap: 8px; flex: 1 1 auto; min-height: 0; height: auto; width: 100%; grid-template-columns: none; }
+  .garage.hc #tuneOv .hc-powers .powercard {
+    flex: 1 1 0; min-height: 0; height: auto; width: 100%; display: grid; grid-template-columns: 30px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+    align-items: center; gap: 2px 8px; padding: 6px 8px; text-align: left;
+  }
+  .garage.hc #tuneOv .hc-powers .powercard .tpic { grid-row: 1; grid-column: 1; }
+  .garage.hc #tuneOv .hc-powers .powercard .tpic svg { width: 26px; height: 26px; }
+  .garage.hc #tuneOv .hc-powers .powercard .ptext { grid-row: 1; grid-column: 2; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; overflow: hidden; }
+  .garage.hc #tuneOv .hc-powers .powercard .ptext b { font-size: 15px; }
+  .garage.hc #tuneOv .hc-powers .power .ptext small.plong { display: none; }
+  .garage.hc #tuneOv .hc-powers .power .ptext small.pshort { display: block; font-size: 11px; line-height: 1.2; -webkit-line-clamp: 2; }
+  .garage.hc #tuneOv .hc-powers .powercard .pstate { grid-row: 2; grid-column: 1 / -1; width: 100%; padding: 3px 0; text-align: center; font-size: 11px; background: rgba(0, 0, 0, .35); }
+  .garage.hc #tuneOv .hc-powers .powercard.on .pstate { background: var(--yellow); color: #17130a; }
+  .garage.hc #tuneOv .btns { grid-column: 1; grid-row: 3; margin: 0; display: flex; }
+  .garage.hc #tuneOv #tuneReset, .garage.hc #tuneOv #tuneReset[hidden] { display: block; width: 100%; min-height: 34px; font-size: 13px; }
+  .garage.hc #tuneOv #tuneReset:disabled { opacity: .4; cursor: default; }
+  .garage.hc #tuneOv .tunes { grid-column: 2; grid-row: 2 / 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; min-height: 0; overflow: hidden; }
+  .garage.hc #tuneOv .tune { height: auto; min-height: 0; flex: none; display: flex; flex-direction: column; justify-content: space-between; }
+
+  /* Missions: one row of cards on every landscape screen, left and right only */
+  .garage.hc #missionsOv .cbody { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .garage.hc #missionsOv .powernote, .garage.hc #missionsOv .mcount { display: none; }
+  .garage.hc #missionsOv .powerlist { display: flex; flex: 1 1 auto; min-height: 0; gap: 10px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; grid-template-columns: none; padding-bottom: 2px; }
+  .garage.hc #missionsOv .powerlist::-webkit-scrollbar { display: none; }
+  .garage.hc #missionsOv .power.mission { flex: 0 0 clamp(170px, 24%, 280px); scroll-snap-align: start; display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 10px 12px; height: 100%; box-sizing: border-box; text-align: left; }
+  .garage.hc #missionsOv .power.mission .tpic { display: none; }
+  .garage.hc #missionsOv .power.mission .ptext { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
+  .garage.hc #missionsOv .power.mission .mstars { display: block; margin: 1px 0 0; }
+  .garage.hc #missionsOv .power.mission .pstate { flex: none; text-align: center; padding: 5px 0; background: #1f2328; border: 1px solid rgba(255, 255, 255, .12); }
+  .garage.hc #missionsOv .power.mission.on .pstate { background: var(--yellow); color: #17130a; }
+  .garage.hc #missionsOv .powerlist > .mhome { flex: 0 0 clamp(140px, 18%, 220px); margin: 0; display: flex; align-items: center; padding: 10px 12px; box-sizing: border-box; border: 1px dashed rgba(57, 230, 106, .5); color: #bfe9cc; font-size: 12.5px; line-height: 1.35; scroll-snap-align: start; white-space: normal; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc #tuneOv .cbody { grid-template-rows: 0 minmax(0, 1fr) auto; row-gap: 0; padding: 6px 10px; }
+  .garage.hc #tuneOv .btns { margin-top: 6px; }
+  .garage.hc #tuneOv #tuneReset { min-height: 26px; font-size: 11px; padding: 0 6px; }
+  .garage.hc #tuneOv .hc-powers .powercard .ptext b { font-size: 13px; }
+  .garage.hc #tuneOv .hc-powers .power .ptext small.pshort { font-size: 9.5px; }
+}
+/* bigger screens: text that suits the bigger cards */
+@media (orientation: landscape) and (min-height: 521px) {
+  .garage.hc #tuneOv .hc-powers .powercard { grid-template-columns: 40px minmax(0, 1fr); padding: 12px 14px; }
+  .garage.hc #tuneOv .hc-powers .powercard .tpic svg { width: 36px; height: 36px; }
+  .garage.hc #tuneOv .hc-powers .powercard .ptext b { font-size: 20px; }
+  .garage.hc #tuneOv .hc-powers .power .ptext small.pshort { font-size: 14px; }
+  .garage.hc #tuneOv .hc-powers .powercard .pbadge { font-size: 12px; }
+  .garage.hc #tuneOv .hc-powers .powercard .pstate { font-size: 14px; padding: 6px 0; }
+  .garage.hc #tuneOv .tname { font-size: 20px; }
+  .garage.hc #missionsOv .power.mission .ptext b { font-size: 20px; }
+  .garage.hc #missionsOv .power.mission .mclient { font-size: 11.5px; }
+  .garage.hc #missionsOv .power.mission .mstory { font-size: 14px; -webkit-line-clamp: 4; }
+  .garage.hc #missionsOv .power.mission .ptext small { font-size: 13.5px; line-height: 1.35; }
+  .garage.hc #missionsOv .power.mission .pstate { font-size: 14px; padding: 7px 0; }
+  .garage.hc #missionsOv .powerlist > .mhome { font-size: 15px; }
+}
+.garage.hc .hc-stage > #missionsOv > .card.slim { width: min(1180px, 100%); }

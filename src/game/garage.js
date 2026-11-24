@@ -381,7 +381,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
       }
       box.append(tile);
     }
-    $('tuneReset').hidden = !Object.keys(t).length;
+    $('tuneReset').disabled = !Object.keys(t).length;   // always in its place under the powers, greyed out while the truck is stock
     $('tuneCoins').textContent = formatCoins(wallet.coins);
     $('tuneFor').textContent = nameOf(car);
     renderPowers();
