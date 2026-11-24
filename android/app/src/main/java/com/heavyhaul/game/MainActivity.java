@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -26,6 +27,17 @@ public class MainActivity extends BridgeActivity {
         hideSystemBars();
         // music plays as soon as the game loads, before the first tap
         if (getBridge() != null) getBridge().getWebView().getSettings().setMediaPlaybackRequiresUserGesture(false);
+        // the back button: the game closes a card, pauses or resumes a run (window.__haulBack in src/main.js); when it has
+        // nothing to close, the game goes to the background like any app, with its progress saved
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getBridge() == null) { moveTaskToBack(true); return; }
+                getBridge().getWebView().evaluateJavascript("(window.__haulBack ? window.__haulBack() : false)", used -> {
+                    if (!"true".equals(used)) moveTaskToBack(true);
+                });
+            }
+        });
     }
 
     // Android brings the bars back after the notification shade, a dialog or another app

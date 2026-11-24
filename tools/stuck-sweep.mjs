@@ -1,7 +1,7 @@
 // Drives fully upgraded cars to check none can get stuck.
 //   node tools/stuck-sweep.mjs <season> <mode: bogs|trail> <shard> <shards>
 // Prints one JSON line per car: { car, season, ok, where }. Env: CAR=<id> one car only, TRACE=1 print the drive,
-// SAMPLE=n every nth car, NO_GHOST=1 drive it maxed but without the never-stuck rules (to compare).
+// SAMPLE=n every nth car, NO_STOPS=1 one drive from start to depot, NO_GHOST=1 drive it maxed but without the never-stuck rules (to compare).
 import * as planck from 'planck';
 import { createSimulation } from '../src/physics/simulation.js';
 import { loadContent } from './lib/content.js';
@@ -39,6 +39,7 @@ content.cars.forEach((car, i) => {
   const sim = createSimulation(planck, content); const tuned = applyTuning(car, max); if (process.env.NO_GHOST) delete tuned.physics.neverStuck; sim.setup = { car: tuned };
   let where = null;
   if (mode === 'bogs') for (const c of trail.heavyMud ?? []) { where = drive(sim, c - half - 12, c + half + 15, 90); if (where) break; }
-  else { const legs = [...trail.checkpoints, trail.depot + 3]; for (let l = 0; l < legs.length - 1 && !where; l++) where = drive(sim, legs[l], legs[l + 1], Math.max(300, (legs[l + 1] - legs[l]) * 0.4)); }
+  // legs from checkpoint to checkpoint, each from a standstill; NO_STOPS=1 drives start to depot in one go, like a player
+  else { const legs = process.env.NO_STOPS ? [trail.start, trail.depot + 3] : [...trail.checkpoints, trail.depot + 3]; for (let l = 0; l < legs.length - 1 && !where; l++) where = drive(sim, legs[l], legs[l + 1], Math.max(300, (legs[l + 1] - legs[l]) * 0.4)); }
   console.log(JSON.stringify({ car: car.id, cls: car.class, season, ok: !where, where }));
 });

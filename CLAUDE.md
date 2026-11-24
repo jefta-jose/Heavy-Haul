@@ -4,12 +4,24 @@ Codex generates the images (see [AGENTS.md](AGENTS.md)). Claude reviews them, wi
 game and tunes until they play well. The user hands over a path such as "hook up
 `assets/cars/titan-1`".
 
-Read first: [docs/game-design.md](docs/game-design.md) (cars with their loads, garage and fuel), [README.md](README.md) (code layout and checks), [assets/README.md](assets/README.md)
-and the skill [.claude/swamp-scout/SKILL.md](.claude/swamp-scout/SKILL.md) with its references.
+Read first: the skill [.claude/swamp-scout/SKILL.md](.claude/swamp-scout/SKILL.md) with its references, and
+[deployment-step-by-step.md](deployment-step-by-step.md) for local testing and Google Play. **Markdown (user decision,
+2026-11-24):** the only markdown kept is this file, AGENTS.md, the agent skills (`.claude/`, `assets/seasons/SKILL.md`) and
+`deployment-step-by-step.md`. Do not add READMEs, reports or design docs; explain code in comments and data in its JSON.
 [feel-audio-and-performance.md](.claude/swamp-scout/references/feel-audio-and-performance.md)
 records the user's feedback on wheels, driving feel, sound and smoothness: keep those rules.
 
 ## Ground rules
+
+- **Release basics (user, 2026-11-24):** RESET lives in the Settings panel (garage gear, pause menu) behind a spelled-out
+  confirmation, never on the top bar. Settings also holds the reminders switch and the privacy link (`PRIVACY_URL`,
+  `site/privacy-policy.html`, published by `.github/workflows/pages.yml`). Google Play sells trucks as four consumable
+  price tiers (`truck_tier_<n>`, `SHOP_TRUCK_PRICES`); rank packs are $4.99-19.99. Refunds are taken back through
+  `src/game/refunds.js` and the `voided` function. Every run and prop gets a level run-up (`OBSTACLE_APPROACH_M`).
+- **Saves (2026-11-24):** progress lives in localStorage on the device and, once signed in to Google Play Games, in one
+  Saved Games snapshot (`src/game/cloud-save.js`, `PlayGamesPlugin.java`): the save with more XP wins, RESET empties both.
+  Android backup is off in `AndroidManifest.xml` (it restored an old rank-35 / 40M test save after every reinstall); never
+  turn it back on. A new saved key that is progress must be added to `KEYS` in cloud-save.js.
 
 - **Starting economy (user decision, 2026-11-06):** no test-mode flag. The user edits
   `STARTING_RANK` and `STARTING_COINS` directly to test different player experiences and knows
@@ -17,7 +29,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
   auto-reset or restrict normal local/debug builds. The dispatch-only Google Play workflow
   enforces those two production values. Clear saved game data to test a genuinely fresh player.
 
-- **Tuning lives in one file:** `src/game-config.js`, one setting per line. Add new gameplay numbers there. Damage is described in `docs/game-design.md`.
+- **Tuning lives in one file:** `src/game-config.js`, one setting per line. Add new gameplay numbers there.
 
 - Content is data. A car is `assets/cars/<id>/car.json` plus art; a map is `season.json`. Add
   engine features only when the data cannot express something, and keep them generic.
@@ -132,8 +144,7 @@ records the user's feedback on wheels, driving feel, sound and smoothness: keep 
    - sound comes from the car's class: each class has one recorded engine in the sound bank
      (`assets/audio/sounds.json` → `tools/prepare-audio.py` → `assets/audio/bank/`). A car needs no audio
      block; `"audio": { "engine": "<class>" }` picks another class's engine, and `crankS`, `airBrakes`,
-     `backupAlarm` override the class's. Never replace recordings with synthesis. See
-     `assets/audio/README.md`.
+     `backupAlarm` override the class's. Never replace recordings with synthesis.
 5. `npm run art:encode`, then build with `HAUL_CAR=<id>` and drive it. Use `npm run feel` against
    the approved feel: brisk take-off, smooth drive, and AWD / DIFF clearly felt in mud. Heavier
    classes are slower but must still clear the trail with L, AWD and DIFF alone, heavy-mud pits included
@@ -186,7 +197,7 @@ owned whatever its rank, and owned trucks are listed first in their class. **No 
 only upgrades give coins back (selling a step or Reset to stock in UPGRADE).
 There is no map-title banner at the start of a run (removed on request, 2026-11-19). Picking a map is instant: the world is swapped behind the drive loading
 screen when PLAY is pressed (`pendingSeason` in `src/main.js`). Season cards use `art.card` when a map has one, else a crop of its
-panorama; their ChatGPT prompts are in `assets/seasons/CARD-PROMPTS.md`. Test layouts at 1440×810, 844×390, 667×320 and 390×844. See
+panorama. Test layouts at 1440×810, 844×390, 667×320 and 390×844. See
 `src/game/garage.js`.
 
 ## Rosters
@@ -221,9 +232,8 @@ centre of mass or flotation tyres so they still clear the trail now that a towed
 
 ## Hook up a season
 
-**Blackwater Swamp is the reference for every map.** Study [`assets/seasons/swamp-summer/README.md`](assets/seasons/swamp-summer/README.md)
-and its `season.json`, and follow the recipe at the end of that README. [`assets/seasons/SKILL.md`](assets/seasons/SKILL.md) has the art
-prompts and the checks.
+**Blackwater Swamp is the reference for every map.** Study `assets/seasons/swamp-summer/season.json` and follow the recipe
+below. [`assets/seasons/SKILL.md`](assets/seasons/SKILL.md) has the art prompts and the checks.
 
 The recipe: a simple, life-giving panorama (`render.backdropHorizon`, no tree layer, no haze), a thick road (`render.road`:
 drawing only, tires still roll on `visH`), rolling bumps on every open stretch (`trail.rollers`), lots of breakables on rock and dirt
@@ -237,8 +247,7 @@ half sunk in the road (`OBSTACLE_SIT`). Rocks and props stay drawn on both wheel
 the smallest tyre's radius (0.65 m): boulders are capped and kept off the steep faces of rollers and clear of log runs, and
 a chassis resting on a crushable breaks it. Each map has its own obstacle set: swamp rotten and sawn logs, autumn big sawn
 logs, spring spaced pipes and oil drums. The mud-hole art was deleted on request (the bog's dark colour stays). The current
-log and pipe sprites taper in perspective; straight ones and new obstacle types are requested in
-`assets/seasons/OBSTACLES-PROMPT.md`. Fallen trees were removed from every map with their art on 2026-11-17 (user
+log and pipe sprites taper in perspective. Fallen trees were removed from every map with their art on 2026-11-17 (user
 
 **Layout style (user direction, 2026-11-18):** every map follows Blackwater Swamp's placement. `node tools/content/tidy-layout.js`
 (`--dry` to preview) sets every run to the swamp's spacing and size (gap 0.9, radius 0.25), draws roadside pieces at the swamp's

@@ -11,7 +11,7 @@ const content = loadContent();
 const progress = { owns: () => false, rank: 1, maxRank: 40, price: () => 0, reachRank: () => [], grant: () => [] };
 const shop = createShop({ content: { ...content, cars: content.cars.map(c => ({ ...c, artUri: {} })) }, progress, wallet: { add() {}, coins: 0 }, storage: null });
 const csv = v => `"${String(v).replace(/"/g, '""')}"`;
-const rows = shop.catalogue().map(o => [o.id, o.kind === 'truck' ? 'non-consumable' : 'consumable', o.title, o.sub, o.price.toFixed(2)]);
+const rows = shop.products().map(o => o.kind === 'truck' ? [o.id, 'consumable', `Truck, tier ${o.id.split('_').pop()}`, 'One truck of your choice at this price tier', o.price.toFixed(2)] : [o.id, 'consumable', o.title, o.sub, o.price.toFixed(2)]);
 const out = path.join(ROOT, 'output/play-products.csv');
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, ['id,kind,title,description,price_usd', ...rows.map(r => r.map(csv).join(','))].join('\n') + '\n');

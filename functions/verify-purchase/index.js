@@ -6,6 +6,12 @@
 //   gcloud functions deploy verify-purchase --gen2 --runtime=nodejs22 --region=europe-west1 --trigger-http --allow-unauthenticated \
 //     --entry-point=verify --service-account=play-verifier@<project>.iam.gserviceaccount.com --set-env-vars=PACKAGE_NAME=com.heavyhaul.game
 // then put its URL in PLAY_VERIFY_URL (src/game-config.js). The request shape is cordova-plugin-purchase's validator protocol.
+//
+// The same file holds the refund check (entry point `voided`, src/game/refunds.js): deploy it as a second function with
+//   gcloud functions deploy voided-purchases --gen2 --runtime=nodejs22 --region=europe-west1 --trigger-http --allow-unauthenticated \
+//     --entry-point=voided --service-account=play-verifier@<project>.iam.gserviceaccount.com --set-env-vars=PACKAGE_NAME=com.heavyhaul.game
+// and put its URL in PLAY_REFUNDS_URL. The game sends its own recent order ids; the answer is the ones Google voided
+// (refunds and chargebacks of the last 30 days, from the Voided Purchases API). Nothing about the player is sent or kept.
 import { google } from 'googleapis';
 import functions from '@google-cloud/functions-framework';
 
@@ -26,13 +32,40 @@ functions.http('verify', async (req, res) => {
     // another phone is refused
     const asker = req.body?.additionalData?.obfuscatedUsername;
     if (data.obfuscatedExternalAccountId && asker && data.obfuscatedExternalAccountId !== asker) return refuse('Purchase belongs to another install');
-    // a coin pack, rank pack or bundle pays once: once the game has consumed it, the same token is refused (trucks are
-    // kept for good, so they may be confirmed again, for a reinstall)
-    if (!productId.startsWith('truck_') && data.consumptionState === 1) return refuse('Already used');
+    // every product pays once: once the game has consumed it, the same token is refused
+    if (data.consumptionState === 1) return refuse('Already used');
     res.json({ ok: true, data: { id: productId, latest_receipt: true, transaction: tx, collection: [{ id: productId, transactionId: data.orderId, purchaseDate: data.purchaseTimeMillis }] } });
   } catch (e) {
     // a token Google does not know (forged, or for another app) is a 4xx from Google: refuse it
     const status = e?.code ?? e?.response?.status ?? 500;
     res.status(status >= 400 && status < 500 ? 200 : 500).json({ ok: false, data: { code: 6778003 }, error: { message: 'Not a valid purchase' } });
+  }
+});
+
+// Voided orders, fetched from Google at most every 10 minutes and shared by every request in that time (the API's daily
+// quota is far below one call per player).
+let voidedCache = { at: 0, ids: new Set() };
+async function voidedOrders() {
+  if (Date.now() - voidedCache.at < 10 * 60e3) return voidedCache.ids;
+  const ids = new Set();
+  let token;
+  do {
+    const { data } = await publisher.purchases.voidedpurchases.list({ packageName: PACKAGE, maxResults: 1000, token });
+    for (const v of data.voidedPurchases ?? []) if (v.orderId) ids.add(v.orderId);
+    token = data.tokenPagination?.nextPageToken;
+  } while (token);
+  voidedCache = { at: Date.now(), ids };
+  return ids;
+}
+
+functions.http('voided', async (req, res) => {
+  if (req.method !== 'POST') return res.status(405).json({ voided: [] });
+  const orders = Array.isArray(req.body?.orders) ? req.body.orders.filter(id => typeof id === 'string' && /^GPA\.[0-9-]{1,40}$/.test(id)).slice(0, 500) : [];
+  if (!orders.length) return res.json({ voided: [] });
+  try {
+    const ids = await voidedOrders();
+    res.json({ voided: orders.filter(id => ids.has(id)) });
+  } catch (e) {
+    res.status(500).json({ voided: [] });
   }
 });

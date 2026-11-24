@@ -1683,10 +1683,6 @@
     },
     "props": [
       {
-        "kind": "buriedTyres",
-        "x": 150
-      },
-      {
         "kind": "branchPile",
         "x": 166
       },

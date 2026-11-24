@@ -19,7 +19,7 @@ body = registered_image(Image.open(folder / car['art']['body']['source']).conver
 wa = car['art']['wheel']
 if 'source' in wa:
     wheel = Image.open(folder / wa['source']).convert('RGBA')
-else:   # a library wheel (assets/cars/WHEEL-LIBRARY.md): the donor's runtime sprite, back at source scale
+else:   # a library wheel (AGENTS.md, Wheel library): the donor's runtime sprite, back at source scale
     wheel = Image.open(folder / wa['file']).convert('RGBA').resize(tuple(wa['sourceSize']), Image.LANCZOS)
 ppm, (ox, oy) = rig['pixelsPerMetre'], rig['bodyOrigin']
 scales = rig.get('wheelScale') or [1] * len(rig['axles'])

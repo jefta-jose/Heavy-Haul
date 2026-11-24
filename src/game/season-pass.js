@@ -17,6 +17,8 @@ export function createSeasonPass(store = typeof localStorage === 'undefined' ? n
     },
     // given outright (the shop, later)
     grant(id) { if (!pass.owns(id)) { bought.push(id); save(); } },
+    // a refunded purchase (shop.js revoke)
+    revoke(id) { if (bought.includes(id)) { bought = bought.filter(x => x !== id); save(); } },
   };
   return pass;
 }

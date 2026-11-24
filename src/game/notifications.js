@@ -36,10 +36,35 @@ export function createNotifications({ data = {}, context = () => ({}), plugin = 
 
   const api = {
     get available() { return !!plugin; },
+    // at start-up: the phone's real permission wins over the saved answer (a reinstall, or a switch flipped in Android's
+    // settings): granted counts as allowed, and an 'allowed' Android no longer grants is asked again
+    async sync() {
+      if (!plugin) return;
+      try {
+        const granted = (await plugin.checkPermissions()).display === 'granted';
+        if (granted && state.answer !== 'allowed' && state.answer !== 'off') { state.answer = 'allowed'; save(); }
+        else if (!granted && state.answer === 'allowed') { state = { asks: 0, lastAsk: 0, answer: null }; save(); }
+      } catch (e) {}
+    },
     get answer() { return state.answer; },
+    // the settings switch: on once allowed, off when the player turned reminders off in the game
+    get enabled() { return state.answer === 'allowed'; },
+    async setEnabled(on) {
+      if (!plugin) return false;
+      if (!on) {
+        state.answer = 'off'; save();
+        try { const pending = (await plugin.getPending()).notifications ?? []; if (pending.length) await plugin.cancel({ notifications: pending.map(n => ({ id: n.id })) }); } catch (e) {}
+        return false;
+      }
+      let granted = false;
+      try { granted = (await plugin.checkPermissions()).display === 'granted' || (await plugin.requestPermissions()).display === 'granted'; } catch (e) {}
+      state.answer = granted ? 'allowed' : 'denied'; save();
+      if (granted) await api.schedule();
+      return granted;
+    },
     // should the game ask now? never off the phone, never once allowed or once refused twice
     shouldAsk() {
-      if (!plugin || state.answer === 'allowed' || state.asks >= 2) return false;
+      if (!plugin || state.answer === 'allowed' || state.answer === 'off' || state.asks >= 2) return false;
       return state.asks === 0 || now() - state.lastAsk > NOTIFY_ASK_AGAIN_DAYS * DAY;
     },
     // the player's answer to the game's own question; an Allow shows Android's prompt
@@ -54,7 +79,7 @@ export function createNotifications({ data = {}, context = () => ({}), plugin = 
     },
     // replace the pending reminders with fresh ones; nothing happens without permission
     async schedule() {
-      if (!plugin) return 0;
+      if (!plugin || state.answer === 'off') return 0;
       try {
         if ((await plugin.checkPermissions()).display !== 'granted') return 0;
         const pending = (await plugin.getPending()).notifications ?? [];

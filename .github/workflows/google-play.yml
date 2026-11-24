@@ -64,7 +64,8 @@ jobs:
           node --input-type=module <<'JS'
           const cfg = await import(new URL('src/game-config.js', `file://${process.cwd()}/`));
           if (cfg.SHOP_TEST_PURCHASES) throw new Error('SHOP_TEST_PURCHASES is true: purchases would be free in production.');
-          if (!cfg.PLAY_VERIFY_URL) throw new Error('PLAY_VERIFY_URL is empty: deploy functions/verify-purchase first (report.md).');
+          if (!cfg.PLAY_VERIFY_URL) throw new Error('PLAY_VERIFY_URL is empty: deploy functions/verify-purchase first (deployment-step-by-step.md, Part 6).');
+          if (!cfg.PLAY_REFUNDS_URL) throw new Error('PLAY_REFUNDS_URL is empty: deploy the voided entry point of functions/verify-purchase first (deployment-step-by-step.md, Part 6).');
           JS
 
       - name: Validate release inputs and secrets

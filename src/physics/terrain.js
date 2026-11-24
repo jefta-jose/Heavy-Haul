@@ -1,5 +1,5 @@
 import { smoothstep as sm, seededRandom, valueNoise } from './math.js';
-import { STATION_BAY_M, SCENERY_FLAT_M, MUD_HARDNESS } from '../game-config.js';
+import { STATION_BAY_M, SCENERY_FLAT_M, MUD_HARDNESS, OBSTACLE_APPROACH_M } from '../game-config.js';
 
 // A season's surfaces with its MUD_HARDNESS applied (src/game-config.js); a map not listed keeps its own object as written.
 export function seasonSurfaces(season) {
@@ -109,6 +109,13 @@ export function createTerrain(trail, surfaces) {
         for (let x = z0 + 4; x < z1 - 4; x += 3 + rnd() * 4) features.push({ type: 'bump', c: x, w: 0.8 + rnd() * 1.2, h: (rnd() < 0.5 ? -1 : 1) * (0.08 + rnd() * 0.12) });
       }
     }
+    // no wide mud bowl under a run of logs or pipes or its run-up: a truck dropping nose-down into the first log flips back
+    // over it (2026-11-24 sweep). Dropped after generation, so the rest of the layout keeps its random draws.
+    const S = trail.obstacleScale ?? 1, runs = (trail.obstacleRuns ?? []).map(r => [r.x - OBSTACLE_APPROACH_M, r.x + runLength(r, S) + 3]);
+    for (let i = features.length - 1; i >= 0; i--) {
+      const f = features[i];
+      if (f.type === 'bump' && f.h < 0 && f.w >= 8 && runs.some(([a, b]) => f.c + f.w / 2 > a && f.c - f.w / 2 < b)) features.splice(i, 1);
+    }
     for (const hole of holes) features.push({ type: 'bump', c: hole.x, w: hole.width, h: -hole.depth, authored: 'hole' });
     for (const r of trail.ramps ?? []) features.push({ type: 'ledge', x0: r.x, face: r.face, h: r.height, plat: r.plateau, back: r.back, authored: 'ramp' });
   }
@@ -138,9 +145,10 @@ export function createTerrain(trail, surfaces) {
     for (const h of holes) keep.push([h.x - h.width / 2, h.x + h.width / 2]);
     for (const g of gardens) keep.push([g.x0, g.x1]);
     for (const r of trail.ramps ?? []) keep.push([r.x, r.x + r.face + r.plateau + r.back]);
-    for (const r of trail.obstacleRuns ?? []) keep.push([r.x - 1, r.x + runLength(r, S) + 1]);
+    // runs and props get a level run-up (OBSTACLE_APPROACH_M) so the first log or tyre is met square
+    for (const r of trail.obstacleRuns ?? []) keep.push([r.x - OBSTACLE_APPROACH_M, r.x + runLength(r, S) + 3]);
     keep.push(...flatScenery);
-    for (const p of trail.props ?? []) { const w = (trail.propKinds?.[p.kind]?.width ?? 2) * S; keep.push([p.x - w / 2, p.x + w / 2]); }
+    for (const p of trail.props ?? []) { const w = (trail.propKinds?.[p.kind]?.width ?? 2) * S; keep.push([p.x - w / 2 - OBSTACLE_APPROACH_M, p.x + w / 2 + 3]); }
     for (const f of features) {
       if (f.type === 'ledge') keep.push([f.x0, f.x0 + f.face + f.plat + Math.min(f.back, 6)]);
       else if (f.type === 'ramp') keep.push([f.x0, f.x0 + f.len]);

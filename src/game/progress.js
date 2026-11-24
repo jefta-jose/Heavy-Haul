@@ -44,6 +44,9 @@ export function createProgress(roster, store = typeof localStorage === 'undefine
     grant(ids) { const add = ids.filter(id => byId.has(id) && !p.owns(id)); if (add.length) { state.owned.push(...add); save(); } return add; },
     // the shop: XP up to a rank (never down); returns the ranks newly reached like addXp
     reachRank(r) { const need = RANK_XP[Math.min(Math.max(1, r), MAX_RANK) - 1] ?? 0; return need > state.xp ? p.addXp(need - state.xp) : []; },
+    // a refunded purchase (shop.js revoke): its trucks and the XP it gave are taken back; never below rank 1
+    revoke(ids) { const before = state.owned.length; state.owned = state.owned.filter(id => !ids.includes(id)); if (state.owned.length !== before) save(); },
+    takeXp(n) { state.xp = Math.max(0, state.xp - Math.max(0, n)); save(); },
     maxRank: MAX_RANK,
     // buy an open truck with the wallet; false when it is locked, owned already or too dear
     buy(id, wallet) {

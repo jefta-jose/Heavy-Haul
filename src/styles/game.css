@@ -4657,3 +4657,22 @@ dl.spec dd {
   .garage.hc #tuneOv #tuneReset { font-size: 0; }
   .garage.hc #tuneOv #tuneReset::after { content: 'Reset'; font-size: 12px; }
 }
+
+/* ---------- settings panel (user, 2026-11-24): volumes beside reminders, privacy and reset; reset behind a confirmation ---------- */
+#soundOv .card { width: min(760px, 94vw); }
+#soundOv .cbody { max-height: calc(100dvh - 24px); overflow-y: auto; }
+.setgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 22px; align-items: start; }
+.setrows { display: grid; gap: 8px; margin: 4px 0; }
+.setrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; font-family: var(--display); font-size: 16px; color: var(--ink); }
+.setrow[hidden] { display: none; }
+.setrow span { display: grid; line-height: 1.15; min-width: 0; }
+.setrow small { font-family: system-ui, sans-serif; font-size: 11px; color: var(--ink-dim); letter-spacing: 0; text-transform: none; }
+.overlay:not(.garage) .setrow .btn { min-height: 32px; min-width: 78px; font-size: 13px; padding: 0 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.overlay:not(.garage) .setrow .btn.toggle.on { background: #1f7a3a; border-color: #39e66a; color: #fff; }
+.overlay:not(.garage) .btn.danger { background: #8a1f14; border-color: #ff8a7a; color: #fff; }
+.setconfirm { padding: 10px 12px; border: 1px solid #ff8a7a; border-radius: 8px; background: rgba(138, 31, 20, .25); }
+.setconfirm[hidden] { display: none; }
+.setconfirm p { margin: 0 0 8px; font-size: 13px; line-height: 1.35; color: #f3d6d1; }
+.setconfirm .btns { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.overlay:not(.garage) .setconfirm .btn { min-height: 32px; font-size: 13px; }
+@media (max-width: 620px) { .setgrid { grid-template-columns: minmax(0, 1fr); } }

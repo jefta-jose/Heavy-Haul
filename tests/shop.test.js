@@ -36,7 +36,7 @@ test('coins, ranks and bundles give what they say, and a transaction is granted 
   const plus5 = shop.offers('ranks').find(o => o.ranks === 5);
   await shop.buy(plus5); assert.equal(progress.rank, 6); assert.equal(progress.xp, RANK_XP[5]);
   assert.deepEqual(shop.offers('ranks').map(o => o.ranks), [2, 4, 5, 8], 'only +2, +4, +5 and +8');
-  assert.deepEqual(shop.offers('ranks').map(o => o.price), [10, 20, 30, 40], '$10, $20, $30 and $40');
+  assert.deepEqual(shop.offers('ranks').map(o => o.price), [4.99, 9.99, 11.99, 19.99], 'market price points, the top pack at $19.99');
   progress.reachRank(34);
   assert(shop.done(shop.offers('ranks').find(o => o.ranks === 8)), 'at rank 34, +8 cannot be bought');
   assert(!shop.done(shop.offers('ranks').find(o => o.ranks === 5)), 'but +5 still can');
@@ -75,7 +75,7 @@ test('one-time packs sell once, the map pack opens every paid map, and coin pack
 
 test('every product id is one Google Play accepts, and none repeats', () => {
   const { shop } = setup();
-  const ids = [...shop.offers('featured'), ...shop.offers('coins'), ...shop.offers('ranks'), ...content.roster.classes.flatMap(k => shop.offers('trucks', k.id))].map(o => o.id);
+  const ids = shop.products().map(o => o.id);
   for (const id of ids) assert.match(id, /^[a-z0-9][a-z0-9_.]*$/, id);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -123,12 +123,11 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   assert(playBillingAvailable());
   const store = createPlayStore(), late = [];
   store.onGrant((id, tx) => late.push([id, tx]));
-  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_x', kind: 'truck', price: 2.99 }, { id: 'truck_old', kind: 'truck', price: 2.99 }]);
-  assert.deepEqual(late, [['truck_old', 'owned:truck_old']], 'a truck this Google account already owns comes back at start-up (reinstall, new phone)');
-  late.length = 0;
+  await store.init([{ id: 'coins_50000', kind: 'coins', price: 0.99 }, { id: 'truck_tier_3', kind: 'truck', price: 2.99 }]);
+  assert.deepEqual(late, [], 'nothing is restored from Google: progress comes back through the cloud save');
   const install = window.CdvPurchase.store.applicationUsername();
   assert(/^[0-9a-f]{32}$/.test(install) && install === window.CdvPurchase.store.applicationUsername(), 'every order carries this install\'s own random id');
-  assert.equal(products.get('truck_x').type, 'non consumable', 'a truck is kept for good');
+  assert.equal(products.get('truck_tier_3').type, 'consumable', 'a truck tier is bought again for every truck');
   assert.equal(store.priceText({ id: 'coins_50000', price: 0.99 }), 'KES 390', "Google Play's local price");
   const approve = (id, txId) => listeners.approved({ products: [{ id }], transactionId: txId, finish: () => finished.push(txId) });
   next = id => { setTimeout(() => approve(id, 'GPA.1')); return undefined; };
@@ -136,10 +135,8 @@ test('Google Play Billing: a purchase is granted once Google approves it, a canc
   assert.deepEqual(finished, ['GPA.1'], 'consumed or acknowledged with Google');
   next = async () => ({ code: 6777006 });
   assert.deepEqual(await store.buy({ id: 'coins_50000' }), { ok: false, cancelled: true });
-  approve('truck_x', 'GPA.2');
-  assert.deepEqual(late, [['truck_x', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
-  owned.add('truck_x'); next = async () => ({ code: 6777003 });
-  assert.deepEqual(await store.buy({ id: 'truck_x', kind: 'truck' }), { ok: true, transactionId: 'owned:truck_x' }, 'buying a truck Google already counts as owned gives it, nothing charged');
+  approve('truck_tier_3', 'GPA.2');
+  assert.deepEqual(late, [['truck_tier_3', 'GPA.2']], 'a purchase from before a restart is handed to the shop');
   next = id => new Promise(() => {});
   const first = store.buy({ id: 'coins_50000' });
   assert.equal((await store.buy({ id: 'coins_50000' })).ok, false, 'a second tap while the first purchase is open starts nothing');
@@ -175,4 +172,93 @@ test('reminders: asked in the game first, Not now respected with one more ask la
   await n.schedule(); assert.equal(pending.length, 3, 'leaving again replaces them, never piles up');
   assert(!n.shouldAsk(), 'never asked again once allowed');
   const off = createNotifications({ data, plugin: null }); assert.equal(off.shouldAsk(), false, 'no asking in a browser'); assert.equal(await off.schedule(), 0);
+});
+
+test('cloud save: a fresh install takes the Google account\'s progress, a phone further on keeps its own and uploads it', async () => {
+  const { createCloudSave } = await import('../src/game/cloud-save.js');
+  const mem = (v = {}) => ({ v, getItem(k) { return this.v[k] ?? null; }, setItem(k, x) { this.v[k] = String(x); }, removeItem(k) { delete this.v[k]; } });
+  let cloudText = '', reloads = 0, t = 1000;
+  const plugin = { loadSave: async () => ({ available: true, data: cloudText }), writeSave: async ({ data }) => { cloudText = data; return { available: true, saved: true }; } };
+  const make = storage => createCloudSave({ plugin, storage, signedIn: () => true, reload: () => reloads++, now: () => t });
+  // a phone at rank 35 uploads its progress
+  const old = mem({ hh_progress: JSON.stringify({ xp: 50000, owned: ['a'] }), hh_wallet: '40000000', hh_device: 'x' });
+  assert.equal(await make(old).restore(), false, 'nothing in the cloud yet');
+  assert(await make(old).save(true));
+  assert(!JSON.parse(cloudText).data.hh_device, 'only progress keys go up');
+  // a reinstall starts empty and takes it
+  const fresh = mem();
+  assert.equal(await make(fresh).restore(), true); assert.equal(reloads, 1);
+  assert.equal(fresh.getItem('hh_wallet'), '40000000'); assert.equal(JSON.parse(fresh.getItem('hh_progress')).xp, 50000);
+  assert.equal(await make(fresh).restore(), false, 'taken once: no reload loop');
+  // a phone further on never goes back
+  const ahead = mem({ hh_progress: JSON.stringify({ xp: 60000, owned: [] }), hh_wallet: '5' });
+  assert.equal(await make(ahead).restore(), false); assert.equal(ahead.getItem('hh_wallet'), '5');
+  // signed out: nothing happens
+  assert.equal(await createCloudSave({ plugin, storage: mem(), signedIn: () => false }).restore(), false);
+  // same XP, written later on another phone (coins spent there): taken
+  t = 5000; const other = mem({ ...fresh.v }); other.setItem('hh_wallet', '39000000'); assert(await make(other).save(true));
+  assert.equal(await make(fresh).restore(), true); assert.equal(fresh.getItem('hh_wallet'), '39000000');
+});
+
+test('cloud save: RESET empties the cloud copy, so the next start stays fresh', async () => {
+  const { createCloudSave } = await import('../src/game/cloud-save.js');
+  const mem = (v = {}) => ({ v, getItem(k) { return this.v[k] ?? null; }, setItem(k, x) { this.v[k] = String(x); }, removeItem(k) { delete this.v[k]; } });
+  let cloudText = '', reloads = 0;
+  const plugin = { loadSave: async () => ({ available: true, data: cloudText }), writeSave: async ({ data }) => { cloudText = data; return { available: true, saved: true }; } };
+  const phone = mem({ hh_progress: JSON.stringify({ xp: 50000, owned: [] }), hh_wallet: '40000000' });
+  const cs = createCloudSave({ plugin, storage: phone, signedIn: () => true, reload: () => reloads++ });
+  await cs.save(true); await cs.wipe();
+  assert.equal(await createCloudSave({ plugin, storage: mem(), signedIn: () => true, reload: () => reloads++ }).restore(), false);
+  assert.equal(reloads, 0);
+});
+
+test('trucks are sold as a few Google Play price tiers, and a tier purchase finishing later gives the truck that was ordered', async () => {
+  const { SHOP_TRUCK_PRICES } = await import('../src/game-config.js');
+  const storage = memory(), progress = createProgress(content.roster.cars, memory()), wallet = { coins: 0, add(n) { this.coins += n; } };
+  let late = null;
+  const store = { test: false, priceText: o => `$${o.price}`, buy: async () => ({ ok: false, pending: true }), onGrant(fn) { late = fn; } };
+  const shop = createShop({ content, progress, wallet, store, storage });
+  const ids = shop.products().filter(o => o.kind === 'truck').map(o => o.id).sort();
+  assert.deepEqual(ids, SHOP_TRUCK_PRICES.map((_, i) => `truck_tier_${i + 1}`), 'one product per price tier');
+  assert(shop.products().length < 40, `a handful of products for Play Console, not ${shop.catalogue().length}`);
+  const want = shop.offers('trucks', content.roster.classes[2].id).filter(o => !shop.done(o)).at(-1);
+  assert.equal((await shop.buy(want)).ok, false, 'payment still pending');
+  late(want.id, 'GPA.late');
+  assert(progress.owns(want.truck), 'the late purchase gives the very truck that was ordered');
+});
+
+test('refunds: a purchase Google voided is taken back once, coins never below zero', async () => {
+  const { checkRefunds } = await import('../src/game/refunds.js');
+  const storage = memory(), progress = createProgress(content.roster.cars, memory());
+  const wallet = { coins: 0, add(n) { this.coins += n; }, take(n) { this.coins = Math.max(0, this.coins - n); } };
+  let tx = 0; const store = { test: false, priceText: () => '', buy: async () => ({ ok: true, transactionId: `GPA.${tx++}` }) };
+  const shop = createShop({ content, progress, wallet, store, storage });
+  const coins = shop.offers('coins')[0], rank = shop.offers('ranks')[0], truck = shop.offers('trucks', content.roster.classes[0].id).find(o => !shop.done(o));
+  await shop.buy(coins); await shop.buy(rank); await shop.buy(truck);
+  assert(progress.xp > 0 && progress.owns(truck.truck));
+  wallet.coins -= coins.gives.coins - 100;   // most of the coins already spent
+  let asked = null;
+  const fetchFn = async (url, { body }) => { asked = JSON.parse(body).orders; return { ok: true, json: async () => ({ voided: ['GPA.0', 'GPA.1', 'GPA.2', 'GPA.999'] }) }; };
+  const taken = await checkRefunds(shop, { url: 'https://example.test/voided', storage, fetchFn });
+  assert.deepEqual(asked, ['GPA.0', 'GPA.1', 'GPA.2'], 'only its own orders are asked about');
+  assert.equal(taken.length, 3);
+  assert.equal(wallet.coins, 0, 'spent coins can only go to zero');
+  assert.equal(progress.xp, 0, 'the XP the rank pack gave is taken back');
+  assert(!progress.owns(truck.truck), 'the truck is taken back');
+  assert.deepEqual(await checkRefunds(shop, { url: 'https://example.test/voided', storage, fetchFn }), [], 'not asked again within REFUND_CHECK_HOURS');
+  assert.deepEqual(await checkRefunds(shop, { url: '', storage: memory(), fetchFn }), [], 'off without a URL');
+});
+
+test('settings switch: reminders turned off stay off and cancel what was scheduled; on asks Android once', async () => {
+  const { createNotifications } = await import('../src/game/notifications.js');
+  globalThis.localStorage ??= { s: {}, getItem(k) { return this.s[k] ?? null; }, setItem(k, v) { this.s[k] = v; }, removeItem(k) { delete this.s[k]; } };
+  localStorage.removeItem('hh_notify');
+  let granted = 'prompt', pending = [{ id: 1 }];
+  const plugin = { requestPermissions: async () => { granted = 'granted'; return { display: granted }; }, checkPermissions: async () => ({ display: granted }), getPending: async () => ({ notifications: pending }), cancel: async () => { pending = []; }, createChannel: async () => {}, schedule: async ({ notifications }) => { pending.push(...notifications); } };
+  const n = createNotifications({ data: { messages: [{ title: 'a', body: 'b' }, { title: 'c', body: 'd' }, { title: 'e', body: 'f' }] }, plugin });
+  assert.equal(n.enabled, false);
+  assert.equal(await n.setEnabled(true), true); assert(n.enabled && pending.length >= 3);
+  await n.setEnabled(false); assert.equal(pending.length, 0); assert.equal(n.enabled, false);
+  await n.sync(); assert.equal(n.enabled, false, 'Android still allows it, but the player said off');
+  assert.equal(n.shouldAsk(), false); assert.equal(await n.schedule(), 0);
 });

@@ -44,6 +44,7 @@ export const GEAR_BLEND_S = 1.2;             // after a shift between the short 
 export const AUTO_HOLD_S = 1.2;               // the least time between shifts, so it never hunts between gears
 export const REVERSE_AFTER_S = 0.35;          // hold the brake this long at a standstill and the truck starts reversing
 export const START_BARRIER_BEHIND_M = 10;     // a wall this far behind the trail start (the truck's middle) stops reversing off the trail; a longer rig starts moved forward until its tail clears it
+export const OBSTACLE_APPROACH_M = 10;          // level road kept before every log, pipe or drum run and every climbable prop (and 3 m after), so a truck meets it square, not nose-down out of a roller dip (2026-11-24: the all-truck sweep's rollovers sat at these)
 export const OBSTACLE_SIT = 0.1;               // a log, pipe or drum's centre sits this share of its radius above the drawn road: about half of it is sunk in
 export const LOG_SHOWN_BELOW_AXIS = 0.6;      // how much of a lying log, pipe or drum shows below its axis, as a share of its radius (the rest is bedded in the road)
 
@@ -195,11 +196,14 @@ export const LENS_DROP_S = 2.6;               // how long a water drop stays
 // ---------- the shop (user, 2026-11-22): coins, ranks, single trucks and bundles, for real money once payments are added ----------
 // Until then every purchase goes through the test store (src/game/store.js) and is granted at once; prices are shown anyway.
 // Prices are US dollars as placeholders: the real store will show Google Play's localized prices. A truck bought here is owned
-// whatever its rank. See docs/payments-plan.md for the payment side.
+// whatever its rank. See deployment-step-by-step.md (Part 6) for the payment side.
 export const NOTIFY_DAYS = [1, 3, 7];           // reminders: days after the player last left the game (src/game/notifications.js)
 export const NOTIFY_HOURS = [17, 20];          // between these hours of the evening, local time
 export const NOTIFY_ASK_AGAIN_DAYS = 3;        // after 'Not now', ask once more this many days later, then never
-export const PLAY_VERIFY_URL = '';              // the purchase verifier (functions/verify-purchase); '' grants on the device (testing only, see report.md)
+export const PRIVACY_URL = 'https://jefta-jose.github.io/Heavy-Haul/privacy-policy.html';   // site/privacy-policy.html, published by .github/workflows/pages.yml; linked from Settings
+export const PLAY_VERIFY_URL = '';              // the purchase verifier (functions/verify-purchase); '' grants on the device (testing only, see deployment-step-by-step.md)
+export const PLAY_REFUNDS_URL = '';             // the refund check (functions/verify-purchase, entry point voided); '' turns it off (src/game/refunds.js)
+export const REFUND_CHECK_HOURS = 12;          // ask about refunds at most this often
 export const SHOP_TEST_PURCHASES = true;      // true: BUY grants at once, nothing is charged. Set false only when a real store is wired in
 // Prices follow what successful mobile games sell (Hill Climb Racing 1 and 2, CSR 2, Asphalt Legends, Clash Royale, read from
 // their App Store listings on 2026-11-24): the standard price points $0.99 / 1.99 / 2.99 / 4.99 / 9.99 / 19.99 / 49.99, coin
@@ -213,13 +217,14 @@ export const SHOP_COIN_PACKS = [               // [coins, price, tag]: 25k coins
   [1000000, 19.99, ''],
   [3000000, 49.99, 'Best value'],
 ];
-export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: $10 / $20 / $30 / $40 (user, 2026-11-23),
-  [2, 10, ''],                              // and only these packs give them; a pack that would pass the top rank cannot be bought
-  [4, 20, ''],                              // (at rank 34, +8 is greyed out)
-  [5, 30, 'Popular'],
-  [8, 40, ''],
+export const SHOP_RANK_PACKS = [               // [ranks gained, price, tag]: moved to market price points on 2026-11-24 (was $10-40;
+  [2, 4.99, ''],                            // the games above top out near $20), cheaper per rank in the bigger packs. Only these
+  [4, 9.99, ''],                            // packs give ranks; a pack that would pass the top rank cannot be bought
+  [5, 11.99, 'Popular'],                    // (at rank 34, +8 is greyed out)
+  [8, 19.99, 'Best value'],
 ];
-export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a single truck costs by the rank it would open at
+export const SHOP_TRUCK_PRICES = [             // [up to unlock rank, price]: a single truck costs by the rank it would open at; each row is
+                                               // one Google Play product, truck_tier_1..4 (shop.js)
   [10, 0.99],
   [20, 1.99],
   [30, 2.99],

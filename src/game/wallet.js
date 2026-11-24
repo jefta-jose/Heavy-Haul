@@ -16,4 +16,6 @@ export const wallet = {
   add(n, now = true) { coins += n; if (now) save(); },
   save,
   spend(n) { if (coins < n) return false; coins -= n; save(); return true; },
+  // a refunded purchase's coins are taken back, down to zero at most (shop.js revoke)
+  take(n) { coins = Math.max(0, coins - Math.max(0, n)); save(); },
 };

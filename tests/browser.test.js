@@ -373,7 +373,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
 
     await page.keyboard.press('Escape'); assert.equal(await page.evaluate(() => __haul.session.state), 'pause');
     // the sound panel from the pause menu: volumes apply and are remembered
-    await page.locator('#msgBtns button', { hasText: 'Sound' }).click();
+    await page.locator('#msgBtns button', { hasText: 'Settings' }).click();
     assert(await page.locator('#soundOv').isVisible(), 'the sound panel opens');
     assert.deepEqual(await page.locator('#volList label span').allTextContents(), ['Master', 'Engine', 'Effects', 'Music']);
     assert.equal(await page.locator('#soundOv details').count(), 0);

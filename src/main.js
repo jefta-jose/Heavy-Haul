@@ -12,6 +12,9 @@ import { createProgress } from './game/progress.js';
 import { createMissions } from './game/missions.js';
 import { createAccount } from './game/account.js';
 import { createNotifications } from './game/notifications.js';
+import { createCloudSave } from './game/cloud-save.js';
+import { checkRefunds } from './game/refunds.js';
+import { wallet } from './game/wallet.js';
 import { createMusic } from './audio/music.js';
 import { createLoader } from './game/loader.js';
 import { COINS_PER_CRUSH, FREE_SEASONS } from './game-config.js';
@@ -79,8 +82,19 @@ const account = createAccount();
   const show = player => { chip.hidden = !account.available; chip.textContent = player ? player.name : 'Sign in'; chip.title = player ? `Signed in with Google Play Games as ${player.name}` : 'Sign in with Google Play Games'; };
   account.onChange(show);
   chip.addEventListener('click', () => { if (!account.player) account.signIn(); });
-  account.init();
 }
+// progress follows the Google account (Saved Games): a reinstall or a new phone takes the cloud copy if it is further on,
+// never in the middle of a run; the phone's copy goes up whenever the game is left and after each run
+// taking the cloud copy reloads the game; like RESET, writes are blocked first so the page closing cannot save the old progress back
+const cloud = createCloudSave({ reload: () => { resetting = true; try { Storage.prototype.setItem = function () {}; } catch (e) {} location.reload(); }, signedIn: () => !!account.player, describe: () => `Rank ${progress.rank} · ${wallet.coins.toLocaleString('en')} coins` });
+let cloudChecked = false, cloudLater = false;
+function checkCloud() {
+  if (cloudChecked || !account.player) return;
+  if (session.state === 'play' || session.state === 'pause') { cloudLater = true; return; }
+  cloudChecked = true; cloudLater = false;
+  cloud.restore().then(took => { if (!took) cloud.save(true); });
+}
+account.onChange(() => checkCloud());
 const progress = createProgress(content.roster.cars);   // rank, XP and the trucks owned
 // contracts are sized to the trail being played and the trucks owned
 // A map picked in the garage is only swapped in when PLAY is pressed, but contracts are drawn for it at once, so the one chosen
@@ -103,11 +117,15 @@ const garage = createGarage({
 });
 const session = createSession({ sim, hud, season, progress, missions, onRestart: () => newRun(), onGarage: () => backToGarage(), onRankUp: () => haptics.rankUp(), onSuccess: () => { finishedRuns++; uiAudio.play('mission-complete'); }, onFailure: () => { finishedRuns++; uiAudio.play('mission-failed'); } });
 session.onResume = () => audio.resume();
+// purchases Google refunded are taken back (refunds.js; off until PLAY_REFUNDS_URL is set)
+garage.shop.ready.then(() => checkRefunds(garage.shop)).then(taken => { if (taken.length) garage.seasonChanged(); });
+account.init();   // signs in with Google; checkCloud() then takes the cloud save if it is further on
 
 let selection = garage.selection;
 const startAudio = () => audio.start();
 // the sound panel goes back to the pause menu it was opened from
-const sound = createSoundSettings({ audio, uiAudio, onClose: () => { if (session.state === 'pause') showPause(); } });
+const notify = createNotifications({ data: content.notifications, context: () => ({ truck: garage.selection?.car?.name, map: content.season.name }) });
+const sound = createSoundSettings({ audio, uiAudio, notify, onReset: () => resetGame(), onClose: () => { if (session.state === 'pause') showPause(); } });
 function setGear(g) { if (g !== sim.ctl.gear && session.state === 'play') { audio.shift(g); haptics.tick(); } sim.ctl.gear = g; hud.showGear(g); }
 function setMode(key, on) {
   if (session.state !== 'play') return;
@@ -170,7 +188,7 @@ function prepareRun(sel) { selection = sel; garage.hide(); newRun(); }
 function goRun() { music.play('drive'); session.state = 'play'; sim.stopEngine(sim.main); sim.startEngine(sim.main); }
 function startRun(sel) { startAudio(); prepareRun(sel); goRun(); }
 // reminders on the phone: the game asks in its own words after a finished run, and schedules fresh ones whenever it is left
-const notify = createNotifications({ data: content.notifications, context: () => ({ truck: garage.selection?.car?.name, map: content.season.name }) });
+notify.sync();
 let finishedRuns = 0;
 function askToNotify() {
   if (!notify.shouldAsk() || finishedRuns < 1) return;
@@ -179,8 +197,8 @@ function askToNotify() {
   document.getElementById('notifyAllow').onclick = () => done(true);
   document.getElementById('notifyLater').onclick = () => done(false);
 }
-document.addEventListener('visibilitychange', () => { if (document.hidden) notify.schedule(); });
-function openGarage() { setTimeout(askToNotify, 700); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); }
+document.addEventListener('visibilitychange', () => { if (document.hidden && !resetting) { notify.schedule(); if (cloudChecked) cloud.save(true); } });
+function openGarage() { setTimeout(askToNotify, 700); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); if (cloudLater) checkCloud(); else if (cloudChecked) cloud.save(); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -271,25 +289,26 @@ E.awdBtn.addEventListener('click', () => setMode('awd', !sim.ctl.awd));
 E.diffBtn.addEventListener('click', () => setMode('diff', !sim.ctl.diff));
 E.pauseBtn.addEventListener('click', pause);
 document.getElementById('garageSoundBtn').addEventListener('click', () => sound.open());
-// Reset saved game, always shown (user, 2026-11-22). Wipes every saved key, then blocks writes so pagehide cannot save the old coins and XP back before the reload.
+// Android's back button (MainActivity calls this): closes what is open, pauses a run and resumes it again; true when it
+// was used, false lets Android put the game in the background (it never quits mid-run)
+window.__haulBack = () => {
+  if (!document.getElementById('notifyOv').hidden) { document.getElementById('notifyLater').click(); return true; }
+  if (sound.isOpen) { document.getElementById('soundDone').click(); return true; }
+  if (session.state === 'play') { pause(); return true; }
+  if (session.state === 'pause') { session.resume(); return true; }
+  return garage.back();
+};
+// Reset saved game: in the settings panel, behind a spelled-out confirmation (sound-settings.js; user, 2026-11-24). Wipes every
+// saved key, then blocks writes so pagehide cannot save the old coins and XP back before the reload.
 let resetting = false;
-const resetBtn = document.getElementById('garageResetBtn');
-resetBtn.hidden = false;
-// Confirmed by a second tap within 3 s rather than confirm(): native dialogs are unreliable in phone WebViews.
-let resetArmed = 0;
-resetBtn.addEventListener('click', () => {
-  if (!resetArmed) {
-    resetBtn.textContent = 'SURE?'; resetBtn.classList.add('armed'); resetBtn.title = 'Tap again to clear coins, rank, trucks, upgrades, missions and settings';
-    resetArmed = setTimeout(() => { resetArmed = 0; resetBtn.textContent = 'RESET'; resetBtn.classList.remove('armed'); resetBtn.title = 'Reset saved game (testing)'; }, 3000);
-    return;
-  }
-  clearTimeout(resetArmed);
+function resetGame() {
   // Assigning localStorage.setItem only stores an item called "setItem" (Storage's named setter), so writes are blocked on the
   // prototype instead, and the pagehide / visibilitychange saves below are skipped.
   resetting = true;
   try { Storage.prototype.setItem = function () {}; localStorage.clear(); sessionStorage.clear(); } catch (e) {}
-  location.reload();
-});
+  // the Google account's cloud copy is emptied as well, or the next start would restore what was just reset
+  Promise.race([cloud.wipe(), new Promise(r => setTimeout(r, 4000))]).finally(() => location.reload());
+}
 document.addEventListener('visibilitychange', () => { if (!document.hidden || resetting) return; if (session.state === 'play') pause(); session.persist(); });
 window.addEventListener('pagehide', () => { if (!resetting) session.persist(); });   // the app or tab closing: the last coins and XP are kept
 window.addEventListener('resize', resize);

@@ -1,5 +1,9 @@
-// Compact sound panel, opened from the pause menu and garage. Volumes are saved by the audio module.
-export function createSoundSettings({ audio, uiAudio, onClose }) {
+// The settings panel, opened from the pause menu and the garage's gear: volumes (saved by the audio module), the reminders
+// switch (phone only), the privacy policy, and resetting the saved game. Reset sits behind a second, spelled-out confirmation
+// (user, 2026-11-24: two taps on a top-bar button were too easy to hit).
+import { PRIVACY_URL } from '../game-config.js';
+
+export function createSoundSettings({ audio, uiAudio, onClose, notify = null, onReset = null }) {
   const $ = id => document.getElementById(id), ov = $('soundOv'), list = $('volList'), mute = $('muteBtn');
   const rows = [['master', 'Master'], ['engine', 'Engine'], ['effects', 'Effects'], ['music', 'Music']];
   function render() {
@@ -20,8 +24,26 @@ export function createSoundSettings({ audio, uiAudio, onClose }) {
   }
   mute.addEventListener('click', () => { audio.setVolume('muted', !audio.volumes.muted); render(); });
   $('soundDone').addEventListener('click', () => { ov.hidden = true; onClose?.(); });
+
+  // reminders: shown only where the phone can send them
+  const remind = $('remindBtn');
+  function renderRemind() {
+    $('remindRow').hidden = !notify?.available;
+    if (!notify?.available) return;
+    const on = notify.enabled;
+    remind.textContent = on ? 'On' : 'Off'; remind.classList.toggle('on', on); remind.setAttribute('aria-pressed', String(on));
+    $('remindNote').textContent = notify.answer === 'denied' ? 'Blocked in Android settings' : 'A nudge every few days';
+  }
+  remind.addEventListener('click', async () => { remind.disabled = true; await notify.setEnabled(!notify.enabled); remind.disabled = false; renderRemind(); });
+  const privacy = $('privacyLink');
+  privacy.href = PRIVACY_URL; privacy.hidden = !PRIVACY_URL;
+  // reset: the first tap only shows what will be lost
+  const confirmBox = $('resetConfirm');
+  $('resetBtn').addEventListener('click', () => { confirmBox.hidden = false; confirmBox.scrollIntoView({ block: 'nearest' }); $('resetCancel').focus({ preventScroll: true }); });
+  $('resetCancel').addEventListener('click', () => { confirmBox.hidden = true; });
+  $('resetYes').addEventListener('click', () => { confirmBox.hidden = true; onReset?.(); });
   return {
-    open() { audio.start(); render(); ov.hidden = false; },
+    open() { audio.start(); render(); renderRemind(); confirmBox.hidden = true; ov.hidden = false; },
     get isOpen() { return !ov.hidden; },
   };
 }

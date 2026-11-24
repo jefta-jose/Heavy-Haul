@@ -461,7 +461,7 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   // ---------- the shop: tabs, then a card per offer with its picture, what it gives and its price ----------
   // a Google Play purchase that finished later (pending payment, app closed mid-purchase) shows up at once
   const shop = createShop({ content, progress, wallet, onLateGrant: () => { onBuy?.(); render(); },
-    maps: { ids: seasonList.filter(s => s.status === 'playable' && !FREE_SEASONS.includes(s.id)).map(s => s.id), owns: id => seasonPass.owns(id), grant: id => seasonPass.grant(id) } });
+    maps: { ids: seasonList.filter(s => s.status === 'playable' && !FREE_SEASONS.includes(s.id)).map(s => s.id), owns: id => seasonPass.owns(id), grant: id => seasonPass.grant(id), revoke: id => seasonPass.revoke(id) } });
   let shopTab = 'featured', shopClass = classes[0]?.id;
   function renderShop() {
     $('shopCoins').textContent = formatCoins(wallet.coins);
@@ -583,5 +583,12 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
     // a class's trucks in the order the Trucks page shows them
     trucksOf: c => classCars(c).map(x => x.id),
     get seasonId() { return seasonId; },
+    // Android's back button in the garage: closes an open card, then a page, back to the trucks; false when there is nothing to close
+    back() {
+      if (garageEl.hidden) return false;
+      if (garageEl.dataset.sheet) { sheet(null); render(); return true; }
+      if (page !== 'vehicle') { go('vehicle'); return true; }
+      return false;
+    },
   };
 }

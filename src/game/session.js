@@ -47,7 +47,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   api.pause = (openSound, extra = {}) => {
     api.state = 'pause'; api.persist();
     hud.showMessage('Paused', 'Expedition on hold', `${trail.name}. Your vehicle will wait right where you left it.`, extra.spec ?? [], [
-      ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Sound', openSound], ...(extra.buttons ?? []),
+      ['Resume', () => api.resume(), true], restartButton('Restart run'), garageButton, ['Settings', openSound], ...(extra.buttons ?? []),
     ]);
   };
   api.resume = () => { hud.hideMessage(); api.state = 'play'; api.onResume?.(); };

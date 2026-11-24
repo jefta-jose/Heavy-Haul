@@ -83,11 +83,9 @@
     <header class="hc-top">
       <div class="g-logo"><b>Heavy Haul</b><span>Trucks</span></div>
       <div class="hc-right">
-        <button class="hc-icon" id="garageSoundBtn" aria-label="Sound"><!--icon:garage-sound--></button>
+        <button class="hc-icon" id="garageSoundBtn" aria-label="Settings" title="Settings: sound, reminders, privacy, reset"><!--icon:garage-gear--></button>
         <!-- the player's Google Play Games account (src/game/account.js): only in the Android app -->
         <button class="hc-icon hc-player" id="garageAccountBtn" hidden aria-label="Google Play Games account"></button>
-        <!-- reset saved game: always shown (user, 2026-11-22) -->
-        <button class="hc-icon hc-reset" id="garageResetBtn" hidden aria-label="Reset saved game" title="Reset saved game (testing)">RESET</button>
         <div class="g-rank" id="gRank" title="Your rank: each one opens a truck in every class"><b id="gRankNum">Rank 1</b><span class="g-rankbar"><i id="gRankFill"></i></span><small id="gRankXp"></small></div>
         <div class="g-coins" id="gCoinsBox" title="Your coins"><i class="coinic"></i><b id="gCoins"></b></div>
       </div>
@@ -166,9 +164,21 @@
   <div class="overlay" id="soundOv" hidden>
     <div class="card slim">
       <div class="cbody">
-        <div class="eyebrow">Settings</div>
-        <h3>Sound</h3>
-        <div class="vols" id="volList"></div>
+        <div class="eyebrow">Heavy Haul</div>
+        <h3>Settings</h3>
+        <div class="setgrid">
+          <div class="vols" id="volList"></div>
+          <!-- reminders (phone only), the privacy policy, and resetting the saved game behind a confirmation (src/game/sound-settings.js) -->
+          <div class="setrows">
+            <div class="setrow" id="remindRow" hidden><span>Reminders<small id="remindNote"></small></span><button class="btn toggle" id="remindBtn" aria-pressed="false">Off</button></div>
+            <div class="setrow"><span>Privacy policy</span><a class="btn" id="privacyLink" target="_blank" rel="noopener">Open</a></div>
+            <div class="setrow"><span>Reset saved game<small>Start again from rank 1</small></span><button class="btn danger" id="resetBtn">Reset</button></div>
+            <div class="setconfirm" id="resetConfirm" hidden>
+              <p>This deletes your rank, coins, trucks, maps, upgrades and missions, on this phone and in your Google cloud save. It cannot be undone.</p>
+              <div class="btns"><button class="btn" id="resetCancel">Keep my game</button><button class="btn danger" id="resetYes">Delete everything</button></div>
+            </div>
+          </div>
+        </div>
         <div class="btns"><button class="btn" id="muteBtn">Mute all</button><button class="btn primary" id="soundDone">Done</button></div>
       </div>
     </div>
