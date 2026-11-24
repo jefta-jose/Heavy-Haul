@@ -44,8 +44,8 @@ export function createShop({ content, progress, wallet, store = createStore(), s
     const [coins, price] = SHOP_STARTER_BUNDLE, [allCoins, allPrice] = SHOP_EVERYTHING, [rookieCoins, rookiePrice] = SHOP_ROOKIE_PACK;
     const scout = ofClass(classes[0].id).find(c => !progress.owns(c.id)), paidMaps = maps?.ids ?? [];
     return [
-      offer({ id: 'bundle_rookie', kind: 'bundle', once: true, title: 'Rookie pack', sub: `${formatCoins(rookieCoins)} coins${scout ? ` and the ${nameOf(scout)}` : ''} · once only`, price: rookiePrice, tag: 'Best deal', gives: { coins: rookieCoins, trucks: scout ? [scout.id] : [] }, pics: scout ? [pic(scout.id)] : [] }),
-      offer({ id: 'bundle_starter', kind: 'bundle', once: true, title: 'Starter boost', sub: `${formatCoins(coins)} coins to get going · once only`, price, tag: 'New driver', gives: { coins } }),
+      offer({ id: 'bundle_rookie', kind: 'bundle', once: true, title: 'Rookie pack', sub: `${formatCoins(rookieCoins)} coins${scout ? ` + ${nameOf(scout)}` : ''} · once`, price: rookiePrice, tag: 'Best deal', gives: { coins: rookieCoins, trucks: scout ? [scout.id] : [] }, pics: scout ? [pic(scout.id)] : [] }),
+      offer({ id: 'bundle_starter', kind: 'bundle', once: true, title: 'Starter boost', sub: `${formatCoins(coins)} coins · once`, price, tag: 'New driver', gives: { coins } }),
       ...(paidMaps.length ? [offer({ id: 'bundle_all_maps', kind: 'bundle', title: 'Every map', sub: `All ${paidMaps.length} maps you don't have yet, open at once`, price: SHOP_MAPS_PACK_PRICE, gives: { maps: paidMaps } })] : []),
       offer({ id: 'bundle_next_five', kind: 'bundle', title: 'Next in every class', sub: next.length ? `${next.length} truck${s(next.length)}: ${next.map(nameOf).join(', ')}` : 'You own every class', price: SHOP_NEXT_FIVE_PRICE, gives: { trucks: next.map(c => c.id) }, pics: next.map(c => pic(c.id)) }),
       offer({ id: 'bundle_top_five', kind: 'bundle', title: 'Top of every class', sub: `The strongest truck of each class: ${top.map(nameOf).join(', ')}`, price: SHOP_TOP_FIVE_PRICE, tag: 'Popular', gives: { trucks: top.map(c => c.id) }, pics: top.map(c => pic(c.id)) }),

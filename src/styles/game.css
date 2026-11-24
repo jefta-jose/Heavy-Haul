@@ -4491,3 +4491,71 @@ dl.spec dd {
   .garage.hc #shopOv .shop-test { font-size: 9px; }
   .garage.hc #shopOv .card { position: relative; }
 }
+
+/* ---------- Missions and Upgrade as cards (user, 2026-11-24): phones on their side get a sliding row of cards like the
+   shop, with just enough text; powers wear an orange POWER frame so they stand apart from the upgrades ---------- */
+.pbadge, .pshort { display: none; }
+.powercard { position: relative; }
+.powercard .pbadge { display: inline-block; margin-bottom: 2px; padding: 1px 7px; font: italic 800 10px var(--display); letter-spacing: .1em; text-transform: uppercase; color: #17130a; background: linear-gradient(90deg, #ff8a2a, #ffcf3a); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%); }
+.hc-powers .powercard { border: 2px solid transparent; background: linear-gradient(180deg, #2a2116, #16120c) padding-box, linear-gradient(135deg, #ff8a2a, #ffd23a 50%, #ff8a2a) border-box; box-shadow: 0 0 14px rgba(255, 138, 42, .25); }
+.hc-powers .powercard.on { box-shadow: 0 0 20px rgba(255, 196, 58, .55); background: linear-gradient(180deg, #4a3414, #22180a) padding-box, linear-gradient(135deg, #ffd23a, #fff3a0 50%, #ffd23a) border-box; }
+.hc-powers .powercard .tpic svg { color: #ffb43a; filter: drop-shadow(0 0 6px rgba(255, 160, 40, .5)); }
+
+@media (max-height: 520px) and (orientation: landscape) {
+  /* Missions: no header, one line about the truck's signature haul, then a row of cards */
+  .garage.hc #missionsOv .tunehead, .garage.hc #missionsOv .powernote, .garage.hc #missionsOv .mcount { display: none; }
+  .garage.hc #missionsOv .cbody { padding: 6px 10px; gap: 5px; display: flex; flex-direction: column; overflow: hidden; }
+  .garage.hc #missionsOv .mhome { margin: 0; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: none; }
+  .garage.hc #missionsOv .powerlist { display: flex; flex: 1 1 auto; min-height: 0; gap: 8px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 2px; grid-template-columns: none; }
+  .garage.hc #missionsOv .powerlist::-webkit-scrollbar { display: none; }
+  .garage.hc #missionsOv .power.mission { flex: 0 0 clamp(170px, 27vw, 230px); scroll-snap-align: start; display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 8px 10px; height: 100%; box-sizing: border-box; text-align: left; }
+  .garage.hc #missionsOv .power.mission .tpic { display: none; }
+  .garage.hc #missionsOv .power.mission .ptext { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .garage.hc #missionsOv .power.mission .mstory { display: none; }
+  .garage.hc #missionsOv .power.mission .mclient { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .garage.hc #missionsOv .power.mission .ptext b { font-size: 15px; line-height: 1.05; }
+  .garage.hc #missionsOv .power.mission .mstars { display: block; margin: 1px 0 0; font-size: 11px; }
+  .garage.hc #missionsOv .power.mission .ptext small { font-size: 11px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .garage.hc #missionsOv .power.mission .pstate { flex: none; text-align: center; padding: 4px 0; font-size: 12px; background: #1f2328; border: 1px solid rgba(255, 255, 255, .12); }
+  .garage.hc #missionsOv .power.mission.on .pstate { background: var(--yellow); color: #17130a; }
+
+  /* Upgrade: no header, the four upgrades and the two powers in one sliding row of cards */
+  .garage.hc #tuneOv .tunehead, .garage.hc #tuneOv .hc-powers > .eyebrow { display: none; }
+  .garage.hc #tuneOv .cbody { padding: 6px 10px; display: flex; flex-direction: row; align-items: stretch; gap: 8px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .garage.hc #tuneOv .cbody::-webkit-scrollbar { display: none; }
+  .garage.hc #tuneOv .tunes { display: flex; gap: 8px; flex: none; grid-template-columns: none; }
+  .garage.hc #tuneOv .tune { flex: 0 0 clamp(120px, 19vw, 170px); scroll-snap-align: start; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+  .garage.hc #tuneOv .hc-powers { display: flex; flex: none; margin: 0; }
+  .garage.hc #tuneOv .hc-powers .powerlist { display: flex; gap: 8px; width: auto; grid-template-columns: none; }
+  .garage.hc #tuneOv .powercard { flex: 0 0 clamp(140px, 22vw, 190px); scroll-snap-align: start; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 4px; padding: 8px; text-align: center; }
+  .garage.hc #tuneOv .powercard .tpic svg { width: 30px; height: 30px; }
+  .garage.hc #tuneOv .powercard .ptext { display: flex; flex-direction: column; align-items: center; }
+  .garage.hc #tuneOv .powercard .ptext b { font-size: 16px; }
+  .garage.hc #tuneOv .powercard .plong { display: none; }
+  .garage.hc #tuneOv .powercard .pshort { display: block; font-size: 11px; line-height: 1.25; -webkit-line-clamp: 2; }
+  .garage.hc #tuneOv .powercard .pstate { width: 100%; padding: 4px 0; font-size: 12px; background: rgba(0, 0, 0, .35); }
+  .garage.hc #tuneOv .powercard.on .pstate { background: var(--yellow); color: #17130a; }
+  .garage.hc #tuneOv .btns { flex: none; margin: 0; align-self: center; }
+  .garage.hc #tuneOv .btns .btn { min-height: 30px; font-size: 12px; white-space: nowrap; }
+
+  /* shop: the one line under a name stays, so every offer says what is inside */
+  .garage.hc .shop-grid > .sitem .stext small { display: -webkit-box; -webkit-line-clamp: 1; font-size: 10px; min-height: 0; }
+}
+/* fixes: the short power line only on phones; power cards as tall as the row; the signature-haul note as a card of its own */
+.ptext small.pshort { display: none; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc #tuneOv .powercard .ptext small.pshort { display: block; }
+  .garage.hc #tuneOv .hc-powers, .garage.hc #tuneOv .hc-powers .powerlist { align-self: stretch; height: auto; align-items: stretch; }
+  .garage.hc #tuneOv .powercard { height: auto; }
+  .garage.hc #missionsOv .powerlist > .mhome { flex: 0 0 clamp(130px, 20vw, 170px); white-space: normal; display: flex; align-items: center; padding: 8px 10px; box-sizing: border-box; border: 1px dashed rgba(57, 230, 106, .5); color: #bfe9cc; font-size: 11px; line-height: 1.3; scroll-snap-align: start; }
+}
+.hc-powers .power .ptext small.pshort { display: none; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .garage.hc #tuneOv .hc-powers .power .ptext small.pshort { display: block; }
+  .garage.hc #tuneOv .hc-powers, .garage.hc #tuneOv .hc-powers .powerlist, .garage.hc #tuneOv .hc-powers .powercard { height: 100%; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  /* all four upgrades and both powers fit across a phone */
+  .garage.hc #tuneOv .tune { flex-basis: clamp(96px, 13.5vw, 170px); }
+  .garage.hc #tuneOv .hc-powers .powercard { flex-basis: clamp(108px, 15.5vw, 190px); }
+}

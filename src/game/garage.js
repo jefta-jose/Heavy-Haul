@@ -403,9 +403,10 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   function renderPowers() {
     const box = $('powerList'); box.replaceChildren();
     for (const power of POWERS) {
-      const on = power.id === powers[car.id], b = el('button', 'power' + (on ? ' on' : ''));
+      const on = power.id === powers[car.id], b = el('button', 'power powercard' + (on ? ' on' : ''));
       const pic = el('i', 'tpic'); pic.append(gIcon(power.id));
-      const text = el('span', 'ptext'); text.append(el('b', null, power.label), el('small', null, power.what));
+      // the full sentence on wide screens, a few words on phones (game.css)
+      const text = el('span', 'ptext'); text.append(el('em', 'pbadge', 'Power'), el('b', null, power.label), el('small', 'plong', power.what), el('small', 'pshort', power.short ?? power.what));
       b.append(pic, text, el('span', 'pstate', on ? 'On' : 'Choose'));
       b.setAttribute('aria-pressed', String(on));
       b.addEventListener('click', () => { if (on) delete powers[car.id]; else powers[car.id] = power.id; savePowers(powers); renderPowers(); });
