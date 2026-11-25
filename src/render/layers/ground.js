@@ -127,8 +127,8 @@ export function drawGround(scene) {
     if (x === xa) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
   ctx.lineTo(xb + COL, bottom); ctx.lineTo(xa, bottom); ctx.closePath();
-  // the texture is shrunk a lot here: keep it mipmapped (the main canvas draws with 'low')
-  if (visible) { ctx.imageSmoothingQuality = 'medium'; ctx.fillStyle = scene.cache.deepPat; ctx.fill(); }
+  // the texture is cached at screen size (sprite-cache.js, screenPattern), so the main canvas's 'low' filtering is enough
+  if (visible) { ctx.fillStyle = scene.cache.deepPat; ctx.fill(); }
   ctx.restore();
   bank(scene, xa, xb, true);
 }

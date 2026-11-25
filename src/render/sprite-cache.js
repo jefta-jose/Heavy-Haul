@@ -78,7 +78,16 @@ export function createSceneryCache(scene) {
     for (const [s, k] of Object.entries(render.lane.materials)) {
       const pat = ctx.createPattern(A[k], 'repeat'); pat.setTransform(new DOMMatrix([0.0026, 0, 0, -0.00105, 0, 0])); C.lanePat[s] = pat;
     }
-    C.deepPat = ctx.createPattern(A.ground, 'repeat'); C.deepPat.setTransform(new DOMMatrix([0.004, 0, 0, -0.004, 0, 0]));
+    // The deep soil fills much of the lower screen every frame (renderer.js, drawGround). Its texture is shown 3 to 6 times
+    // smaller than drawn, which needed the slow mipmapped filter on every fill (the costliest draw of a frame on a phone):
+    // it is shrunk to screen size once here instead, the same texture at the same world size, then drawn plain.
+    const screenPattern = (img, metresPerPixel) => {
+      const k = Math.min(1, metresPerPixel * px), src = k < 1 ? scaled(img, k) : img;
+      const pat = ctx.createPattern(src, 'repeat');
+      pat.setTransform(new DOMMatrix([metresPerPixel * img.width / src.width, 0, 0, -metresPerPixel * img.height / src.height, 0, 0]));
+      return pat;
+    };
+    C.deepPat = screenPattern(A.ground, 0.004);
     // the thick road's soil: mirrored both ways, so its light-to-dark shading has no seam
     if (render.road && A.roadSoil) {
       if (!C.soilSource) {
@@ -86,8 +95,7 @@ export function createSceneryCache(scene) {
         const g = C.soilSource.getContext('2d');
         for (const [sx, sy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) { g.setTransform(sx, 0, 0, sy, sx < 0 ? w * 2 : 0, sy < 0 ? h * 2 : 0); g.drawImage(A.roadSoil, 0, 0); }
       }
-      const s = render.road.soilTileM / C.soilSource.width;
-      C.deepPat = ctx.createPattern(C.soilSource, 'repeat'); C.deepPat.setTransform(new DOMMatrix([s, 0, 0, -s, 0, 0]));
+      C.deepPat = screenPattern(C.soilSource, render.road.soilTileM / C.soilSource.width);
     }
     C.forestPat = ctx.createPattern(A.ground, 'repeat'); C.forestPat.setTransform(new DOMMatrix([0.004, 0, 0, -0.0012, 0, 0]));
   };
