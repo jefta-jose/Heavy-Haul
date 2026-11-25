@@ -126,7 +126,12 @@ const session = createSession({ sim, hud, season, progress, missions, onRestart:
 session.onResume = () => audio.resume();
 // ---------- the feel of a run: the hardest landings play in slow motion for a moment ----------
 let slowMoT = 0;
-{ const bump = audio.bump; audio.bump = (strength, massT) => { bump(strength, massT); if (session.state !== 'play') return; if (strength >= SLOWMO_BUMP) slowMoT = SLOWMO_SECONDS; }; }
+// Slow motion only for landing a real jump (Big Air, session.js), and only a hard landing: on every hard bump it made a
+// roller section stutter like lag (user, 2026-11-25). The landing's bump (vehicle audio) and the paid jump come a frame apart,
+// whichever of the two comes first is kept for a moment, and the slow motion starts when both have come.
+let hardLandT = 0, jumpEndT = 0;
+const landed = () => { if (hardLandT > 0 && jumpEndT > 0 && session.state === 'play') { slowMoT = SLOWMO_SECONDS; hardLandT = jumpEndT = 0; } };
+{ const bump = audio.bump; audio.bump = (strength, massT) => { bump(strength, massT); if (strength >= SLOWMO_BUMP) { hardLandT = 0.15; landed(); } }; }
 // ---------- the ghost of the best run, and the storm that sometimes rolls in ----------
 const ghost = createGhost();
 // fx: this run's ghost ({ data, car }), where its storm starts (null: none) and how heavy it is now (0 to 1)
@@ -165,7 +170,7 @@ session.onDelivered = run => {
 };
 session.onBog = () => achievements.count('bogs');
 session.onCrush = () => achievements.count('crushes');
-session.onAir = t => { if (t >= 2) achievements.set('bigAir', 1); };
+session.onAir = t => { if (t >= 2) achievements.set('bigAir', 1); jumpEndT = 0.15; landed(); };
 session.onMission = done => { if (done.mission.daily) achievements.count('dailies'); };
 // purchases Google refunded are taken back (refunds.js; off until PLAY_REFUNDS_URL is set)
 garage.shop.ready.then(() => checkRefunds(garage.shop)).then(taken => { if (taken.length) garage.seasonChanged(); });
@@ -233,7 +238,7 @@ const input = createInput(hud.els, {
 });
 
 function newRun() {
-  ghost.stop();
+  ghost.stop(); applyQuality();
   sim.init(sim.trail.start, selection); session.reset(); trap.reset(); hud.resetTrip(); startFx(); audio.preparePower?.(selection.car.power);
   drive(sim.main);
   sim.ctl.auto = true; setGear('L'); sim.ctl.awd = false; sim.ctl.diff = false; hud.showMode('awd', false); hud.showMode('diff', false);
@@ -255,7 +260,7 @@ function askToNotify() {
   document.getElementById('notifyLater').onclick = () => done(false);
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden && !resetting) { notify.schedule(); if (cloudChecked) cloud.save(true); } });
-function openGarage() { ghost.stop(); achievements.sync(); setTimeout(askToNotify, 700); setTimeout(showStreak, 500); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); if (cloudLater) checkCloud(); else if (cloudChecked) cloud.save(); }
+function openGarage() { ghost.stop(); applyQuality(); achievements.sync(); setTimeout(askToNotify, 700); setTimeout(showStreak, 500); trap.reset(); renderer.clearTracks(); session.state = 'garage'; audio.suspend(); garage.show(); music.play('garage'); if (cloudLater) checkCloud(); else if (cloudChecked) cloud.save(); }
 
 // ---------- loading screens: the heavy work happens behind them, and the bar reports it ----------
 const until = (test, ms) => new Promise(r => { const t0 = performance.now(); const poll = () => test() || performance.now() - t0 > ms ? r() : requestAnimationFrame(poll); poll(); });
@@ -397,14 +402,27 @@ function showStreak() {
 }
 
 // ---------- loop ----------
-// Physics runs at a fixed 120 Hz; rendering follows the display, drawn between steps (interpolate.js). If frames run long for a few
-// seconds the canvas resolution steps down, and after a long steady spell it climbs back. Start-up frames are slow while art caches build, so
-// adaptation waits 5 s, and the resize happens before drawing (resizing clears the canvas).
+// Physics runs at a fixed 120 Hz; rendering follows the display, drawn between steps (interpolate.js). The canvas resolution
+// (view.quality) follows how fast this device draws: it steps down after a few seconds of long frames and climbs back after a
+// long smooth spell. A change rebuilds every cached sprite at the new size, a freeze of about a quarter of a second on a phone
+// (2026-11-25: the "lags" all over the map were these, stepping up after 20 s and down again), so during a drive it is only
+// noted and is applied at the next run's start or in the garage, behind a loading screen. Only a device far too slow to play
+// (under 35 fps for 3 s) is stepped down at once, once a run. The level is kept on this device for the next launch.
 const DT = 1 / 120, TOUCH = matchMedia('(pointer: coarse)').matches;
 const MIN_QUALITY = TOUCH ? 0.8 : 0.6;   // a phone stays this sharp even if it can't hold 50 fps
+const QUALITY_KEY = 'haul.quality';
 let last = performance.now(), acc = 0, slowT = 0, frameAvg = 1 / 60, pendingResize = false;
-// a climb that soon has to step down again means this phone can't hold it: wait twice as long next time
-let steadyT = 0, climbAfter = 20, climbedAt = -Infinity;
+// a climb that soon has to step down again means this device can't hold it: wait twice as long next time
+let steadyT = 0, climbAfter = 20, climbedAt = -Infinity, wantQuality = 1, adaptedThisRun = false, rescuedThisRun = false;
+try { const q = Number(localStorage.getItem(QUALITY_KEY)); if (q >= MIN_QUALITY && q <= 1) view.quality = wantQuality = q; } catch (e) {}
+// the quality noted during the last drive, applied now (a run start or the garage): the camera stays where it is
+function applyQuality() {
+  adaptedThisRun = rescuedThisRun = false; slowT = steadyT = 0; frameAvg = 1 / 60;
+  if (Math.abs(wantQuality - view.quality) < 1e-6) return;
+  view.quality = wantQuality; pendingResize = false;
+  const { x, y, vx, vy } = view.cam; resize(); Object.assign(view.cam, { x, y, vx, vy });
+  try { localStorage.setItem(QUALITY_KEY, String(wantQuality)); } catch (e) {}
+}
 function adapt(dt) {
   if (session.state !== 'play' || session.run.time < 5) { frameAvg = 1 / 60; slowT = 0; steadyT = 0; return; }
   frameAvg += (dt - frameAvg) * 0.05;
@@ -412,11 +430,19 @@ function adapt(dt) {
   const slow = TOUCH ? 1 / 50 : 1 / 40;
   slowT = frameAvg > slow ? slowT + dt : Math.max(0, slowT - dt);
   steadyT = frameAvg < 1 / 55 ? steadyT + dt : 0;
+  if (!rescuedThisRun && frameAvg > 1 / 35 && slowT > 3 && view.quality > MIN_QUALITY) {
+    // far too slow to drive: one step down now, despite the freeze
+    rescuedThisRun = adaptedThisRun = true; wantQuality = view.quality = Math.max(MIN_QUALITY, view.quality - 0.15);
+    slowT = steadyT = 0; frameAvg = 1 / 60; pendingResize = true;
+    try { localStorage.setItem(QUALITY_KEY, String(wantQuality)); } catch (e) {}
+    return;
+  }
+  if (adaptedThisRun) return;   // one decision a run; it takes effect at the next start
   if (slowT > (TOUCH ? 2 : 3) && view.quality > MIN_QUALITY) {
     if (performance.now() - climbedAt < 30000) climbAfter *= 2;
-    view.quality = Math.max(MIN_QUALITY, view.quality - 0.15); slowT = steadyT = 0; frameAvg = 1 / 60; pendingResize = true;
+    wantQuality = Math.max(MIN_QUALITY, view.quality - 0.15); adaptedThisRun = true;
   } else if (steadyT > climbAfter && view.quality < 1) {
-    view.quality = Math.min(1, view.quality + 0.1); steadyT = 0; climbedAt = performance.now(); pendingResize = true;
+    wantQuality = Math.min(1, view.quality + 0.1); climbedAt = performance.now(); adaptedThisRun = true;
   }
 }
 let lastGear = 'L';
@@ -432,7 +458,7 @@ function frame(now) {
   // no clock, rewards, speed cameras or pedals until the screen is gone, or timed contracts lost seconds the player never saw.
   const covered = loader.visible;
   // slow motion after the hardest landings: the physics and the run's clock run slower for a moment
-  const scale = slowMoT > 0 ? SLOWMO_SCALE : 1; slowMoT -= dt;
+  const scale = slowMoT > 0 ? SLOWMO_SCALE : 1; slowMoT -= dt; hardLandT -= dt; jumpEndT -= dt;
   const simDt = dt * scale;
   if (playing) {
     const held = covered ? { gas: 0, brake: 0 } : input.read();

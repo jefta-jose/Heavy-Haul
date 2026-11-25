@@ -235,10 +235,16 @@ export function createHud({ sim, season }) {
   }
   function showHandbrake() {}   // no PARK button any more; kept so callers need not care
   // a bonus floats up off the coin counter, which gives a little pop
+  // Bonuses close together (a run of crushed branches) share one float, its sum counting up, and one pop: restarting the
+  // animations read the layout back (offsetWidth) twice per bonus, which on a phone stalled the frames on rock and dirt.
+  let lastFloat = null, lastFloatAt = -1e9, floatSum = 0;
   function coinBonus(n) {
-    const pill = els.coinTxt.parentElement; pill.classList.remove('pop'); void pill.offsetWidth; pill.classList.add('pop');
-    const coin = pill.querySelector('.coinic'); coin.classList.remove('flip'); void coin.offsetWidth; coin.classList.add('flip');
-    const f = document.createElement('span'); f.className = 'coinfloat'; f.textContent = `+${formatCoins(Math.round(n))}`; pill.append(f);
+    const pill = els.coinTxt.parentElement, now = performance.now();
+    if (lastFloat?.isConnected && now - lastFloatAt < 350) { floatSum += n; lastFloat.textContent = `+${formatCoins(Math.round(floatSum))}`; return; }
+    lastFloatAt = now; floatSum = n;
+    const coin = pill.querySelector('.coinic');
+    pill.classList.remove('pop'); coin.classList.remove('flip'); void pill.offsetWidth; pill.classList.add('pop'); coin.classList.add('flip');   // one layout read restarts both
+    const f = lastFloat = document.createElement('span'); f.className = 'coinfloat'; f.textContent = `+${formatCoins(Math.round(n))}`; pill.append(f);
     f.addEventListener('animationend', () => f.remove());
   }
   function showGear(g) { for (const b of document.querySelectorAll('.gear button')) b.classList.toggle('on', b.dataset.g === g); }
@@ -265,11 +271,15 @@ export function createHud({ sim, season }) {
   let switchFade = 0;
   const calloutBox = $('callout'), ghostChip = $('ghostChip');
   // how far the ghost of the best run is ahead (or behind), in metres; null hides it
+  // called every frame: the page is touched only when the chip changes, or each frame restyled the HUD (a phone's frame time)
+  let ghostShown = null;
   function showGhost(gap) {
-    ghostChip.hidden = gap == null; if (gap == null) return;
-    const m = Math.round(Math.abs(gap));
+    const m = gap == null ? null : Math.round(Math.abs(gap)), text = m == null ? '' : m < 2 ? 'Neck and neck with your best' : gap > 0 ? `Best run ${m} m ahead` : `${m} m ahead of your best`;
+    const shown = m == null ? null : `${gap < 0}|${text}`;
+    if (shown === ghostShown) return; ghostShown = shown;
+    ghostChip.hidden = m == null; if (m == null) return;
     ghostChip.classList.toggle('ahead', gap < 0);
-    ghostChip.firstElementChild.textContent = m < 2 ? 'Neck and neck with your best' : gap > 0 ? `Best run ${m} m ahead` : `${m} m ahead of your best`;
+    ghostChip.firstElementChild.textContent = text;
   }
 
   return {
