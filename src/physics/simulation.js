@@ -272,7 +272,7 @@ export function createSimulation(pl, { season, rockHulls, wheelTypes = {} }) {
   function stepVehicle(v, dt) {
     const { ctl, st, car } = v, { truck, wheels, joints } = v.parts, dc = car.drivetrain;
     // a fully upgraded truck can't get stuck only with AWD and DIFF on: without them mud holds it and logs stop it like any other
-    v.tireData.neverStuck = !!(v.tireData.fullyTuned && ctl.awd && ctl.diff) || destroying(v);   // Destroyer ploughs through mud like a maxed truck
+    v.tireData.neverStuck = !!(v.tireData.fullyTuned && ctl.awd && ctl.diff);   // Destroyer smashes obstacles but drives mud like any truck (user, 2026-11-25: no extra speed)
     const vel = truck.getLinearVelocity();
     const ang = truck.getAngle();
     const fwd = vel.x * Math.cos(ang) + vel.y * Math.sin(ang);
