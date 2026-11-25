@@ -20,6 +20,11 @@ const CAPTURES = process.env.HAUL_CAPTURES || path.join(ROOT, 'output/captures')
 // these runs drive many trucks: start them at the top rank with every truck owned (the rank and buying flow is tested on its own)
 const ALL_OWNED = JSON.stringify({ xp: 60000, owned: JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/cars/cars.json'), 'utf8')).cars.map(c => c.id) });
 const ownAll = page => page.addInitScript(v => { try { localStorage.setItem('hh_progress', v); } catch (e) {} }, ALL_OWNED);
+// today's daily reward already taken: its popup opens over the garage a moment after load and would catch taps and drags
+const rewardTaken = page => page.addInitScript(() => {
+  const d = new Date(), day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  try { if (!localStorage.getItem('hh_streak')) localStorage.setItem('hh_streak', JSON.stringify({ last: day, day: 1 })); } catch (e) {}
+});
 
 test('supplied UI sounds route to buttons, purchases and run outcomes', { timeout: 120000 }, async () => {
   await buildApp();
@@ -36,6 +41,7 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true });
+    await rewardTaken(page);
     await page.addInitScript(() => {
       localStorage.setItem('hh_wallet', '1000000');
       localStorage.setItem('hh_progress', JSON.stringify({ xp: 60000, owned: [] }));
@@ -70,7 +76,8 @@ test('supplied UI sounds route to buttons, purchases and run outcomes', { timeou
     await tap('#startBtn', 'ui-buy');
     assert(await page.evaluate(id => __haul.progress.owns(id), purchased), 'the buy cue follows a successful car purchase');
     await tap('#gMenuTune');
-    await tap('.tbuy:not([aria-disabled]):not(:disabled) >> nth=0', 'ui-buy');
+    await page.waitForTimeout(800);   // PLAY is held a moment after a purchase, so a spam tap cannot start the run
+    await tap('#startBtn', 'ui-buy');   // on the Upgrade page PLAY buys the middle card's next level
     await tap('#hcVehicle');   // pages are left from the bottom bar (no Done button)
     await tap('#garageSoundBtn');
     assert(await page.locator('#vol-effects').isVisible(), 'effects volume is adjustable');
@@ -145,7 +152,7 @@ test('the app build loads its art and audio from separate files', { timeout: 120
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 844, height: 390 }, hasTouch: true }), errors = [];
-    await ownAll(page);
+    await ownAll(page); await rewardTaken(page);
     page.on('pageerror', e => errors.push(e.stack || e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
@@ -213,7 +220,7 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, hasTouch: true }), errors = [];
-    await ownAll(page);
+    await ownAll(page); await rewardTaken(page);
     page.on('pageerror', e => errors.push(e.stack || e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));   // offline
@@ -261,42 +268,49 @@ test('the game loads, drives and fits every viewport', { timeout: 900000 }, asyn
     await page.locator('.g-class', { hasText: 'Scouts' }).click();
     await capture('00-garage');
     // tuning sits in the garage's panel: four knobs, each can go to 100 in steps of 25; the run uses the tuned car
-    assert(!await page.locator('.tune').first().isVisible(), 'the upgrades stay out of the way until asked for');
+    // Upgrade, Missions and Shop are rows of cards like the trucks (user, 2026-11-24); PLAY does what the middle card offers
+    const tunes = page.locator('.pagecard', { has: page.locator('.pc-tune') }), powerCards = page.locator('.pagecard', { has: page.locator('.pc-power') });
+    const missionCards = page.locator('.pagecard', { has: page.locator('.pc-mission') }), offers = page.locator('.pagecard', { has: page.locator('.pc-offer') });
+    assert(!await tunes.first().isVisible(), 'the upgrades stay out of the way until asked for');
     await page.click('#gMenuTune');
-    assert(await page.locator('.tune').first().isVisible(), 'the knobs are on the Upgrades card');
+    assert(await tunes.first().isVisible(), 'the knobs are on the Upgrades card');
     const stockPower = await page.evaluate(() => __haul.garage.selection.car.drivetrain.torqueScale);
-    assert.deepEqual(await page.locator('.tune .tname').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
+    assert.deepEqual(await tunes.locator('.hc-label').allTextContents(), ['Engine', 'Suspension', 'Speed', 'Grip']);
     // Shop, Missions and Upgrade are decks (user, 2026-11-24): a tap on a side card only brings it to the middle
     const toMiddle = async card => {
       if (await card.evaluate(e => e.classList.contains('mid'))) return;
       await card.click({ position: { x: 6, y: 6 } });
       await page.waitForFunction(e => e.classList.contains('mid'), await card.elementHandle()); await page.waitForTimeout(400);
     };
-    const engine = page.locator('.tune', { hasText: 'Engine' }), plus = row => row.locator('.tbuy');
-    for (let i = 0; i < 2; i++) await plus(engine).click();
-        assert.equal(await engine.locator('.tbar').getAttribute('aria-valuenow'), '50');
+    const level = row => row.locator('.pip.on').count(), play = () => page.click('#startBtn');
+    const engine = tunes.filter({ hasText: 'Engine' });
+    for (let i = 0; i < 2; i++) await play();
+    assert.equal(await level(engine), 2, 'PLAY buys the middle card\'s next step');
     for (const name of ['Suspension', 'Speed', 'Grip']) {
-      const row = page.locator('.tune', { hasText: name });
+      const row = tunes.filter({ hasText: name });
       await toMiddle(row);
-      for (let i = 0; i < 4; i++) await plus(row).click();
-      assert.equal(await row.locator('.tbar').getAttribute('aria-valuenow'), '100', `${name}: four taps to 100`);
-      assert(await plus(row).isDisabled(), `${name} stops at 100`);
+      assert.match(await page.locator('#startBtn').innerText(), /^\s*[\d.]+K?\s*$/, `${name}: PLAY shows only the price`);
+      for (let i = 0; i < 4; i++) await play();
+      assert.equal(await level(row), 4, `${name}: four taps to 100`);
+      assert.match(await page.locator('#startBtn').innerText(), /play/i, `${name} stops at 100: PLAY again`);
+      assert(await page.locator('#startBtn').isDisabled(), 'held a moment, so a fifth quick tap does not start the run');
     }
     await capture('00b-tuning');
     await page.click('#hcVehicle');
     // powers, on the Upgrade card: one at a time, kept until another is chosen, and tapping the one that is on turns it off
-    assert(!await page.locator('.power').first().isVisible(), 'the powers stay out of the way until asked for');
+    assert(!await powerCards.first().isVisible(), 'the powers stay out of the way until asked for');
     await page.click('#gMenuTune');
-    await toMiddle(page.locator('.power', { hasText: 'Invincible' })); await page.locator('.power', { hasText: 'Invincible' }).click();
-    await toMiddle(page.locator('.power', { hasText: 'Nitro' })); await page.locator('.power', { hasText: 'Nitro' }).click();
-    assert.equal(await page.locator('.power.on').count(), 1, 'only one power is on');
+    await page.locator('#tuneTabs button', { hasText: 'Powers' }).click();
+    await toMiddle(powerCards.filter({ hasText: 'Invincible' })); await play();
+    await toMiddle(powerCards.filter({ hasText: 'Nitro' })); await play();
+    assert.equal(await page.locator('.pagecard.on .pc-power').count(), 1, 'only one power is on');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'the run uses the chosen power');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('hh_powers'))[__haul.garage.selection.car.id]), 'nitro', 'and it is kept');
     assert.equal(await page.evaluate(() => { const id = __haul.garage.selection.car.id, other = id === 'ridge-pup-2' ? 'mire-lark-1' : 'ridge-pup-2', p = __haul.garage.select(other).car.power; __haul.garage.select(id); return p; }), undefined, 'another truck has its own, none yet');
     assert.equal(await page.evaluate(() => __haul.garage.selection.car.power), 'nitro', 'and coming back finds it still on');
     await capture('00c-powers');
-    await page.locator('.power', { hasText: 'Nitro' }).click();
-    assert.equal(await page.locator('.power.on').count(), 0, 'tapping it again turns it off');
+    await powerCards.filter({ hasText: 'Nitro' }).click();
+    assert.equal(await page.locator('.pagecard.on .pc-power').count(), 0, 'tapping the one that is on turns it off');
     await page.click('#hcVehicle');
     assert(await page.evaluate(() => __haul.session.coins < 999999), 'upgrades cost coins');
     await page.click('#startBtn'); await page.waitForFunction(() => __haul.session.state === 'play'); await page.waitForTimeout(500);
@@ -566,6 +580,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
   const browser = await chromium.launch({ headless: true, executablePath: process.env.HAUL_CHROMIUM || undefined, args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, hasTouch: true }), errors = [];
+    await rewardTaken(page);
     page.on('pageerror', e => errors.push(e.stack || e.message));
     // Shop, Missions and Upgrade are decks (user, 2026-11-24): a tap on a side card only brings it to the middle
     const toMiddle = async card => {
@@ -591,7 +606,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.match(await page.locator('.hc-card.mid').innerText(), /locked/i, 'and its card says it is locked');
     await page.evaluate(([price, xp]) => { __haul.progress.addXp(xp); __haul.session.earn(price * 2, true); __haul.garage.show(); }, [next.price, RANK_XP[next.unlockRank - 1] + 50]);
     assert.equal((await p()).rank, next.unlockRank, 'XP brings the rank it needs');
-    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'now it can be bought');
+    assert.equal((await page.locator('#startBtn').innerText()).trim(), formatCoins(next.price), 'now it can be bought: PLAY shows only the price');
     assert.match(await page.locator('.hc-card.mid').innerText(), new RegExp(formatCoins(next.price).replace('.', '\\.')), 'its card shows the price');
     const coins = await page.evaluate(() => __haul.session.coins);
     await page.click('#startBtn');
@@ -599,36 +614,37 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.equal(await page.evaluate(() => __haul.session.coins), coins - next.price, 'for its price');
     assert.match(await page.locator('#startBtn').innerText(), /play/i, 'and it drives');
     assert.match(await page.locator('#gRankNum').innerText(), needs, 'the garage shows the rank');
-    // A sale-value refresh used to replace the tuning object retained by these buttons.
-    // Buy on a non-starter, with no delay between clicks, and check every debit against saved levels.
+    // Upgrades are bought with PLAY, which shows the middle card's next price. Rapid taps on a non-starter: every debit must
+    // match the saved levels, and once the knob is full the next taps buy nothing.
     await page.click('#gMenuTune');
     const purchaseCoins = await page.evaluate(() => __haul.session.coins);
     await page.setViewportSize({ width: 844, height: 390 });
-    for (let i = 0; i < 2; i++) await page.locator('.tune .tbuy').first().tap();
-    assert.equal(await page.locator('.tune .tbar').first().getAttribute('aria-valuenow'), '50', 'successive phone taps apply both upgrades');
+    for (let i = 0; i < 2; i++) await page.locator('#startBtn').tap();
+    const engineCard = page.locator('.pagecard', { has: page.locator('.pc-tune') }).filter({ hasText: 'Engine' });
+    assert.equal(await engineCard.locator('.pip.on').count(), 2, 'successive phone taps apply both upgrades');
     assert.equal(await page.evaluate(() => __haul.session.coins), purchaseCoins - upgradeCost(next, 0, 50), 'phone taps charge only for applied upgrades');
     await page.locator('#tuneReset').tap();
     const purchaseTrace = await page.evaluate(() => {
-      const trace = [], retired = [];
+      const trace = [], play = document.getElementById('startBtn');
       for (let i = 0; i < 4; i++) {
-        const button = document.querySelector('.tune .tbuy'); retired.push(button); button.click();
+        play.click();
         trace.push({ coins: __haul.session.coins, level: __haul.garage.selection.car.levels.engine,
           saved: JSON.parse(localStorage.getItem('hh_tuning_levels'))[__haul.garage.selection.car.id].engine });
       }
-      // Events already targeting an old button must not charge again or refund twice.
+      // spam after the last step: PLAY is held (PLAY_LOCK_MS), so these neither spend coins nor start the run
       const before = __haul.session.coins;
-      for (const button of retired) { button.click(); button.click(); }
-      return { trace, before, after: __haul.session.coins };
+      for (let i = 0; i < 4; i++) play.click();
+      return { trace, before, after: __haul.session.coins, state: __haul.session.state };
     });
     for (let i = 0; i < 4; i++) {
       const level = (i + 1) * 25;
       assert.deepEqual(purchaseTrace.trace[i], { coins: purchaseCoins - upgradeCost(next, 0, level), level, saved: level }, 'each rapid purchase applies and saves exactly the level paid for');
     }
-    assert.equal(purchaseTrace.after, purchaseTrace.before, 'retired buttons cannot spend coins');
-    assert(await page.locator('.tune .tbuy').first().isDisabled(), 'max level blocks further purchases');
+    assert.equal(purchaseTrace.after, purchaseTrace.before, 'taps past the top spend nothing');
+    assert.equal(purchaseTrace.state, 'garage', 'and do not start a run');
     const refundTrace = await page.evaluate(() => {
-      const button = document.querySelector('.tune .tminus'); button.click();
-      const before = __haul.session.coins; button.click(); button.click();
+      const minus = [...document.querySelectorAll('.pagecard.mid .pc-minus')][0]; minus.click();
+      const before = __haul.session.coins; minus.click(); minus.click();   // the old card's button, replaced after the sale
       return { before, after: __haul.session.coins, level: __haul.garage.selection.car.levels.engine };
     });
     assert.equal(refundTrace.before, purchaseCoins - upgradeCost(next, 0, 75), 'selling a step refunds only that step');
@@ -640,9 +656,10 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.setViewportSize({ width: 1280, height: 720 });
     // missions: the card offers some, one can be chosen, and the menu says which
     await page.click('#gMenuMissions');
-    assert.equal(await page.locator('#missionList .power').count(), 4, 'four missions on offer');
-    await toMiddle(page.locator('#missionList .power').nth(1)); await page.locator('#missionList .power').nth(1).click();
-    assert.equal(await page.locator('#missionList .power.on').count(), 1, 'one chosen');
+    const missionCards = page.locator('.pagecard', { has: page.locator('.pc-mission') });
+    assert(await missionCards.count() >= 4, 'missions on offer (the daily and weekly challenges among them)');
+    await toMiddle(missionCards.nth(1)); await page.click('#startBtn');   // PLAY says CHOOSE on a mission
+    assert.equal(await page.locator('.pagecard.on .pc-mission').count(), 1, 'one chosen');
     await page.screenshot({ path: path.join(CAPTURES, '00f-missions.png') });
     await page.click('#hcVehicle');
     assert(await page.evaluate(() => !!__haul.missions.active), 'the chosen mission is kept');
@@ -656,15 +673,19 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     assert.deepEqual(await page.locator('.shop-tab').allTextContents(), ['Featured', 'Coins', 'Ranks'], 'no single-truck tab');
     const topHeavy = await page.evaluate(() => __haul.garage.shop.offers('featured').find(o => o.id === 'bundle_top_five').gives.trucks.at(-1));
     assert(!(await page.evaluate(id => __haul.progress.isOpen(id), topHeavy)), 'its rank is not reached');
-    await toMiddle(page.locator('.sitem', { hasText: 'Top of every class' })); await page.locator('.sitem', { hasText: 'Top of every class' }).locator('.sbuy').click();
+    const offers = page.locator('.pagecard', { has: page.locator('.pc-offer') });
+    // cards further than the neighbours are not drawn: step the row with the arrow keys until it is in the middle
+    for (let i = 0; i < 12 && !/top of every class/i.test(await page.locator('.pagecard.mid:has(.pc-offer)').first().innerText().catch(() => '')); i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500); }
+    await page.waitForTimeout(400); await page.click('#startBtn');   // PLAY shows the price
     await page.waitForFunction(id => __haul.progress.owns(id), topHeavy);
     await page.screenshot({ path: path.join(CAPTURES, '00h-shop.png') });
     await page.click('#hcVehicle');
     // maps: two are free, the others are bought once for 100K coins on the Seasons page, where PLAY becomes BUY
     await page.evaluate(() => { __haul.session.earn(250000, true); __haul.garage.show(); });
     await page.click('#hcSeasons');
-    for (let i = 0; i < 10 && !/buy/i.test(await page.locator('#startBtn').innerText()); i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(700); }
-    assert.match(await page.locator('#startBtn').innerText(), /buy/i, 'a map not owned offers BUY');
+    const priced = async () => /^\s*100K\s*$/.test(await page.locator('#startBtn').innerText());
+    for (let i = 0; i < 10 && !await priced(); i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(700); }
+    assert(await priced(), 'a map not owned: PLAY shows its price');
     const mapBefore = await page.evaluate(() => __haul.garage.seasonId), coinsBefore = await page.evaluate(() => __haul.session.coins);
     await page.screenshot({ path: path.join(CAPTURES, '00i-buy-map.png') });
     await page.click('#startBtn');
@@ -683,7 +704,7 @@ test('ranks: a fresh garage owns only the starters, shows the rank a truck needs
     await page.click('#hcVehicle').catch(() => {});
     await page.click('#gCoinsBox');
     const coins0 = await page.evaluate(() => __haul.session.coins);
-    await page.locator('.sitem .sbuy').first().click();
+    await page.waitForTimeout(600); await page.click('#startBtn');   // the coin packs: PLAY buys the middle one
     await page.waitForFunction(c => __haul.session.coins > c, coins0);
     await page.click('#hcVehicle');
     assert.deepEqual(errors, []);

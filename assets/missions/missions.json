@@ -159,12 +159,9 @@
     ]
   ],
   "featured": {
-    "about": "One hand-written contract per map is always on offer while that map is chosen (src/game/missions.js). `goal` and `twists` use the same kinds as above; targets are still sized to the trail. Each pays `xp` times a normal contract of its difficulty and `coins` on top.",
+    "about": "One hand-written contract per map is always on offer while that map is chosen (src/game/missions.js). `goal` and `twists` use the same kinds as above; targets are still sized to the trail. Each pays `xp` times a normal contract of its difficulty and, the first time round the map's list only, `coins` on top.",
     "xp": 1.5,
-    "coins": [
-      6000,
-      14000
-    ],
+    "coins": [1500, 3000],
     "maps": {
       "swamp-summer": [
         {
@@ -323,10 +320,7 @@
   "signature": {
     "about": "Every truck has a signature haul on its home map: its own load (or, empty, a run of the whole trail) for a named client. Homes are worked out in src/game/missions.js from each map's `likes` (words in the load's name and the truck's biomes), spread so every map gets its share, and free starters stay on free maps. Shown when that truck is chosen on its home map; the first completion pays `coins` times the truck's price share and `xp` times a normal contract; later ones pay like any contract.",
     "xp": 1.3,
-    "firstCoins": [
-      5000,
-      60000
-    ],
+    "firstCoins": [1000, 10000],
     "likes": {
       "swamp-summer": {
         "loads": [

@@ -1,7 +1,7 @@
 import { formatCoins } from './format.js';
 // One run of a trail: checkpoints, hints, rollover, empty tank, delivery pay (the trail
 // bonus plus the value of the load the truck carries) and the coin wallet kept in localStorage.
-import { CRASH_SECONDS, CRASH_TURNING, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, AIR_MIN_KMH, AIR_MIN_HEIGHT_M, COINS_PER_AIR_S, CRUSH_STREAK_S } from '../game-config.js';
+import { CRASH_SECONDS, CRASH_TURNING, COINS_PER_METRE, COINS_PER_BOG, XP_PER_METRE, XP_PER_BOG, XP_PER_DELIVERY, AIR_MIN_S, AIR_MIN_KMH, AIR_MIN_HEIGHT_M, COINS_PER_AIR_S, CRUSH_STREAK_S, LOAD_PAY_BASE, LOAD_PAY_PER_T } from '../game-config.js';
 import { wheelRadius } from '../physics/vehicle.js';
 import { classXp } from './progress.js';
 import { wallet } from './wallet.js';
@@ -76,7 +76,7 @@ export function createSession({ sim, hud, season, progress, missions, onRestart,
   }
   function deliver() {
     api.state = 'done';
-    const load = sim.main.car.load, loadPay = load ? Math.round(300 + load.massT * 160) : 0, pay = trail.finishBonus + loadPay;
+    const load = sim.main.car.load, loadPay = load ? Math.round(LOAD_PAY_BASE + load.massT * LOAD_PAY_PER_T) : 0, pay = trail.finishBonus + loadPay;
     wallet.add(pay);
     gainXp(XP_PER_DELIVERY, true);
     api.persist();

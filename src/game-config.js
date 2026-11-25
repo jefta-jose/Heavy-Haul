@@ -90,17 +90,24 @@ export const CLASS_LADDER = {
 export const RANK_XP = [0, 300, 675, 1150, 1725, 2350, 3075, 3900, 4800, 5775, 6850, 8000, 9250, 10575, 11975, 13475, 15050, 16725, 18475, 20300, 22225, 24250, 26325, 28525, 30775, 33125, 35575, 38075, 40700, 43375, 46150, 49025, 51975, 55000, 58125, 61325, 64625, 68000, 71450, 75000];
 export const FREE_STARTER_SHARE = 1 / 20;    // 3 free trucks in a class of 41 to 60
 export const STARTING_RANK = 1;              // local testing value; manually reset to 1 for Google Play
-export const XP_PER_METRE = 0.035;            // for new ground, as the truck gets further along the trail
-export const XP_PER_BOG = 10;                 // for getting through a deep bog
-export const XP_PER_DELIVERY = 100;           // for reaching the depot
-export const MISSION_BASE_XP = 50;           // a mission pays this x (difficulty 0.6 to 1.8 + twist shares + lock share) x class: about 40 to 150 XP
+export const XP_PER_METRE = 0.02;             // for new ground, as the truck gets further along the trail (about 80 XP for a whole trail)
+export const XP_PER_BOG = 5;                  // for getting through a deep bog
+export const XP_PER_DELIVERY = 75;            // for reaching the depot
+export const MISSION_BASE_XP = 30;           // a mission pays this x (difficulty 0.6 to 1.8 + twist shares + lock share) x class: about 25 to 90 XP
 export const XP_BY_CLASS = { scout: 1, highway: 1.15, 'heavy-duty': 1.3, offroad: 1.45, heavy: 1.6 };   // harder classes earn more
 
 // ---------- coins ----------
+// The balance (user, 2026-11-25: "coins and XP only enough to upgrade cars; strike a balance that favours the shop"):
+// a whole run pays about 2K coins in a scout and 5K in a heavy truck with a big load, and 200 to 400 XP. Fully upgrading a
+// truck (UPGRADE_STEP_COSTS x 4 knobs: 20K for a scout, 60K for a heavy) takes about 9 to 12 runs. Trucks (6K to 200K),
+// maps (100K) and ranks are mostly the shop's: the $0.99 coin pack is about 11 scout runs, a 100K map about 45, and rank 40
+// about 250 runs.
 export const STARTING_COINS = 20000;              // local testing value; manually reset to 20000 for Google Play
-export const COINS_PER_METRE = 0.5;           // added by themselves as the truck gets further along the trail
-export const COINS_PER_CRUSH = 5;             // for each thing crushed
-export const COINS_PER_BOG = 50;              // for getting through a deep bog
+export const COINS_PER_METRE = 0.15;          // added by themselves as the truck gets further along the trail (about 600 for a whole trail)
+export const COINS_PER_CRUSH = 2;             // for each thing crushed
+export const COINS_PER_BOG = 20;              // for getting through a deep bog
+export const LOAD_PAY_BASE = 100;             // a delivered load pays this, plus
+export const LOAD_PAY_PER_T = 25;             // this per tonne of load (a 1 t scout load about 125, a 120 t heavy load about 3,100)
 // What each of an upgrade's four steps costs, and how much more it costs per class.
 export const UPGRADE_STEP_COSTS = [400, 800, 1400, 2400];
 export const UPGRADE_COST_BY_CLASS = { scout: 1, highway: 1.5, 'heavy-duty': 1.5, offroad: 2, heavy: 3 };
@@ -262,7 +269,7 @@ export const SLOWMO_SCALE = 0.45, SLOWMO_SECONDS = 0.35;
 export const AIR_MIN_S = 0.8;
 export const AIR_MIN_KMH = 45;
 export const AIR_MIN_HEIGHT_M = 0.8;
-export const COINS_PER_AIR_S = 40;            // and pays this a second in the air
+export const COINS_PER_AIR_S = 15;            // and pays this a second in the air
 export const CRUSH_STREAK_S = 2.5;            // things crushed this close together make a streak; 3 or more get a call-out
 
 // ---------- ghost of the best run ----------
@@ -279,9 +286,9 @@ export const STORM_RAIN = 0.9;                // rain density at its heaviest
 export const WET_MUD_GRIP_LOSS = 0.15;        // mud grip lost in full rain (a fully upgraded truck keeps its never-stuck grip)
 
 // ---------- coming back every day ----------
-export const DAILY_COINS = 15000;             // the daily challenge (one contract a day, among the missions)
-export const WEEKLY_COINS = 60000;            // the weekly challenge (harder: two twists)
-export const STREAK_COINS = [2000, 3000, 4000, 6000, 8000, 10000, 25000];   // day 1 to 7 of coming back in a row; then it starts over
+export const DAILY_COINS = 2500;              // the daily challenge (one contract a day, among the missions)
+export const WEEKLY_COINS = 10000;            // the weekly challenge (harder: two twists)
+export const STREAK_COINS = [300, 500, 700, 1000, 1300, 1600, 4000];   // day 1 to 7 of coming back in a row; then it starts over (9,400 a week)
 
 // ---------- Google Play Games: leaderboards and achievements ----------
 // Ids come from Play Console (Grow > Play Games Services > Leaderboards / Achievements). An empty id is skipped, so nothing is

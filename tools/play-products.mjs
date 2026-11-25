@@ -1,4 +1,4 @@
-// The shop's catalogue as a CSV for Google Play Console (Monetize > Products > In-app products), one row per product:
+// The shop's catalogue as a CSV for Google Play Console (Monetize with Play > Products > One-time products), one row per product:
 // id, kind (every product is consumable), title, description, price in US dollars. Prices are the placeholder SHOP_* numbers
 // in src/game-config.js; Play converts them to local prices. Writes output/play-products.csv.
 //   node tools/play-products.mjs
@@ -17,7 +17,10 @@ const paidMaps = fs.readdirSync(seasonsDir).filter(id => fs.existsSync(path.join
 const maps = { ids: paidMaps, owns: () => false, grant() {} };
 const shop = createShop({ content: { ...content, cars: content.cars.map(c => ({ ...c, artUri: {} })) }, progress, wallet: { add() {}, coins: 0 }, storage: null, maps });
 const csv = v => `"${String(v).replace(/"/g, '""')}"`;
-const rows = shop.products().map(o => [o.id, 'consumable', o.title, o.sub, o.price.toFixed(2)]);
+// the Rookie pack's truck is the nearest Scout to SHOP_ROOKIE_TRUCK_RANK the player doesn't own, so Play's fixed description
+// can't name it: the garage card shows the actual truck
+const describe = o => o.id === 'bundle_rookie' ? o.sub.replace(/\+ .*$/, '+ a Scout truck') : o.sub;
+const rows = shop.products().map(o => [o.id, 'consumable', o.title, describe(o), o.price.toFixed(2)]);
 const out = path.join(ROOT, 'output/play-products.csv');
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, ['id,kind,title,description,price_usd', ...rows.map(r => r.map(csv).join(','))].join('\n') + '\n');

@@ -233,8 +233,10 @@ export function createMissions(data = {}, ctx = {}, store = typeof localStorage 
   // this map's featured contract: the next one of its list that has not been done here lately
   function featuredOffer() {
     const list = featured.maps?.[mapId()] ?? []; if (!list.length) return null;
-    const i = (state.featuredDone?.[mapId()] ?? 0) % list.length, [lo, hi] = featured.coins ?? [0, 0];
-    return storied(list[i], {}, { featured: true, coins: Math.round((lo + (hi - lo) * random()) / 500) * 500, id: `feat-${mapId()}-${i}-${Math.floor(random() * 2 ** 32).toString(36)}` });
+    // each written contract pays its coins the first time round the map's list only; repeats pay XP (user, 2026-11-25: runs
+    // must not out-earn the shop's coin packs)
+    const done = state.featuredDone?.[mapId()] ?? 0, i = done % list.length, [lo, hi] = featured.coins ?? [0, 0];
+    return storied(list[i], {}, { featured: true, coins: done < list.length ? Math.round((lo + (hi - lo) * random()) / 500) * 500 : 0, id: `feat-${mapId()}-${i}-${Math.floor(random() * 2 ** 32).toString(36)}` });
   }
   // a truck's signature haul, offered on its home map: its own load for one of that map's clients
   function signatureOffer(chosen) {

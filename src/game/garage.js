@@ -352,7 +352,15 @@ export function createGarage({ content, progress, missions, onSelect, onStart, o
   const midOf = (name, items) => i => { pageMid[name] = items[i]; renderPlay(); };
   {
     window.addEventListener('keydown', e => {
-      if (garageEl.hidden || document.querySelector('.garage .overlay:not([hidden])')) return;
+      if (garageEl.hidden) return;
+      // Upgrade, Missions and Shop are overlays on the stage with their own rows: the arrows move those, Escape closes them
+      const open = decks[garageEl.dataset.sheet];
+      if (open) {
+        if (e.key === 'ArrowLeft') open.go(-1); else if (e.key === 'ArrowRight') open.go(1);
+        else if (e.key === 'Escape') { sheet(null); render(); }
+        return;
+      }
+      if (document.querySelector('.garage .overlay:not([hidden])')) return;
       if (e.key === 'ArrowLeft') stepPage(-1); else if (e.key === 'ArrowRight') stepPage(1);
       else if (e.key === 'Escape' && page !== 'vehicle') go('vehicle');
     });

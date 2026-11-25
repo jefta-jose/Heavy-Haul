@@ -42,6 +42,8 @@ jobs:
           KEYSTORE: ${{ secrets.ANDROID_DEBUG_KEYSTORE }}
         run: |
           if [ -n "$KEYSTORE" ]; then echo "$KEYSTORE" | base64 -d > android/app/heavy-haul-debug.keystore
+            # the key's public fingerprint, for the Play Games credential of the test APK (deployment-step-by-step.md, Part 5)
+            keytool -list -v -keystore android/app/heavy-haul-debug.keystore -storepass android -alias androiddebugkey | grep 'SHA1:' || true
           else echo "::warning::ANDROID_DEBUG_KEYSTORE is not set: uninstall the previous build before installing this one"; fi
 
       - name: Build APK

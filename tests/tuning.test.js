@@ -366,4 +366,14 @@ test('missions: every map has featured contracts, and every truck a signature ha
   assert(done && done.coins === sig.coins, 'pays its coins');
   assert(m.signatureDone(car) && m.signatureCount.done === 1 && m.signatureCount.of === cars.length);
   assert.equal(m.signatureFor(car).coins, 0, 'the coin bonus is paid once');
+  // a featured contract pays coins the first time round its map's list only, then XP alone (user, 2026-11-25)
+  const map = seasons[0].id, list = data.featured.maps[map];
+  const saved = JSON.parse(store.v); saved.featuredDone = { [map]: list.length - 1 }; saved.offers = []; saved.maps = {}; store.v = JSON.stringify(saved);
+  cur = seasons[0];
+  const again = createMissions(data, { classes: content.roster.classes, trail: new Proxy({}, { get: (_, k) => cur.trail[k] }), mapId: () => cur.id, owned: () => cars, cars: () => cars, maps: () => maps }, store, random);
+  assert(again.offers.find(o => o.featured).coins > 0, 'the last new one still pays coins');
+  saved.featuredDone = { [map]: list.length }; store.v = JSON.stringify(saved);
+  const repeat = createMissions(data, { classes: content.roster.classes, trail: new Proxy({}, { get: (_, k) => cur.trail[k] }), mapId: () => cur.id, owned: () => cars, cars: () => cars, maps: () => maps }, store, random);
+  const f = repeat.offers.find(o => o.featured);
+  assert(f && f.coins === 0 && repeat.xpFor(f) > 0, 'a repeat pays XP only');
 });
