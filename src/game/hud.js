@@ -269,30 +269,17 @@ export function createHud({ sim, season }) {
 
   const switchOv = $('switchOv');
   let switchFade = 0;
-  const calloutBox = $('callout'), ghostChip = $('ghostChip');
-  // how far the ghost of the best run is ahead (or behind), in metres; null hides it
-  // called every frame: the page is touched only when the chip changes, or each frame restyled the HUD (a phone's frame time)
-  let ghostShown = null;
-  function showGhost(gap) {
-    const m = gap == null ? null : Math.round(Math.abs(gap)), text = m == null ? '' : m < 2 ? 'Neck and neck with your best' : gap > 0 ? `Best run ${m} m ahead` : `${m} m ahead of your best`;
-    const shown = m == null ? null : `${gap < 0}|${text}`;
-    if (shown === ghostShown) return; ghostShown = shown;
-    ghostChip.hidden = m == null; if (m == null) return;
-    ghostChip.classList.toggle('ahead', gap < 0);
-    ghostChip.firstElementChild.textContent = text;
-  }
-
+  const calloutBox = $('callout');
   return {
     els, toast, hint, update, resizeGauges, showPedals, showGear, showHandbrake, showMode, nudge, showMessage, hideMessage,
     coinBonus, showMission, failMission,
-    resetTrip() { calloutBox.replaceChildren(); showGhost(null); },
+    resetTrip() { calloutBox.replaceChildren(); },
     // a big word in the middle of the screen for a moment: a bog cleared, a jump, a crushing streak ('gold' for the best ones)
     callout(text, sub = '', gold = false) {
       const e = document.createElement('span'); e.className = 'co' + (gold ? ' gold' : ''); e.textContent = text;
       if (sub) { const s = document.createElement('small'); s.textContent = sub; e.append(s); }
       calloutBox.replaceChildren(e); e.addEventListener('animationend', () => e.remove());
     },
-    showGhost,
     // what the lean HUD leaves out, for the pause menu: the truck, its cargo, fuel and the next station
     pauseSpec() {
       const car = sim.main.car, mx = sim.main.parts.truck.getPosition().x;

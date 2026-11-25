@@ -43,7 +43,6 @@
     <div class="sidechips">
       <div class="powers" id="powers"></div>
       <div class="mission" id="missionChip" hidden><span></span></div>
-      <div class="mission ghostchip" id="ghostChip" hidden><span></span></div>
       <div class="trap" id="trap" hidden><span><i>High speed:</i> <b id="trapNum">0</b> km/h</span></div>
     </div>
     <div class="toast" id="toast"></div>
@@ -186,7 +185,7 @@
           <!-- reminders (phone only), the privacy policy, and resetting the saved game behind a confirmation (src/game/sound-settings.js) -->
           <div class="setrows">
             <div class="setrow" id="remindRow" hidden><span>Reminders<small id="remindNote"></small></span><button class="btn toggle" id="remindBtn" aria-pressed="false">Off</button></div>
-            <div class="setrow"><span>Ghost of your best run<small>Race your fastest delivery on each map</small></span><button class="btn toggle" id="ghostBtn" aria-pressed="true">On</button></div>
+            <div class="setrow"><span>Ghost of your best run<small>Race your best run on each map</small></span><button class="btn toggle" id="ghostBtn" aria-pressed="true">On</button></div>
             <div class="setrow" id="playRow" hidden><span>Google Play Games<small>Leaderboards and achievements</small></span><span class="setpair"><button class="btn" id="boardsBtn">Leaderboards</button><button class="btn" id="achievesBtn">Achievements</button></span></div>
             <div class="setrow"><span>Privacy policy</span><a class="btn" id="privacyLink" target="_blank" rel="noopener">Open</a></div>
             <div class="setrow"><span>Reset saved game<small>Start again from rank 1</small></span><button class="btn danger" id="resetBtn">Reset</button></div>

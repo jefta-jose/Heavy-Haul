@@ -141,7 +141,7 @@ function startFx() {
   fx.ghost = car ? { data: g, car } : null;
   const t = season.trail, [a, b] = STORM_STARTS_AT;
   fx.stormAt = STORM_MAPS.includes(content.season.id) && Math.random() < STORM_CHANCE ? t.start + (t.depot - t.start) * (a + Math.random() * (b - a)) : null;
-  fx.storm = 0; sim.wet = 0; slowMoT = 0; renderer.ghost = null; hud.showGhost(null);
+  fx.storm = 0; sim.wet = 0; slowMoT = 0; renderer.ghost = null;
 }
 // every frame: the storm and the ghost follow where the truck is and the run's clock
 function updateFx(dt, live) {
@@ -154,7 +154,6 @@ function updateFx(dt, live) {
   renderer.setStorm(inRun ? fx.storm * STORM_RAIN : 0);
   const pose = inRun && fx.ghost ? ghost.poseAt(fx.ghost.data, session.run.time) : null;
   renderer.ghost = pose ? { car: fx.ghost.car, ...pose } : null;
-  hud.showGhost(pose && session.state === 'play' ? pose.x - x : null);
   if (live) { const w = sim.main.parts.wheels[0]; ghost.sample(session.run.time, x, sim.main.parts.truck.getPosition().y, sim.main.parts.truck.getAngle(), w.getAngle()); }
 }
 const fmtTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}.${Math.floor((t % 1) * 10)}`;
@@ -396,7 +395,7 @@ function showStreak() {
   const open = sound.open, btn = document.getElementById('ghostBtn');
   const show = () => { const on = ghost.enabled; btn.textContent = on ? 'On' : 'Off'; btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on)); document.getElementById('playRow').hidden = !achievements.available; };
   sound.open = () => { open(); show(); };
-  btn.addEventListener('click', () => { ghost.enabled = !ghost.enabled; show(); if (!ghost.enabled) { fx.ghost = null; renderer.ghost = null; hud.showGhost(null); } });
+  btn.addEventListener('click', () => { ghost.enabled = !ghost.enabled; show(); if (!ghost.enabled) { fx.ghost = null; renderer.ghost = null; } });
   document.getElementById('boardsBtn').addEventListener('click', () => achievements.showLeaderboards());
   document.getElementById('achievesBtn').addEventListener('click', () => achievements.showAchievements());
 }
