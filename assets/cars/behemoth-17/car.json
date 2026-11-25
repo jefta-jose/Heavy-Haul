@@ -114,8 +114,8 @@
       3.393
     ],
     "wheelMass": 772,
-    "tireGrip": 1.282,
-    "mudPull": 2.035,
+    "tireGrip": 1.269,
+    "mudPull": 1.997,
     "suspension": {
       "sag": 0.2,
       "travelUp": 0.5,
@@ -237,7 +237,7 @@
         0
       ]
     ],
-    "torqueScale": 2.6408,
+    "torqueScale": 2.548,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

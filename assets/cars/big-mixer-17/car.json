@@ -103,8 +103,8 @@
     ]
   },
   "physics": {
-    "mudPull": 2.168,
-    "tireGrip": 1.35,
+    "mudPull": 2.143,
+    "tireGrip": 1.342,
     "mass": 16000,
     "centreOfMass": [
       0,
@@ -208,7 +208,7 @@
         0
       ]
     ],
-    "torqueScale": 1.5748,
+    "torqueScale": 1.5611,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {

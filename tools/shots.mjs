@@ -41,7 +41,7 @@ const shot = (page, name) => page.screenshot({ path: path.join(OUT, `${name}.png
 try {
   if (mode === 'maps') {
     // marketing: a hero truck on every map, driven a little way in, at Play Store screenshot sizes
-    const heroes = { 'swamp-summer': 'mire-king-6', 'spring-thaw': 'fjord-otter-10', 'autumn-forest': 'log-giant-8', 'desert-wash': 'baja-hammer-20', 'gumbo-bottoms': 'amphibian-10', 'highland-quarry': 'quarry-colossus-19', 'jungle-monsoon': 'rescue-hawk-13', 'volcanic-ash': 'magma-16' };
+    const heroes = { 'swamp-summer': 'mire-king-6', 'spring-thaw': 'fjord-otter-10', 'autumn-forest': 'log-giant-8', 'desert-wash': 'baja-hammer-20', 'gumbo-bottoms': 'amphibian-10', 'highland-quarry': 'quarry-colossus-19', 'jungle-monsoon': 'rescue-hawk-13', 'volcanic-ash': 'mire-king-6' };
     const dir = ids[0] ?? OUT; fs.mkdirSync(dir, { recursive: true });
     for (const [tag, vp, scale] of [['landscape', { width: 1920, height: 1080 }, 1], ['phone', { width: 844, height: 390 }, 2.56]]) {
       const page = await browser.newPage({ viewport: vp, deviceScaleFactor: scale, hasTouch: tag === 'phone', isMobile: tag === 'phone' });

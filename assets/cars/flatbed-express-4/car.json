@@ -97,8 +97,8 @@
     "zoom": 1.95
   },
   "physics": {
-    "mudPull": 1.387,
-    "tireGrip": 1.12,
+    "mudPull": 1.363,
+    "tireGrip": 1.113,
     "mass": 9000.0,
     "centreOfMass": [
       -0.819,
@@ -209,7 +209,7 @@
         0
       ]
     ],
-    "torqueScale": 0.4936,
+    "torqueScale": 0.4889,
     "converterBoost": 1.1,
     "converterCoupleRpm": 1000,
     "driveRamp": {
